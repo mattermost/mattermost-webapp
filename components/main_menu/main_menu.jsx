@@ -13,6 +13,8 @@ import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
 import InvitationModal from 'components/invitation_modal';
 
+import MarketplaceModal from 'components/integrations_marketplace';
+
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
@@ -293,6 +295,18 @@ export default class MainMenu extends React.PureComponent {
                             show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}
                             to={'/' + this.props.teamName + '/integrations'}
                             text={localizeMessage('navbar_dropdown.integrations', 'Integrations')}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_SYSTEM]}
+                    >
+                        <MenuItemToggleModalRedux
+                            id='marketplaceModal'
+                            modalId={ModalIdentifiers.INTEGRATIONS_MARKETPLACE}
+                            show={!this.props.mobile} // WIP: Add new config that enableMarketplace
+                            dialogType={MarketplaceModal}
+                            text={localizeMessage('navbar_dropdown.marketplace', 'Plugins')}
                         />
                     </TeamPermissionGate>
                     <MenuItemLink

@@ -1,0 +1,106 @@
+@import 'utils/variables';
+
+.MarketplaceModal {
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-size: 16px;
+    color: var(--center-channel-color-90);
+    @media (max-width: 768px) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 40px;
+        margin-top: 16px;
+        text-align: center;
+        font-weight: 300;
+        line-height: 1;
+        strong {
+            font-weight: 400;
+        }
+    }
+    h2 {
+        font-weight: 300;
+        strong {
+            font-weight: 400;
+        }
+    }
+    .modal-icon {
+        text-align: center;
+        svg {
+            fill: var(--button-bg);
+            height: 32px;
+            width: 126px;
+            margin-right: 85px;
+        }
+    }
+    .search_input {
+        flex: 1;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-bottom: 20px;
+        margin-top: 28px;
+        height: 40px;	
+        width: 720px;
+    }
+
+    .btn {
+        border-radius: 4px;
+    }
+
+    .btn-outline {
+        border: 1px solid #0A5AC2;
+    }
+
+    .tabs {
+        width: 720px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .subtitle {
+        margin-left: 5px;
+    }
+
+    .plugin__list {
+        display: flex;
+        flex-direction: column;
+
+        .plugin__row {
+            border-bottom: 1px solid $light-gray;
+            display: flex;
+            padding: 10px 15px;
+            align-items: center;
+    
+            &.clickable {
+                cursor: pointer;
+            }
+    
+            &:hover {
+                .plugin__actions--round {
+                    opacity: .5;
+                }
+            }
+        }
+
+        .plugin__image {
+            height: 32px;
+            width: 32px;            
+        }
+    }
+
+    .icon__plugin {
+        opacity: 0.1;
+
+        svg {
+            width: 32px;
+            height: 32px;
+        }
+    }
+}
