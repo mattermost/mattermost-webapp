@@ -10,6 +10,19 @@ import SubMenuModal from '../menu_modals/submenu_modal/submenu_modal.jsx';
 import {openModal} from 'actions/views/modals';
 import store from 'stores/redux_store';
 
+// Requires an object conforming to a submenu structure passed to registerPostDropdownMenuAction
+// of the form:
+// {
+//     "id": "A",
+//     "text": "A text",
+//     "subMenu": [
+//         {
+//             "id": "B",
+//             "text": "B text"
+//         }
+//     ]
+// }
+// Submenus can contain Submenus as well
 export default class SubMenuItem extends React.PureComponent {
     static propTypes= {
         id: PropTypes.string,

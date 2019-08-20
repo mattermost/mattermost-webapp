@@ -193,7 +193,7 @@ export default class PluginRegistry {
 
     // Register a post menu list item by providing some text and an action function.
     // Accepts the following:
-    // - text - A string or React element to display in the menu
+    // - text - A string, React element or Submenu object to display in the menu
     // - action - A function to trigger when component is clicked on
     // - filter - A function whether to apply the plugin into the post' dropdown menu
     // Returns a unique identifier.
