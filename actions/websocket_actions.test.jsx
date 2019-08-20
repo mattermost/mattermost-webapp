@@ -422,7 +422,7 @@ describe('handleChannelUpdatedEvent', () => {
     });
 });
 
-describe('pluginEnabled/handlePluginDisabled', () => {
+describe('handlePluginEnabled/handlePluginDisabled', () => {
     const origLog = console.log;
     const origError = console.error;
     const origCreateElement = document.createElement;
