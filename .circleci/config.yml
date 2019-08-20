@@ -101,7 +101,7 @@ jobs:
       - setup_remote_docker
       - run:
           command: |
-            curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform-pr/${CHANGE_BRANCH}/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/release-5.14/mattermost-enterprise-linux-amd64.tar.gz
+            curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform-pr/${CHANGE_BRANCH}/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/release-5.15/mattermost-enterprise-linux-amd64.tar.gz
 
             tar xf server.tar.gz
             rm -rf mattermost/client
