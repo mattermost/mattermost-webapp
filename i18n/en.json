@@ -2614,6 +2614,7 @@
   "login.verified": " Email Verified",
   "manage_channel_groups_modal.search_placeholder": "Search groups",
   "manage_team_groups_modal.search_placeholder": "Search groups",
+  "members_popover.button.message": "messsage",
   "members_popover.manageMembers": "Manage Members",
   "members_popover.title": "Channel Members",
   "members_popover.viewMembers": "View Members",

@@ -1248,7 +1248,6 @@ export default class CreatePost extends React.Component {
                 <div className={'post-create' + attachmentsDisabled + scrollbarClass}>
                     <div className='post-create-body'>
                         <div
-                            role='application'
                             id='centerChannelFooter'
                             aria-label={ariaLabelMessageInput}
                             tabIndex='-1'
