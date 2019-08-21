@@ -31,6 +31,11 @@ export default class BrandImageSetting extends React.PureComponent {
         * Registers the function suppose to be run when the save button is pressed
         */
         registerSaveAction: PropTypes.func.isRequired,
+
+        /*
+        * Unregisters the function on unmount of the component suppose to be run when the save button is pressed
+        */
+        unRegisterSaveAction: PropTypes.func.isRequired,
     }
 
     constructor(props) {

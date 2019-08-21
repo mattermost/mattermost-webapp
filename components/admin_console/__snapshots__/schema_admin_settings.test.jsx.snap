@@ -565,6 +565,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             registerSaveAction={[Function]}
             setByEnv={false}
             setSaveNeeded={[Function]}
+            unRegisterSaveAction={[Function]}
             value=""
           />
           <Connect(InjectIntl(JobTable))
