@@ -18,6 +18,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <div
   className="form-group"
+  data-testid="autoCompleteSelector"
 >
   <label
     className="control-label "
@@ -67,6 +68,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <div
   className="form-group"
+  data-testid="autoCompleteSelector"
 >
   <label
     className="control-label "
@@ -107,6 +109,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <div
   className="form-group"
+  data-testid="autoCompleteSelector"
 >
   <label
     className="control-label "
