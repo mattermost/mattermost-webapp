@@ -231,14 +231,7 @@ export function unreadPost(post) {
         const channelId = post.channel_id;
         const timestamp = post.create_at;
         const userId = getCurrentUserId(state);
-        const data = await dispatch(PostActions.setUnreadPost(userId, post.id));
-        if (data) {
-            dispatch({
-                type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
-                channelId,
-                timestamp,
-            });
-        }
+        await dispatch(PostActions.setUnreadPost(userId, post.id));
     };
 }
 
