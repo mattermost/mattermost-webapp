@@ -245,28 +245,33 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                     permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
                     {!teamIsGroupConstrained &&
-                    <ToggleModalButtonRedux
-                        id='introTextInvite'
-                        className='intro-links color--link cursor--pointer'
-                        modalId={ModalIdentifiers.INVITATION}
-                        dialogType={InvitationModal}
+                    <FormattedMessage
+                        id='intro_messages.inviteOthers'
+                        defaultMessage='Invite others to this team'
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title) => (
-                                <i
-                                    className='fa fa-user-plus'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
-                        <FormattedMessage
-                            id='intro_messages.inviteOthers'
-                            defaultMessage='Invite others to this team'
-                        />
-                    </ToggleModalButtonRedux>
+                        {(message) => (
+                            <ToggleModalButtonRedux
+                                accessibilityLabel={message}
+                                id='introTextInvite'
+                                className='intro-links color--link cursor--pointer'
+                                modalId={ModalIdentifiers.INVITATION}
+                                dialogType={InvitationModal}
+                            >
+                                <FormattedMessage
+                                    id='generic_icons.add'
+                                    defaultMessage='Add Icon'
+                                >
+                                    {(title) => (
+                                        <i
+                                            className='fa fa-user-plus'
+                                            title={title}
+                                        />
+                                    )}
+                                </FormattedMessage>
+                                {message}
+                            </ToggleModalButtonRedux>
+                        )}
+                    </FormattedMessage>
                     }
                     {teamIsGroupConstrained &&
                     <ToggleModalButton
