@@ -13,7 +13,6 @@ import users from '../../fixtures/users.json';
 
 const cypressConfig = require('../../../cypress.json');
 
-
 describe('Search in GMs', () => {
     let testChannel;
     it('S14673 Search "in:[username]" returns results in GMs', () => {
