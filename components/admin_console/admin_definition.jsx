@@ -3468,6 +3468,10 @@ export default {
                 'admin.plugin.installedDesc',
                 'admin.plugin.uploadDesc',
                 'admin.plugin.uploadDisabledDesc',
+                'admin.plugin.enableMarketplace',
+                'admin.plugin.enableMarketplaceDesc',
+                'admin.plugin.marketplaceUrl',
+                'admin.plugin.marketplaceUrlDesc',
             ],
             schema: {
                 id: 'PluginManagementSettings',

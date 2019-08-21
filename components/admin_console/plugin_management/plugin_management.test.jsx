@@ -15,6 +15,8 @@ describe('components/PluginManagement', () => {
                 Enable: true,
                 EnableUploads: true,
                 AllowInsecureDownloadUrl: false,
+                EnableMarketplace: true,
+                MarketplaceURL: 'www.marketplace.com',
             },
             ExperimentalSettings: {
                 RestrictSystemAdmin: false,
@@ -176,6 +178,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -209,6 +212,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -293,6 +297,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -349,6 +354,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -405,6 +411,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
