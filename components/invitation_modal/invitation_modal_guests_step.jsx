@@ -72,10 +72,6 @@ export default class InvitationModalGuestsStep extends React.Component {
     }, 150);
 
     usersLoader = (term, callback) => {
-        if (isEmail(term)) {
-            callback([]);
-            return;
-        }
         if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
             callback([]);
             return;
@@ -153,7 +149,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         >
                             {(placeholder) => (
                                 <UsersEmailsInput
-                                    usersLoader={this.debouncedUsersLoader}
+                                    usersLoader={this.usersLoader}
                                     placeholder={placeholder}
                                     onChange={this.onUsersEmailsChange}
                                     value={this.state.usersAndEmails}
