@@ -64,6 +64,10 @@ export default class BrandImageSetting extends React.PureComponent {
         this.props.registerSaveAction(this.handleSave);
     }
 
+    componentWillUnmount() {
+        this.props.unRegisterSaveAction(this.handleSave);
+    }
+
     componentDidUpdate() {
         if (this.refs.image) {
             const reader = new FileReader();

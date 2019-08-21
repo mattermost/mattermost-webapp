@@ -723,8 +723,14 @@ export default class SchemaAdminSettings extends React.Component {
                 onChange={this.handleChange}
                 registerSaveAction={this.registerSaveAction}
                 setSaveNeeded={this.setSaveNeeded}
+                unRegisterSaveAction={this.unRegisterSaveAction}
             />
         );
+    }
+
+    unRegisterSaveAction = (saveAction) => {
+        const indexOfSaveAction = this.saveActions.indexOf(saveAction);
+        this.saveActions.splice(indexOfSaveAction, 1);
     }
 
     registerSaveAction = (saveAction) => {
