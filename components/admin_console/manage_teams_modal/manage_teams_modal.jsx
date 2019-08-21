@@ -189,6 +189,7 @@ export default class ManageTeamsModal extends React.Component {
                     <Avatar
                         username={user.username}
                         url={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                        size='lg'
                     />
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>
