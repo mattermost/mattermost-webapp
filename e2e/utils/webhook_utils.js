@@ -56,6 +56,21 @@ function getFullDialog(triggerId, webhookBaseUrl) {
                     options: null,
                 },
                 {
+                    display_name: 'Password',
+                    name: 'somepassword',
+                    type: 'text',
+                    subtype: 'password',
+                    default: 'p@ssW0rd',
+                    placeholder: 'placeholder',
+                    help_text:
+                        'This a password input in an interactive dialog triggered by a test integration.',
+                    optional: true,
+                    min_length: 0,
+                    max_length: 0,
+                    data_source: '',
+                    options: null,
+                },
+                {
                     display_name: 'Display Name Long Text Area',
                     name: 'realnametextarea',
                     type: 'textarea',

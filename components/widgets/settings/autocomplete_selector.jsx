@@ -109,7 +109,10 @@ export default class AutocompleteSelector extends React.PureComponent {
         }
 
         return (
-            <div className='form-group'>
+            <div
+                data-testid='autoCompleteSelector'
+                className='form-group'
+            >
                 {labelContent}
                 <div className={inputClassName}>
                     <SuggestionBox
