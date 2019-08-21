@@ -61,6 +61,61 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
           <div
             className="form-group"
           >
@@ -216,6 +271,61 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
           id="PluginSettings"
           show={true}
         >
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
           <div
             className="form-group"
           >
@@ -404,6 +514,61 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -599,6 +764,61 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
           <div
             className="form-group"
           >
@@ -788,6 +1008,61 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             value={false}
           />
+          <BooleanSetting
+            disabled={true}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={true}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
           <div
             className="form-group"
           >
@@ -949,6 +1224,61 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1139,6 +1469,61 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
           <div
             className="form-group"
           >
@@ -1327,6 +1712,61 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1580,6 +2020,61 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
           <div
             className="form-group"
           >
@@ -1799,6 +2294,61 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2020,6 +2570,61 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
           <div
             className="form-group"
           >
@@ -2239,6 +2844,61 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="URL of the marketplace server."
+                id="admin.plugins.settings.marketplaceUrlDesc"
+              />
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
