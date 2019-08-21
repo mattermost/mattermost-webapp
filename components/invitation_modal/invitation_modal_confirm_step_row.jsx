@@ -21,8 +21,10 @@ export default class InvitationModalConfirmStepRow extends React.Component {
         const {invitation} = this.props;
         let icon;
         let username;
+        let className;
         let guestBadge;
         if (invitation.user) {
+            className = 'name';
             const profileImg = imageURLForUser(invitation.user);
             icon = (
                 <img
@@ -36,9 +38,11 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                 guestBadge = <GuestBadge/>;
             }
         } else if (invitation.email) {
+            className = 'email';
             icon = <EmailIcon className='mail-icon'/>;
             username = invitation.email;
         } else {
+            className = 'name';
             icon = <AlertIcon className='alert-icon'/>;
             username = invitation.text;
         }
@@ -46,7 +50,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             <div className='InvitationModalConfirmStepRow'>
                 <div className='username-or-icon'>
                     {icon}
-                    <span className='name'>{username}</span>
+                    <span className={className}>{username}</span>
                     {guestBadge}
                 </div>
                 <div className='reason'>

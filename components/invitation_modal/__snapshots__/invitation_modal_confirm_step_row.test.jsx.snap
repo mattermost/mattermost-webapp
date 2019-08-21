@@ -11,7 +11,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
       className="mail-icon"
     />
     <span
-      className="name"
+      className="email"
     >
       test-email@test.com
     </span>
