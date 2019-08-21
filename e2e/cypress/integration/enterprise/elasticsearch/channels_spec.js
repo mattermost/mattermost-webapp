@@ -68,21 +68,6 @@ function searchForChannel(name) {
         type(name);
 }
 
-const configs = [
-    {
-        name: 'elastic search enabled',
-        before: () => {
-            enableElasticSearch();
-        },
-    },
-    {
-        name: 'elastic search disabled',
-        before: () => {
-            disableElasticSearch();
-        },
-    },
-];
-
 describe('search for channel with', () => {
     let team = {};
     let user;
@@ -110,144 +95,282 @@ describe('search for channel with', () => {
         });
     });
 
-    configs.forEach((config) => {
-        describe(config.name, () => {
-            before(() => {
-                // # Execute the before hook based on current config
-                config.before();
+    describe('elastic search enabled', () => {
+        before(() => {
+            // # Execute the before hook based on current config
+            enableElasticSearch();
 
-                // # Login and navigate to team with new user
-                cy.apiLogin(user.username, user.password);
-                cy.visit(`/${team.name}`);
+            // # Login and navigate to team with new user
+            cy.apiLogin(user.username, user.password);
+            cy.visit(`/${team.name}`);
+        });
+
+        afterEach(() => {
+            cy.reload();
+        });
+
+        it("private channel I don't belong to does not appear", () => {
+            // # Create private channel, do not add new user to it (sets @privateChannel alias)
+            createPrivateChannel(team.id);
+
+            cy.get('@privateChannel').then((channel) => {
+                // # Search for the private channel
+                searchForChannel(channel.name);
+
+                // * And it should not appear
+                cy.queryByTestId(channel.name).
+                    should('not.exist');
+            });
+        });
+
+        it('private channel I do belong to appears', () => {
+            // # Create private channel and add new user to it (sets @privateChannel alias)
+            createPrivateChannel(team.id, user);
+
+            cy.get('@privateChannel').then((channel) => {
+                // # Search for the private channel
+                searchForChannel(channel.name);
+
+                // * Suggestion list should appear
+                cy.get('#suggestionList').should('be.visible');
+
+                // * Channel should appear in the list
+                cy.queryByTestId(channel.name).
+                    should('be.visible');
+            });
+        });
+
+        it('channel outside of team does not appear', () => {
+            const teamName = 'elastic-private-' + Date.now();
+            const baseUrl = Cypress.config('baseUrl');
+
+            // # As admin, create a new team that the new user is not a member of
+            cy.task('externalRequest', {
+                user: users.sysadmin,
+                path: 'teams',
+                baseUrl,
+                method: 'post',
+                data: {
+                    name: teamName,
+                    display_name: teamName,
+                    type: 'O',
+                },
+            }).then((teamResponse) => {
+                expect(teamResponse.status).to.equal(201);
+
+                // # Create a private channel where the new user is not a member of
+                createPrivateChannel(teamResponse.data.id);
             });
 
-            afterEach(() => {
+            cy.get('@privateChannel').then((channel) => {
+                // # Search for the private channel
+                searchForChannel(channel.name);
+
+                // * Channel sohuld not appear in the search results
+                cy.queryByTestId(channel.name).
+                    should('not.exist');
+            });
+        });
+
+        describe('channel with', () => {
+            let channelId;
+
+            before(() => {
+                // # Login as admin
+                cy.apiLogin('sysadmin');
+                cy.visit(`/${team.name}`);
+
+                const name = 'hellothere';
+
+                // # Create a new channel
+                cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
+                    channelId = channelResponse.body.id;
+                });
+
+                // * Verify channel without special characters appears normally
+                searchForChannel(name);
+
                 cy.reload();
             });
 
-            it("private channel I don't belong to does not appear", () => {
-                // # Create private channel, do not add new user to it (sets @privateChannel alias)
-                createPrivateChannel(team.id);
+            it('dots appears', () => {
+                const name = 'hello.there';
 
-                cy.get('@privateChannel').then((channel) => {
-                    // # Search for the private channel
-                    searchForChannel(channel.name);
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
 
-                    // * And it should not appear
-                    cy.queryByTestId(channel.name).
-                        should('not.exist');
-                });
+                // * Search for channel should work
+                searchForChannel(name);
             });
 
-            it('private channel I do belong to appears', () => {
-                // # Create private channel and add new user to it (sets @privateChannel alias)
-                createPrivateChannel(team.id, user);
+            it('dashes appears', () => {
+                const name = 'hello-there';
 
-                cy.get('@privateChannel').then((channel) => {
-                    // # Search for the private channel
-                    searchForChannel(channel.name);
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
 
-                    // * Suggestion list should appear
-                    cy.get('#suggestionList').should('be.visible');
-
-                    // * Channel should appear in the list
-                    cy.queryByTestId(channel.name).
-                        should('be.visible');
-                });
+                // * Search for channel should work
+                searchForChannel(name);
             });
 
-            it('channel outside of team does not appear', () => {
-                const teamName = 'elastic-private-' + Date.now();
-                const baseUrl = Cypress.config('baseUrl');
+            it('underscores appears', () => {
+                const name = 'hello_there';
 
-                // # As admin, create a new team that the new user is not a member of
-                cy.task('externalRequest', {
-                    user: users.sysadmin,
-                    path: 'teams',
-                    baseUrl,
-                    method: 'post',
-                    data: {
-                        name: teamName,
-                        display_name: teamName,
-                        type: 'O',
-                    },
-                }).then((teamResponse) => {
-                    expect(teamResponse.status).to.equal(201);
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
 
-                    // # Create a private channel where the new user is not a member of
-                    createPrivateChannel(teamResponse.data.id);
-                });
-
-                cy.get('@privateChannel').then((channel) => {
-                    // # Search for the private channel
-                    searchForChannel(channel.name);
-
-                    // * Channel sohuld not appear in the search results
-                    cy.queryByTestId(channel.name).
-                        should('not.exist');
-                });
+                // * Search for channel should work
+                searchForChannel(name);
             });
 
-            describe('channel with', () => {
-                let channelId;
+            it('dots, dashes, and underscores appears', () => {
+                const name = 'he.llo-the_re';
 
-                before(() => {
-                    // # Login as admin
-                    cy.apiLogin('sysadmin');
-                    cy.visit(`/${team.name}`);
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
 
-                    const name = 'hellothere';
+                // * Search for channel should work
+                searchForChannel(name);
+            });
+        });
+    });
 
-                    // # Create a new channel
-                    cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
-                        channelId = channelResponse.body.id;
-                    });
+    describe('elastic search disabled', () => {
+        before(() => {
+            // # Execute the before hook based on current config
+            disableElasticSearch();
 
-                    // * Verify channel without special characters appears normally
-                    searchForChannel(name);
+            // # Login and navigate to team with new user
+            cy.apiLogin(user.username, user.password);
+            cy.visit(`/${team.name}`);
+        });
 
-                    cy.reload();
+        afterEach(() => {
+            cy.reload();
+        });
+
+        it("private channel I don't belong to does not appear", () => {
+            // # Create private channel, do not add new user to it (sets @privateChannel alias)
+            createPrivateChannel(team.id);
+
+            cy.get('@privateChannel').then((channel) => {
+                // # Search for the private channel
+                searchForChannel(channel.name);
+
+                // * And it should not appear
+                cy.queryByTestId(channel.name).
+                    should('not.exist');
+            });
+        });
+
+        it('private channel I do belong to appears', () => {
+            // # Create private channel and add new user to it (sets @privateChannel alias)
+            createPrivateChannel(team.id, user);
+
+            cy.get('@privateChannel').then((channel) => {
+                // # Search for the private channel
+                searchForChannel(channel.name);
+
+                // * Suggestion list should appear
+                cy.get('#suggestionList').should('be.visible');
+
+                // * Channel should appear in the list
+                cy.queryByTestId(channel.name).
+                    should('be.visible');
+            });
+        });
+
+        it('channel outside of team does not appear', () => {
+            const teamName = 'elastic-private-' + Date.now();
+            const baseUrl = Cypress.config('baseUrl');
+
+            // # As admin, create a new team that the new user is not a member of
+            cy.task('externalRequest', {
+                user: users.sysadmin,
+                path: 'teams',
+                baseUrl,
+                method: 'post',
+                data: {
+                    name: teamName,
+                    display_name: teamName,
+                    type: 'O',
+                },
+            }).then((teamResponse) => {
+                expect(teamResponse.status).to.equal(201);
+
+                // # Create a private channel where the new user is not a member of
+                createPrivateChannel(teamResponse.data.id);
+            });
+
+            cy.get('@privateChannel').then((channel) => {
+                // # Search for the private channel
+                searchForChannel(channel.name);
+
+                // * Channel sohuld not appear in the search results
+                cy.queryByTestId(channel.name).
+                    should('not.exist');
+            });
+        });
+
+        describe('channel with', () => {
+            let channelId;
+
+            before(() => {
+                // # Login as admin
+                cy.apiLogin('sysadmin');
+                cy.visit(`/${team.name}`);
+
+                const name = 'hellothere';
+
+                // # Create a new channel
+                cy.apiCreateChannel(team.id, name, name).then((channelResponse) => {
+                    channelId = channelResponse.body.id;
                 });
 
-                it('dots appears', () => {
-                    const name = 'hello.there';
+                // * Verify channel without special characters appears normally
+                searchForChannel(name);
 
-                    // Change name of channel
-                    cy.apiPatchChannel(channelId, {display_name: name});
+                cy.reload();
+            });
 
-                    // * Search for channel should work
-                    searchForChannel(name);
-                });
+            it('dots appears', () => {
+                const name = 'hello.there';
 
-                it('dashes appears', () => {
-                    const name = 'hello-there';
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
 
-                    // Change name of channel
-                    cy.apiPatchChannel(channelId, {display_name: name});
+                // * Search for channel should work
+                searchForChannel(name);
+            });
 
-                    // * Search for channel should work
-                    searchForChannel(name);
-                });
+            it('dashes appears', () => {
+                const name = 'hello-there';
 
-                it('underscores appears', () => {
-                    const name = 'hello_there';
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
 
-                    // Change name of channel
-                    cy.apiPatchChannel(channelId, {display_name: name});
+                // * Search for channel should work
+                searchForChannel(name);
+            });
 
-                    // * Search for channel should work
-                    searchForChannel(name);
-                });
+            it('underscores appears', () => {
+                const name = 'hello_there';
 
-                it('dots, dashes, and underscores appears', () => {
-                    const name = 'he.llo-the_re';
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
 
-                    // Change name of channel
-                    cy.apiPatchChannel(channelId, {display_name: name});
+                // * Search for channel should work
+                searchForChannel(name);
+            });
 
-                    // * Search for channel should work
-                    searchForChannel(name);
-                });
+            it('dots, dashes, and underscores appears', () => {
+                const name = 'he.llo-the_re';
+
+                // Change name of channel
+                cy.apiPatchChannel(channelId, {display_name: name});
+
+                // * Search for channel should work
+                searchForChannel(name);
             });
         });
     });
