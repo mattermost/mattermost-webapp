@@ -1,6 +1,13 @@
 @import 'utils/variables';
 
 .UsersEmailsInput {
+    &.empty {
+        .users-emails-input__control {
+            .users-emails-input__input {
+                border-bottom: 0;
+            }
+        }
+    }
     .users-emails-input__control {
         min-height: 48px;
         background: var(--center-channel-bg);
@@ -21,6 +28,17 @@
             border-width: 2px;
             padding: 2px;
             transition: none;
+            .users-emails-input__value-container {
+                .users-emails-input__input {
+                    border-bottom: 0;
+                }
+            }
+        }
+        .users-emails-input__input {
+            border-bottom: 1px dotted red;
+            >div {
+                width: 1px;
+            }
         }
     }
     .users-emails-input__value-container {
@@ -179,7 +197,6 @@
         }
         &:hover {
             background: none;
-            
         }
         svg {
             height: 16px;
