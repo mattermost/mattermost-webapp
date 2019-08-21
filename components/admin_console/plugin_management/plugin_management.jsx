@@ -876,7 +876,7 @@ export default class PluginManagement extends AdminSettings {
                     >
                         {this.renderEnablePluginsSetting()}
 
-                        {/* PluginSettings should be defined same way as other admin settings. TODO: MM-17871 */}
+                        {/* PluginSettings should be defined same way as other admin settings. */}
                         <BooleanSetting
                             id='enableMarketplace'
                             label={

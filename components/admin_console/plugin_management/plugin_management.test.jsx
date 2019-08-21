@@ -16,7 +16,7 @@ describe('components/PluginManagement', () => {
                 EnableUploads: true,
                 AllowInsecureDownloadUrl: false,
                 EnableMarketplace: true,
-                MarketplaceURL: 'www.marketplace.com',
+                MarketplaceURL: 'marketplace.example.com',
             },
             ExperimentalSettings: {
                 RestrictSystemAdmin: false,

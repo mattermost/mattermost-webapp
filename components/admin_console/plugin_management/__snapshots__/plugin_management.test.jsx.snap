@@ -114,7 +114,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -324,7 +324,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -568,7 +568,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -817,7 +817,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1061,7 +1061,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1278,7 +1278,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1522,7 +1522,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1766,7 +1766,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2073,7 +2073,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2348,7 +2348,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2623,7 +2623,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2898,7 +2898,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             onChange={[Function]}
             setByEnv={false}
             type="input"
-            value="www.marketplace.com"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
