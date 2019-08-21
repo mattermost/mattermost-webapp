@@ -435,7 +435,7 @@ export default class PluginManagement extends AdminSettings {
         config.PluginSettings.EnableUploads = this.state.enableUploads;
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
         config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
-        config.PluginSettings.MarketplaceURL = this.state.marketplaceUrl;
+        config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
 
         return config;
     }
@@ -446,7 +446,7 @@ export default class PluginManagement extends AdminSettings {
             enableUploads: config.PluginSettings.EnableUploads,
             allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
             enableMarketplace: config.PluginSettings.EnableMarketplace,
-            marketplaceUrl: config.PluginSettings.MarketplaceURL,
+            marketplaceUrl: config.PluginSettings.MarketplaceUrl,
         };
 
         return state;
@@ -915,7 +915,7 @@ export default class PluginManagement extends AdminSettings {
                             value={this.state.marketplaceUrl}
                             disabled={!this.state.enable}
                             onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.MarketplaceURL')}
+                            setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                         />
 
                         <div className='form-group'>
