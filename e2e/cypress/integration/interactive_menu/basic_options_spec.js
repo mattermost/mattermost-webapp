@@ -154,4 +154,85 @@ describe('MM-15887 Interactive menus - basic options', () => {
             });
         });
     });
+
+    it('should truncate properly the selected long basic option', () => {
+        const withLongBasicOption = [
+            {text: 'Option 0 - This is with very long option', value: 'option0'},
+            ...options,
+        ];
+        const basicOptions = getMessageMenusPayload({options: withLongBasicOption});
+
+        // # Post an incoming webhook for interactive menu with basic options and verify the post
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions}).then(() => {
+            verifyLastPost();
+        });
+    });
+
+    it('should truncate properly the selected long username option', () => {
+        const userOptions = getMessageMenusPayload({dataSource: 'users'});
+
+        // # Post an incoming webhook for interactive menu with user options and verify the post
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions}).then(() => {
+            verifyLastPost();
+        });
+    });
+
+    it('should truncate properly the selected long channel display name option', () => {
+        const channelOptions = getMessageMenusPayload({dataSource: 'channels'});
+
+        cy.getCurrentTeamId().then((teamId) => {
+            // # Create channel with long display name
+            cy.apiCreateChannel(teamId, 'test-channel', `AAAA Very Long Display Name of a Channel ${Date.now()}`).then(() => {
+                // # Post an incoming webhook for interactive menu with channel options and verify the post
+                cy.postIncomingWebhook({url: incomingWebhook.url, data: channelOptions}).then(() => {
+                    verifyLastPost();
+                });
+            });
+        });
+    });
 });
+
+function verifyMessageAttachmentList(postId, isRhs, text) {
+    return cy.get(`#messageAttachmentList_${postId}`).within(() => {
+        cy.queryByTestId('autoCompleteSelector').should('be.visible');
+
+        if (isRhs) {
+            // * Verify that the selected option from center view matches the one in RHS
+            cy.get('.select-suggestion-container > input').should('have.value', text);
+        } else {
+            // # Select an option (long) in center view
+            cy.get('.select-suggestion-container > input').should('be.visible').click();
+            cy.get('#suggestionList').should('be.visible').children().first().click();
+        }
+
+        // * Verify exact height, width and padding of suggestion container and its input
+        cy.get('.select-suggestion-container').
+            should('be.visible').
+            and('have.css', 'height', '30px').
+            and('have.css', 'width', '220px');
+
+        cy.get('.select-suggestion-container > input').
+            and('have.css', 'height', '30px').
+            and('have.css', 'width', '220px').
+            and('have.css', 'padding-right', '30px');
+
+        return cy.get('.select-suggestion-container > input').invoke('attr', 'value').then((value) => {
+            return cy.wrap({value});
+        });
+    });
+}
+
+function verifyLastPost() {
+    // # Get message attachment from the last post, and
+    // * Verify its content in center view
+    cy.getLastPostId().then((postId) => {
+        verifyMessageAttachmentList(postId, false).then(({value}) => {
+            // Open the same post in RHS, and
+            // * Verify its content in RHS
+            cy.clickPostCommentIcon(postId);
+            cy.get(`#rhsPost_${postId}`).within(() => {
+                verifyMessageAttachmentList(postId, true, value);
+            });
+        });
+    });
+}

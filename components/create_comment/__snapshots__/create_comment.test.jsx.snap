@@ -339,7 +339,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           type="button"
           value="Add Comment"
         />
-        <FilePreview
+        <Connect(FilePreview)
           fileInfos={
             Array [
               Object {},
@@ -654,7 +654,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             values={Object {}}
           />
         </span>
-        <FilePreview
+        <Connect(FilePreview)
           fileInfos={
             Array [
               Object {},

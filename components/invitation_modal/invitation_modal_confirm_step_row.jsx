@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import EmailIcon from 'components/svg/mail_icon';
+import AlertIcon from 'components/svg/alert_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
@@ -36,10 +37,14 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             if (isGuest(invitation.user)) {
                 guestBadge = <GuestBadge/>;
             }
-        } else {
+        } else if (invitation.email) {
             className = 'email';
             icon = <EmailIcon className='mail-icon'/>;
             username = invitation.email;
+        } else {
+            className = 'name';
+            icon = <AlertIcon className='alert-icon'/>;
+            username = invitation.text;
         }
         return (
             <div className='InvitationModalConfirmStepRow'>

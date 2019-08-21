@@ -194,6 +194,10 @@
             max-height: 350px;
             max-width: 100%;
 
+            .file-preview__button {
+                display: block;
+            }
+
             img {
                 @include border-radius(4px);
                 @include single-transition(all, .1s, linear);
@@ -529,4 +533,9 @@
     &.markdown-inline-img svg {
         margin: 5px 0px;
     }
+}
+
+.file-preview__button {
+    display: inline-block;
+    vertical-align: top;
 }
