@@ -171,8 +171,9 @@ export default class PostList extends React.PureComponent {
             const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
             const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
             if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
-                const previousScrollTop = this.postListRef.current.scrollTop;
-                const previousScrollHeight = this.postListRef.current.scrollHeight;
+                const postListNode = this.postListRef.current;
+                const previousScrollTop = postListNode.parentElement.scrollTop;
+                const previousScrollHeight = postListNode.scrollHeight;
 
                 return {
                     previousScrollTop,

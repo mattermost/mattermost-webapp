@@ -315,7 +315,7 @@ export async function redirectUserToDefaultTeam() {
         }
 
         browserHistory.push(`/${team.name}/channels/${channelName}`);
-    } else {
+    } else if (userId) {
         browserHistory.push('/select_team');
     }
 }

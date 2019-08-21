@@ -274,7 +274,8 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let postFlagIcon;
-        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage;
+        if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon
                     location={Locations.RHS_ROOT}
@@ -325,7 +326,10 @@ export default class RhsRootPost extends React.PureComponent {
                 onFocus={this.handlePostFocus}
             >
                 <div className='post-right-channel__name'>{channelName}</div>
-                <div className='post__content'>
+                <div
+                    role='application'
+                    className='post__content'
+                >
                     <div className='post__img'>
                         <PostProfilePicture
                             compactDisplay={this.props.compactDisplay}

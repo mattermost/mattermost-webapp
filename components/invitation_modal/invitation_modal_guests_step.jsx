@@ -40,22 +40,34 @@ export default class InvitationModalGuestsStep extends React.Component {
             customMessage: props.defaultMessage || '',
             usersAndEmails: [],
             channels: props.defaultChannels || [],
+            usersInputValue: '',
+            channelsInputValue: '',
         };
     }
 
     onUsersEmailsChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '');
+        this.props.onEdit(usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || this.state.channelsInputValue);
     }
 
     onChannelsChange = (channels) => {
         this.setState({channels});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '');
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || this.state.channelsInputValue);
     }
 
     onMessageChange = (e) => {
         this.setState({customMessage: e.target.value});
-        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || e.target.value !== '');
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || e.target.value !== '' || this.state.usersInputValue || this.state.channelsInputValue);
+    }
+
+    onUsersInputChange = (usersInputValue) => {
+        this.setState({usersInputValue});
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || usersInputValue || this.state.channelsInputValue);
+    }
+
+    onChannelsInputChange = (channelsInputValue) => {
+        this.setState({channelsInputValue});
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || this.state.channels.length > 0 || this.state.customMessage !== '' || this.state.usersInputValue || channelsInputValue);
     }
 
     debouncedSearchProfiles = debounce((term, callback) => {
@@ -72,10 +84,6 @@ export default class InvitationModalGuestsStep extends React.Component {
     }, 150);
 
     usersLoader = (term, callback) => {
-        if (isEmail(term)) {
-            callback([]);
-            return;
-        }
         if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
             callback([]);
             return;
@@ -92,7 +100,7 @@ export default class InvitationModalGuestsStep extends React.Component {
             return this.props.myInvitableChannels;
         }
         return this.props.myInvitableChannels.filter((channel) => {
-            return channel.display_name.toLowerCase().indexOf(value.toLowerCase()) === 0;
+            return channel.display_name.toLowerCase().startsWith(value.toLowerCase()) || channel.name.toLowerCase().startsWith(value.toLowerCase());
         });
     }
 
@@ -119,7 +127,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 users.push(userOrEmail);
             }
         }
-        this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '');
+        this.props.onSubmit(users, emails, this.state.channels, this.state.customMessageOpen ? this.state.customMessage : '', this.state.usersInputValue, this.state.channelsInputValue);
     }
 
     render() {
@@ -153,10 +161,12 @@ export default class InvitationModalGuestsStep extends React.Component {
                         >
                             {(placeholder) => (
                                 <UsersEmailsInput
-                                    usersLoader={this.debouncedUsersLoader}
+                                    usersLoader={this.usersLoader}
                                     placeholder={placeholder}
                                     onChange={this.onUsersEmailsChange}
                                     value={this.state.usersAndEmails}
+                                    onInputChange={this.onUsersInputChange}
+                                    inputValue={this.state.usersInputValue}
                                     validAddressMessageId={t('invitation_modal.guests.users_emails_input.valid_email')}
                                     validAddressMessageDefault='Invite **{email}** as a guest'
                                     noMatchMessageId={t('invitation_modal.guests.users_emails_input.no_user_found_matching')}
@@ -189,6 +199,8 @@ export default class InvitationModalGuestsStep extends React.Component {
                                     placeholder={placeholder}
                                     channelsLoader={this.channelsLoader}
                                     onChange={this.onChannelsChange}
+                                    onInputChange={this.onChannelsInputChange}
+                                    inputValue={this.state.channelsInputValue}
                                     value={this.state.channels}
                                 />
                             )}

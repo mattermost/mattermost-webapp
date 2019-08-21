@@ -60,18 +60,33 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
-        characterLimit={1024}
-        createMessage="Edit the Channel Header..."
-        id="edit_textbox"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        previewMessageLink="Edit Header"
-        suggestionListStyle="bottom"
-        supportsCommands={false}
-        value="Fake Channel"
-      />
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          characterLimit={1024}
+          createMessage="Edit the Channel Header..."
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          previewMessageLink="Edit Header"
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          value="Fake Channel"
+        />
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={1024}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+      </div>
       <br />
     </div>
   </ModalBody>
@@ -170,18 +185,33 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
-        characterLimit={1024}
-        createMessage="Edit the Channel Header..."
-        id="edit_textbox"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        previewMessageLink="Edit Header"
-        suggestionListStyle="bottom"
-        supportsCommands={false}
-        value="Fake Channel"
-      />
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          characterLimit={1024}
+          createMessage="Edit the Channel Header..."
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          previewMessageLink="Edit Header"
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          value="Fake Channel"
+        />
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={1024}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+      </div>
       <br />
       <div
         className="form-group has-error"
@@ -290,18 +320,33 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
-        characterLimit={1024}
-        createMessage="Edit the Channel Header..."
-        id="edit_textbox"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        previewMessageLink="Edit Header"
-        suggestionListStyle="bottom"
-        supportsCommands={false}
-        value="Fake Channel"
-      />
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          characterLimit={1024}
+          createMessage="Edit the Channel Header..."
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          previewMessageLink="Edit Header"
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          value="Fake Channel"
+        />
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={1024}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+      </div>
       <br />
       <div
         className="form-group has-error"
@@ -410,18 +455,33 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
-        characterLimit={1024}
-        createMessage="Edit the Channel Header..."
-        id="edit_textbox"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        previewMessageLink="Edit Header"
-        suggestionListStyle="bottom"
-        supportsCommands={false}
-        value="Fake Channel"
-      />
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          characterLimit={1024}
+          createMessage="Edit the Channel Header..."
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          previewMessageLink="Edit Header"
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          value="Fake Channel"
+        />
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={1024}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+      </div>
       <br />
     </div>
   </ModalBody>
@@ -520,18 +580,33 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
-        characterLimit={1024}
-        createMessage="Edit the Channel Header..."
-        id="edit_textbox"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        previewMessageLink="Edit Header"
-        suggestionListStyle="bottom"
-        supportsCommands={false}
-        value="Fake Channel"
-      />
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          characterLimit={1024}
+          createMessage="Edit the Channel Header..."
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          previewMessageLink="Edit Header"
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          value="Fake Channel"
+        />
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={1024}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+      </div>
       <br />
     </div>
   </ModalBody>
@@ -630,18 +705,33 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
           values={Object {}}
         />
       </p>
-      <Connect(Textbox)
-        characterLimit={1024}
-        createMessage="Edit the Channel Header..."
-        id="edit_textbox"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        onKeyPress={[Function]}
-        previewMessageLink="Edit Header"
-        suggestionListStyle="bottom"
-        supportsCommands={false}
-        value="Fake Channel"
-      />
+      <div
+        className="textarea-wrapper"
+      >
+        <Connect(Textbox)
+          characterLimit={1024}
+          createMessage="Edit the Channel Header..."
+          id="edit_textbox"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          onKeyPress={[Function]}
+          preview={false}
+          previewMessageLink="Edit Header"
+          suggestionListStyle="bottom"
+          supportsCommands={false}
+          value="Fake Channel"
+        />
+      </div>
+      <div
+        className="post-create-footer"
+      >
+        <TextboxLinks
+          characterLimit={1024}
+          message=""
+          showPreview={false}
+          updatePreview={[Function]}
+        />
+      </div>
       <br />
     </div>
   </ModalBody>

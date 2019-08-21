@@ -2,103 +2,54 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// [number] indicates a test step (e.g. 1. Go to a page)
+// [number] indicates a test step (e.g. # Go to a page)
 // [*] indicates an assertion (e.g. * Check the title)
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Message', () => {
-    const testSelectedIndex = (done) => {
-        cy.get('.emoji-picker__item.selected').then((selectedEmoji) => {
-            done(selectedEmoji.index());
-        });
-    };
-
-    beforeEach(() => {
+describe('M16738 - Use keyboard navigation in emoji picker', () => {
+    before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
+    });
 
+    beforeEach(() => {
         // # Open emoji picker
         cy.get('#emojiPickerButton').click();
 
-        // # Wait for emojis to load
+        // # Wait for emoji picker to load
         cy.get('#emojiPicker').should('be.visible');
-
-        // # Select "People" category
-        cy.get('#emojiPickerCategories').find('.fa.fa-smile-o').click();
     });
 
-    describe('starting with no prior selection', () => {
-        ['right', 'down'].forEach((dir) => {
-            it(`${dir} key press should select the first emoji`, () => {
-                // # Type directional arrow key
-                cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
+    ['right', 'down'].forEach((dir) => {
+        it(`${dir} keypress should select the first emoji on start without prior selection`, () => {
+            // # Type arrow key
+            cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
 
-                // * The the first emoji in the "People" category should be selected
-                testSelectedIndex((idx) => expect(idx).to.equal(0));
-            });
-        });
+            // * The first emoji in the "People" category should be selected
+            testSelectedIndex((idx) => expect(idx).to.equal(0));
 
-        ['left', 'up'].forEach((dir) => {
-            it(`${dir} key press should select nothing`, () => {
-                // # Type directional arrow key
-                cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
-
-                // * There should be no selection
-                cy.get('.emoji-picker__item.selected').should('not.exist');
-            });
+            // # Close emoji picker
+            cy.get('#emojiPickerButton').click();
         });
     });
 
-    describe('starting with first emoji selected', () => {
-        beforeEach(() => {
-            // # Type right arrow key
-            cy.get('#emojiPickerSearch').type('{rightarrow}');
-        });
+    ['left', 'up'].forEach((dir) => {
+        it(`${dir} keypress should select nothing on start without prior selection`, () => {
+            // # Type arrow key
+            cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
 
-        it('right key press should select the second emoji in the list', () => {
-            // # Type directional arrow key
-            cy.get('#emojiPickerSearch').type('{rightarrow}');
+            // * There should be no selection
+            cy.get('.emoji-picker__item.selected').should('not.exist');
 
-            // * Second emoji should now be selected
-            testSelectedIndex((idx) => expect(idx).to.equal(1));
-        });
-
-        it('down key press should select emoji >= 6 elements away in list', () => {
-            // # Type directional arrow key
-            cy.get('#emojiPickerSearch').type('{downarrow}');
-
-            // * Down arrow should select next row, index distance is dependant on browser size
-            testSelectedIndex((idx) => expect(idx).to.greaterThan(5));
-        });
-
-        ['left', 'up'].forEach((dir) => {
-            it(`selection should remain at index 0 on ${dir} key press`, () => {
-                // # Type directional arrow key
-                cy.get('#emojiPickerSearch').type(`{${dir}arrow}`);
-
-                // * Index should still equal 0
-                testSelectedIndex((idx) => expect(idx).to.equal(0));
-            });
-        });
-
-        it('proper emoji should post', () => {
-            cy.get('#emojiPickerAliasesPreview').invoke('text').then((selectedEmoji) => {
-                // # Select chosen emoji
-                cy.get('#emojiPickerSearch').type('{enter}');
-
-                // # Post message with keyboard
-                cy.get('#post_textbox').type('{enter}');
-
-                // * Compare selected emoji with last post
-                cy.getLastPost().find('.emoticon').should('have.attr', 'title', selectedEmoji);
-            });
+            // # Close emoji picker
+            cy.get('#emojiPickerButton').click();
         });
     });
 
-    it('M16738 Use keyboard navigation in emoji picker', () => {
-        // # Move around and verify emojis with directional arrow input
+    it('should select emoji on continuous keypress', () => {
+        // # Move around with arrow key and verify selected emojis
         let lastSelected = null;
         const pressCounts = {
             right: 5,
@@ -117,15 +68,40 @@ describe('Message', () => {
 
         for (const direction of Object.keys(pressCounts)) {
             for (let i = 0; i < pressCounts[direction]; i += 1) {
-                // # Press a directional key
+                // # Press arrow key
                 cy.get('#emojiPickerSearch').type(`{${direction}arrow}`);
 
                 // * id of selected emoji should be different from last iteration
                 cy.get('.emoji-picker__item.selected img').invoke('attr', 'id').then(checkSelectionId);
 
-                // * Verify that the selected picker item matches the sprite preview
+                // * Verify that the selected emoji matches the sprite preview
                 cy.get('.emoji-picker__item.selected img').invoke('attr', 'src').then(checkSelectionSrc);
             }
         }
+
+        // # Close emoji picker
+        cy.get('#emojiPickerButton').click();
+    });
+
+    it('should post selected emoji', () => {
+        // # Press arrow keys
+        cy.get('#emojiPickerSearch').type('{rightarrow}{downarrow}');
+
+        cy.get('#emojiPickerAliasesPreview').invoke('text').then((selectedEmoji) => {
+            // # Select chosen emoji
+            cy.get('#emojiPickerSearch').type('{enter}');
+
+            // # Post message with keyboard
+            cy.get('#post_textbox').type('{enter}');
+
+            // * Compare selected emoji with last post
+            cy.getLastPost().find('.emoticon').should('have.attr', 'title', selectedEmoji);
+        });
     });
 });
+
+const testSelectedIndex = (done) => {
+    cy.get('.emoji-picker__item.selected').then((selectedEmoji) => {
+        done(selectedEmoji.index());
+    });
+};
