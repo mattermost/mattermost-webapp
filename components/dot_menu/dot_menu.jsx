@@ -315,7 +315,7 @@ export default class DotMenu extends Component {
                     />
                     <MenuItemAction
                         id={`unread_post_${this.props.post.id}`}
-                        show={!isSystemMessage}
+                        show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                         onClick={this.handleUnreadMenuItemActivated}
                     />
