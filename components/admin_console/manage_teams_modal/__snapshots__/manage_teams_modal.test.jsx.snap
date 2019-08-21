@@ -55,7 +55,7 @@ exports[`ManageTeamsModal should match snapshot init 1`] = `
         className="manage-teams__user"
       >
         <Avatar
-          size="md"
+          size="lg"
           url="/api/v4/users/currentUserId/image?_=1234"
           username="currentUsername"
         />
@@ -142,7 +142,7 @@ exports[`ManageTeamsModal should save data in state from api calls 1`] = `
         className="manage-teams__user"
       >
         <Avatar
-          size="md"
+          size="lg"
           url="/api/v4/users/currentUserId/image?_=1234"
           username="currentUsername"
         />
