@@ -161,14 +161,14 @@ export function autocompleteChannelsForSearch(term, success, error) {
     };
 }
 
-// export function addUsersToChannel(channelId, userIds) {
-//     return async (dispatch) => {
-//         try {
-//             const requests = userIds.map((uId) => dispatch(ChannelActions.addChannelMember(channelId, uId)));
+export function addUsersToChannel(channelId, userIds) {
+    return async (dispatch) => {
+        try {
+            const requests = userIds.map((uId) => dispatch(ChannelActions.addChannelMember(channelId, uId)));
 
-//             return await Promise.all(requests);
-//         } catch (error) {
-//             return {error};
-//         }
-//     };
-// }
+            return await Promise.all(requests);
+        } catch (error) {
+            return {error};
+        }
+    };
+}

@@ -121,24 +121,6 @@ export default class ChannelInviteModal extends React.Component {
             }
         });
 
-    //     this.addMultipleChannelMembers(channel.id, userIds, actions).then((result) => {
-    //         if (result.error) {
-    //             this.handleInviteError(result.error);
-    //         } else {
-    //             this.setState({
-    //                 saving: false,
-    //                 inviteError: null,
-    //             });
-    //             this.onHide();
-    //         }
-    //     });
-    };
-
-    // addMultipleChannelMembers = (channelId, userIds, actions) => {
-    //     const requests = userIds.map((uId) => actions.addUsersToChannel(channelId, uId));
-    //     return Promise.all(requests);
-    // }
-
     search = (searchTerm) => {
         const term = searchTerm.trim();
         clearTimeout(this.searchTimeoutId);
