@@ -113,7 +113,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_incoming_webhook.url'
                         defaultMessage='**URL**: {url}'
                         values={{
-                            url: '`'+incomingHookToken+'`',
+                            url: '`' + incomingHookToken + '`',
                         }}
                     />
                     <CopyText
