@@ -3,7 +3,7 @@
 
 import {IntlProvider} from 'react-intl';
 
-import {AdminDefinition} from 'components/admin_console/admin_definition.jsx';
+import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 
 import {generateIndex} from './admin_console_index.jsx';
 
