@@ -19,7 +19,7 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {getSearchTerms, getRhsState} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluginId} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -117,6 +117,14 @@ export function showRHSPlugin(pluginId) {
     };
 
     return action;
+}
+
+export function hideRHSPlugin(pluginId) {
+    return (dispatch, getState) => {
+        if (getPluginId(getState()) === pluginId) {
+            dispatch(closeRightHandSide());
+        }
+    };
 }
 
 export function showFlaggedPosts() {

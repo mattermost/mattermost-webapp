@@ -11,7 +11,7 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
-import {showRHSPlugin} from 'actions/views/rhs';
+import {showRHSPlugin, hideRHSPlugin} from 'actions/views/rhs';
 
 import {
     registerPluginTranslationsSource,
@@ -445,6 +445,7 @@ export default class PluginRegistry {
     // Returns:
     // - id: a unique identifier
     // - showRHSPlugin: the action to dispatch that will open the RHS.
+    // - hideRHSPlugin: the action to dispatch that will close the RHS
     registerRightHandSidebarComponent(component, title) {
         const id = generateId();
 
@@ -459,6 +460,6 @@ export default class PluginRegistry {
             },
         });
 
-        return {id, showRHSPlugin: showRHSPlugin(id)};
+        return {id, showRHSPlugin: showRHSPlugin(id), hideRHSPlugin: hideRHSPlugin(id)};
     }
 }
