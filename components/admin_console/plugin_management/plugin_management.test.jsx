@@ -457,34 +457,4 @@ describe('components/PluginManagement', () => {
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('should call installPluginFromUrl when the install button is clicked', async () => {
-        const installPluginFromUrl = jest.fn().mockReturnValue(Promise.resolve({}));
-        const getPlugins = jest.fn().mockReturnValue(Promise.resolve());
-
-        const props = {
-            ...defaultProps,
-            actions: {
-                ...defaultProps.actions,
-                getPlugins,
-                installPluginFromUrl,
-            },
-        };
-
-        const wrapper = shallow(<PluginManagement {...props}/>);
-        wrapper.setState({pluginDownloadUrl: 'https://pluginsite.com/plugin.tar.gz'});
-
-        const button = wrapper.find('#installPluginButton');
-
-        expect(wrapper.state().installing).toBe(false);
-        button.simulate('click', {preventDefault: jest.fn()});
-        expect(wrapper.state().installing).toBe(true);
-
-        process.nextTick(() => {
-            expect(installPluginFromUrl).toHaveBeenCalled();
-            expect(getPlugins).toHaveBeenCalled();
-            expect(wrapper.state().installing).toBe(false);
-            expect(wrapper.state().serverError).toBe(null);
-        });
-    });
 });

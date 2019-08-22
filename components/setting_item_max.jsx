@@ -115,9 +115,11 @@ export default class SettingItemMax extends React.PureComponent {
 
     componentDidMount() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-            if (focusableElements) {
+            const focusableElements = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusableElements.length > 0) {
                 focusableElements[0].focus();
+            } else {
+                this.settingList.current.focus();
             }
         }
 
@@ -132,7 +134,7 @@ export default class SettingItemMax extends React.PureComponent {
         if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
             return;
         }
-        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT') {
+        if (isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel')) {
             this.handleSubmit(e);
         }
     }
@@ -263,8 +265,10 @@ export default class SettingItemMax extends React.PureComponent {
                 {title}
                 <li className={widthClass}>
                     <ul
-                        className='setting-list'
+                        tabIndex='-1'
                         ref={this.settingList}
+                        role='presentation'
+                        className='setting-list'
                     >
                         {listContent}
                         <li className='setting-list-item'>
@@ -275,7 +279,7 @@ export default class SettingItemMax extends React.PureComponent {
                             {submit}
                             <button
                                 id={'cancelSetting'}
-                                className='btn btn-sm cursor--pointer style--none'
+                                className='btn btn-sm btn-cancel cursor--pointer style--none'
                                 onClick={this.handleUpdateSection}
                             >
                                 {cancelButtonText}

@@ -28,7 +28,7 @@ export default class GroupRow extends React.Component {
                     <span className='group-description row-content'>
                         <FormattedMessage
                             id='admin.team_channel_settings.group_row.members'
-                            defaultMessage='{memberCount} members'
+                            defaultMessage='{memberCount, number} {memberCount, plural, one {member} other {members}}'
                             values={{memberCount: group.member_count}}
                         />
                     </span>

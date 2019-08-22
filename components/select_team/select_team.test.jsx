@@ -76,6 +76,12 @@ describe('components/select_team/SelectTeam', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, on no joinable team and user is guest', () => {
+        const props = {...baseProps, listableTeams: [], currentUserRoles: '', currentUserIsGuest: true, canManageSystem: false, canCreateTeams: false};
+        const wrapper = shallow(<SelectTeam {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match state and call addUserToTeam on handleTeamClick', async () => {
         const wrapper = shallow(<SelectTeam {...baseProps}/>);
         await wrapper.instance().handleTeamClick({id: 'team_id'});

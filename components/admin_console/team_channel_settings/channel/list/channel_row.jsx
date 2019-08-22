@@ -30,7 +30,7 @@ export default class ChannelRow extends React.Component {
                 <div className='group-row'>
                     <span className='group-name overflow--ellipsis row-content'>
                         {channel.type === Constants.PRIVATE_CHANNEL ? <LockIcon className='channel-icon channel-icon__lock'/> : <GlobeIcon className='channel-icon channel-icon__globe'/>}
-                        {channel.name}
+                        {channel.display_name}
                     </span>
                     <span className='group-description row-content'>
                         {channel.team_name}

@@ -1,12 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {createSelector} from 'reselect';
+
 import {Client4} from 'mattermost-redux/client';
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetDisplayName, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {Permissions} from 'mattermost-redux/constants';
+import {Permissions, Posts} from 'mattermost-redux/constants';
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
@@ -14,7 +18,7 @@ import {getEmojiMap} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants, {PostListRowListIds} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, Preferences} from 'utils/constants.jsx';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
@@ -91,6 +95,10 @@ export function canEditPost(post) {
 }
 
 export function shouldShowDotMenu(post) {
+    if (post && post.state === Posts.POST_DELETED) {
+        return false;
+    }
+
     if (Utils.isMobile()) {
         return true;
     }
@@ -308,6 +316,21 @@ export function getLatestPostId(postIds) {
     }
 
     return '';
+}
+
+export function makeCreateAriaLabelForPost() {
+    const getReactionsForPost = makeGetReactionsForPost();
+    const getDisplayName = makeGetDisplayName();
+
+    return createSelector(
+        (state, post) => post,
+        (state, post) => getDisplayName(state, post.user_id),
+        (state, post) => getReactionsForPost(state, post.id),
+        (state, post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
+        (post, author, reactions, isFlagged) => {
+            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl);
+        }
+    );
 }
 
 export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {

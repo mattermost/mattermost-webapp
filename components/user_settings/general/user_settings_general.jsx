@@ -57,7 +57,7 @@ const holders = defineMessages({
     },
     uploadImageMobile: {
         id: t('user.settings.general.mobile.uploadImage'),
-        defaultMessage: 'Click to upload an image.',
+        defaultMessage: 'Click to upload an image',
     },
     fullName: {
         id: t('user.settings.general.fullName'),
@@ -113,7 +113,6 @@ class UserSettingsGeneralTab extends React.Component {
             setDefaultProfileImage: PropTypes.func.isRequired,
             uploadProfileImage: PropTypes.func.isRequired,
         }).isRequired,
-        sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
         maxFileSize: PropTypes.number,
         ldapFirstNameAttributeSet: PropTypes.bool,
@@ -274,7 +273,7 @@ class UserSettingsGeneralTab extends React.Component {
                 if (data) {
                     this.updateSection('');
                     this.props.actions.getMe();
-                    const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
+                    const verificationEnabled = this.props.requireEmailVerification && emailUpdated;
                     if (verificationEnabled) {
                         this.props.actions.clearErrors();
                         this.props.actions.logError({
@@ -440,7 +439,6 @@ class UserSettingsGeneralTab extends React.Component {
 
         let emailSection;
         if (this.props.activeSection === 'email') {
-            const emailEnabled = this.props.sendEmailNotifications;
             const emailVerificationEnabled = this.props.requireEmailVerification;
             const inputs = [];
 
@@ -451,16 +449,7 @@ class UserSettingsGeneralTab extends React.Component {
                 />
             );
 
-            if (!emailEnabled) {
-                helpText = (
-                    <div className='setting-list__hint col-sm-12 text-danger'>
-                        <FormattedMessage
-                            id='user.settings.general.emailHelp2'
-                            defaultMessage='Email has been disabled by your System Administrator. No notification emails will be sent until it is enabled.'
-                        />
-                    </div>
-                );
-            } else if (!emailVerificationEnabled) {
+            if (!emailVerificationEnabled) {
                 helpText = (
                     <FormattedMessage
                         id='user.settings.general.emailHelp3'

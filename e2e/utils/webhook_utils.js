@@ -7,7 +7,7 @@ function getFullDialog(triggerId, webhookBaseUrl) {
         url: `${webhookBaseUrl}/dialog_submit`,
         dialog: {
             callback_id: 'somecallbackid',
-            title: 'Test Title',
+            title: 'Title for Full Dialog Test',
             icon_url:
                 'http://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             elements: [
@@ -50,6 +50,21 @@ function getFullDialog(triggerId, webhookBaseUrl) {
                     placeholder: '',
                     help_text: '',
                     optional: false,
+                    min_length: 0,
+                    max_length: 0,
+                    data_source: '',
+                    options: null,
+                },
+                {
+                    display_name: 'Password',
+                    name: 'somepassword',
+                    type: 'text',
+                    subtype: 'password',
+                    default: 'p@ssW0rd',
+                    placeholder: 'placeholder',
+                    help_text:
+                        'This a password input in an interactive dialog triggered by a test integration.',
+                    optional: true,
                     min_length: 0,
                     max_length: 0,
                     data_source: '',
@@ -138,7 +153,7 @@ function getSimpleDialog(triggerId, webhookBaseUrl) {
         url: `${webhookBaseUrl}/dialog_submit`,
         dialog: {
             callback_id: 'somecallbackid',
-            title: 'Test Title',
+            title: 'Title for Dialog Test without elements',
             icon_url:
                 'http://www.mattermost.org/wp-content/uploads/2016/04/icon.png',
             submit_label: 'Submit Test',

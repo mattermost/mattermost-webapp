@@ -118,7 +118,10 @@ export default class SingleImageView extends React.PureComponent {
         );
 
         const fileHeader = (
-            <div className='image-name'>
+            <div
+                data-testid='image-name'
+                className='image-name'
+            >
                 {toggle}
                 <div onClick={this.handleImageClick}>
                     {fileInfo.name}
@@ -130,19 +133,19 @@ export default class SingleImageView extends React.PureComponent {
         let fadeInClass = '';
 
         const fileType = getFileType(fileInfo.extension);
-        let styleIfSvgWithDimentions = {};
+        let styleIfSvgWithDimensions = {};
         let imageContainerStyle = {};
         let svgClass = '';
         if (fileType === FileTypes.SVG) {
             svgClass = 'svg';
             if (this.state.dimensions.height) {
-                styleIfSvgWithDimentions = {
+                styleIfSvgWithDimensions = {
                     width: '100%',
                 };
             } else {
                 imageContainerStyle = {
-                    height: 150,
-                    width: 'auto',
+                    height: 350,
+                    maxWidth: '100%',
                 };
             }
         }
@@ -175,7 +178,7 @@ export default class SingleImageView extends React.PureComponent {
                     >
                         <div
                             className={`image-loaded ${fadeInClass} ${svgClass}`}
-                            style={styleIfSvgWithDimentions}
+                            style={styleIfSvgWithDimensions}
                         >
                             <SizeAwareImage
                                 onClick={this.handleImageClick}

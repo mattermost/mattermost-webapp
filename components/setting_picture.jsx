@@ -43,6 +43,7 @@ export default class SettingPicture extends Component {
 
         this.settingList = React.createRef();
         this.selectInput = React.createRef();
+        this.confirmButton = React.createRef();
 
         this.state = {
             image: null,
@@ -53,15 +54,16 @@ export default class SettingPicture extends Component {
 
     focusFirstElement() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-            if (focusableElements) {
-                focusableElements[0].focus();
-            }
+            this.settingList.current.focus();
         }
     }
 
     componentDidMount() {
         this.focusFirstElement();
+
+        if (this.selectInput.current) {
+            this.selectInput.current.addEventListener('input', this.handleFileSelected);
+        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -76,11 +78,21 @@ export default class SettingPicture extends Component {
         if (this.previewBlob) {
             URL.revokeObjectURL(this.previewBlob);
         }
+
+        if (this.selectInput.current) {
+            this.selectInput.current.removeEventListener('input', this.handleFileSelected);
+        }
     }
 
     handleCancel = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.updateSection(e);
+    }
+
+    handleFileSelected = () => {
+        if (this.confirmButton.current) {
+            this.confirmButton.current.focus();
+        }
     }
 
     handleSave = (e) => {
@@ -112,6 +124,7 @@ export default class SettingPicture extends Component {
     }
 
     handleInputFile = () => {
+        this.selectInput.current.value = '';
         this.selectInput.current.click();
     }
 
@@ -236,10 +249,12 @@ export default class SettingPicture extends Component {
         const img = this.renderImg();
 
         let confirmButtonClass = 'btn btn-sm';
+        let disableSaveButtonFocus = false;
         if (this.props.submitActive || this.state.removeSrc || this.state.setDefaultSrc) {
             confirmButtonClass += ' btn-primary';
         } else {
             confirmButtonClass += ' btn-inactive disabled';
+            disableSaveButtonFocus = true;
         }
 
         let helpText;
@@ -279,9 +294,13 @@ export default class SettingPicture extends Component {
                     <ul
                         className='setting-list'
                         ref={this.settingList}
+                        tabIndex='-1'
+                        aria-label={this.props.title}
+                        aria-describedby='setting-picture__helptext'
                     >
                         {imgRender}
                         <li
+                            id='setting-picture__helptext'
                             className='setting-list-item padding-top x2'
                             role='presentation'
                         >
@@ -298,12 +317,13 @@ export default class SettingPicture extends Component {
                             />
                             <input
                                 ref={this.selectInput}
+                                className='hidden'
                                 accept='.jpg,.png,.bmp'
                                 type='file'
                                 onChange={this.handleFileChange}
                                 disabled={this.props.loadingPicture}
                                 aria-hidden={true}
-                                className='hidden'
+                                tabIndex='-1'
                             />
                             <button
                                 className='btn btn-sm btn-primary btn-file sel-btn'
@@ -317,6 +337,8 @@ export default class SettingPicture extends Component {
                                 />
                             </button>
                             <button
+                                tabIndex={disableSaveButtonFocus ? '-1' : '0'}
+                                ref={this.confirmButton}
                                 className={confirmButtonClass}
                                 onClick={this.props.loadingPicture ? () => true : this.handleSave}
                                 aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}

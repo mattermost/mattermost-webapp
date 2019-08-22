@@ -7,7 +7,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="navigation"
+  role="application"
   tabIndex="-1"
 >
   <div
@@ -153,7 +153,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="navigation"
+  role="application"
   tabIndex="-1"
 >
   <div
@@ -170,6 +170,42 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           className="channel-header__title dropdown"
         >
           <div>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  bsClass="tooltip"
+                  id="favoriteTooltip"
+                  placement="right"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon fa fa-star-o"
+                />
+              </button>
+            </OverlayTrigger>
             <MenuWrapper
               animationComponent={[Function]}
               className=""
@@ -178,42 +214,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 className="channel-header__top"
                 id="channelHeaderDropdownButton"
               >
-                <OverlayTrigger
-                  defaultOverlayShown={false}
-                  delayShow={400}
-                  onEntering={[Function]}
-                  overlay={
-                    <Tooltip
-                      bsClass="tooltip"
-                      id="favoriteTooltip"
-                      placement="right"
-                    >
-                      <FormattedMessage
-                        defaultMessage="Add to Favorites"
-                        id="channelHeader.addToFavorites"
-                        values={Object {}}
-                      />
-                    </Tooltip>
-                  }
-                  placement="bottom"
-                  trigger={
-                    Array [
-                      "hover",
-                      "focus",
-                    ]
-                  }
-                >
-                  <button
-                    aria-label="add to favorites"
-                    className="style--none color--link channel-header__favorites inactive"
-                    id="toggleFavorite"
-                    onClick={[Function]}
-                  >
-                    <i
-                      className="icon fa fa-star-o"
-                    />
-                  </button>
-                </OverlayTrigger>
                 <button
                   aria-label="channel menu"
                   className="channel-header__trigger style--none"
@@ -393,7 +393,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="navigation"
+  role="application"
   tabIndex="-1"
 >
   <div
@@ -410,6 +410,42 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           className="channel-header__title dropdown"
         >
           <div>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  bsClass="tooltip"
+                  id="favoriteTooltip"
+                  placement="right"
+                >
+                  <FormattedMessage
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                    values={Object {}}
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon fa fa-star-o"
+                />
+              </button>
+            </OverlayTrigger>
             <MenuWrapper
               animationComponent={[Function]}
               className=""
@@ -418,42 +454,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
                 className="channel-header__top"
                 id="channelHeaderDropdownButton"
               >
-                <OverlayTrigger
-                  defaultOverlayShown={false}
-                  delayShow={400}
-                  onEntering={[Function]}
-                  overlay={
-                    <Tooltip
-                      bsClass="tooltip"
-                      id="favoriteTooltip"
-                      placement="right"
-                    >
-                      <FormattedMessage
-                        defaultMessage="Add to Favorites"
-                        id="channelHeader.addToFavorites"
-                        values={Object {}}
-                      />
-                    </Tooltip>
-                  }
-                  placement="bottom"
-                  trigger={
-                    Array [
-                      "hover",
-                      "focus",
-                    ]
-                  }
-                >
-                  <button
-                    aria-label="add to favorites"
-                    className="style--none color--link channel-header__favorites inactive"
-                    id="toggleFavorite"
-                    onClick={[Function]}
-                  >
-                    <i
-                      className="icon fa fa-star-o"
-                    />
-                  </button>
-                </OverlayTrigger>
                 <button
                   aria-label="channel menu"
                   className="channel-header__trigger style--none"
@@ -592,7 +592,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
   data-a11y-sort-order="7"
   data-channelid="channel_id"
   id="channel-header"
-  role="navigation"
+  role="application"
   tabIndex="-1"
 >
   <div
