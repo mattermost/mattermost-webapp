@@ -149,7 +149,7 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             return;
         }
 
-        const channelsAsync = ChannelActions.autocompleteChannelsForSearch(teamId, channelPrefix)(store.dispatch, store.getState);
+        const channelsAsync = store.dispatch(ChannelActions.autocompleteChannelsForSearch(teamId, channelPrefix));
 
         let channelsFromServer = [];
         try {
