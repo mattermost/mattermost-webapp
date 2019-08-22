@@ -5,14 +5,14 @@ import React from 'react';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
-import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
+// import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import SelectIcon from 'components/widgets/icons/fa_select_icon';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 
-import store from 'stores/redux_store.jsx';
+// import store from 'stores/redux_store.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -66,6 +66,10 @@ class SearchChannelSuggestion extends Suggestion {
 }
 
 export default class SearchChannelProvider extends Provider {
+    constructor(channelSearchFunc) {
+        super();
+        this.autocompleteChannelsForSearch = channelSearchFunc;
+    }
     handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
@@ -73,7 +77,28 @@ export default class SearchChannelProvider extends Provider {
 
             this.startNewRequest(channelPrefix);
 
-            store.dispatch(autocompleteChannelsForSearch(
+            // store.dispatch(autocompleteChannelsForSearch(
+            //     channelPrefix,
+            //     (data) => {
+            //         if (this.shouldCancelDispatch(channelPrefix)) {
+            //             return;
+            //         }
+
+            //         //
+            //         // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+            //         //
+            //         const channels = data.sort(sortChannelsByTypeAndDisplayName.bind(null, 'en'));
+            //         const channelNames = channels.map(itemToName);
+
+            //         resultsCallback({
+            //             matchedPretext: channelPrefix,
+            //             terms: channelNames,
+            //             items: channels,
+            //             component: SearchChannelSuggestion,
+            //         });
+            //     },
+            // ));
+            this.autocompleteChannelsForSearch(
                 channelPrefix,
                 (data) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
@@ -93,8 +118,7 @@ export default class SearchChannelProvider extends Provider {
                         component: SearchChannelSuggestion,
                     });
                 },
-                (err) => console.log('ERROR', err),
-            ));
+            );
         }
 
         return Boolean(captured);

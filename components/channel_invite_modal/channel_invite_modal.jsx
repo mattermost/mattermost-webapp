@@ -120,6 +120,7 @@ export default class ChannelInviteModal extends React.Component {
                 this.onHide();
             }
         });
+    };
 
     search = (searchTerm) => {
         const term = searchTerm.trim();
