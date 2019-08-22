@@ -96,11 +96,15 @@
     }
 
     .icon__plugin {
-        opacity: 0.1;
+        opacity: 0.2;
 
         svg {
             width: 32px;
             height: 32px;
         }
+    }
+
+    .no_plugins_div{
+        text-align: center
     }
 }
