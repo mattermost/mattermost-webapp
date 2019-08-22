@@ -10,6 +10,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
+import PluginIcon from 'components/svg/plugin_icon.jsx';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
@@ -18,6 +19,11 @@ import {MarketplaceItemStates} from 'utils/constants';
 import MarketplaceItem from './marketplace_item';
 
 import './marketplace_modal.scss';
+
+const MarketplaceTabs = {
+    ALL_PLUGINS: 'allPlugins',
+    INSTALLED_PLUGINS: 'installed',
+};
 
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
@@ -34,7 +40,7 @@ export default class MarketplaceModal extends React.Component {
         super(props);
 
         this.state = {
-            tabKey: 'allPlugins',
+            tabKey: MarketplaceTabs.ALL_PLUGINS,
             loading: true,
             loadedPlugins: false,
         };
@@ -61,6 +67,10 @@ export default class MarketplaceModal extends React.Component {
 
     close = () => {
         this.props.actions.closeModal();
+    }
+
+    changeTab = (tabKey) => {
+        this.setState({tabKey});
     }
 
     render() {
@@ -110,7 +120,7 @@ export default class MarketplaceModal extends React.Component {
                             unmountOnExit={true}
                         >
                             <Tab
-                                eventKey='allPlugins'
+                                eventKey={MarketplaceTabs.ALL_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.all_plugins', 'All Plugins')}
                             >
                                 <div className='more-modal__list'>
@@ -132,12 +142,12 @@ export default class MarketplaceModal extends React.Component {
                                 </div>
                             </Tab>
                             <Tab
-                                eventKey='installedPlugins'
+                                eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.installed_plugins', `Installed (${installedPluginsArray.length})`)}
                             >
                                 <div className='more-modal__list'>
                                     {
-                                        installedPluginsArray ?
+                                        installedPluginsArray.length > 0 ?
                                             installedPluginsArray.map((p) => {
                                                 return (
                                                     <MarketplaceItem
@@ -152,7 +162,26 @@ export default class MarketplaceModal extends React.Component {
                                                         onConfigure={this.close}
                                                     />);
                                             }
-                                            ) : null
+                                            ) : (
+                                                <div className='no_plugins_div'>
+                                                    <br/>
+                                                    <PluginIcon className='icon__plugin'/>
+                                                    <br/>
+                                                    <br/>
+                                                    <FormattedMessage
+                                                        id='marketplace_modal.no_plugins_installed'
+                                                        defaultMessage='You do not have any plugins installed.'
+                                                    />
+                                                    <br/>
+                                                    <br/>
+                                                    <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
+                                                        <FormattedMessage
+                                                            id='marketplace_modal.install_plugins'
+                                                            defaultMessage='Install Plugins'
+                                                        />
+                                                    </a>
+                                                </div>
+                                            )
                                     }
                                 </div>
                             </Tab>
