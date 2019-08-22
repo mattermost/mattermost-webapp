@@ -23,10 +23,11 @@ import store from 'stores/redux_store.jsx';
 import configureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {UserStatuses} from 'utils/constants';
+import Constants, {SocketEvents, UserStatuses} from 'utils/constants';
 
 import {
     handleChannelUpdatedEvent,
+    handleEvent,
     handleNewPostEvent,
     handleNewPostEvents,
     handlePluginEnabled,
@@ -122,6 +123,16 @@ jest.mock('actions/views/rhs', () => ({
         return {type: ''};
     }),
 }));
+
+describe('handleEvent', () => {
+    test('should dispatch channel updated event properly', () => {
+        const msg = {event: SocketEvents.CHANNEL_UPDATED};
+
+        handleEvent(msg);
+
+        expect(store.dispatch).toHaveBeenCalled();
+    });
+});
 
 describe('handlePostEditEvent', () => {
     test('post edited', async () => {

@@ -37,6 +37,7 @@ export default class InvitationModalMembersStep extends React.Component {
             usersAndEmails: [],
             copiedLink: false,
             termWithoutResults: null,
+            usersInputValue: '',
         };
     }
 
@@ -93,7 +94,12 @@ export default class InvitationModalMembersStep extends React.Component {
 
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit(usersAndEmails.length > 0);
+        this.props.onEdit(usersAndEmails.length > 0 || this.state.usersInputValue);
+    }
+
+    onUsersInputChange = (usersInputValue) => {
+        this.setState({usersInputValue});
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || usersInputValue);
     }
 
     submit = () => {
@@ -106,7 +112,7 @@ export default class InvitationModalMembersStep extends React.Component {
                 users.push(userOrEmail);
             }
         }
-        this.props.onSubmit(users, emails);
+        this.props.onSubmit(users, emails, this.state.usersInputValue);
     }
 
     render() {
@@ -199,6 +205,8 @@ export default class InvitationModalMembersStep extends React.Component {
                                     validAddressMessageDefault='Invite **{email}** as a team member'
                                     noMatchMessageId={t('invitation_modal.members.users_emails_input.no_user_found_matching')}
                                     noMatchMessageDefault='No one found matching **{text}**, type email to invite'
+                                    onInputChange={this.onUsersInputChange}
+                                    inputValue={this.state.usersInputValue}
                                 />
                             )}
                         </FormattedMessage>
