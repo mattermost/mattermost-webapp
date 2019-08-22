@@ -8,7 +8,6 @@ import {
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
@@ -103,6 +102,11 @@ function channelSearchSorter(wrappedA, wrappedB) {
 }
 
 export default class SearchChannelWithPermissionsProvider extends Provider {
+    constructor(channelSearchFunc) {
+        super();
+        this.autocompleteChannelsForSearch = channelSearchFunc;
+    }
+
     makeChannelSearchFilter(channelPrefix) {
         const channelPrefixLower = channelPrefix.toLowerCase();
 
@@ -149,7 +153,7 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             return;
         }
 
-        const channelsAsync = store.dispatch(ChannelActions.autocompleteChannelsForSearch(teamId, channelPrefix));
+        const channelsAsync = this.autocompleteChannelsForSearch(teamId, channelPrefix);
 
         let channelsFromServer = [];
         try {
