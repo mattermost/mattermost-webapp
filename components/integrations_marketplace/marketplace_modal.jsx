@@ -124,21 +124,37 @@ export default class MarketplaceModal extends React.Component {
                                 title={localizeMessage('marketplace_modal.tabs.all_plugins', 'All Plugins')}
                             >
                                 <div className='more-modal__list'>
-                                    {this.props.marketplacePlugins.map((p) => {
-                                        return (
-                                            <MarketplaceItem
-                                                key={p.manifest.id}
-                                                id={p.manifest.id}
-                                                name={p.manifest.name}
-                                                description={p.manifest.description}
-                                                version={p.manifest.version}
-                                                isPrepackaged={false}
-                                                itemUrl={p.download_url}
-                                                itemState={MarketplaceItemStates.DOWNLOAD}
-                                                onConfigure={this.close}
-                                            />);
+                                    {
+                                        this.props.marketplacePlugins.length > 0 ?
+                                            this.props.marketplacePlugins.map((p) => {
+                                                return (
+                                                    <MarketplaceItem
+                                                        key={p.manifest.id}
+                                                        id={p.manifest.id}
+                                                        name={p.manifest.name}
+                                                        description={p.manifest.description}
+                                                        version={p.manifest.version}
+                                                        isPrepackaged={false}
+                                                        itemUrl={p.download_url}
+                                                        itemState={MarketplaceItemStates.DOWNLOAD}
+                                                        onConfigure={this.close}
+                                                    />);
+                                            }
+                                            ) : (
+                                                <div className='no_plugins_div'>
+                                                    <br/>
+                                                    <PluginIcon className='icon__plugin'/>
+                                                    <br/>
+                                                    <br/>
+                                                    <FormattedMessage
+                                                        id='marketplace_modal.no_plugins'
+                                                        defaultMessage='There are no plugins available at this time.'
+                                                    />
+                                                    <br/>
+                                                    <br/>
+                                                </div>
+                                            )
                                     }
-                                    )}
                                 </div>
                             </Tab>
                             <Tab

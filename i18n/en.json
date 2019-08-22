@@ -2619,6 +2619,7 @@
   "marketplace_modal.install_plugins": "Install Plugins",
   "marketplace_modal.list.configure": "Configure",
   "marketplace_modal.list.download": "Download",
+  "marketplace_modal.no_plugins": "There are no plugins available at this time.",
   "marketplace_modal.no_plugins_installed": "You do not have any plugins installed.",
   "marketplace_modal.search": "Search Plugins",
   "marketplace_modal.tabs.all_plugins": "All Plugins",
