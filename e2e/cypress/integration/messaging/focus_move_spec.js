@@ -7,6 +7,42 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+function verifyFocusInAddChannelMemberModal() {
+    // # Click to access the Channel menu
+    cy.get('#channelHeaderTitle').click();
+
+    // * The dropdown menu of the channel header should be visible;
+    cy.get('#channelHeaderDropdownMenu').should('be.visible');
+
+    // # Click 'Add Members'
+    cy.get('#channelAddMembers').click();
+
+    // * Assert that modal appears
+    cy.get('#addUsersToChannelModal').should('be.visible');
+
+    // * Assert that the input box is in focus
+    cy.get('#selectItems input').should('be.focused');
+
+    // # Push a character key such as "A"
+    cy.focused().type('A');
+
+    // * Check that input box has character A
+    cy.get('#selectItems input').should('have.value', 'A');
+
+    // # Click anywhere in the modal that is not on a field that can take focus
+    cy.get('#channelInviteModalLabel').click();
+
+    // * Note the focus has been removed from the search box
+    cy.get('#selectItems input').should('not.be.focused');
+
+    // # Push a character key such as "A"
+    cy.get('body').type('A');
+
+    // * Focus is not moved anywhere. Neither the search box or main input box has the focus
+    cy.get('#selectItems input').should('not.be.focused').and('have.value', 'A');
+    cy.get('#post_textbox').should('not.be.focused');
+}
+
 describe('Messaging', () => {
     before(() => {
         cy.apiLogin('user-1');
@@ -34,5 +70,25 @@ describe('Messaging', () => {
         //#Push a character key such as "B"
         cy.get('body').type('B');
         cy.get('#post_textbox').should('be.focused');
+    });
+
+    it('M17452 Focus does not move when it has already been set elsewhere', () => {
+        let channel;
+
+        cy.getCurrentTeamId().then((teamId) => {
+            // # Create new test channel
+            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+                channel = res.body;
+
+                // # Select the channel on the left hand side
+                cy.get(`#sidebarItem_${channel.name}`).click();
+
+                // * Channel's display name should be visible at the top of the center pane
+                cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+                // # Verify Focus in add channel member modal
+                verifyFocusInAddChannelMemberModal();
+            });
+        });
     });
 });

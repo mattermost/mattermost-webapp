@@ -325,10 +325,23 @@
             height: 50px;
             margin: 1px 0;
             overflow: hidden;
-            padding: 0 20px;
+            padding: 0 12px 0 20px;
 
             .more-modal__actions {
-                padding-left: 12px;
+                opacity: 1;
+                padding: 0;
+                margin-left: 12px;
+
+                button {
+                    opacity: 0;
+                    line-height: 0;
+                    width: 2em;
+                    height: 2em;
+
+                    &.a11y--focused {
+                        opacity: 1;
+                    }
+                }
             }
 
             &:hover {
@@ -336,7 +349,9 @@
                 padding-left: 17px;
 
                 .more-modal__actions {
-                    @include opacity(1);
+                    button {
+                        @include opacity(1);
+                    }
                 }
 
                 .more-modal__name {

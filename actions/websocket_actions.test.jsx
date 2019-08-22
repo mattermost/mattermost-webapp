@@ -3,6 +3,7 @@
 
 import {
     getProfilesAndStatusesForPosts,
+    getThreadsForPosts,
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
 import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
@@ -21,10 +22,11 @@ import store from 'stores/redux_store.jsx';
 import configureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {UserStatuses} from 'utils/constants';
+import Constants, {SocketEvents, UserStatuses} from 'utils/constants';
 
 import {
     handleChannelUpdatedEvent,
+    handleEvent,
     handleNewPostEvent,
     handleNewPostEvents,
     handlePostEditEvent,
@@ -35,6 +37,7 @@ import {
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     ...jest.requireActual('mattermost-redux/actions/posts'),
+    getThreadsForPosts: jest.fn(() => ({type: 'GET_THREADS_FOR_POSTS'})),
     getProfilesAndStatusesForPosts: jest.fn(),
 }));
 
@@ -117,6 +120,16 @@ jest.mock('actions/views/rhs', () => ({
         return {type: ''};
     }),
 }));
+
+describe('handleEvent', () => {
+    test('should dispatch channel updated event properly', () => {
+        const msg = {event: SocketEvents.CHANNEL_UPDATED};
+
+        handleEvent(msg);
+
+        expect(store.dispatch).toHaveBeenCalled();
+    });
+});
 
 describe('handlePostEditEvent', () => {
     test('post edited', async () => {
@@ -227,7 +240,11 @@ describe('handleNewPostEvents', () => {
                 payload: posts.map(receivedNewPost),
                 type: 'BATCHING_REDUCER.BATCH',
             },
+            {
+                type: 'GET_THREADS_FOR_POSTS',
+            },
         ]);
+        expect(getThreadsForPosts).toHaveBeenCalledWith(posts);
         expect(getProfilesAndStatusesForPosts).toHaveBeenCalledWith(posts, expect.anything(), expect.anything());
     });
 });
