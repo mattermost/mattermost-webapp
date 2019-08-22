@@ -11,8 +11,8 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    cy.apiLogin('user-1', {otherUsername, otherPassword, otherURL});
+Cypress.Commands.add('toMainChannelView', (username, password) => {
+    cy.apiLogin('user-1', password);
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -37,9 +37,9 @@ Cypress.Commands.add('getSubpath', () => {
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
+Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false) => {
     if (!isLoggedInAlready) {
-        cy.apiLogin(username, {otherUsername, otherPassword, otherURL});
+        cy.apiLogin(username);
     }
 
     cy.visit('/');
@@ -129,7 +129,7 @@ Cypress.Commands.add('postMessage', (message) => {
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').clear().type(message).type('{enter}');
+    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
     cy.wait(TIMEOUTS.TINY);
 });
 
@@ -355,7 +355,7 @@ Cypress.Commands.add('getCurrentChannelId', () => {
  * @param {String} text - Text to set the header to
  */
 Cypress.Commands.add('updateChannelHeader', (text) => {
-    cy.get('#channelHeaderDropdownButton').
+    cy.get('#channelHeaderDropdownIcon').
         should('be.visible').
         click();
     cy.get('#channelHeaderDropdownMenu').

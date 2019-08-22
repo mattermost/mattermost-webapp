@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/FilePreview should match snapshot 1`] = `
+exports[`FilePreview should match snapshot 1`] = `
 <div
   className="file-preview__container"
 >
@@ -82,7 +82,7 @@ exports[`component/FilePreview should match snapshot 1`] = `
 </div>
 `;
 
-exports[`component/FilePreview should match snapshot when props are changed 1`] = `
+exports[`FilePreview should match snapshot when props are changed 1`] = `
 <div
   className="file-preview__container"
 >
@@ -164,7 +164,7 @@ exports[`component/FilePreview should match snapshot when props are changed 1`] 
 </div>
 `;
 
-exports[`component/FilePreview should match snapshot when props are changed 2`] = `
+exports[`FilePreview should match snapshot when props are changed 2`] = `
 <div
   className="file-preview__container"
 >

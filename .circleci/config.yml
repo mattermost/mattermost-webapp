@@ -123,7 +123,7 @@ jobs:
               echo "${FOLDER_NAME}"
             fi
             curl --request POST \
-            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/${FOLDER_NAME}/"
+            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/"
       - add_ssh_keys:
           fingerprints:
             - "1f:ea:9e:d2:11:90:f7:35:0f:86:0d:45:e2:a4:73:f7"
@@ -146,7 +146,7 @@ jobs:
             git clone git@github.com:mattermost/mattermost-docker.git
 
             cd mattermost-docker
-            export MM_BINARY=https://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/${FOLDER_NAME}/mattermost-enterprise-linux-amd64.tar.gz
+            export MM_BINARY=https://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
             docker build --build-arg MM_BINARY=$MM_BINARY -t mattermost/mattermost-enterprise-edition:${TAG} app
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
             docker push mattermost/mattermost-enterprise-edition:${TAG}

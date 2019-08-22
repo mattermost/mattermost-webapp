@@ -39,11 +39,15 @@ describe('components/widgets/inputs/ChannelsInput', () => {
   getOptionValue={[Function]}
   isClearable={false}
   isMulti={true}
-  loadOptions={[MockFunction]}
+  loadOptions={[Function]}
   loadingMessage={[Function]}
   onChange={[Function]}
+  onFocus={[Function]}
+  onInputChange={[Function]}
   openMenuOnClick={false}
+  openMenuOnFocus={true}
   placeholder="test"
+  tabSelectsValue={true}
   value={
     Array [
       Object {

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -15,7 +16,6 @@ import BackIcon from 'components/svg/back_icon';
 import LinkIcon from 'components/svg/link_icon';
 
 import {getSiteURL} from 'utils/url.jsx';
-import debouncePromise from 'utils/debounce_promise.jsx';
 import {t} from 'utils/i18n.jsx';
 
 import './invitation_modal_members_step.scss';
@@ -36,20 +36,29 @@ export default class InvitationModalMembersStep extends React.Component {
         this.state = {
             usersAndEmails: [],
             copiedLink: false,
+            termWithoutResults: null,
+            usersInputValue: '',
         };
     }
 
     copyLink = () => {
         const input = this.inviteLinkRef.current;
-        input.focus();
-        input.setSelectionRange(0, input.value.length);
+
+        const textField = document.createElement('textarea');
+        textField.innerText = input.value;
+        textField.style.position = 'fixed';
+        textField.style.opacity = 0;
+
+        document.body.appendChild(textField);
+        textField.select();
 
         try {
             this.setState({copiedLink: document.execCommand('copy')});
         } catch (err) {
             this.setState({copiedLink: false});
         }
-        input.setSelectionRange(0, 0);
+        textField.remove();
+
         if (this.timeout) {
             clearTimeout(this.timeout);
         }
@@ -58,22 +67,39 @@ export default class InvitationModalMembersStep extends React.Component {
         }, 3000);
     }
 
-    usersLoader = async (term) => {
-        if (isEmail(term)) {
-            return [];
+    debouncedSearchProfiles = debounce((term, callback) => {
+        this.props.searchProfiles(term).then(({data}) => {
+            callback(data);
+            if (data.length === 0) {
+                this.setState({termWithoutResults: term});
+            } else {
+                this.setState({termWithoutResults: null});
+            }
+        }).catch(() => {
+            callback([]);
+        });
+    }, 150);
+
+    usersLoader = (term, callback) => {
+        if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
+            callback([]);
+            return;
         }
         try {
-            const {data} = await this.props.searchProfiles(term);
-            return data;
+            this.debouncedSearchProfiles(term, callback);
         } catch (error) {
-            return [];
+            callback([]);
         }
     }
-    debouncedUsersLoader = debouncePromise(this.usersLoader, 150);
 
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit(usersAndEmails.length > 0);
+        this.props.onEdit(usersAndEmails.length > 0 || this.state.usersInputValue);
+    }
+
+    onUsersInputChange = (usersInputValue) => {
+        this.setState({usersInputValue});
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || usersInputValue);
     }
 
     submit = () => {
@@ -86,7 +112,7 @@ export default class InvitationModalMembersStep extends React.Component {
                 users.push(userOrEmail);
             }
         }
-        this.props.onSubmit(users, emails);
+        this.props.onSubmit(users, emails, this.state.usersInputValue);
     }
 
     render() {
@@ -164,14 +190,14 @@ export default class InvitationModalMembersStep extends React.Component {
                             defaultMessage='Invite People'
                         />
                     </h2>
-                    <div>
+                    <div data-testid='inputPlaceholder'>
                         <FormattedMessage
                             id='invitation_modal.members.search-and-add.placeholder'
                             defaultMessage='Add members or email addresses'
                         >
                             {(placeholder) => (
                                 <UsersEmailsInput
-                                    usersLoader={this.debouncedUsersLoader}
+                                    usersLoader={this.usersLoader}
                                     placeholder={placeholder}
                                     onChange={this.onChange}
                                     value={this.state.usersAndEmails}
@@ -179,6 +205,8 @@ export default class InvitationModalMembersStep extends React.Component {
                                     validAddressMessageDefault='Invite **{email}** as a team member'
                                     noMatchMessageId={t('invitation_modal.members.users_emails_input.no_user_found_matching')}
                                     noMatchMessageDefault='No one found matching **{text}**, type email to invite'
+                                    onInputChange={this.onUsersInputChange}
+                                    inputValue={this.state.usersInputValue}
                                 />
                             )}
                         </FormattedMessage>

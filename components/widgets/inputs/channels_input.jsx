@@ -6,6 +6,7 @@ import React from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import {intlShape} from 'react-intl';
 import {components} from 'react-select';
+import classNames from 'classnames';
 
 import {Constants} from 'utils/constants';
 
@@ -25,6 +26,8 @@ export default class ChannelsInput extends React.Component {
         channelsLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.object),
+        onInputChange: PropTypes.func,
+        inputValue: PropTypes.string,
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
         noOptionsMessageId: PropTypes.string,
@@ -42,7 +45,41 @@ export default class ChannelsInput extends React.Component {
         intl: intlShape.isRequired,
     };
 
+    constructor(props) {
+        super(props);
+        this.selectRef = React.createRef();
+        this.state = {
+            options: [],
+        };
+    }
+
     getOptionValue = (channel) => channel.id
+
+    handleInputChange = (inputValue, action) => {
+        if (action.action === 'input-blur') {
+            for (const option of this.state.options) {
+                if (this.props.inputValue === option.name) {
+                    this.onChange([...this.props.value, option]);
+                    this.props.onInputChange('');
+                    return;
+                }
+            }
+        }
+        if (action.action !== 'input-blur' && action.action !== 'menu-close') {
+            this.props.onInputChange(inputValue);
+        }
+    }
+
+    optionsLoader = (input, callback) => {
+        const customCallback = (options) => {
+            this.setState({options});
+            callback(options);
+        };
+        const result = this.props.channelsLoader(this.props.inputValue, customCallback);
+        if (result && result.then) {
+            result.then(customCallback);
+        }
+    }
 
     loadingMessage = () => {
         let text = 'Loading';
@@ -87,6 +124,7 @@ export default class ChannelsInput extends React.Component {
             <React.Fragment>
                 {icon}
                 {channel.display_name}
+                <span className='channel-name'>{channel.name}</span>
             </React.Fragment>
         );
     }
@@ -109,15 +147,20 @@ export default class ChannelsInput extends React.Component {
         IndicatorsContainer: () => null,
     };
 
+    onFocus = () => {
+        this.selectRef.current.handleInputChange(this.props.inputValue, {action: 'custom'});
+    }
+
     render() {
         return (
             <AsyncSelect
+                ref={this.selectRef}
                 styles={this.customStyles}
                 onChange={this.onChange}
-                loadOptions={this.props.channelsLoader}
+                loadOptions={this.optionsLoader}
                 isMulti={true}
                 isClearable={false}
-                className='ChannelsInput'
+                className={classNames('ChannelsInput', {empty: this.props.inputValue === ''})}
                 classNamePrefix='channels-input'
                 placeholder={this.props.placeholder}
                 components={this.components}
@@ -128,6 +171,11 @@ export default class ChannelsInput extends React.Component {
                 defaultOptions={false}
                 defaultMenuIsOpen={false}
                 openMenuOnClick={false}
+                onInputChange={this.handleInputChange}
+                inputValue={this.props.inputValue}
+                openMenuOnFocus={true}
+                onFocus={this.onFocus}
+                tabSelectsValue={true}
                 value={this.props.value}
             />
         );

@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import BackIcon from 'components/svg/back_icon';
-
 import InvitationModalConfirmStepRow from 'components/invitation_modal/invitation_modal_confirm_step_row';
 
 import './invitation_modal_confirm_step_table.scss';
@@ -20,7 +18,6 @@ export default class InvitationModalConfirmStepTable extends React.Component {
             <div className='InvitationModalConfirmStepTable'>
                 <div className='table-header'>
                     <div className='people-header'>
-                        <BackIcon/>
                         <FormattedMessage
                             id='invitation-modal.confirm.people-header'
                             defaultMessage='People'
@@ -36,7 +33,7 @@ export default class InvitationModalConfirmStepTable extends React.Component {
                 <div className='rows'>
                     {this.props.invites.map((invitation) => (
                         <InvitationModalConfirmStepRow
-                            key={invitation.email || invitation.user.id}
+                            key={invitation.text || invitation.email || invitation.user.id}
                             invitation={invitation}
                         />
                     ))}

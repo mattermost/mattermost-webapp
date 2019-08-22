@@ -61,7 +61,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="invitationModal"
+        id="invitePeople"
         modalId="invitation"
         show={true}
         text="Invite People"

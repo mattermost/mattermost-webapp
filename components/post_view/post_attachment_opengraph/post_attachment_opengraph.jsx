@@ -4,11 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 
 import {PostTypes} from 'utils/constants.jsx';
 import {useSafeUrl} from 'utils/url';
-import {getImageSrc, isSystemMessage} from 'utils/post_utils.jsx';
+import {isSystemMessage} from 'utils/post_utils.jsx';
 
 import {getNearestPoint} from './get_nearest_point';
 
@@ -41,11 +42,6 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         openGraphData: PropTypes.object,
 
         /**
-         * Whether or not the server has an image proxy enabled
-         */
-        hasImageProxy: PropTypes.bool.isRequired,
-
-        /**
          * Whether or not the server has link previews enabled.
          */
         enableLinkPreviews: PropTypes.bool.isRequired,
@@ -67,7 +63,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }).isRequired,
     }
 
-    getImageDimensions = (imageUrl) => {
+    getImageMetadata = (imageUrl) => {
         if (!imageUrl) {
             return null;
         }
@@ -106,32 +102,46 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         );
     }
 
-    renderLargeImage(imageUrl, dimensions) {
+    renderLargeImage(imageUrl, imageMetadata) {
         if (!this.props.isEmbedVisible) {
             return null;
         }
 
         return (
-            <SizeAwareImage
-                className='attachment__image attachment__image--opengraph large_image'
-                src={getImageSrc(imageUrl, this.props.hasImageProxy)}
-                dimensions={dimensions}
-            />
+            <ExternalImage
+                src={imageUrl}
+                imageMetadata={imageMetadata}
+            >
+                {(safeImageUrl) => (
+                    <SizeAwareImage
+                        className='attachment__image attachment__image--opengraph large_image'
+                        src={safeImageUrl}
+                        dimensions={imageMetadata}
+                    />
+                )}
+            </ExternalImage>
         );
     }
 
-    renderSmallImage(imageUrl, dimensions) {
+    renderSmallImage(imageUrl, imageMetadata) {
         if (!this.props.isEmbedVisible) {
             return null;
         }
 
         return (
             <div className='attachment__image__container--opengraph'>
-                <SizeAwareImage
-                    className='attachment__image attachment__image--opengraph'
-                    src={getImageSrc(imageUrl, this.props.hasImageProxy)}
-                    dimensions={dimensions}
-                />
+                <ExternalImage
+                    src={imageUrl}
+                    imageMetadata={imageMetadata}
+                >
+                    {(safeImageUrl) => (
+                        <SizeAwareImage
+                            className='attachment__image attachment__image--opengraph'
+                            src={safeImageUrl}
+                            dimensions={imageMetadata}
+                        />
+                    )}
+                </ExternalImage>
             </div>
         );
     }
@@ -187,8 +197,8 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         }
 
         const imageUrl = getBestImageUrl(data, this.props.post.metadata.images);
-        const imageDimensions = this.getImageDimensions(imageUrl);
-        const hasLargeImage = this.isLargeImage(imageDimensions);
+        const imageMetadata = this.getImageMetadata(imageUrl);
+        const hasLargeImage = this.isLargeImage(imageMetadata);
 
         let removePreviewButton;
         if (this.props.currentUserId === this.props.post.user_id) {
@@ -214,7 +224,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                         {' '}
                         {imageUrl && hasLargeImage && this.renderImageToggle()}
                     </div>
-                    {(imageUrl && hasLargeImage) && this.renderLargeImage(imageUrl, imageDimensions)}
+                    {(imageUrl && hasLargeImage) && this.renderLargeImage(imageUrl, imageMetadata)}
                 </div>
             );
         }
@@ -239,7 +249,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                             </h1>
                             {body}
                         </div>
-                        {(imageUrl && !hasLargeImage) && this.renderSmallImage(imageUrl, imageDimensions)}
+                        {(imageUrl && !hasLargeImage) && this.renderSmallImage(imageUrl, imageMetadata)}
                     </div>
                 </div>
             </div>

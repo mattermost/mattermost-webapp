@@ -38,7 +38,9 @@ exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
     loading={false}
     text="Saving"
   >
-    Save
+    <span>
+      Save
+    </span>
   </LoadingWrapper>
 </button>
 `;
@@ -81,7 +83,9 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
     loading={false}
     text="Saving"
   >
-    Save
+    <span>
+      Save
+    </span>
   </LoadingWrapper>
 </button>
 `;
@@ -124,7 +128,9 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
     loading={false}
     text="Saving"
   >
-    Go
+    <span>
+      Go
+    </span>
   </LoadingWrapper>
 </button>
 `;
@@ -167,7 +173,9 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
     loading={true}
     text="Saving"
   >
-    Save
+    <span>
+      Save
+    </span>
   </LoadingWrapper>
 </button>
 `;
@@ -210,7 +218,9 @@ exports[`components/SaveButton should match snapshot, on savingMessage 2`] = `
     loading={true}
     text="Saving Config..."
   >
-    Save
+    <span>
+      Save
+    </span>
   </LoadingWrapper>
 </button>
 `;

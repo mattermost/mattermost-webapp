@@ -49,7 +49,7 @@ export default class TeamDetails extends React.Component {
             groups: props.groups,
             syncChecked: Boolean(team.group_constrained),
             allAllowedChecked: team.allow_open_invite,
-            allowedDomainsChecked: team.allowed_domains !== '',
+            allowedDomainsChecked: Boolean(team.allowed_domains && team.allowed_domains !== ''),
             allowedDomains: team.allowed_domains || '',
             saving: false,
             showRemoveConfirmation: false,
@@ -61,9 +61,16 @@ export default class TeamDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.totalGroups !== this.props.totalGroups) {
+        const {totalGroups, team} = this.props;
+        if (prevProps.team.id !== team.id) {
             // eslint-disable-next-line react/no-did-update-set-state
-            this.setState({totalGroups: this.props.totalGroups});
+            this.setState({
+                totalGroups,
+                syncChecked: Boolean(team.group_constrained),
+                allAllowedChecked: team.allow_open_invite,
+                allowedDomainsChecked: Boolean(team.allowed_domains && team.allowed_domains !== ''),
+                allowedDomains: team.allowed_domains || '',
+            });
         }
     }
 

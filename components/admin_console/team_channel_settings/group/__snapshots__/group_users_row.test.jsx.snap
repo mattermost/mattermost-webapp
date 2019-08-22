@@ -5,7 +5,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
   className="group "
 >
   <div
-    className="group-row"
+    className="group-row roc"
     style={
       Object {
         "padding": "30px 0px",
@@ -13,7 +13,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
     }
   >
     <div
-      className="group-name"
+      className="group-name col-sm-8"
     >
       <div
         className="row"
@@ -42,7 +42,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
             Test display name
           </div>
           <div
-            className="row"
+            className="row email-group-row"
           >
             test@test.com
           </div>
@@ -50,12 +50,12 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
       </div>
     </div>
     <span
-      className="group-user-removal-column group-description"
+      className="col-sm-2 group-user-removal-column group-description"
     >
       system_user
     </span>
     <span
-      className="group-user-removal-column group-description group-description-link"
+      className="col-sm-2 group-user-removal-column group-description group-description-link"
     >
       test group
     </span>
@@ -68,7 +68,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
   className="group "
 >
   <div
-    className="group-row"
+    className="group-row roc"
     style={
       Object {
         "padding": "30px 0px",
@@ -76,7 +76,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
     }
   >
     <div
-      className="group-name"
+      className="group-name col-sm-8"
     >
       <div
         className="row"
@@ -105,7 +105,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
             Test display name
           </div>
           <div
-            className="row"
+            className="row email-group-row"
           >
             test@test.com
           </div>
@@ -113,12 +113,12 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
       </div>
     </div>
     <span
-      className="group-user-removal-column group-description"
+      className="col-sm-2 group-user-removal-column group-description"
     >
       system_user
     </span>
     <span
-      className="group-user-removal-column group-description group-description-link"
+      className="col-sm-2 group-user-removal-column group-description group-description-link"
     >
       <OverlayTrigger
         defaultOverlayShown={false}

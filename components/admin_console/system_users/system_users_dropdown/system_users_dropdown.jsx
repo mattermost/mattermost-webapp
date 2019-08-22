@@ -608,7 +608,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
                                 text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                             />
                             <MenuItemAction
-                                show={!user.auth_service && user.id !== this.state.userId}
+                                show={!user.auth_service && user.id !== currentUser.id}
                                 onClick={this.handleResetEmail}
                                 text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
                             />

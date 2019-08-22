@@ -141,6 +141,8 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <ul
           className="setting-list"
+          role="presentation"
+          tabIndex="-1"
         >
           <li
             className="setting-list-item"
@@ -252,12 +254,14 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
             <button
-              className="btn btn-sm cursor--pointer style--none"
+              className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
               onClick={[Function]}
             >
@@ -519,6 +523,8 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <ul
           className="setting-list"
+          role="presentation"
+          tabIndex="-1"
         >
           <li
             className="setting-list-item"
@@ -693,12 +699,14 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
             <button
-              className="btn btn-sm cursor--pointer style--none"
+              className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
               onClick={[Function]}
             >

@@ -80,8 +80,8 @@ describe('actions/global_actions', () => {
                     },
                     teams: {
                         teams: {
-                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1'},
-                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2'},
+                            team1: {id: 'team1', display_name: 'Team 1', name: 'team1', delete_at: 0},
+                            team2: {id: 'team2', display_name: 'Team 2', name: 'team2', delete_at: 0},
                         },
                         myMembers: {
                             team1: {},

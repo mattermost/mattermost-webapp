@@ -81,6 +81,7 @@ export default class ChannelHeader extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.toggleFavoriteRef = React.createRef();
 
         const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
         this.state = {
@@ -229,6 +230,11 @@ export default class ChannelHeader extends React.PureComponent {
                 dialogType: QuickSwitchModal,
             });
         }
+    }
+
+    removeTooltipLink = () => {
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+        this.toggleFavoriteRef.current.removeAttribute('aria-describedby');
     }
 
     showEditChannelHeaderModal = () => {
@@ -500,9 +506,11 @@ export default class ChannelHeader extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={toggleFavoriteTooltip}
+                    onEntering={this.removeTooltipLink}
                 >
                     <button
                         id='toggleFavorite'
+                        ref={this.toggleFavoriteRef}
                         onClick={this.toggleFavorite}
                         className={'style--none color--link channel-header__favorites ' + (this.props.isFavorite ? 'active' : 'inactive')}
                         aria-label={ariaLabel}
@@ -548,34 +556,38 @@ export default class ChannelHeader extends React.PureComponent {
         }
 
         let title = (
-            <MenuWrapper>
-                <div
-                    id='channelHeaderDropdownButton'
-                    className='channel-header__top'
-                >
-                    {toggleFavorite}
-                    <button
-                        className='channel-header__trigger style--none'
-                        aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
+            <React.Fragment>
+                {toggleFavorite}
+                <MenuWrapper>
+                    <div
+                        id='channelHeaderDropdownButton'
+                        className='channel-header__top'
                     >
-                        <strong
-                            id='channelHeaderTitle'
-                            className='heading'
+                        <button
+                            className='channel-header__trigger style--none'
+                            aria-label={formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'}).toLowerCase()}
                         >
-                            <span>
-                                {archivedIcon}
-                                {channelTitle}
-                            </span>
-                        </strong>
-                        <span
-                            id='channelHeaderDropdownIcon'
-                            className='fa fa-angle-down header-dropdown__icon'
-                            aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
-                        />
-                    </button>
-                </div>
-                <ChannelHeaderDropdown/>
-            </MenuWrapper>
+                            <strong
+                                role='heading'
+                                aria-level='2'
+                                id='channelHeaderTitle'
+                                className='heading'
+                            >
+                                <span>
+                                    {archivedIcon}
+                                    {channelTitle}
+                                </span>
+                            </strong>
+                            <span
+                                id='channelHeaderDropdownIcon'
+                                className='fa fa-angle-down header-dropdown__icon'
+                                aria-label={formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'}).toLowerCase()}
+                            />
+                        </button>
+                    </div>
+                    <ChannelHeaderDropdown/>
+                </MenuWrapper>
+            </React.Fragment>
         );
         if (isDirect && dmUser.is_bot) {
             title = (
@@ -585,6 +597,8 @@ export default class ChannelHeader extends React.PureComponent {
                 >
                     {toggleFavorite}
                     <strong
+                        role='heading'
+                        aria-level='2'
                         id='channelHeaderTitle'
                         className='heading'
                     >
@@ -602,7 +616,7 @@ export default class ChannelHeader extends React.PureComponent {
             <div
                 id='channel-header'
                 aria-label={ariaLabelChannelHeader}
-                role='navigation'
+                role='application'
                 tabIndex='-1'
                 data-channelid={`${channel.id}`}
                 className='channel-header alt a11y__region'
@@ -617,9 +631,9 @@ export default class ChannelHeader extends React.PureComponent {
                             <div
                                 className='channel-header__title dropdown'
                             >
-                                <h2>
+                                <div>
                                     {title}
-                                </h2>
+                                </div>
                                 {muteTrigger}
                             </div>
                             {headerTextContainer}
