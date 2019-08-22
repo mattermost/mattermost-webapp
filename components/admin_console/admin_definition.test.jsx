@@ -3,7 +3,7 @@
 
 import * as yup from 'yup';
 
-import getAdminDefinition from 'selectors/admin_console.jsx';
+import adminDefinition from 'components/admin_console/admin_definition.jsx';
 import {Constants} from 'utils/constants';
 
 const baseShape = {
@@ -177,6 +177,6 @@ var definition = yup.object().shape({
 
 describe('components/admin_console/admin_definition', () => {
     it('should pass all validations checks', () => {
-        definition.strict().validateSync(getAdminDefinition);
+        definition.strict().validateSync(adminDefinition);
     });
 });

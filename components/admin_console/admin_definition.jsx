@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {cloneDeep} from 'lodash';
 
 import {Constants} from 'utils/constants';
 import {getSiteURL} from 'utils/url';

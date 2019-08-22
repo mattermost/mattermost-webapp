@@ -77,7 +77,7 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
 
 export function generateIndex(adminDefinition, intl) {
     const idx = new FlexSearch();
-    const mappingSectionsToTexts = adminDefinitionsToUrlsAndTexts(intl, intl);
+    const mappingSectionsToTexts = adminDefinitionsToUrlsAndTexts(adminDefinition, intl);
     for (const key of Object.keys(mappingSectionsToTexts)) {
         let text = '';
         for (const str of mappingSectionsToTexts[key]) {
