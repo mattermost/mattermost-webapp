@@ -14,6 +14,10 @@ import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import addContext from 'mochawesome/addContext';
 
+import metadataIt from './metadataIt';
+
+global.mmIt = metadataIt;
+
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
     // the additional context of the screenshot.
@@ -72,6 +76,13 @@ Cypress.on('test:after:run', (test, runnable) => {
         addContext({test}, {
             title: 'Failing Screenshot: >> screenshots/' + filename,
             value: 'screenshots/' + filename,
+        });
+    }
+
+    if (runnable.metadata && runnable.metadata.testId) {
+        addContext({test}, {
+            title: 'metadata',
+            value: runnable.metadata,
         });
     }
 });
