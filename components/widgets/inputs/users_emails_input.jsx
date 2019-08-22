@@ -99,14 +99,6 @@ export default class UsersEmailsInput extends React.Component {
 
     formatOptionLabel = (user, options) => {
         const profileImg = imageURLForUser(user);
-        const avatar = (
-            <Avatar
-                size='lg'
-                username={user.username}
-                url={profileImg}
-            />
-        );
-
         let guestBadge = null;
         if (!isEmail(user.value) && isGuest(user)) {
             guestBadge = <GuestBadge/>;
@@ -118,7 +110,11 @@ export default class UsersEmailsInput extends React.Component {
             }
             return (
                 <React.Fragment>
-                    {avatar}
+                    <Avatar
+                        size='lg'
+                        username={user.username}
+                        url={profileImg}
+                    />
                     {this.renderUserName(user)}
                     {guestBadge}
                 </React.Fragment>
@@ -136,7 +132,11 @@ export default class UsersEmailsInput extends React.Component {
 
         return (
             <React.Fragment>
-                {avatar}
+                <Avatar
+                    size='sm'
+                    username={user.username}
+                    url={profileImg}
+                />
                 {getDisplayName(user)}
                 {guestBadge}
             </React.Fragment>

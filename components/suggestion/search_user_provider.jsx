@@ -42,7 +42,7 @@ class SearchUserSuggestion extends Suggestion {
                 <Avatar
                     size='xs'
                     username={username}
-                    src={Utils.imageURLForUser(item)}
+                    url={Utils.imageURLForUser(item)}
                 />
                 <div className='mention--align'>
                     <span>
