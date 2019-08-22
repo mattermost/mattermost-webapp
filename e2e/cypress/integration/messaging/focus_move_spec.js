@@ -85,7 +85,7 @@ describe('Messaging', () => {
         cy.get('#reply_textbox').focus().should('be.focused');
 
         //# Use CTRL+K or CMD+K to open the channel switcher depending on OS
-        cy.typeCmdOrCtrl().type('K', { release: true });
+        cy.typeCmdOrCtrl().type('K', {release: true});
 
         //* Verify channel switcher is visible
         cy.get('#quickSwitchHint').should('be.visible');
