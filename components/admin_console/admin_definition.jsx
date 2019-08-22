@@ -48,7 +48,6 @@ import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 
 import * as DefinitionConstants from './admin_definition_constants';
-import {getAdminDefinitionPlugins, setAdminDefinitionCache, getAdminDefinitionCache} from './admin_definition_plugins';
 
 const FILE_STORAGE_DRIVER_LOCAL = 'local';
 const FILE_STORAGE_DRIVER_S3 = 'amazons3';
@@ -4310,15 +4309,4 @@ t('admin.field_names.restrictCreationToDomains');
 t('admin.field_names.restrictDirectMessage');
 t('admin.field_names.teammateNameDisplay');
 
-export default function getAdminDefinition() {
-    const cache = getAdminDefinitionCache();
-    if (cache === null) {
-        let result = cloneDeep(AdminDefinition);
-        for (const pluginFunc of Object.values(getAdminDefinitionPlugins())) {
-            result = pluginFunc(result);
-        }
-        setAdminDefinitionCache(result);
-        return result;
-    }
-    return cache;
-}
+export default AdminDefinition;

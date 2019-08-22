@@ -15,12 +15,12 @@ import SchemaAdminSettings from 'components/admin_console/schema_admin_settings'
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
 import AdminSidebar from './admin_sidebar';
-import getAdminDefinition from './admin_definition';
 import Highlight from './highlight';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
         config: PropTypes.object.isRequired,
+        adminDefinition: PropTypes.object.isRequired,
         environmentConfig: PropTypes.object,
         license: PropTypes.object.isRequired,
         buildEnterpriseReady: PropTypes.bool,
@@ -72,7 +72,7 @@ export default class AdminConsole extends React.Component {
     }
 
     renderRoutes = (extraProps) => {
-        const schemas = Object.values(getAdminDefinition()).reduce((acc, section) => {
+        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section) => {
             const items = Object.values(section).filter((item) => {
                 if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                     return false;

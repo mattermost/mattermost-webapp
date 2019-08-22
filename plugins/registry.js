@@ -21,8 +21,6 @@ import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {generateId} from 'utils/utils.jsx';
 
-import {unregisterAdminConsolePlugin, registerAdminConsolePlugin} from 'components/admin_console/admin_definition_plugins.jsx';
-
 function dispatchPluginComponentAction(name, pluginId, component, id = generateId()) {
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
@@ -448,13 +446,24 @@ export default class PluginRegistry {
     // Each plugin can only register a function, if the plugin register
     // multiple functions the last one will be used.
     registerAdminConsolePlugin(func) {
-        registerAdminConsolePlugin(this.id, func);
+        store.dispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId: this.id,
+                reducer: func,
+            },
+        });
     }
 
     // Unregister a previously registered admin console definition override function.
     // Returns undefined.
     unregisterAdminConsolePlugin() {
-        unregisterAdminConsolePlugin(this.id);
+        store.dispatch({
+            type: ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId: this.id,
+            },
+        });
     }
 
     // Register a Right-Hand Sidebar component by providing a title for the right hand component.
