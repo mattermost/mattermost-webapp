@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
 
 import menuItem from './menu_item.jsx';
 
-export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id}) => (
+export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, isDangerous}) => (
     <button
         id={id}
         aria-label={ariaLabel}
-        className={'style--none' + (extraText ? ' MenuItem__help' : '')}
+        className={'style--none' + (extraText ? ' MenuItem__help' : '') + (isDangerous ? ' MenuItem__dangerous' : '')}
         onClick={onClick}
     >
         {text}
@@ -23,6 +23,7 @@ MenuItemActionImpl.propTypes = {
     text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     extraText: PropTypes.string,
     id: PropTypes.string,
+    isDangerous: PropTypes.boolean,
 };
 
 const MenuItemAction = menuItem(MenuItemActionImpl);
