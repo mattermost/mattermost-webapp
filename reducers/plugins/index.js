@@ -256,7 +256,7 @@ export default combineReducers({
     // an object that contains a plugin id
     postCardTypes,
 
-    // object where every key is a post type and the values are components wrapped in an
-    // an object that contains a plugin id
+    // object where every key is a plugin id and the value is a function that
+    // modifies the admin console definition data structure
     adminConsoleReducers,
 });
