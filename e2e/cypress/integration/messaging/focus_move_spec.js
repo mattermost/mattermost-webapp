@@ -90,17 +90,11 @@ describe('Messaging', () => {
         //* Verify channel switcher is visible
         cy.get('#quickSwitchHint').should('be.visible');
 
-        //# Type channel name 'sint'
-        cy.get('#quickSwitchInput').type('sint');
+        //# Type channel name 'Off-Topic' and select it
+        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.TINY).type('{enter}');
 
-        //# Wait 500 ms
-        cy.wait(TIMEOUTS.TINY);
-
-        //# Press Enter to select the channel
-        cy.get('#quickSwitchInput').type('{enter}');
-
-        //* Verify that it redirected into selected channel 'sint'
-        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'sint');
+        //* Verify that it redirected into selected channel 'Off-Topic'
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
 
         //* Verify focus is moved to main input box when the channel is opened
         cy.get('#post_textbox').should('be.focused');
