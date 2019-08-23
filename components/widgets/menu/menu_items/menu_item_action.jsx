@@ -23,7 +23,7 @@ MenuItemActionImpl.propTypes = {
     text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     extraText: PropTypes.string,
     id: PropTypes.string,
-    isDangerous: PropTypes.boolean,
+    isDangerous: PropTypes.bool,
 };
 
 const MenuItemAction = menuItem(MenuItemActionImpl);

@@ -272,6 +272,11 @@ export default class DotMenu extends Component {
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <MenuGroup>
+                        <MenuItemAction
+                            show={!isSystemMessage && this.props.location === Locations.CENTER}
+                            text={Utils.localizeMessage('post_info.reply', 'Reply')}
+                            onClick={this.props.handleCommentClick}
+                        />
                         <ChannelPermissionGate
                             channelId={this.props.post.channel_id}
                             teamId={this.props.teamId}
@@ -284,15 +289,15 @@ export default class DotMenu extends Component {
                             />
                         </ChannelPermissionGate>
                         <MenuItemAction
-                            show={!isSystemMessage && this.props.location === Locations.CENTER}
-                            text={Utils.localizeMessage('post_info.reply', 'Reply')}
-                            onClick={this.props.handleCommentClick}
-                        />
-                        <MenuItemAction
                             id={`unread_post_${this.props.post.id}`}
                             show={!isSystemMessage && this.props.location === Locations.CENTER}
                             text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                             onClick={this.handleUnreadMenuItemActivated}
+                        />
+                        <MenuItemAction
+                            show={!isSystemMessage}
+                            text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
+                            onClick={this.handlePermalinkMenuItemActivated}
                         />
                         <MenuItemAction
                             show={isMobile && !isSystemMessage && this.props.isFlagged}
@@ -303,11 +308,6 @@ export default class DotMenu extends Component {
                             show={isMobile && !isSystemMessage && !this.props.isFlagged}
                             text={Utils.localizeMessage('rhs_root.mobile.flag', 'Flag')}
                             onClick={this.handleFlagMenuItemActivated}
-                        />
-                        <MenuItemAction
-                            show={!isSystemMessage}
-                            text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
-                            onClick={this.handlePermalinkMenuItemActivated}
                         />
                         <MenuItemAction
                             id={`unpin_post_${this.props.post.id}`}
