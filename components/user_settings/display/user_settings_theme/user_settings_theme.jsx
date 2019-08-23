@@ -259,16 +259,16 @@ export default class ThemeSetting extends React.Component {
                         key='importSlackThemeButton'
                         className='padding-top'
                     >
-                        <a
+                        <button
                             id='slackImportTheme'
-                            className='theme'
+                            className='theme style--none color--link'
                             onClick={this.handleImportModal}
                         >
                             <FormattedMessage
                                 id='user.settings.display.theme.import'
                                 defaultMessage='Import theme colors from Slack'
                             />
-                        </a>
+                        </button>
                     </div>
                 );
             }

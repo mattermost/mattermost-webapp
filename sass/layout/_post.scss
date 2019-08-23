@@ -69,7 +69,7 @@
 
 .help__format-text {
     @include opacity(0);
-    @include single-transition(all, .5s, ease, .5s);
+    @include single-transition(all, .3s, ease-in, .3s);
     display: inline-block;
     font-size: .85em;
     vertical-align: bottom;
@@ -1636,6 +1636,7 @@
 
         .post-reaction-list {
             display: flex;
+            flex-wrap: wrap;
             padding: 4px 0 0;
             align-items: center;
             min-height: 30px;

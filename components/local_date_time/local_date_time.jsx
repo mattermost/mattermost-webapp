@@ -53,6 +53,7 @@ export default class LocalDateTime extends React.PureComponent {
 
         return (
             <time
+                aria-label={date}
                 className='post__time'
                 dateTime={date.toISOString()}
                 title={title}

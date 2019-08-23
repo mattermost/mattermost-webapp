@@ -6,7 +6,21 @@ import React from 'react';
 
 import {isMobile} from 'utils/utils';
 
+import MenuGroup from './menu_group';
+import MenuItemAction from './menu_items/menu_item_action';
+import MenuItemBlockableLink from './menu_items/menu_item_blockable_link';
+import MenuItemExternalLink from './menu_items/menu_item_external_link';
+import MenuItemLink from './menu_items/menu_item_link';
+import MenuItemToggleModalRedux from './menu_items/menu_item_toggle_modal_redux';
+
 export default class Menu extends React.PureComponent {
+    static Group = MenuGroup
+    static ItemAction = MenuItemAction
+    static ItemBlockableLink = MenuItemBlockableLink
+    static ItemExternalLink = MenuItemExternalLink
+    static ItemLink = MenuItemLink
+    static ItemToggleModalRedux = MenuItemToggleModalRedux
+
     static propTypes = {
         children: PropTypes.node,
         openLeft: PropTypes.bool,
@@ -19,6 +33,46 @@ export default class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
         this.node = React.createRef();
+    }
+
+    hideUnneededDividers = () => {
+        if (this.node.current === null) {
+            return;
+        }
+
+        const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length);
+
+        // Hiding dividers at beginning and duplicated ones
+        let prevWasDivider = false;
+        let isAtBeginning = true;
+        for (const child of children) {
+            if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
+                if (isAtBeginning || prevWasDivider) {
+                    child.style.display = 'none';
+                }
+                prevWasDivider = true;
+            } else {
+                isAtBeginning = false;
+                prevWasDivider = false;
+            }
+        }
+
+        // Hiding trailing dividers
+        for (const child of children.reverse()) {
+            if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
+                child.style.display = 'none';
+            } else {
+                break;
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.hideUnneededDividers();
+    }
+
+    componentDidUpdate() {
+        this.hideUnneededDividers();
     }
 
     // Used from DotMenu component to know in which direction show the menu

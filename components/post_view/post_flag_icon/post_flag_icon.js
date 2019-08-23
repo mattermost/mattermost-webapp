@@ -6,8 +6,8 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import FlagIcon from 'components/svg/flag_icon';
-import FlagIconFilled from 'components/svg/flag_icon_filled';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';

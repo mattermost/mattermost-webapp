@@ -68,6 +68,61 @@ exports[`PostBodyAdditionalContent with a message attachment should render corre
 </div>
 `;
 
+exports[`PostBodyAdditionalContent with a normal link Should render nothing if the plugin matches but isEmbedVisible is false 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with a normal link Should render nothing if the registered plugins don't match 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with a normal link Should render the plugin component if it matches and is not toggeable 1`] = `
+<div>
+  <span>
+    some children
+  </span>
+  <EmbedMP3
+    embed={
+      Object {
+        "type": "link",
+        "url": "https://example.com/song.mp3",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`PostBodyAdditionalContent with a normal link Should render the plugin component if it matches and is toggeable 1`] = `
+<div>
+  <button
+    aria-label="Toggle Embed Visibility"
+    className="style--none post__embed-visibility color--link pull-left"
+    data-expanded={true}
+    key="toggle"
+    onClick={[Function]}
+  />
+  <span>
+    some children
+  </span>
+  <EmbedMP3
+    embed={
+      Object {
+        "type": "link",
+        "url": "https://example.com/song.mp3",
+      }
+    }
+  />
+</div>
+`;
+
 exports[`PostBodyAdditionalContent with an image preview should render correctly 1`] = `
 <div>
   <button
@@ -80,7 +135,7 @@ exports[`PostBodyAdditionalContent with an image preview should render correctly
   <span>
     some children
   </span>
-  <Connect(PostImage)
+  <PostImage
     imageMetadata={Object {}}
     link="https://example.com/image.png"
     post={
@@ -119,7 +174,7 @@ exports[`PostBodyAdditionalContent with an image preview should render the toggl
     key="toggle"
     onClick={[Function]}
   />
-  <Connect(PostImage)
+  <PostImage
     imageMetadata={Object {}}
     link="https://example.com/image.png"
     post={

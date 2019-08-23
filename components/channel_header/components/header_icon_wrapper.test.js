@@ -4,10 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FlagIcon from 'components/svg/flag_icon';
-import MentionsIcon from 'components/svg/mentions_icon';
-import PinIcon from 'components/svg/pin_icon';
-import SearchIcon from 'components/svg/search_icon';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+import MentionsIcon from 'components/widgets/icons/mentions_icon';
+import PinIcon from 'components/widgets/icons/pin_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 
