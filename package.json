@@ -59,6 +59,7 @@
     "redux": "4.0.4",
     "redux-batched-actions": "0.4.1",
     "redux-persist": "4.10.2",
+    "regenerator-runtime": "^0.13.3",
     "reselect": "4.0.0",
     "superagent": "5.1.0",
     "xregexp": "4.2.4",
