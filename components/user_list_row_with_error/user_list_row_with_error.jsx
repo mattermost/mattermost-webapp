@@ -114,8 +114,7 @@ export default class UserListRowWithError extends React.Component {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__right'>
                     <div className='more-modal__top'>

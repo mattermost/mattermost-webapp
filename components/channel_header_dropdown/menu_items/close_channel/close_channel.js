@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import {localizeMessage} from 'utils/utils';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import Menu from 'components/widgets/menu/menu';
 
 export default class CloseChannel extends React.PureComponent {
     static propTypes = {
@@ -22,7 +22,7 @@ export default class CloseChannel extends React.PureComponent {
 
     render() {
         return (
-            <MenuItemAction
+            <Menu.ItemAction
                 show={this.props.isArchived}
                 onClick={this.handleClose}
                 text={localizeMessage('center_panel.archived.closeChannel', 'Close Channel')}

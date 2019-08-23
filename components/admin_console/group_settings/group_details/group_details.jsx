@@ -18,7 +18,6 @@ import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -154,11 +153,11 @@ export default class GroupDetails extends React.PureComponent {
                                             <i className={'fa fa-caret-down'}/>
                                         </button>
                                         <Menu ariaLabel={localizeMessage('admin.group_settings.group_details.menuAriaLabel', 'Add Team or Channel Menu')}>
-                                            <MenuItemAction
+                                            <Menu.ItemAction
                                                 onClick={this.openAddTeam}
                                                 text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
                                             />
-                                            <MenuItemAction
+                                            <Menu.ItemAction
                                                 onClick={this.openAddChannel}
                                                 text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
                                             />

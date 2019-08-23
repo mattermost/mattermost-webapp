@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import Menu from 'components/widgets/menu/menu';
 
 import LeaveChannel from './leave_channel';
 
@@ -63,7 +63,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
         const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
         const wrapper = shallow(<LeaveChannel {...props}/>);
 
-        wrapper.find(MenuItemAction).simulate('click', {
+        wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).toHaveBeenCalledWith(props.channel.id);
@@ -71,7 +71,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
 
         props.channel.type = Constants.PRIVATE_CHANNEL;
         props.actions.leaveChannel = jest.fn();
-        wrapper.find(MenuItemAction).simulate('click', {
+        wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).not.toHaveBeenCalled();

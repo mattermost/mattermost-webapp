@@ -69,9 +69,15 @@ const loadedPlugins = {};
 export function loadPlugin(manifest) {
     return new Promise((resolve, reject) => {
         // Don't load it again if previously loaded
-        if (loadedPlugins[manifest.id]) {
+        const oldManifest = loadedPlugins[manifest.id];
+        if (oldManifest && oldManifest.webapp.bundle_path === manifest.webapp.bundle_path) {
             resolve();
             return;
+        }
+
+        if (oldManifest) {
+            // upgrading, perform cleanup
+            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
         }
 
         function onLoad() {
@@ -100,7 +106,7 @@ export function loadPlugin(manifest) {
         script.onerror = onError;
 
         document.getElementsByTagName('head')[0].appendChild(script);
-        loadedPlugins[manifest.id] = true;
+        loadedPlugins[manifest.id] = manifest;
     });
 }
 
@@ -119,9 +125,14 @@ function initializePlugin(manifest) {
 // event handlers, and removes the plugin script from the DOM entirely. The plugin is responsible
 // for removing any of its registered components.
 export function removePlugin(manifest) {
+    if (!loadedPlugins[manifest.id]) {
+        return;
+    }
     console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 
-    loadedPlugins[manifest.id] = false;
+    delete loadedPlugins[manifest.id];
+
+    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
 
     const plugin = window.plugins[manifest.id];
     if (plugin && plugin.uninitialize) {
