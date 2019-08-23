@@ -17,7 +17,7 @@ import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import EditIcon from 'components/icon/edit_icon';
+import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import InvitationModal from 'components/invitation_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';

@@ -12,7 +12,7 @@ import {Locations} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import EmojiIcon from 'components/svg/emoji_icon';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 
 const TOP_OFFSET = -7;

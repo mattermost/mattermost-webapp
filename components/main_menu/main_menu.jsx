@@ -16,7 +16,7 @@ import InvitationModal from 'components/invitation_modal';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
-import LeaveTeamIcon from 'components/svg/leave_team_icon';
+import LeaveTeamIcon from 'components/widgets/icons/leave_team_icon';
 
 import LeaveTeamModal from 'components/leave_team_modal';
 import UserSettingsModal from 'components/user_settings/modal';

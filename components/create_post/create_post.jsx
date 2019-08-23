@@ -29,7 +29,7 @@ import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
-import EmojiIcon from 'components/svg/emoji_icon';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import TutorialTip from 'components/tutorial/tutorial_tip';
