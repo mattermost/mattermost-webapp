@@ -121,6 +121,10 @@
 #user-profile-popover .user-popover__username:only-child > a{
     max-width: 100%;
 }
+#user-profile-popover .Avatar {
+    margin: 5px auto;
+    display: block;
+}
 
 .user-popover__role {
     padding: 3px 5px;
@@ -132,11 +136,6 @@
     color: $white;
 }
 
-.user-popover__image {
-    @include border-radius(128px);
-    margin: 5px auto;
-    display: block;
-}
 
 .user-popover__email {
     display: block;
@@ -229,11 +228,9 @@
             position: relative;
         }
 
-        .profile-img {
-            height: 16px;
+        .Avatar {
             margin-right: 6px;
             margin-top: -1px;
-            width: 16px;
         }
     }
 

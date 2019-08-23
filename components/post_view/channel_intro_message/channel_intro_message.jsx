@@ -79,8 +79,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
                 <ProfilePicture
                     key={'introprofilepicture' + profile.id}
                     src={Utils.imageURLForUser(profile)}
-                    width='50'
-                    height='50'
+                    size='xl'
                     userId={profile.id}
                     username={profile.username}
                 />
@@ -141,8 +140,7 @@ function createDMIntroMessage(channel, centeredIntro) {
                 <div className='post-profile-img__container channel-intro-img'>
                     <ProfilePicture
                         src={Utils.imageURLForUser(teammate)}
-                        width='50'
-                        height='50'
+                        size='xl'
                         userId={teammate.id}
                         username={teammate.username}
                         hasMention={true}
