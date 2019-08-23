@@ -34,8 +34,8 @@ export default class Menu extends React.PureComponent {
         let prevWasDivider = false;
         let isAtBeginning = true;
         for (const child of children) {
-            child.style.display = 'block';
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
+                child.style.display = 'block';
                 if (isAtBeginning || prevWasDivider) {
                     child.style.display = 'none';
                 }
