@@ -306,7 +306,7 @@ export default class MainMenu extends React.PureComponent {
                             modalId={ModalIdentifiers.INTEGRATIONS_MARKETPLACE}
                             show={!this.props.mobile} // WIP: Add new config that enableMarketplace
                             dialogType={MarketplaceModal}
-                            text={localizeMessage('navbar_dropdown.marketplace', 'Plugins')}
+                            text={localizeMessage('navbar_dropdown.marketplace', 'Plugins Marketplace')}
                         />
                     </TeamPermissionGate>
                     <MenuItemLink
