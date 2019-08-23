@@ -654,7 +654,8 @@ export default class SuggestionBox extends React.Component {
                 <div
                     ref={this.suggestionReadOut}
                     aria-live='polite'
-                    className='hidden-label'
+                    role='alert'
+                    className='sr-only'
                 />
                 <QuickInput
                     ref='input'
