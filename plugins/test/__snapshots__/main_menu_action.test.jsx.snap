@@ -220,7 +220,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         id="marketplaceModal"
         modalId="integrations_marketplace"
         show={true}
-        text="Plugins"
+        text="Plugins Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
