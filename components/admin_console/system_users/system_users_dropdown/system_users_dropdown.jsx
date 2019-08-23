@@ -444,7 +444,6 @@ export default class SystemUsersDropdown extends React.PureComponent {
                             disabled={disableActivationToggle}
                         />
                         <MenuItemAction
-                            show={!isGuest}
                             onClick={this.handleManageRoles}
                             text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
                         />
@@ -474,19 +473,9 @@ export default class SystemUsersDropdown extends React.PureComponent {
                             text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
                         />
                         <MenuItemAction
-                            show={!user.auth_service && user.id !== currentUser.id}
+                            show={!user.auth_service && user.id !== this.props.currentUser.id}
                             onClick={this.handleResetEmail}
                             text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
-                        />
-                        <MenuItemAction
-                            show={isGuest}
-                            onClick={this.handlePromoteToUser}
-                            text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
-                        />
-                        <MenuItemAction
-                            show={!isGuest && user.id !== currentUser.id}
-                            onClick={this.handleDemoteToGuest}
-                            text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
                         />
                         <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
                             <MenuItemAction
