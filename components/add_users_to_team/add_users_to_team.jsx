@@ -144,7 +144,7 @@ export default class AddUsersToTeam extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInTeam(this.props.currentTeamId, this.props.currentTeamGroupConstrained, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
