@@ -29,6 +29,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
@@ -87,7 +88,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         renderNoResults={false}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
-        role="application"
         tabIndex="0"
         type="search"
         value="test"
@@ -163,6 +163,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
@@ -221,7 +222,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         renderNoResults={false}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
-        role="application"
         tabIndex="0"
         type="search"
         value=""
@@ -270,6 +270,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
@@ -328,7 +329,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         renderNoResults={false}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
-        role="application"
         tabIndex="0"
         type="search"
         value=""
@@ -377,6 +377,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
@@ -435,7 +436,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         renderNoResults={false}
         replaceAllInputOnSelect={false}
         requiredCharacters={1}
-        role="application"
         tabIndex="0"
         type="search"
         value=""
