@@ -235,7 +235,7 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 showPreview={this.state.preview}
                                 ref={this.setTextboxLinksRef}
                                 updatePreview={this.updatePreview}
-                                message={this.state.editText}
+                                message={this.state.header}
                             />
                         </div>
                         <br/>
