@@ -49,7 +49,7 @@ export default class MarketplaceItem extends React.Component {
             this.setState({
                 confirmOverwriteInstallModal: false,
                 downloading: false,
-                serverError: null, // WIP: Error message handling
+                serverError: null,
             });
         }
 
@@ -63,11 +63,11 @@ export default class MarketplaceItem extends React.Component {
                 }
 
                 this.setState({
-                    installing: false,
+                    downloading: false,
                 });
 
                 if (error.server_error_id === 'app.plugin.extract.app_error') {
-                    this.setState({serverError: localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin. Review your plugin file content and try again.')});
+                    this.setState({serverError: localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin.')});
                 } else {
                     this.setState({serverError: error.message});
                 }
@@ -76,7 +76,6 @@ export default class MarketplaceItem extends React.Component {
 
             this.setState({
                 itemState: MarketplaceItemStates.CONFIGURE,
-                downloading: false,
                 serverError: null,
             });
         }
@@ -105,10 +104,16 @@ export default class MarketplaceItem extends React.Component {
                             loading={this.state.downloading}
                             text={localizeMessage('marketplace_modal.downloading', 'Downloading...')}
                         >
-                            <FormattedMessage
-                                id='marketplace_modal.list.download'
-                                defaultMessage='Download'
-                            />
+                            {this.state.serverError ?
+                                <FormattedMessage
+                                    id='marketplace_modal.list.try_again'
+                                    defaultMessage='Try Again'
+                                /> :
+                                <FormattedMessage
+                                    id='marketplace_modal.list.download'
+                                    defaultMessage='Download'
+                                />
+                            }
                         </LoadingWrapper>
 
                     </button>);
@@ -133,7 +138,7 @@ export default class MarketplaceItem extends React.Component {
 
             return (
                 <div
-                    className='more-modal__row'
+                    className={'more-modal__row' + (this.state.serverError ? ' item_error' : '')}
                     key={this.props.id}
                 >
                     <PluginIcon className='icon__plugin'/>
@@ -146,8 +151,8 @@ export default class MarketplaceItem extends React.Component {
                         >
                             {this.props.name} <span className='light subtitle'>{versionLabel}</span>
                         </button>
-                        <p className='more-modal__description'>
-                            {this.props.description}
+                        <p className={'more-modal__description' + (this.state.serverError ? ' error_text' : '')}>
+                            { this.state.serverError ? this.state.serverError : this.props.description}
                         </p>
                     </div>
                     <div className='more-modal__actions'>

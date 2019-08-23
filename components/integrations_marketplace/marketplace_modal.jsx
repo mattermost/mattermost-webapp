@@ -107,7 +107,7 @@ export default class MarketplaceModal extends React.Component {
                         <h1>
                             <FormattedMessage
                                 id='marketplace_modal.title'
-                                defaultMessage='Plugins'
+                                defaultMessage='Plugins Marketplace'
                             />
                         </h1>
                         {input}

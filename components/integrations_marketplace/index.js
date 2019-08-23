@@ -29,7 +29,7 @@ const plugin1 = {
 };
 
 const plugin2 = {
-    download_url: 'https://github.com/matterpoll/matterpoll/releases/download/v1.1.0/com.github.matterpoll.matterpoll-1.1.0.tar.gz',
+    download_url: 'https://github.com/matterpsdfoll/matterpoll/releases/download/v1.1.0/com.github.matterpoll.matterpoll-1.1.0.tar.gz',
     icon_url: 'https://integrations.mattermost.com/wp-content/uploads/2019/01/icon@2x.jpg',
     manifest: {
         id: 'com.github.matterpoll.matterpoll',
