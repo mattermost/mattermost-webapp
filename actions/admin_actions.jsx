@@ -171,24 +171,6 @@ export async function deleteBrandImage(success, error) {
     }
 }
 
-export async function uploadLicenseFile(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadLicense(file)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function removeLicenseFile(success, error) {
-    const {data, error: err} = await AdminActions.removeLicense()(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function uploadPublicSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadPublicSamlCertificate(file)(dispatch, getState);
     if (data && success) {

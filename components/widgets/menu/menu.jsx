@@ -6,7 +6,21 @@ import React from 'react';
 
 import {isMobile} from 'utils/utils';
 
+import MenuGroup from './menu_group';
+import MenuItemAction from './menu_items/menu_item_action';
+import MenuItemBlockableLink from './menu_items/menu_item_blockable_link';
+import MenuItemExternalLink from './menu_items/menu_item_external_link';
+import MenuItemLink from './menu_items/menu_item_link';
+import MenuItemToggleModalRedux from './menu_items/menu_item_toggle_modal_redux';
+
 export default class Menu extends React.PureComponent {
+    static Group = MenuGroup
+    static ItemAction = MenuItemAction
+    static ItemBlockableLink = MenuItemBlockableLink
+    static ItemExternalLink = MenuItemExternalLink
+    static ItemLink = MenuItemLink
+    static ItemToggleModalRedux = MenuItemToggleModalRedux
+
     static propTypes = {
         children: PropTypes.node,
         openLeft: PropTypes.bool,
