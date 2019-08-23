@@ -23,6 +23,11 @@ function promoteGuestToUser(user) {
 
 describe('Channel header menu', () => {
     before(() => {
+        cy.apiUpdateConfig({
+            GuestAccountsSettings: {
+                Enable: true,
+            },
+        });
         cy.loginAsNewUser().as('newuser');
     });
 
