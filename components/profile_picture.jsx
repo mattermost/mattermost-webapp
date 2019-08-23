@@ -8,6 +8,8 @@ import {OverlayTrigger} from 'react-bootstrap';
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
 
+import './profile_picture.scss';
+
 export default class ProfilePicture extends React.PureComponent {
     static defaultProps = {
         width: '36',
@@ -15,7 +17,6 @@ export default class ProfilePicture extends React.PureComponent {
         isRHS: false,
         isEmoji: false,
         hasMention: false,
-        wrapperClass: '',
     };
 
     static propTypes = {
@@ -64,10 +65,10 @@ export default class ProfilePicture extends React.PureComponent {
                         />
                     }
                 >
-                    <span className={`status-wrapper ${this.props.wrapperClass}`}>
+                    <span className='status-wrapper'>
                         <span className={profileIconClass}>
                             <img
-                                className='more-modal__image'
+                                className='ProfilePicture more-modal__image'
                                 alt={`${this.props.username || 'user'} profile image`}
                                 width={this.props.width}
                                 height={this.props.width}
