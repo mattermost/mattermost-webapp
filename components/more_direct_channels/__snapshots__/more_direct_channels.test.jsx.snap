@@ -13,7 +13,6 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
     src="/api/v4/users/user_id_1/image"
     status="online"
     width="32"
-    wrapperClass=""
   />
   <div
     className="more-modal__details"
