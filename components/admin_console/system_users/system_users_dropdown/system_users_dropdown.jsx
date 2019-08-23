@@ -559,78 +559,76 @@ export default class SystemUsersDropdown extends React.PureComponent {
                         </a>
                         {this.renderAccessToken()}
                     </div>
-                    <div>
-                        <Menu
-                            openLeft={true}
-                            openUp={openUp}
-                            ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
-                        >
+                    <Menu
+                        openLeft={true}
+                        openUp={openUp}
+                        ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
+                    >
+                        <MenuItemAction
+                            show={showMakeActive}
+                            onClick={this.handleMakeActive}
+                            text={Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
+                            disabled={disableActivationToggle}
+                        />
+                        <MenuItemAction
+                            show={showMakeNotActive}
+                            onClick={this.handleShowDeactivateMemberModal}
+                            text={Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
+                            disabled={disableActivationToggle}
+                        />
+                        <MenuItemAction
+                            show={!isGuest}
+                            onClick={this.handleManageRoles}
+                            text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
+                        />
+                        <MenuItemAction
+                            show={showManageTeams}
+                            onClick={this.handleManageTeams}
+                            text={Utils.localizeMessage('admin.user_item.manageTeams', 'Manage Teams')}
+                        />
+                        <MenuItemAction
+                            show={this.props.enableUserAccessTokens}
+                            onClick={this.handleManageTokens}
+                            text={Utils.localizeMessage('admin.user_item.manageTokens', 'Manage Tokens')}
+                        />
+                        <MenuItemAction
+                            show={showMfaReset}
+                            onClick={this.handleResetMfa}
+                            text={Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
+                        />
+                        <MenuItemAction
+                            show={Boolean(user.auth_service) && this.props.experimentalEnableAuthenticationTransfer}
+                            onClick={this.handleResetPassword}
+                            text={Utils.localizeMessage('admin.user_item.switchToEmail', 'Switch to Email/Password')}
+                        />
+                        <MenuItemAction
+                            show={!user.auth_service}
+                            onClick={this.handleResetPassword}
+                            text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
+                        />
+                        <MenuItemAction
+                            show={!user.auth_service && user.id !== currentUser.id}
+                            onClick={this.handleResetEmail}
+                            text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
+                        />
+                        <MenuItemAction
+                            show={isGuest}
+                            onClick={this.handlePromoteToUser}
+                            text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
+                        />
+                        <MenuItemAction
+                            show={!isGuest && user.id !== currentUser.id}
+                            onClick={this.handleDemoteToGuest}
+                            text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
+                        />
+                        <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
                             <MenuItemAction
-                                show={showMakeActive}
-                                onClick={this.handleMakeActive}
-                                text={Utils.localizeMessage('admin.user_item.makeActive', 'Activate')}
-                                disabled={disableActivationToggle}
+                                show={showRevokeSessions}
+                                onClick={this.handleShowRevokeSessionsModal}
+                                text={Utils.localizeMessage('admin.user_item.revokeSessions', 'Revoke Sessions')}
                             />
-                            <MenuItemAction
-                                show={showMakeNotActive}
-                                onClick={this.handleShowDeactivateMemberModal}
-                                text={Utils.localizeMessage('admin.user_item.makeInactive', 'Deactivate')}
-                                disabled={disableActivationToggle}
-                            />
-                            <MenuItemAction
-                                show={!isGuest}
-                                onClick={this.handleManageRoles}
-                                text={Utils.localizeMessage('admin.user_item.manageRoles', 'Manage Roles')}
-                            />
-                            <MenuItemAction
-                                show={showManageTeams}
-                                onClick={this.handleManageTeams}
-                                text={Utils.localizeMessage('admin.user_item.manageTeams', 'Manage Teams')}
-                            />
-                            <MenuItemAction
-                                show={this.props.enableUserAccessTokens}
-                                onClick={this.handleManageTokens}
-                                text={Utils.localizeMessage('admin.user_item.manageTokens', 'Manage Tokens')}
-                            />
-                            <MenuItemAction
-                                show={showMfaReset}
-                                onClick={this.handleResetMfa}
-                                text={Utils.localizeMessage('admin.user_item.resetMfa', 'Remove MFA')}
-                            />
-                            <MenuItemAction
-                                show={Boolean(user.auth_service) && this.props.experimentalEnableAuthenticationTransfer}
-                                onClick={this.handleResetPassword}
-                                text={Utils.localizeMessage('admin.user_item.switchToEmail', 'Switch to Email/Password')}
-                            />
-                            <MenuItemAction
-                                show={!user.auth_service}
-                                onClick={this.handleResetPassword}
-                                text={Utils.localizeMessage('admin.user_item.resetPwd', 'Reset Password')}
-                            />
-                            <MenuItemAction
-                                show={!user.auth_service && user.id !== currentUser.id}
-                                onClick={this.handleResetEmail}
-                                text={Utils.localizeMessage('admin.user_item.resetEmail', 'Update Email')}
-                            />
-                            <MenuItemAction
-                                show={isGuest}
-                                onClick={this.handlePromoteToUser}
-                                text={Utils.localizeMessage('admin.user_item.promoteToUser', 'Promote to User')}
-                            />
-                            <MenuItemAction
-                                show={!isGuest && user.id !== currentUser.id}
-                                onClick={this.handleDemoteToGuest}
-                                text={Utils.localizeMessage('admin.user_item.demoteToGuest', 'Demote to Guest')}
-                            />
-                            <SystemPermissionGate permissions={[Permissions.REVOKE_USER_ACCESS_TOKEN]}>
-                                <MenuItemAction
-                                    show={showRevokeSessions}
-                                    onClick={this.handleShowRevokeSessionsModal}
-                                    text={Utils.localizeMessage('admin.user_item.revokeSessions', 'Revoke Sessions')}
-                                />
-                            </SystemPermissionGate>
-                        </Menu>
-                    </div>
+                        </SystemPermissionGate>
+                    </Menu>
                 </MenuWrapper>
             </React.Fragment>
         );
