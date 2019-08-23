@@ -332,8 +332,7 @@ export default class MoreDirectChannels extends React.Component {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div
                     className='more-modal__details'

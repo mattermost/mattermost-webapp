@@ -10,6 +10,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon.jsx';
 
+import Avatar from 'components/widgets/users/avatar';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MenuGroup from 'components/widgets/menu/menu_group';
@@ -80,10 +81,9 @@ export default class StatusDropdown extends React.Component {
             return null;
         }
         return (
-            <img
-                alt={''}
-                className='user__picture'
-                src={this.props.profilePicture}
+            <Avatar
+                size='lg'
+                url={this.props.profilePicture}
             />
         );
     }
