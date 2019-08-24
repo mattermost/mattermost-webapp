@@ -211,7 +211,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
         dialogType={[Function]}
         id="marketplaceModal"
         modalId="integrations_marketplace"
-        show={true}
+        show={false}
         text="Plugins Marketplace"
       />
     </Connect(TeamPermissionGate)>
@@ -498,7 +498,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         dialogType={[Function]}
         id="marketplaceModal"
         modalId="integrations_marketplace"
-        show={true}
+        show={false}
         text="Plugins Marketplace"
       />
     </Connect(TeamPermissionGate)>
@@ -1803,7 +1803,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         dialogType={[Function]}
         id="marketplaceModal"
         modalId="integrations_marketplace"
-        show={true}
+        show={false}
         text="Plugins Marketplace"
       />
     </Connect(TeamPermissionGate)>

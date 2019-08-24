@@ -53,6 +53,7 @@ export default class MainMenu extends React.PureComponent {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
         enableEmailInvitations: PropTypes.bool.isRequired,
+        enablePluginMarketplace: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
@@ -304,7 +305,7 @@ export default class MainMenu extends React.PureComponent {
                         <MenuItemToggleModalRedux
                             id='marketplaceModal'
                             modalId={ModalIdentifiers.INTEGRATIONS_MARKETPLACE}
-                            show={!this.props.mobile} // WIP: Add new config that enableMarketplace
+                            show={!this.props.mobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={localizeMessage('navbar_dropdown.marketplace', 'Plugins Marketplace')}
                         />
