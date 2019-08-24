@@ -6,7 +6,7 @@ import React from 'react';
 
 import {getYoutubeVideoInfo} from 'actions/integration_actions';
 
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils';

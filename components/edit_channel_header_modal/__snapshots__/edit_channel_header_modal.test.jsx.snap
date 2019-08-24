@@ -82,7 +82,7 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
       >
         <TextboxLinks
           characterLimit={1024}
-          message=""
+          message="Fake Channel"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -207,7 +207,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       >
         <TextboxLinks
           characterLimit={1024}
-          message=""
+          message="Fake Channel"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -342,7 +342,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       >
         <TextboxLinks
           characterLimit={1024}
-          message=""
+          message="Fake Channel"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -477,7 +477,7 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
       >
         <TextboxLinks
           characterLimit={1024}
-          message=""
+          message="Fake Channel"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -602,7 +602,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       >
         <TextboxLinks
           characterLimit={1024}
-          message=""
+          message="Fake Channel"
           showPreview={false}
           updatePreview={[Function]}
         />
@@ -727,7 +727,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       >
         <TextboxLinks
           characterLimit={1024}
-          message=""
+          message="Fake Channel"
           showPreview={false}
           updatePreview={[Function]}
         />
