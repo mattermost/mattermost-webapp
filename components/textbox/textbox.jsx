@@ -205,7 +205,6 @@ export default class Textbox extends React.Component {
                 <SuggestionBox
                     id={this.props.id}
                     ref='message'
-                    role='application'
                     className={textboxClassName}
                     spellCheck='true'
                     placeholder={this.props.createMessage}

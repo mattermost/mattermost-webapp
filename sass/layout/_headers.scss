@@ -637,11 +637,8 @@
             }
         }
 
-        .user__picture {
-            @include border-radius(36px);
+        .Avatar {
             float: left;
-            height: 36px;
-            width: 36px;
         }
 
         .header__info {

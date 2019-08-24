@@ -33,7 +33,7 @@ export default class InvitationModalConfirmStepTable extends React.Component {
                 <div className='rows'>
                     {this.props.invites.map((invitation) => (
                         <InvitationModalConfirmStepRow
-                            key={invitation.email || invitation.user.id}
+                            key={invitation.text || invitation.email || invitation.user.id}
                             invitation={invitation}
                         />
                     ))}

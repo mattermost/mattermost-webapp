@@ -17,7 +17,7 @@ import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 import Highlight from 'components/admin_console/highlight.jsx';
-import SearchIcon from 'components/svg/search_icon.jsx';
+import SearchIcon from 'components/widgets/icons/search_icon.jsx';
 
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {

@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import SuccessIcon from 'components/icon/success_icon';
+import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
 export default class GetLinkModal extends React.PureComponent {
     static propTypes = {
