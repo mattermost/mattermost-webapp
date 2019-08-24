@@ -133,7 +133,7 @@ export function removePlugin(manifest) {
     }
     unregisterAllPluginWebSocketEvents(manifest.id);
     unregisterPluginReconnectHandler(manifest.id);
-    PluginRegistry.unregisterAdminConsolePlugin(manifest.id);
+    new PluginRegistry(manifest.id).unregisterAdminConsolePlugin();
     const script = document.getElementById('plugin_' + manifest.id);
     if (!script) {
         return;
