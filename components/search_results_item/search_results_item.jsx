@@ -17,11 +17,11 @@ import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
-import ArchiveIcon from 'components/svg/archive_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';

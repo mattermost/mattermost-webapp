@@ -25,7 +25,7 @@ import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 

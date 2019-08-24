@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ScrollToBottomIcon from 'components/svg/scroll_to_bottom_icon';
+import ScrollToBottomIcon from 'components/widgets/icons/scroll_to_bottom_icon';
 
 export default class ScrollToBottomArrows extends React.PureComponent {
     static propTypes = {

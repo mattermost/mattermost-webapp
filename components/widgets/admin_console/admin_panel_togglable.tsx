@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AccordionToggleIcon from 'components/svg/accordion_toggle_icon.jsx';
+import AccordionToggleIcon from 'components/widgets/icons/accordion_toggle_icon.jsx';
 
 import AdminPanel from './admin_panel';
 

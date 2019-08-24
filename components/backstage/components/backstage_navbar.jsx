@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import BackIcon from 'components/icon/back_icon';
+import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 export default class BackstageNavbar extends React.Component {
     static get propTypes() {
