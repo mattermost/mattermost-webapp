@@ -7,7 +7,6 @@ import {Modal} from 'react-bootstrap';
 
 import MenuWrapper from '../../menu_wrapper';
 import Menu from '../../menu';
-import SubMenuItem from '../../menu_items/submenu_item';
 
 export default class SubMenuModal extends React.PureComponent {
     static propTypes = {
@@ -49,7 +48,7 @@ export default class SubMenuModal extends React.PureComponent {
                         >
                             {this.props.elements.map((element) => {
                                 return (
-                                    <SubMenuItem
+                                    <Menu.ItemSubMenu
                                         key={element.id}
                                         id={element.id}
                                         text={element.text}

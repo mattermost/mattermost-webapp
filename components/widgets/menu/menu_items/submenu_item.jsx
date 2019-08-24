@@ -102,12 +102,38 @@ export default class SubMenuItem extends React.PureComponent {
             );
         }
 
+        const hasSubmenu = subMenu && subMenu.length;
         const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width - 19 : 0;
-
         const subMenuStyle = {
-            visibility: this.state.show && subMenu && subMenu.length && !isMobile ? 'visible' : 'hidden',
+            visibility: this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden',
             right: (parseInt(xOffset, 10) - 1) + 'px',
         };
+
+        let subMenuContent = '';
+
+        if (!isMobile) {
+            subMenuContent = (
+                <ul
+                    className={'a11y__popup Menu dropdown-menu SubMenu'}
+                    style={subMenuStyle}
+                >
+                    {isMobile || !subMenu ? '' : subMenu.map((s) => {
+                        return (
+                            <SubMenuItem
+                                key={s.id}
+                                id={s.id}
+                                text={s.text}
+                                subMenu={s.subMenu}
+                                action={action}
+                                xOffset={parentWidth}
+                                aria-label={ariaLabel}
+                                root={false}
+                            />
+                        );
+                    })}
+                </ul>
+            );
+        }
 
         return (
             <li
@@ -124,30 +150,17 @@ export default class SubMenuItem extends React.PureComponent {
                     onClick={this.onClick}
                 >
                     <span
-                        id={'channelHeaderDropdownIcon_' + id}
-                        className={'fa fa-angle-left SubMenu__icon' + (subMenu && subMenu.length ? '' : '-empty')}
+                        id={'channelHeaderDropdownIconLeft_' + id}
+                        className={'fa fa-angle-left SubMenu__icon-left' + (hasSubmenu && !isMobile ? '' : '-empty' + (isMobile ? ' Mobile' : ''))}
                         aria-label='submenu icon'
                     />
                     {textProp}
-                    <ul
-                        className={'a11y__popup Menu dropdown-menu SubMenu'}
-                        style={subMenuStyle}
-                    >
-                        {isMobile || !subMenu ? '' : subMenu.map((s) => {
-                            return (
-                                <SubMenuItem
-                                    key={s.id}
-                                    id={s.id}
-                                    text={s.text}
-                                    subMenu={s.subMenu}
-                                    action={action}
-                                    xOffset={parentWidth}
-                                    aria-label={ariaLabel}
-                                    root={false}
-                                />
-                            );
-                        })}
-                    </ul>
+                    <span
+                        id={'channelHeaderDropdownIconRight_' + id}
+                        className={'fa fa-angle-right SubMenu__icon-right' + (hasSubmenu && isMobile ? '' : '-empty')}
+                        aria-label='submenu icon'
+                    />
+                    {subMenuContent}
                 </div>
             </li>
         );
