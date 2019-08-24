@@ -9,7 +9,7 @@ import ComplianceReports from 'components/admin_console/compliance_reports';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import ReloadIcon from 'components/icon/reload_icon';
+import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 
 export default class Audits extends React.PureComponent {
     static propTypes = {

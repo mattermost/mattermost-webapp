@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {ErrorPageTypes, Constants} from 'utils/constants.jsx';
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import ErrorTitle from './error_title.jsx';
 import ErrorMessage from './error_message.jsx';

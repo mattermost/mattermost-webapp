@@ -160,10 +160,11 @@ workflows:
             - install
       - i18n-check:
           requires:
-            - lint
+            - install
       - test:
           requires:
             - i18n-check
+            - lint
       - build:
           requires:
             - test

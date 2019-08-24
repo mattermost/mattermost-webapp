@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import {localizeMessage} from 'utils/utils';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import Menu from 'components/widgets/menu/menu';
 
 export default class ToggleFavoriteChannel extends React.PureComponent {
     static propTypes = {
@@ -48,7 +48,7 @@ export default class ToggleFavoriteChannel extends React.PureComponent {
             text = localizeMessage('channelHeader.addToFavorites', 'Add to Favorites');
         }
         return (
-            <MenuItemAction
+            <Menu.ItemAction
                 show={this.props.show}
                 onClick={this.handleClick}
                 text={text}
