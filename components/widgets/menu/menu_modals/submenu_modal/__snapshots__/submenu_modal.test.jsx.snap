@@ -40,7 +40,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
       className=""
     >
       <Menu
-        ariaLabel="submenu icon"
+        ariaLabel="mobile submenu"
         openLeft={true}
       >
         <SubMenuItem
