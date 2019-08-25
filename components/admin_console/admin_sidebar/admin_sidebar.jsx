@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import Scrollbars from 'react-custom-scrollbars';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
@@ -17,6 +18,30 @@ import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import Highlight from 'components/admin_console/highlight.jsx';
 import SearchIcon from 'components/widgets/icons/search_icon.jsx';
+
+const renderScrollView = (props) => {
+    return (
+        <div
+            {...props}
+            className='scrollbar--view'
+        />);
+};
+
+const renderScrollThumbHorizontal = (props) => {
+    return (
+        <div
+            {...props}
+            className='scrollbar--horizontal'
+        />);
+};
+
+const renderScrollThumbVertical = (props) => {
+    return (
+        <div
+            {...props}
+            className='scrollbar--vertical'
+        />);
+};
 
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
@@ -284,46 +309,56 @@ export default class AdminSidebar extends React.Component {
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
-                <div className='nav-pills__container'>
-                    <Highlight filter={this.state.filter}>
-                        <ul className='nav nav-pills nav-stacked'>
-                            <li className='filter-container'>
-                                <SearchIcon
-                                    id='searchIcon'
-                                    className='search__icon'
-                                    aria-hidden='true'
-                                />
-                                <input
-                                    className={'filter ' + (this.state.filter ? 'active' : '')}
-                                    type='text'
-                                    onChange={this.onFilterChange}
-                                    value={this.state.filter}
-                                    placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
-                                    ref={this.searchRef}
-                                />
-                                {this.state.filter &&
-                                    <div
-                                        className='sidebar__search-clear visible'
-                                        onClick={this.handleClearFilter}
-                                    >
-                                        <OverlayTrigger
-                                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                                            placement='bottom'
-                                            overlay={filterClearTooltip}
+                <Scrollbars
+                    ref='scrollbar'
+                    autoHide={true}
+                    autoHideTimeout={500}
+                    autoHideDuration={500}
+                    renderThumbHorizontal={renderScrollThumbHorizontal}
+                    renderThumbVertical={renderScrollThumbVertical}
+                    renderView={renderScrollView}
+                >
+                    <div className='nav-pills__container'>
+                        <Highlight filter={this.state.filter}>
+                            <ul className='nav nav-pills nav-stacked'>
+                                <li className='filter-container'>
+                                    <SearchIcon
+                                        id='searchIcon'
+                                        className='search__icon'
+                                        aria-hidden='true'
+                                    />
+                                    <input
+                                        className={'filter ' + (this.state.filter ? 'active' : '')}
+                                        type='text'
+                                        onChange={this.onFilterChange}
+                                        value={this.state.filter}
+                                        placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
+                                        ref={this.searchRef}
+                                    />
+                                    {this.state.filter &&
+                                        <div
+                                            className='sidebar__search-clear visible'
+                                            onClick={this.handleClearFilter}
                                         >
-                                            <span
-                                                className='sidebar__search-clear-x'
-                                                aria-hidden='true'
+                                            <OverlayTrigger
+                                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                                placement='bottom'
+                                                overlay={filterClearTooltip}
                                             >
-                                                {'×'}
-                                            </span>
-                                        </OverlayTrigger>
-                                    </div>}
-                            </li>
-                            {this.renderRootMenu(this.props.adminDefinition)}
-                        </ul>
-                    </Highlight>
-                </div>
+                                                <span
+                                                    className='sidebar__search-clear-x'
+                                                    aria-hidden='true'
+                                                >
+                                                    {'×'}
+                                                </span>
+                                            </OverlayTrigger>
+                                        </div>}
+                                </li>
+                                {this.renderRootMenu(this.props.adminDefinition)}
+                            </ul>
+                        </Highlight>
+                    </div>
+                </Scrollbars>
             </div>
         );
     }
