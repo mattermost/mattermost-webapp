@@ -54,12 +54,7 @@ export default class SettingPicture extends Component {
 
     focusFirstElement() {
         if (this.settingList.current) {
-            const focusableTags = ['button', '[href]', 'input', 'select', 'textarea'];
-            const tabIndexFilter = ':not([tabindex="-1"])';
-            const focusableElements = this.settingList.current.querySelectorAll(focusableTags.map((tag) => `${tag}${tabIndexFilter}`).join(', '));
-            if (focusableElements) {
-                focusableElements[0].focus();
-            }
+            this.settingList.current.focus();
         }
     }
 
@@ -299,9 +294,13 @@ export default class SettingPicture extends Component {
                     <ul
                         className='setting-list'
                         ref={this.settingList}
+                        tabIndex='-1'
+                        aria-label={this.props.title}
+                        aria-describedby='setting-picture__helptext'
                     >
                         {imgRender}
                         <li
+                            id='setting-picture__helptext'
                             className='setting-list-item padding-top x2'
                             role='presentation'
                         >
@@ -316,21 +315,22 @@ export default class SettingPicture extends Component {
                                 errors={[this.props.clientError, this.props.serverError]}
                                 type={'modal'}
                             />
+                            <input
+                                ref={this.selectInput}
+                                className='hidden'
+                                accept='.jpg,.png,.bmp'
+                                type='file'
+                                onChange={this.handleFileChange}
+                                disabled={this.props.loadingPicture}
+                                aria-hidden={true}
+                                tabIndex='-1'
+                            />
                             <button
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
                                 onClick={this.handleInputFile}
                                 aria-label={localizeMessage('setting_picture.select', 'Select')}
                             >
-                                <input
-                                    ref={this.selectInput}
-                                    accept='.jpg,.png,.bmp'
-                                    type='file'
-                                    onChange={this.handleFileChange}
-                                    disabled={this.props.loadingPicture}
-                                    aria-hidden={true}
-                                    tabIndex='-1'
-                                />
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
