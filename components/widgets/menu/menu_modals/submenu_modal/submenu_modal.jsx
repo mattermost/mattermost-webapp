@@ -7,6 +7,7 @@ import {Modal} from 'react-bootstrap';
 
 import MenuWrapper from '../../menu_wrapper';
 import Menu from '../../menu';
+import * as Utils from 'utils/utils.jsx';
 
 export default class SubMenuModal extends React.PureComponent {
     static propTypes = {
@@ -29,14 +30,13 @@ export default class SubMenuModal extends React.PureComponent {
     render() {
         return (
             <Modal
-                dialogClassName='a11y__modal mobile-sub-menu'
+                dialogClassName={'SubMenuModal a11y__modal mobile-sub-menu'}
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 enforceFocus={false}
                 id='submenuModal'
                 role='dialog'
-                aria-labelledby='submenuModalLabel'
             >
                 <Modal.Body
                     onClick={this.onHide}
@@ -44,7 +44,7 @@ export default class SubMenuModal extends React.PureComponent {
                     <MenuWrapper>
                         <Menu
                             openLeft={true}
-                            ariaLabel={'Mobile Submenu'}
+                            ariaLabel={Utils.localizeMessage('post_info.submenu.mobile', 'mobile submenu').toLowerCase()}
                         >
                             {this.props.elements.map((element) => {
                                 return (

@@ -3,11 +3,10 @@
 exports[`components/submenu_modal should match snapshot 1`] = `
 <Modal
   animation={true}
-  aria-labelledby="submenuModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal mobile-sub-menu"
+  dialogClassName="SubMenuModal a11y__modal mobile-sub-menu"
   dialogComponentClass={[Function]}
   enforceFocus={false}
   id="submenuModal"
@@ -41,7 +40,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
       className=""
     >
       <Menu
-        ariaLabel="Mobile Submenu"
+        ariaLabel="submenu icon"
         openLeft={true}
       >
         <SubMenuItem

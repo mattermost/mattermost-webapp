@@ -117,7 +117,7 @@ export default class SubMenuItem extends React.PureComponent {
                     className={'a11y__popup Menu dropdown-menu SubMenu'}
                     style={subMenuStyle}
                 >
-                    {isMobile || !subMenu ? '' : subMenu.map((s) => {
+                    {hasSubmenu ? subMenu.map((s) => {
                         return (
                             <SubMenuItem
                                 key={s.id}
@@ -126,18 +126,18 @@ export default class SubMenuItem extends React.PureComponent {
                                 subMenu={s.subMenu}
                                 action={action}
                                 xOffset={parentWidth}
-                                aria-label={ariaLabel}
+                                ariaLabel={ariaLabel}
                                 root={false}
                             />
                         );
-                    })}
+                    }) : ''}
                 </ul>
             );
         }
 
         return (
             <li
-                className='MenuItem'
+                className={'SubMenuItem MenuItem'}
                 role='menuitem'
                 id={id + '_menuitem'}
                 ref={this.node}
@@ -151,14 +151,14 @@ export default class SubMenuItem extends React.PureComponent {
                 >
                     <span
                         id={'channelHeaderDropdownIconLeft_' + id}
-                        className={'fa fa-angle-left SubMenu__icon-left' + (hasSubmenu && !isMobile ? '' : '-empty' + (isMobile ? ' Mobile' : ''))}
-                        aria-label='submenu icon'
+                        className={'fa fa-angle-left SubMenu__icon-left' + (hasSubmenu && !isMobile ? '' : '-empty' + (isMobile ? ' mobile' : ''))}
+                        aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                     />
                     {textProp}
                     <span
                         id={'channelHeaderDropdownIconRight_' + id}
                         className={'fa fa-angle-right SubMenu__icon-right' + (hasSubmenu && isMobile ? '' : '-empty')}
-                        aria-label='submenu icon'
+                        aria-label={Utils.localizeMessage('post_info.submenu.icon', 'submenu icon').toLowerCase()}
                     />
                     {subMenuContent}
                 </div>
