@@ -24,7 +24,8 @@ const renderScrollView = (props) => {
         <div
             {...props}
             className='scrollbar--view'
-        />);
+        />
+    );
 };
 
 const renderScrollThumbHorizontal = (props) => {
@@ -32,7 +33,8 @@ const renderScrollThumbHorizontal = (props) => {
         <div
             {...props}
             className='scrollbar--horizontal'
-        />);
+        />
+    );
 };
 
 const renderScrollThumbVertical = (props) => {
@@ -40,7 +42,8 @@ const renderScrollThumbVertical = (props) => {
         <div
             {...props}
             className='scrollbar--vertical'
-        />);
+        />
+    );
 };
 
 export default class AdminSidebar extends React.Component {
