@@ -27,6 +27,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     width="128"
   />
   <Connect(Pluggable)
+    hide={[MockFunction]}
     key="profilePopoverPluggable2"
     pluggableName="PopoverUserAttributes"
     status="offline"
@@ -59,6 +60,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     </a>
   </div>
   <Connect(Pluggable)
+    hide={[MockFunction]}
     key="profilePopoverPluggable3"
     pluggableName="PopoverUserActions"
     status="offline"
@@ -99,6 +101,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     width="128"
   />
   <Connect(Pluggable)
+    hide={[MockFunction]}
     key="profilePopoverPluggable2"
     pluggableName="PopoverUserAttributes"
     status="offline"
@@ -151,6 +154,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
         }
         dialogType={[Function]}
         modalId="add_user_to_channel"
+        onClick={[MockFunction]}
         role="menuitem"
       >
         <i
@@ -162,6 +166,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     </a>
   </div>
   <Connect(Pluggable)
+    hide={[MockFunction]}
     key="profilePopoverPluggable3"
     pluggableName="PopoverUserActions"
     status="offline"
