@@ -37,7 +37,7 @@ export default class SearchBar extends React.Component {
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func,
-            autocompleteChannelsForSearch: PropTypes.func,
+            autocompleteChannelsForSearch: PropTypes.func.isRequired,
         }),
     };
 
