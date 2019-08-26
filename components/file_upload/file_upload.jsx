@@ -28,7 +28,7 @@ import {
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-import AttachmentIcon from 'components/svg/attachment_icon';
+import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 
 const holders = defineMessages({
     limited: {

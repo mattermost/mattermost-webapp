@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function verifyFocusInAddChannelMemberModal() {
     // # Click to access the Channel menu
     cy.get('#channelHeaderTitle').click();
@@ -69,6 +71,32 @@ describe('Messaging', () => {
 
         //#Push a character key such as "B"
         cy.get('body').type('B');
+        cy.get('#post_textbox').should('be.focused');
+    });
+
+    it('M17449 - Focus will move to main input box after a new channel has been opened', () => {
+        //# Click on Town-Square channel
+        cy.get('#sidebarItem_town-square').click({force: true});
+
+        //# Open the reply thread on the most recent post on Town-Square channel
+        cy.clickPostCommentIcon();
+
+        //# Place the focus inside the RHS input box
+        cy.get('#reply_textbox').focus().should('be.focused');
+
+        //# Use CTRL+K or CMD+K to open the channel switcher depending on OS
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        //* Verify channel switcher is visible
+        cy.get('#quickSwitchHint').should('be.visible');
+
+        //# Type channel name 'Off-Topic' and select it
+        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.TINY).type('{enter}');
+
+        //* Verify that it redirected into selected channel 'Off-Topic'
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
+
+        //* Verify focus is moved to main input box when the channel is opened
         cy.get('#post_textbox').should('be.focused');
     });
 

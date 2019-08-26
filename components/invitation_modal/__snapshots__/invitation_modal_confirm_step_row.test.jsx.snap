@@ -55,10 +55,10 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="username-or-icon"
   >
-    <img
-      alt="test profile image"
-      className="avatar"
-      src="/api/v4/users/test-id/image?_=0"
+    <Avatar
+      size="lg"
+      url="/api/v4/users/test-id/image?_=0"
+      username="test"
     />
     <span
       className="name"
