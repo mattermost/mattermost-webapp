@@ -33,11 +33,11 @@ exports[`YoutubeVideo should match init snapshot 1`] = `
         <div
           className="video-thumbnail__container"
         >
-          <img
-            alt="youtube video thumbnail"
-            className="video-thumbnail"
+          <Connect(ExternalImage)
             src="linkForThumbnail"
-          />
+          >
+            <Component />
+          </Connect(ExternalImage)>
           <div
             className="block"
           >

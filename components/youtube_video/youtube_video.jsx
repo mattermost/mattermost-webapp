@@ -4,16 +4,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ExternalImage from 'components/external_image';
+
 const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;
 
 export default class YoutubeVideo extends React.PureComponent {
     static propTypes = {
-        channelId: PropTypes.string.isRequired,
-        currentChannelId: PropTypes.string.isRequired,
-        hasImageProxy: PropTypes.bool.isRequired,
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
-        googleDeveloperKey: PropTypes.string,
         metadata: PropTypes.object,
     }
 
@@ -42,10 +40,6 @@ export default class YoutubeVideo extends React.PureComponent {
         }
 
         if (props.show === false) {
-            this.stop();
-        }
-
-        if (props.channelId !== props.currentChannelId) {
             this.stop();
         }
 
@@ -129,11 +123,15 @@ export default class YoutubeVideo extends React.PureComponent {
             content = (
                 <div className='embed-responsive video-div__placeholder'>
                     <div className='video-thumbnail__container'>
-                        <img
-                            alt='youtube video thumbnail'
-                            className='video-thumbnail'
-                            src={image.secure_url || image.url}
-                        />
+                        <ExternalImage src={image.secure_url || image.url}>
+                            {(safeUrl) => (
+                                <img
+                                    src={safeUrl}
+                                    alt='youtube video thumbnail'
+                                    className='video-thumbnail'
+                                />
+                            )}
+                        </ExternalImage>
                         <div className='block'>
                             <span className='play-button'><span/></span>
                         </div>

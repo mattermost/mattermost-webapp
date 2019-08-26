@@ -4,14 +4,14 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import ExternalImage from 'components/external_image';
+
 import YoutubeVideo from './youtube_video';
 
 jest.mock('actions/integration_actions');
 
 describe('YoutubeVideo', () => {
     const baseProps = {
-        channelId: 'channelid',
-        currentChannelId: 'currentchannelid',
         googleDeveloperKey: 'googledevkey',
         hasImageProxy: false,
         link: 'https://www.youtube.com/watch?v=xqCoNej8Zxo',
@@ -48,7 +48,7 @@ describe('YoutubeVideo', () => {
     test('should match init snapshot', () => {
         const wrapper = shallow(<YoutubeVideo {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('img').prop('src')).toEqual('linkForThumbnail');
+        expect(wrapper.find(ExternalImage).prop('src')).toEqual('linkForThumbnail');
         expect(wrapper.find('a').text()).toEqual('Youtube title');
     });
 
@@ -70,6 +70,6 @@ describe('YoutubeVideo', () => {
         };
         const wrapper = shallow(<YoutubeVideo {...props}/>);
 
-        expect(wrapper.find('img').prop('src')).toEqual('linkUrl');
+        expect(wrapper.find(ExternalImage).prop('src')).toEqual('linkUrl');
     });
 });
