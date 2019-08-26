@@ -337,6 +337,7 @@ export default class DotMenu extends Component {
                             isDangerous={true}
                         />
                     </MenuGroup>
+
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}
