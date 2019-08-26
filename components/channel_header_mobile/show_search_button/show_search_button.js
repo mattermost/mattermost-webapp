@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SearchIcon from 'components/svg/search_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
 import {RHSStates} from 'utils/constants';
 
 export default class ShowSearchButton extends React.PureComponent {
