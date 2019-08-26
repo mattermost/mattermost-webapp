@@ -225,11 +225,9 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
     };
 }
 
-export function unreadPost(post) {
+export function markPostAsUnread(post) {
     return async (dispatch, getState) => {
         const state = getState();
-        const channelId = post.channel_id;
-        const timestamp = post.create_at;
         const userId = getCurrentUserId(state);
         await dispatch(PostActions.setUnreadPost(userId, post.id));
     };
