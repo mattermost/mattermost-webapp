@@ -35,7 +35,7 @@ const Header = () => (
     </div>
 );
 
-export default class TeamList extends React.PureComponent {
+export default class TeamList extends React.Component {
     static propTypes = {
         userId: PropTypes.string.isRequired,
         locale: PropTypes.string.isRequired,
@@ -45,11 +45,14 @@ export default class TeamList extends React.PureComponent {
             getTeamsData: PropTypes.func.isRequired,
             getTeamMembersForUser: PropTypes.func.isRequired,
         }).isRequired,
+        userDetailCallback: PropTypes.func.isRequired,
+        refreshTeams: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
         emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
         emptyListTextDefaultMessage: 'No teams found',
+        refreshTeams: false,
     }
 
     constructor(props) {
@@ -60,17 +63,24 @@ export default class TeamList extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.getTeamsAndMemberships().
-            then(this.mergeTeamsWithMemberships).
-            then((teamsWithMemberships) => {
-                this.setState({teamsWithMemberships});
-            });
+        this.getTeamsAndMemberships();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.refreshTeams !== this.props.refreshTeams) {
+            this.getTeamsAndMemberships();
+        }
     }
 
     getTeamsAndMemberships = async (userId = this.props.userId) => {
         const teams = await this.props.actions.getTeamsData(userId);
         const memberships = await this.props.actions.getTeamMembersForUser(userId);
-        return Promise.all([teams, memberships]);
+        return Promise.all([teams, memberships]).
+            then(this.mergeTeamsWithMemberships).
+            then((teamsWithMemberships) => {
+                this.setState({teamsWithMemberships});
+                this.props.userDetailCallback(teamsWithMemberships);
+            });
     }
 
     mergeTeamsWithMemberships = (data) => {

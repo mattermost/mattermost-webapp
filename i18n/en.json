@@ -1591,6 +1591,7 @@
   "admin.user_item.userAccessTokenPostAll": "(can create post:all personal access tokens)",
   "admin.user_item.userAccessTokenPostAllPublic": "(can create post:channels personal access tokens)",
   "admin.user_item.userAccessTokenYes": "(can create personal access tokens)",
+  "admin.userManagement.userDetail.addTeam": "Add Team",
   "admin.userManagement.userDetail.authenticationMethod": "Authentication Method",
   "admin.userManagement.userDetail.email": "Email",
   "admin.userManagement.userDetail.role": "Role",
