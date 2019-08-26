@@ -124,7 +124,7 @@ export default class YoutubeVideo extends React.PureComponent {
                 />
             );
         } else {
-            const images = metadata.images[0];
+            const image = metadata.images[0];
 
             content = (
                 <div className='embed-responsive video-div__placeholder'>
