@@ -93,6 +93,12 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Pin"
     />
     <MenuItemAction
+      id="unread_post_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
       id="delete_post_post_id_1"
       onClick={[Function]}
       show={true}
@@ -203,6 +209,12 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       onClick={[Function]}
       show={true}
       text="Pin"
+    />
+    <MenuItemAction
+      id="unread_post_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
     />
     <MenuItemAction
       id="delete_post_post_id_1"
