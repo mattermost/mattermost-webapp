@@ -132,7 +132,7 @@ export default class YoutubeVideo extends React.PureComponent {
                         <img
                             alt='youtube video thumbnail'
                             className='video-thumbnail'
-                            src={images.secure_url || images.url}
+                            src={image.secure_url || image.url}
                         />
                         <div className='block'>
                             <span className='play-button'><span/></span>
