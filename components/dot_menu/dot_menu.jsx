@@ -70,6 +70,11 @@ export default class DotMenu extends Component {
              * Function to open a modal
              */
             openModal: PropTypes.func.isRequired,
+
+            /*
+             * Function to set the unread mark at given post
+             */
+            markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -158,6 +163,11 @@ export default class DotMenu extends Component {
         } else {
             this.props.actions.pinPost(this.props.post.id);
         }
+    }
+
+    handleUnreadMenuItemActivated = (e) => {
+        e.preventDefault();
+        this.props.actions.markPostAsUnread(this.props.post);
     }
 
     handleDeleteMenuItemActivated = (e) => {
@@ -302,6 +312,12 @@ export default class DotMenu extends Component {
                         show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
+                    />
+                    <MenuItemAction
+                        id={`unread_post_${this.props.post.id}`}
+                        show={!isSystemMessage && this.props.location === Locations.CENTER}
+                        text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
+                        onClick={this.handleUnreadMenuItemActivated}
                     />
                     <MenuItemAction
                         id={`delete_post_${this.props.post.id}`}
