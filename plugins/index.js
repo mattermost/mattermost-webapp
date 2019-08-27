@@ -10,7 +10,8 @@ import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
-import {unregisterPluginTranslationsSource} from 'actions/views/root'
+import {unregisterPluginTranslationsSource} from 'actions/views/root';
+
 // Plugins may have been compiled with the regenerator runtime. Ensure this remains available
 // as a global export even though the webapp does not depend on same.
 window.regeneratorRuntime = regeneratorRuntime;
@@ -150,7 +151,7 @@ export function removePlugin(manifest) {
     }
     unregisterAllPluginWebSocketEvents(manifest.id);
     unregisterPluginReconnectHandler(manifest.id);
-    unregisterPluginTranslationsSource(manifest.id)
+    unregisterPluginTranslationsSource(manifest.id);
     const script = document.getElementById('plugin_' + manifest.id);
     if (!script) {
         return;
