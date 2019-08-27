@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 
-import SizeAwareImage from 'components/size_aware_image';
+import ExternalImage from 'components/external_image';
 import MessageAttachment from 'components/post_view/message_attachments/message_attachment/message_attachment.jsx';
 
 describe('components/post_view/MessageAttachment', () => {
@@ -25,7 +25,6 @@ describe('components/post_view/MessageAttachment', () => {
         postId: 'post_id',
         attachment,
         actions: {doPostActionWithCookie: jest.fn()},
-        hasImageProxy: false,
         imagesMetadata: {
             image_url: {
                 height: 200,
@@ -114,7 +113,7 @@ describe('components/post_view/MessageAttachment', () => {
         expect(wrapper.instance().getFieldsTable()).toMatchSnapshot();
     });
 
-    test('should proxy external images if image proxy is enabled', () => {
+    test('should use ExternalImage for images', () => {
         const props = {
             ...baseProps,
             attachment: {
@@ -122,14 +121,14 @@ describe('components/post_view/MessageAttachment', () => {
                 image_url: 'http://example.com/image.png',
                 thumb_url: 'http://example.com/thumb.png',
             },
-            hasImageProxy: true,
         };
 
-        const wrapper = mount(<MessageAttachment {...props}/>);
+        const wrapper = shallow(<MessageAttachment {...props}/>);
 
-        expect(wrapper.find('.attachment__author-icon').prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.author_icon)}`);
-        expect(wrapper.find(SizeAwareImage).first().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.image_url)}`);
-        expect(wrapper.find(SizeAwareImage).last().prop('src')).toMatch(`/api/v4/image?url=${encodeURIComponent(props.attachment.thumb_url)}`);
+        expect(wrapper.find(ExternalImage)).toHaveLength(3);
+        expect(wrapper.find(ExternalImage).find({src: props.attachment.author_icon}).exists()).toBe(true);
+        expect(wrapper.find(ExternalImage).find({src: props.attachment.image_url}).exists()).toBe(true);
+        expect(wrapper.find(ExternalImage).find({src: props.attachment.thumb_url}).exists()).toBe(true);
     });
 
     test('should match snapshot when the attachment has an emoji in the title', () => {
