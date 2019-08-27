@@ -110,7 +110,6 @@ exports[`components/AddUsersToTeam should match when renderOption is called 1`] 
     isRHS={false}
     src="/api/v4/users/id/image?_=12345"
     width="32"
-    wrapperClass=""
   />
   <div
     className="more-modal__details"
@@ -154,7 +153,6 @@ exports[`components/AddUsersToTeam should match when renderOption is called 2`] 
     isRHS={false}
     src="/api/v4/users/id/image?_=12345"
     width="32"
-    wrapperClass=""
   />
   <div
     className="more-modal__details"
@@ -198,7 +196,6 @@ exports[`components/AddUsersToTeam should match when renderOption is called 3`] 
     isRHS={false}
     src="/api/v4/users/id/image?_=12345"
     width="32"
-    wrapperClass=""
   />
   <div
     className="more-modal__details"
