@@ -333,3 +333,14 @@ export async function testSmtp(success, error) {
         error({id: err.server_error_id, ...err});
     }
 }
+
+
+export async function testSiteURL(success, error) {
+    const siteURL = this.state["ServiceSettings.SiteURL"];
+    const {data, error: err} = await dispatch(AdminActions.testSiteURL(siteURL));
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}

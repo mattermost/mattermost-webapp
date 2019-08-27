@@ -348,6 +348,7 @@ export default class SchemaAdminSettings extends React.Component {
             <RequestButton
                 key={this.props.schema.id + '_text_' + setting.key}
                 requestAction={setting.action}
+                state={this.state}
                 helpText={this.renderHelpText(setting)}
                 loadingText={Utils.localizeMessage(setting.loading, setting.loading_default)}
                 buttonText={<span>{this.renderLabel(setting)}</span>}

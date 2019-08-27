@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites, testSmtp,
+    invalidateAllEmailInvites, testSmtp, testSiteURL
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -429,6 +429,19 @@ export default {
                         help_text_markdown: true,
                         placeholder: t('admin.service.siteURLExample'),
                         placeholder_default: 'E.g.: "http://example.com:8065"',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BUTTON,
+                        key: 'TestSiteURL',
+                        action: testSiteURL,
+                        label: t('admin.service.testSiteURL'),
+                        label_default: 'Test Live URL',
+                        loading: t('admin.service.testSiteURLTesting'),
+                        loading_default: 'Testing...',
+                        error_message: t('admin.service.testSiteURLFail'),
+                        error_message_default: 'Test unsuccessful: {error}',
+                        success_message: t('admin.service.testSiteURLSuccess'),
+                        success_message_default: 'Test successful: this is a valid live URL.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
