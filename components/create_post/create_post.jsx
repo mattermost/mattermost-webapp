@@ -909,7 +909,20 @@ export default class CreatePost extends React.Component {
         }
     }
 
+    handleMouseUp = (e) => {
+        console.log('Caret at: ', e.target.selectionStart);
+    }
+
     handleKeyDown = (e) => {
+        e.persist();
+
+        // A bit of a hack. Better to use keyup instead
+
+        setTimeout(() => {
+            const pos = e.target.selectionStart;
+            this.setState({caretPosition: pos});
+        }, 0);
+
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -1079,7 +1092,8 @@ export default class CreatePost extends React.Component {
         } = this.props;
         const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
-        const {renderScrollbar} = this.state;
+        const {renderScrollbar, caretPosition} = this.state;
+        console.log('KEYPRESS', caretPosition);
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
 
         const notifyAllTitle = (
@@ -1259,6 +1273,7 @@ export default class CreatePost extends React.Component {
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onMouseUp={this.handleMouseUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}

@@ -108,6 +108,12 @@ export default class Textbox extends React.Component {
         }
     }
 
+    handleMouseUp = (e) => {
+        if (this.props.onMouseUp) {
+            this.props.onMouseUp(e);
+        }
+    }
+
     handleBlur = (e) => {
         if (this.props.onBlur) {
             this.props.onBlur(e);
@@ -208,6 +214,7 @@ export default class Textbox extends React.Component {
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
+                    onMouseUp={this.handleMouseUp}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
