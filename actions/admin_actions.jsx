@@ -334,7 +334,6 @@ export async function testSmtp(success, error) {
     }
 }
 
-
 export async function testSiteURL(success, error) {
     const siteURL = this.state["ServiceSettings.SiteURL"];
     const {data, error: err} = await dispatch(AdminActions.testSiteURL(siteURL));
