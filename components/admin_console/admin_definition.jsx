@@ -3114,6 +3114,110 @@ export default {
                 ],
             },
         },
+        github: {
+            url: 'authentication/github',
+            title: t('admin.sidebar.github'),
+            title_default: 'GitHub',
+            isHidden: it.licensed,
+            schema: {
+                id: 'GitHubSettings',
+                name: t('admin.authentication.github'),
+                name_default: 'GitHub',
+                onConfigLoad: (config) => {
+                    const newState = {};
+                    newState['GitHubSettings.Url'] = config.GitHubSettings.UserApiEndpoint.replace('', '');
+                    return newState;
+                },
+                onConfigSave: (config) => {
+                    const newConfig = {...config};
+                    newConfig.GitHubSettings.UserApiEndpoint = config.GitHubSettings.Url.replace(/\/$/, '') + '';
+                    return newConfig;
+                },
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'GitHubSettings.Enable',
+                        label: t('admin.github.enableTitle'),
+                        label_default: 'Enable authentication with GitHub: ',
+                        help_text: t('admin.github.enableDescription'),
+                        help_text_default: 'When true, Mattermost allows team creation and account signup using GitHub OAuth.\n \n1. Log in to your GitHub account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/github/complete" (example: http://localhost:8065/login/github/complete) and "<your-mattermost-url>/signup/github/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitHub to complete the options below.\n4. Complete the Endpoint URLs below.',
+                        help_text_markdown: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.Id',
+                        label: t('admin.github.clientIdTitle'),
+                        label_default: 'Application ID:',
+                        help_text: t('admin.github.clientIdDescription'),
+                        help_text_default: 'Obtain this value via the instructions above for logging into GitHub.',
+                        placeholder: t('admin.github.clientIdExample'),
+                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                        isDisabled: it.stateIsFalse('GitHubSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.Secret',
+                        label: t('admin.github.clientSecretTitle'),
+                        label_default: 'Application Secret Key:',
+                        help_text: t('admin.github.clientSecretDescription'),
+                        help_text_default: 'Obtain this value via the instructions above for logging into GitHub.',
+                        placeholder: t('admin.github.clientSecretExample'),
+                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                        isDisabled: it.stateIsFalse('GitHubSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.Url',
+                        label: t('admin.github.siteUrl'),
+                        label_default: 'GitHub Site URL:',
+                        help_text: t('admin.github.siteUrlDescription'),
+                        help_text_default: 'Enter the URL of your GitHub instance, e.g. https://example.com:3000. If your GitHub instance is not set up with SSL, start the URL with http:// instead of https://.',
+                        placeholder: t('admin.github.siteUrlExample'),
+                        placeholder_default: 'E.g.: https://',
+                        isDisabled: it.stateIsFalse('GitHubSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.UserApiEndpoint',
+                        label: t('admin.github.userTitle'),
+                        label_default: 'User API Endpoint:',
+                        dynamic_value: (value, config, state) => {
+                            if (state['GitHubSettings.Url']) {
+                                return state['GitHubSettings.Url'].replace(/\/$/, '') + '/user';
+                            }
+                            return '';
+                        },
+                        isDisabled: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.AuthEndpoint',
+                        label: t('admin.github.authTitle'),
+                        label_default: 'Auth Endpoint:',
+                        dynamic_value: (value, config, state) => {
+                            if (state['GitHubSettings.Url']) {
+                                return state['GitHubSettings.Url'].replace(/\/$/, '') + '/login/oauth/authorize';
+                            }
+                            return '';
+                        },
+                        isDisabled: true,
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.TokenEndpoint',
+                        label: t('admin.github.tokenTitle'),
+                        label_default: 'Token Endpoint:',
+                        dynamic_value: (value, config, state) => {
+                            if (state['GitHubSettings.Url']) {
+                                return state['GitHubSettings.Url'].replace(/\/$/, '') + '/login/oauth/token';
+                            }
+                            return '';
+                        },
+                        isDisabled: true,
+                    },
+                ],
+            },
+        },
         oauth: {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
@@ -3125,6 +3229,9 @@ export default {
                 name_default: 'OAuth 2.0',
                 onConfigLoad: (config) => {
                     const newState = {};
+                    if (config.GitHubSettings && config.GitHubSettings.Enable) {
+                        newState.oauthType = Constants.GITHUB_SERVICE;
+                    }
                     if (config.GitLabSettings && config.GitLabSettings.Enable) {
                         newState.oauthType = Constants.GITLAB_SERVICE;
                     }
@@ -3136,20 +3243,27 @@ export default {
                     }
 
                     newState['GitLabSettings.Url'] = config.GitLabSettings.UserApiEndpoint.replace('/api/v4/user', '');
+                    newState['GitHubSettings.Url'] = config.GitHubSettings.UserApiEndpoint.replace('/user', '');
 
                     return newState;
                 },
                 onConfigSave: (config) => {
                     const newConfig = {...config};
+                    newConfig.GitHubSettings = config.GitHubSettings || {};
                     newConfig.GitLabSettings = config.GitLabSettings || {};
                     newConfig.Office365Settings = config.Office365Settings || {};
                     newConfig.GoogleSettings = config.GoogleSettings || {};
 
+                    newConfig.GitHubSettings.Enable = false;
                     newConfig.GitLabSettings.Enable = false;
                     newConfig.Office365Settings.Enable = false;
                     newConfig.GoogleSettings.Enable = false;
                     newConfig.GitLabSettings.UserApiEndpoint = config.GitLabSettings.Url.replace(/\/$/, '') + '/api/v4/user';
+                    newConfig.GitHubSettings.UserApiEndpoint = config.GitHubSettings.Url.replace(/\/$/, '') + '';
 
+                    if (config.oauthType === Constants.GITHUB_SERVICE) {
+                        newConfig.GitHubSettings.Enable = true;
+                    }
                     if (config.oauthType === Constants.GITLAB_SERVICE) {
                         newConfig.GitLabSettings.Enable = true;
                     }
@@ -3173,6 +3287,14 @@ export default {
                                 value: 'off',
                                 display_name: t('admin.oauth.off'),
                                 display_name_default: 'Do not allow sign-in via an OAuth 2.0 provider.',
+                            },
+                            {
+                                value: Constants.GITHUB_SERVICE,
+                                display_name: t('admin.oauth.github'),
+                                display_name_default: 'GitHub',
+                                help_text: t('admin.github.EnableMarkdownDesc'),
+                                help_text_default: '1. Log in to your GitHub account and go to Profile Settings -> Applications.\n2. Enter Redirect URIs "<your-mattermost-url>/login/github/complete" (example: http://localhost:8065/login/github/complete) and "<your-mattermost-url>/signup/github/complete".\n3. Then use "Application Secret Key" and "Application ID" fields from GitHub to complete the options below.\n4. Complete the Endpoint URLs below.',
+                                help_text_markdown: true,
                             },
                             {
                                 value: Constants.GITLAB_SERVICE,
@@ -3201,6 +3323,81 @@ export default {
                                 help_text_markdown: true,
                             },
                         ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.Id',
+                        label: t('admin.github.clientIdTitle'),
+                        label_default: 'Application ID:',
+                        help_text: t('admin.github.clientIdDescription'),
+                        help_text_default: 'Obtain this value via the instructions above for logging into GitHub.',
+                        placeholder: t('admin.github.clientIdExample'),
+                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'github')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.Secret',
+                        label: t('admin.github.clientSecretTitle'),
+                        label_default: 'Application Secret Key:',
+                        help_text: t('admin.github.clientSecretDescription'),
+                        help_text_default: 'Obtain this value via the instructions above for logging into GitHub.',
+                        placeholder: t('admin.github.clientSecretExample'),
+                        placeholder_default: 'E.g.: "jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY"',
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'github')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.Url',
+                        label: t('admin.github.siteUrl'),
+                        label_default: 'GitHub Site URL:',
+                        help_text: t('admin.github.siteUrlDescription'),
+                        help_text_default: 'Enter the URL of your GitHub instance, e.g. https://example.com:3000. If your GitHub instance is not set up with SSL, start the URL with http:// instead of https://.',
+                        placeholder: t('admin.github.siteUrlExample'),
+                        placeholder_default: 'E.g.: https://',
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'github')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.UserApiEndpoint',
+                        label: t('admin.github.userTitle'),
+                        label_default: 'User API Endpoint:',
+                        dynamic_value: (value, config, state) => {
+                            if (state['GitHubSettings.Url']) {
+                                return state['GitHubSettings.Url'].replace(/\/$/, '') + '/user';
+                            }
+                            return '';
+                        },
+                        isDisabled: true,
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'github')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.AuthEndpoint',
+                        label: t('admin.github.authTitle'),
+                        label_default: 'Auth Endpoint:',
+                        dynamic_value: (value, config, state) => {
+                            if (state['GitHubSettings.Url']) {
+                                return state['GitHubSettings.Url'].replace(/\/$/, '') + '/login/oauth/authorize';
+                            }
+                            return '';
+                        },
+                        isDisabled: true,
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'github')),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'GitHubSettings.TokenEndpoint',
+                        label: t('admin.github.tokenTitle'),
+                        label_default: 'Token Endpoint:',
+                        dynamic_value: (value, config, state) => {
+                            if (state['GitHubSettings.Url']) {
+                                return state['GitHubSettings.Url'].replace(/\/$/, '') + '/login/oauth/access_token';
+                            }
+                            return '';
+                        },
+                        isDisabled: true,
+                        isHidden: it.isnt(it.stateEquals('oauthType', 'github')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

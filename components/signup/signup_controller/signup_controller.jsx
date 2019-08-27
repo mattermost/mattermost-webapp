@@ -24,6 +24,7 @@ export default class SignupController extends React.Component {
         enableOpenServer: PropTypes.bool.isRequired,
         noAccounts: PropTypes.bool.isRequired,
         enableSignUpWithEmail: PropTypes.bool.isRequired,
+        enableSignUpWithGitHub: PropTypes.bool.isRequired,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
@@ -186,6 +187,26 @@ export default class SignupController extends React.Component {
                             <FormattedMessage
                                 id='signup.gitlab'
                                 defaultMessage='GitLab Single Sign-On'
+                            />
+                        </span>
+                    </span>
+                </a>
+            );
+        }
+
+        if (this.props.enableSignUpWithGitHub) {
+            signupControls.push(
+                <a
+                    className='btn btn-custom-login btn--full github'
+                    key='github'
+                    href={Client4.getOAuthRoute() + '/github/signup' + window.location.search}
+                >
+                    <span>
+                        <span className='icon'/>
+                        <span>
+                            <FormattedMessage
+                                id='signup.github'
+                                defaultMessage='GitHub Single Sign-On'
                             />
                         </span>
                     </span>

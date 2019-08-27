@@ -332,6 +332,18 @@ body {
                 }
             }
 
+            &.github {
+                background: #000000;
+
+                &:hover {
+                    background: lighten(#000000, 10%);
+                }
+
+                .icon {
+                    background-image: url('../images/githubLogo.png');
+                }
+            }
+
             &.gitlab {
                 background: #554488;
 

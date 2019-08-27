@@ -22,6 +22,7 @@ function mapStateToProps(state, ownProps) {
 
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableSignUpWithEmail = config.EnableSignUpWithEmail === 'true';
+    const enableSignUpWithGitHub = config.EnableSignupWithGitHub === 'true';
     const enableSignUpWithGitLab = config.EnableSignUpWithGitLab === 'true';
     const enableSignUpWithGoogle = config.EnableSignUpWithGoogle === 'true';
     const enableLdap = config.EnableLdap === 'true';
@@ -33,6 +34,7 @@ function mapStateToProps(state, ownProps) {
         canUseAccessTokens: tokensEnabled && userHasTokenRole,
         enableOAuthServiceProvider,
         enableSignUpWithEmail,
+        enableSignUpWithGitHub,
         enableSignUpWithGitLab,
         enableSignUpWithGoogle,
         enableLdap,

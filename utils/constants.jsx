@@ -758,6 +758,7 @@ export const Constants = {
     DEFAULT_CHANNEL_UI_NAME: 'Town Square',
     OFFTOPIC_CHANNEL: 'off-topic',
     OFFTOPIC_CHANNEL_UI_NAME: 'Off-Topic',
+    GITHUB_SERVICE: 'github',
     GITLAB_SERVICE: 'gitlab',
     GOOGLE_SERVICE: 'google',
     OFFICE365_SERVICE: 'office365',

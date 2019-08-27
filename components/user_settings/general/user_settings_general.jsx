@@ -549,6 +549,24 @@ class UserSettingsGeneralTab extends React.Component {
                 );
 
                 submit = this.submitEmail;
+            } else if (this.props.user.auth_service === Constants.GITHUB_SERVICE) {
+                inputs.push(
+                    <div
+                        key='oauthEmailInfo'
+                        className='form-group'
+                    >
+                        <div className='setting-list__hint padding-bottom x2'>
+                            <FormattedMessage
+                                id='user.settings.general.emailGitHubCantUpdate'
+                                defaultMessage='Login occurs through GitHub. Email cannot be updated. Email address used for notifications is {email}.'
+                                values={{
+                                    email: this.state.originalEmail,
+                                }}
+                            />
+                        </div>
+                        {helpText}
+                    </div>
+                );
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 inputs.push(
                     <div
@@ -660,6 +678,16 @@ class UserSettingsGeneralTab extends React.Component {
             let describe = '';
             if (this.props.user.auth_service === '') {
                 describe = this.props.user.email;
+            } else if (this.props.user.auth_service === Constants.GITHUB_SERVICE) {
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.general.loginGitHub'
+                        defaultMessage='Login done through GitHub ({email})'
+                        values={{
+                            email: this.state.originalEmail,
+                        }}
+                    />
+                );
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 describe = (
                     <FormattedMessage

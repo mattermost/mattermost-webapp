@@ -44,6 +44,9 @@ export default class SecurityTab extends React.PureComponent {
         // Whether or not sign-up with email is enabled.
         enableSignUpWithEmail: PropTypes.bool,
 
+        // Whether or not sign-up with GitHub is enabled.
+        enableSignUpWithGitHub: PropTypes.bool,
+
         // Whether or not sign-up with GitLab is enabled.
         enableSignUpWithGitLab: PropTypes.bool,
 
@@ -296,6 +299,20 @@ export default class SecurityTab extends React.PureComponent {
                         </div>
                     </div>
                 );
+            } else if (this.props.user.auth_service === Constants.GITHUB_SERVICE) {
+                inputs.push(
+                    <div
+                        key='oauthEmailInfo'
+                        className='form-group'
+                    >
+                        <div className='padding-bottom x2'>
+                            <FormattedMessage
+                                id='user.settings.security.passwordGitHubCantUpdate'
+                                defaultMessage='Login occurs through GitHub. Password cannot be updated.'
+                            />
+                        </div>
+                    </div>
+                );
             } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
                 inputs.push(
                     <div
@@ -415,6 +432,13 @@ export default class SecurityTab extends React.PureComponent {
                     }}
                 />
             );
+        } else if (this.props.user.auth_service === Constants.GITHUB_SERVICE) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.security.loginGitHub'
+                    defaultMessage='Login done through GitHub'
+                />
+            );
         } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
             describe = (
                 <FormattedMessage
@@ -473,6 +497,7 @@ export default class SecurityTab extends React.PureComponent {
 
         if (this.props.activeSection === SECTION_SIGNIN) {
             let emailOption;
+            let githubOption;
             let gitlabOption;
             let googleOption;
             let office365Option;
@@ -480,6 +505,22 @@ export default class SecurityTab extends React.PureComponent {
             let samlOption;
 
             if (user.auth_service === '') {
+                if (this.props.enableSignUpWithGitHub) {
+                    githubOption = (
+                        <div className='padding-bottom x2'>
+                            <Link
+                                className='btn btn-primary'
+                                to={'/claim/email_to_oauth?email=' + encodeURIComponent(user.email) + '&old_type=' + user.auth_service + '&new_type=' + Constants.GITHUB_SERVICE}
+                            >
+                                <FormattedMessage
+                                    id='user.settings.security.switchGitHub'
+                                    defaultMessage='Switch to using GitHub SSO'
+                                />
+                            </Link>
+                            <br/>
+                        </div>
+                    );
+                }
                 if (this.props.enableSignUpWithGitLab) {
                     gitlabOption = (
                         <div className='padding-bottom x2'>
@@ -592,6 +633,7 @@ export default class SecurityTab extends React.PureComponent {
             inputs.push(
                 <div key='userSignInOption'>
                     {emailOption}
+                    {githubOption}
                     {gitlabOption}
                     {googleOption}
                     {office365Option}
@@ -626,7 +668,14 @@ export default class SecurityTab extends React.PureComponent {
                 defaultMessage='Email and Password'
             />
         );
-        if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
+        if (this.props.user.auth_service === Constants.GITHUB_SERVICE) {
+            describe = (
+                <FormattedMessage
+                    id='user.settings.security.github'
+                    defaultMessage='GitHub'
+                />
+            );
+        } else if (this.props.user.auth_service === Constants.GITLAB_SERVICE) {
             describe = (
                 <FormattedMessage
                     id='user.settings.security.gitlab'
@@ -810,6 +859,7 @@ export default class SecurityTab extends React.PureComponent {
         const passwordSection = this.createPasswordSection();
 
         let numMethods = 0;
+        numMethods = this.props.enableSignUpWithGitHub ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithGitLab ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithGoogle ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithOffice365 ? numMethods + 1 : numMethods;

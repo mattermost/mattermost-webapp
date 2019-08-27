@@ -50,6 +50,7 @@ class LoginController extends React.Component {
         enableSignInWithEmail: PropTypes.bool.isRequired,
         enableSignInWithUsername: PropTypes.bool.isRequired,
         enableSignUpWithEmail: PropTypes.bool.isRequired,
+        enableSignUpWithGitHub: PropTypes.bool.isRequired,
         enableSignUpWithGitLab: PropTypes.bool.isRequired,
         enableSignUpWithGoogle: PropTypes.bool.isRequired,
         enableSignUpWithOffice365: PropTypes.bool.isRequired,
@@ -413,6 +414,7 @@ class LoginController extends React.Component {
 
     checkSignUpEnabled = () => {
         return this.props.enableSignUpWithEmail ||
+            this.props.enableSignUpWithGitHub ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
             this.props.enableSignUpWithGoogle ||
@@ -526,6 +528,7 @@ class LoginController extends React.Component {
         const loginControls = [];
 
         const ldapEnabled = this.state.ldapEnabled;
+        const githubSigninEnabled = this.props.enableSignUpWithGitHub;
         const gitlabSigninEnabled = this.props.enableSignUpWithGitLab;
         const googleSigninEnabled = this.props.enableSignUpWithGoogle;
         const office365SigninEnabled = this.props.enableSignUpWithOffice365;
@@ -642,7 +645,7 @@ class LoginController extends React.Component {
             );
         }
 
-        if ((emailSigninEnabled || usernameSigninEnabled || ldapEnabled) && (gitlabSigninEnabled || googleSigninEnabled || samlSigninEnabled || office365SigninEnabled)) {
+        if ((emailSigninEnabled || usernameSigninEnabled || ldapEnabled) && (githubSigninEnabled || gitlabSigninEnabled || googleSigninEnabled || samlSigninEnabled || office365SigninEnabled)) {
             loginControls.push(
                 <div
                     key='divider'
@@ -678,6 +681,26 @@ class LoginController extends React.Component {
                             <FormattedMessage
                                 id='login.gitlab'
                                 defaultMessage='GitLab'
+                            />
+                        </span>
+                    </span>
+                </a>
+            );
+        }
+
+        if (githubSigninEnabled) {
+            loginControls.push(
+                <a
+                    className='btn btn-custom-login github'
+                    key='github'
+                    href={Client4.getOAuthRoute() + '/github/login' + this.props.location.search}
+                >
+                    <span>
+                        <span className='icon'/>
+                        <span>
+                            <FormattedMessage
+                                id='login.github'
+                                defaultMessage='GitHub'
                             />
                         </span>
                     </span>
