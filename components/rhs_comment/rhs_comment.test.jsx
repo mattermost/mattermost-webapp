@@ -15,6 +15,11 @@ jest.mock('utils/post_utils.jsx', () => ({
     fromAutoResponder: jest.fn().mockReturnValue(false),
 }));
 
+import {isMobile} from 'utils/utils';
+jest.mock('utils/utils', () => ({
+    isMobile: jest.fn(),
+}));
+
 describe('components/RhsComment', () => {
     let post;
     let defaultProps;
@@ -75,6 +80,15 @@ describe('components/RhsComment', () => {
         );
 
         wrapper.setState({hover: true});
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot mobile', () => {
+        isMobile.mockImplementation(() => true);
+        const wrapper = shallowWithIntl(
+            <RhsComment {...defaultProps}/>
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
