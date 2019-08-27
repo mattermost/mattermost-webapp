@@ -84,8 +84,4 @@ body {
 
 img {
     max-width: 100%;
-
-    &.rounded {
-        @include border-radius(100%);
-    }
 }

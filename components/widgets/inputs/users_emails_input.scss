@@ -139,14 +139,12 @@
                 margin: 3px;
             }
         }
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 18px;
+        .Avatar {
             display: inline-block;
             margin-right: 8px;
         }
     }
+
     .show {
         display: block;
     }
@@ -180,10 +178,7 @@
                 fill: var(--button-color-90);
             }
         }
-        .avatar {
-            border-radius: 16px;
-            width: 24px;
-            height: 24px;
+        .Avatar {
             margin-right: 4px;
         }
     }

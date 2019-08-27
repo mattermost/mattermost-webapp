@@ -4,9 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import EmailIcon from 'components/svg/mail_icon';
-import AlertIcon from 'components/svg/alert_icon';
+import EmailIcon from 'components/widgets/icons/mail_icon';
+import AlertIcon from 'components/widgets/icons/alert_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
 
@@ -27,10 +28,10 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             className = 'name';
             const profileImg = imageURLForUser(invitation.user);
             icon = (
-                <img
-                    className='avatar'
-                    alt={`${invitation.user.username || 'user'} profile image`}
-                    src={profileImg}
+                <Avatar
+                    username={invitation.user.username}
+                    url={profileImg}
+                    size='lg'
                 />
             );
             username = getLongDisplayName(invitation.user);

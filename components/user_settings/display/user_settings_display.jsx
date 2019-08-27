@@ -16,7 +16,7 @@ import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
-import BackIcon from 'components/icon/back_icon';
+import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import ManageTimezones from './manage_timezones';
 import ManageLanguages from './manage_languages';

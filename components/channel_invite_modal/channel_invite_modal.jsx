@@ -12,7 +12,7 @@ import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import AddIcon from 'components/icon/add_icon';
+import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 
@@ -166,8 +166,7 @@ export default class ChannelInviteModal extends React.Component {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
