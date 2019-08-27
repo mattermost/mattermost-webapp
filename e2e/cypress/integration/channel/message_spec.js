@@ -103,7 +103,7 @@ describe('Message', () => {
         });
     });
 
-    it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
+    it('M14320 @here, @all and @channel (ending in a period) still highlight', () => {
         // # Login as new user
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL

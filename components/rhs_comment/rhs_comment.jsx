@@ -25,7 +25,7 @@ import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
 import Badge from 'components/widgets/badges/badge.jsx';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
@@ -437,7 +437,10 @@ export default class RhsComment extends React.PureComponent {
                 aria-label={this.state.currentAriaLabel}
                 onFocus={this.handlePostFocus}
             >
-                <div className='post__content'>
+                <div
+                    role='application'
+                    className='post__content'
+                >
                     <div className='post__img'>
                         {profilePicture}
                     </div>

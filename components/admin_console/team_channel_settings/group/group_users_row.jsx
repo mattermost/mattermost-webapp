@@ -11,6 +11,8 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
+import Avatar from 'components/widgets/users/avatar';
+
 export default class AdminGroupUsersRow extends React.PureComponent {
     static propTypes = {
         displayName: PropTypes.string.isRequired,
@@ -58,10 +60,10 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                     <div className='group-name col-sm-8'>
                         <div className='row'>
                             <div className='col-sm-2'>
-                                <img
-                                    className='group-user-profile-picture'
-                                    alt={''}
-                                    src={Client4.getProfilePictureUrl(user.id, lastPictureUpdate)}
+                                <Avatar
+                                    username={user.username}
+                                    url={Client4.getProfilePictureUrl(user.id, lastPictureUpdate)}
+                                    size='lg'
                                 />
                             </div>
                             <div className='col-sm-10'>

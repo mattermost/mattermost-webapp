@@ -36,7 +36,7 @@ Cypress.on('test:after:run', (test, runnable) => {
             // has the same hook id, or until we get to a tile of ''
             // (which means we are at the top level)
             if (parent.id !== `r${hookId}`) {
-                while (parent.parent.id !== `r${hookId}`) {
+                while (parent.parent && parent.parent.id !== `r${hookId}`) {
                     if (parent.title === '') {
                         // If we have a title of '' we have reached the top parent
                         break;

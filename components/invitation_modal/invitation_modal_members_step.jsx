@@ -9,11 +9,11 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import InviteIcon from 'components/svg/invite_icon';
+import InviteIcon from 'components/widgets/icons/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/svg/back_icon';
-import LinkIcon from 'components/svg/link_icon';
+import BackIcon from 'components/widgets/icons/back_icon';
+import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url.jsx';
 import {t} from 'utils/i18n.jsx';
@@ -37,6 +37,7 @@ export default class InvitationModalMembersStep extends React.Component {
             usersAndEmails: [],
             copiedLink: false,
             termWithoutResults: null,
+            usersInputValue: '',
         };
     }
 
@@ -80,10 +81,6 @@ export default class InvitationModalMembersStep extends React.Component {
     }, 150);
 
     usersLoader = (term, callback) => {
-        if (isEmail(term)) {
-            callback([]);
-            return;
-        }
         if (this.state.termWithoutResults && term.startsWith(this.state.termWithoutResults)) {
             callback([]);
             return;
@@ -97,7 +94,12 @@ export default class InvitationModalMembersStep extends React.Component {
 
     onChange = (usersAndEmails) => {
         this.setState({usersAndEmails});
-        this.props.onEdit(usersAndEmails.length > 0);
+        this.props.onEdit(usersAndEmails.length > 0 || this.state.usersInputValue);
+    }
+
+    onUsersInputChange = (usersInputValue) => {
+        this.setState({usersInputValue});
+        this.props.onEdit(this.state.usersAndEmails.length > 0 || usersInputValue);
     }
 
     submit = () => {
@@ -110,7 +112,7 @@ export default class InvitationModalMembersStep extends React.Component {
                 users.push(userOrEmail);
             }
         }
-        this.props.onSubmit(users, emails);
+        this.props.onSubmit(users, emails, this.state.usersInputValue);
     }
 
     render() {
@@ -203,6 +205,8 @@ export default class InvitationModalMembersStep extends React.Component {
                                     validAddressMessageDefault='Invite **{email}** as a team member'
                                     noMatchMessageId={t('invitation_modal.members.users_emails_input.no_user_found_matching')}
                                     noMatchMessageDefault='No one found matching **{text}**, type email to invite'
+                                    onInputChange={this.onUsersInputChange}
+                                    inputValue={this.state.usersInputValue}
                                 />
                             )}
                         </FormattedMessage>

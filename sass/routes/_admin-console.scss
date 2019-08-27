@@ -827,12 +827,6 @@
         }
     }
 
-    .manage-teams__profile-picture {
-        border-radius: 20px;
-        height: 40px;
-        width: 40px;
-    }
-
     .manage-teams__info {
         flex: 1;
         margin-left: 10px;
@@ -919,26 +913,6 @@
         right: 11px;
         top: 15px;
         width: 0;
-    }
-}
-
-.admin-setting-user__image {
-    @include border-radius(20px);
-    display: block;
-    font-size: 15px;
-    height: 16px;
-    line-height: 16px;
-    margin-right: 7px;
-    margin-top: 3px;
-    text-align: center;
-    width: 16px;
-
-    .admin-setting-user--align {
-        display: inline-block;
-        max-width: 80%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
 
