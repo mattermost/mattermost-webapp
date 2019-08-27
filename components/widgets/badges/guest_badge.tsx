@@ -8,8 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import Badge from './badge';
 
 type Props = {
-    className: string,
-    show: boolean,
+    className: string;
+    show: boolean;
 };
 
 export default function GuestBadge(props: Props) {

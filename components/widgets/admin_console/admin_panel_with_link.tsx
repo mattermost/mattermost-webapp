@@ -9,17 +9,17 @@ import {Link} from 'react-router-dom';
 import AdminPanel from './admin_panel';
 
 type Props = {
-    children?: React.ReactNode,
-    className: string,
-    id?: string,
-    titleId: string,
-    titleDefault: string,
-    subtitleId: string,
-    subtitleDefault: string,
-    url: string,
-    disabled: boolean,
-    linkTextId: string,
-    linkTextDefault: string,
+    children?: React.ReactNode;
+    className: string;
+    id?: string;
+    titleId: string;
+    titleDefault: string;
+    subtitleId: string;
+    subtitleDefault: string;
+    url: string;
+    disabled: boolean;
+    linkTextId: string;
+    linkTextDefault: string;
 }
 
 const AdminPanelWithLink = (props: Props) => {

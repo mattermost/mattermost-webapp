@@ -2,7 +2,8 @@
   "extends": [
     "./node_modules/eslint-config-mattermost/.eslintrc.json",
     "./node_modules/eslint-config-mattermost/.eslintrc-react.json",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
     "import",
@@ -20,6 +21,29 @@
     }
   },
   "rules": {
+    "@typescript-eslint/no-var-requires": [0],
+    "@typescript-eslint/prefer-interface": [0],
+    "@typescript-eslint/indent": [
+      2,
+      4,
+      {
+        "SwitchCase": 0
+      }
+    ],
+    "@typescript-eslint/no-use-before-define": [
+      2,
+      {
+        "classes": false,
+        "functions": false,
+        "variables": false
+      }
+    ],
+    "@typescript-eslint/camelcase": [
+      2,
+      {
+        "properties": "never"
+      }
+    ],
     "import/no-unresolved": 2,
     "import/order": [
       "error",

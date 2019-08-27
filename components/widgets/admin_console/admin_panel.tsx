@@ -8,19 +8,19 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type Props = {
-    id?: string,
-    className: string,
-    onHeaderClick?: React.EventHandler<React.MouseEvent>,
-    titleId: string,
-    titleDefault: string,
-    subtitleId: string,
-    subtitleDefault: string,
-    subtitleValues?: any,
-    button?: React.ReactNode,
-    children?: React.ReactNode,
+    id?: string;
+    className: string;
+    onHeaderClick?: React.EventHandler<React.MouseEvent>;
+    titleId: string;
+    titleDefault: string;
+    subtitleId: string;
+    subtitleDefault: string;
+    subtitleValues?: any;
+    button?: React.ReactNode;
+    children?: React.ReactNode;
 };
 
-const AdminPanel = (props: Props) => (
+const AdminPanel: React.FC<Props> = (props: Props) => (
     <div
         className={'AdminPanel ' + props.className}
         id={props.id}

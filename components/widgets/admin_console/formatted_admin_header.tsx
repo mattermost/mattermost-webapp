@@ -9,12 +9,12 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdminHeader from './admin_header';
 
 type Props = {
-    id: string,
-    defaultMessage: string,
-    values?: any,
+    id: string;
+    defaultMessage: string;
+    values?: any;
 };
 
-const FormattedAdminHeader = (props:Props) => (
+const FormattedAdminHeader: React.FC<Props> = (props: Props) => (
     <AdminHeader>
         <FormattedMarkdownMessage
             id={props.id}

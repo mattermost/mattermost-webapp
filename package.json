@@ -13,7 +13,6 @@
     "@types/react-dom": "16.8.5",
     "@types/react-router-dom": "4.3.4",
     "@types/react-transition-group": "4.2.2",
-    "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
     "bootstrap": "3.4.1",
     "bootstrap-colorpicker": "2.5.2",
@@ -86,6 +85,7 @@
     "@babel/preset-typescript": "7.3.3",
     "@hot-loader/react-dom": "16.8.6",
     "@types/react-intl": "2.3.18",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "24.8.0",
     "babel-loader": "8.0.6",
@@ -194,8 +194,8 @@
     "output": "build/test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet",
-    "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx . --quiet --fix",
+    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
+    "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",

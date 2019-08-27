@@ -9,18 +9,18 @@ import AccordionToggleIcon from 'components/widgets/icons/accordion_toggle_icon.
 import AdminPanel from './admin_panel';
 
 type Props = {
-    children?: React.ReactNode,
-    className: string,
-    id?: string,
-    open: boolean,
-    titleId: string,
-    titleDefault: string,
-    subtitleId: string,
-    subtitleDefault: string,
-    onToggle?: React.EventHandler<React.MouseEvent>,
+    children?: React.ReactNode;
+    className: string;
+    id?: string;
+    open: boolean;
+    titleId: string;
+    titleDefault: string;
+    subtitleId: string;
+    subtitleDefault: string;
+    onToggle?: React.EventHandler<React.MouseEvent>;
 };
 
-const AdminPanelTogglable = (props: Props) => {
+const AdminPanelTogglable: React.FC<Props> = (props: Props) => {
     return (
         <AdminPanel
             className={'AdminPanelTogglable ' + props.className + (props.open ? '' : ' closed')}

@@ -7,24 +7,24 @@ import PropTypes from 'prop-types';
 import './badge.scss';
 
 type Props = {
-    show: boolean,
-    children: React.ReactNode,
-    className: string,
+    show: boolean;
+    children: React.ReactNode;
+    className: string;
 };
 
 export default class Badge extends React.Component<Props> {
-    static propTypes = {
+    public static propTypes = {
         show: PropTypes.bool.isRequired,
         children: PropTypes.node.isRequired,
         className: PropTypes.string,
     };
 
-    static defaultProps = {
+    public static defaultProps = {
         show: true,
         className: '',
     };
 
-    render() {
+    public render(): React.ReactNode {
         if (!this.props.show) {
             return null;
         }

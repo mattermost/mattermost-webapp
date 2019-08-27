@@ -17,34 +17,32 @@ type Props = {
     onClose: () => void;
 };
 
-type State = {};
-
-export default class FullScreenModal extends React.Component<Props, State> {
-    static propTypes = {
+export default class FullScreenModal extends React.Component<Props> {
+    public static propTypes = {
         show: PropTypes.bool.isRequired,
         children: PropTypes.node.isRequired,
         onClose: PropTypes.func.isRequired,
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         document.addEventListener('keydown', this.handleKeypress);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         document.removeEventListener('keydown', this.handleKeypress);
     }
 
-    handleKeypress = (e: KeyboardEvent) => {
+    private handleKeypress = (e: KeyboardEvent): void => {
         if (e.key === 'Escape' && this.props.show) {
             this.close();
         }
     }
 
-    close = () => {
+    private close = (): void => {
         this.props.onClose();
     }
 
-    render() {
+    public render(): React.ReactNode {
         return (
             <CSSTransition
                 in={this.props.show}

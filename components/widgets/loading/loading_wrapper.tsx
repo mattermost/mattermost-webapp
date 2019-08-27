@@ -7,25 +7,25 @@ import React from 'react';
 import LoadingSpinner from './loading_spinner';
 
 type Props = {
-    loading: boolean,
-    text: React.ReactNode,
-    children: React.ReactNode,
+    loading: boolean;
+    text: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export default class LoadingWrapper extends React.Component<Props> {
-    static propTypes = {
+    public static propTypes = {
         loading: PropTypes.bool.isRequired,
         text: PropTypes.node,
         children: PropTypes.node,
     }
 
-    static defaultProps = {
+    public static defaultProps = {
         loading: true,
         text: null,
         children: null,
     }
 
-    render() {
+    public render(): React.ReactNode {
         const {text, loading, children} = this.props;
         if (!loading) {
             return children;

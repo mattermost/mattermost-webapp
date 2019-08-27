@@ -5,13 +5,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class AdminHeader extends React.Component {
-    static get propTypes() {
+    public static get propTypes() {
         return {
             children: PropTypes.node.isRequired,
         };
     }
 
-    render() {
+    public render(): React.ReactNode {
         return (
             <div className={'admin-console__header'}>
                 {this.props.children}

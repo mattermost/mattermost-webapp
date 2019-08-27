@@ -8,20 +8,20 @@ import {FormattedMessage} from 'react-intl';
 import AdminPanel from './admin_panel';
 
 type Props = {
-    children?: React.ReactNode,
-    className: string,
-    id?: string,
-    titleId: string,
-    titleDefault: string,
-    subtitleId: string,
-    subtitleDefault: string,
-    onButtonClick?: React.EventHandler<React.MouseEvent>,
-    disabled?: boolean,
-    buttonTextId?: string,
-    buttonTextDefault?: string,
+    children?: React.ReactNode;
+    className: string;
+    id?: string;
+    titleId: string;
+    titleDefault: string;
+    subtitleId: string;
+    subtitleDefault: string;
+    onButtonClick?: React.EventHandler<React.MouseEvent>;
+    disabled?: boolean;
+    buttonTextId?: string;
+    buttonTextDefault?: string;
 }
 
-const AdminPanelWithButton = (props: Props) => {
+const AdminPanelWithButton: React.FC<Props> = (props: Props) => {
     let button;
     if (props.onButtonClick && props.buttonTextId) {
         button = (

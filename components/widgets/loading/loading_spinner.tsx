@@ -6,23 +6,23 @@ import React from 'react';
 import {intlShape} from 'react-intl';
 
 type Props = {
-    text: React.ReactNode,
+    text: React.ReactNode;
 }
 
 export default class LoadingSpinner extends React.PureComponent<Props> {
-    static propTypes = {
+    public static propTypes = {
         text: PropTypes.node,
     }
 
-    static defaultProps = {
+    public static defaultProps = {
         text: null,
     }
 
-    static contextTypes = {
+    public static contextTypes = {
         intl: intlShape.isRequired,
     };
 
-    render() {
+    public render(): React.ReactNode {
         const {formatMessage} = this.context.intl;
         return (
             <span

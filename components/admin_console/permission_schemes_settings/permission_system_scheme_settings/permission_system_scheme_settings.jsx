@@ -127,7 +127,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
     }
 
     loadRolesIntoState(props) {
-        const {system_admin, team_admin, channel_admin, system_user, team_user, channel_user, system_guest, team_guest, channel_guest} = props.roles; // eslint-disable-line camelcase
+        const {system_admin, team_admin, channel_admin, system_user, team_user, channel_user, system_guest, team_guest, channel_guest} = props.roles; // eslint-disable-line camelcase, @typescript-eslint/camelcase
         this.setState({
             selectedPermission: null,
             loaded: true,
