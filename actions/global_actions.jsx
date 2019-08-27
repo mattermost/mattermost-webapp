@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import {
     createDirectChannel,
+    fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
     getMyChannelMember,
@@ -15,7 +16,7 @@ import {
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
@@ -282,9 +283,9 @@ export async function redirectUserToDefaultTeam() {
 
     state = getState();
 
-    const userId = getCurrentUserId(state);
+    const user = getCurrentUser(state);
     const locale = getCurrentLocale(state);
-    const teamId = LocalStorageStore.getPreviousTeamId(userId);
+    const teamId = LocalStorageStore.getPreviousTeamId(user.id);
 
     let team = getTeam(state, teamId);
     const myMember = getMyTeamMember(state, teamId);
@@ -301,9 +302,15 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
-    if (userId && team) {
-        let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
+    if (user.id && team) {
+        if (Utils.isGuest(user)) {
+            await dispatch(fetchMyChannelsAndMembers(team.id));
+            state = getState();
+        }
+
+        let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
         const channel = getChannelByName(state, channelName);
+
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
@@ -315,7 +322,7 @@ export async function redirectUserToDefaultTeam() {
         }
 
         browserHistory.push(`/${team.name}/channels/${channelName}`);
-    } else if (userId) {
+    } else if (user.id) {
         browserHistory.push('/select_team');
     }
 }
