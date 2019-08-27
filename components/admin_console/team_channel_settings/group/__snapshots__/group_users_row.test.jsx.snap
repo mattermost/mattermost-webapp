@@ -35,10 +35,9 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
           >
             <b>
               @test
-               
+               
             </b>
-            -
-             
+            - 
             Test display name
           </div>
           <div
@@ -98,10 +97,9 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
           >
             <b>
               @test
-               
+               
             </b>
-            -
-             
+            - 
             Test display name
           </div>
           <div

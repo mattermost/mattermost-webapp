@@ -127,7 +127,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
             id="about.licensed"
             values={Object {}}
           />
-           
+           
           Mattermost Inc
         </div>
       </div>
@@ -215,7 +215,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           id="about.hash"
           values={Object {}}
         />
-         
+         
         abcdef1234567890
         <br />
         <FormattedMessage
@@ -223,7 +223,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           id="about.hashee"
           values={Object {}}
         />
-         
+         
         0123456789abcdef
         <br />
         <FormattedMessage
@@ -231,7 +231,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           id="about.hashwebapp"
           values={Object {}}
         />
-         
+         
         0a1b2c3d4f
       </p>
       <p>
@@ -240,7 +240,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
           id="about.date"
           values={Object {}}
         />
-         
+         
         21 January 2017
       </p>
     </div>
@@ -452,7 +452,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           id="about.hash"
           values={Object {}}
         />
-         
+         
         abcdef1234567890
         <br />
         <FormattedMessage
@@ -460,14 +460,14 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           id="about.hashee"
           values={Object {}}
         />
-         
+         
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
           values={Object {}}
         />
-         
+         
         0a1b2c3d4f
       </p>
       <p>
@@ -476,7 +476,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
           id="about.date"
           values={Object {}}
         />
-         
+         
         21 January 2017
       </p>
     </div>
@@ -700,7 +700,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           id="about.hash"
           values={Object {}}
         />
-         
+         
         abcdef1234567890
         <br />
         <FormattedMessage
@@ -708,14 +708,14 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           id="about.hashee"
           values={Object {}}
         />
-         
+         
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
           values={Object {}}
         />
-         
+         
         0a1b2c3d4f
       </p>
       <p>
@@ -724,7 +724,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
           id="about.date"
           values={Object {}}
         />
-         
+         
         21 January 2017
       </p>
     </div>
@@ -936,7 +936,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           id="about.hash"
           values={Object {}}
         />
-         
+         
         abcdef1234567890
         <br />
         <FormattedMessage
@@ -944,14 +944,14 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           id="about.hashee"
           values={Object {}}
         />
-         
+         
         <br />
         <FormattedMessage
           defaultMessage="Webapp Build Hash:"
           id="about.hashwebapp"
           values={Object {}}
         />
-         
+         
         0a1b2c3d4f
       </p>
       <p>
@@ -960,7 +960,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
           id="about.date"
           values={Object {}}
         />
-         
+         
         21 January 2017
       </p>
     </div>

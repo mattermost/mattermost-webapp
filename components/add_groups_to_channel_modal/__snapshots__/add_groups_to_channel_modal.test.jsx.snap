@@ -112,9 +112,7 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
     <div
       className="more-modal__name"
     >
-       
-      -
-       
+       - 
       <span
         className="more-modal__name_sub"
       >
@@ -160,9 +158,7 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
     <div
       className="more-modal__name"
     >
-       
-      -
-       
+       - 
       <span
         className="more-modal__name_sub"
       >
@@ -208,9 +204,7 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
     <div
       className="more-modal__name"
     >
-       
-      -
-       
+       - 
       <span
         className="more-modal__name_sub"
       >

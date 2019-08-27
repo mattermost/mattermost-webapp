@@ -188,7 +188,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     className='more-modal__details'
                 >
                     <div className='more-modal__name'>
-                        {option.display_name}{'&nbsp;-&nbsp;'}<span className='more-modal__name_sub'>
+                        {option.display_name}{' - '}<span className='more-modal__name_sub'>
                             <FormattedMessage
                                 id='numMembers'
                                 defaultMessage='{num, number} {num, plural, one {member} other {members}}'
