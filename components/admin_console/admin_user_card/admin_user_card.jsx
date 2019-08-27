@@ -22,8 +22,8 @@ const AdminUserCard = (props) => (
         <div className='AdminUserCard__header'>
             <ProfilePicture
                 src={Client4.getProfilePictureUrl(props.user.id, props.user.last_picture_update)}
-                width='134'
-                height='134'
+                size='xxl'
+                wrapperClass='admin-user-card'
                 userId={props.user.id}
             />
             <div className='AdminUserCard__user-info'>

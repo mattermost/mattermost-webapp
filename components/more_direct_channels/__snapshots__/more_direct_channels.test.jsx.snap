@@ -7,12 +7,12 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
 >
   <ProfilePicture
     hasMention={false}
-    height="32"
     isEmoji={false}
     isRHS={false}
+    size="md"
     src="/api/v4/users/user_id_1/image"
     status="online"
-    width="32"
+    wrapperClass=""
   />
   <div
     className="more-modal__details"

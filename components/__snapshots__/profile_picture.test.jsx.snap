@@ -7,12 +7,9 @@ exports[`components/ProfilePicture should match snapshot, no user specified, def
   <span
     className="profile-icon "
   >
-    <img
-      alt=""
-      className="more-modal__image"
-      height="36"
-      src="http://example.com/image.png"
-      width="36"
+    <Avatar
+      size="md"
+      url="http://example.com/image.png"
     />
   </span>
   <StatusIcon
@@ -30,12 +27,9 @@ exports[`components/ProfilePicture should match snapshot, no user specified, ove
   <span
     className="profile-icon "
   >
-    <img
-      alt=""
-      className="more-modal__image"
-      height="48"
-      src="http://example.com/image.png"
-      width="48"
+    <Avatar
+      size="xl"
+      url="http://example.com/image.png"
     />
   </span>
   <StatusIcon
@@ -64,17 +58,14 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
   trigger="click"
 >
   <span
-    className="status-wrapper"
+    className="status-wrapper "
   >
     <span
       className="profile-icon "
     >
-      <img
-        alt="user profile image"
-        className="ProfilePicture more-modal__image"
-        height="36"
-        src="http://example.com/emoji.png"
-        width="36"
+      <Avatar
+        size="md"
+        url="http://example.com/emoji.png"
       />
     </span>
     <StatusIcon
@@ -93,12 +84,9 @@ exports[`components/ProfilePicture should match snapshot, user specified 1`] = `
   <span
     className="profile-icon "
   >
-    <img
-      alt=""
-      className="more-modal__image"
-      height="36"
-      src="http://example.com/image.png"
-      width="36"
+    <Avatar
+      size="md"
+      url="http://example.com/image.png"
     />
   </span>
   <StatusIcon
@@ -116,12 +104,9 @@ exports[`components/ProfilePicture should match snapshot, user specified, overri
   <span
     className="profile-icon "
   >
-    <img
-      alt=""
-      className="more-modal__image"
-      height="48"
-      src="http://example.com/image.png"
-      width="48"
+    <Avatar
+      size="xs"
+      url="http://example.com/image.png"
     />
   </span>
   <StatusIcon

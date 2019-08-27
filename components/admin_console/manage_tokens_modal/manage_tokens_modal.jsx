@@ -10,6 +10,7 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import RevokeTokenButton from 'components/admin_console/revoke_token_button';
 import LoadingScreen from 'components/loading_screen.jsx';
+import Avatar from 'components/widgets/users/avatar.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -131,10 +132,10 @@ export default class ManageTokensModal extends React.PureComponent {
         return (
             <div>
                 <div className='manage-teams__user'>
-                    <img
-                        alt={''}
-                        className='manage-teams__profile-picture'
-                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                    <Avatar
+                        username={user.username}
+                        url={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                        size='lg'
                     />
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>

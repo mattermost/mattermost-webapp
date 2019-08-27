@@ -18,6 +18,7 @@ import Pluggable from 'plugins/pluggable';
 
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import Avatar from 'components/widgets/users/avatar';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -217,12 +218,10 @@ class ProfilePopover extends React.PureComponent {
 
         var dataContent = [];
         dataContent.push(
-            <img
-                className='user-popover__image'
-                alt={`${this.props.user.username || 'user'} profile image`}
-                src={this.props.src}
-                height='128'
-                width='128'
+            <Avatar
+                size='xxl'
+                username={this.props.user.username}
+                url={this.props.src}
                 key='user-popover-image'
             />
         );

@@ -7,24 +7,22 @@ import {OverlayTrigger} from 'react-bootstrap';
 
 import ProfilePopover from 'components/profile_popover';
 import StatusIcon from 'components/status_icon';
-
-import './profile_picture.scss';
+import Avatar from 'components/widgets/users/avatar';
 
 export default class ProfilePicture extends React.PureComponent {
     static defaultProps = {
-        width: '36',
-        height: '36',
+        size: 'md',
         isRHS: false,
         isEmoji: false,
         hasMention: false,
+        wrapperClass: '',
     };
 
     static propTypes = {
         src: PropTypes.string.isRequired,
         profileSrc: PropTypes.string,
         status: PropTypes.string,
-        width: PropTypes.string,
-        height: PropTypes.string,
+        size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', 'xxl']),
         userId: PropTypes.string,
         username: PropTypes.string,
         isBusy: PropTypes.bool,
@@ -65,14 +63,12 @@ export default class ProfilePicture extends React.PureComponent {
                         />
                     }
                 >
-                    <span className='status-wrapper'>
+                    <span className={`status-wrapper ${this.props.wrapperClass}`}>
                         <span className={profileIconClass}>
-                            <img
-                                className='ProfilePicture more-modal__image'
-                                alt={`${this.props.username || 'user'} profile image`}
-                                width={this.props.width}
-                                height={this.props.width}
-                                src={this.props.src}
+                            <Avatar
+                                username={this.props.username}
+                                size={this.props.size}
+                                url={this.props.src}
                             />
                         </span>
                         <StatusIcon status={this.props.status}/>
@@ -83,12 +79,9 @@ export default class ProfilePicture extends React.PureComponent {
         return (
             <span className='status-wrapper'>
                 <span className={profileIconClass}>
-                    <img
-                        className='more-modal__image'
-                        alt=''
-                        height={this.props.width}
-                        width={this.props.width}
-                        src={this.props.src}
+                    <Avatar
+                        size={this.props.size}
+                        url={this.props.src}
                     />
                 </span>
                 <StatusIcon status={this.props.status}/>
