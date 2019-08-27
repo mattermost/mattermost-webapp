@@ -6,7 +6,7 @@
     height: 100%;
     line-height: 20px;
     min-height: 36px;
-    overflow-x: hidden;
+    overflow: hidden;
     resize: none;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -69,7 +69,7 @@
 
 .help__format-text {
     @include opacity(0);
-    @include single-transition(all, .5s, ease, .5s);
+    @include single-transition(all, .3s, ease-in, .3s);
     display: inline-block;
     font-size: .85em;
     vertical-align: bottom;
@@ -440,12 +440,8 @@
     .custom-textarea {
         bottom: 0;
         max-height: calc(50vh - 40px);
-        overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
-        -ms-overflow-style: auto;
-        -webkit-overflow-scrolling: touch;
-        overflow-y: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;

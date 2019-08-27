@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Constants, NotificationLevels} from 'utils/constants';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
+import Menu from 'components/widgets/menu/menu';
 
 import MenuItemToggleMuteChannel from './toggle_mute_channel';
 
@@ -40,7 +40,7 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
         };
         const wrapper = shallow(<MenuItemToggleMuteChannel {...props}/>);
 
-        wrapper.find(MenuItemAction).simulate('click');
+        wrapper.find(Menu.ItemAction).simulate('click');
 
         expect(props.actions.updateChannelNotifyProps).toBeCalledWith(
             props.user.id,
@@ -59,7 +59,7 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
         };
         const wrapper = shallow(<MenuItemToggleMuteChannel {...props}/>);
 
-        wrapper.find(MenuItemAction).simulate('click');
+        wrapper.find(Menu.ItemAction).simulate('click');
 
         expect(props.actions.updateChannelNotifyProps).toBeCalledWith(
             props.user.id,

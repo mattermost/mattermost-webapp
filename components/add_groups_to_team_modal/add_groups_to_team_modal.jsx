@@ -13,7 +13,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import groupsAvatar from 'images/groups-avatar.png';
-import AddIcon from 'components/icon/add_icon';
+import AddIcon from 'components/widgets/icons/fa_add_icon';
 
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
