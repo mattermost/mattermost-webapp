@@ -11,6 +11,7 @@ import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/svg/plugin_icon.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
@@ -28,11 +29,11 @@ const MarketplaceTabs = {
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
         show: PropTypes.bool,
-        installedPlugins: PropTypes.object.isRequired,
+        installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
-            getPlugins: PropTypes.func.isRequired,
+            getMarketplacePlugins: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -42,23 +43,17 @@ export default class MarketplaceModal extends React.Component {
         this.state = {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
             loading: true,
-            loadedPlugins: false,
         };
-
-        this.props.actions.getPlugins().then(
-            () => this.setState({loadedPlugins: true})
-        );
     }
 
-    componentDidMount() {
-        if (this.state.loadedPlugins) {
-            return;
-        }
+    componentWillMount() {
+        this.getMarketplacePlugins();
+    }
 
-        //WIP : This will be replaced with getting the marketplace plugins
-        this.props.actions.getPlugins().then(
-            () => this.setState({loadedPlugins: true})
-        );
+    getMarketplacePlugins = async () => {
+        await this.props.actions.getMarketplacePlugins();
+
+        this.setState({loading: false});
     }
 
     handleSelect = (key) => {
@@ -74,12 +69,6 @@ export default class MarketplaceModal extends React.Component {
     }
 
     render() {
-        //WIP: This will be replaced with only a list from the marketplace server
-        const installedPluginsArray = [];
-        Object.entries(this.props.installedPlugins).forEach(([, plugin]) => {
-            installedPluginsArray.push(plugin);
-        });
-
         //WIP: To add pagination section
 
         const input = (
@@ -123,48 +112,51 @@ export default class MarketplaceModal extends React.Component {
                                 eventKey={MarketplaceTabs.ALL_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.all_plugins', 'All Plugins')}
                             >
-                                <div className='more-modal__list'>
-                                    {
-                                        this.props.marketplacePlugins.length > 0 ?
-                                            this.props.marketplacePlugins.map((p) => {
-                                                return (
-                                                    <MarketplaceItem
-                                                        key={p.manifest.id}
-                                                        id={p.manifest.id}
-                                                        name={p.manifest.name}
-                                                        description={p.manifest.description}
-                                                        version={p.manifest.version}
-                                                        isPrepackaged={false}
-                                                        itemUrl={p.download_url}
-                                                        itemState={MarketplaceItemStates.DOWNLOAD}
-                                                        onConfigure={this.close}
-                                                    />);
+                                {this.state.loading ?
+                                    <LoadingScreen/> : (
+                                        <div className='more-modal__list'>
+                                            {
+                                                this.props.marketplacePlugins.length > 0 ?
+                                                    this.props.marketplacePlugins.map((p) => {
+                                                        return (
+                                                            <MarketplaceItem
+                                                                key={p.Manifest.id}
+                                                                id={p.Manifest.id}
+                                                                name={p.Manifest.name}
+                                                                description={p.Manifest.description}
+                                                                version={p.Manifest.version}
+                                                                isPrepackaged={false}
+                                                                itemUrl={p.DownloadURL}
+                                                                itemState={MarketplaceItemStates.DOWNLOAD}
+                                                                onConfigure={this.close}
+                                                            />);
+                                                    }
+                                                    ) : (
+                                                        <div className='no_plugins_div'>
+                                                            <br/>
+                                                            <PluginIcon className='icon__plugin'/>
+                                                            <br/>
+                                                            <br/>
+                                                            <FormattedMessage
+                                                                id='marketplace_modal.no_plugins'
+                                                                defaultMessage='There are no plugins available at this time.'
+                                                            />
+                                                            <br/>
+                                                            <br/>
+                                                        </div>
+                                                    )
                                             }
-                                            ) : (
-                                                <div className='no_plugins_div'>
-                                                    <br/>
-                                                    <PluginIcon className='icon__plugin'/>
-                                                    <br/>
-                                                    <br/>
-                                                    <FormattedMessage
-                                                        id='marketplace_modal.no_plugins'
-                                                        defaultMessage='There are no plugins available at this time.'
-                                                    />
-                                                    <br/>
-                                                    <br/>
-                                                </div>
-                                            )
-                                    }
-                                </div>
+                                        </div>
+                                    ) }
                             </Tab>
                             <Tab
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
-                                title={localizeMessage('marketplace_modal.tabs.installed_plugins', `Installed (${installedPluginsArray.length})`)}
+                                title={localizeMessage('marketplace_modal.tabs.installed_plugins', `Installed (${this.props.installedPlugins.length})`)}
                             >
                                 <div className='more-modal__list'>
                                     {
-                                        installedPluginsArray.length > 0 ?
-                                            installedPluginsArray.map((p) => {
+                                        this.props.installedPlugins.length > 0 ?
+                                            this.props.installedPlugins.map((p) => {
                                                 return (
                                                     <MarketplaceItem
                                                         key={p.id}
