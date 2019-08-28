@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import Badge from './badge';
@@ -23,11 +22,6 @@ const GuestBadge: React.FC<Props> = (props: Props) => (
         />
     </Badge>
 );
-
-GuestBadge.propTypes = {
-    className: PropTypes.string,
-    show: PropTypes.bool,
-};
 
 GuestBadge.defaultProps = {
     show: true,

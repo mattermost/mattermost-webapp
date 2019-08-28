@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -23,12 +22,6 @@ const FormattedAdminHeader: React.FC<Props> = (props: Props) => (
         />
     </AdminHeader>
 );
-
-FormattedAdminHeader.propTypes = {
-    id: PropTypes.string.isRequired,
-    defaultMessage: PropTypes.string.isRequired,
-    values: PropTypes.object,
-};
 
 FormattedAdminHeader.defaultProps = {
     values: {},

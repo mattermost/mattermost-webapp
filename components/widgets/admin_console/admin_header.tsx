@@ -2,15 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export default class AdminHeader extends React.Component {
-    public static get propTypes() {
-        return {
-            children: PropTypes.node.isRequired,
-        };
-    }
+type Props = {
+    children: React.ReactNode;
+};
 
+export default class AdminHeader<Props> extends React.Component {
     public render() {
         return (
             <div className={'admin-console__header'}>

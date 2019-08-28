@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import AccordionToggleIcon from 'components/widgets/icons/accordion_toggle_icon.jsx';
 
@@ -35,18 +34,6 @@ const AdminPanelTogglable: React.FC<Props> = (props: Props) => {
             {props.children}
         </AdminPanel>
     );
-};
-
-AdminPanelTogglable.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string.isRequired,
-    id: PropTypes.string,
-    open: PropTypes.bool.isRequired,
-    titleId: PropTypes.string.isRequired,
-    titleDefault: PropTypes.string.isRequired,
-    subtitleId: PropTypes.string.isRequired,
-    subtitleDefault: PropTypes.string.isRequired,
-    onToggle: PropTypes.func.isRequired,
 };
 
 AdminPanelTogglable.defaultProps = {

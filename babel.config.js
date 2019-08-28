@@ -29,6 +29,7 @@ const config = {
         '@babel/plugin-syntax-dynamic-import',
         '@babel/proposal-object-rest-spread',
         'react-hot-loader/babel',
+        'babel-plugin-typescript-to-proptypes',
     ],
 };
 
@@ -37,6 +38,10 @@ config.env = {
     test: {
         presets: config.presets,
         plugins: config.plugins,
+    },
+    production: {
+        presets: config.presets,
+        plugins: config.plugins.filter((plugin) => plugin !== 'babel-plugin-typescript-to-proptypes'),
     },
 };
 config.env.test.presets[0][1].modules = 'auto';

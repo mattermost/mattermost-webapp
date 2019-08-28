@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
@@ -15,15 +14,10 @@ const ANIMATION_DURATION = 100;
 type Props = {
     show: boolean;
     onClose: () => void;
+    children: React.ReactNode;
 };
 
 export default class FullScreenModal extends React.Component<Props> {
-    public static propTypes = {
-        show: PropTypes.bool.isRequired,
-        children: PropTypes.node.isRequired,
-        onClose: PropTypes.func.isRequired,
-    }
-
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
     }

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -49,20 +48,6 @@ const AdminPanelWithLink = (props: Props) => {
             {props.children}
         </AdminPanel>
     );
-};
-
-AdminPanelWithLink.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string.isRequired,
-    id: PropTypes.string,
-    titleId: PropTypes.string.isRequired,
-    titleDefault: PropTypes.string.isRequired,
-    subtitleId: PropTypes.string.isRequired,
-    subtitleDefault: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    disabled: PropTypes.bool,
-    linkTextId: PropTypes.string.isRequired,
-    linkTextDefault: PropTypes.string.isRequired,
 };
 
 AdminPanelWithLink.defaultProps = {

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import AdminPanel from './admin_panel';
@@ -50,20 +49,6 @@ const AdminPanelWithButton: React.FC<Props> = (props: Props) => {
             {props.children}
         </AdminPanel>
     );
-};
-
-AdminPanelWithButton.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string.isRequired,
-    id: PropTypes.string,
-    titleId: PropTypes.string.isRequired,
-    titleDefault: PropTypes.string.isRequired,
-    subtitleId: PropTypes.string.isRequired,
-    subtitleDefault: PropTypes.string.isRequired,
-    onButtonClick: PropTypes.func,
-    disabled: PropTypes.bool,
-    buttonTextId: PropTypes.string,
-    buttonTextDefault: PropTypes.string,
 };
 
 AdminPanelWithButton.defaultProps = {
