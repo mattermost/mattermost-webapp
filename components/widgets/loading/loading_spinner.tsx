@@ -22,7 +22,7 @@ export default class LoadingSpinner extends React.PureComponent<Props> {
         intl: intlShape.isRequired,
     };
 
-    public render(): React.ReactNode {
+    public render() {
         const {formatMessage} = this.context.intl;
         return (
             <span

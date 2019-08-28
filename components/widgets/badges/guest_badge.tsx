@@ -8,23 +8,21 @@ import {FormattedMessage} from 'react-intl';
 import Badge from './badge';
 
 type Props = {
-    className: string;
-    show: boolean;
+    className?: string;
+    show?: boolean;
 };
 
-export default function GuestBadge(props: Props) {
-    return (
-        <Badge
-            className={'GuestBadge ' + props.className}
-            show={props.show}
-        >
-            <FormattedMessage
-                id='post_info.guest'
-                defaultMessage='GUEST'
-            />
-        </Badge>
-    );
-}
+const GuestBadge: React.FC<Props> = (props: Props) => (
+    <Badge
+        className={'GuestBadge ' + props.className}
+        show={props.show}
+    >
+        <FormattedMessage
+            id='post_info.guest'
+            defaultMessage='GUEST'
+        />
+    </Badge>
+);
 
 GuestBadge.propTypes = {
     className: PropTypes.string,
@@ -35,3 +33,5 @@ GuestBadge.defaultProps = {
     show: true,
     className: '',
 };
+
+export default GuestBadge;

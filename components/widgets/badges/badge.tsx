@@ -24,7 +24,7 @@ export default class Badge extends React.Component<Props> {
         className: '',
     };
 
-    public render(): React.ReactNode {
+    public render() {
         if (!this.props.show) {
             return null;
         }

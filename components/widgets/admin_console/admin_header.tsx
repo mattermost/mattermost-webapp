@@ -11,7 +11,7 @@ export default class AdminHeader extends React.Component {
         };
     }
 
-    public render(): React.ReactNode {
+    public render() {
         return (
             <div className={'admin-console__header'}>
                 {this.props.children}

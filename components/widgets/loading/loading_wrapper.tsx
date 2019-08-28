@@ -25,7 +25,7 @@ export default class LoadingWrapper extends React.Component<Props> {
         children: null,
     }
 
-    public render(): React.ReactNode {
+    public render() {
         const {text, loading, children} = this.props;
         if (!loading) {
             return children;
