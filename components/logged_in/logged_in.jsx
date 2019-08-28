@@ -13,7 +13,6 @@ import * as UserAgent from 'utils/user_agent.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
-import {webappConnector} from 'utils/webapp_connector';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
 const dispatch = store.dispatch;
