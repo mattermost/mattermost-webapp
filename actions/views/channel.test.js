@@ -160,7 +160,7 @@ describe('channel view actions', () => {
 
             expect(result.data).toBe(posts);
 
-            expect(PostActions.getPosts).toHaveBeenCalledWith('channel', 0, Posts.POST_CHUNK_SIZE / 2);
+            expect(PostActions.getPosts).toHaveBeenCalledWith('channel', 0, Posts.POST_CHUNK_SIZE / 2, false);
         });
 
         test('when oldest posts are recived', async () => {
@@ -205,7 +205,7 @@ describe('channel view actions', () => {
             const result = await store.dispatch(Actions.loadUnreads('channel', 'post'));
 
             expect(result).toEqual({atLatestMessage: true, atOldestmessage: true});
-            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
+            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel', false);
         });
 
         test('when there are posts before and after the response', async () => {
@@ -224,7 +224,7 @@ describe('channel view actions', () => {
 
             const result = await store.dispatch(Actions.loadUnreads('channel', 'post'));
             expect(result).toEqual({atLatestMessage: false, atOldestmessage: false});
-            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel');
+            expect(PostActions.getPostsUnread).toHaveBeenCalledWith('channel', false);
         });
 
         test('when there are no posts after RECEIVED_POSTS_FOR_CHANNEL_AT_TIME should be dispatched', async () => {
@@ -255,7 +255,7 @@ describe('channel view actions', () => {
 
             expect(result).toEqual({atLatestMessage: true, atOldestmessage: true});
 
-            expect(PostActions.getPostsAround).toHaveBeenCalledWith('channel', 'post', Posts.POST_CHUNK_SIZE / 2);
+            expect(PostActions.getPostsAround).toHaveBeenCalledWith('channel', 'post', Posts.POST_CHUNK_SIZE / 2, false);
         });
 
         test('when there are posts before and after reponse posts chunk', async () => {
