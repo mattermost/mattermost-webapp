@@ -34,7 +34,6 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                 totalGroups={groups.length}
                 actions={{
                     getChannel: jest.fn().mockResolvedValue([]),
-                    convertChannelToPrivate: jest.fn(),
                     linkGroupSyncable: jest.fn(),
                     conver: jest.fn(),
                     patchChannel: jest.fn(),
@@ -42,6 +41,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
                     unlinkGroupSyncable: jest.fn(),
                     getGroups: jest.fn().mockResolvedValue([]),
                     membersMinusGroupMembers: jest.fn(),
+                    updateChannelPrivacy: jest.fn(),
                 }}
                 channel={testChannel}
                 channelID={testChannel.id}

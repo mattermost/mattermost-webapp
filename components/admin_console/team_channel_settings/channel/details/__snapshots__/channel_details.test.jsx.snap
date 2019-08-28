@@ -48,8 +48,14 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
           }
         }
       />
+      <ConvertConfirmModal
+        displayName=""
+        isPublic={true}
+        onCancel={[Function]}
+        onConfirm={[Function]}
+        show={false}
+      />
       <ChannelModes
-        isOriginallyPrivate={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}

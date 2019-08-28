@@ -13,6 +13,7 @@ import Constants from 'utils/constants';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
 import RemoveConfirmModal from '../../remove_confirm_modal';
+import ConvertConfirmModal from '../../convert_confirm_modal';
 import SaveChangesPanel from '../../save_changes_panel';
 
 import {ChannelModes} from './channel_modes';
@@ -30,12 +31,12 @@ export default class ChannelDetails extends React.Component {
         actions: PropTypes.shape({
             getGroups: PropTypes.func.isRequired,
             linkGroupSyncable: PropTypes.func.isRequired,
-            convertChannelToPrivate: PropTypes.func.isRequired,
             unlinkGroupSyncable: PropTypes.func.isRequired,
             membersMinusGroupMembers: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
             getChannel: PropTypes.func.isRequired,
             patchChannel: PropTypes.func.isRequired,
+            updateChannelPrivacy: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -51,6 +52,7 @@ export default class ChannelDetails extends React.Component {
             saving: false,
             totalGroups: props.totalGroups,
             showRemoveConfirmation: false,
+            showConvertConfirmation: false,
             usersToRemove: 0,
             groups: props.groups,
             saveNeeded: false,
@@ -76,11 +78,20 @@ export default class ChannelDetails extends React.Component {
             then(() => this.setState({groups: this.props.groups}));
     }
 
-    setToggles = (isSynced, isPublic) => {
+    setToggles = (isSynced, isPublic, syncToggle) => {
+        const {channel} = this.props;
+        const isOriginallyPublic = channel.type === Constants.OPEN_CHANNEL;
+
+        if (isSynced) {
+            isPublic = false;
+        } else if (syncToggle) {
+            isPublic = isOriginallyPublic;
+        }
+
         this.setState({
             saveNeeded: true,
             isSynced,
-            isPublic: !isSynced && isPublic,
+            isPublic,
         }, () => this.processGroupsChange(this.state.groups));
         this.props.actions.setNavigationBlocked(true);
     }
@@ -132,16 +143,31 @@ export default class ChannelDetails extends React.Component {
     hideRemoveUsersModal = () => {
         this.setState({showRemoveConfirmation: false});
     }
-    showRemoveUsersModal = () => {
+
+    hideConvertChannelModal = () => {
+        this.setState({showConvertConfirmation: false});
+    }
+
+    onSave = () => {
         if (this.state.usersToRemove > 0) {
             this.setState({showRemoveConfirmation: true});
-        } else {
-            this.handleSubmit();
+            return;
         }
+
+        const {channel} = this.props;
+        const {isPublic} = this.state;
+
+        if ((channel.type === Constants.PRIVATE_CHANNEL && isPublic) ||
+            (channel.type === Constants.OPEN_CHANNEL && !isPublic)) {
+             this.setState({showConvertConfirmation: true});
+             return;
+        }
+
+        this.handleSubmit();
     }
 
     handleSubmit = async () => {
-        this.setState({showRemoveConfirmation: false, saving: true});
+        this.setState({showRemoveConfirmation: false, showConvertConfirmation: false, saving: true});
         const {groups, isSynced, isPublic} = this.state;
 
         let serverError = null;
@@ -153,14 +179,26 @@ export default class ChannelDetails extends React.Component {
             saveNeeded = true;
         } else {
             const promises = [];
-            if (!isPublic && channel.type === Constants.OPEN_CHANNEL) {
-                promises.push(actions.convertChannelToPrivate(channel.id));
+            const isOriginallyPublic = channel.type === Constants.OPEN_CHANNEL;
+
+            if (isPublic !== isOriginallyPublic) {
+                const convert = actions.updateChannelPrivacy(channel.id, isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL);
+                promises.push(convert.then((res) => {
+                    if (res && res.error) return res;
+                    return actions.patchChannel(channel.id, {
+                        ...channel,
+                        group_constrained: isSynced,
+                        type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
+                    });
+                }));
+            } else {
+                promises.push(actions.patchChannel(channel.id, {
+                    ...channel,
+                    group_constrained: isSynced,
+                    type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
+                }));
             }
-            promises.push(actions.patchChannel(channel.id, {
-                ...channel,
-                group_constrained: isSynced,
-                type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
-            }));
+
             const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
             const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
             const result = await Promise.all([...promises, ...unlink, ...link]);
@@ -177,10 +215,11 @@ export default class ChannelDetails extends React.Component {
     }
 
     render = () => {
-        const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showRemoveConfirmation, usersToRemove} = this.state;
+        const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showRemoveConfirmation, showConvertConfirmation, usersToRemove} = this.state;
         const {channel, team} = this.props;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
+
         return (
             <div className='wrapper--fixed'>
                 <div className='admin-console__header with-back'>
@@ -204,15 +243,23 @@ export default class ChannelDetails extends React.Component {
                             onCancel={this.hideRemoveUsersModal}
                             onConfirm={this.handleSubmit}
                         />
+
                         <ChannelProfile
                             channel={channel}
                             team={team}
                         />
 
+                        <ConvertConfirmModal
+                            displayName={channel.display_name || ''}
+                            show={showConvertConfirmation}
+                            onCancel={this.hideConvertChannelModal}
+                            onConfirm={this.handleSubmit}
+                            isPublic={channel.type === Constants.OPEN_CHANNEL}
+                        />
+
                         <ChannelModes
                             isPublic={isPublic}
                             isSynced={isSynced}
-                            isOriginallyPrivate={channel.type === Constants.PRIVATE_CHANNEL}
                             onToggle={this.setToggles}
                         />
 
@@ -231,11 +278,10 @@ export default class ChannelDetails extends React.Component {
                 <SaveChangesPanel
                     saving={saving}
                     saveNeeded={saveNeeded}
-                    onClick={this.showRemoveUsersModal}
+                    onClick={this.onSave}
                     serverError={serverError}
                     cancelLink='/admin_console/user_management/channels'
                 />
-
             </div>
         );
     };
