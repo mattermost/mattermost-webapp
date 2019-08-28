@@ -7,7 +7,7 @@ type Props = {
     children: React.ReactNode;
 };
 
-export default class AdminHeader<Props> extends React.Component {
+export default class AdminHeader extends React.Component<Props> {
     public render() {
         return (
             <div className={'admin-console__header'}>
