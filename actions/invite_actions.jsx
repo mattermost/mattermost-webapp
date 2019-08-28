@@ -98,7 +98,7 @@ export async function sendGuestInviteForUser(dispatch, user, teamId, channels, m
     if (memberOfAny) {
         return {notSent: {user, reason: localizeMessage('invite.guests.already-some-channels-member', 'This person is already a member of some of the channels.')}};
     }
-    return {sent: {user, reason: localizeMessage('invite.guests.new-member', 'This guest has been added to the team and channels.')}};
+    return {sent: {user, channelCount: channels.length, reason: localizeMessage('invite.guests.new-member', 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.')}};
 }
 
 export function sendGuestsInvites(teamId, channels, users, emails, message) {

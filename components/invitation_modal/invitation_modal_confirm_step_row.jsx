@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import EmailIcon from 'components/widgets/icons/mail_icon';
 import AlertIcon from 'components/widgets/icons/alert_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -55,7 +57,11 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                     {guestBadge}
                 </div>
                 <div className='reason'>
-                    {invitation.reason}
+                    <FormattedMessage
+                        id='invitation_modal_confirm_step.reason'
+                        defaultMessage={invitation.reason}
+                        values={{count: invitation.channelCount}}
+                    />
                 </div>
             </div>
         );

@@ -19,7 +19,15 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
-    Test reason email
+    <FormattedMessage
+      defaultMessage="Test reason email"
+      id="invitation_modal_confirm_step.reason"
+      values={
+        Object {
+          "count": undefined,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -43,7 +51,15 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
-    Test reason for text
+    <FormattedMessage
+      defaultMessage="Test reason for text"
+      id="invitation_modal_confirm_step.reason"
+      values={
+        Object {
+          "count": undefined,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -69,7 +85,15 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
-    Test reason user
+    <FormattedMessage
+      defaultMessage="Test reason user"
+      id="invitation_modal_confirm_step.reason"
+      values={
+        Object {
+          "count": undefined,
+        }
+      }
+    />
   </div>
 </div>
 `;

@@ -306,14 +306,16 @@ describe('actions/invite_actions', () => {
             expect(response).toEqual({
                 sent: [
                     {
-                        reason: 'This guest has been added to the team and channels.',
+                        reason: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                        channelCount: channels.length,
                         user: {
                             id: 'guest1',
                             roles: 'system_guest',
                         },
                     },
                     {
-                        reason: 'This guest has been added to the team and channels.',
+                        reason: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                        channelCount: channels.length,
                         user: {
                             id: 'other-guest',
                             roles: 'system_guest',
