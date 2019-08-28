@@ -71,10 +71,8 @@ export default class LoggedIn extends React.PureComponent {
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
 
-        // Listen for user activity updates from external sources via the webapp connector
-        if (webappConnector.active) {
-            webappConnector.on('user-activity-update', this.handleUserActivityUpdates);
-        }
+        // Listen for messages from the desktop app
+        window.addEventListener('message', this.onDesktopMessageListener);
 
         // Because current CSS requires the root tag to have specific stuff
 
@@ -141,8 +139,7 @@ export default class LoggedIn extends React.PureComponent {
 
         window.removeEventListener('focus', this.onFocusListener);
         window.removeEventListener('blur', this.onBlurListener);
-
-        webappConnector.removeListener('user-activity-update', this.handleUserActivityUpdates);
+        window.removeEventListener('message', this.onDesktopMessageListener);
     }
 
     render() {
@@ -173,12 +170,21 @@ export default class LoggedIn extends React.PureComponent {
         GlobalActions.emitBrowserFocus(false);
     }
 
-    handleUserActivityUpdates = ({userIsActive, manual}) => {
+    onDesktopMessageListener = ({origin, data: {type, message: {userIsActive, manual} = {}} = {}} = {}) => {
         if (!this.props.currentUser) {
             return;
         }
+        if (origin !== window.location.origin) {
+            return;
+        }
 
-        // update the server with the users current away status
-        WebSocketClient.userUpdateActiveStatus(userIsActive, manual);
+        switch (type) {
+        case 'user-activity-update':
+            // update the server with the users current away status
+            if (userIsActive === true || userIsActive === false) {
+                WebSocketClient.userUpdateActiveStatus(userIsActive, manual);
+            }
+            break;
+        }
     }
 }
