@@ -36,6 +36,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
                 openModal: jest.fn(),
+                markPostAsUnread: jest.fn(),
             },
         };
 
