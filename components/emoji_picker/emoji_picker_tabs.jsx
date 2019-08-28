@@ -6,8 +6,8 @@ import React, {PureComponent} from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
 
 import GifPicker from 'components/gif_picker/gif_picker.jsx';
-import EmojiIcon from 'components/svg/emoji_icon';
-import GfycatIcon from 'components/svg/gfycat_icon';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
+import GfycatIcon from 'components/widgets/icons/gfycat_icon';
 
 import EmojiPickerHeader from './components/emoji_picker_header';
 

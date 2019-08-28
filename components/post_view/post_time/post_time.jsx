@@ -52,7 +52,10 @@ export default class PostTime extends React.PureComponent {
         );
         if (isMobile() || !this.props.isPermalink) {
             return (
-                <div className='post__permalink'>
+                <div
+                    role='presentation'
+                    className='post__permalink'
+                >
                     {localDateTime}
                 </div>
             );
@@ -66,6 +69,7 @@ export default class PostTime extends React.PureComponent {
 
         return (
             <Link
+                role='presentation'
                 id={`${location}_time_${postId}`}
                 to={`${teamUrl}/pl/${postId}`}
                 className='post__permalink'

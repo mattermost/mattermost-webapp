@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import SizeAwareImage from 'components/size_aware_image';
+import ExternalImage from 'components/external_image';
 
 import PostAttachmentOpenGraph, {getBestImageUrl} from './post_attachment_opengraph';
 
@@ -32,7 +32,6 @@ describe('PostAttachmentOpenGraph', () => {
         previewEnabled: true,
         isEmbedVisible: true,
         enableLinkPreviews: true,
-        hasImageProxy: false,
         currentUserId: '1234',
         openGraphData: {
             description: 'description',
@@ -97,14 +96,10 @@ describe('PostAttachmentOpenGraph', () => {
     });
 
     describe('image', () => {
-        test('should render with small image', () => {
+        test('should use an ExternalImage for a small image', () => {
             const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
 
-            expect(wrapper.find(SizeAwareImage).props()).toMatchObject({
-                className: 'attachment__image attachment__image--opengraph',
-                dimensions: baseProps.post.metadata.images[imageUrl],
-                src: imageUrl,
-            });
+            expect(wrapper.find(ExternalImage).exists()).toBe(true);
             expect(wrapper.find('.post__embed-visibility').exists()).toBe(false);
         });
 
@@ -127,42 +122,8 @@ describe('PostAttachmentOpenGraph', () => {
 
             const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
 
-            expect(wrapper.find(SizeAwareImage).props()).toMatchObject({
-                className: 'attachment__image attachment__image--opengraph large_image',
-                dimensions: props.post.metadata.images[imageUrl],
-                src: imageUrl,
-            });
+            expect(wrapper.find(ExternalImage).exists()).toBe(true);
             expect(wrapper.find('.post__embed-visibility').exists()).toBe(true);
-        });
-
-        test('should pass the proxied image URL for a small image', () => {
-            const props = {
-                ...baseProps,
-                hasImageProxy: true,
-            };
-
-            const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
-
-            expect(wrapper.find(SizeAwareImage).prop('src').endsWith(`/api/v4/image?url=${encodeURIComponent(props.openGraphData.images[0].url)}`)).toEqual(true);
-        });
-
-        test('should pass the proxied image URL for a large image', () => {
-            const props = {
-                ...baseProps,
-                hasImageProxy: true,
-                metadata: {
-                    images: {
-                        'http://mattermost.com/OpenGraphImage.jpg': {
-                            height: 180,
-                            width: 400,
-                        },
-                    },
-                },
-            };
-
-            const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
-
-            expect(wrapper.find(SizeAwareImage).prop('src').endsWith(`/api/v4/image?url=${encodeURIComponent(props.openGraphData.images[0].url)}`)).toEqual(true);
         });
     });
 

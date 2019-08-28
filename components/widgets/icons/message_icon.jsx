@@ -4,10 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 export default class MessageIcon extends React.PureComponent {
     render() {
         return (
-            <span {...this.props}>
+            <button
+                {...this.props}
+                aria-label={localizeMessage('members_popover.button.message', 'message')}
+                className='style--none icon icon__message'
+            >
                 <FormattedMessage
                     id='generic_icons.message'
                     defaultMessage='Message Icon'
@@ -39,7 +45,7 @@ export default class MessageIcon extends React.PureComponent {
                         </svg>
                     )}
                 </FormattedMessage>
-            </span>
+            </button>
         );
     }
 }

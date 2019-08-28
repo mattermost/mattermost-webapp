@@ -14,18 +14,20 @@ import {
     IntegrationTypes,
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
-import {WebsocketEvents, General} from 'mattermost-redux/constants';
+import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
     getChannelStats,
     viewChannel,
     markChannelAsRead,
+
 } from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
     getPosts,
     getProfilesAndStatusesForPosts,
+    getThreadsForPosts,
     postDeleted,
     receivedNewPost,
     receivedPost,
@@ -45,6 +47,7 @@ import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamU
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
+import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
@@ -62,7 +65,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -248,7 +251,7 @@ function handleClose(failCount) {
     ]));
 }
 
-function handleEvent(msg) {
+export function handleEvent(msg) {
     switch (msg.event) {
     case SocketEvents.POSTED:
     case SocketEvents.EPHEMERAL_MESSAGE:
@@ -320,7 +323,7 @@ function handleEvent(msg) {
         break;
 
     case SocketEvents.CHANNEL_UPDATED:
-        handleChannelUpdatedEvent(msg);
+        dispatch(handleChannelUpdatedEvent(msg));
         break;
 
     case SocketEvents.CHANNEL_MEMBER_UPDATED:
@@ -508,6 +511,9 @@ export function handleNewPostEvents(queue) {
         const actions = posts.map(receivedNewPost);
         myDispatch(batchActions(actions));
 
+        // Load the posts' threads
+        myDispatch(getThreadsForPosts(posts));
+
         // And any other data needed for them
         getProfilesAndStatusesForPosts(posts, myDispatch, myGetState);
     };
@@ -629,7 +635,7 @@ function handleDeleteTeamEvent(msg) {
 function handleUpdateMemberRoleEvent(msg) {
     dispatch({
         type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-        data: msg.data.member,
+        data: JSON.parse(msg.data.member),
     });
 }
 
@@ -694,6 +700,22 @@ export function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
+    }
+
+    const channelId = msg.broadcast.channel_id || msg.data.channel_id;
+    const userId = msg.broadcast.user_id || msg.data.user_id;
+    const channel = getChannel(state, channelId);
+    if (channel && !haveISystemPermission(state, {permission: Permissions.VIEW_MEMBERS}) && !haveITeamPermission(state, {permission: Permissions.VIEW_MEMBERS, team: channel.team_id})) {
+        dispatch(batchActions([
+            {
+                type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
+                data: {id: channel.team_id, user_id: userId},
+            },
+            {
+                type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
+                data: {team_id: channel.team_id, user_id: userId},
+            },
+        ]));
     }
 }
 
@@ -877,17 +899,15 @@ function handleChannelViewedEvent(msg) {
     }
 }
 
-function handlePluginEnabled(msg) {
+export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
-    store.dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
 }
 
-function handlePluginDisabled(msg) {
+export function handlePluginDisabled(msg) {
     const manifest = msg.data.manifest;
-    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
     removePlugin(manifest);
 }
 
