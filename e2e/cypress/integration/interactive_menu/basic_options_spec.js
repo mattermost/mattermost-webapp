@@ -42,7 +42,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         cy.apiSaveTeammateNameDisplayPreference('username');
 
         // # Visit '/' and create incoming webhook
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.getCurrentChannelId().then((id) => {
             channelId = id;
 
@@ -124,10 +124,8 @@ describe('MM-15887 Interactive menus - basic options', () => {
 
         // # Get last post
         cy.getLastPostId().then((parentMessageId) => {
-            const baseUrl = Cypress.config('baseUrl');
-
             // # Post another message
-            cy.postMessageAs({sender: user1, message: 'Just another message', channelId, baseUrl});
+            cy.postMessageAs({sender: user1, message: 'Just another message', channelId});
 
             // # Click comment icon to open RHS
             cy.clickPostCommentIcon(parentMessageId);
@@ -136,7 +134,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
             cy.get('#rhsContainer').should('be.visible');
 
             // # Have another user reply to the webhook message
-            cy.postMessageAs({sender: user1, message: 'Reply to webhook', channelId, rootId: parentMessageId, baseUrl});
+            cy.postMessageAs({sender: user1, message: 'Reply to webhook', channelId, rootId: parentMessageId});
 
             // # Get the latest post
             cy.getLastPostId().then((replyMessageId) => {
