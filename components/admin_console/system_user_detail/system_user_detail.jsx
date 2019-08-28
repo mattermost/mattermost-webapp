@@ -21,9 +21,9 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
 
-import EmailIcon from 'components/svg/email_icon.jsx';
-import AtIcon from 'components/svg/at_icon.jsx';
-import SheidOutlineIcon from 'components/svg/shield_outline_icon.jsx';
+import EmailIcon from 'components/widgets/icons/email_icon.jsx';
+import AtIcon from 'components/widgets/icons/at_icon.jsx';
+import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon.jsx';
 
 import './system_user_detail.scss';
 
