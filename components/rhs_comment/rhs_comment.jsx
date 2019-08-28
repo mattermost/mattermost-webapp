@@ -345,7 +345,7 @@ export default class RhsComment extends React.PureComponent {
             );
         } else if (isPostDeleted) {
             options = null;
-        } else if (!isSystemMessage && (this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
+        } else if (!isSystemMessage && (isMobile() || this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}
