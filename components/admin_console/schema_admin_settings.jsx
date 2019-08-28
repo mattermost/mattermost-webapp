@@ -50,6 +50,8 @@ export default class SchemaAdminSettings extends React.Component {
         super(props);
         this.isPlugin = false;
 
+        this.saveActions = [];
+
         this.buildSettingFunctions = {
             [Constants.SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
             [Constants.SettingsTypes.TYPE_LONG_TEXT]: this.buildTextSetting,
@@ -719,8 +721,25 @@ export default class SchemaAdminSettings extends React.Component {
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
+                registerSaveAction={this.registerSaveAction}
+                setSaveNeeded={this.setSaveNeeded}
+                unRegisterSaveAction={this.unRegisterSaveAction}
             />
         );
+    }
+
+    unRegisterSaveAction = (saveAction) => {
+        const indexOfSaveAction = this.saveActions.indexOf(saveAction);
+        this.saveActions.splice(indexOfSaveAction, 1);
+    }
+
+    registerSaveAction = (saveAction) => {
+        this.saveActions.push(saveAction);
+    }
+
+    setSaveNeeded = () => {
+        this.setState({saveNeeded: 'config'});
+        this.props.setNavigationBlocked(true);
     }
 
     renderSettings = () => {
@@ -787,7 +806,7 @@ export default class SchemaAdminSettings extends React.Component {
         this.setState({errorTooltip: isElipsis});
     }
 
-    doSubmit = (callback, getStateFromConfig) => {
+    doSubmit = async (callback, getStateFromConfig) => {
         this.setState({
             saving: true,
             serverError: null,
@@ -797,17 +816,10 @@ export default class SchemaAdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        saveConfig(
+        await saveConfig(
             config,
             (savedConfig) => {
                 this.setState(getStateFromConfig(savedConfig));
-
-                this.setState({
-                    saveNeeded: false,
-                    saving: false,
-                });
-
-                this.props.setNavigationBlocked(false);
 
                 if (callback) {
                     callback();
@@ -819,7 +831,6 @@ export default class SchemaAdminSettings extends React.Component {
             },
             (err) => {
                 this.setState({
-                    saving: false,
                     serverError: err.message,
                     serverErrorId: err.id,
                 });
@@ -833,6 +844,21 @@ export default class SchemaAdminSettings extends React.Component {
                 }
             }
         );
+
+        const results = [];
+        for (const saveAction of this.saveActions) {
+            results.push(saveAction());
+        }
+
+        const hasSaveActionError = await Promise.all(results).then((values) => values.some(((value) => value.error && value.error.message)));
+
+        const hasError = this.state.serverError || hasSaveActionError;
+        if (hasError) {
+            this.setState({saving: false});
+        } else {
+            this.setState({saving: false, saveNeeded: false});
+            this.props.setNavigationBlocked(false);
+        }
     };
 
     static getConfigValue(config, path) {

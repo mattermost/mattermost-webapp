@@ -8,7 +8,7 @@ import {showLeavePrivateChannelModal} from 'actions/global_actions';
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import Menu from 'components/widgets/menu/menu';
 
 export default class LeaveChannel extends React.PureComponent {
     static propTypes = {
@@ -70,7 +70,7 @@ export default class LeaveChannel extends React.PureComponent {
         const {channel, isDefault, isGuestUser, id} = this.props;
 
         return (
-            <MenuItemAction
+            <Menu.ItemAction
                 id={id}
                 show={(!isDefault || isGuestUser) && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                 onClick={this.handleLeave}

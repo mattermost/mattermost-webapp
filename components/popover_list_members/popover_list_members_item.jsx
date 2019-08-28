@@ -7,7 +7,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture';
-import MessageIcon from 'components/svg/message_icon';
+import MessageIcon from 'components/widgets/icons/message_icon';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge.jsx';
@@ -42,10 +42,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
         let messageIcon;
         if (this.props.showMessageIcon) {
             messageIcon = (
-                <MessageIcon
-                    className='icon icon__message'
-                    aria-hidden='true'
-                />
+                <MessageIcon aria-hidden='true'/>
             );
         }
 
@@ -55,14 +52,15 @@ export default class PopoverListMembersItem extends React.PureComponent {
 
         return (
             <div
+                tabIndex='0'
+                aria-label={name.toLowerCase()}
                 className={'more-modal__row' + botClass}
                 onClick={this.handleClick}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>
