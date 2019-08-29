@@ -127,6 +127,17 @@ export function hideRHSPlugin(pluginId) {
     };
 }
 
+export function toggleRHSPlugin(pluginId) {
+    return (dispatch, getState) => {
+        if (getPluginId(getState()) === pluginId) {
+            dispatch(hideRHSPlugin(pluginId));
+            return;
+        }
+
+        dispatch(showRHSPlugin(pluginId));
+    };
+}
+
 export function showFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
