@@ -50,7 +50,7 @@ describe('components/select_team/SelectTeam', () => {
 
         // on componentDidMount
         expect(props.actions.getTeams).toHaveBeenCalledTimes(1);
-        expect(props.actions.getTeams).toHaveBeenCalledWith(0, TEAMS_PER_PAGE, true);
+        expect(props.actions.getTeams).toHaveBeenCalledWith(0, TEAMS_PER_PAGE);
     });
 
     test('should match snapshot, on loading', () => {

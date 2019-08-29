@@ -509,6 +509,11 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
   >
     <div
       className="signup-team__container"
+      style={
+        Object {
+          "maxWidth": "800px",
+        }
+      }
     >
       <img
         alt="signup team logo"

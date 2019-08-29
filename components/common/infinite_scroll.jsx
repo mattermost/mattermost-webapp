@@ -104,6 +104,10 @@ export default class InfiniteScroll extends React.PureComponent {
                         isFetching: false,
                     });
 
+                    if (totalItems === 0) {
+                        return;
+                    }
+
                     const amountOfPages = this.getAmountOfPages(totalItems, itemsPerPage);
 
                     if (pageNumber === amountOfPages) {

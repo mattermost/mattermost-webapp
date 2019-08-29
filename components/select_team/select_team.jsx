@@ -82,7 +82,7 @@ export default class SelectTeam extends React.Component {
         const {currentPage} = this.state;
         const {actions} = this.props;
 
-        await actions.getTeams(currentPage, TEAMS_PER_PAGE, true);
+        await actions.getTeams(currentPage, TEAMS_PER_PAGE);
 
         this.setState((prevState) => (
             {
