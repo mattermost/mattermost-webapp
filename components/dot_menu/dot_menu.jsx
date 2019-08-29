@@ -74,7 +74,7 @@ export default class DotMenu extends Component {
             /*
              * Function to set the unread mark at given post
              */
-            unreadPost: PropTypes.func.isRequired,
+            markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -167,7 +167,7 @@ export default class DotMenu extends Component {
 
     handleUnreadMenuItemActivated = (e) => {
         e.preventDefault();
-        this.props.actions.unreadPost(this.props.post);
+        this.props.actions.markPostAsUnread(this.props.post);
     }
 
     handleDeleteMenuItemActivated = (e) => {
@@ -331,6 +331,13 @@ export default class DotMenu extends Component {
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         onClick={this.handleEditMenuItemActivated}
                     />
+                    {pluginItems.length > 0 &&
+                    <li
+                        id={`divider_post_${this.props.post.id}`}
+                        className='MenuItem__divider'
+                        role='menuitem'
+                    />
+                    }
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}
