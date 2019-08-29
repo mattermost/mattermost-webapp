@@ -25,6 +25,7 @@ import Constants, {StoragePrefixes} from 'utils/constants.jsx';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
+import PermalinkRedirector from 'components/permalink_redirector';
 import {makeAsyncComponent} from 'components/async_load';
 import loadErrorPage from 'bundle-loader?lazy!components/error_page';
 import loadLoginController from 'bundle-loader?lazy!components/login/login_controller';
@@ -333,6 +334,10 @@ export default class Root extends React.Component {
                     <LoggedInRoute
                         path={'/mfa'}
                         component={Mfa}
+                    />
+                    <LoggedInRoute
+                        path={['/_redirect/integrations', '/_redirect/pl/:postid']}
+                        component={PermalinkRedirector}
                     />
                     <LoggedInRoute
                         path={'/:team'}
