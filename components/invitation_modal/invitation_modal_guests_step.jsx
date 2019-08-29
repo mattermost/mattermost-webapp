@@ -215,7 +215,10 @@ export default class InvitationModalGuestsStep extends React.Component {
                 </div>
                 <div className='custom-message'>
                     {!this.state.customMessageOpen &&
-                        <a onClick={this.openCustomMessage} href="#">
+                        <a
+                            onClick={this.openCustomMessage}
+                            href='#'
+                        >
                             <FormattedMessage
                                 id='invitation_modal.guests.custom-message.link'
                                 defaultMessage='Set a custom message'
