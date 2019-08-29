@@ -337,7 +337,13 @@ export default class DotMenu extends Component {
                             isDangerous={true}
                         />
                     </MenuGroup>
-
+                    {pluginItems.length > 0 &&
+                    <li
+                        id={`divider_post_${this.props.post.id}`}
+                        className='MenuItem__divider'
+                        role='menuitem'
+                    />
+                    }
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}
