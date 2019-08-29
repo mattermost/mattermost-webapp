@@ -19,12 +19,38 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
+    Test reason email
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for guest addition to channel 1`] = `
+<div
+  className="InvitationModalConfirmStepRow"
+>
+  <div
+    className="username-or-icon"
+  >
+    <Avatar
+      size="lg"
+      url="/api/v4/users/test-id/image?_=0"
+      username="test"
+    />
+    <span
+      className="name"
+    >
+      @test - first-name last-name (test-nickname)
+    </span>
+  </div>
+  <div
+    className="reason"
+  >
     <FormattedMessage
-      defaultMessage="Test reason email"
-      id="invitation_modal_confirm_step.reason"
+      defaultMessage="some message"
+      id="some-id"
       values={
         Object {
-          "count": undefined,
+          "count": 1,
         }
       }
     />
@@ -51,15 +77,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
-    <FormattedMessage
-      defaultMessage="Test reason for text"
-      id="invitation_modal_confirm_step.reason"
-      values={
-        Object {
-          "count": undefined,
-        }
-      }
-    />
+    Test reason for text
   </div>
 </div>
 `;
@@ -85,15 +103,7 @@ exports[`components/invitation_modal/InvitationModalConfirmStepRow should match 
   <div
     className="reason"
   >
-    <FormattedMessage
-      defaultMessage="Test reason user"
-      id="invitation_modal_confirm_step.reason"
-      values={
-        Object {
-          "count": undefined,
-        }
-      }
-    />
+    Test reason user
   </div>
 </div>
 `;

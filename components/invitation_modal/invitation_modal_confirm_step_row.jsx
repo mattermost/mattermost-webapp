@@ -49,6 +49,18 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             icon = <AlertIcon className='alert-icon'/>;
             username = invitation.text;
         }
+
+        let reason = invitation.reason;
+        if (invitation.reason && invitation.reason.id) {
+            reason = (
+                <FormattedMessage
+                    id={invitation.reason.id}
+                    defaultMessage={invitation.reason.message}
+                    values={invitation.reason.values}
+                />
+            );
+        }
+
         return (
             <div className='InvitationModalConfirmStepRow'>
                 <div className='username-or-icon'>
@@ -57,11 +69,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                     {guestBadge}
                 </div>
                 <div className='reason'>
-                    <FormattedMessage
-                        id='invitation_modal_confirm_step.reason'
-                        defaultMessage={invitation.reason}
-                        values={{count: invitation.channelCount}}
-                    />
+                    {reason}
                 </div>
             </div>
         );
