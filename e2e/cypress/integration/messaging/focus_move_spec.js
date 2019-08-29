@@ -121,8 +121,7 @@ describe('Messaging', () => {
     });
     it('M17455 - Focus does not move for non-character keys', () => {
         //# Make sure main input is visible and focused
-        cy.get('#post_textbox').should('be.visible');
-        cy.get('#post_textbox').should('be.focused');
+        cy.get('#post_textbox').should('be.visible').and('be.focused');
 
         //#Click anywhere in the body to move the focus out of the main input box
         cy.get('body').click();
