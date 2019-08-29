@@ -15,7 +15,6 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import {MarketplaceItemStates} from 'utils/constants';
 
 import MarketplaceItem from './marketplace_item';
 
@@ -68,9 +67,63 @@ export default class MarketplaceModal extends React.Component {
         this.setState({tabKey});
     }
 
+    getPluginsListContent = (pluginsArray, installedList) => {
+        let noPluginsMessage = (
+            <FormattedMessage
+                id='marketplace_modal.no_plugins'
+                defaultMessage='There are no plugins available at this time.'
+            />);
+        if (installedList) {
+            noPluginsMessage = (
+                <FormattedMessage
+                    id='marketplace_modal.no_plugins_installed'
+                    defaultMessage='You do not have any plugins installed.'
+                />);
+        }
+
+        return (<div className='more-modal__list'>
+            {
+                pluginsArray.length > 0 ?
+                    pluginsArray.map((p) => {
+                        return (
+                            <MarketplaceItem
+                                key={p.Manifest.id}
+                                id={p.Manifest.id}
+                                name={p.Manifest.name}
+                                description={p.Manifest.description}
+                                version={p.Manifest.version}
+                                isPrepackaged={false}
+                                downloadUrl={p.DownloadURL}
+                                homepageUrl={p.HomepageURL}
+                                itemState={p.State}
+                                onConfigure={this.close}
+                            />);
+                    }) : (
+                        <div className='no_plugins_div'>
+                            <br/>
+                            <PluginIcon className='icon__plugin'/>
+                            <br/>
+                            <br/>
+                            {noPluginsMessage}
+                            <br/>
+                            <br/>
+                            {installedList ? (
+                                <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
+                                    <FormattedMessage
+                                        id='marketplace_modal.install_plugins'
+                                        defaultMessage='Install Plugins'
+                                    />
+                                </a>
+                            ) : null
+                            }
+                        </div>
+                    )
+            }
+        </div>);
+    }
+
     render() {
         //WIP: To add pagination section
-
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
@@ -114,84 +167,14 @@ export default class MarketplaceModal extends React.Component {
                             >
                                 {this.state.loading ?
                                     <LoadingScreen/> : (
-                                        <div className='more-modal__list'>
-                                            {
-                                                this.props.marketplacePlugins.length > 0 ?
-                                                    this.props.marketplacePlugins.map((p) => {
-                                                        return (
-                                                            <MarketplaceItem
-                                                                key={p.Manifest.id}
-                                                                id={p.Manifest.id}
-                                                                name={p.Manifest.name}
-                                                                description={p.Manifest.description}
-                                                                version={p.Manifest.version}
-                                                                isPrepackaged={false}
-                                                                itemUrl={p.DownloadURL}
-                                                                itemState={MarketplaceItemStates.DOWNLOAD}
-                                                                onConfigure={this.close}
-                                                            />);
-                                                    }
-                                                    ) : (
-                                                        <div className='no_plugins_div'>
-                                                            <br/>
-                                                            <PluginIcon className='icon__plugin'/>
-                                                            <br/>
-                                                            <br/>
-                                                            <FormattedMessage
-                                                                id='marketplace_modal.no_plugins'
-                                                                defaultMessage='There are no plugins available at this time.'
-                                                            />
-                                                            <br/>
-                                                            <br/>
-                                                        </div>
-                                                    )
-                                            }
-                                        </div>
+                                        this.getPluginsListContent(this.props.marketplacePlugins, false)
                                     ) }
                             </Tab>
                             <Tab
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.installed_plugins', `Installed (${this.props.installedPlugins.length})`)}
                             >
-                                <div className='more-modal__list'>
-                                    {
-                                        this.props.installedPlugins.length > 0 ?
-                                            this.props.installedPlugins.map((p) => {
-                                                return (
-                                                    <MarketplaceItem
-                                                        key={p.id}
-                                                        id={p.id}
-                                                        name={p.name}
-                                                        description={p.description}
-                                                        version={p.version}
-                                                        isPrepackaged={false}
-                                                        itemUrl={p.download_url}
-                                                        itemState={MarketplaceItemStates.CONFIGURE}
-                                                        onConfigure={this.close}
-                                                    />);
-                                            }
-                                            ) : (
-                                                <div className='no_plugins_div'>
-                                                    <br/>
-                                                    <PluginIcon className='icon__plugin'/>
-                                                    <br/>
-                                                    <br/>
-                                                    <FormattedMessage
-                                                        id='marketplace_modal.no_plugins_installed'
-                                                        defaultMessage='You do not have any plugins installed.'
-                                                    />
-                                                    <br/>
-                                                    <br/>
-                                                    <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
-                                                        <FormattedMessage
-                                                            id='marketplace_modal.install_plugins'
-                                                            defaultMessage='Install Plugins'
-                                                        />
-                                                    </a>
-                                                </div>
-                                            )
-                                    }
-                                </div>
+                                {this.getPluginsListContent(this.props.installedPlugins, false)}
                             </Tab>
                         </Tabs>
                     </div>

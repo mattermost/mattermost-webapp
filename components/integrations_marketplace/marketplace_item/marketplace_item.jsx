@@ -7,12 +7,13 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {MarketplacePluginStatus} from 'mattermost-redux/constants/plugins';
+
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import PluginIcon from 'components/svg/plugin_icon.jsx';
 
 import {localizeMessage} from 'utils/utils';
-import {MarketplaceItemStates} from 'utils/constants';
 
 export default class MarketplaceItem extends React.Component {
         static propTypes = {
@@ -20,9 +21,9 @@ export default class MarketplaceItem extends React.Component {
             name: PropTypes.string.isRequired,
             description: PropTypes.string.isRequired,
             version: PropTypes.string.isRequired,
-            isPrepackaged: PropTypes.bool.isRequired,
-            itemUrl: PropTypes.string,
-            itemState: PropTypes.string.isRequired,
+            downloadUrl: PropTypes.string,
+            homepageUrl: PropTypes.string,
+            itemState: PropTypes.number.isRequired,
             onConfigure: PropTypes.func.isRequired,
             actions: PropTypes.shape({
                 installPluginFromUrl: PropTypes.func.isRequired,
@@ -34,7 +35,7 @@ export default class MarketplaceItem extends React.Component {
 
             this.state = {
                 itemState: this.props.itemState,
-                downloading: false,
+                installing: false,
                 confirmOverwriteInstallModal: false,
                 serverError: null,
             };
@@ -48,13 +49,13 @@ export default class MarketplaceItem extends React.Component {
         onCancelOvewriteModal = () => {
             this.setState({
                 confirmOverwriteInstallModal: false,
-                downloading: false,
+                installing: false,
                 serverError: null,
             });
         }
 
         installPlugin = async (force) => {
-            const {error} = await this.props.actions.installPluginFromUrl(this.props.itemUrl, force);
+            const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, force);
 
             if (error) {
                 if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
@@ -63,8 +64,10 @@ export default class MarketplaceItem extends React.Component {
                 }
 
                 this.setState({
-                    downloading: false,
+                    installing: false,
                 });
+
+                //WIP: Error handling
 
                 if (error.server_error_id === 'app.plugin.extract.app_error') {
                     this.setState({serverError: localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin.')});
@@ -75,34 +78,33 @@ export default class MarketplaceItem extends React.Component {
             }
 
             this.setState({
-                itemState: MarketplaceItemStates.CONFIGURE,
+                itemState: MarketplacePluginStatus.INSTALLED,
                 serverError: null,
             });
         }
 
-        onDownload = () => {
-            this.setState({downloading: true});
-
+        onInstall = () => {
+            this.setState({installing: true});
             this.installPlugin(false);
         }
 
         render() {
             const ariaLabel = `${this.props.name}, ${this.props.description}`.toLowerCase();
-            const versionLabel = `(${this.props.version}${this.props.isPrepackaged ? ', pre-packaged)' : ')'}`;
+            const versionLabel = `(${this.props.version})`;
 
             let button = null;
 
             switch (this.state.itemState) {
-            case MarketplaceItemStates.DOWNLOAD:
+            case MarketplacePluginStatus.NOT_INSTALLED:
                 button = (
                     <button
-                        onClick={this.onDownload}
+                        onClick={this.onInstall}
                         className='btn btn-primary'
-                        disabled={this.state.downloading}
+                        disabled={this.state.installing || this.props.downloadUrl === ''}
                     >
                         <LoadingWrapper
-                            loading={this.state.downloading}
-                            text={localizeMessage('marketplace_modal.downloading', 'Downloading...')}
+                            loading={this.state.installing}
+                            text={localizeMessage('marketplace_modal.installing', 'Installing...')}
                         >
                             {this.state.serverError ?
                                 <FormattedMessage
@@ -110,15 +112,15 @@ export default class MarketplaceItem extends React.Component {
                                     defaultMessage='Try Again'
                                 /> :
                                 <FormattedMessage
-                                    id='marketplace_modal.list.download'
-                                    defaultMessage='Download'
+                                    id='marketplace_modal.list.Install'
+                                    defaultMessage='Install'
                                 />
                             }
                         </LoadingWrapper>
 
                     </button>);
                 break;
-            case MarketplaceItemStates.CONFIGURE:
+            case MarketplacePluginStatus.INSTALLED:
                 button = (
                     <Link
                         to={'/admin_console/plugins/plugin_' + this.props.id}
@@ -144,7 +146,7 @@ export default class MarketplaceItem extends React.Component {
                     <PluginIcon className='icon__plugin'/>
                     <div className='more-modal__details'>
                         <button
-                            href={this.props.itemUrl}
+                            href={this.props.homepageUrl}
                             target='_blank'
                             aria-label={ariaLabel}
                             className='style--none more-modal__name'
