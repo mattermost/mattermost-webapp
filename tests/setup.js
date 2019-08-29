@@ -8,6 +8,7 @@ import $ from 'jquery';
 global.$ = $;
 global.jQuery = $;
 global.performance = {};
+global.fetch = jest.fn().mockResolvedValue({status: 200});
 
 configure({adapter: new Adapter()});
 

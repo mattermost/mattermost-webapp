@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {Locations} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import ReplyIcon from 'components/svg/reply_icon';
+import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 export default class CommentIcon extends React.PureComponent {
     static propTypes = {

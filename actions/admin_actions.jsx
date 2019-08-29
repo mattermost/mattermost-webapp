@@ -162,17 +162,8 @@ export async function uploadBrandImage(brandImage, success, error) {
     }
 }
 
-export async function uploadLicenseFile(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadLicense(file)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function removeLicenseFile(success, error) {
-    const {data, error: err} = await AdminActions.removeLicense()(dispatch, getState);
+export async function deleteBrandImage(success, error) {
+    const {data, error: err} = await AdminActions.deleteBrandImage()(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
