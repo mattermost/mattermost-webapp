@@ -36,6 +36,7 @@ export default class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
         this.node = React.createRef();
+        this.observer = new MutationObserver(this.hideUnneededDividers);
     }
 
     hideUnneededDividers = () => {
@@ -43,6 +44,7 @@ export default class Menu extends React.PureComponent {
             return;
         }
 
+        this.observer.disconnect();
         const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length);
 
         // Hiding dividers at beginning and duplicated ones
@@ -50,6 +52,7 @@ export default class Menu extends React.PureComponent {
         let isAtBeginning = true;
         for (const child of children) {
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
+                child.style.display = 'block';
                 if (isAtBeginning || prevWasDivider) {
                     child.style.display = 'none';
                 }
@@ -68,6 +71,7 @@ export default class Menu extends React.PureComponent {
                 break;
             }
         }
+        this.observer.observe(this.node.current, {attributes: true, childList: true, subtree: true});
     }
 
     componentDidMount() {
@@ -76,6 +80,10 @@ export default class Menu extends React.PureComponent {
 
     componentDidUpdate() {
         this.hideUnneededDividers();
+    }
+
+    componentWillUnmount() {
+        this.observer.disconnect();
     }
 
     // Used from DotMenu component to know in which direction show the menu
