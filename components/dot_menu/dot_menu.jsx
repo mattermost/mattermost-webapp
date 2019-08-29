@@ -75,7 +75,7 @@ export default class DotMenu extends Component {
             /*
              * Function to set the unread mark at given post
              */
-            unreadPost: PropTypes.func.isRequired,
+            markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -168,7 +168,7 @@ export default class DotMenu extends Component {
 
     handleUnreadMenuItemActivated = (e) => {
         e.preventDefault();
-        this.props.actions.unreadPost(this.props.post);
+        this.props.actions.markPostAsUnread(this.props.post);
     }
 
     handleDeleteMenuItemActivated = (e) => {
