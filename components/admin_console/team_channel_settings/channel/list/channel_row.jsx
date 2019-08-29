@@ -7,8 +7,8 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
 
 export default class ChannelRow extends React.Component {
     static propTypes = {

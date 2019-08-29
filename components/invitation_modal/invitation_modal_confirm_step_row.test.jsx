@@ -16,7 +16,7 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match the snapshot for userinvitation', () => {
+    test('should match the snapshot for user invitation', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepRow
                 invitation={{
@@ -28,6 +28,18 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
                         last_name: 'last-name',
                     },
                     reason: 'Test reason user',
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match the snapshot for text failure', () => {
+        const wrapper = shallow(
+            <InvitationModalConfirmStepRow
+                invitation={{
+                    text: 'test',
+                    reason: 'Test reason for text',
                 }}
             />
         );

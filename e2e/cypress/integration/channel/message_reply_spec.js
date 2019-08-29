@@ -3,7 +3,6 @@
 import {getRandomInt} from '../../utils';
 
 import users from '../../fixtures/users.json';
-import TIMEOUTS from '../../fixtures/timeouts.js';
 
 let channel;
 const channelDisplayName = `Message Reply ${getRandomInt(9999).toString()}`;
@@ -21,7 +20,7 @@ describe('Message Reply', () => {
                 channel = response.body;
 
                 // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).scrollIntoView().click();
+                cy.get(`#sidebarItem_${channel.name}`).should('be.visible').scrollIntoView().click();
             });
         });
     });
@@ -49,14 +48,8 @@ describe('Message Reply', () => {
         cy.postMessage('Two');
 
         cy.get('@yesterdaysPost').then((postId) => {
-            // # Scroll up to yesterdays message
-            cy.get(`#post_${postId}`).scrollIntoView();
-
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);
-
-            // # Upload an attachment to the reply
-            cy.fileUpload('#fileUploadInput').wait(TIMEOUTS.TINY);
 
             // # Reply with the attachment
             cy.postMessageReplyInRHS('A reply to an older post with attachment');
@@ -67,14 +60,12 @@ describe('Message Reply', () => {
                 cy.get(`#post_${replyId}`).within(() => {
                     cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
-                    cy.queryByTestId('image-name').should('be.visible').and('have.text', 'mattermost-icon.png');
                 });
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
                     cy.queryByTestId('post-link').should('not.be.visible');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
-                    cy.queryByTestId('image-name').should('be.visible').and('have.text', 'mattermost-icon.png');
                 });
 
                 cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').then((originalTimeStamp) => {

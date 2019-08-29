@@ -21,10 +21,10 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
         <div
           className="col-sm-2"
         >
-          <img
-            alt=""
-            className="group-user-profile-picture"
-            src="/api/v4/users/123/image"
+          <Avatar
+            size="lg"
+            url="/api/v4/users/123/image"
+            username="test"
           />
         </div>
         <div
@@ -84,10 +84,10 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
         <div
           className="col-sm-2"
         >
-          <img
-            alt=""
-            className="group-user-profile-picture"
-            src="/api/v4/users/123/image"
+          <Avatar
+            size="lg"
+            url="/api/v4/users/123/image"
+            username="test"
           />
         </div>
         <div

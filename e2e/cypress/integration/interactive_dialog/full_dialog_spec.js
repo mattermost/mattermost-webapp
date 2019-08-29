@@ -15,6 +15,18 @@ const webhookUtils = require('../../../utils/webhook_utils');
 
 let createdCommand;
 let fullDialog;
+const inputTypes = {
+    realname: 'input',
+    someemail: 'email',
+    somenumber: 'number',
+    somepassword: 'password',
+};
+
+const optionsLength = {
+    someuserselector: 25, // default number of users in autocomplete
+    somechannelselector: 2, // town-square and off-topic for new team
+    someoptionselector: 3, // number of defined basic options
+};
 
 describe('ID15888 Interactive Dialog', () => {
     before(() => {
@@ -81,8 +93,19 @@ describe('ID15888 Interactive Dialog', () => {
 
                 if (['someuserselector', 'somechannelselector', 'someoptionselector'].includes(element.name)) {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.attr', 'autocomplete', 'off').and('have.attr', 'placeholder', element.placeholder);
+
+                    // * Verify that the suggestion list or autocomplete open up on click of input element
+                    cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
+                    cy.wrap($elForm).find('input').click();
+                    cy.wrap($elForm).find('#suggestionList').should('be.visible').children().should('have.length', optionsLength[element.name]);
                 } else {
                     cy.wrap($elForm).find(`#${element.name}`).should('be.visible').and('have.value', element.default).and('have.attr', 'placeholder', element.placeholder);
+                }
+
+                // * Verify that input element are given with the correct type of "input", "email", "number" and "password".
+                // * To take advantage of supported built-in validation.
+                if (inputTypes[element.name]) {
+                    cy.wrap($elForm).find(`#${element.name}`).should('have.attr', 'type', inputTypes[element.name]);
                 }
 
                 if (element.help_text) {
