@@ -130,7 +130,7 @@ export default class AboutBuildModal extends React.PureComponent {
                             id='about.licensed'
                             defaultMessage='Licensed to:'
                         />
-                        {' '}{license.Company}
+                        &nbsp;{license.Company}
                     </div>
                 );
             }
@@ -284,26 +284,26 @@ export default class AboutBuildModal extends React.PureComponent {
                                 id='about.hash'
                                 defaultMessage='Build Hash:'
                             />
-                            {' '}{config.BuildHash}
+                            &nbsp;{config.BuildHash}
                             <br/>
                             <FormattedMessage
                                 id='about.hashee'
                                 defaultMessage='EE Build Hash:'
                             />
-                            {' '}{config.BuildHashEnterprise}
+                            &nbsp;{config.BuildHashEnterprise}
                             <br/>
                             <FormattedMessage
                                 id='about.hashwebapp'
                                 defaultMessage='Webapp Build Hash:'
                             />
-                            {' '}{/* global COMMIT_HASH */ this.props.webappBuildHash || (typeof COMMIT_HASH === 'undefined' ? '' : COMMIT_HASH)}
+                            &nbsp;{/* global COMMIT_HASH */ this.props.webappBuildHash || (typeof COMMIT_HASH === 'undefined' ? '' : COMMIT_HASH)}
                         </p>
                         <p>
                             <FormattedMessage
                                 id='about.date'
                                 defaultMessage='Build Date:'
                             />
-                            {' '}{config.BuildDate}
+                            &nbsp;{config.BuildDate}
                         </p>
                     </div>
                 </Modal.Body>
