@@ -526,12 +526,6 @@ export const UploadStatuses = {
     DEFAULT: '',
 };
 
-export const MarketplaceItemStates = {
-    DOWNLOAD: 'download',
-    CONFIGURE: 'configure',
-    UPGRADE: 'upgrade',
-};
-
 export const GroupUnreadChannels = {
     DISABLED: 'disabled',
     DEFAULT_ON: 'default_on',
