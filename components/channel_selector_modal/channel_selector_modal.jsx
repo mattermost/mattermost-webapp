@@ -13,8 +13,8 @@ import MultiSelect from 'components/multiselect/multiselect.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
 
 const CHANNELS_PER_PAGE = 50;
 

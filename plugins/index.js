@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import regeneratorRuntime from 'regenerator-runtime';
+
 import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
@@ -8,6 +10,10 @@ import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
+
+// Plugins may have been compiled with the regenerator runtime. Ensure this remains available
+// as a global export even though the webapp does not depend on same.
+window.regeneratorRuntime = regeneratorRuntime;
 
 // plugins records all active web app plugins by id.
 window.plugins = {};

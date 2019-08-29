@@ -44,6 +44,18 @@ function renderJoinChannelMessage(post) {
     );
 }
 
+function renderGuestJoinChannelMessage(post) {
+    const username = renderUsername(post.props.username);
+
+    return (
+        <FormattedMessage
+            id='api.channel.guest_join_channel.post_and_forget'
+            defaultMessage='{username} joined the channel as a guest.'
+            values={{username}}
+        />
+    );
+}
+
 function renderLeaveChannelMessage(post) {
     const username = renderUsername(post.props.username);
 
@@ -64,6 +76,22 @@ function renderAddToChannelMessage(post) {
         <FormattedMessage
             id='api.channel.add_member.added'
             defaultMessage='{addedUsername} added to the channel by {username}.'
+            values={{
+                username,
+                addedUsername,
+            }}
+        />
+    );
+}
+
+function renderAddGuestToChannelMessage(post) {
+    const username = renderUsername(post.props.username);
+    const addedUsername = renderUsername(post.props.addedUsername);
+
+    return (
+        <FormattedMessage
+            id='api.channel.add_guest.added'
+            defaultMessage='{addedUsername} added to the channel as a guest by {username}.'
             values={{
                 username,
                 addedUsername,
@@ -307,8 +335,10 @@ function renderMeMessage(post) {
 
 const systemMessageRenderers = {
     [Posts.POST_TYPES.JOIN_CHANNEL]: renderJoinChannelMessage,
+    [Posts.POST_TYPES.GUEST_JOIN_CHANNEL]: renderGuestJoinChannelMessage,
     [Posts.POST_TYPES.LEAVE_CHANNEL]: renderLeaveChannelMessage,
     [Posts.POST_TYPES.ADD_TO_CHANNEL]: renderAddToChannelMessage,
+    [Posts.POST_TYPES.ADD_GUEST_TO_CHANNEL]: renderAddGuestToChannelMessage,
     [Posts.POST_TYPES.REMOVE_FROM_CHANNEL]: renderRemoveFromChannelMessage,
     [Posts.POST_TYPES.JOIN_TEAM]: renderJoinTeamMessage,
     [Posts.POST_TYPES.LEAVE_TEAM]: renderLeaveTeamMessage,

@@ -11,9 +11,9 @@ import classNames from 'classnames';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import MailIcon from 'components/svg/mail_icon';
-import MailPlusIcon from 'components/svg/mail_plus_icon';
-import CloseCircleSolidIcon from 'components/svg/close_circle_solid_icon';
+import MailIcon from 'components/widgets/icons/mail_icon';
+import MailPlusIcon from 'components/widgets/icons/mail_plus_icon';
+import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
