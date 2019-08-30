@@ -1086,6 +1086,8 @@
   "admin.plugin.disable": "Disable",
   "admin.plugin.disabling": "Disabling...",
   "admin.plugin.enable": "Enable",
+  "admin.plugin.enable_plugin": "Enable plugin: ",
+  "admin.plugin.enable_plugin.help": "When true, this plugin is enabled.",
   "admin.plugin.enabling": "Enabling...",
   "admin.plugin.error.activate": "Unable to upload the plugin. It may conflict with another plugin on your server.",
   "admin.plugin.error.extract": "Encountered an error when extracting the plugin. Review your plugin file content and try again.",
