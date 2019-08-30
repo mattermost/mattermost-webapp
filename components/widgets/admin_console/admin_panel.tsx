@@ -2,12 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-const AdminPanel = (props) => (
+type Props = {
+    id?: string;
+    className: string;
+    onHeaderClick?: React.EventHandler<React.MouseEvent>;
+    titleId: string;
+    titleDefault: string;
+    subtitleId: string;
+    subtitleDefault: string;
+    subtitleValues?: any;
+    button?: React.ReactNode;
+    children?: React.ReactNode;
+};
+
+const AdminPanel: React.FC<Props> = (props: Props) => (
     <div
         className={'AdminPanel ' + props.className}
         id={props.id}
@@ -40,19 +52,6 @@ const AdminPanel = (props) => (
         {props.children}
     </div>
 );
-
-AdminPanel.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string.isRequired,
-    id: PropTypes.string,
-    titleId: PropTypes.string.isRequired,
-    titleDefault: PropTypes.string.isRequired,
-    subtitleId: PropTypes.string.isRequired,
-    subtitleDefault: PropTypes.string.isRequired,
-    subtitleValues: PropTypes.object,
-    onHeaderClick: PropTypes.func,
-    button: PropTypes.node,
-};
 
 AdminPanel.defaultProps = {
     className: '',

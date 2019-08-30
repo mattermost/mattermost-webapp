@@ -5,9 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
-import Avatar from 'components/widgets/users/avatar.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
 

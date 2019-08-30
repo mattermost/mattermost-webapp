@@ -2,23 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import './badge.scss';
 
-export default class Badge extends React.Component {
-    static propTypes = {
-        show: PropTypes.bool.isRequired,
-        children: PropTypes.node.isRequired,
-        className: PropTypes.string,
-    };
+type Props = {
+    show: boolean;
+    children: React.ReactNode;
+    className: string;
+};
 
-    static defaultProps = {
+export default class Badge extends React.Component<Props> {
+    public static defaultProps = {
         show: true,
         className: '',
     };
 
-    render() {
+    public render() {
         if (!this.props.show) {
             return null;
         }

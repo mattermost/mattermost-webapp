@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GuestBadge from './guest_badge.jsx';
+import GuestBadge from './guest_badge';
 
 describe('components/widgets/badges/GuestBadge', () => {
     test('should match the snapshot', () => {
