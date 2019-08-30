@@ -86,7 +86,9 @@ export default class SuggestionList extends React.PureComponent {
             this.currentLabel = item.channel.display_name;
         }
 
-        this.currentLabel = this.currentLabel.toLowerCase();
+        if (this.currentLabel) {
+            this.currentLabel = this.currentLabel.toLowerCase();
+        }
         this.announceLabel();
     }
 
