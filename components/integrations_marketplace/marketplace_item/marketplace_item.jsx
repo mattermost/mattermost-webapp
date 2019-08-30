@@ -11,7 +11,7 @@ import {MarketplacePluginStatus} from 'mattermost-redux/constants/plugins';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import PluginIcon from 'components/svg/plugin_icon.jsx';
+import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
 import {localizeMessage} from 'utils/utils';
 
@@ -25,6 +25,7 @@ export default class MarketplaceItem extends React.Component {
             homepageUrl: PropTypes.string,
             itemState: PropTypes.number.isRequired,
             onConfigure: PropTypes.func.isRequired,
+            onInstalled: PropTypes.func.isRequired,
             actions: PropTypes.shape({
                 installPluginFromUrl: PropTypes.func.isRequired,
             }).isRequired,
@@ -81,6 +82,8 @@ export default class MarketplaceItem extends React.Component {
                 itemState: MarketplacePluginStatus.INSTALLED,
                 serverError: null,
             });
+
+            this.props.onInstalled();
         }
 
         onInstall = () => {

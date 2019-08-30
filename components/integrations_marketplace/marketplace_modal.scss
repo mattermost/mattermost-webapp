@@ -31,15 +31,6 @@
             font-weight: 400;
         }
     }
-    .modal-icon {
-        text-align: center;
-        svg {
-            fill: var(--button-bg);
-            height: 32px;
-            width: 126px;
-            margin-right: 85px;
-        }
-    }
     .search_input {
         flex: 1;
         margin-left: 16px;
@@ -87,11 +78,6 @@
                     opacity: .5;
                 }
             }
-        }
-
-        .plugin__image {
-            height: 32px;
-            width: 32px;            
         }
     }
 

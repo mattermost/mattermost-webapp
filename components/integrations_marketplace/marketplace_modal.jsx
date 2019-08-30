@@ -10,7 +10,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
-import PluginIcon from 'components/svg/plugin_icon.jsx';
+import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import {t} from 'utils/i18n';
@@ -68,56 +68,58 @@ export default class MarketplaceModal extends React.Component {
     }
 
     getPluginsListContent = (pluginsArray, installedList) => {
-        let noPluginsMessage = (
-            <FormattedMessage
-                id='marketplace_modal.no_plugins'
-                defaultMessage='There are no plugins available at this time.'
-            />);
-        if (installedList) {
-            noPluginsMessage = (
+        if (pluginsArray.length === 0) {
+            let noPluginsMessage = (
                 <FormattedMessage
-                    id='marketplace_modal.no_plugins_installed'
-                    defaultMessage='You do not have any plugins installed.'
+                    id='marketplace_modal.no_plugins'
+                    defaultMessage='There are no plugins available at this time.'
                 />);
+            if (installedList) {
+                noPluginsMessage = (
+                    <FormattedMessage
+                        id='marketplace_modal.no_plugins_installed'
+                        defaultMessage='You do not have any plugins installed.'
+                    />);
+            }
+
+            return (<div className='no_plugins_div'>
+                <br/>
+                <PluginIcon className='icon__plugin'/>
+                <br/>
+                <br/>
+                {noPluginsMessage}
+                <br/>
+                <br/>
+                {installedList ? (
+                    <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
+                        <FormattedMessage
+                            id='marketplace_modal.install_plugins'
+                            defaultMessage='Install Plugins'
+                        />
+                    </a>
+                ) : null
+                }
+            </div>);
         }
 
         return (<div className='more-modal__list'>
             {
-                pluginsArray.length > 0 ?
-                    pluginsArray.map((p) => {
-                        return (
-                            <MarketplaceItem
-                                key={p.Manifest.id}
-                                id={p.Manifest.id}
-                                name={p.Manifest.name}
-                                description={p.Manifest.description}
-                                version={p.Manifest.version}
-                                isPrepackaged={false}
-                                downloadUrl={p.DownloadURL}
-                                homepageUrl={p.HomepageURL}
-                                itemState={p.State}
-                                onConfigure={this.close}
-                            />);
-                    }) : (
-                        <div className='no_plugins_div'>
-                            <br/>
-                            <PluginIcon className='icon__plugin'/>
-                            <br/>
-                            <br/>
-                            {noPluginsMessage}
-                            <br/>
-                            <br/>
-                            {installedList ? (
-                                <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
-                                    <FormattedMessage
-                                        id='marketplace_modal.install_plugins'
-                                        defaultMessage='Install Plugins'
-                                    />
-                                </a>
-                            ) : null
-                            }
-                        </div>
-                    )
+                pluginsArray.map((p) => {
+                    return (
+                        <MarketplaceItem
+                            key={p.Manifest.id}
+                            id={p.Manifest.id}
+                            name={p.Manifest.name}
+                            description={p.Manifest.description}
+                            version={p.Manifest.version}
+                            isPrepackaged={false}
+                            downloadUrl={p.DownloadURL}
+                            homepageUrl={p.HomepageURL}
+                            itemState={p.State}
+                            onConfigure={this.close}
+                            onInstalled={this.getMarketplacePlugins}
+                        />);
+                })
             }
         </div>);
     }
@@ -174,7 +176,7 @@ export default class MarketplaceModal extends React.Component {
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.installed_plugins', `Installed (${this.props.installedPlugins.length})`)}
                             >
-                                {this.getPluginsListContent(this.props.installedPlugins, false)}
+                                {this.getPluginsListContent(this.props.installedPlugins, true)}
                             </Tab>
                         </Tabs>
                     </div>
