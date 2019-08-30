@@ -5,7 +5,6 @@ import React, {useState} from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {withKnobs, text} from '@storybook/addon-knobs';
-import {action} from '@storybook/addon-actions';
 
 import LoadingSpinner from './loading_spinner';
 import LoadingWrapper from './loading_wrapper';
