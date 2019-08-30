@@ -65,20 +65,14 @@ export default class PostList extends React.PureComponent {
         autoRetryEnable: PropTypes.bool,
 
         /**
-         * Data used for determining more messages state at the bottom
+         * used for populating header, scroll correction and disabling triggering loadOlderPosts
          */
-        newerPosts: PropTypes.shape({
-            loading: PropTypes.bool,
-            allLoaded: PropTypes.bool,
-        }),
+        atOldestPost: PropTypes.bool,
 
         /**
-         * Data used for determining more messages state at the top
+         * used for disabling triggering loadNewerPosts
          */
-        olderPosts: PropTypes.shape({
-            loading: PropTypes.bool,
-            allLoaded: PropTypes.bool,
-        }),
+        atLatestPost: PropTypes.bool,
 
         latestPostTimeStamp: PropTypes.number,
 
@@ -169,7 +163,7 @@ export default class PostList extends React.PureComponent {
     getSnapshotBeforeUpdate(prevProps) {
         if (this.postListRef && this.postListRef.current) {
             const postsAddedAtTop = this.props.postListIds && this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
-            const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
+            const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
             if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
                 const postListNode = this.postListRef.current;
                 const previousScrollTop = postListNode.parentElement.scrollTop;
@@ -191,7 +185,7 @@ export default class PostList extends React.PureComponent {
 
         const postlistScrollHeight = this.postListRef.current.scrollHeight;
         const postsAddedAtTop = this.props.postListIds.length !== prevProps.postListIds.length && this.props.postListIds[0] === prevProps.postListIds[0];
-        const channelHeaderAdded = this.props.olderPosts.allLoaded !== prevProps.olderPosts.allLoaded;
+        const channelHeaderAdded = this.props.atOldestPost !== prevProps.atOldestPost;
         if ((postsAddedAtTop || channelHeaderAdded) && !this.state.atBottom) {
             const scrollValue = snapshot.previousScrollTop + (postlistScrollHeight - snapshot.previousScrollHeight);
             if (scrollValue !== 0 && (scrollValue - snapshot.previousScrollTop) !== 0) {
@@ -212,7 +206,7 @@ export default class PostList extends React.PureComponent {
         const postListIds = props.postListIds;
         let newPostListIds;
 
-        if (props.olderPosts.allLoaded) {
+        if (props.atOldestPost) {
             newPostListIds = [...postListIds, PostListRowListIds.CHANNEL_INTRO_MESSAGE];
         } else if (props.autoRetryEnable) {
             newPostListIds = [...postListIds, PostListRowListIds.OLDER_MESSAGES_LOADER];
@@ -220,7 +214,7 @@ export default class PostList extends React.PureComponent {
             newPostListIds = [...postListIds, PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER];
         }
 
-        if (!props.newerPosts.allLoaded) {
+        if (!props.atLatestPost) {
             if (props.autoRetryEnable) {
                 newPostListIds = [PostListRowListIds.NEWER_MESSAGES_LOADER, ...newPostListIds];
             } else {
@@ -324,12 +318,10 @@ export default class PostList extends React.PureComponent {
         const didUserScrollForwards = scrollDirection === 'forward' && !scrollUpdateWasRequested;
         const isOffsetWithInRange = scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
         const offsetFromBottom = (scrollHeight - clientHeight) - scrollOffset < HEIGHT_TRIGGER_FOR_MORE_POSTS;
-        const canLoadOlderPosts = !this.props.olderPosts.allLoaded && !this.props.olderPosts.loading;
-        const canLoadNewerPosts = !this.props.newerPosts.allLoaded && !this.props.newerPosts.loading;
 
-        if (didUserScrollBackwards && isOffsetWithInRange && canLoadOlderPosts) {
+        if (didUserScrollBackwards && isOffsetWithInRange && !this.props.atOldestPost) {
             this.props.actions.loadOlderPosts();
-        } else if (didUserScrollForwards && offsetFromBottom && canLoadNewerPosts) {
+        } else if (didUserScrollForwards && offsetFromBottom && !this.props.atLatestPost) {
             this.props.actions.loadNewerPosts();
         }
 
@@ -350,7 +342,7 @@ export default class PostList extends React.PureComponent {
             const postsRenderedRange = this.listRef.current._getRangeToRender(); //eslint-disable-line no-underscore-dangle
 
             // postsRenderedRange[3] is the visibleStopIndex which is post at the bottom of the screen
-            if (postsRenderedRange[3] <= 1 && canLoadNewerPosts) {
+            if (postsRenderedRange[3] <= 1 && !this.props.atLatestPost) {
                 this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
             }
         }
@@ -447,7 +439,7 @@ export default class PostList extends React.PureComponent {
     }
 
     scrollToLatestMessages = () => {
-        if (this.props.newerPosts.allLoaded) {
+        if (this.props.atLatestPost) {
             this.scrollToBottom();
         } else {
             this.props.actions.changeUnreadChunkTimeStamp('');
@@ -546,7 +538,7 @@ export default class PostList extends React.PureComponent {
                                         innerListStyle={postListStyle}
                                         initRangeToRender={this.initRangeToRender}
                                         loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
-                                        correctScrollToBottom={this.props.newerPosts.allLoaded}
+                                        correctScrollToBottom={this.props.atLatestPost}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>
