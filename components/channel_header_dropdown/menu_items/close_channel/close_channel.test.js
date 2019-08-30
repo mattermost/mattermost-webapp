@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
+import Menu from 'components/widgets/menu/menu';
 
 import CloseChannel from './close_channel';
 
@@ -39,7 +39,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseChannel', () => {
             },
         };
         const wrapper = shallow(<CloseChannel {...props}/>);
-        wrapper.find(MenuItemAction).simulate('click');
+        wrapper.find(Menu.ItemAction).simulate('click');
         expect(props.actions.goToLastViewedChannel).toHaveBeenCalled();
     });
 });

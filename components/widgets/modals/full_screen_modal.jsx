@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
-import CloseIcon from 'components/svg/close_icon';
+import CloseIcon from 'components/widgets/icons/close_icon';
 
 import './full_screen_modal.scss';
 

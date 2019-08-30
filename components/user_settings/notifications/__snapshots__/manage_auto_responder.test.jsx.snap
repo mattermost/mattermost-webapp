@@ -394,7 +394,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                       id="autoResponderMessageInput"
                       maxLength={200}
                       onChange={[Function]}
-                      role="application"
+                      role="textbox"
                       rows="5"
                       style={
                         Object {

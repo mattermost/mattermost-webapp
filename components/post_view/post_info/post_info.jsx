@@ -17,7 +17,7 @@ import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
