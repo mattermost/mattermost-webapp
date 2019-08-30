@@ -435,7 +435,7 @@ export default class PluginRegistry {
     }
 
     registerTranslations(getTranslationsForLocale) {
-        registerPluginTranslationsSource(this.id, getTranslationsForLocale);
+        store.dispatch(registerPluginTranslationsSource(this.id, getTranslationsForLocale));
     }
 
     // Register a Right-Hand Sidebar component by providing a title for the right hand component.
