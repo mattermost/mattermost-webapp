@@ -16,18 +16,6 @@ const STANDARD_EXCLUDE = [
 
 module.exports = async ({config, mode}) => {
     config.module.rules[0].exclude = STANDARD_EXCLUDE;
-    // config.module.rules.push({
-    //     test: /\.(js|jsx)?$/,
-    //     exclude: STANDARD_EXCLUDE,
-    //     use: {
-    //         loader: 'babel-loader',
-    //         options: {
-    //             cacheDirectory: true,
-
-    //             // Babel configuration is in .babelrc because jest requires it to be there.
-    //         },
-    //     },
-    // });
 
     config.module.rules.push({
       test: /\.scss$/,
@@ -45,32 +33,6 @@ module.exports = async ({config, mode}) => {
       ],
     });
 
-    // config.module.rules.push({
-    //     test: /\.css$/,
-    //     use: [
-    //         'style-loader',
-    //         {
-    //             loader: 'css-loader',
-    //         },
-    //     ],
-    // });
-    // config.resolve = {
-    //     modules: [
-    //         path.join(path.resolve(__dirname), '..', 'node_modules'),
-    //         path.join(path.resolve(__dirname), '..', 'non_npm_dependencies'),
-    //     ],
-    //     alias: {
-    //         components: path.join(path.resolve(__dirname), '..', 'components'),
-    //         actions: path.join(path.resolve(__dirname), '..', 'actions'),
-    //         selectors: path.join(path.resolve(__dirname), '..', 'selectors'),
-    //         reducers: path.join(path.resolve(__dirname), '..', 'reducers'),
-    //         utils: path.join(path.resolve(__dirname), '..', 'utils'),
-    //         i18n: path.join(path.resolve(__dirname), '..', 'i18n'),
-    //         jquery: 'jquery/src/jquery',
-    //         superagent: 'node_modules/superagent/lib/client',
-    //     },
-    //     extensions: ['.js', '.jsx'],
-    // };
     config.resolve.alias.components = path.join(path.resolve(__dirname), '..', 'components')
     config.resolve.alias.actions = path.join(path.resolve(__dirname), '..', 'actions')
     config.resolve.alias.i18n = path.join(path.resolve(__dirname), '..', 'i18n')
