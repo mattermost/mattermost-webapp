@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 import {General} from 'mattermost-redux/constants';
+
+import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 describe('selectors/i18n', () => {
     describe('getCurrentLocale', () => {
@@ -45,6 +46,28 @@ describe('selectors/i18n', () => {
 
             expect(getCurrentLocale(state)).toEqual('de');
         });
+
+        test('returns default locale when invalid user locale specified', () => {
+            const state = {
+                entities: {
+                    general: {
+                        config: {
+                            DefaultClientLocale: 'en',
+                        },
+                    },
+                    users: {
+                        currentUserId: 'abcd',
+                        profiles: {
+                            abcd: {
+                                locale: 'not_valid',
+                            },
+                        },
+                    },
+                },
+            };
+
+            expect(getCurrentLocale(state)).toEqual(General.DEFAULT_LOCALE);
+        });
     });
 
     describe('getTranslations', () => {
@@ -71,28 +94,6 @@ describe('selectors/i18n', () => {
         test('returns English translations for unsupported locale', () => {
             // This test will have to be changed if we add support for Gaelic
             expect(getTranslations(state, 'gd')).toBe(state.views.i18n.translations.en);
-        });
-
-        test('returns default locale when invalid user locale specified', () => {
-            const state = {
-                entities: {
-                    general: {
-                        config: {
-                            DefaultClientLocale: 'en',
-                        },
-                    },
-                    users: {
-                        currentUserId: 'abcd',
-                        profiles: {
-                            abcd: {
-                                locale: 'not_valid',
-                            },
-                        },
-                    },
-                },
-            };
-
-            expect(getCurrentLocale(state)).toEqual(General.DEFAULT_LOCALE);
         });
     });
 });
