@@ -9,6 +9,11 @@ import {browserHistory} from 'utils/browser_history';
 
 import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal.jsx';
 
+global.MutationObserver = class {
+    disconnect() {}
+    observe() {}
+};
+
 describe('components/submenu_modal', () => {
     const baseProps = {
         elements: [
