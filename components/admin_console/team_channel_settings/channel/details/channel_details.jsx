@@ -81,17 +81,16 @@ export default class ChannelDetails extends React.Component {
     setToggles = (isSynced, isPublic, syncToggle) => {
         const {channel} = this.props;
         const isOriginallyPublic = channel.type === Constants.OPEN_CHANNEL;
-
+        let channelPrivacy = isPublic;
         if (isSynced) {
-            isPublic = false;
+            channelPrivacy = false;
         } else if (syncToggle) {
-            isPublic = isOriginallyPublic;
+            channelPrivacy = isOriginallyPublic;
         }
-
         this.setState({
             saveNeeded: true,
             isSynced,
-            isPublic,
+            isPublic: channelPrivacy,
         }, () => this.processGroupsChange(this.state.groups));
         this.props.actions.setNavigationBlocked(true);
     }
@@ -159,8 +158,8 @@ export default class ChannelDetails extends React.Component {
 
         if ((channel.type === Constants.PRIVATE_CHANNEL && isPublic) ||
             (channel.type === Constants.OPEN_CHANNEL && !isPublic)) {
-             this.setState({showConvertConfirmation: true});
-             return;
+            this.setState({showConvertConfirmation: true});
+            return;
         }
 
         this.handleSubmit();
@@ -181,21 +180,23 @@ export default class ChannelDetails extends React.Component {
             const promises = [];
             const isOriginallyPublic = channel.type === Constants.OPEN_CHANNEL;
 
-            if (isPublic !== isOriginallyPublic) {
+            if (isPublic === isOriginallyPublic) {
+                promises.push(actions.patchChannel(channel.id, {
+                    ...channel,
+                    group_constrained: isSynced,
+                    type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
+                }));
+            } else {
                 const convert = actions.updateChannelPrivacy(channel.id, isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL);
                 promises.push(convert.then((res) => {
-                    if (res && res.error) return res;
+                    if (res && res.error) {
+                        return res;
+                    }
                     return actions.patchChannel(channel.id, {
                         ...channel,
                         group_constrained: isSynced,
                         type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
                     });
-                }));
-            } else {
-                promises.push(actions.patchChannel(channel.id, {
-                    ...channel,
-                    group_constrained: isSynced,
-                    type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
                 }));
             }
 

@@ -3,10 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Modal} from 'react-bootstrap';
-import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {FormattedMessage} from 'react-intl';
 
+import {t} from 'utils/i18n.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 export default class ConvertConfirmModal extends React.PureComponent {
@@ -51,8 +51,8 @@ export default class ConvertConfirmModal extends React.PureComponent {
 
         const toPublicMsg = 'When you convert **{displayName}** to a public channel, history and membership are preserved. Public channels are discoverable and can by joined by users on the system without invitation.  \n \nAre you sure you want to convert **{displayName}** to a public channel?';
         const toPrivateMsg = 'When you convert **{displayName}** to a private channel, history and membership are preserved. Publicly shared files remain accessible to anyone with the link. Membership in a private channel is by invitation only.  \n \nAre you sure you want to convert **{displayName}** to a private channel?';
-        const messageId = isPublic ? 'admin.team_channel_settings.convertConfirmModal.toPrivateMessage' :
-         'admin.team_channel_settings.convertConfirmModal.toPublicMessage';
+        const messageId = isPublic ? t('admin.team_channel_settings.convertConfirmModal.toPrivateMessage') :
+            t('admin.team_channel_settings.convertConfirmModal.toPublicMessage');
 
         const message = (
             <FormattedMarkdownMessage
