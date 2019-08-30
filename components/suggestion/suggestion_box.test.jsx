@@ -6,8 +6,6 @@ import {shallow, mount} from 'enzyme';
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
-import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
 
 jest.mock('utils/user_agent', () => {
     const original = require.requireActual('utils/user_agent');
@@ -111,33 +109,5 @@ describe('components/SuggestionBox', () => {
 
         instance.handleCompositionUpdate({data: '@저'});
         expect(instance.handlePretextChanged).toBeCalledWith('@저');
-    });
-
-    test('should not throw error when searching with prefix', () => {
-        const wrapper = shallow(
-            <SearchSuggestionList
-                open={true}
-                onCompleteWord={jest.fn()}
-                pretext={'before:'}
-                cleared={false}
-                matchedPretext={[]}
-                items={['test']}
-                terms={['test']}
-                selection={''}
-                components={[]}
-            />
-        );
-        const instance = wrapper.instance();
-        instance.generateLabel = jest.fn();
-        wrapper.setProps({
-            selection: 'test',
-        });
-        // instance.handlePretextChanged = jest.fn(() => {
-        //     instance.props.listComponent.generateLabel(null);
-        // });
-        // instance.getTextbox = jest.fn().mockReturnValue({value: ''});
-
-        // instance.handleCompositionUpdate({data: 'before:'});
-        expect(instance.generateLabel).toBeCalled();
     });
 });
