@@ -19,10 +19,24 @@ import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.
 import Highlight from 'components/admin_console/highlight.jsx';
 import SearchIcon from 'components/widgets/icons/search_icon.jsx';
 
-const renderScrollView = (props, className) => (
+const renderScrollView = (props) => (
     <div
         {...props}
-        className={className}
+        className='scrollbar--view'
+    />
+);
+
+const renderScrollThumbHorizontal = (props) => (
+    <div
+        {...props}
+        className='scrollbar--horizontal'
+    />
+);
+
+const renderScrollThumbVertical = (props) => (
+    <div
+        {...props}
+        className='scrollbar--vertical'
     />
 );
 
@@ -283,9 +297,9 @@ export default class AdminSidebar extends React.Component {
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
-                    renderThumbHorizontal={(props) => renderScrollView(props, 'scrollbar--horizontal')}
-                    renderThumbVertical={(props) => renderScrollView(props, 'scrollbar--vertical')}
-                    renderView={(props) => renderScrollView(props, 'scrollbar--view')}
+                    renderThumbHorizontal={renderScrollView}
+                    renderThumbVertical={renderScrollThumbHorizontal}
+                    renderView={renderScrollThumbVertical}
                 >
                     <div className='nav-pills__container'>
                         <Highlight filter={this.state.filter}>
