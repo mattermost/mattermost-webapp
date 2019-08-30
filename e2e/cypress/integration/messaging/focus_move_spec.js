@@ -120,6 +120,9 @@ describe('Messaging', () => {
         });
     });
     it('M17455 - Focus does not move for non-character keys', () => {
+        // Visit '/' to make sure we're on the right page
+        cy.visit('/');
+
         //# Make sure main input is visible and focused
         cy.get('#post_textbox').should('be.visible').and('be.focused');
 
