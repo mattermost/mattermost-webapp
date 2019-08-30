@@ -2547,6 +2547,7 @@
   "login.verified": " E-posta Doğrulandı",
   "manage_channel_groups_modal.search_placeholder": "Grup arama",
   "manage_team_groups_modal.search_placeholder": "Grup arama",
+  "members_popover.button.message": "İleti",
   "members_popover.manageMembers": "Üye Yönetimi",
   "members_popover.title": "Kanal Üyeleri",
   "members_popover.viewMembers": "Üyeleri Görüntüle",

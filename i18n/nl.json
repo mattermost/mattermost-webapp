@@ -2547,6 +2547,7 @@
   "login.verified": " Email Geverifieerd ",
   "manage_channel_groups_modal.search_placeholder": "Search groups",
   "manage_team_groups_modal.search_placeholder": "Search groups",
+  "members_popover.button.message": "Bericht",
   "members_popover.manageMembers": "Leden beheren",
   "members_popover.title": "Kanaal Leden",
   "members_popover.viewMembers": "Bekijk Leden",

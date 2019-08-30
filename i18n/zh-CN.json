@@ -2547,6 +2547,7 @@
   "login.verified": "验证电子邮件",
   "manage_channel_groups_modal.search_placeholder": "搜索组",
   "manage_team_groups_modal.search_placeholder": "搜索组",
+  "members_popover.button.message": "消息",
   "members_popover.manageMembers": "成员管理",
   "members_popover.title": "频道成员",
   "members_popover.viewMembers": "查看成员",
