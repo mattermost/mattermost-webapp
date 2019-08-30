@@ -19,7 +19,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const {KeyCodes} = Constants;
 
@@ -249,6 +249,7 @@ export default class SearchBar extends React.Component {
                     className='search-form__container'
                 >
                     <form
+                        role='application'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
                         style={style.searchForm}
@@ -261,7 +262,6 @@ export default class SearchBar extends React.Component {
                         />
                         <SuggestionBox
                             ref={this.getSearch}
-                            role='application'
                             id='searchBox'
                             tabIndex='0'
                             className='search-bar a11y__region'

@@ -925,6 +925,7 @@ export default class CreateComment extends React.PureComponent {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
+                    role='application'
                     id='rhsFooter'
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'

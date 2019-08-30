@@ -7,7 +7,7 @@ import {intlShape} from 'react-intl';
 
 export default class ModalToggleButtonRedux extends React.Component {
     static propTypes = {
-        accessibilityLabel: PropTypes.string.isRequired,
+        accessibilityLabel: PropTypes.string,
         children: PropTypes.node.isRequired,
         modalId: PropTypes.string.isRequired,
         dialogType: PropTypes.func.isRequired,

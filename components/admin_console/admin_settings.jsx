@@ -11,7 +11,7 @@ import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
 import Constants from 'utils/constants.jsx';
 
-import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
+import AdminHeader from 'components/widgets/admin_console/admin_header';
 
 export default class AdminSettings extends React.Component {
     static propTypes = {
