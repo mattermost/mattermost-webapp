@@ -2547,6 +2547,7 @@
   "login.verified": " Email Verificado",
   "manage_channel_groups_modal.search_placeholder": "Buscar grupos",
   "manage_team_groups_modal.search_placeholder": "Buscar grupos",
+  "members_popover.button.message": "Mensagem",
   "members_popover.manageMembers": "Gerenciar Membros",
   "members_popover.title": "Membros do Canal",
   "members_popover.viewMembers": "Ver Membros",

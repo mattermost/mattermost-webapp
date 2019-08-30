@@ -2547,6 +2547,7 @@
   "login.verified": " E-Mail-Adresse bestätigt",
   "manage_channel_groups_modal.search_placeholder": "Gruppen suchen",
   "manage_team_groups_modal.search_placeholder": "Gruppen suchen",
+  "members_popover.button.message": "Nachricht",
   "members_popover.manageMembers": "Mitglieder verwalten",
   "members_popover.title": "Kanalmitglieder",
   "members_popover.viewMembers": "Zeige Mitglieder",

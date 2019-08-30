@@ -2547,6 +2547,7 @@
   "login.verified": " 電子郵件地址已驗證",
   "manage_channel_groups_modal.search_placeholder": "搜尋群組",
   "manage_team_groups_modal.search_placeholder": "搜尋群組",
+  "members_popover.button.message": "訊息",
   "members_popover.manageMembers": "成員管理",
   "members_popover.title": "頻道成員",
   "members_popover.viewMembers": "檢視成員",

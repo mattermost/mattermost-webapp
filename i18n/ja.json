@@ -2547,6 +2547,7 @@
   "login.verified": " 電子メールアドレスが確認されました",
   "manage_channel_groups_modal.search_placeholder": "グループを検索する",
   "manage_team_groups_modal.search_placeholder": "グループを検索する",
+  "members_popover.button.message": "メッセージ",
   "members_popover.manageMembers": "メンバーを管理する",
   "members_popover.title": "チャンネルのメンバー",
   "members_popover.viewMembers": "メンバーを見る",

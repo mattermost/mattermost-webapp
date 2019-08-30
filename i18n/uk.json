@@ -2547,6 +2547,7 @@
   "login.verified": "Електронну пошту підтверджено",
   "manage_channel_groups_modal.search_placeholder": "Search groups",
   "manage_team_groups_modal.search_placeholder": "Search groups",
+  "members_popover.button.message": "Повідомлення",
   "members_popover.manageMembers": "Управління користувачами ",
   "members_popover.title": "Учасник каналу",
   "members_popover.viewMembers": "Переглянути список учасників ",
