@@ -181,6 +181,16 @@ Cypress.Commands.add('apiGetChannelByName', (channelName) => {
     });
 });
 
+Cypress.Commands.add('apiGetChannel', (channelId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/channels/${channelId}`,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
