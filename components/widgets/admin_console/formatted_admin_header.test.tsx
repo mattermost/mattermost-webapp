@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FormattedAdminHeader from './formatted_admin_header.jsx';
+import FormattedAdminHeader from './formatted_admin_header';
 
 describe('components/widgets/admin_console/FormattedAdminHeader', () => {
     test('render component with required props', () => {
@@ -50,37 +50,5 @@ describe('components/widgets/admin_console/FormattedAdminHeader', () => {
 </AdminHeader>
 `
         );
-    });
-
-    test('id prop is mandatory', () => {
-        console.originalError = console.error;
-        console.error = jest.fn();
-
-        shallow(
-            <FormattedAdminHeader
-                defaultMessage='default message'
-            />
-        );
-
-        expect(console.error).toBeCalledTimes(1);
-        expect(console.error).toBeCalledWith('Warning: Failed prop type: The prop `id` is marked as required in `FormattedAdminHeader`, but its value is `undefined`.\n    in FormattedAdminHeader');
-
-        console.error = console.originalError;
-    });
-
-    test('defaultMessage prop is mandatory', () => {
-        console.originalError = console.error;
-        console.error = jest.fn();
-
-        shallow(
-            <FormattedAdminHeader
-                id='string.id'
-            />
-        );
-
-        expect(console.error).toBeCalledTimes(1);
-        expect(console.error).toBeCalledWith('Warning: Failed prop type: The prop `defaultMessage` is marked as required in `FormattedAdminHeader`, but its value is `undefined`.\n    in FormattedAdminHeader');
-
-        console.error = console.originalError;
     });
 });

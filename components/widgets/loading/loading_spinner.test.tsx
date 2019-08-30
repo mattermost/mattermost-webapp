@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-import LoadingSpinner from './loading_spinner.jsx';
+import LoadingSpinner from './loading_spinner';
 
 describe('components/widgets/loadingLoadingSpinner', () => {
     test('showing spinner with text', () => {

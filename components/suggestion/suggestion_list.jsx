@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isEmptyObject} from 'utils/utils.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
