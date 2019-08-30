@@ -741,7 +741,7 @@ export function applyTheme(theme) {
         changeCss('@media(min-width: 768px){.app__body .post.current--user:hover .post__body ', 'background: none;');
         changeCss('.app__body .more-modal__row.more-modal__row--selected, .app__body .date-separator.hovered--before:after, .app__body .date-separator.hovered--after:before, .app__body .new-separator.hovered--after:before, .app__body .new-separator.hovered--before:after', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('@media(min-width: 768px){.app__body .suggestion-list__content .command:hover, .app__body .mentions__name:hover, .app__body .dropdown-menu>li>a:focus, .app__body .dropdown-menu>li>a:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
-        changeCss('.app__body .suggestion--selected, .app__body .emoticon-suggestion:hover, .app__body .Badge__box', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
+        changeCss('.app__body .suggestion--selected, .app__body .emoticon-suggestion:hover', 'background:' + changeOpacity(theme.centerChannelColor, 0.15));
         changeCss('code, .app__body .form-control[disabled], .app__body .form-control[readonly], .app__body fieldset[disabled] .form-control', 'background:' + changeOpacity(theme.centerChannelColor, 0.1));
         changeCss('.app__body .sidebar--right', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .search-help-popover .search-autocomplete__item:hover, .app__body .modal .settings-modal .settings-table .settings-content .appearance-section .theme-elements__body', 'background:' + changeOpacity(theme.centerChannelColor, 0.05));
@@ -1000,6 +1000,8 @@ export function applyTheme(theme) {
             'center-channel-color-30': changeOpacity(theme.centerChannelColor, 0.3),
             'center-channel-bg-20': changeOpacity(theme.centerChannelBg, 0.2),
             'center-channel-color-20': changeOpacity(theme.centerChannelColor, 0.2),
+            'center-channel-bg-15': changeOpacity(theme.centerChannelBg, 0.15),
+            'center-channel-color-15': changeOpacity(theme.centerChannelColor, 0.15),
             'center-channel-bg-10': changeOpacity(theme.centerChannelBg, 0.1),
             'center-channel-color-10': changeOpacity(theme.centerChannelColor, 0.1),
             'center-channel-bg-05': changeOpacity(theme.centerChannelBg, 0.05),
@@ -1022,6 +1024,8 @@ export function applyTheme(theme) {
             'button-color-30': changeOpacity(theme.buttonColor, 0.3),
             'button-bg-20': changeOpacity(theme.buttonBg, 0.2),
             'button-color-20': changeOpacity(theme.buttonColor, 0.2),
+            'button-bg-15': changeOpacity(theme.buttonBg, 0.15),
+            'button-color-15': changeOpacity(theme.buttonColor, 0.15),
             'button-bg-10': changeOpacity(theme.buttonBg, 0.1),
             'button-color-10': changeOpacity(theme.buttonColor, 0.1),
             'button-bg-05': changeOpacity(theme.buttonBg, 0.05),
