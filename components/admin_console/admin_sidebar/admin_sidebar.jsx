@@ -297,9 +297,9 @@ export default class AdminSidebar extends React.Component {
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
-                    renderThumbHorizontal={renderScrollView}
-                    renderThumbVertical={renderScrollThumbHorizontal}
-                    renderView={renderScrollThumbVertical}
+                    renderThumbHorizontal={renderScrollThumbHorizontal}
+                    renderThumbVertical={renderScrollThumbVertical}
+                    renderView={renderScrollView}
                 >
                     <div className='nav-pills__container'>
                         <Highlight filter={this.state.filter}>
