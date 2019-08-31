@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import LogList from './log_list.jsx';
 

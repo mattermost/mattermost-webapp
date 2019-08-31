@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Badge from './badge.jsx';
+import Badge from './badge';
 
 describe('components/widgets/badges/Badge', () => {
     test('should match the snapshot on show', () => {
