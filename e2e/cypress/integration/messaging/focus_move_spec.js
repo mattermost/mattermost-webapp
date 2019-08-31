@@ -112,7 +112,7 @@ describe('Messaging', () => {
                 channel = res.body;
 
                 // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).click();
+                cy.get(`#sidebarItem_${channel.name}`).click({force: true});
 
                 // * Channel's display name should be visible at the top of the center pane
                 cy.get('#channelHeaderTitle').should('contain', channel.display_name);

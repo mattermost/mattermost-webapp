@@ -987,6 +987,7 @@ export default class CreateComment extends React.PureComponent {
                         <div>
                             <input
                                 type='button'
+                                disabled={!enableAddButton}
                                 className={addButtonClass}
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}
