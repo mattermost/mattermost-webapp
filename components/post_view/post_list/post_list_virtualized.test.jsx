@@ -24,16 +24,6 @@ describe('PostList', () => {
         changeUnreadChunkTimeStamp: jest.fn(),
     };
 
-    const newerPosts = {
-        loading: false,
-        allLoaded: false,
-    };
-
-    const olderPosts = {
-        loading: false,
-        allLoaded: false,
-    };
-
     const baseProps = {
         channelId: 'channel',
         focusedPostId: '',
@@ -44,8 +34,10 @@ describe('PostList', () => {
             DATE_LINE + 1551711600000,
         ],
         latestPostTimeStamp: 12345,
-        newerPosts,
-        olderPosts,
+        loadingNewerPosts: false,
+        loadingOlderPosts: false,
+        atOldestPost: false,
+        atLatestPost: false,
         actions: baseActions,
     };
 
@@ -267,7 +259,7 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
 
-            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            wrapper.setProps({atOldestPost: true});
             expect(instance.componentDidUpdate).toHaveBeenCalledTimes(1);
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollTop: 10, previousScrollHeight: 100});
 
@@ -290,7 +282,7 @@ describe('PostList', () => {
             instance.componentDidUpdate = jest.fn();
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
-            wrapper.setProps({olderPosts: {allLoaded: true, loading: false}});
+            wrapper.setProps({atOldestPost: true});
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100, previousScrollTop: 10});
 
             wrapper.setState({atBottom: true});
@@ -439,7 +431,7 @@ describe('PostList', () => {
     describe('scrollToLatestMessages', () => {
         test('should call scrollToBottom', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            wrapper.setProps({newerPosts: {allLoaded: true, loading: false}});
+            wrapper.setProps({atLatestPost: true});
             const instance = wrapper.instance();
             instance.scrollToBottom = jest.fn();
             instance.scrollToLatestMessages();

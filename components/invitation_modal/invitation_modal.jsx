@@ -120,12 +120,25 @@ export default class InvitationModal extends React.Component {
         this.setState({confirmModal: false});
     }
 
-    onMembersSubmit = async (users, emails) => {
+    onMembersSubmit = async (users, emails, extraText) => {
         const invites = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+
+        if (extraText !== '') {
+            invites.notSent.push({
+                text: extraText,
+                reason: (
+                    <FormattedMessage
+                        id='invitation-modal.confirm.not-valid-user-or-email'
+                        defaultMessage='Does not match a valid user or email.'
+                    />
+                ),
+            });
+        }
+
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_MEMBER, hasChanges: false});
     }
 
-    onGuestsSubmit = async (users, emails, channels, message) => {
+    onGuestsSubmit = async (users, emails, channels, message, extraUserText, extraChannelText) => {
         const invites = await this.props.actions.sendGuestsInvites(
             this.props.currentTeam.id,
             channels.map((c) => c.id),
@@ -133,6 +146,28 @@ export default class InvitationModal extends React.Component {
             emails,
             message,
         );
+        if (extraUserText !== '') {
+            invites.notSent.push({
+                text: extraUserText,
+                reason: (
+                    <FormattedMessage
+                        id='invitation-modal.confirm.not-valid-user-or-email'
+                        defaultMessage='Does not match a valid user or email.'
+                    />
+                ),
+            });
+        }
+        if (extraChannelText !== '') {
+            invites.notSent.push({
+                text: extraChannelText,
+                reason: (
+                    <FormattedMessage
+                        id='invitation-modal.confirm.not-valid-channel'
+                        defaultMessage='Does not match a valid channel name.'
+                    />
+                ),
+            });
+        }
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
     }
 

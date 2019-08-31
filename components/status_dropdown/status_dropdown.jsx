@@ -10,10 +10,9 @@ import {localizeMessage} from 'utils/utils.jsx';
 import ResetStatusModal from 'components/reset_status_modal';
 import StatusIcon from 'components/status_icon.jsx';
 
+import Avatar from 'components/widgets/users/avatar';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import MenuGroup from 'components/widgets/menu/menu_group';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 export default class StatusDropdown extends React.Component {
     static propTypes = {
@@ -80,10 +79,9 @@ export default class StatusDropdown extends React.Component {
             return null;
         }
         return (
-            <img
-                alt={''}
-                className='user__picture'
-                src={this.props.profilePicture}
+            <Avatar
+                size='lg'
+                url={this.props.profilePicture}
             />
         );
     }
@@ -135,38 +133,38 @@ export default class StatusDropdown extends React.Component {
                     </span>
                 </div>
                 <Menu ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'set status')}>
-                    <MenuGroup>
-                        <MenuItemAction
+                    <Menu.Group>
+                        <Menu.ItemAction
                             show={this.isUserOutOfOffice()}
                             onClick={() => null}
                             ariaLabel={localizeMessage('status_dropdown.set_ooo', 'Out of office').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_ooo', 'Out of office')}
                             extraText={localizeMessage('status_dropdown.set_ooo.extra', 'Automatic Replies are enabled')}
                         />
-                    </MenuGroup>
-                    <MenuGroup>
-                        <MenuItemAction
+                    </Menu.Group>
+                    <Menu.Group>
+                        <Menu.ItemAction
                             onClick={setOnline}
                             ariaLabel={localizeMessage('status_dropdown.set_online', 'Online').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_online', 'Online')}
                         />
-                        <MenuItemAction
+                        <Menu.ItemAction
                             onClick={setAway}
                             ariaLabel={localizeMessage('status_dropdown.set_away', 'Away').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_away', 'Away')}
                         />
-                        <MenuItemAction
+                        <Menu.ItemAction
                             onClick={setDnd}
                             ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
                             extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications')}
                         />
-                        <MenuItemAction
+                        <Menu.ItemAction
                             onClick={setOffline}
                             ariaLabel={localizeMessage('status_dropdown.set_offline', 'Offline').toLowerCase()}
                             text={localizeMessage('status_dropdown.set_offline', 'Offline')}
                         />
-                    </MenuGroup>
+                    </Menu.Group>
                 </Menu>
             </MenuWrapper>
         );

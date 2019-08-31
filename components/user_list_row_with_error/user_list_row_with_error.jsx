@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -114,8 +114,7 @@ export default class UserListRowWithError extends React.Component {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__right'>
                     <div className='more-modal__top'>

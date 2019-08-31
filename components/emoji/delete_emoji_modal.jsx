@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import DeleteModalTrigger from 'components/delete_modal_trigger.jsx';
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 export default class DeleteEmoji extends DeleteModalTrigger {
     static propTypes = {

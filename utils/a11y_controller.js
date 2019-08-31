@@ -30,6 +30,7 @@ export default class A11yController {
         this.downArrowKeyIsPressed = false;
         this.tabKeyIsPressed = false;
         this.tildeKeyIsPressed = false;
+        this.windowIsFocused = true;
 
         // used to reset navigation whenever navigation within a region occurs (section or element)
         this.resetNavigation = false;
@@ -40,6 +41,7 @@ export default class A11yController {
         document.addEventListener(EventTypes.MOUSE_DOWN, this.handleMouseDown, listenerOptions);
         document.addEventListener(EventTypes.MOUSE_UP, this.handleMouseUp, listenerOptions);
         document.addEventListener(EventTypes.FOCUS, this.handleFocus, listenerOptions);
+        window.addEventListener(EventTypes.BLUR, this.handleWindowBlur, listenerOptions);
     }
 
     destroy() {
@@ -52,6 +54,7 @@ export default class A11yController {
         document.removeEventListener(EventTypes.MOUSE_DOWN, this.handleMouseDown, listenerOptions);
         document.removeEventListener(EventTypes.MOUSE_UP, this.handleMouseUp, listenerOptions);
         document.removeEventListener(EventTypes.FOCUS, this.handleFocus, listenerOptions);
+        window.removeEventListener(EventTypes.BLUR, this.handleWindowBlur, listenerOptions);
     }
 
     // convenience getter/setters
@@ -425,7 +428,7 @@ export default class A11yController {
             return;
         }
 
-        // set focus on the element that should have focus if neede
+        // set focus on the element that should have focus if needed
         if (document.activeElement !== this.focusedElement) {
             this.focusedElement.focus();
         }
@@ -735,6 +738,13 @@ export default class A11yController {
         case isKeyPressed(event, Constants.KeyCodes.ENTER):
             this.enterKeyIsPressed = true;
             break;
+        case isKeyPressed(event, Constants.KeyCodes.SPACE):
+            if (event.target.nodeName === 'BUTTON') {
+                event.preventDefault();
+                event.stopPropagation();
+                event.target.click();
+            }
+            break;
         }
     }
 
@@ -762,8 +772,19 @@ export default class A11yController {
     }
 
     handleFocus = (event) => {
-        if (!this.mouseIsPressed) {
+        if (!this.mouseIsPressed && this.windowIsFocused) {
             this.nextElement(event.target, event.path || true);
+        }
+
+        // focus just came back to the app
+        if (!this.windowIsFocused) {
+            this.windowIsFocused = true;
+        }
+    }
+
+    handleWindowBlur = (event) => {
+        if (event.target === window) {
+            this.windowIsFocused = false;
         }
     }
 

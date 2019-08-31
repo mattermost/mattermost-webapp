@@ -17,7 +17,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
 import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
 import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
-import LoadingSpinner from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 
 const GET_MORE_BUFFER = 30;
 

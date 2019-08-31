@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MenuIcon from 'components/svg/menu_icon';
+import MenuIcon from 'components/widgets/icons/menu_icon';
 
 const CollapseRhsButton = ({
     actions: {

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage, intlShape} from 'react-intl';
 
 import {Preferences} from 'utils/constants.jsx';
-import MattermostLogo from 'components/svg/mattermost_logo';
+import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 export default class SystemNotice extends React.PureComponent {
     static propTypes = {
