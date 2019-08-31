@@ -19,8 +19,8 @@ import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 

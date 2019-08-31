@@ -135,7 +135,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 
 Cypress.Commands.add('getLastPost', () => {
     cy.get('#post-list', {timeout: TIMEOUTS.HUGE}).should('be.visible');
-    return cy.get('#postListContent #postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
+    return cy.getAllByTestId('postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
 });
 
 Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {

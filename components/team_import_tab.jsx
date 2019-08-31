@@ -8,12 +8,12 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
-import BackIcon from 'components/icon/back_icon';
+import BackIcon from 'components/widgets/icons/fa_back_icon';
 import SettingUpload from 'components/setting_upload.jsx';
-import SuccessIcon from 'components/icon/success_icon';
-import WarningIcon from 'components/icon/warning_icon';
+import SuccessIcon from 'components/widgets/icons/fa_success_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 const holders = defineMessages({
     importSlack: {

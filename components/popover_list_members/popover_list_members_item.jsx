@@ -7,11 +7,11 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
 import ProfilePicture from 'components/profile_picture';
-import MessageIcon from 'components/svg/message_icon';
+import MessageIcon from 'components/widgets/icons/message_icon';
 import {UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
 export default class PopoverListMembersItem extends React.PureComponent {
     static propTypes = {
@@ -60,8 +60,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__details d-flex whitespace--nowrap'>
                     <div className='more-modal__name'>

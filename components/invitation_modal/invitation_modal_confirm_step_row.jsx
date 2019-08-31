@@ -4,8 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import EmailIcon from 'components/svg/mail_icon';
+import EmailIcon from 'components/widgets/icons/mail_icon';
+import AlertIcon from 'components/widgets/icons/alert_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 import {imageURLForUser, isGuest, getLongDisplayName} from 'utils/utils.jsx';
 
@@ -20,29 +22,36 @@ export default class InvitationModalConfirmStepRow extends React.Component {
         const {invitation} = this.props;
         let icon;
         let username;
+        let className;
         let guestBadge;
         if (invitation.user) {
+            className = 'name';
             const profileImg = imageURLForUser(invitation.user);
             icon = (
-                <img
-                    className='avatar'
-                    alt={`${invitation.user.username || 'user'} profile image`}
-                    src={profileImg}
+                <Avatar
+                    username={invitation.user.username}
+                    url={profileImg}
+                    size='lg'
                 />
             );
             username = getLongDisplayName(invitation.user);
             if (isGuest(invitation.user)) {
                 guestBadge = <GuestBadge/>;
             }
-        } else {
+        } else if (invitation.email) {
+            className = 'email';
             icon = <EmailIcon className='mail-icon'/>;
             username = invitation.email;
+        } else {
+            className = 'name';
+            icon = <AlertIcon className='alert-icon'/>;
+            username = invitation.text;
         }
         return (
             <div className='InvitationModalConfirmStepRow'>
                 <div className='username-or-icon'>
                     {icon}
-                    <span className='name'>{username}</span>
+                    <span className={className}>{username}</span>
                     {guestBadge}
                 </div>
                 <div className='reason'>
