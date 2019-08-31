@@ -297,7 +297,7 @@ export default class MainMenu extends React.PureComponent {
                         teamId={this.props.teamId}
                         permissions={[Permissions.MANAGE_SYSTEM]}
                     >
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='marketplaceModal'
                             modalId={ModalIdentifiers.INTEGRATIONS_MARKETPLACE}
                             show={!this.props.mobile && this.props.enablePluginMarketplace}
@@ -305,7 +305,7 @@ export default class MainMenu extends React.PureComponent {
                             text={localizeMessage('navbar_dropdown.marketplace', 'Plugins Marketplace')}
                         />
                     </TeamPermissionGate>
-                    <MenuItemLink
+                    <Menu.ItemLink
                         id='customEmojis'
                         show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
                         to={'/' + this.props.teamName + '/emoji'}

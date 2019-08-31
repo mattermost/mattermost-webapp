@@ -23,7 +23,7 @@ export default class MarketplaceItem extends React.Component {
             version: PropTypes.string.isRequired,
             downloadUrl: PropTypes.string,
             homepageUrl: PropTypes.string,
-            itemState: PropTypes.number.isRequired,
+            installed: PropTypes.bool.isRequired,
             onConfigure: PropTypes.func.isRequired,
             onInstalled: PropTypes.func.isRequired,
             actions: PropTypes.shape({
@@ -35,7 +35,7 @@ export default class MarketplaceItem extends React.Component {
             super(props);
 
             this.state = {
-                itemState: this.props.itemState,
+                installed: this.props.installed,
                 installing: false,
                 confirmOverwriteInstallModal: false,
                 serverError: null,
@@ -95,35 +95,31 @@ export default class MarketplaceItem extends React.Component {
             const ariaLabel = `${this.props.name}, ${this.props.description}`.toLowerCase();
             const versionLabel = `(${this.props.version})`;
 
-            let button = null;
-
-            switch (this.state.itemState) {
-            case MarketplacePluginStatus.NOT_INSTALLED:
-                button = (
-                    <button
-                        onClick={this.onInstall}
-                        className='btn btn-primary'
-                        disabled={this.state.installing || this.props.downloadUrl === ''}
+            let button = (
+                <button
+                    onClick={this.onInstall}
+                    className='btn btn-primary'
+                    disabled={this.state.installing || this.props.downloadUrl === ''}
+                >
+                    <LoadingWrapper
+                        loading={this.state.installing}
+                        text={localizeMessage('marketplace_modal.installing', 'Installing...')}
                     >
-                        <LoadingWrapper
-                            loading={this.state.installing}
-                            text={localizeMessage('marketplace_modal.installing', 'Installing...')}
-                        >
-                            {this.state.serverError ?
-                                <FormattedMessage
-                                    id='marketplace_modal.list.try_again'
-                                    defaultMessage='Try Again'
-                                /> :
-                                <FormattedMessage
-                                    id='marketplace_modal.list.Install'
-                                    defaultMessage='Install'
-                                />
-                            }
-                        </LoadingWrapper>
+                        {this.state.serverError ?
+                            <FormattedMessage
+                                id='marketplace_modal.list.try_again'
+                                defaultMessage='Try Again'
+                            /> :
+                            <FormattedMessage
+                                id='marketplace_modal.list.Install'
+                                defaultMessage='Install'
+                            />
+                        }
+                    </LoadingWrapper>
 
-                    </button>);
-                break;
-            case MarketplacePluginStatus.INSTALLED:
+                </button>);
+
+            if (this.state.installed) {
                 button = (
                     <Link
                         to={'/admin_console/plugins/plugin_' + this.props.id}
@@ -138,7 +134,6 @@ export default class MarketplaceItem extends React.Component {
                             />
                         </button>
                     </Link>);
-                break;
             }
 
             return (
