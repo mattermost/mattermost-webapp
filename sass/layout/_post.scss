@@ -732,7 +732,7 @@
 }
 
 .post {
-    @include legacy-pie-clearfix;
+    overflow: hidden;
     max-width: 100%;
     padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
@@ -768,6 +768,9 @@
 
     &:hover,
     &.a11y--active {
+        @include legacy-pie-clearfix;
+        overflow: visible;
+
         .dropdown,
         .comment-icon__container,
         .card-icon__container,
@@ -795,6 +798,9 @@
 
     &.post--hovered,
     &.a11y--active {
+        @include legacy-pie-clearfix;
+        overflow: visible;
+
         .dropdown,
         .comment-icon__container,
         .card-icon__container,
@@ -886,10 +892,6 @@
                     height: 0;
                 }
             }
-        }
-
-        .Badge {
-            margin: 0;
         }
 
         .card-icon__container {
