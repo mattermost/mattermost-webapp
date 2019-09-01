@@ -8,8 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import {checkDialogElementForError, checkIfErrorsMatchElements} from 'mattermost-redux/utils/integration_utils';
 
 import SpinnerButton from 'components/spinner_button';
+import {CustomRenderer} from 'components/formatted_markdown_message';
 
 import {localizeMessage} from 'utils/utils.jsx';
+import {formatWithRenderer} from 'utils/markdown';
 
 import DialogElement from './dialog_element';
 
@@ -19,6 +21,7 @@ export default class InteractiveDialog extends React.Component {
         callbackId: PropTypes.string,
         elements: PropTypes.arrayOf(PropTypes.object),
         title: PropTypes.string.isRequired,
+        introductionText: PropTypes.string,
         iconUrl: PropTypes.string,
         submitLabel: PropTypes.string,
         notifyOnCancel: PropTypes.bool,
@@ -129,7 +132,7 @@ export default class InteractiveDialog extends React.Component {
     }
 
     render() {
-        const {title, iconUrl, submitLabel, elements} = this.props;
+        const {title, introductionText, iconUrl, submitLabel, elements} = this.props;
 
         let submitText = (
             <FormattedMessage
@@ -177,8 +180,16 @@ export default class InteractiveDialog extends React.Component {
                         {icon}{title}
                     </Modal.Title>
                 </Modal.Header>
-                {elements && <Modal.Body>
-                    {elements.map((e) => {
+                {(elements || introductionText) && <Modal.Body>
+                    {introductionText &&
+                        <p>
+                            <span
+                                id='interactiveDialogModalIntroductionText'
+                                dangerouslySetInnerHTML={{__html: formatWithRenderer(introductionText, new CustomRenderer())}}
+                            />
+                        </p>
+                    }
+                    {elements && elements.map((e) => {
                         return (
                             <DialogElement
                                 key={'dialogelement' + e.name}
