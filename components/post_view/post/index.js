@@ -38,7 +38,11 @@ function makeMapStateToProps() {
 
     return (state, ownProps) => {
         const post = ownProps.post || getPost(state, ownProps.postId);
-
+        let replyCount = post.reply_count;
+        if (post.root_id !== '') {
+            const rootPost = getPost(state, post.root_id);
+            replyCount = rootPost ? rootPost.reply_count : 0;
+        }
         let previousPost = null;
         if (ownProps.previousPostId) {
             previousPost = getPost(state, ownProps.previousPostId);
@@ -63,7 +67,7 @@ function makeMapStateToProps() {
             isFirstReply: isFirstReply(post, previousPost),
             consecutivePostByUser,
             previousPostIsComment,
-            replyCount: post.response_count,
+            replyCount,
             isCommentMention: isPostCommentMention(state, post.id),
             center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
