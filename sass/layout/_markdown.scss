@@ -99,6 +99,10 @@ h6 {
         position: relative;
         visibility: visible;
     }
+
+    .line-number {
+        user-select: none;
+    }
 }
 
 .post-code__language {
