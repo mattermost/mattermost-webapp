@@ -147,12 +147,14 @@ export default class MarketplaceModal extends React.Component {
                     show={Boolean(this.props.show)}
                     onClose={this.close}
                 >
-                    <div className='MarketplaceModal'>
+                    <div className='modal-marketplace'>
                         <h1>
-                            <FormattedMessage
-                                id='marketplace_modal.title'
-                                defaultMessage='Plugins Marketplace'
-                            />
+                            <strong>
+                                <FormattedMessage
+                                    id='marketplace_modal.title'
+                                    defaultMessage='Plugins Marketplace'
+                                />
+                            </strong>
                         </h1>
                         {input}
                         <Tabs

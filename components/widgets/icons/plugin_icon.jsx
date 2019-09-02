@@ -22,12 +22,12 @@ export default class PluginIcon extends React.PureComponent {
                             <g
                                 stroke='none'
                                 strokeWidth='1'
-                                fill='none'
+                                fill='inherit'
                                 fillRule='evenodd'
                             >
                                 <g
                                     transform='translate(-347.000000, -211.000000)'
-                                    fill='#0A5AC2'
+                                    fill='inherit'
                                 >
                                     <g transform='translate(377.585786, 241.500000) rotate(-315.000000) translate(-377.585786, -241.500000) translate(358.585786, 200.000000)'>
                                         <g transform='translate(0.000000, -0.000000)'>

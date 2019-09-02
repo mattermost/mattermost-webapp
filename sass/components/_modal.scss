@@ -740,6 +740,8 @@
         }
 
         &:hover {
+            background: v(center-channel-color-05);
+
             .more-modal__actions--round {
                 opacity: .5;
             }

@@ -1,6 +1,8 @@
+@import 'compass/utilities';
+@import 'compass/css3';
 @import 'utils/variables';
 
-.MarketplaceModal {
+.modal-marketplace {
     display: flex;
     flex-direction: column;
     padding-top: 50px;
@@ -9,44 +11,60 @@
     align-items: center;
     font-size: 16px;
     color: var(--center-channel-color-90);
+
     @media (max-width: 768px) {
         padding-left: 15px;
         padding-right: 15px;
     }
 
+    .nav-tabs {
+        font-size: 14px;
+
+        > li {
+            > a {
+                @include single-transition(all, .15s, ease);
+                padding: 10px 16px;
+            }
+        }
+    }
+
     h1 {
-        font-size: 32px;
-        margin-bottom: 40px;
-        margin-top: 16px;
-        text-align: center;
-        font-weight: 300;
-        line-height: 1;
+        font-size: 28px;
+        margin: 8px 0 24px;
+
         strong {
             font-weight: 400;
         }
     }
+
     h2 {
         font-weight: 300;
         strong {
             font-weight: 400;
         }
     }
+
     .search_input {
         flex: 1;
         margin-left: 16px;
         margin-right: 16px;
         margin-bottom: 20px;
         margin-top: 28px;
-        height: 40px;	
+        height: 40px;
         width: 720px;
     }
 
     .btn {
+        font-weight: 600;
+        min-width: 8rem;
         border-radius: 4px;
+        font-size: 13px;
+        padding: 8px 16px;
     }
 
     .btn-outline {
-        border: 1px solid #0A5AC2;
+        background: transparent;
+        border: 1px solid var(--button-bg);
     }
 
     .tabs {
@@ -68,11 +86,11 @@
             display: flex;
             padding: 10px 15px;
             align-items: center;
-    
+
             &.clickable {
                 cursor: pointer;
             }
-    
+
             &:hover {
                 .plugin__actions--round {
                     opacity: .5;
@@ -81,10 +99,20 @@
         }
     }
 
+    .more-modal__list {
+        padding-bottom: 80px;
+    }
+
     .icon__plugin {
-        opacity: 0.2;
+        opacity: .2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 42px;
+        flex: 0 0 42px;
 
         svg {
+            fill: var(--button-bg);
             width: 32px;
             height: 32px;
         }
@@ -95,11 +123,11 @@
     }
 
     .item_error {
-        background-color: #fd5960;
-        opacity: 0.08;
+        background-color: var(--error-text-08);
     }
 
     .error_text {
-        color: #FD5960;
+        color: var(--error-text);
+        opacity: 1;
     }
 }
