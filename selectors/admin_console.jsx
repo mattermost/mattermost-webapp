@@ -17,3 +17,6 @@ export const getAdminDefinition = createSelector(
         return result;
     }
 );
+
+export const getAdminConsoleCustomComponents = (state, pluginId) =>
+    state.plugins.adminConsoleCustomComponents[pluginId] || {};

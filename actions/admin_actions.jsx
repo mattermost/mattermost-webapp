@@ -356,3 +356,16 @@ export async function testSiteURL(success, error, siteURL) {
         error({id: err.server_error_id, ...err});
     }
 }
+
+export function registerAdminConsoleCustomComponent(pluginId, key, component) {
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT,
+            data: {
+                pluginId,
+                key,
+                component,
+            },
+        });
+    };
+}

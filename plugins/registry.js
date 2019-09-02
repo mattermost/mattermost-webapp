@@ -20,6 +20,7 @@ import {
 import {
     registerAdminConsolePlugin,
     unregisterAdminConsolePlugin,
+    registerAdminConsoleCustomComponent,
 } from 'actions/admin_actions';
 
 import store from 'stores/redux_store.jsx';
@@ -481,6 +482,14 @@ export default class PluginRegistry {
     // replacing older ones.
     registerAdminConsolePlugin(func) {
         store.dispatch(registerAdminConsolePlugin(this.id, func));
+    }
+
+    // Register a custom React component to manage the plugin configuration for the given key.
+    // Accepts the following:
+    // - key - A key specified in the settings_schema.settings block of the plugin's manifest.
+    // - component - A react component to render in place of the default handling.
+    registerAdminConsoleCustomComponent(key, component) {
+        store.dispatch(registerAdminConsoleCustomComponent(this.id, key, component))
     }
 
     // Unregister a previously registered admin console definition override function.

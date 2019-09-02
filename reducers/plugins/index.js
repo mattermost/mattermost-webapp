@@ -239,6 +239,38 @@ function adminConsoleReducers(state = {}, action) {
     }
 }
 
+function adminConsoleCustomComponents(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: {
+        if (!action.data) {
+            return state;
+        }
+
+        const pluginId = action.data.pluginId;
+
+        const nextState = {...state};
+        if (!nextState[pluginId]) {
+            nextState[pluginId] = {};
+        }
+        nextState[pluginId][action.data.key] = action.data.component;
+        return nextState;
+    }
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
+        if (!action.data) {
+            return state;
+        }
+
+        const pluginId = action.data.id;
+        const nextState = {...state};
+        delete nextState[pluginId];
+        return nextState;
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
@@ -259,4 +291,8 @@ export default combineReducers({
     // object where every key is a plugin id and the value is a function that
     // modifies the admin console definition data structure
     adminConsoleReducers,
+
+    // objects where every key is a plugin id and the value is an object mapping keys to a custom
+    // React component to render on the plugin's system console.
+    adminConsoleCustomComponents,
 });
