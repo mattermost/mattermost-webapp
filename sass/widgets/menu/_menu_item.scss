@@ -35,6 +35,10 @@
                 align-items: flex-start;
             }
 
+            &.MenuItem__dangerous {
+                color: $red;
+            }
+
             &:hover {
                 background: alpha-color($black, .08);
             }
