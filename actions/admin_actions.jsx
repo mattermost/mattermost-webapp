@@ -324,3 +324,26 @@ export async function testSmtp(success, error) {
         error({id: err.server_error_id, ...err});
     }
 }
+
+export function registerAdminConsolePlugin(pluginId, reducer) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId,
+                reducer,
+            },
+        });
+    };
+}
+
+export function unregisterAdminConsolePlugin(pluginId) {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId,
+            },
+        });
+    };
+}
