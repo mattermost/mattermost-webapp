@@ -22,16 +22,51 @@ import ModalController from 'components/modal_controller';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
+import * as UserAgent from 'utils/user_agent.jsx';
 import CenterChannel from 'components/channel_layout/center_channel';
+import LoadingScreen from 'components/loading_screen';
 
 export default class ChannelController extends React.Component {
     static propTypes = {
         pathName: PropTypes.string.isRequired,
         teamType: PropTypes.string.isRequired,
+        fetchingChannels: PropTypes.bool.isRequired,
     };
 
     shouldComponentUpdate(nextProps) {
-        return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName;
+        return this.props.teamType !== nextProps.teamType || this.props.pathName !== nextProps.pathName || this.props.fetchingChannels !== nextProps.fetchingChannels;
+    }
+
+    componentDidMount() {
+        const platform = window.navigator.platform;
+        const elements = document.getElementsByTagName('body');
+        if (elements.length !== 1) {
+            return;
+        }
+        const body = elements[0];
+
+        body.classList.add('app__body');
+
+        // IE Detection
+        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
+            body.classList.add('browser--ie');
+        }
+
+        // OS Detection
+        if (platform === 'Win32' || platform === 'Win64') {
+            body.classList.add('os--windows');
+        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
+            body.classList.add('os--mac');
+        }
+    }
+
+    componentWillUnmount() {
+        const elements = document.getElementsByTagName('body');
+        if (elements.length !== 1) {
+            return;
+        }
+        const body = elements[0];
+        body.classList.remove('app__body');
     }
 
     render() {
@@ -48,7 +83,8 @@ export default class ChannelController extends React.Component {
                     <SidebarRightMenu teamType={this.props.teamType}/>
                     <Route component={TeamSidebar}/>
                     <Route component={Sidebar}/>
-                    <Route component={CenterChannel}/>
+                    {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
+                    {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>
                     <GetPostLinkModal/>
                     <GetPublicLinkModal/>
