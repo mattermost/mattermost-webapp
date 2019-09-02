@@ -471,13 +471,14 @@ export default class PluginRegistry {
         store.dispatch(registerPluginTranslationsSource(this.id, getTranslationsForLocale));
     }
 
-    // Register a admin console definitions override function (This is a
-    // low-level interface and can change in the future).
-    // - func - A function that recieve the admin console config
-    // definitions and return a new version of it, which is used for build the
-    // admin console.
-    // Each plugin can only register a function, if the plugin register
-    // multiple functions the last one will be used.
+    // Register a admin console definitions override function
+    // Note that this is a low-level interface primarily meant for internal use, and is not subject
+    // to semver guarantees. It may change in the future.
+    // Accepts the following:
+    // - func - A function that recieve the admin console config definitions and return a new
+    //          version of it, which is used for build the admin console.
+    // Each plugin can register at most one admin console plugin function, with newer registrations
+    // replacing older ones.
     registerAdminConsolePlugin(func) {
         store.dispatch(registerAdminConsolePlugin(this.id, func));
     }
