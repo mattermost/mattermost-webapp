@@ -16,6 +16,8 @@ const STANDARD_EXCLUDE = [
 
 module.exports = async ({config, mode}) => {
     config.module.rules[0].exclude = STANDARD_EXCLUDE;
+    config.module.rules[0].test = /\.(js|jsx|ts|tsx)?$/;
+    config.resolve.extensions.push('.ts', '.tsx');
 
     config.module.rules.push({
       test: /\.scss$/,
