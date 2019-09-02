@@ -441,7 +441,7 @@ export default {
                         error_message: t('admin.service.testSiteURLFail'),
                         error_message_default: 'Test unsuccessful: {error}',
                         success_message: t('admin.service.testSiteURLSuccess'),
-                        success_message_default: 'Test successful: this is a valid live URL.',
+                        success_message_default: 'Test successful. This is a valid URL.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

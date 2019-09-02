@@ -1321,7 +1321,7 @@
   "admin.service.testingDescription": "When true, /test slash command is enabled to load test accounts, data and text formatting. Changing this requires a server restart before taking effect.",
   "admin.service.testingTitle": "Enable Testing Commands: ",
   "admin.service.testSiteURLFail": "Test unsuccessful: {error}",
-  "admin.service.testSiteURLSuccess": "Test successful: this is a valid live URL.",
+  "admin.service.testSiteURLSuccess": "Test successful. This is a valid URL.",
   "admin.service.tlsCertFile": "TLS Certificate File:",
   "admin.service.tlsCertFileDescription": "The certificate file to use.",
   "admin.service.tlsKeyFile": "TLS Key File:",
