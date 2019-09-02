@@ -329,13 +329,15 @@
         }
 
         .icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
             margin-left: 5px;
         }
 
         div {
             @include border-radius(50px);
             cursor: pointer;
-            display: inline-block;
             padding: 0 20px;
             height: 28px;
             display: flex;
