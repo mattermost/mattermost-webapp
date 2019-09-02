@@ -152,7 +152,7 @@ export function removePlugin(manifest) {
     }
     unregisterAllPluginWebSocketEvents(manifest.id);
     unregisterPluginReconnectHandler(manifest.id);
-    unregisterAdminConsolePlugin(manifest.id);
+    store.dispatch(unregisterAdminConsolePlugin(manifest.id));
     unregisterPluginTranslationsSource(manifest.id);
     const script = document.getElementById('plugin_' + manifest.id);
     if (!script) {

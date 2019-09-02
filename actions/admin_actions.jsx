@@ -326,20 +326,24 @@ export async function testSmtp(success, error) {
 }
 
 export function registerAdminConsolePlugin(pluginId, reducer) {
-    dispatch({
-        type: ActionTypes.RECEIVED_ADMIN_CONSOLE_REDUCER,
-        data: {
-            pluginId,
-            reducer,
-        },
-    });
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId,
+                reducer,
+            },
+        });
+    };
 }
 
 export function unregisterAdminConsolePlugin(pluginId) {
-    dispatch({
-        type: ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER,
-        data: {
-            pluginId,
-        },
-    });
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId,
+            },
+        });
+    };
 }
