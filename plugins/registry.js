@@ -479,13 +479,13 @@ export default class PluginRegistry {
     // Each plugin can only register a function, if the plugin register
     // multiple functions the last one will be used.
     registerAdminConsolePlugin(func) {
-        store.dispatch(registerAdminConsolePlugin(this.id, func));
+        registerAdminConsolePlugin(this.id, func);
     }
 
     // Unregister a previously registered admin console definition override function.
     // Returns undefined.
     unregisterAdminConsolePlugin() {
-        store.dispatch(unregisterAdminConsolePlugin(this.id));
+        unregisterAdminConsolePlugin(this.id);
     }
 
     // Register a Right-Hand Sidebar component by providing a title for the right hand component.
