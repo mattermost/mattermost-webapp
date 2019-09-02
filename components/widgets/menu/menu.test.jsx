@@ -6,6 +6,11 @@ import {shallow} from 'enzyme';
 
 import Menu from './menu.jsx';
 
+global.MutationObserver = class {
+    disconnect() {}
+    observe() {}
+};
+
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
@@ -162,6 +167,7 @@ describe('components/Menu', () => {
           />
           <div
             class="menu-divider"
+            style="display: block;"
           />
           <div
             class="menu-divider"
@@ -172,6 +178,7 @@ describe('components/Menu', () => {
           />
           <div
             class="menu-divider"
+            style="display: block;"
           />
           <div
             class="menu-divider"
@@ -260,6 +267,7 @@ describe('components/Menu', () => {
           />
           <div
             class="mobile-menu-divider"
+            style="display: block;"
           />
           <div
             class="mobile-menu-divider"
@@ -270,6 +278,7 @@ describe('components/Menu', () => {
           />
           <div
             class="mobile-menu-divider"
+            style="display: block;"
           />
           <div
             class="mobile-menu-divider"

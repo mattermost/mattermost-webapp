@@ -66,12 +66,24 @@ const mockState = {
         users: {
             currentUserId: 'currentUserId',
             profiles: {
+                currentUserId: {
+                    id: 'currentUserId',
+                    roles: 'system_guest',
+                },
                 user: {
                     id: 'user',
+                    roles: 'system_guest',
                 },
             },
             statuses: {
                 user: 'away',
+            },
+        },
+        roles: {
+            roles: {
+                system_guest: {
+                    permissions: ['view_members'],
+                },
             },
         },
         general: {
@@ -79,7 +91,12 @@ const mockState = {
         },
         channels: {
             currentChannelId: 'otherChannel',
-            channels: {},
+            channels: {
+                otherChannel: {
+                    id: 'otherChannel',
+                    team_id: 'otherTeam',
+                },
+            },
         },
         preferences: {
             myPreferences: {},
@@ -165,6 +182,52 @@ describe('handleUserRemovedEvent', () => {
 
         handleUserRemovedEvent(msg);
         expect(closeRightHandSide).toHaveBeenCalled();
+    });
+
+    test('shouldn\'t remove the team user if the user have view members permissions', async () => {
+        const expectedAction = {
+            meta: {batch: true},
+            payload: [
+                {type: 'RECEIVED_PROFILE_NOT_IN_TEAM', data: {id: 'otherTeam', user_id: 'guestId'}},
+                {type: 'REMOVE_MEMBER_FROM_TEAM', data: {team_id: 'otherTeam', user_id: 'guestId'}},
+            ],
+            type: 'BATCHING_REDUCER.BATCH',
+        };
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+            },
+            broadcast: {
+                user_id: 'guestId',
+            },
+        };
+
+        handleUserRemovedEvent(msg);
+        expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
+    });
+
+    test('should remove the team user if the user doesn\'t have view members permissions', async () => {
+        const expectedAction = {
+            meta: {batch: true},
+            payload: [
+                {type: 'RECEIVED_PROFILE_NOT_IN_TEAM', data: {id: 'otherTeam', user_id: 'guestId'}},
+                {type: 'REMOVE_MEMBER_FROM_TEAM', data: {team_id: 'otherTeam', user_id: 'guestId'}},
+            ],
+            type: 'BATCHING_REDUCER.BATCH',
+        };
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+            },
+            broadcast: {
+                user_id: 'guestId',
+            },
+        };
+
+        mockState.entities.roles.roles = {system_guest: {permissions: []}};
+        handleUserRemovedEvent(msg);
+        mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
+        expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 });
 

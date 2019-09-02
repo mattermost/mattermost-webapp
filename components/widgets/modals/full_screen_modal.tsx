@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
 
@@ -12,32 +11,32 @@ import './full_screen_modal.scss';
 // This must be on sync with the animation time in ./full_screen_modal.scss
 const ANIMATION_DURATION = 100;
 
-export default class FullScreenModal extends React.Component {
-    static propTypes = {
-        show: PropTypes.bool.isRequired,
-        children: PropTypes.node.isRequired,
-        onClose: PropTypes.func.isRequired,
-    }
+type Props = {
+    show: boolean;
+    onClose: () => void;
+    children: React.ReactNode;
+};
 
-    componentDidMount() {
+export default class FullScreenModal extends React.Component<Props> {
+    public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeypress);
     }
 
-    handleKeypress = (e) => {
+    private handleKeypress = (e: KeyboardEvent) => {
         if (e.key === 'Escape' && this.props.show) {
             this.close();
         }
     }
 
-    close = () => {
+    private close = () => {
         this.props.onClose();
     }
 
-    render() {
+    public render() {
         return (
             <CSSTransition
                 in={this.props.show}

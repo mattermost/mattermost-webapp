@@ -9,8 +9,8 @@ import Constants from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import Badge from 'components/widgets/badges/badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import Badge from 'components/widgets/badges/badge';
 
 export default class PostHeader extends React.PureComponent {
     static propTypes = {
