@@ -565,7 +565,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             // Pretend to be a browser, invoke onload
             mockScript.onload();
-            expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            expect(initialize).toHaveBeenCalledWith(expect.anything(), store, browserHistory);
             const registery = initialize.mock.calls[0][0];
             const mockComponent = 'mockRootComponent';
             registery.registerRootComponent(mockComponent);
@@ -617,7 +617,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             // Pretend to be a browser, invoke onload
             mockScript.onload();
-            expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            expect(initialize).toHaveBeenCalledWith(expect.anything(), store, browserHistory);
             const registry = initialize.mock.calls[0][0];
             const mockComponent = 'mockRootComponent';
             registry.registerRootComponent(mockComponent);
@@ -639,7 +639,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             expect(document.createElement).toHaveBeenCalledTimes(2);
 
             mockScript.onload();
-            expect(initialize).toHaveBeenCalledWith(expect.anything(), store);
+            expect(initialize).toHaveBeenCalledWith(expect.anything(), store, browserHistory);
             expect(initialize).toHaveBeenCalledTimes(2);
             const registry2 = initialize.mock.calls[0][0];
             const mockComponent2 = 'mockRootComponent2';
