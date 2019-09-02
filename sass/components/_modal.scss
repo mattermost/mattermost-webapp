@@ -717,6 +717,16 @@
         }
     }
 
+    .more-modal__row--link {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            color: inherit;
+        }
+    }
+
     .more-modal__description {
         @include opacity(.6);
         display: block;

@@ -137,15 +137,16 @@ export default class MarketplaceItem extends React.Component {
             }
 
             return (
-                <div
-                    className={'more-modal__row' + (this.state.serverError ? ' item_error' : '')}
+                <a
+                    className={'more-modal__row more-modal__row--link' + (this.state.serverError ? ' item_error' : '')}
                     key={this.props.id}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={this.props.homepageUrl}
                 >
                     <PluginIcon className='icon__plugin'/>
                     <div className='more-modal__details'>
                         <button
-                            href={this.props.homepageUrl}
-                            target='_blank'
                             aria-label={ariaLabel}
                             className='style--none more-modal__name'
                         >
@@ -179,7 +180,7 @@ export default class MarketplaceItem extends React.Component {
                         onConfirm={this.onClickOvewriteModal}
                         onCancel={this.onCancelOvewriteModal}
                     />
-                </div>
+                </a>
             );
         }
 }

@@ -104,15 +104,15 @@
     }
 
     .icon__plugin {
-        opacity: .2;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 42px;
         flex: 0 0 42px;
+        margin-right: 4px;
 
         svg {
-            fill: var(--button-bg);
+            fill: var(--button-bg-60);
             width: 32px;
             height: 32px;
         }
