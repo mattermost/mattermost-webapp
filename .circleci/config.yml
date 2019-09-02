@@ -161,14 +161,14 @@ workflows:
       - i18n-check:
           requires:
             - install
-      - test:
-          requires:
-            - i18n-check
-            - lint
       - build:
           requires:
-            - test
+            - install
       - build-docker:
           context: matterbuild-docker
           requires:
             - build
+      - test:
+          requires:
+            - i18n-check
+            - lint
