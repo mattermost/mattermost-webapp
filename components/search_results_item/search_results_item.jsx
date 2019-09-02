@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -16,9 +17,11 @@ import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
-import ArchiveIcon from 'components/svg/archive_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -37,10 +40,10 @@ export default class SearchResultsItem extends React.PureComponent {
         */
         matches: PropTypes.array,
 
-        /**
-        *  channel object for rendering channel name on top of result
-        */
-        channel: PropTypes.object,
+        channelId: PropTypes.string,
+        channelName: PropTypes.string,
+        channelType: PropTypes.string,
+        channelIsArchived: PropTypes.bool,
 
         /**
         *  Flag for determining result display setting
@@ -78,13 +81,24 @@ export default class SearchResultsItem extends React.PureComponent {
         enablePostUsernameOverride: PropTypes.bool.isRequired,
 
         /**
+         * Is the search results item from a bot.
+         */
+        isBot: PropTypes.bool.isRequired,
+
+        /**
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             selectPost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static defaultProps = {
+        isBot: false,
+        channelIsArchived: false,
     };
 
     constructor(props) {
@@ -108,6 +122,14 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.setRhsExpanded(false);
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     };
+
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -146,24 +168,19 @@ export default class SearchResultsItem extends React.PureComponent {
     };
 
     render() {
-        let channelName = null;
-        const {channel, post} = this.props;
+        const {post, channelIsArchived, channelId, channelType} = this.props;
+        let {channelName} = this.props;
 
-        const channelIsArchived = channel ? channel.delete_at !== 0 : true;
-
-        if (channel) {
-            channelName = channel.display_name;
-            if (channel.type === Constants.DM_CHANNEL) {
-                channelName = (
-                    <FormattedMessage
-                        id='search_item.direct'
-                        defaultMessage='Direct Message (with {username})'
-                        values={{
-                            username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channel.id)),
-                        }}
-                    />
-                );
-            }
+        if (channelType === Constants.DM_CHANNEL) {
+            channelName = (
+                <FormattedMessage
+                    id='search_item.direct'
+                    defaultMessage='Direct Message (with {username})'
+                    values={{
+                        username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+                    }}
+                />
+            );
         }
 
         let overrideUsername;
@@ -174,18 +191,6 @@ export default class SearchResultsItem extends React.PureComponent {
             this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
-        }
-
-        let botIndicator;
-        if (post.props && post.props.from_webhook) {
-            botIndicator = (
-                <div className='bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
         }
 
         const profilePic = (
@@ -215,8 +220,9 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let message;
         let flagContent;
+        let postInfoIcon;
         let rhsControls;
-        if (post.state === Constants.POST_DELETED) {
+        if (post.state === Constants.POST_DELETED || post.state === Posts.POST_DELETED) {
             message = (
                 <p>
                     <FormattedMessage
@@ -233,6 +239,36 @@ export default class SearchResultsItem extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                 />
             );
+
+            if (post.props && post.props.card) {
+                postInfoIcon = (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={
+                            <Tooltip>
+                                <FormattedMessage
+                                    id='post_info.info.view_additional_info'
+                                    defaultMessage='View additional info'
+                                />
+                            </Tooltip>
+                        }
+                    >
+                        <button
+                            className='card-icon__container icon--show style--none'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.handleCardClick(this.props.post);
+                            }}
+                        >
+                            <InfoSmallIcon
+                                className='icon icon__info'
+                                aria-hidden='true'
+                            />
+                        </button>
+                    </OverlayTrigger>
+                );
+            }
 
             rhsControls = (
                 <div className='col__controls col__reply'>
@@ -297,7 +333,10 @@ export default class SearchResultsItem extends React.PureComponent {
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
 
         return (
-            <div className='search-item__container'>
+            <div
+                data-testid='search-item-container'
+                className='search-item__container'
+            >
                 <DateSeparator date={currentPostDay}/>
                 <div className={this.getClassName()}>
                     <div className='search-channel__name'>
@@ -312,24 +351,26 @@ export default class SearchResultsItem extends React.PureComponent {
                             </span>
                         }
                     </div>
-                    <div className='post__content'>
+                    <div
+                        role='application'
+                        className='post__content'
+                    >
                         {profilePicContainer}
                         <div>
                             <div className='post__header'>
                                 <div className='col col__name'>
-                                    <strong>
-                                        <UserProfile
-                                            userId={post.user_id}
-                                            overwriteName={overrideUsername}
-                                            disablePopover={disableProfilePopover}
-                                            isRHS={true}
-                                        />
-                                    </strong>
+                                    <UserProfile
+                                        userId={post.user_id}
+                                        overwriteName={overrideUsername}
+                                        disablePopover={disableProfilePopover}
+                                        isRHS={true}
+                                    />
+                                    <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 </div>
-                                {botIndicator}
                                 <div className='col'>
                                     {this.renderPostTime()}
                                     {pinnedBadge}
+                                    {postInfoIcon}
                                     {flagContent}
                                 </div>
                                 {rhsControls}

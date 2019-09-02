@@ -6,9 +6,14 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {t} from 'utils/i18n';
 
 export default function Describe({section, isCollapsed, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}) {
     if (memberNotifyLevel === NotificationLevels.DEFAULT && globalNotifyLevel) {
+        t('channel_notifications.levels.default');
+        t('channel_notifications.levels.all');
+        t('channel_notifications.levels.mention');
+        t('channel_notifications.levels.none');
         const levelsFormattedMessageId = 'channel_notifications.levels.' + globalNotifyLevel;
         return (
             <React.Fragment>

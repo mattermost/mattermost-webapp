@@ -7,7 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import InstalledCommand from '../installed_command.jsx';
+import InstalledCommand, {matchesFilter} from '../installed_command.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class InstalledCommands extends React.PureComponent {
     static propTypes = {
@@ -79,8 +80,9 @@ export default class InstalledCommands extends React.PureComponent {
     }
 
     render() {
-        const commands = this.props.commands.
+        const commands = (filter) => this.props.commands.
             filter((command) => command.team_id === this.props.team.id).
+            filter((command) => matchesFilter(command, filter)).
             sort(this.commandCompare).map((command) => {
                 const canChange = this.props.canManageOthersSlashCommands || this.props.user.id === command.creator_id;
 
@@ -112,10 +114,17 @@ export default class InstalledCommands extends React.PureComponent {
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/commands/add'}
+                addButtonId='addSlashCommand'
                 emptyText={
                     <FormattedMessage
                         id='installed_commands.empty'
                         defaultMessage='No slash commands found'
+                    />
+                }
+                emptyTextSearch={
+                    <FormattedMarkdownMessage
+                        id='installed_commands.emptySearch'
+                        defaultMessage='No slash commands match {searchTerm}'
                     />
                 }
                 helpText={
@@ -153,7 +162,10 @@ export default class InstalledCommands extends React.PureComponent {
                 searchPlaceholder={Utils.localizeMessage('installed_commands.search', 'Search Slash Commands')}
                 loading={this.props.loading}
             >
-                {commands}
+                {(filter) => {
+                    const children = commands(filter);
+                    return [children, children.length > 0];
+                }}
             </BackstageList>
         );
     }

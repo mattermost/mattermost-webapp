@@ -104,7 +104,7 @@ const languages = {
     },
     pl: {
         value: 'pl',
-        name: 'Polski (Beta)',
+        name: 'Polski',
         order: 6,
         url: pl,
     },
@@ -134,7 +134,7 @@ const languages = {
     },
     uk: {
         value: 'uk',
-        name: 'Yкраїнська (Beta)',
+        name: 'Yкраїнська (Alpha)',
         order: 11,
         url: uk,
     },

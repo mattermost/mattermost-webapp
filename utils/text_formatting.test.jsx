@@ -73,12 +73,6 @@ describe('autolinkAtMentions', () => {
     test('@channel, @all, @here should highlight properly with a trailing dash', () => {
         runSuccessfulAtMentionTests('', '-');
     });
-    test('@channel, @all, @here should highlight properly with a trailing underscore', () => {
-        runSuccessfulAtMentionTests('', '_');
-    });
-    test('@channel, @all, @here should highlight when the first part of a word', () => {
-        runSuccessfulAtMentionTests('', 'testing');
-    });
     test('@channel, @all, @here should highlight properly within a typical sentance', () => {
         runSuccessfulAtMentionTests('This is a typical sentance, ', ' check out this sentance!');
     });

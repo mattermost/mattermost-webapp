@@ -27,13 +27,12 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         rel="noopener noreferrer"
         target="_blank"
       >
-        <img
-          className="attachment__author-icon"
-          height="14"
+        <Connect(ExternalImage)
           key="attachment__author-icon"
           src="author_icon"
-          width="14"
-        />
+        >
+          <Component />
+        </Connect(ExternalImage)>
         <span
           className="attachment__author-name"
           key="attachment__author-name"
@@ -61,7 +60,6 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
-            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
@@ -76,17 +74,17 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           <div
             className="attachment__image-container"
           >
-            <SizeAwareImage
-              className="attachment__image"
-              dimensions={
+            <Connect(ExternalImage)
+              imageMetadata={
                 Object {
                   "height": 200,
                   "width": 200,
                 }
               }
-              onImageLoaded={[Function]}
               src="image_url"
-            />
+            >
+              <Component />
+            </Connect(ExternalImage)>
           </div>
           <div
             className="attachment-actions"
@@ -107,16 +105,17 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         <div
           className="attachment__thumb-container"
         >
-          <SizeAwareImage
-            dimensions={
+          <Connect(ExternalImage)
+            imageMetadata={
               Object {
                 "height": 200,
                 "width": 200,
               }
             }
-            onImageLoaded={[Function]}
             src="thumb_url"
-          />
+          >
+            <Component />
+          </Connect(ExternalImage)>
         </div>
         <div
           style={
@@ -158,13 +157,12 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
         rel="noopener noreferrer"
         target="_blank"
       >
-        <img
-          className="attachment__author-icon"
-          height="14"
+        <Connect(ExternalImage)
           key="attachment__author-icon"
           src="author_icon"
-          width="14"
-        />
+        >
+          <Component />
+        </Connect(ExternalImage)>
         <span
           className="attachment__author-name"
           key="attachment__author-name"
@@ -192,7 +190,6 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
-            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
@@ -207,32 +204,33 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
           <div
             className="attachment__image-container"
           >
-            <SizeAwareImage
-              className="attachment__image"
-              dimensions={
+            <Connect(ExternalImage)
+              imageMetadata={
                 Object {
                   "height": 200,
                   "width": 200,
                 }
               }
-              onImageLoaded={[Function]}
               src="image_url"
-            />
+            >
+              <Component />
+            </Connect(ExternalImage)>
           </div>
         </div>
         <div
           className="attachment__thumb-container"
         >
-          <SizeAwareImage
-            dimensions={
+          <Connect(ExternalImage)
+            imageMetadata={
               Object {
                 "height": 200,
                 "width": 200,
               }
             }
-            onImageLoaded={[Function]}
             src="thumb_url"
-          />
+          >
+            <Component />
+          </Connect(ExternalImage)>
         </div>
         <div
           style={
@@ -402,7 +400,15 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
           className="attachment-field__caption"
           width="50%"
         >
-          title_1
+          <Connect(Markdown)
+            message="title_1"
+            options={
+              Object {
+                "markdown": false,
+                "mentionHighlight": false,
+              }
+            }
+          />
         </th>
       </tr>
     </thead>
@@ -427,7 +433,15 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
           className="attachment-field__caption"
           width="50%"
         >
-          title_2
+          <Connect(Markdown)
+            message="title_2"
+            options={
+              Object {
+                "markdown": false,
+                "mentionHighlight": false,
+              }
+            }
+          />
         </th>
       </tr>
     </thead>

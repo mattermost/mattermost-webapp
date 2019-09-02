@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ReactionList Should match snapshot for reactions and should call getReactionsForPost as there is no metadata 1`] = `
+exports[`components/ReactionList should render nothing when no reactions 1`] = `""`;
+
+exports[`components/ReactionList should render when there are reactions 1`] = `
 <div
+  aria-label="reactions"
   className="post-reaction-list"
 >
   <Connect(Reaction)
@@ -9,7 +12,6 @@ exports[`components/ReactionList Should match snapshot for reactions and should 
     key="expressionless"
     post={
       Object {
-        "has_reactions": true,
         "id": "post_id",
       }
     }
@@ -74,16 +76,18 @@ exports[`components/ReactionList Should match snapshot for reactions and should 
           }
           teamId="teamId"
         >
-          <div
-            className="post-reaction"
+          <button
+            aria-label="add reaction"
+            className="style--none post-reaction"
             onClick={[Function]}
           >
             <span
               className="post-reaction__add"
+              id="addReaction-post_id"
             >
               +
             </span>
-          </div>
+          </button>
         </Connect(ChannelPermissionGate)>
       </OverlayTrigger>
     </span>

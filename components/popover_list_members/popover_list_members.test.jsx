@@ -34,7 +34,7 @@ describe('components/PopoverListMembers', () => {
     };
 
     const actions = {
-        getProfilesInChannel: jest.fn(),
+        loadProfilesAndStatusesInChannel: jest.fn(),
         openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'channelname'}}),
         openModal: jest.fn(),
     };
@@ -127,6 +127,16 @@ describe('components/PopoverListMembers', () => {
 
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channel: {...channel, delete_at: 1234}};
+
+        const wrapper = shallow(
+            <PopoverListMembers {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with group-constrained channel', () => {
+        const props = {...baseProps, channel: {...channel, group_constrained: true}};
 
         const wrapper = shallow(
             <PopoverListMembers {...props}/>

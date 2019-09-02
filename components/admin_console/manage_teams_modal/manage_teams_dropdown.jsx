@@ -6,12 +6,12 @@ import React from 'react';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 import * as Utils from 'utils/utils.jsx';
 
 export default class ManageTeamsDropdown extends React.Component {
     static propTypes = {
+        team: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
         teamMember: PropTypes.object.isRequired,
         onError: PropTypes.func.isRequired,
@@ -44,7 +44,7 @@ export default class ManageTeamsDropdown extends React.Component {
 
     render() {
         const isTeamAdmin = Utils.isAdmin(this.props.teamMember.roles) || this.props.teamMember.scheme_admin;
-
+        const {team} = this.props;
         let title;
         if (isTeamAdmin) {
             title = Utils.localizeMessage('admin.user_item.teamAdmin', 'Team Admin');
@@ -62,17 +62,18 @@ export default class ManageTeamsDropdown extends React.Component {
                     openLeft={true}
                     ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
                 >
-                    <MenuItemAction
+                    <Menu.ItemAction
                         show={!isTeamAdmin}
                         onClick={this.makeTeamAdmin}
                         text={Utils.localizeMessage('admin.user_item.makeTeamAdmin', 'Make Team Admin')}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
                         show={isTeamAdmin}
                         onClick={this.makeMember}
                         text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Member')}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
+                        show={!team.group_constrained}
                         onClick={this.removeFromTeam}
                         text={Utils.localizeMessage('team_members_dropdown.leave_team', 'Remove from Team')}
                     />

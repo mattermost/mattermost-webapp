@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {emailToLdap} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -191,7 +192,7 @@ export default class EmailToLDAP extends React.Component {
                             name='emailPassword'
                             ref='emailpassword'
                             autoComplete='off'
-                            placeholder={{id: 'claim.email_to_ldap.pwd', defaulMessage: 'Password'}}
+                            placeholder={{id: t('claim.email_to_ldap.pwd'), defaultMessage: 'Password'}}
                             spellCheck='false'
                         />
                     </div>
@@ -221,7 +222,7 @@ export default class EmailToLDAP extends React.Component {
                             name='ldapPassword'
                             ref='ldappassword'
                             autoComplete='off'
-                            placeholder={{id: 'claim.email_to_ldap.ldapPwd', defaultMessage: 'AD/LDAP Password'}}
+                            placeholder={{id: t('claim.email_to_ldap.ldapPwd'), defaultMessage: 'AD/LDAP Password'}}
                             spellCheck='false'
                         />
                     </div>

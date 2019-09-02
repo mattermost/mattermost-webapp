@@ -22,11 +22,24 @@ describe('components/ProfilePicture', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, profile and src, default props', () => {
+        const props = {
+            ...baseProps,
+            profileSrc: baseProps.src,
+            userId: 'uid',
+            src: 'http://example.com/emoji.png',
+        };
+        const wrapper = shallow(
+            <ProfilePicture {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, no user specified, overridden props', () => {
         const props = {
             ...baseProps,
-            width: '48',
-            height: '48',
+            size: 'xl',
             isRHS: true,
             hasMention: true,
         };
@@ -57,8 +70,7 @@ describe('components/ProfilePicture', () => {
             user: {
                 username: 'username',
             },
-            width: '48',
-            height: '48',
+            size: 'xs',
             isRHS: true,
             hasMention: true,
         };

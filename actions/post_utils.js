@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {batchActions} from 'redux-batched-actions';
-import {PostTypes} from 'mattermost-redux/action_types';
 import {
     markChannelAsRead,
     markChannelAsUnread,
@@ -28,8 +27,7 @@ export function completePostReceive(post, websocketMessageProps) {
         const state = getState();
 
         const rootPost = PostSelectors.getPost(state, post.root_id);
-        const postsInChannel = PostSelectors.getPostIdsInChannel(getState(), post.channel_id);
-        if (post.root_id && !rootPost && postsInChannel && postsInChannel.length !== 0) {
+        if (post.root_id && !rootPost) {
             const {data: posts} = await dispatch(PostActions.getPostThread(post.root_id));
             if (posts) {
                 dispatch(lastPostActions(post, websocketMessageProps));
@@ -56,20 +54,17 @@ export function lastPostActions(post, websocketMessageProps) {
 
         // Need manual dispatch to remove pending post
 
-        const actions = [{
-            type: PostTypes.RECEIVED_NEW_POST,
-            data: {
-                ...post,
+        const actions = [
+            PostActions.receivedNewPost(post),
+            {
+                type: WebsocketEvents.STOP_TYPING,
+                data: {
+                    id: post.channel_id + post.root_id,
+                    userId: post.user_id,
+                    now: Date.now(),
+                },
             },
-            channelId: post.channel_id,
-        }, {
-            type: WebsocketEvents.STOP_TYPING,
-            data: {
-                id: post.channel_id + post.root_id,
-                userId: post.user_id,
-                now: Date.now(),
-            },
-        }];
+        ];
 
         dispatch(batchActions(actions));
 

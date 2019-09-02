@@ -4,10 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {getImageSrc} from 'utils/post_utils';
 import {isUrlSafe} from 'utils/url';
 import {handleFormattedTextClick} from 'utils/utils';
 
+import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
 import ShowMore from 'components/post_view/show_more';
 import SizeAwareImage from 'components/size_aware_image';
@@ -15,8 +15,6 @@ import SizeAwareImage from 'components/size_aware_image';
 import ActionButton from '../action_button';
 import ActionMenu from '../action_menu';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
-
-const MAX_ATTACHMENT_TEXT_HEIGHT = 200;
 
 export default class MessageAttachment extends React.PureComponent {
     static propTypes = {
@@ -35,11 +33,6 @@ export default class MessageAttachment extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
-
-        /**
-         * Whether or not the server has an image proxy enabled
-         */
-        hasImageProxy: PropTypes.bool.isRequired,
 
         /**
          * images object for dimensions
@@ -166,6 +159,7 @@ export default class MessageAttachment extends React.PureComponent {
         let rowPos = 0;
         let lastWasLong = false;
         let nrTables = 0;
+        const markdown = {markdown: false, mentionHighlight: false};
 
         fields.forEach((field, i) => {
             if (rowPos === 2 || !(field.short === true) || lastWasLong) {
@@ -198,7 +192,10 @@ export default class MessageAttachment extends React.PureComponent {
                     key={'attachment__field-caption-' + i + '__' + nrTables}
                     width='50%'
                 >
-                    {field.title}
+                    <Markdown
+                        message={field.title}
+                        options={markdown}
+                    />
                 </th>
             );
 
@@ -257,13 +254,21 @@ export default class MessageAttachment extends React.PureComponent {
         if (attachment.author_name || attachment.author_icon) {
             if (attachment.author_icon) {
                 author.push(
-                    <img
-                        className='attachment__author-icon'
-                        src={getImageSrc(attachment.author_icon, this.props.hasImageProxy)}
+                    <ExternalImage
                         key={'attachment__author-icon'}
-                        height='14'
-                        width='14'
-                    />
+                        src={attachment.author_icon}
+                        imageMetadata={this.props.imagesMetadata[attachment.author_icon]}
+                    >
+                        {(iconUrl) => (
+                            <img
+                                alt={'attachment author icon'}
+                                className='attachment__author-icon'
+                                src={iconUrl}
+                                height='14'
+                                width='14'
+                            />
+                        )}
+                    </ExternalImage>
                 );
             }
             if (attachment.author_name) {
@@ -326,7 +331,6 @@ export default class MessageAttachment extends React.PureComponent {
                 <ShowMore
                     checkOverflow={this.state.checkOverflow}
                     isAttachmentText={true}
-                    maxHeight={MAX_ATTACHMENT_TEXT_HEIGHT}
                     text={attachment.text}
                 >
                     <Markdown
@@ -340,27 +344,45 @@ export default class MessageAttachment extends React.PureComponent {
 
         let image;
         if (attachment.image_url) {
+            const imageMetadata = this.props.imagesMetadata[attachment.image_url];
+
             image = (
                 <div className='attachment__image-container'>
-                    <SizeAwareImage
-                        className='attachment__image'
-                        onImageLoaded={this.handleHeightReceivedForImageUrl}
-                        src={getImageSrc(attachment.image_url, this.props.hasImageProxy)}
-                        dimensions={this.props.imagesMetadata[attachment.image_url]}
-                    />
+                    <ExternalImage
+                        src={attachment.image_url}
+                        imageMetadata={imageMetadata}
+                    >
+                        {(imageUrl) => (
+                            <SizeAwareImage
+                                className='attachment__image'
+                                onImageLoaded={this.handleHeightReceivedForImageUrl}
+                                src={imageUrl}
+                                dimensions={imageMetadata}
+                            />
+                        )}
+                    </ExternalImage>
                 </div>
             );
         }
 
         let thumb;
         if (attachment.thumb_url) {
+            const thumbMetadata = this.props.imagesMetadata[attachment.thumb_url];
+
             thumb = (
                 <div className='attachment__thumb-container'>
-                    <SizeAwareImage
-                        onImageLoaded={this.handleHeightReceivedForThumbUrl}
-                        src={getImageSrc(attachment.thumb_url, this.props.hasImageProxy)}
-                        dimensions={this.props.imagesMetadata[attachment.thumb_url]}
-                    />
+                    <ExternalImage
+                        src={attachment.thumb_url}
+                        imageMetadata={thumbMetadata}
+                    >
+                        {(thumbUrl) => (
+                            <SizeAwareImage
+                                onImageLoaded={this.handleHeightReceivedForThumbUrl}
+                                src={thumbUrl}
+                                dimensions={thumbMetadata}
+                            />
+                        )}
+                    </ExternalImage>
                 </div>
             );
         }

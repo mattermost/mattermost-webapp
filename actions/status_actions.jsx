@@ -17,10 +17,13 @@ export function loadStatusesForChannelAndSidebar() {
 
         const channelId = getCurrentChannelId(state);
         const postsInChannel = getPostsInCurrentChannel(state);
-        const posts = postsInChannel.slice(0, state.views.channel.postVisibility[channelId] || 0);
-        for (const post of posts) {
-            if (post.user_id) {
-                statusesToLoad[post.user_id] = true;
+
+        if (postsInChannel) {
+            const posts = postsInChannel.slice(0, state.views.channel.postVisibility[channelId] || 0);
+            for (const post of posts) {
+                if (post.user_id) {
+                    statusesToLoad[post.user_id] = true;
+                }
             }
         }
 

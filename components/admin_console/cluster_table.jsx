@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 import statusGreen from 'images/status_green.png';
 import statusYellow from 'images/status_yellow.png';
-import ReloadIcon from 'components/icon/reload_icon';
+import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 
 export default class ClusterTable extends React.Component {
     static propTypes = {
@@ -19,6 +19,7 @@ export default class ClusterTable extends React.Component {
     render() {
         var versionMismatch = (
             <img
+                alt='version mismatch'
                 className='cluster-status'
                 src={statusGreen}
             />
@@ -26,6 +27,7 @@ export default class ClusterTable extends React.Component {
 
         var configMismatch = (
             <img
+                alt='config mismatch'
                 className='cluster-status'
                 src={statusGreen}
             />
@@ -45,6 +47,7 @@ export default class ClusterTable extends React.Component {
             if (clusterInfo.version !== version) {
                 versionMismatch = (
                     <img
+                        alt='version mismatch'
                         className='cluster-status'
                         src={statusYellow}
                     />
@@ -54,6 +57,7 @@ export default class ClusterTable extends React.Component {
             if (clusterInfo.config_hash !== configHash) {
                 configMismatch = (
                     <img
+                        alt='config mismatch'
                         className='cluster-status'
                         src={statusYellow}
                     />
@@ -81,6 +85,7 @@ export default class ClusterTable extends React.Component {
             if (singleItem) {
                 status = (
                     <img
+                        alt='Cluster status'
                         className='cluster-status'
                         src={statusYellow}
                     />
@@ -88,6 +93,7 @@ export default class ClusterTable extends React.Component {
             } else {
                 status = (
                     <img
+                        alt='Cluster status'
                         className='cluster-status'
                         src={statusGreen}
                     />

@@ -3,10 +3,12 @@
 exports[`components/LeaveTeamModal should render the leave team model 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="leaveTeamModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-confirm"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="leaveTeamModal"
@@ -26,6 +28,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={false}
 >
   <ModalHeader
@@ -35,7 +38,8 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="leaveTeamModalLabel"
     >
       <FormattedMessage
         defaultMessage="Leave the team?"
@@ -72,6 +76,7 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
     </button>
     <button
       className="btn btn-danger"
+      id="leaveTeamYes"
       onClick={[Function]}
       type="button"
     >

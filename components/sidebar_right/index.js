@@ -7,12 +7,14 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
+import {scrollPostList} from 'actions/views/channel';
 import {setRhsExpanded, showPinnedPosts} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
     getRhsState,
     getSelectedPostId,
+    getSelectedPostCardId,
     getSelectedChannelId,
     getPreviousRhsState,
 } from 'selectors/rhs';
@@ -46,11 +48,13 @@ function mapStateToProps(state) {
         channel,
         currentUserId: getCurrentUserId(state),
         postRightVisible: Boolean(getSelectedPostId(state)),
-        searchVisible: Boolean(rhsState),
+        postCardVisible: Boolean(getSelectedPostCardId(state)),
+        searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
         previousRhsState: getPreviousRhsState(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
+        isPluginView: rhsState === RHSStates.PLUGIN,
     };
 }
 
@@ -59,6 +63,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             setRhsExpanded,
             showPinnedPosts,
+            scrollPostList,
         }, dispatch),
     };
 }

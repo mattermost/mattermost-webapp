@@ -8,10 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 
 import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
-import NextIcon from 'components/icon/next_icon';
-import PreviousIcon from 'components/icon/previous_icon';
-import SearchIcon from 'components/svg/search_icon';
-import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
 
 import {Constants} from 'utils/constants';
 
@@ -239,6 +239,7 @@ export default class GroupsList extends React.PureComponent {
         const {key} = e;
         const {searchString} = this.state;
         if (key === Constants.KeyCodes.ENTER[0]) {
+            this.setState({page: 0});
             this.searchGroups();
         }
         const newState = {};
@@ -342,7 +343,10 @@ export default class GroupsList extends React.PureComponent {
                     </span>
                 </div>
                 <a
-                    onClick={() => this.searchGroups(0)}
+                    onClick={() => {
+                        this.setState({page: 0});
+                        this.searchGroups(0);
+                    }}
                     className='btn btn-primary search-groups-btn'
                 >
                     <FormattedMessage
@@ -359,6 +363,7 @@ export default class GroupsList extends React.PureComponent {
             showFilters: false,
             searchString: '',
             loading: true,
+            page: 0,
         };
         Object.entries(FILTER_STATE_SEARCH_KEY_MAPPING).forEach(([key]) => {
             newState[key] = false;

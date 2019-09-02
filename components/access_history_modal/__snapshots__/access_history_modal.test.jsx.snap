@@ -3,11 +3,12 @@
 exports[`components/AccessHistoryModal should match snapshot when audits exist 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="accessHistoryModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   bsSize="large"
-  dialogClassName="modal--scroll"
+  dialogClassName="a11y__modal modal--scroll"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -27,6 +28,7 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -36,7 +38,8 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="accessHistoryModalLabel"
     >
       <FormattedMessage
         defaultMessage="Access History"
@@ -60,17 +63,35 @@ exports[`components/AccessHistoryModal should match snapshot when audits exist 1
       showSession={true}
     />
   </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    className="modal-footer--invisible"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="closeModalButton"
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="general_button.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;
 
 exports[`components/AccessHistoryModal should match snapshot when no audits exist 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="accessHistoryModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   bsSize="large"
-  dialogClassName="modal--scroll"
+  dialogClassName="a11y__modal modal--scroll"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -90,6 +111,7 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -99,7 +121,8 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="accessHistoryModalLabel"
     >
       <FormattedMessage
         defaultMessage="Access History"
@@ -117,5 +140,22 @@ exports[`components/AccessHistoryModal should match snapshot when no audits exis
       style={Object {}}
     />
   </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    className="modal-footer--invisible"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="closeModalButton"
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="general_button.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;

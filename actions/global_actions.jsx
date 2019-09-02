@@ -5,17 +5,18 @@ import {batchActions} from 'redux-batched-actions';
 
 import {
     createDirectChannel,
+    fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
     getMyChannelMember,
     markChannelAsRead,
+    markChannelAsViewed,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
-import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
@@ -24,7 +25,7 @@ import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
-import {clearUserCookie} from 'actions/views/root';
+import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
@@ -38,7 +39,6 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {equalServerVersions} from 'utils/server_version';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -70,13 +70,15 @@ export function emitChannelClickEvent(channel) {
 
             // Mark previous and next channel as read
             dispatch(markChannelAsRead(chan.id, oldChannelId));
-            reloadIfServerVersionChanged();
+            dispatch(markChannelAsViewed(chan.id, oldChannelId));
         });
 
         if (chan.delete_at === 0) {
             const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
-            LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
-            LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
+            if (penultimate !== chan.name) {
+                LocalStorageStore.setPenultimateChannelName(userId, teamId, penultimate);
+                LocalStorageStore.setPreviousChannelName(userId, teamId, chan.name);
+            }
         }
 
         // When switching to a different channel if the pinned posts is showing
@@ -281,9 +283,9 @@ export async function redirectUserToDefaultTeam() {
 
     state = getState();
 
-    const userId = getCurrentUserId(state);
+    const user = getCurrentUser(state);
     const locale = getCurrentLocale(state);
-    const teamId = LocalStorageStore.getPreviousTeamId(userId);
+    const teamId = LocalStorageStore.getPreviousTeamId(user.id);
 
     let team = getTeam(state, teamId);
     const myMember = getMyTeamMember(state, teamId);
@@ -300,9 +302,15 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
-    if (userId && team) {
-        let channelName = LocalStorageStore.getPreviousChannelName(userId, teamId);
+    if (user.id && team) {
+        if (Utils.isGuest(user)) {
+            await dispatch(fetchMyChannelsAndMembers(team.id));
+            state = getState();
+        }
+
+        let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
         const channel = getChannelByName(state, channelName);
+
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
@@ -314,20 +322,7 @@ export async function redirectUserToDefaultTeam() {
         }
 
         browserHistory.push(`/${team.name}/channels/${channelName}`);
-    } else {
+    } else if (user.id) {
         browserHistory.push('/select_team');
     }
-}
-
-let serverVersion = '';
-
-export function reloadIfServerVersionChanged() {
-    const newServerVersion = Client4.getServerVersion();
-
-    if (serverVersion && !equalServerVersions(serverVersion, newServerVersion)) {
-        console.log(`Detected version update from ${serverVersion} to ${newServerVersion}; refreshing the page`); //eslint-disable-line no-console
-        window.location.reload(true);
-    }
-
-    serverVersion = newServerVersion;
 }

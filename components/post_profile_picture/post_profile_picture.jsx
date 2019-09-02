@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import ProfilePicture from 'components/profile_picture';
-import MattermostLogo from 'components/svg/mattermost_logo';
+import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 import Constants, {UserStatuses} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
@@ -21,43 +21,57 @@ export default class PostProfilePicture extends React.PureComponent {
         post: PropTypes.object.isRequired,
         status: PropTypes.string,
         user: PropTypes.object,
+        isBot: PropTypes.bool,
+        postIconOverrideURL: PropTypes.string,
     };
 
     static defaultProps = {
         status: UserStatuses.OFFLINE,
     };
 
-    getProfilePicSrcForPost = (fromAutoResponder, fromWebhook) => {
+    getProfilePictureURL = () => {
         const {post, user} = this.props;
+
+        if (user && user.id === post.user_id) {
+            return Utils.imageURLForUser(user);
+        } else if (post.user_id) {
+            return Utils.imageURLForUser(post.user_id);
+        }
+
+        return '';
+    };
+
+    getStatus = (fromAutoResponder, fromWebhook, user) => {
+        if (fromAutoResponder || fromWebhook || (user && user.is_bot)) {
+            return '';
+        }
+
+        return this.props.status;
+    };
+
+    getPostIconURL = (defaultURL, fromAutoResponder, fromWebhook) => {
+        const {enablePostIconOverride, hasImageProxy, post} = this.props;
+        const postProps = post.props;
+        let postIconOverrideURL = '';
+        let useUserIcon = '';
+        if (postProps) {
+            postIconOverrideURL = postProps.override_icon_url;
+            useUserIcon = postProps.use_user_icon;
+        }
 
         if (this.props.compactDisplay) {
             return '';
         }
 
-        let src = '';
-        if (user && user.id === post.user_id) {
-            src = Utils.imageURLForUser(user);
-        } else if (post.user_id) {
-            src = Utils.imageURLForUser(post.user_id);
-        }
-
-        if (!fromAutoResponder && fromWebhook && !post.props.use_user_icon && this.props.enablePostIconOverride) {
-            if (post.props.override_icon_url) {
-                src = PostUtils.getImageSrc(post.props.override_icon_url, this.props.hasImageProxy);
-            } else {
-                src = Constants.DEFAULT_WEBHOOK_LOGO;
+        if (!fromAutoResponder && fromWebhook && !useUserIcon && enablePostIconOverride) {
+            if (postIconOverrideURL && postIconOverrideURL !== '') {
+                return PostUtils.getImageSrc(postIconOverrideURL, hasImageProxy);
             }
+
+            return Constants.DEFAULT_WEBHOOK_LOGO;
         }
 
-        return src;
-    };
-
-    getStatus = (fromAutoResponder, fromWebhook) => {
-        if (fromAutoResponder || fromWebhook) {
-            return '';
-        }
-
-        return this.props.status;
+        return defaultURL;
     };
 
     render() {
@@ -67,25 +81,34 @@ export default class PostProfilePicture extends React.PureComponent {
             isRHS,
             post,
             user,
+            isBot,
         } = this.props;
+
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const fromWebhook = PostUtils.isFromWebhook(post);
-        if (isSystemMessage && !compactDisplay && !fromWebhook) {
+
+        if (isSystemMessage && !compactDisplay && !fromWebhook && !isBot) {
             return <MattermostLogo className='icon'/>;
         }
-
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
 
         const hasMention = !fromAutoResponder && !fromWebhook;
-        const src = this.getProfilePicSrcForPost(fromAutoResponder, fromWebhook);
-        const status = this.getStatus(fromAutoResponder, fromWebhook);
+        const profileSrc = this.getProfilePictureURL();
+        const src = this.getPostIconURL(profileSrc, fromAutoResponder, fromWebhook);
+
+        const overrideIconEmoji = post.props ? post.props.override_icon_emoji : '';
+        const isEmoji = typeof overrideIconEmoji == 'string' && overrideIconEmoji !== '';
+        const status = this.getStatus(fromAutoResponder, fromWebhook, user);
 
         return (
             <ProfilePicture
                 hasMention={hasMention}
                 isBusy={isBusy}
                 isRHS={isRHS}
+                size='lg'
                 src={src}
+                profileSrc={profileSrc}
+                isEmoji={isEmoji}
                 status={status}
                 userId={user ? user.id : null}
                 username={user ? user.username : null}

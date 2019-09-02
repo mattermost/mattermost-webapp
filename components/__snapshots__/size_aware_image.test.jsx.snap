@@ -18,17 +18,44 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
   </div>
   <div
     className="image-loading__container undefined"
+    style={
+      Object {
+        "maxWidth": 300,
+      }
+    }
   >
     <svg
       style={
         Object {
-          "maxHeight": "200",
-          "maxWidth": "300",
+          "maxHeight": 200,
+          "maxWidth": 300,
           "verticalAlign": "middle",
         }
       }
       viewBox="0 0 300 200"
       xmlns="http://www.w3.org/2000/svg"
+    />
+  </div>
+  <div
+    className="style--none file-preview__button"
+    style={
+      Object {
+        "height": 1,
+        "overflow": "hidden",
+        "position": "absolute",
+        "top": 0,
+        "visibility": "hidden",
+        "width": 1,
+      }
+    }
+  >
+    <img
+      aria-label="file thumbnail"
+      onError={[Function]}
+      onKeyDown={[Function]}
+      onLoad={[Function]}
+      src="https://example.com/image.png"
+      tabIndex="0"
     />
   </div>
 </Fragment>

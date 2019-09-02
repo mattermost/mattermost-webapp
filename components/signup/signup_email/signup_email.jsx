@@ -60,9 +60,21 @@ export default class SignupEmail extends React.Component {
     componentDidMount() {
         trackEvent('signup', 'signup_user_01_welcome');
 
+        this.setDocumentTitle(this.props.siteName);
+
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
+        }
+    }
+
+    componentDidUpdate() {
+        this.setDocumentTitle(this.props.siteName);
+    }
+
+    setDocumentTitle = (siteName) => {
+        if (siteName) {
+            document.title = siteName;
         }
     }
 
@@ -270,11 +282,7 @@ export default class SignupEmail extends React.Component {
             >
                 <FormattedMessage
                     id='signup_user_completed.userHelp'
-                    defaultMessage="Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-' and '_'"
-                    values={{
-                        min: Constants.MIN_USERNAME_LENGTH,
-                        max: Constants.MAX_USERNAME_LENGTH,
-                    }}
+                    defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores.'
                 />
             </span>
         );
@@ -419,7 +427,10 @@ export default class SignupEmail extends React.Component {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className={'form-group has-error'}>
+                <div
+                    id='existingEmailErrorContainer'
+                    className={'form-group has-error'}
+                >
                     <label className='control-label'>{this.state.serverError}</label>
                 </div>
             );
@@ -466,6 +477,7 @@ export default class SignupEmail extends React.Component {
                 >
                     <div className='signup-team__container padding--less'>
                         <img
+                            alt={'signup team logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />

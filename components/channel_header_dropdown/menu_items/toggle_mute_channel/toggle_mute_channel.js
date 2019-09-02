@@ -8,7 +8,7 @@ import {Constants, NotificationLevels} from 'utils/constants';
 
 import {localizeMessage} from 'utils/utils';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import Menu from 'components/widgets/menu/menu';
 
 export default class MenuItemToggleMuteChannel extends React.PureComponent {
     static propTypes = {
@@ -27,6 +27,11 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent {
          * Boolean whether the current channel is muted
          */
         isMuted: PropTypes.bool.isRequired,
+
+        /**
+         * Use for test selector
+         */
+        id: PropTypes.string,
 
         /**
          * Object with action creators
@@ -52,16 +57,23 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent {
     }
 
     render() {
+        const {
+            channel,
+            id,
+            isMuted,
+        } = this.props;
+
         let text;
-        if (this.props.isMuted) {
+        if (isMuted) {
             text = localizeMessage('channel_header.unmute', 'Unmute Channel');
         } else {
             text = localizeMessage('channel_header.mute', 'Mute Channel');
         }
 
         return (
-            <MenuItemAction
-                show={this.props.channel.type !== Constants.DM_CHANNEL}
+            <Menu.ItemAction
+                id={id}
+                show={channel.type !== Constants.DM_CHANNEL}
                 onClick={this.handleClick}
                 text={text}
             />

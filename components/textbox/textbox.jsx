@@ -1,11 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
 import AutosizeTextarea from 'components/autosize_textarea.jsx';
 import PostMarkdown from 'components/post_markdown';
@@ -15,10 +13,7 @@ import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class Textbox extends React.Component {
     static propTypes = {
@@ -28,8 +23,8 @@ export default class Textbox extends React.Component {
         onChange: PropTypes.func.isRequired,
         onKeyPress: PropTypes.func.isRequired,
         onComposition: PropTypes.func,
+        onHeightChange: PropTypes.func,
         createMessage: PropTypes.string.isRequired,
-        previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
         onBlur: PropTypes.func,
         supportsCommands: PropTypes.bool.isRequired,
@@ -42,10 +37,12 @@ export default class Textbox extends React.Component {
         badConnection: PropTypes.bool,
         listenForMentionKeyClick: PropTypes.bool,
         currentUserId: PropTypes.string.isRequired,
+        preview: PropTypes.bool,
         profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
+            scrollPostList: PropTypes.func.isRequired,
         }),
     };
 
@@ -57,8 +54,6 @@ export default class Textbox extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {};
 
         this.suggestionProviders = [
             new AtMentionProvider({
@@ -80,6 +75,12 @@ export default class Textbox extends React.Component {
 
     handleChange = (e) => {
         this.props.onChange(e);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!prevProps.preview && this.props.preview) {
+            this.refs.preview.focus();
+        }
     }
 
     checkMessageLength = (message) => {
@@ -114,13 +115,11 @@ export default class Textbox extends React.Component {
     }
 
     handleHeightChange = (height, maxHeight) => {
-        const wrapper = $(this.refs.wrapper);
-
-        // Move over attachment icon to compensate for the scrollbar
-        if (height > maxHeight) {
-            wrapper.closest('.post-create').addClass('scroll');
-        } else {
-            wrapper.closest('.post-create').removeClass('scroll');
+        if (this.props.onHeightChange) {
+            this.props.onHeightChange(height, maxHeight);
+        }
+        if (Utils.disableVirtList()) {
+            this.props.actions.scrollPostList();
         }
     }
 
@@ -141,18 +140,6 @@ export default class Textbox extends React.Component {
 
     recalculateSize = () => {
         this.refs.message.recalculateSize();
-    }
-
-    togglePreview = (e) => {
-        e.preventDefault();
-        e.target.blur();
-        this.setState((prevState) => {
-            return {preview: !prevState.preview};
-        });
-    }
-
-    hidePreview = () => {
-        this.setState({preview: false});
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -179,115 +166,28 @@ export default class Textbox extends React.Component {
     }
 
     render() {
-        const hasText = this.props.value && this.props.value.length > 0;
-
-        let editHeader;
-        let helpTextClass = '';
-
-        if (this.props.value && this.props.value.length > this.props.characterLimit) {
-            helpTextClass = 'hidden';
-        }
-
-        if (this.props.previewMessageLink) {
-            editHeader = (
-                <span>
-                    {this.props.previewMessageLink}
-                </span>
-            );
-        } else {
-            editHeader = (
-                <FormattedMessage
-                    id='textbox.edit'
-                    defaultMessage='Edit message'
-                />
-            );
-        }
-
-        let previewLink = null;
-        if (Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW)) {
-            previewLink = (
-                <a
-                    id='previewLink'
-                    onClick={this.togglePreview}
-                    className='textbox-preview-link'
-                >
-                    {this.state.preview ? (
-                        editHeader
-                    ) : (
-                        <FormattedMessage
-                            id='textbox.preview'
-                            defaultMessage='Preview'
-                        />
-                    )}
-                </a>
-            );
-        }
-
-        const helpText = (
-            <div
-                id='helpText'
-                style={{visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0'}}
-                className='help__format-text'
-            >
-                <b>
-                    <FormattedMessage
-                        id='textbox.bold'
-                        defaultMessage='**bold**'
-                    />
-                </b>
-                <i>
-                    <FormattedMessage
-                        id='textbox.italic'
-                        defaultMessage='_italic_'
-                    />
-                </i>
-                <span>
-                    {'~~'}
-                    <strike>
-                        <FormattedMessage
-                            id='textbox.strike'
-                            defaultMessage='strike'
-                        />
-                    </strike>
-                    {'~~ '}
-                </span>
-                <span>
-                    <FormattedMessage
-                        id='textbox.inlinecode'
-                        defaultMessage='`inline code`'
-                    />
-                </span>
-                <span>
-                    <FormattedMessage
-                        id='textbox.preformatted'
-                        defaultMessage='```preformatted```'
-                    />
-                </span>
-                <span>
-                    <FormattedMessage
-                        id='textbox.quote'
-                        defaultMessage='>quote'
-                    />
-                </span>
-            </div>
-        );
-
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
+        let textWrapperClass = 'textarea-wrapper';
         if (this.props.emojiEnabled) {
             textboxClassName += ' custom-textarea--emoji-picker';
         }
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
-        if (this.state.preview) {
+        if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
+            textWrapperClass += ' textarea-wrapper--preview';
 
             preview = (
                 <div
+                    tabIndex='0'
                     ref='preview'
                     className='form-control custom-textarea textbox-preview-area'
+                    onKeyPress={this.props.onKeyPress}
+                    onKeyDown={this.handleKeyDown}
+                    onBlur={this.handleBlur}
                 >
                     <PostMarkdown
                         isRHS={this.props.isRHS}
@@ -300,7 +200,7 @@ export default class Textbox extends React.Component {
         return (
             <div
                 ref='wrapper'
-                className='textarea-wrapper'
+                className={textWrapperClass}
             >
                 <SuggestionBox
                     id={this.props.id}
@@ -314,7 +214,7 @@ export default class Textbox extends React.Component {
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
-                    style={{visibility: this.state.preview ? 'hidden' : 'visible'}}
+                    style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={AutosizeTextarea}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
@@ -328,22 +228,6 @@ export default class Textbox extends React.Component {
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                 />
                 {preview}
-                <div className={'help__text ' + helpTextClass}>
-                    {helpText}
-                    {previewLink}
-                    <Link
-                        id='helpTextLink'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        to='/help/messaging'
-                        className='textbox-help-link'
-                    >
-                        <FormattedMessage
-                            id='textbox.help'
-                            defaultMessage='Help'
-                        />
-                    </Link>
-                </div>
             </div>
         );
     }

@@ -14,7 +14,9 @@
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: contain;
-    display: inline-block;
+    display: inline-flex;
+    align-items: end;
+    justify-content: space-between;
     height: 21px;
     min-height: 1em;
     min-width: 1em;
@@ -22,8 +24,12 @@
     width: 21px;
 
     &--unicode {
-        font-size: 18px;
+        font-size: 21px;
         line-height: 1.3;
+
+        .os--windows & {
+            font-size: 16px;
+        }
     }
 }
 
@@ -79,7 +85,7 @@
 
     .nav-tabs {
         margin-bottom: 0px;
-        height: 34px;
+        flex: 0 0 34px;
         display: flex;
         justify-content: flex-end;
 
@@ -148,6 +154,9 @@
     background: $primary-color;
     border: 1px solid $light-gray;
     color: $white;
+    position: absolute;
+    top: 0;
+    width: 100%;
 
     .emoji-picker__header-title {
         margin-top: 2px;

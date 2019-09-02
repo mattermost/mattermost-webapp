@@ -83,6 +83,10 @@
         outline: none;
         padding-bottom: 2px;
         width: 100%;
+
+        &.a11y--focused {
+            box-shadow: none;
+        }
     }
 
     .LoadingSpinner {

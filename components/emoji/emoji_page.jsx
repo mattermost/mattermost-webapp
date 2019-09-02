@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import * as Utils from 'utils/utils.jsx';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
 
 import EmojiList from './emoji_list';
 
@@ -56,10 +56,7 @@ export default class EmojiPage extends React.Component {
                             defaultMessage='Custom Emoji'
                         />
                     </h1>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.CREATE_EMOJIS]}
-                    >
+                    <AnyTeamPermissionGate permissions={[Permissions.CREATE_EMOJIS]}>
                         <Link
                             className='add-link'
                             to={'/' + this.props.teamName + '/emoji/add'}
@@ -74,7 +71,7 @@ export default class EmojiPage extends React.Component {
                                 />
                             </button>
                         </Link>
-                    </TeamPermissionGate>
+                    </AnyTeamPermissionGate>
                 </div>
                 <EmojiList scrollToTop={this.props.scrollToTop}/>
             </div>

@@ -8,7 +8,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
@@ -114,7 +114,7 @@ export default class PermissionsSchemeSummary extends React.Component {
     }
 
     goToEdit = () => {
-        this.props.history.push('/admin_console/permissions/team-override-scheme/' + this.props.scheme.id);
+        this.props.history.push('/admin_console/user_management/permissions/team_override_scheme/' + this.props.scheme.id);
     }
 
     render = () => {
@@ -133,7 +133,6 @@ export default class PermissionsSchemeSummary extends React.Component {
         if (teams.length > MAX_TEAMS_PER_SCHEME_SUMMARY) {
             extraTeams = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={
@@ -176,7 +175,7 @@ export default class PermissionsSchemeSummary extends React.Component {
                     <div className='actions'>
                         <Link
                             className='edit-button'
-                            to={'/admin_console/permissions/team-override-scheme/' + scheme.id}
+                            to={'/admin_console/user_management/permissions/team_override_scheme/' + scheme.id}
                         >
                             <FormattedMessage
                                 id='admin.permissions.permissionsSchemeSummary.edit'

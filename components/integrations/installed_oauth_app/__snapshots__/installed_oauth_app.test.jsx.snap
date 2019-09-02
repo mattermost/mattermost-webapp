@@ -10,6 +10,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
     className="integration__icon integration-list__icon"
   >
     <img
+      alt="get app screenshot"
       src="https://test.com/icon"
     />
   </div>
@@ -19,11 +20,11 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         testApp
-      </span>
+      </strong>
     </div>
     <div
       className="item-details__row"
@@ -154,7 +155,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
     </button>
      - 
     <Link
-      replace={false}
       to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
     >
       <FormattedMessage
@@ -180,6 +180,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
     className="integration__icon integration-list__icon"
   >
     <img
+      alt="get app screenshot"
       src="https://test.com/icon"
     />
   </div>
@@ -189,7 +190,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -197,7 +198,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           id="installed_integrations.unnamed_oauth_app"
           values={Object {}}
         />
-      </span>
+      </strong>
     </div>
     <FormError
       error="error"
@@ -332,7 +333,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
     </button>
      - 
     <Link
-      replace={false}
       to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
     >
       <FormattedMessage
@@ -358,6 +358,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
     className="integration__icon integration-list__icon"
   >
     <img
+      alt="get app screenshot"
       src="https://test.com/icon"
     />
   </div>
@@ -367,7 +368,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -375,7 +376,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           id="installed_integrations.unnamed_oauth_app"
           values={Object {}}
         />
-      </span>
+      </strong>
     </div>
     <div
       className="item-details__row"
@@ -506,7 +507,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
     </button>
      - 
     <Link
-      replace={false}
       to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
     >
       <FormattedMessage

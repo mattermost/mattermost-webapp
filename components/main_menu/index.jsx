@@ -26,6 +26,7 @@ function mapStateToProps(state) {
     const appDownloadLink = config.AppDownloadLink;
     const enableCommands = config.EnableCommands === 'true';
     const enableCustomEmoji = config.EnableCustomEmoji === 'true';
+    const siteName = config.SiteName;
     const enableIncomingWebhooks = config.EnableIncomingWebhooks === 'true';
     const enableOAuthServiceProvider = config.EnableOAuthServiceProvider === 'true';
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
@@ -65,11 +66,13 @@ function mapStateToProps(state) {
         pluginMenuItems: state.plugins.components.MainMenu,
         canCreateOrDeleteCustomEmoji,
         moreTeamsToJoin,
+        siteName,
         teamId: currentTeam.id,
         teamName: currentTeam.name,
         teamType: currentTeam.type,
         currentUser,
         isMentionSearch: rhsState === RHSStates.MENTION,
+        teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
     };
 }
 

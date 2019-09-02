@@ -2,9 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants.jsx';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import MainMenu from './main_menu.jsx';
 
@@ -13,7 +14,7 @@ describe('components/Menu', () => {
         mobile: false,
         teamId: 'team-id',
         teamType: Constants.OPEN_TEAM,
-        teamName: 'team name',
+        teamName: 'team_name',
         currentUser: {id: 'test-user-id'},
         appDownloadLink: null,
         enableCommands: false,
@@ -37,22 +38,23 @@ describe('components/Menu', () => {
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
         },
+        teamIsGroupConstrained: false,
     };
 
     test('should match snapshot with id', () => {
         const props = {...defaultProps, id: 'test-id'};
-        const wrapper = shallow(<MainMenu {...props}/>);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled', () => {
-        const wrapper = shallow(<MainMenu {...defaultProps}/>);
+        const wrapper = shallowWithIntl(<MainMenu {...defaultProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with most of the thing disabled in mobile', () => {
         const props = {...defaultProps, mobile: true};
-        const wrapper = shallow(<MainMenu {...props}/>);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -73,7 +75,7 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallow(<MainMenu {...props}/>);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -95,7 +97,7 @@ describe('components/Menu', () => {
             reportAProblemLink: 'test-report-link',
             moreTeamsToJoin: true,
         };
-        const wrapper = shallow(<MainMenu {...props}/>);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -107,7 +109,7 @@ describe('components/Menu', () => {
                 {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
             ],
         };
-        const wrapper = shallow(<MainMenu {...props}/>);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -120,7 +122,26 @@ describe('components/Menu', () => {
                 {id: 'plugin-2', action: jest.fn(), text: 'plugin-2-text', mobileIcon: 'plugin-2-mobile-icon'},
             ],
         };
-        const wrapper = shallow(<MainMenu {...props}/>);
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show leave team option when primary team is set', () => {
+        const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+        // show leave team option when experimentalPrimaryTeam is not set
+        expect(wrapper.find('#leaveTeam')).toHaveLength(1);
+        expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
+
+        // hide leave team option when experimentalPrimaryTeam is same as current team
+        wrapper.setProps({experimentalPrimaryTeam: defaultProps.teamName});
+        expect(wrapper.find('#leaveTeam')).toHaveLength(1);
+        expect(wrapper.find('#leaveTeam').props().show).toEqual(false);
+
+        // show leave team option when experimentalPrimaryTeam is set to other team
+        wrapper.setProps({experimentalPrimaryTeam: 'other_name'});
+        expect(wrapper.find('#leaveTeam')).toHaveLength(1);
+        expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
     });
 });

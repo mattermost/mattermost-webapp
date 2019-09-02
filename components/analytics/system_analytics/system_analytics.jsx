@@ -10,7 +10,7 @@ import Constants from 'utils/constants.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import DoughnutChart from '../doughnut_chart.jsx';
 import LineChart from '../line_chart.jsx';
@@ -34,6 +34,7 @@ export default class SystemAnalytics extends React.PureComponent {
     componentDidMount() {
         AdminActions.getStandardAnalytics();
         AdminActions.getPostsPerDayAnalytics();
+        AdminActions.getBotPostsPerDayAnalytics();
         AdminActions.getUsersPerDayAnalytics();
 
         if (this.props.isLicensed) {
@@ -46,11 +47,13 @@ export default class SystemAnalytics extends React.PureComponent {
         const isLicensed = this.props.isLicensed;
         const skippedIntensiveQueries = stats[StatTypes.TOTAL_POSTS] === -1;
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
+        const botPostCountsDay = formatPostsPerDayData(stats[StatTypes.BOT_POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
         let banner;
         let postCount;
         let postTotalGraph;
+        let botPostTotalGraph;
         let activeUserGraph;
         if (skippedIntensiveQueries) {
             banner = (
@@ -75,6 +78,22 @@ export default class SystemAnalytics extends React.PureComponent {
                     icon='fa-comment'
                     count={stats[StatTypes.TOTAL_POSTS]}
                 />
+            );
+
+            botPostTotalGraph = (
+                <div className='row'>
+                    <LineChart
+                        title={
+                            <FormattedMessage
+                                id='analytics.system.totalBotPosts'
+                                defaultMessage='Total Posts from Bots'
+                            />
+                        }
+                        data={botPostCountsDay}
+                        width={740}
+                        height={225}
+                    />
+                </div>
             );
 
             postTotalGraph = (
@@ -368,16 +387,21 @@ export default class SystemAnalytics extends React.PureComponent {
                     id='analytics.system.title'
                     defaultMessage='System Statistics'
                 />
-                {banner}
-                <div className='row'>
-                    {firstRow}
-                    {secondRow}
-                    {thirdRow}
-                    {advancedStats}
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        {banner}
+                        <div className='row'>
+                            {firstRow}
+                            {secondRow}
+                            {thirdRow}
+                            {advancedStats}
+                        </div>
+                        {advancedGraphs}
+                        {postTotalGraph}
+                        {botPostTotalGraph}
+                        {activeUserGraph}
+                    </div>
                 </div>
-                {advancedGraphs}
-                {postTotalGraph}
-                {activeUserGraph}
             </div>
         );
     }

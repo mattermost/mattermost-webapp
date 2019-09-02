@@ -302,14 +302,19 @@ class ShortcutsModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='shortcuts-modal'
+                dialogClassName='a11y__modal shortcuts-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHide}
+                role='dialog'
+                aria-labelledby='shortcutsModalLabel'
             >
                 <div className='shortcuts-content'>
                     <Modal.Header closeButton={true}>
-                        <Modal.Title>
+                        <Modal.Title
+                            componentClass='h1'
+                            id='shortcutsModalLabel'
+                        >
                             <strong>{renderShortcut(formatMessage(shortcuts.mainHeader))}</strong>
                         </Modal.Title>
                     </Modal.Header>

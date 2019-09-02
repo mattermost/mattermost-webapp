@@ -3,6 +3,7 @@
 exports[`components/AdminConsole should generate the routes 1`] = `
 <div
   className="admin-console__wrapper"
+  id="adminConsoleWrapper"
 >
   <Connect(AnnouncementBarController) />
   <Connect(SystemNotice) />
@@ -17,98 +18,187 @@ exports[`components/AdminConsole should generate the routes 1`] = `
     >
       <Switch>
         <Route
-          key="system_analytics"
-          path="/system_analytics"
+          key="about/license"
+          path="/about/license"
           render={[Function]}
         />
         <Route
-          key="team_analytics"
-          path="/team_analytics"
+          key="reporting/system_analytics"
+          path="/reporting/system_analytics"
           render={[Function]}
         />
         <Route
-          key="users"
-          path="/users"
+          key="reporting/team_statistics"
+          path="/reporting/team_statistics"
           render={[Function]}
         />
         <Route
-          key="logs"
-          path="/logs"
+          key="reporting/server_logs"
+          path="/reporting/server_logs"
           render={[Function]}
         />
         <Route
-          key="license"
-          path="/license"
+          key="user_management/user/:user_id"
+          path="/user_management/user/:user_id"
           render={[Function]}
         />
         <Route
-          key="audits"
-          path="/audits"
+          key="user_management/users"
+          path="/user_management/users"
           render={[Function]}
         />
         <Route
-          key="general"
-          path="/general"
+          key="environment/web_server"
+          path="/environment/web_server"
           render={[Function]}
         />
         <Route
-          key="access-control"
-          path="/access-control"
+          key="environment/database"
+          path="/environment/database"
           render={[Function]}
         />
         <Route
-          key="permissions"
-          path="/permissions"
+          key="environment/file_storage"
+          path="/environment/file_storage"
           render={[Function]}
         />
         <Route
-          key="authentication"
-          path="/authentication"
+          key="environment/image_proxy"
+          path="/environment/image_proxy"
           render={[Function]}
         />
         <Route
-          key="security"
-          path="/security"
+          key="environment/smtp"
+          path="/environment/smtp"
           render={[Function]}
         />
         <Route
-          key="notifications"
-          path="/notifications"
+          key="environment/push_notification_server"
+          path="/environment/push_notification_server"
           render={[Function]}
         />
         <Route
-          key="integrations"
-          path="/integrations"
+          key="environment/rate_limiting"
+          path="/environment/rate_limiting"
           render={[Function]}
         />
         <Route
-          key="plugins"
-          path="/plugins"
+          key="environment/logging"
+          path="/environment/logging"
           render={[Function]}
         />
         <Route
-          key="files"
-          path="/files"
+          key="environment/session_lengths"
+          path="/environment/session_lengths"
           render={[Function]}
         />
         <Route
-          key="customization"
-          path="/customization"
+          key="environment/developer"
+          path="/environment/developer"
           render={[Function]}
         />
         <Route
-          key="compliance"
-          path="/compliance"
+          key="site_config/customization"
+          path="/site_config/customization"
           render={[Function]}
         />
         <Route
-          key="advanced"
-          path="/advanced"
+          key="site_config/localization"
+          path="/site_config/localization"
+          render={[Function]}
+        />
+        <Route
+          key="site_config/users_and_teams"
+          path="/site_config/users_and_teams"
+          render={[Function]}
+        />
+        <Route
+          key="environment/notifications"
+          path="/environment/notifications"
+          render={[Function]}
+        />
+        <Route
+          key="site_config/emoji"
+          path="/site_config/emoji"
+          render={[Function]}
+        />
+        <Route
+          key="site_config/posts"
+          path="/site_config/posts"
+          render={[Function]}
+        />
+        <Route
+          key="site_config/file_sharing_downloads"
+          path="/site_config/file_sharing_downloads"
+          render={[Function]}
+        />
+        <Route
+          key="site_config/public_links"
+          path="/site_config/public_links"
+          render={[Function]}
+        />
+        <Route
+          key="authentication/signup"
+          path="/authentication/signup"
+          render={[Function]}
+        />
+        <Route
+          key="authentication/email"
+          path="/authentication/email"
+          render={[Function]}
+        />
+        <Route
+          key="authentication/password"
+          path="/authentication/password"
+          render={[Function]}
+        />
+        <Route
+          key="authentication/mfa"
+          path="/authentication/mfa"
+          render={[Function]}
+        />
+        <Route
+          key="authentication/gitlab"
+          path="/authentication/gitlab"
+          render={[Function]}
+        />
+        <Route
+          key="plugins/plugin_management"
+          path="/plugins/plugin_management"
+          render={[Function]}
+        />
+        <Route
+          key="plugins/plugin_:plugin_id"
+          path="/plugins/plugin_:plugin_id"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/integration_management"
+          path="/integrations/integration_management"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/bot_accounts"
+          path="/integrations/bot_accounts"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/gif"
+          path="/integrations/gif"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/cors"
+          path="/integrations/cors"
+          render={[Function]}
+        />
+        <Route
+          key="experimental/features"
+          path="/experimental/features"
           render={[Function]}
         />
         <Redirect
-          push={false}
-          to="/system_analytics"
+          to="/about/license"
         />
       </Switch>
     </Highlight>
@@ -124,7 +214,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
 
 exports[`components/AdminConsole should redirect to / when not system admin 1`] = `
 <Redirect
-  push={false}
   to="/"
 />
 `;

@@ -281,6 +281,7 @@ export default class CustomThemeChooser extends React.Component {
                     >
                         <img
                             width='200'
+                            alt={'code theme image'}
                             src={codeThemeURL}
                         />
                     </Popover>
@@ -305,13 +306,13 @@ export default class CustomThemeChooser extends React.Component {
                                 {codeThemeOptions}
                             </select>
                             <OverlayTrigger
-                                trigger={['hover', 'focus']}
                                 placement='top'
                                 overlay={popoverContent}
                                 ref='headerOverlay'
                             >
                                 <span className='input-group-addon'>
                                     <img
+                                        alt={'code theme image'}
                                         src={codeThemeURL}
                                     />
                                 </span>
@@ -395,6 +396,7 @@ export default class CustomThemeChooser extends React.Component {
                 <div className='theme-elements row'>
                     <div
                         ref='sidebarStylesHeader'
+                        id='sidebarStyles'
                         className='theme-elements__header'
                         onClick={this.toggleSidebarStyles}
                     >
@@ -446,14 +448,16 @@ export default class CustomThemeChooser extends React.Component {
                     </div>
                     <div
                         ref='centerChannelStyles'
+                        id='centerChannelStyles'
                         className='theme-elements__body'
                     >
                         {centerChannelElements}
                     </div>
                 </div>
-                <div className='theme-elements row form-group'>
+                <div className='theme-elements row'>
                     <div
                         ref='linkAndButtonStylesHeader'
+                        id='linkAndButtonsStyles'
                         className='theme-elements__header'
                         onClick={this.toggleLinkAndButtonStyles}
                     >
@@ -479,7 +483,7 @@ export default class CustomThemeChooser extends React.Component {
                         {linkAndButtonElements}
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row margin-top x2'>
                     {pasteBox}
                 </div>
             </div>

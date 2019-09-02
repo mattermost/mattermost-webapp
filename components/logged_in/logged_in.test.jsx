@@ -52,7 +52,6 @@ describe('components/logged_in/LoggedIn', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <Redirect
-  push={false}
   to="/mfa/setup"
 />
 `
@@ -108,7 +107,6 @@ describe('components/logged_in/LoggedIn', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <Redirect
-  push={false}
   to="/terms_of_service?redirect_to=%2F"
 />
 `

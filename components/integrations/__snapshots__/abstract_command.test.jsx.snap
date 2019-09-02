@@ -6,7 +6,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/test/integrations/commands"
     >
       <FormattedMessage
@@ -468,7 +467,6 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/test/integrations/commands"
         >
           <FormattedMessage
@@ -479,6 +477,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveCommand"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -503,7 +502,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/test/integrations/commands"
     >
       <FormattedMessage
@@ -969,7 +967,6 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/test/integrations/commands"
         >
           <FormattedMessage
@@ -980,6 +977,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveCommand"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"

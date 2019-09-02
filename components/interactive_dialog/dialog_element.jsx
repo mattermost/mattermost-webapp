@@ -11,7 +11,8 @@ import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import TextSetting from 'components/widgets/settings/text_setting';
-import AutocompleteSelector from 'components/widgets/settings/autocomplete_selector';
+import AutocompleteSelector from 'components/autocomplete_selector';
+import BoolSetting from 'components/widgets/settings/bool_setting';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
@@ -152,7 +153,17 @@ export default class DialogElement extends React.PureComponent {
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     value={this.state.value}
-                    listStyle={'bottom'}
+                />
+            );
+        } else if (type === 'bool') {
+            return (
+                <BoolSetting
+                    id={name}
+                    label={displayNameContent}
+                    value={value || false}
+                    helpText={helpTextContent}
+                    placeholder={placeholder}
+                    onChange={onChange}
                 />
             );
         }

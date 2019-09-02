@@ -3,9 +3,11 @@
 exports[`components/ChannelInfoModal should match snapshot when modal is not showing 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="postDeletedModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -24,6 +26,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={false}
 >
   <ModalHeader
@@ -33,7 +36,8 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="postDeletedModalLabel"
     >
       <FormattedMessage
         defaultMessage="Comment could not be posted"
@@ -77,9 +81,11 @@ exports[`components/ChannelInfoModal should match snapshot when modal is not sho
 exports[`components/ChannelInfoModal should match snapshot when modal is showing 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="postDeletedModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -98,6 +104,7 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -107,7 +114,8 @@ exports[`components/ChannelInfoModal should match snapshot when modal is showing
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="postDeletedModalLabel"
     >
       <FormattedMessage
         defaultMessage="Comment could not be posted"

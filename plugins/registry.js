@@ -11,6 +11,12 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
+import {showRHSPlugin} from 'actions/views/rhs';
+
+import {
+    registerPluginTranslationsSource,
+} from 'actions/views/root';
+
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
 import {generateId} from 'utils/utils.jsx';
@@ -148,6 +154,7 @@ export default class PluginRegistry {
 
     // Register a component to render a custom body for posts with a specific type.
     // Custom post types must be prefixed with 'custom_'.
+    // Custom post types can also apply for ephemeral posts.
     // Accepts a string type and a component.
     // Returns a unique identifier.
     registerPostTypeComponent(type, component) {
@@ -160,6 +167,54 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 type,
                 component,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a component to render a custom body for post cards with a specific type.
+    // Custom post types must be prefixed with 'custom_'.
+    // Accepts a string type and a component.
+    // Returns a unique identifier.
+    registerPostCardTypeComponent(type, component) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_POST_CARD_COMPONENT,
+            data: {
+                id,
+                pluginId: this.id,
+                type,
+                component,
+            },
+        });
+
+        return id;
+    }
+
+    // Register a component to render a custom embed preview for post links.
+    // Accepts the following:
+    // - match - A function that receives the embed object and returns a
+    //   boolean indicating if the plugin is able to process it.
+    //   The embed object contains the embed `type`, the `url` of the post link
+    //   and in some cases, a `data` object with information related to the
+    //   link (the opengraph or the image details, for example).
+    // - component - The component that renders the embed view for the link
+    // - toggleable - A boolean indicating if the embed view should be collapsable
+    // Returns a unique identifier.
+    registerPostWillRenderEmbedComponent(match, component, toggleable) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'PostWillRenderEmbedComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                match,
+                toggleable,
             },
         });
 
@@ -277,6 +332,16 @@ export default class PluginRegistry {
         });
     }
 
+    // Unregister a component that provided a custom body for posts with a specific type.
+    // Accepts a string id.
+    // Returns undefined in all cases.
+    unregisterPostTypeComponent(componentId) {
+        store.dispatch({
+            type: ActionTypes.REMOVED_PLUGIN_POST_COMPONENT,
+            id: componentId,
+        });
+    }
+
     // Register a reducer against the Redux store. It will be accessible in redux state
     // under "state['plugins-<yourpluginid>']"
     // Accepts a reducer. Returns undefined.
@@ -341,6 +406,43 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a hook that will be called when a slash command is posted by the user before it
+    // is sent to the server. Accepts a function that receives the message (string) and the args
+    // (object) as arguments.
+    // The args object is:
+    //        {
+    //            channel_id: channelId,
+    //            team_id: teamId,
+    //            root_id: rootId,
+    //            parent_id: rootId,
+    //        }
+    //
+    // To reject a command, return an object containing an error:
+    //     {error: {message: 'Rejected'}}
+    // To ignore a command, return an empty object (to prevent an error from being displayed):
+    //     {}
+    // To modify or allow the command without modification, return an object containing the new message
+    // and args. It is not likely that you will need to change the args, so return the object that was provided:
+    //     {message: {...}, args}
+    //
+    // If the hook function is asynchronous, the command will not be sent to the server
+    // until the hook returns.
+    registerSlashCommandWillBePostedHook(hook) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'SlashCommandWillBePosted',
+            data: {
+                id,
+                pluginId: this.id,
+                hook,
+            },
+        });
+
+        return id;
+    }
+
     // Register a hook that will be called before a message is formatted into Markdown.
     // Accepts a function that receives the unmodified post and the message (potentially
     // already modified by other hooks) as arguments. This function must return a string
@@ -360,5 +462,57 @@ export default class PluginRegistry {
         });
 
         return id;
+    }
+
+    // Register a component to override file previews. Accepts a function to run before file is
+    // previewed and a react component to be rendered as the file preview.
+    // - override - A function to check whether preview needs to be overridden. Receives fileInfo and post as arguments.
+    // Returns true is preview should be overridden and false otherwise.
+    // - component - A react component to display instead of original preview. Receives fileInfo and post as props.
+    // Returns a unique identifier.
+    // Only one plugin can override a file preview at a time. If two plugins try to override the same file preview, the first plugin will perform the override and the second will not. Plugin precedence is ordered alphabetically by plugin ID.
+    registerFilePreviewComponent(override, component) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'FilePreview',
+            data: {
+                id,
+                pluginId: this.id,
+                override,
+                component,
+            },
+        });
+
+        return id;
+    }
+
+    registerTranslations(getTranslationsForLocale) {
+        store.dispatch(registerPluginTranslationsSource(this.id, getTranslationsForLocale));
+    }
+
+    // Register a Right-Hand Sidebar component by providing a title for the right hand component.
+    // Accepts the following:
+    // - title - A string or JSX element to display as a title for the RHS.
+    // - component - A react component to display in the Right-Hand Sidebar.
+    // Returns:
+    // - id: a unique identifier
+    // - showRHSPlugin: the action to dispatch that will open the RHS.
+    registerRightHandSidebarComponent(component, title) {
+        const id = generateId();
+
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+            name: 'RightHandSidebarComponent',
+            data: {
+                id,
+                pluginId: this.id,
+                component,
+                title,
+            },
+        });
+
+        return {id, showRHSPlugin: showRHSPlugin(id)};
     }
 }

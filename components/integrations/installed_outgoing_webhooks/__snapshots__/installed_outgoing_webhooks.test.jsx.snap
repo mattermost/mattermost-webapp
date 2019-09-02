@@ -1,64 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot 1`] = `
-<BackstageList
-  addLink="/test/integrations/outgoing_webhooks/add"
-  addText={
-    <FormattedMessage
-      defaultMessage="Add Outgoing Webhook"
-      id="installed_outgoing_webhooks.add"
-      values={Object {}}
-    />
-  }
-  emptyText={
-    <FormattedMessage
-      defaultMessage="No outgoing webhooks found"
-      id="installed_outgoing_webhooks.empty"
-      values={Object {}}
-    />
-  }
-  header={
-    <FormattedMessage
-      defaultMessage="Installed Outgoing Webhooks"
-      id="installed_outgoing_webhooks.header"
-      values={Object {}}
-    />
-  }
-  helpText={
-    <FormattedMessage
-      defaultMessage="Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations."
-      id="installed_outgoing_webhooks.help"
-      values={
-        Object {
-          "appDirectory": <a
-            href="https://about.mattermost.com/default-app-directory/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <FormattedMessage
-              defaultMessage="App Directory"
-              id="installed_outgoing_webhooks.help.appDirectory"
-              values={Object {}}
-            />
-          </a>,
-          "buildYourOwn": <a
-            href="http://docs.mattermost.com/developer/webhooks-outgoing.html"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <FormattedMessage
-              defaultMessage="Build your own"
-              id="installed_outgoing_webhooks.help.buildYourOwn"
-              values={Object {}}
-            />
-          </a>,
-        }
-      }
-    />
-  }
-  loading={true}
-  searchPlaceholder="Search Outgoing Webhooks"
->
+<div>
   <InstalledOutgoingWebhook
     canChange={true}
     channel={
@@ -159,5 +102,77 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
       }
     }
   />
+</div>
+`;
+
+exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot 2`] = `<div />`;
+
+exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot 3`] = `
+<BackstageList
+  addButtonId="addOutgoingWebhook"
+  addLink="/test/integrations/outgoing_webhooks/add"
+  addText={
+    <FormattedMessage
+      defaultMessage="Add Outgoing Webhook"
+      id="installed_outgoing_webhooks.add"
+      values={Object {}}
+    />
+  }
+  emptyText={
+    <FormattedMessage
+      defaultMessage="No outgoing webhooks found"
+      id="installed_outgoing_webhooks.empty"
+      values={Object {}}
+    />
+  }
+  emptyTextSearch={
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="No outgoing webhooks match {searchTerm}"
+      id="installed_outgoing_webhooks.emptySearch"
+    />
+  }
+  header={
+    <FormattedMessage
+      defaultMessage="Installed Outgoing Webhooks"
+      id="installed_outgoing_webhooks.header"
+      values={Object {}}
+    />
+  }
+  helpText={
+    <FormattedMessage
+      defaultMessage="Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations."
+      id="installed_outgoing_webhooks.help"
+      values={
+        Object {
+          "appDirectory": <a
+            href="https://about.mattermost.com/default-app-directory/"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="App Directory"
+              id="installed_outgoing_webhooks.help.appDirectory"
+              values={Object {}}
+            />
+          </a>,
+          "buildYourOwn": <a
+            href="http://docs.mattermost.com/developer/webhooks-outgoing.html"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <FormattedMessage
+              defaultMessage="Build your own"
+              id="installed_outgoing_webhooks.help.buildYourOwn"
+              values={Object {}}
+            />
+          </a>,
+        }
+      }
+    />
+  }
+  loading={true}
+  searchPlaceholder="Search Outgoing Webhooks"
+>
+  <Component />
 </BackstageList>
 `;

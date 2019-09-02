@@ -3,6 +3,7 @@
 
 import * as AdminActions from 'mattermost-redux/actions/admin';
 import * as UserActions from 'mattermost-redux/actions/users';
+import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
@@ -161,17 +162,8 @@ export async function uploadBrandImage(brandImage, success, error) {
     }
 }
 
-export async function uploadLicenseFile(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadLicense(file)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function removeLicenseFile(success, error) {
-    const {data, error: err} = await AdminActions.removeLicense()(dispatch, getState);
+export async function deleteBrandImage(success, error) {
+    const {data, error: err} = await AdminActions.deleteBrandImage()(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -182,7 +174,7 @@ export async function removeLicenseFile(success, error) {
 export async function uploadPublicSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadPublicSamlCertificate(file)(dispatch, getState);
     if (data && success) {
-        success(data);
+        success('saml-public.crt');
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
@@ -191,7 +183,7 @@ export async function uploadPublicSamlCertificate(file, success, error) {
 export async function uploadPrivateSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadPrivateSamlCertificate(file)(dispatch, getState);
     if (data && success) {
-        success(data);
+        success('saml-private.key');
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
@@ -200,7 +192,7 @@ export async function uploadPrivateSamlCertificate(file, success, error) {
 export async function uploadIdpSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadIdpSamlCertificate(file)(dispatch, getState);
     if (data && success) {
-        success(data);
+        success('saml-idp.crt');
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
@@ -239,6 +231,10 @@ export async function getStandardAnalytics(teamId) {
 
 export async function getAdvancedAnalytics(teamId) {
     await AdminActions.getAdvancedAnalytics(teamId)(dispatch, getState);
+}
+
+export async function getBotPostsPerDayAnalytics(teamId) {
+    await AdminActions.getBotPostsPerDayAnalytics(teamId)(dispatch, getState);
 }
 
 export async function getPostsPerDayAnalytics(teamId) {
@@ -309,4 +305,22 @@ export function confirmNavigation() {
             type: ActionTypes.CONFIRM_NAVIGATION,
         });
     };
+}
+
+export async function invalidateAllEmailInvites(success, error) {
+    const {data, error: err} = await dispatch(TeamActions.invalidateAllEmailInvites());
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export async function testSmtp(success, error) {
+    const {data, error: err} = await dispatch(AdminActions.testEmail());
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
 }

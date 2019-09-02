@@ -5,6 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
+import {generateId} from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
 import ViewImageModal from 'components/view_image/view_image.jsx';
 
@@ -17,6 +18,7 @@ describe('components/ViewImageModal', () => {
         onModalDismissed,
         canDownloadFiles: true,
         enablePublicLink: true,
+        post: {},
     };
 
     test('should match snapshot, modal not shown', () => {
@@ -292,5 +294,31 @@ describe('components/ViewImageModal', () => {
         wrapper.setProps(nextProps);
         expect(wrapper.state('loaded').length).toBe(3);
         expect(wrapper.state('progress').length).toBe(3);
+    });
+
+    test('should match snapshot when plugin overrides the preview component', () => {
+        const pluginFilePreviewComponents = [{
+            id: generateId(),
+            pluginId: 'file-preview',
+            override: () => true,
+            component: () => <div>{'Preview'}</div>,
+        }];
+        const props = {...requiredProps, pluginFilePreviewComponents};
+        const wrapper = shallow(<ViewImageModal {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should fall back to default preview if plugin does not need to override preview component', () => {
+        const pluginFilePreviewComponents = [{
+            id: generateId(),
+            pluginId: 'file-preview',
+            override: () => false,
+            component: () => <div>{'Preview'}</div>,
+        }];
+        const props = {...requiredProps, pluginFilePreviewComponents};
+        const wrapper = shallow(<ViewImageModal {...props}/>);
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

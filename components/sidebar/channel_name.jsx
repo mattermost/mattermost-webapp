@@ -75,6 +75,7 @@ export default class ChannelName extends React.PureComponent {
                     overlay={createPublicDirectChannelTooltip}
                 >
                     <div
+                        role='presentation'
                         className='public_direct_name'
                         onClick={browsePublicDirectChannels}
                     >

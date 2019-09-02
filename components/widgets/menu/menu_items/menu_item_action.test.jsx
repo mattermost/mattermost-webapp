@@ -35,11 +35,10 @@ describe('components/MenuItemAction', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <button
-  className="style--none"
+  className="style--none MenuItem__help"
   onClick={[MockFunction]}
 >
   Whatever
-  <br />
   <span
     className="extra-text"
   >

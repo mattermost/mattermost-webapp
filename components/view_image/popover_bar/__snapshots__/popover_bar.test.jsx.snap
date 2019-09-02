@@ -23,7 +23,6 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot for 
   >
     <a
       className="text"
-      download="img.png"
       href=""
       rel="noopener noreferrer"
       target="_blank"

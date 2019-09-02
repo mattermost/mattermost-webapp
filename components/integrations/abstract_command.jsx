@@ -13,6 +13,8 @@ import FormError from 'components/form_error.jsx';
 import SpinnerButton from 'components/spinner_button.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import {t} from 'utils/i18n.jsx';
+
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
 
@@ -278,7 +280,7 @@ export default class AbstractCommand extends React.PureComponent {
                             className='form-control'
                             value={this.state.autocompleteHint}
                             onChange={this.updateAutocompleteHint}
-                            placeholder={{id: 'add_command.autocompleteHint.placeholder', defaultMessage: 'Example: [Patient Name]'}}
+                            placeholder={{id: t('add_command.autocompleteHint.placeholder'), defaultMessage: 'Example: [Patient Name]'}}
                         />
                         <div className='form__help'>
                             <FormattedMessage
@@ -309,7 +311,7 @@ export default class AbstractCommand extends React.PureComponent {
                             className='form-control'
                             value={this.state.autocompleteDescription}
                             onChange={this.updateAutocompleteDescription}
-                            placeholder={{id: 'add_command.autocompleteDescription.placeholder', defaultMessage: 'Example: "Returns search results for patient records"'}}
+                            placeholder={{id: t('add_command.autocompleteDescription.placeholder'), defaultMessage: 'Example: "Returns search results for patient records"'}}
                         />
                         <div className='form__help'>
                             <FormattedMessage
@@ -413,7 +415,7 @@ export default class AbstractCommand extends React.PureComponent {
                                     className='form-control'
                                     value={this.state.trigger}
                                     onChange={this.updateTrigger}
-                                    placeholder={{id: 'add_command.trigger.placeholder', defaultMessage: 'Command trigger e.g. "hello" not including the slash'}}
+                                    placeholder={{id: t('add_command.trigger.placeholder'), defaultMessage: 'Command trigger e.g. "hello" not including the slash'}}
                                 />
                                 <div className='form__help'>
                                     <FormattedMessage
@@ -467,7 +469,7 @@ export default class AbstractCommand extends React.PureComponent {
                                     className='form-control'
                                     value={this.state.url}
                                     onChange={this.updateUrl}
-                                    placeholder={{id: 'add_command.url.placeholder', defaultMessage: 'Must start with http:// or https://'}}
+                                    placeholder={{id: t('add_command.url.placeholder'), defaultMessage: 'Must start with http:// or https://'}}
                                 />
                                 <div className='form__help'>
                                     <FormattedMessage
@@ -527,7 +529,7 @@ export default class AbstractCommand extends React.PureComponent {
                                     className='form-control'
                                     value={this.state.username}
                                     onChange={this.updateUsername}
-                                    placeholder={{id: 'add_command.username.placeholder', defaultMessage: 'Username'}}
+                                    placeholder={{id: t('add_command.username.placeholder'), defaultMessage: 'Username'}}
                                 />
                                 <div className='form__help'>
                                     <FormattedMessage
@@ -555,7 +557,7 @@ export default class AbstractCommand extends React.PureComponent {
                                     className='form-control'
                                     value={this.state.iconUrl}
                                     onChange={this.updateIconUrl}
-                                    placeholder={{id: 'add_command.iconUrl.placeholder', defaultMessage: 'https://www.example.com/myicon.png'}}
+                                    placeholder={{id: t('add_command.iconUrl.placeholder'), defaultMessage: 'https://www.example.com/myicon.png'}}
                                 />
                                 <div className='form__help'>
                                     <FormattedMessage
@@ -612,6 +614,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 spinning={this.state.saving}
                                 spinningText={Utils.localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
                                 onClick={this.handleSubmit}
+                                id='saveCommand'
                             >
                                 <FormattedMessage
                                     id={this.props.footer.id}

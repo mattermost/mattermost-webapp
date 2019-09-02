@@ -25,6 +25,11 @@ export default class ViewImageModal extends React.PureComponent {
     static propTypes = {
 
         /**
+         * The post the files are attached to
+         */
+        post: PropTypes.object.isRequired,
+
+        /**
          * Set whether to show this modal or not
          */
         show: PropTypes.bool.isRequired,
@@ -46,12 +51,14 @@ export default class ViewImageModal extends React.PureComponent {
 
         canDownloadFiles: PropTypes.bool.isRequired,
         enablePublicLink: PropTypes.bool.isRequired,
+        pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
     };
 
     static defaultProps = {
         show: false,
         fileInfos: [],
         startIndex: 0,
+        pluginFilePreviewComponents: [],
     };
 
     constructor(props) {
@@ -262,6 +269,18 @@ export default class ViewImageModal extends React.PureComponent {
             );
         }
 
+        for (const preview of this.props.pluginFilePreviewComponents) {
+            if (preview.override(fileInfo, this.props.post)) {
+                content = (
+                    <preview.component
+                        fileInfo={fileInfo}
+                        post={this.props.post}
+                    />
+                );
+                break;
+            }
+        }
+
         let leftArrow = null;
         let rightArrow = null;
         if (this.props.fileInfos.length > 1) {
@@ -300,7 +319,9 @@ export default class ViewImageModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 className='modal-image'
-                dialogClassName='modal-image'
+                dialogClassName='a11y__modal modal-image'
+                role='dialog'
+                aria-labelledby='viewImageModalLabel'
             >
                 <Modal.Body>
                     <div
@@ -312,6 +333,13 @@ export default class ViewImageModal extends React.PureComponent {
                             onMouseLeave={this.onMouseLeaveImage}
                             onClick={(e) => e.stopPropagation()}
                         >
+                            <Modal.Title
+                                componentClass='h1'
+                                id='viewImageModalLabel'
+                                className='hide'
+                            >
+                                {fileName}
+                            </Modal.Title>
                             <div
                                 className={closeButtonClass}
                                 onClick={this.props.onModalDismissed}

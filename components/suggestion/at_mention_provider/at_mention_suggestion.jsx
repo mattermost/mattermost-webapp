@@ -5,6 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 import Suggestion from '../suggestion.jsx';
 
@@ -21,7 +24,7 @@ export default class AtMentionSuggestion extends Suggestion {
             description = (
                 <FormattedMessage
                     id='suggestion.mention.all'
-                    defaultMessage='CAUTION: This mentions everyone in channel'
+                    defaultMessage='Notifies everyone in this channel'
                 />
             );
             icon = (
@@ -42,7 +45,7 @@ export default class AtMentionSuggestion extends Suggestion {
             description = (
                 <FormattedMessage
                     id='suggestion.mention.channel'
-                    defaultMessage='Notifies everyone in the channel'
+                    defaultMessage='Notifies everyone in this channel'
                 />
             );
             icon = (
@@ -63,7 +66,7 @@ export default class AtMentionSuggestion extends Suggestion {
             description = (
                 <FormattedMessage
                     id='suggestion.mention.here'
-                    defaultMessage='Notifies everyone in the channel and online'
+                    defaultMessage='Notifies everyone online in this channel'
                 />
             );
             icon = (
@@ -91,9 +94,10 @@ export default class AtMentionSuggestion extends Suggestion {
             }
 
             icon = (
-                <img
-                    className='mention__image'
-                    src={Utils.imageURLForUser(user)}
+                <Avatar
+                    size='xs'
+                    username={user && user.username}
+                    url={Utils.imageURLForUser(user)}
                 />
             );
         }
@@ -106,6 +110,7 @@ export default class AtMentionSuggestion extends Suggestion {
         return (
             <div
                 className={className}
+                data-testid={`mentionSuggestion_${username}`}
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >
@@ -113,10 +118,18 @@ export default class AtMentionSuggestion extends Suggestion {
                 <span className='mention--align'>
                     {'@' + username}
                 </span>
+                <BotBadge
+                    show={Boolean(user.is_bot)}
+                    className='badge-autocomplete'
+                />
                 <span className='mention__fullname'>
                     {' '}
                     {description}
                 </span>
+                <GuestBadge
+                    show={Utils.isGuest(user)}
+                    className='badge-autocomplete'
+                />
             </div>
         );
     }

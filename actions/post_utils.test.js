@@ -4,6 +4,7 @@
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
+import {receivedNewPost} from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as PostActionsUtils from 'actions/post_utils';
@@ -34,16 +35,9 @@ const POST_CREATED_TIME = Date.now();
 
 // This mocks the Date.now() function so it returns a constant value
 global.Date.now = jest.fn(() => POST_CREATED_TIME);
+
 const INCREASED_POST_VISIBILITY = {amount: 1, data: 'current_channel_id', type: 'INCREASE_POST_VISIBILITY'};
 const STOP_TYPING = {type: 'stop_typing', data: {id: 'current_channel_idundefined', now: POST_CREATED_TIME, userId: 'some_user_id'}};
-
-function getReceivedPosts(post) {
-    return {
-        type: 'RECEIVED_NEW_POST',
-        data: {...post},
-        channelId: post.channel_id,
-    };
-}
 
 describe('actions/post_utils', () => {
     const latestPost = {
@@ -59,7 +53,9 @@ describe('actions/post_utils', () => {
                     [latestPost.id]: latestPost,
                 },
                 postsInChannel: {
-                    current_channel_id: [latestPost.id],
+                    current_channel_id: [
+                        {order: [latestPost.id], recent: true},
+                    ],
                 },
                 postsInThread: {},
                 messagesHistory: {
@@ -105,7 +101,7 @@ describe('actions/post_utils', () => {
             INCREASED_POST_VISIBILITY,
             {
                 meta: {batch: true},
-                payload: [getReceivedPosts(newPost), STOP_TYPING],
+                payload: [receivedNewPost(newPost), STOP_TYPING],
                 type: 'BATCHING_REDUCER.BATCH',
             },
         ]);
@@ -121,7 +117,7 @@ describe('actions/post_utils', () => {
             INCREASED_POST_VISIBILITY,
             {
                 meta: {batch: true},
-                payload: [getReceivedPosts(newPost), STOP_TYPING],
+                payload: [receivedNewPost(newPost), STOP_TYPING],
                 type: 'BATCHING_REDUCER.BATCH',
             },
         ]);

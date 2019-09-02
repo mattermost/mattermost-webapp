@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import GroupUsersRow from 'components/admin_console/group_settings/group_details/group_users_row';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import NextIcon from 'components/icon/next_icon';
-import PreviousIcon from 'components/icon/previous_icon';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 
 const GROUP_MEMBERS_PAGE_SIZE = 20;
 

@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalMembersStep should match the snapshot 1`] = `
+<div
+  className="InvitationModalMembersStep"
+>
+  <BackIcon
+    className="back"
+    onClick={[MockFunction]}
+  />
+  <div
+    className="modal-icon"
+  >
+    <InviteIcon />
+  </div>
+  <h1>
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="Invite **Members**"
+      id="invitation_modal.members.title"
+    />
+  </h1>
+  <div
+    className="share-link"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Share This Link"
+        id="invitation_modal.members.share_link.title"
+        values={Object {}}
+      />
+    </h2>
+    <div
+      className="share-link-input-block"
+    >
+      <input
+        className="share-link-input"
+        readOnly={true}
+        type="text"
+        value="http://localhost:8065/signup_user_complete/?id=123"
+      />
+      <button
+        className="share-link-input-button"
+        onClick={[Function]}
+      >
+        <LinkIcon />
+        <FormattedMessage
+          defaultMessage="Copy Link"
+          id="invitation_modal.members.share_link.copy_button"
+          values={Object {}}
+        />
+      </button>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Share this link to grant member access to this team."
+        id="invitation_modal.members.share_link.description"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="invitation-modal-or"
+  >
+    <hr />
+    <div>
+      <FormattedMessage
+        defaultMessage="OR"
+        id="invitation_modal.members.or"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="search-and-add"
+  >
+    <h2>
+      <FormattedMessage
+        defaultMessage="Invite People"
+        id="invitation_modal.members.search_and_add.title"
+        values={Object {}}
+      />
+    </h2>
+    <div
+      data-testid="inputPlaceholder"
+    >
+      <FormattedMessage
+        defaultMessage="Add members or email addresses"
+        id="invitation_modal.members.search-and-add.placeholder"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+    <div
+      className="help-text"
+    >
+      <FormattedMessage
+        defaultMessage="Search and add members from other teams or email invite new users."
+        id="invitation_modal.members.search-and-add.description"
+        values={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="invite-members"
+  >
+    <button
+      className="btn btn-inactive"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Invite Members"
+        id="invitation_modal.members.invite_button"
+        values={Object {}}
+      />
+    </button>
+  </div>
+</div>
+`;

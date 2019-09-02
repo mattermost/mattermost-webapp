@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -146,6 +145,7 @@ export default class SuggestionBox extends React.Component {
 
     constructor(props) {
         super(props);
+        this.suggestionReadOut = React.createRef();
 
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
@@ -154,6 +154,9 @@ export default class SuggestionBox extends React.Component {
 
         // Used for debouncing pretext changes
         this.timeoutId = '';
+
+        // Used for preventing suggestion list to close when scrollbar is clicked
+        this.preventSuggestionListCloseFlag = false;
 
         // pretext: the text before the cursor
         // matchedPretext: a list of the text before the cursor that will be replaced if the corresponding autocomplete term is selected
@@ -171,8 +174,6 @@ export default class SuggestionBox extends React.Component {
             selection: '',
             allowDividers: true,
             presentationType: 'text',
-            dropdownPosition: 0,
-            inputWidth: 0,
         };
     }
 
@@ -240,7 +241,16 @@ export default class SuggestionBox extends React.Component {
         }, delay);
     }
 
+    preventSuggestionListClose = () => {
+        this.preventSuggestionListCloseFlag = true;
+    }
+
     handleFocusOut = (e) => {
+        if (this.preventSuggestionListCloseFlag) {
+            this.preventSuggestionListCloseFlag = false;
+            return;
+        }
+
         // Focus is switching TO e.relatedTarget, so only treat this as a blur event if we're not switching
         // between children (like from the textbox to the suggestion list)
         if (this.container.contains(e.relatedTarget)) {
@@ -264,13 +274,15 @@ export default class SuggestionBox extends React.Component {
 
     handleFocusIn = (e) => {
         // Focus is switching FROM e.relatedTarget, so only treat this as a focus event if we're not switching
-        // between children (like from the textbox to the suggestion list)
-        if (this.container.contains(e.relatedTarget)) {
+        // between children (like from the textbox to the suggestion list). PreventSuggestionListCloseFlag is
+        // checked because if true, it means that the focusIn comes from a click in the suggestion box, an
+        // option choice, so we don't want the focus event to be triggered
+        if (this.container.contains(e.relatedTarget) || this.preventSuggestionListCloseFlag) {
             return;
         }
 
-        this.getDropdownPosition();
         this.setState({focused: true});
+
         if (this.props.openOnFocus || this.props.openWhenEmpty) {
             setTimeout(() => {
                 const textbox = this.getTextbox();
@@ -317,7 +329,7 @@ export default class SuggestionBox extends React.Component {
         const textbox = this.getTextbox();
         const pretext = textbox.value.substring(0, textbox.selectionStart) + e.data;
 
-        this.pretext = pretext;
+        this.handlePretextChanged(pretext);
         if (this.props.onComposition) {
             this.props.onComposition();
         }
@@ -601,13 +613,6 @@ export default class SuggestionBox extends React.Component {
         this.container = container;
     };
 
-    getDropdownPosition = () => {
-        const input = ReactDOM.findDOMNode(this.refs.input);
-        const dropdownPosition = input.getBoundingClientRect().top;
-        const inputWidth = input.clientWidth;
-        this.setState({dropdownPosition, inputWidth});
-    }
-
     render() {
         const {
             listComponent,
@@ -646,6 +651,12 @@ export default class SuggestionBox extends React.Component {
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
             >
+                <div
+                    ref={this.suggestionReadOut}
+                    aria-live='polite'
+                    role='alert'
+                    className='sr-only'
+                />
                 <QuickInput
                     ref='input'
                     autoComplete='off'
@@ -659,20 +670,20 @@ export default class SuggestionBox extends React.Component {
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <SuggestionListComponent
                         ref='list'
+                        ariaLiveRef={this.suggestionReadOut}
                         open={this.state.focused}
                         pretext={this.pretext}
                         location={listStyle}
                         renderDividers={renderDividers}
                         renderNoResults={renderNoResults}
                         onCompleteWord={this.handleCompleteWord}
+                        preventClose={this.preventSuggestionListClose}
                         cleared={this.state.cleared}
                         matchedPretext={this.state.matchedPretext}
                         items={this.state.items}
                         terms={this.state.terms}
                         selection={this.state.selection}
                         components={this.state.components}
-                        dropdownPosition={this.state.dropdownPosition}
-                        inputWidth={this.state.inputWidth}
                     />
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&

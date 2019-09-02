@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {getMissingFilesForPost} from 'mattermost-redux/actions/files';
+
 import {makeGetFilesForPost} from 'mattermost-redux/selectors/entities/files';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {getCurrentLocale} from 'selectors/i18n';
 import {isEmbedVisible} from 'selectors/posts';
@@ -28,6 +28,7 @@ function makeMapStateToProps() {
         }
 
         return {
+            enableSVGs: getConfig(state).EnableSVGs === 'true',
             fileInfos,
             fileCount,
             isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
@@ -36,12 +37,4 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            getMissingFilesForPost,
-        }, dispatch),
-    };
-}
-
-export default connect(makeMapStateToProps, mapDispatchToProps)(FileAttachmentList);
+export default connect(makeMapStateToProps)(FileAttachmentList);

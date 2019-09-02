@@ -51,15 +51,13 @@ export default class DesktopNotificationSettings extends React.Component {
 
             if (Utils.hasSoundOptions()) {
                 soundSection = (
-                    <div>
-                        <hr/>
-                        <label>
+                    <fieldset>
+                        <legend className='form-legend'>
                             <FormattedMessage
                                 id='user.settings.notifications.desktop.sound'
                                 defaultMessage='Notification sound'
                             />
-                        </label>
-                        <br/>
+                        </legend>
                         <div className='radio'>
                             <label>
                                 <input
@@ -96,104 +94,103 @@ export default class DesktopNotificationSettings extends React.Component {
                             </label>
                             <br/>
                         </div>
-                        <br/>
-                        <span>
+                        <div className='margin-top x3'>
                             <FormattedMessage
                                 id='user.settings.notifications.sounds_info'
                                 defaultMessage='Notification sounds are available on IE11, Safari, Chrome and Mattermost Desktop Apps.'
                             />
-                        </span>
-                    </div>
+                        </div>
+                    </fieldset>
                 );
             } else {
                 soundSection = (
-                    <div>
-                        <hr/>
-                        <label>
+                    <fieldset>
+                        <legend className='form-legend'>
                             <FormattedMessage
                                 id='user.settings.notifications.desktop.sound'
                                 defaultMessage='Notification sound'
                             />
-                        </label>
+                        </legend>
                         <br/>
                         <FormattedMessage
                             id='user.settings.notifications.soundConfig'
                             defaultMessage='Please configure notification sounds in your browser settings'
                         />
-                    </div>
+                    </fieldset>
                 );
             }
         }
 
         inputs.push(
             <div key='userNotificationLevelOption'>
-                <label>
-                    <FormattedMessage
-                        id='user.settings.notifications.desktop'
-                        defaultMessage='Send desktop notifications'
-                    />
-                </label>
-                <br/>
-                <div className='radio'>
-                    <label>
-                        <input
-                            id='desktopNotificationAllActivity'
-                            type='radio'
-                            name='desktopNotificationLevel'
-                            checked={activityRadio[0]}
-                            data-key={'desktopActivity'}
-                            data-value={NotificationLevels.ALL}
-                            onChange={this.handleOnChange}
-                        />
+                <fieldset>
+                    <legend className='form-legend'>
                         <FormattedMessage
-                            id='user.settings.notifications.allActivity'
-                            defaultMessage='For all activity'
+                            id='user.settings.notifications.desktop'
+                            defaultMessage='Send desktop notifications'
                         />
-                    </label>
-                    <br/>
-                </div>
-                <div className='radio'>
-                    <label>
-                        <input
-                            id='desktopNotificationMentions'
-                            type='radio'
-                            name='desktopNotificationLevel'
-                            checked={activityRadio[1]}
-                            data-key={'desktopActivity'}
-                            data-value={NotificationLevels.MENTION}
-                            onChange={this.handleOnChange}
-                        />
+                    </legend>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='desktopNotificationAllActivity'
+                                type='radio'
+                                name='desktopNotificationLevel'
+                                checked={activityRadio[0]}
+                                data-key={'desktopActivity'}
+                                data-value={NotificationLevels.ALL}
+                                onChange={this.handleOnChange}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.allActivity'
+                                defaultMessage='For all activity'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='desktopNotificationMentions'
+                                type='radio'
+                                name='desktopNotificationLevel'
+                                checked={activityRadio[1]}
+                                data-key={'desktopActivity'}
+                                data-value={NotificationLevels.MENTION}
+                                onChange={this.handleOnChange}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.onlyMentions'
+                                defaultMessage='Only for mentions and direct messages'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='desktopNotificationNever'
+                                type='radio'
+                                name='desktopNotificationLevel'
+                                checked={activityRadio[2]}
+                                data-key={'desktopActivity'}
+                                data-value={NotificationLevels.NONE}
+                                onChange={this.handleOnChange}
+                            />
+                            <FormattedMessage
+                                id='user.settings.notifications.never'
+                                defaultMessage='Never'
+                            />
+                        </label>
+                    </div>
+                    <div className='margin-top x3'>
                         <FormattedMessage
-                            id='user.settings.notifications.onlyMentions'
-                            defaultMessage='Only for mentions and direct messages'
+                            id='user.settings.notifications.info'
+                            defaultMessage='Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps.'
                         />
-                    </label>
-                    <br/>
-                </div>
-                <div className='radio'>
-                    <label>
-                        <input
-                            id='desktopNotificationNever'
-                            type='radio'
-                            name='desktopNotificationLevel'
-                            checked={activityRadio[2]}
-                            data-key={'desktopActivity'}
-                            data-value={NotificationLevels.NONE}
-                            onChange={this.handleOnChange}
-                        />
-                        <FormattedMessage
-                            id='user.settings.notifications.never'
-                            defaultMessage='Never'
-                        />
-                    </label>
-                </div>
-                <br/>
-                <span>
-                    <FormattedMessage
-                        id='user.settings.notifications.info'
-                        defaultMessage='Desktop notifications are available on Edge, Firefox, Safari, Chrome and Mattermost Desktop Apps.'
-                    />
-                </span>
+                    </div>
+                </fieldset>
+                <hr/>
                 {soundSection}
             </div>
         );

@@ -16,7 +16,7 @@ import SettingItemMin from 'components/setting_item_min.jsx';
 import SaveButton from 'components/save_button.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 const SECTION_TOKENS = 'tokens';
 const TOKEN_CREATING = 'creating';
@@ -569,7 +569,7 @@ export default class UserAccessTokenSection extends React.Component {
                     message={this.state.confirmMessage ? this.state.confirmMessage(this.state) : null}
                     confirmButtonText={this.state.confirmButton}
                     show={this.state.showConfirmModal}
-                    onConfirm={this.state.confirmComplete || (() => {})} //eslint-disable-line no-empty-function
+                    onConfirm={this.state.confirmComplete || (() => null)}
                     onCancel={this.handleCancelConfirm}
                     hideCancel={this.state.confirmHideCancel}
                 />

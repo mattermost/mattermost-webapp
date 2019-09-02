@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style run-unit emojis help
+.PHONY: build test run clean stop check-style run-unit emojis help package-ci
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -16,8 +16,7 @@ test: node_modules ## Runs tests
 	npm run test
 
 i18n-extract: ## Extract strings for translation from the source code
-	@[[ -d $(MM_UTILITIES_DIR) ]] || echo "You must clone github.com/mattermost/mattermost-utilities repo in .. to use this command"
-	@[[ -d $(MM_UTILITIES_DIR) ]] && cd $(MM_UTILITIES_DIR) && npm install && npm run babel && node mmjstool/build/index.js i18n extract-webapp
+	npm run mmjstool -- i18n extract-webapp
 
 node_modules: package.json package-lock.json
 	@echo Getting dependencies using npm
@@ -25,6 +24,20 @@ node_modules: package.json package-lock.json
 	npm install
 
 package: build ## Packages app
+	@echo Packaging webapp
+
+	mkdir tmp
+	mv dist tmp/client
+	tar -C tmp -czf mattermost-webapp.tar.gz client
+	mv tmp/client dist
+	rmdir tmp
+
+package-ci: ## used in the CI to build the package and bypass the npm install
+	@echo Building mattermost Webapp
+
+	rm -rf dist
+	npm run build
+
 	@echo Packaging webapp
 
 	mkdir tmp
@@ -44,6 +57,9 @@ run: node_modules ## Runs app
 	@echo Running mattermost Webapp for development
 
 	npm run run &
+
+dev: node_modules ## Runs webpack-dev-server
+	npm run dev-server
 
 run-fullmap: node_modules ## Legacy alias to run
 	@echo Running mattermost Webapp for development
@@ -116,11 +132,11 @@ clean-e2e:
 		cp config/config-backup.json config/config.json && echo "revert local config.json" || \
 		echo "config-backup.json not found" && sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
 
-emojis: ## Creates emoji JSX file and extracts emoji images from the system font
+emojis: ## Creates emoji JSON, JSX and Go files and extracts emoji images from the system font
 	gem install bundler
 	bundle install --gemfile=$(EMOJI_TOOLS_DIR)/Gemfile
-	BUNDLE_GEMFILE=$(EMOJI_TOOLS_DIR)/Gemfile bundle exec $(EMOJI_TOOLS_DIR)/make-emojis
+	BUNDLE_GEMFILE=$(EMOJI_TOOLS_DIR)/Gemfile SERVER_DIR=$(BUILD_SERVER_DIR) bundle exec $(EMOJI_TOOLS_DIR)/make-emojis
 
 ## Help documentatin à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

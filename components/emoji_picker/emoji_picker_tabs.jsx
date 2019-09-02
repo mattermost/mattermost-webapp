@@ -6,8 +6,10 @@ import React, {PureComponent} from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
 
 import GifPicker from 'components/gif_picker/gif_picker.jsx';
-import EmojiIcon from 'components/svg/emoji_icon';
-import GfycatIcon from 'components/svg/gfycat_icon';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
+import GfycatIcon from 'components/widgets/icons/gfycat_icon';
+
+import EmojiPickerHeader from './components/emoji_picker_header';
 
 import EmojiPicker from './';
 
@@ -49,6 +51,10 @@ export default class EmojiPickerTabs extends PureComponent {
         });
     };
 
+    handleEmojiPickerClose = () => {
+        this.props.onEmojiClose();
+    }
+
     render() {
         let pickerStyle;
         if (this.props.style && !(this.props.style.left === 0 && this.props.style.top === 0)) {
@@ -82,6 +88,7 @@ export default class EmojiPickerTabs extends PureComponent {
                     className={pickerClass}
                     justified={true}
                 >
+                    <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
                     <Tab
                         eventKey={1}
                         onEnter={this.handleEnterEmojiTab}
@@ -113,8 +120,9 @@ export default class EmojiPickerTabs extends PureComponent {
             <div
                 id='emojiPicker'
                 style={pickerStyle}
-                className={pickerClass}
+                className={`a11y__popup ${pickerClass} emoji-picker--single`}
             >
+                <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
                 <EmojiPicker
                     style={this.props.style}
                     onEmojiClose={this.props.onEmojiClose}

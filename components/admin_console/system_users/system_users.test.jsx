@@ -23,14 +23,17 @@ describe('components/admin_console/system_users', () => {
         totalUsers: 0,
         users: {},
         actions: {
-            getTeams: jest.fn().mockImplementation(() => Promise.resolve()),
-            getTeamStats: jest.fn().mockImplementation(() => Promise.resolve()),
-            getUser: jest.fn().mockImplementation(() => Promise.resolve()),
-            getUserAccessToken: jest.fn().mockImplementation(() => Promise.resolve()),
-            loadProfilesAndTeamMembers: jest.fn(),
-            setSystemUsersSearch: jest.fn().mockImplementation(() => Promise.resolve()),
-            loadProfilesWithoutTeam: jest.fn().mockResolvedValue(),
-            getProfiles: jest.fn().mockResolvedValue(),
+            getTeams: jest.fn().mockResolvedValue({data: []}),
+            getTeamStats: jest.fn().mockResolvedValue({data: []}),
+            getUser: jest.fn().mockResolvedValue({data: {}}),
+            getUserAccessToken: jest.fn().mockResolvedValue({data: ''}),
+            loadProfilesAndTeamMembers: jest.fn().mockResolvedValue({data: true}),
+            setSystemUsersSearch: jest.fn().mockResolvedValue({data: true}),
+            loadProfilesWithoutTeam: jest.fn().mockResolvedValue({data: true}),
+            getProfiles: jest.fn().mockResolvedValue({data: []}),
+            searchProfiles: jest.fn().mockResolvedValue({data: []}),
+            revokeSessionsForAllUsers: jest.fn().mockResolvedValue({data: true}),
+            logError: jest.fn(),
         },
     };
 
@@ -87,7 +90,7 @@ describe('components/admin_console/system_users', () => {
     });
 
     test('nextPage() should have called loadProfilesWithoutTeam', async () => {
-        const loadProfilesWithoutTeam = jest.fn().mockResolvedValue();
+        const loadProfilesWithoutTeam = jest.fn().mockResolvedValue({data: true});
         const props = {
             ...defaultProps,
             teamId: SearchUserTeamFilter.NO_TEAM,
@@ -102,5 +105,35 @@ describe('components/admin_console/system_users', () => {
         expect(loadProfilesWithoutTeam).toHaveBeenCalled();
         expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(1, USERS_PER_PAGE);
         expect(wrapper.state().loading).toEqual(false);
+    });
+
+    test('doSearch() should have called searchProfiles with allow_inactive', async () => {
+        const searchProfiles = jest.fn().mockResolvedValue({data: [{}]});
+        const props = {
+            ...defaultProps,
+            teamId: SearchUserTeamFilter.NO_TEAM,
+            actions: {...defaultProps.actions, searchProfiles},
+        };
+        const wrapper = shallow(<SystemUsers {...props}/>);
+
+        await wrapper.instance().doSearch('searchterm', '', '');
+
+        expect(searchProfiles).toHaveBeenCalled();
+        expect(searchProfiles).toHaveBeenCalledWith('searchterm', {allow_inactive: true});
+    });
+
+    test('doSearch() should have called searchProfiles with allow_inactive and system_admin role', async () => {
+        const searchProfiles = jest.fn().mockResolvedValue({data: [{}]});
+        const props = {
+            ...defaultProps,
+            teamId: SearchUserTeamFilter.NO_TEAM,
+            actions: {...defaultProps.actions, searchProfiles},
+        };
+        const wrapper = shallow(<SystemUsers {...props}/>);
+
+        await wrapper.instance().doSearch('searchterm', '', 'system_admin');
+
+        expect(searchProfiles).toHaveBeenCalled();
+        expect(searchProfiles).toHaveBeenCalledWith('searchterm', {allow_inactive: true, role: 'system_admin'});
     });
 });

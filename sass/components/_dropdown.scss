@@ -16,6 +16,20 @@
             display: none;
         }
     }
+
+    > li {
+        > a {
+            color: inherit;
+
+            &:hover {
+                color: inherit;
+            }
+        }
+    }
+
+    .a11y--focused {
+        box-shadow: none !important;
+    }
 }
 
 .open {

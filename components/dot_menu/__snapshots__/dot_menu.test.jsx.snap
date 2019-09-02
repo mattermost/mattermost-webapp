@@ -35,6 +35,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   >
     <button
       aria-expanded="false"
+      aria-label="more actions"
       className="post__dropdown color--link style--none"
       id="CENTER_button_post_id_1"
       type="button"
@@ -42,6 +43,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >
@@ -79,11 +81,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Permalink"
     />
     <MenuItemAction
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      id="pin_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Pin"
@@ -143,6 +147,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   >
     <button
       aria-expanded="false"
+      aria-label="more actions"
       className="post__dropdown color--link style--none"
       id="CENTER_button_post_id_1"
       type="button"
@@ -150,6 +155,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   </OverlayTrigger>
   <Menu
     ariaLabel="Post extra options"
+    id="CENTER_dropdown_post_id_1"
     openLeft={true}
     openUp={false}
   >
@@ -187,11 +193,13 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Permalink"
     />
     <MenuItemAction
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      id="pin_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Pin"

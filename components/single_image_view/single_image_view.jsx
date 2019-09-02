@@ -108,9 +108,9 @@ export default class SingleImageView extends React.PureComponent {
         }
 
         const toggle = (
-            <a
+            <button
                 key='toggle'
-                className='post__embed-visibility'
+                className='style--none post__embed-visibility color--link'
                 data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.toggleEmbedVisibility}
@@ -118,7 +118,10 @@ export default class SingleImageView extends React.PureComponent {
         );
 
         const fileHeader = (
-            <div className='image-name'>
+            <div
+                data-testid='image-name'
+                className='image-name'
+            >
                 {toggle}
                 <div onClick={this.handleImageClick}>
                     {fileInfo.name}
@@ -130,19 +133,19 @@ export default class SingleImageView extends React.PureComponent {
         let fadeInClass = '';
 
         const fileType = getFileType(fileInfo.extension);
-        let styleIfSvgWithDimentions = {};
+        let styleIfSvgWithDimensions = {};
         let imageContainerStyle = {};
         let svgClass = '';
         if (fileType === FileTypes.SVG) {
             svgClass = 'svg';
             if (this.state.dimensions.height) {
-                styleIfSvgWithDimentions = {
+                styleIfSvgWithDimensions = {
                     width: '100%',
                 };
             } else {
                 imageContainerStyle = {
-                    height: 150,
-                    width: 'auto',
+                    height: 350,
+                    maxWidth: '100%',
                 };
             }
         }
@@ -153,6 +156,7 @@ export default class SingleImageView extends React.PureComponent {
                     show={this.state.showPreviewModal}
                     onModalDismissed={this.showPreviewModal}
                     fileInfos={[fileInfo]}
+                    postId={this.props.postId}
                 />
             );
 
@@ -174,13 +178,14 @@ export default class SingleImageView extends React.PureComponent {
                     >
                         <div
                             className={`image-loaded ${fadeInClass} ${svgClass}`}
-                            style={styleIfSvgWithDimentions}
-                            onClick={this.handleImageClick}
+                            style={styleIfSvgWithDimensions}
                         >
                             <SizeAwareImage
+                                onClick={this.handleImageClick}
                                 className={minPreviewClass}
                                 src={previewURL}
                                 dimensions={this.state.dimensions}
+                                fileInfo={this.props.fileInfo}
                                 onImageLoaded={this.imageLoaded}
                                 showLoader={this.props.isEmbedVisible}
                             />

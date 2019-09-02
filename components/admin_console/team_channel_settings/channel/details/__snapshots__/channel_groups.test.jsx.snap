@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/channel/ChannelGroups should match snapshot 1`] = `
+<AdminPanel
+  button={
+    <ModalToggleButton
+      className="btn btn-primary"
+      dialogProps={
+        Object {
+          "channel": Object {
+            "group_constrained": false,
+            "id": "123",
+            "name": "DN",
+            "team_name": "team",
+            "type": "O",
+          },
+          "excludeGroups": Array [
+            Object {
+              "display_name": "DN",
+              "id": "123",
+              "member_count": 3,
+            },
+          ],
+          "includeGroups": Array [],
+          "onAddCallback": [MockFunction],
+          "skipCommit": true,
+        }
+      }
+      dialogType={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Add Group"
+        id="admin.channel_settings.channel_details.add_group"
+        values={Object {}}
+      />
+    </ModalToggleButton>
+  }
+  className=""
+  id="channel_groups"
+  subtitleDefault="Add and remove team members based on their group membership on the next scheduled sync."
+  subtitleId="admin.channel_settings.channel_detail.syncedGroupsDescription"
+  titleDefault="Synced Groups"
+  titleId="admin.channel_settings.channel_detail.syncedGroupsTitle"
+>
+  <Connect(GroupList)
+    channel={
+      Object {
+        "group_constrained": false,
+        "id": "123",
+        "name": "DN",
+        "team_name": "team",
+        "type": "O",
+      }
+    }
+    groups={
+      Array [
+        Object {
+          "display_name": "DN",
+          "id": "123",
+          "member_count": 3,
+        },
+      ]
+    }
+    isModeSync={true}
+    onGroupRemoved={[MockFunction]}
+    totalGroups={1}
+  />
+</AdminPanel>
+`;

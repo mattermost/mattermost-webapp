@@ -69,17 +69,23 @@ export default class DeleteChannelModal extends React.PureComponent {
         const {canViewArchivedChannels} = this.props;
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='deleteChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <h4 className='modal-title'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='deleteChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='delete_channel.confirm'
                             defaultMessage='Confirm ARCHIVE Channel'
                         />
-                    </h4>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='alert alert-danger'>

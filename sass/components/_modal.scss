@@ -9,9 +9,13 @@
 }
 
 .modal-body {
-    max-height: calc(90vh - 62px);
+    max-height: calc(90vh - 80px);
     overflow: auto;
     padding: 20px 15px;
+}
+
+.no-scroll {
+    overflow: hidden !important;
 }
 
 .edit-modal-body {
@@ -21,6 +25,9 @@
         height: auto;
         max-height: 60vh;
         min-height: 8em;
+        -ms-overflow-style: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
 
         &.custom-textarea--preview {
             display: none;
@@ -33,28 +40,6 @@
 
     .suggestion-list__content {
         max-height: 150px;
-    }
-
-    .edit-post__actions {
-        display: inline-block;
-        height: 30px;
-        line-height: 34px;
-        position: absolute;
-        right: 18px;
-        text-align: center;
-        top: 24px;
-        width: 30px;
-
-        .icon {
-            @include opacity(.5);
-            cursor: pointer;
-        }
-
-        &:hover {
-            .icon {
-                @include opacity(.7);
-            }
-        }
     }
 
     .edit-post-footer {
@@ -128,6 +113,14 @@
         overflow-x: hidden;
     }
 
+    .modal-footer {
+        &.modal-footer--invisible {
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    }
+
     &.modal-image {
         overflow: hidden;
 
@@ -139,14 +132,7 @@
     }
 
     .custom-textarea {
-        border-color: $light-gray;
-        color: inherit;
-        padding-right: 30px;
-
-        &:focus {
-            border-color: $light-gray;
-            box-shadow: none;
-        }
+        padding: 12px 30px 12px 15px;
     }
 
     .btn {
@@ -696,23 +682,42 @@
         align-self: center;
         flex-grow: 1;
         flex-shrink: 1;
+        font-size: .9em;
         overflow: hidden;
         padding-left: 10px;
         text-overflow: ellipsis;
+
+        .more-modal__name {
+            margin: 5px 0;
+            display: flex;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            .more-modal__name_sub {
+                opacity: 0.5;
+                font-weight: 500;
+            }
+        }
     }
 
     .more-modal__actions {
         flex-grow: 0;
         flex-shrink: 0;
         margin: 5px 0;
-        padding-left: 20px;
+        padding-left: 8px;
     }
 
     .more-modal__name {
+        display: flex;
         font-weight: 600;
-        overflow: hidden;
-        text-overflow: ellipsis;
         white-space: nowrap;
+
+        span {
+            overflow: hidden;
+            max-width: 90%;
+            text-overflow: ellipsis;
+        }
     }
 
     .more-modal__description {
@@ -776,8 +781,6 @@
     }
 
     p {
-        @include opacity(.8);
-        font-size: .9em;
         margin: 5px 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -798,6 +801,13 @@
 
     >div {
         flex: 1 1 auto;
+    }
+
+    .multi-select__wrapper {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 500;
+        height: 1px;
     }
 
     .more-modal__list {

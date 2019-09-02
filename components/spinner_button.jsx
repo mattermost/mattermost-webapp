@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 export default class SpinnerButton extends PureComponent {
     static defaultProps = {
@@ -26,7 +26,7 @@ export default class SpinnerButton extends PureComponent {
         /**
          * Set the text used while spinning
          */
-        spinningText: PropTypes.string.isRequired,
+        spinningText: PropTypes.node.isRequired,
 
         /**
          * Callback function when button is clicked

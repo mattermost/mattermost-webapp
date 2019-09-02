@@ -22,7 +22,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -78,28 +83,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -117,34 +129,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -162,34 +182,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -207,6 +235,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -264,7 +293,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -320,28 +354,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -359,34 +400,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -404,34 +453,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -449,6 +506,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -506,7 +564,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -562,28 +625,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -601,34 +671,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -646,34 +724,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -691,6 +777,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -748,7 +835,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -804,28 +896,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -843,34 +942,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -888,34 +995,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -933,6 +1048,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -998,7 +1114,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1054,28 +1175,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -1093,34 +1221,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1138,34 +1274,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1183,6 +1327,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1240,7 +1385,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1296,28 +1446,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -1335,34 +1492,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1380,34 +1545,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1425,6 +1598,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1486,7 +1660,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1542,28 +1721,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -1581,34 +1767,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1626,34 +1820,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1671,6 +1873,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1728,7 +1931,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -1784,28 +1992,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -1823,34 +2038,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1868,34 +2091,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -1913,6 +2144,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -1970,7 +2202,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -2026,28 +2263,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -2065,34 +2309,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -2110,34 +2362,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -2155,6 +2415,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"
@@ -2212,7 +2473,12 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
     />
   </div>
   <div
-    className="sidebar--left__list"
+    aria-label="channel sidebar region"
+    className="sidebar--left__list a11y__region"
+    data-a11y-sort-order="6"
+    id="lhsList"
+    role="application"
+    tabIndex="-1"
   >
     <UnreadChannelIndicator
       content={
@@ -2268,28 +2534,35 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
         id="sidebarChannelContainer"
       >
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="public channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="publicChannelList"
           key="public"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="publicChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PUBLIC CHANNELS"
                 sectionType="public"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="public"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="public"
+            />
           </li>
           <Connect(SidebarChannel)
             active={true}
@@ -2307,34 +2580,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="public"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="private channels"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="privateChannelList"
           key="private"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="privateChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="PRIVATE CHANNELS"
                 sectionType="private"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="private"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="private"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -2352,34 +2633,42 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="private"
           />
         </ul>
         <ul
-          className="nav nav-pills nav-stacked"
+          aria-label="direct messages"
+          className="nav nav-pills nav-stacked a11y__section"
+          id="directChannelList"
           key="direct"
+          role="presentation"
+          tabIndex="-1"
         >
-          <li>
+          <li
+            className="sidebar-section__header"
+          >
             <h4
               id="directChannel"
+              role="presentation"
             >
               <ChannelName
                 browsePublicDirectChannels={[Function]}
                 channelName="DIRECT MESSAGES"
                 sectionType="direct"
               />
-              <ChannelCreate
-                canCreatePrivateChannel={true}
-                canCreatePublicChannel={true}
-                createDirectMessage={[Function]}
-                createPrivateChannel={[Function]}
-                createPublicChannel={[Function]}
-                createPublicDirectChannel={[Function]}
-                sectionType="direct"
-              />
             </h4>
+            <ChannelCreate
+              canCreatePrivateChannel={true}
+              canCreatePublicChannel={true}
+              createDirectMessage={[Function]}
+              createPrivateChannel={[Function]}
+              createPublicChannel={[Function]}
+              createPublicDirectChannel={[Function]}
+              sectionType="direct"
+            />
           </li>
           <Connect(SidebarChannel)
             active={false}
@@ -2397,6 +2686,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           />
           <ChannelMore
             browsePublicDirectChannels={[Function]}
+            currentTeamId="team_id"
             moreChannels={[Function]}
             moreDirectMessages={[Function]}
             sectionType="direct"

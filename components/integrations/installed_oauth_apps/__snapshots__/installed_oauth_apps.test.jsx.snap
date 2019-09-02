@@ -2,6 +2,7 @@
 
 exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = `
 <BackstageList
+  addButtonId="addOauthApp"
   addLink="/test/integrations/oauth2-apps/add"
   addText="Add OAuth 2.0 Application"
   emptyText={
@@ -9,6 +10,12 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
       defaultMessage="No OAuth 2.0 Applications found"
       id="installed_oauth_apps.empty"
       values={Object {}}
+    />
+  }
+  emptyTextSearch={
+    <InjectIntl(FormattedMarkdownMessage)
+      defaultMessage="No OAuth 2.0 Applications match {searchTerm}"
+      id="installed_oauth_apps.emptySearch"
     />
   }
   header={
@@ -53,6 +60,12 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
   loading={true}
   searchPlaceholder="Search OAuth 2.0 Applications"
 >
+  <Component />
+</BackstageList>
+`;
+
+exports[`components/integrations/InstalledOAuthApps should match snapshot 2`] = `
+<div>
   <Connect(InstalledOAuthApp)
     key="facxd9wpzpbpfp8pad78xj75pr"
     oauthApp={
@@ -86,39 +99,7 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = 
       }
     }
   />
-  <Connect(InstalledOAuthApp)
-    key="fzcxd9wpzpbpfp8pad78xj75pr"
-    oauthApp={
-      Object {
-        "callback_urls": Array [
-          "https://test2.com/callback",
-          "https://test2.com/callback2",
-        ],
-        "client_secret": "decxd9wpzpbpfp8pad78xj75pr",
-        "create_at": 1501365459984,
-        "creator_id": "88oybd2dwfdoxpkpw1h5kpbyco",
-        "description": "testing2",
-        "homepage": "https://test2.com",
-        "icon_url": "https://test2.com/icon",
-        "id": "fzcxd9wpzpbpfp8pad78xj75pr",
-        "is_trusted": true,
-        "name": "secondApp",
-        "update_at": 1501365479988,
-      }
-    }
-    onDelete={[Function]}
-    onRegenerateSecret={[MockFunction]}
-    regenOAuthAppSecretRequest={
-      Object {
-        "error": null,
-        "status": "not_started",
-      }
-    }
-    team={
-      Object {
-        "name": "test",
-      }
-    }
-  />
-</BackstageList>
+</div>
 `;
+
+exports[`components/integrations/InstalledOAuthApps should match snapshot 3`] = `<div />`;

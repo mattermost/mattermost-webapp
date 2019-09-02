@@ -11,6 +11,8 @@ import {getDisplayableErrors} from 'mattermost-redux/selectors/errors';
 import {dismissError} from 'mattermost-redux/actions/errors';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
+import {dismissNotice} from 'actions/views/notice';
+
 import AnnouncementBarController from './announcement_bar_controller.jsx';
 
 function mapStateToProps(state) {
@@ -41,6 +43,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getStandardAnalytics,
             dismissError: dismissFirstError,
+            dismissNotice,
         }, dispatch),
     };
 }

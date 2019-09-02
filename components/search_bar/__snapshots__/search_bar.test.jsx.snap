@@ -1,0 +1,446 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/search_bar/SearchBar should match snapshot with search 1`] = `
+<div
+  className="sidebar-right__table"
+>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      autoComplete="off"
+      className="search__form"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        completeOnTab={true}
+        containerClass=""
+        data-a11y-sort-order="8"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchChannelProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value="test"
+      />
+      <div
+        className="sidebar__search-clear visible"
+        id="searchClearButton"
+        onClick={[Function]}
+      >
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="searchClearTooltip"
+              placement="right"
+            >
+              <FormattedMessage
+                defaultMessage="Clear search query"
+                id="search_bar.clear"
+                values={Object {}}
+              />
+            </Tooltip>
+          }
+          placement="bottom"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <span
+            aria-hidden="true"
+            className="sidebar__search-clear-x"
+          >
+            ×
+          </span>
+        </OverlayTrigger>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot without search 1`] = `
+<div
+  className="sidebar-right__table"
+>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      autoComplete="off"
+      className="search__form"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        completeOnTab={true}
+        containerClass=""
+        data-a11y-sort-order="8"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchChannelProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value=""
+      />
+      <Popover
+        bsClass="popover"
+        className="search-help-popover"
+        id="searchbar-help-popup"
+        placement="bottom"
+      >
+        <SearchHint
+          withTitle={true}
+        />
+      </Popover>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot without search on focus 1`] = `
+<div
+  className="sidebar-right__table"
+>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      autoComplete="off"
+      className="search__form focused"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        completeOnTab={true}
+        containerClass=""
+        data-a11y-sort-order="8"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchChannelProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value=""
+      />
+      <Popover
+        bsClass="popover"
+        className="search-help-popover visible"
+        id="searchbar-help-popup"
+        placement="bottom"
+      >
+        <SearchHint
+          withTitle={true}
+        />
+      </Popover>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`components/search_bar/SearchBar should match snapshot without search on focus in mobile 1`] = `
+<div
+  className="sidebar-right__table"
+>
+  <div
+    className="sidebar-collapse__container"
+  >
+    <div
+      className="sidebar-collapse"
+      id="sidebarCollapse"
+      onClick={[Function]}
+    >
+      <FormattedMessage
+        defaultMessage="Back Icon"
+        id="generic_icons.back"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
+    </div>
+  </div>
+  <div
+    className="search-form__container"
+    id="searchFormContainer"
+  >
+    <form
+      autoComplete="off"
+      className="search__form focused"
+      onSubmit={[Function]}
+      role="application"
+      style={
+        Object {
+          "overflow": "visible",
+        }
+      }
+    >
+      <SearchIcon
+        aria-hidden="true"
+        className="search__icon"
+        id="searchIcon"
+      />
+      <SuggestionBox
+        aria-describedby="searchbar-help-popup"
+        autoFocus={false}
+        className="search-bar a11y__region"
+        completeOnTab={true}
+        containerClass=""
+        data-a11y-sort-order="8"
+        dateComponent={[Function]}
+        delayInputUpdate={true}
+        id="searchBox"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="top"
+        listenForMentionKeyClick={false}
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={false}
+        placeholder="Search"
+        providers={
+          Array [
+            SearchChannelProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchUserProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+            SearchDateProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        tabIndex="0"
+        type="search"
+        value=""
+      />
+    </form>
+  </div>
+</div>
+`;

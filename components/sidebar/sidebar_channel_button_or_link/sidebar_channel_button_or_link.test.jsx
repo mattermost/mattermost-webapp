@@ -22,6 +22,8 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 hasDraft={false}
                 badge={true}
                 membersCount={3}
+                showUnreadForMsgs={true}
+                unreadMsgs={2}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
@@ -45,6 +47,8 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 hasDraft={true}
                 badge={false}
                 membersCount={3}
+                showUnreadForMsgs={true}
+                unreadMsgs={2}
                 unreadMentions={0}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
@@ -67,6 +71,8 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 handleClose={jest.fn()}
                 hasDraft={false}
                 membersCount={3}
+                showUnreadForMsgs={true}
+                unreadMsgs={2}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
@@ -101,6 +107,8 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 hasDraft={false}
                 badge={true}
                 membersCount={3}
+                showUnreadForMsgs={true}
+                unreadMsgs={2}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
@@ -126,6 +134,8 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 handleClose={jest.fn()}
                 hasDraft={false}
                 membersCount={3}
+                showUnreadForMsgs={true}
+                unreadMsgs={2}
                 unreadMentions={6}
                 teammateId={'test-teammate-id'}
                 teammateDeletedAt={1}
@@ -144,5 +154,29 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
         expect(diagnosticsActionsMock.trackEvent).not.toBeCalled();
         expect(diagnosticsActionsMock.mark).not.toBeCalled();
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();
+    });
+
+    test('should match snapshot, on group channel with tooltip', () => {
+        const wrapper = shallow(
+            <SidebarChannelButtonOrLink
+                channelType={Constants.GM_CHANNEL}
+                channelId={'test-channel-id'}
+                channelName={'test-channel-name'}
+                channelStatus={'test'}
+                link={'test-link'}
+                rowClass={'test-class'}
+                displayName={'test-channel-name'}
+                handleClose={jest.fn()}
+                hasDraft={false}
+                membersCount={3}
+                showUnreadForMsgs={true}
+                unreadMsgs={2}
+                unreadMentions={6}
+                teammateId={'test-teammate-id'}
+                teammateDeletedAt={1}
+                channelIsArchived={false}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

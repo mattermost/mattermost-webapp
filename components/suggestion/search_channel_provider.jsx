@@ -7,7 +7,10 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 
 import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
 import Constants from 'utils/constants.jsx';
-import SelectIcon from 'components/icon/select_icon';
+import SelectIcon from 'components/widgets/icons/fa_select_icon';
+import BotBadge from 'components/widgets/badges/bot_badge';
+
+import {getDirectTeammate} from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -28,10 +31,21 @@ class SearchChannelSuggestion extends Suggestion {
 
         let className = 'search-autocomplete__item';
         if (isSelection) {
-            className += ' selected';
+            className += ' selected a11y--focused';
         }
 
         const name = itemToName(item);
+
+        let tag = null;
+        if (item.type === Constants.DM_CHANNEL) {
+            const teammate = getDirectTeammate(item.id);
+            tag = (
+                <BotBadge
+                    show={Boolean(teammate && teammate.is_bot)}
+                    className='badge-popoverlist'
+                />
+            );
+        }
 
         return (
             <div
@@ -40,7 +54,10 @@ class SearchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
-                {name}
+                <span className='search-autocomplete__name'>
+                    {name}
+                </span>
+                {tag}
             </div>
         );
     }

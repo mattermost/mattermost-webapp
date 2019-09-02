@@ -8,10 +8,10 @@ import marked from 'marked';
 
 const TARGET_BLANK_URL_PREFIX = '!';
 
-class CustomRenderer extends marked.Renderer {
+export class CustomRenderer extends marked.Renderer {
     link(href, title, text) {
         if (href[0] === TARGET_BLANK_URL_PREFIX) {
-            return `<a href="${href.substring(1, href.length)}" target="_blank">${text}</a>`;
+            return `<a href="${href.substring(1, href.length)}" rel="noreferrer" target="_blank">${text}</a>`;
         }
         return `<a href="${href}">${text}</a>`;
     }

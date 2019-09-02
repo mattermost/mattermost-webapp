@@ -16,10 +16,10 @@ import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
-import FlagIcon from 'components/svg/flag_icon';
-import MentionsIcon from 'components/svg/mentions_icon';
-import SearchIcon from 'components/svg/search_icon';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+import MentionsIcon from 'components/widgets/icons/mentions_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const {KeyCodes} = Constants;
 
@@ -147,6 +147,10 @@ export default class SearchBar extends React.Component {
     }
 
     renderHintPopover() {
+        if (Utils.isMobile()) {
+            return null;
+        }
+
         let helpClass = 'search-help-popover';
         if (!this.props.searchTerms && this.state.focused) {
             helpClass += ' visible';
@@ -245,7 +249,7 @@ export default class SearchBar extends React.Component {
                     className='search-form__container'
                 >
                     <form
-                        role='form'
+                        role='application'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
                         style={style.searchForm}
@@ -257,9 +261,12 @@ export default class SearchBar extends React.Component {
                             aria-hidden='true'
                         />
                         <SuggestionBox
-                            id='searchBox'
                             ref={this.getSearch}
-                            className='search-bar'
+                            id='searchBox'
+                            tabIndex='0'
+                            className='search-bar a11y__region'
+                            data-a11y-sort-order='8'
+                            aria-describedby='searchbar-help-popup'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
@@ -281,7 +288,6 @@ export default class SearchBar extends React.Component {
                                 onClick={this.handleClear}
                             >
                                 <OverlayTrigger
-                                    trigger={['hover', 'focus']}
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='bottom'
                                     overlay={searchClearTooltip}

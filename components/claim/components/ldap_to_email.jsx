@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -181,7 +182,7 @@ export default class LDAPToEmail extends React.Component {
                             className='form-control'
                             name='password'
                             ref='password'
-                            placeholder={{id: 'claim.ldap_to_email.pwd', defaultMessage: 'Password'}}
+                            placeholder={{id: t('claim.ldap_to_email.pwd'), defaultMessage: 'Password'}}
                             spellCheck='false'
                         />
                     </div>
@@ -192,7 +193,7 @@ export default class LDAPToEmail extends React.Component {
                             className='form-control'
                             name='passwordconfirm'
                             ref='passwordconfirm'
-                            placeholder={{id: 'claim.ldap_to_email.confirm', defaultMessage: 'Confirm Password'}}
+                            placeholder={{id: t('claim.ldap_to_email.confirm'), defaultMessage: 'Confirm Password'}}
                             spellCheck='false'
                         />
                     </div>

@@ -74,6 +74,7 @@ export default class ChannelSelect extends React.PureComponent {
                 className='form-control'
                 value={this.props.value}
                 onChange={this.props.onChange}
+                id='channelSelect'
             >
                 {options}
             </select>

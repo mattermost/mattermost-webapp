@@ -61,28 +61,32 @@ const currentUsersLatestPostProp = {id: 'b', root_id: 'a', channel_id: currentCh
 
 const commentCountForPostProp = 10;
 
-function emptyFunction() {} //eslint-disable-line no-empty-function
 const actionsProp = {
-    addMessageIntoHistory: emptyFunction,
-    moveHistoryIndexBack: emptyFunction,
-    moveHistoryIndexForward: emptyFunction,
-    addReaction: emptyFunction,
-    removeReaction: emptyFunction,
-    clearDraftUploads: emptyFunction,
-    onSubmitPost: emptyFunction,
-    selectPostFromRightHandSideSearchByPostId: emptyFunction,
-    setDraft: emptyFunction,
-    setEditingPost: emptyFunction,
-    openModal: emptyFunction,
+    addMessageIntoHistory: jest.fn(),
+    moveHistoryIndexBack: jest.fn(),
+    moveHistoryIndexForward: jest.fn(),
+    addReaction: jest.fn(),
+    removeReaction: jest.fn(),
+    clearDraftUploads: jest.fn(),
+    onSubmitPost: jest.fn(),
+    selectPostFromRightHandSideSearchByPostId: jest.fn(),
+    setDraft: jest.fn(),
+    setEditingPost: jest.fn(),
+    openModal: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
-    getChannelTimezones: emptyFunction,
+    getChannelTimezones: jest.fn(),
     runMessageWillBePostedHooks: async (post) => {
         return {data: post};
     },
+    runSlashCommandWillBePostedHooks: async (message, args) => {
+        return {data: {message, args}};
+    },
+    scrollPostListToBottom: jest.fn(),
 };
 
+/* eslint-disable react/prop-types */
 function createPost({
     currentChannel = currentChannelProp,
     currentTeamId = currentTeamIdProp,
@@ -133,6 +137,7 @@ function createPost({
         />
     );
 }
+/* eslint-enable react/prop-types */
 
 describe('components/create_post', () => {
     it('should match snapshot, init', () => {
@@ -183,9 +188,9 @@ describe('components/create_post', () => {
 
     it('click toggleEmojiPicker', () => {
         const wrapper = shallowWithIntl(createPost());
-        wrapper.find('.icon.icon--emoji').simulate('click');
+        wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
-        wrapper.find('.icon.icon--emoji').simulate('click');
+        wrapper.find('.emoji-picker__container').simulate('click');
         wrapper.find('EmojiPickerOverlay').prop('onHide')();
         expect(wrapper.state('showEmojiPicker')).toBe(false);
     });
@@ -193,7 +198,7 @@ describe('components/create_post', () => {
     it('Check for emoji click message states', () => {
         const wrapper = shallowWithIntl(createPost());
 
-        wrapper.find('.icon.icon--emoji').simulate('click');
+        wrapper.find('.emoji-picker__container').simulate('click');
         expect(wrapper.state('showEmojiPicker')).toBe(true);
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
@@ -238,6 +243,10 @@ describe('components/create_post', () => {
     it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
+
+        wrapper.setState({
+            showPreview: false,
+        });
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
@@ -525,6 +534,7 @@ describe('components/create_post', () => {
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+        expect(wrapper.state('enableSendButton')).toBe(true);
     });
 
     it('check for handleUploadError callback', () => {
@@ -597,6 +607,7 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledTimes(1);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
+        expect(wrapper.state('enableSendButton')).toBe(false);
     });
 
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {

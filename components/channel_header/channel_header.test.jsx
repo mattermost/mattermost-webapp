@@ -5,6 +5,8 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import ChannelHeader from 'components/channel_header/channel_header';
+import Markdown from 'components/markdown';
+import Constants from 'utils/constants';
 
 describe('components/ChannelHeader', () => {
     const baseProps = {
@@ -116,5 +118,29 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render bot description', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: true,
+                bot_description: 'the bot description',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        );
+        expect(wrapper.containsMatchingElement(
+            <Markdown
+                message={props.currentUser.bot_description}
+            />
+        )).toEqual(true);
     });
 });

@@ -1,0 +1,28 @@
+{
+  "devDependencies": {
+    "@testing-library/cypress": "4.0.3",
+    "axios": "0.18.1",
+    "body-parser": "1.19.0",
+    "cypress": "3.4.1",
+    "cypress-file-upload": "3.1.2",
+    "cypress-multi-reporters": "1.1.23",
+    "express": "4.17.1",
+    "merge-deep": "3.0.2",
+    "start-server-and-test": "1.9.1",
+    "mocha": "6.1.4",
+    "mocha-junit-reporters": "1.23.6",
+    "mocha-multi-reporters": "1.1.7",
+    "mochawesome": "4.0.1",
+    "mochawesome-merge": "2.0.1",
+    "mochawesome-report-generator": "4.0.1",
+    "lodash": ">=4.17.13"
+  },
+  "scripts": {
+    "cypress:run": "cypress run --config ignoreTestFiles='**/enterprise/**/*.js'",
+    "cypress:open": "cypress open",
+    "cypress:run:enterprise": "cypress run --spec='cypress/integration/enterprise/**/*_spec.js'",
+    "start:webhook": "node webhook_serve.js",
+    "test": "start-test start:webhook 3000 test:ci",
+    "test:ci": "node run_tests.js"
+  }
+}

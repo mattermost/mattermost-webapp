@@ -31,8 +31,10 @@ describe('components/MoreDirectChannels', () => {
             getProfilesInTeam: emptyFunction,
             getStatusesByIds: emptyFunction,
             searchProfiles: emptyFunction,
+            searchGroupChannels: emptyFunction,
             setModalSearchTerm: emptyFunction,
             loadStatusesForProfilesList: emptyFunction,
+            loadProfilesForGroupChannels: emptyFunction,
             openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'dm'}}),
             openGroupChannelToUserIds: jest.fn().mockResolvedValue({data: {name: 'group'}}),
             getTotalUsersStats: jest.fn(() => {

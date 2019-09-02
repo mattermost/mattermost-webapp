@@ -1,0 +1,83 @@
+@import 'utils/variables';
+
+.InvitationModal .InvitationModalConfirmStep h1 {
+    margin-bottom: 10px;
+}
+
+.InvitationModalConfirmStep {
+    display:block;
+    width: 720px;
+    @media screen and (max-width: 768px) {
+        width:100%;
+    }
+    .subtitle {
+        margin-bottom: 40px;
+        margin-top: 0px;
+        font-size: 16px;
+        text-align: center;
+        font-weight: 400;
+        strong {
+            font-weight: 600;
+        }
+    }
+    .invitation-modal-confirm-not-sent {
+        h2 {
+            margin-top: 32px;
+            margin-bottom: 13px;
+            font-size: 20px;
+            font-weight: 400;
+        }
+        .InvitationModalConfirmStepTable {
+            .table-header {
+                height: 40px;
+                font-size: 14px;
+                border-bottom: 1px solid;
+                border-top: 1px solid;
+                border-color: var(--center-channel-color-10);
+                background: rgba(238,179,0,0.2);
+                color: var(--center-channel-color);
+            }
+        }
+    }
+    .invitation-modal-confirm-sent {
+        h2 {
+            font-size: 20px;
+            margin-bottom: 13px;
+            font-weight: 400;
+        }
+        .InvitationModalConfirmStepTable {
+            .table-header {
+                height: 40px;
+                font-size: 14px;
+                border-bottom: 1px solid;
+                border-top: 1px solid;
+                border-color: var(--center-channel-color-10);
+                background: rgba(0,131,89,0.2);
+                color: var(--center-channel-color);
+                svg {
+                    fill: var(--center-channel-color);
+                    height: 18px;
+                    width: 18px;
+                }
+            }
+        }
+    }
+    .confirm-done {
+        margin-top: 32px;
+        text-align: right;
+        margin-bottom: 28px;
+        button {
+            height: 48px;
+            padding: 13px 26px;
+            min-width: 120px;
+            font-size: 16px;
+            font-weight: 600;
+            background: var(--button-bg);
+            color: var(--button-color);
+            &:focus, &:active, &:focus:active {
+                outline: none;
+                border-color: transparent;
+            }
+        }
+    }
+}

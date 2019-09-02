@@ -19,20 +19,12 @@ export default class ChannelCreate extends React.PureComponent {
         canCreatePrivateChannel: PropTypes.bool.isRequired,
     };
 
-    getTooltipTriggers = () => {
-        if (Utils.isMobile()) {
-            return [];
-        }
-
-        return ['hover', 'focus'];
-    };
-
     renderPublic = () => {
         if (!this.props.canCreatePublicChannel) {
             return null;
         }
 
-        const tooltipTriggers = this.getTooltipTriggers();
+        const ariaLabelPublic = `${Utils.localizeMessage('sidebar.createChannel', 'Create new public channel').toLowerCase()}`;
 
         const tooltip = (
             <Tooltip id='new-channel-tooltip' >
@@ -44,20 +36,21 @@ export default class ChannelCreate extends React.PureComponent {
         );
 
         return (
-            <OverlayTrigger
-                trigger={tooltipTriggers}
-                delayShow={500}
-                placement='top'
-                overlay={tooltip}
+            <button
+                id='createPublicChannel'
+                aria-label={ariaLabelPublic}
+                type='button'
+                className='add-channel-btn cursor--pointer style--none'
+                onClick={this.props.createPublicChannel}
             >
-                <button
-                    id='createPublicChannel'
-                    className='add-channel-btn cursor--pointer style--none'
-                    onClick={this.props.createPublicChannel}
+                <OverlayTrigger
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
                 >
-                    {'+'}
-                </button>
-            </OverlayTrigger>
+                    <span>{'+'}</span>
+                </OverlayTrigger>
+            </button>
         );
     };
 
@@ -66,7 +59,7 @@ export default class ChannelCreate extends React.PureComponent {
             return null;
         }
 
-        const tooltipTriggers = this.getTooltipTriggers();
+        const ariaLabelPrivate = `${Utils.localizeMessage('sidebar.createGroup', 'Create new private channel').toLowerCase()}`;
 
         const tooltip = (
             <Tooltip id='new-group-tooltip'>
@@ -78,24 +71,26 @@ export default class ChannelCreate extends React.PureComponent {
         );
 
         return (
-            <OverlayTrigger
-                trigger={tooltipTriggers}
-                delayShow={500}
-                placement='top'
-                overlay={tooltip}
+            <button
+                id='createPrivateChannel'
+                aria-label={ariaLabelPrivate}
+                type='button'
+                className='add-channel-btn cursor--pointer style--none'
+                onClick={this.props.createPrivateChannel}
             >
-                <button
-                    id='createPrivateChannel'
-                    className='add-channel-btn cursor--pointer style--none'
-                    onClick={this.props.createPrivateChannel}
+                <OverlayTrigger
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
                 >
-                    {'+'}
-                </button>
-            </OverlayTrigger>
+                    <span>{'+'}</span>
+                </OverlayTrigger>
+            </button>
         );
     };
 
     renderDirect = () => {
+        const ariaLabelDM = Utils.localizeMessage('sidebar.createDirectMessage', 'Create new direct message').toLowerCase();
         const tooltip = (
             <Tooltip
                 id='new-group-tooltip'
@@ -109,19 +104,21 @@ export default class ChannelCreate extends React.PureComponent {
         );
 
         return (
-            <OverlayTrigger
-                className='hidden-xs'
-                delayShow={500}
-                placement='top'
-                overlay={tooltip}
+            <button
+                id='addDirectChannel'
+                aria-label={ariaLabelDM}
+                className='add-channel-btn cursor--pointer style--none'
+                onClick={this.props.createDirectMessage}
             >
-                <button
-                    className='add-channel-btn cursor--pointer style--none'
-                    onClick={this.props.createDirectMessage}
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
                 >
-                    {'+'}
-                </button>
-            </OverlayTrigger>
+                    <span>{'+'}</span>
+                </OverlayTrigger>
+            </button>
         );
     };
 
@@ -153,19 +150,20 @@ export default class ChannelCreate extends React.PureComponent {
         );
 
         return (
-            <OverlayTrigger
-                className='hidden-xs'
-                delayShow={500}
-                placement='top'
-                overlay={tooltip}
+            <button
+                type='button'
+                className='add-channel-btn cursor--pointer style--none'
+                onClick={this.props.createPublicDirectChannel}
             >
-                <button
-                    className='add-channel-btn cursor--pointer style--none'
-                    onClick={this.props.createPublicDirectChannel}
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
                 >
-                    {'+'}
-                </button>
-            </OverlayTrigger>
+                    <span>{'+'}</span>
+                </OverlayTrigger>
+            </button>
         );
     };
 

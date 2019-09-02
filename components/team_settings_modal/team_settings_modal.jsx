@@ -86,13 +86,18 @@ export default class TeamSettingsModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName='settings-modal settings-modal--action'
+                dialogClassName='a11y__modal settings-modal settings-modal--action'
                 show={this.props.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
+                role='dialog'
+                aria-labelledby='teamSettingsModalLabel'
             >
-                <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                <Modal.Header
+                    id='teamSettingsModalLabel'
+                    closeButton={true}
+                >
+                    <Modal.Title componentClass='h1'>
                         <FormattedMessage
                             id='team_settings_modal.title'
                             defaultMessage='Team Settings'

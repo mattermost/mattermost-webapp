@@ -12,6 +12,8 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 function getStateFromProps(props) {
     const roles = props.user && props.user.roles ? props.user.roles : '';
@@ -169,7 +171,7 @@ export default class ManageRolesModal extends React.PureComponent {
         }
 
         let additionalRoles;
-        if (this.state.hasUserAccessTokenRole || this.state.isSystemAdmin) {
+        if (this.state.hasUserAccessTokenRole || this.state.isSystemAdmin || user.is_bot) {
             additionalRoles = (
                 <div>
                     <p>
@@ -226,49 +228,69 @@ export default class ManageRolesModal extends React.PureComponent {
 
         let userAccessTokenContent;
         if (this.props.userAccessTokensEnabled) {
-            userAccessTokenContent = (
-                <div>
-                    <div className='checkbox'>
-                        <label>
-                            <input
-                                type='checkbox'
-                                ref='postall'
-                                checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
-                                disabled={this.state.isSystemAdmin}
-                                onChange={this.handleUserAccessTokenChange}
-                            />
-                            <FormattedMarkdownMessage
-                                id='admin.manage_roles.allowUserAccessTokens'
-                                defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
-                            />
-                            <span className='d-block padding-top padding-bottom light'>
-                                <FormattedHTMLMessage
-                                    id='admin.manage_roles.allowUserAccessTokensDesc'
-                                    defaultMessage="Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu."
+            if (user.is_bot) {
+                userAccessTokenContent = (
+                    <div>
+                        <div className='member-row--padded member-row-lone-padding'>
+                            {additionalRoles}
+                        </div>
+                    </div>
+                );
+            } else {
+                userAccessTokenContent = (
+                    <div>
+                        <div className='checkbox'>
+                            <label>
+                                <input
+                                    type='checkbox'
+                                    ref='postall'
+                                    checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
+                                    disabled={this.state.isSystemAdmin}
+                                    onChange={this.handleUserAccessTokenChange}
                                 />
-                            </span>
-                        </label>
+                                <FormattedMarkdownMessage
+                                    id='admin.manage_roles.allowUserAccessTokens'
+                                    defaultMessage='Allow this account to generate [personal access tokens](!https://about.mattermost.com/default-user-access-tokens).'
+                                />
+                                <span className='d-block padding-top padding-bottom light'>
+                                    <FormattedHTMLMessage
+                                        id='admin.manage_roles.allowUserAccessTokensDesc'
+                                        defaultMessage="Removing this permission doesn't delete existing tokens. To delete them, go to the user's Manage Tokens menu."
+                                    />
+                                </span>
+                            </label>
+                        </div>
+                        <div className='member-row--padded'>
+                            {additionalRoles}
+                        </div>
                     </div>
-                    <div className='member-row--padded'>
-                        {additionalRoles}
-                    </div>
-                </div>
-            );
+                );
+            }
+        }
+
+        let email = user.email;
+        if (user.is_bot) {
+            email = '';
         }
 
         return (
             <div>
                 <div className='manage-teams__user'>
-                    <img
-                        className='manage-teams__profile-picture'
-                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                    <Avatar
+                        size='lg'
+                        username={user.username}
+                        url={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>
                             {name}
+                            <BotBadge
+                                show={Boolean(user.is_bot)}
+                                className='badge-admin'
+                            />
                         </div>
                         <div className='manage-teams__email'>
-                            {user.email}
+                            {email}
                         </div>
                     </div>
                 </div>
@@ -314,10 +336,15 @@ export default class ManageRolesModal extends React.PureComponent {
             <Modal
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
-                dialogClassName='manage-teams'
+                dialogClassName='a11y__modal manage-teams'
+                role='dialog'
+                aria-labelledby='manageRolesModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='manageRolesModalLabel'
+                    >
                         <FormattedMessage
                             id='admin.manage_roles.manageRolesTitle'
                             defaultMessage='Manage Roles'

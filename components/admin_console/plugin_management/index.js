@@ -3,7 +3,15 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getPluginStatuses, removePlugin, uploadPlugin, enablePlugin, disablePlugin} from 'mattermost-redux/actions/admin';
+import {
+    getPlugins,
+    getPluginStatuses,
+    removePlugin,
+    uploadPlugin,
+    installPluginFromUrl,
+    enablePlugin,
+    disablePlugin,
+} from 'mattermost-redux/actions/admin';
 
 import PluginManagement from './plugin_management.jsx';
 
@@ -18,7 +26,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             uploadPlugin,
+            installPluginFromUrl,
             removePlugin,
+            getPlugins,
             getPluginStatuses,
             enablePlugin,
             disablePlugin,

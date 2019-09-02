@@ -57,6 +57,10 @@
             }
         }
     }
+
+    .integration-option {
+        flex: 0 0 45%;
+    }
 }
 
 @media screen and (max-width: 1140px) {
@@ -98,10 +102,6 @@
                 width: 150px;
             }
         }
-    }
-
-    .integration-option {
-        width: 280px;
     }
 }
 

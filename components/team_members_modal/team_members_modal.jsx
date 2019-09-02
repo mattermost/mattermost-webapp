@@ -34,13 +34,18 @@ export default class TeamMembersModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='more-modal'
+                dialogClassName='a11y__modal more-modal'
                 show={this.props.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='teamMemberModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='teamMemberModalLabel'
+                    >
                         <FormattedMessage
                             id='team_member_modal.members'
                             defaultMessage='{team} Members'

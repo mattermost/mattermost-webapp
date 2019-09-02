@@ -8,14 +8,14 @@ import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import {AcceptedProfileImageTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {AnnouncementBarMessages, AnnouncementBarTypes} from 'utils/constants';
 
 const holders = defineMessages({
@@ -57,7 +57,7 @@ const holders = defineMessages({
     },
     uploadImageMobile: {
         id: t('user.settings.general.mobile.uploadImage'),
-        defaultMessage: 'Click to upload an image.',
+        defaultMessage: 'Click to upload an image',
     },
     fullName: {
         id: t('user.settings.general.fullName'),
@@ -94,8 +94,6 @@ const prevSections = {
     picture: 'email',
 };
 
-const ACCEPTED_PROFILE_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
-
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {
         intl: intlShape.isRequired,
@@ -115,7 +113,6 @@ class UserSettingsGeneralTab extends React.Component {
             setDefaultProfileImage: PropTypes.func.isRequired,
             uploadProfileImage: PropTypes.func.isRequired,
         }).isRequired,
-        sendEmailNotifications: PropTypes.bool,
         requireEmailVerification: PropTypes.bool,
         maxFileSize: PropTypes.number,
         ldapFirstNameAttributeSet: PropTypes.bool,
@@ -124,7 +121,8 @@ class UserSettingsGeneralTab extends React.Component {
         samlLastNameAttributeSet: PropTypes.bool,
         ldapNicknameAttributeSet: PropTypes.bool,
         samlNicknameAttributeSet: PropTypes.bool,
-        positionAttributeSet: PropTypes.bool,
+        ldapPositionAttributeSet: PropTypes.bool,
+        samlPositionAttributeSet: PropTypes.bool,
     }
 
     constructor(props) {
@@ -275,7 +273,7 @@ class UserSettingsGeneralTab extends React.Component {
                 if (data) {
                     this.updateSection('');
                     this.props.actions.getMe();
-                    const verificationEnabled = this.props.sendEmailNotifications && this.props.requireEmailVerification && emailUpdated;
+                    const verificationEnabled = this.props.requireEmailVerification && emailUpdated;
                     if (verificationEnabled) {
                         this.props.actions.clearErrors();
                         this.props.actions.logError({
@@ -328,7 +326,7 @@ class UserSettingsGeneralTab extends React.Component {
         const {formatMessage} = this.props.intl;
         const file = this.state.pictureFile;
 
-        if (!ACCEPTED_PROFILE_IMAGE_TYPES.includes(file.type)) {
+        if (!AcceptedProfileImageTypes.includes(file.type)) {
             this.setState({clientError: formatMessage(holders.validImage), serverError: ''});
             return;
         } else if (file.size > this.props.maxFileSize) {
@@ -437,9 +435,10 @@ class UserSettingsGeneralTab extends React.Component {
     }
 
     createEmailSection() {
+        const {formatMessage} = this.props.intl;
+
         let emailSection;
         if (this.props.activeSection === 'email') {
-            const emailEnabled = this.props.sendEmailNotifications;
             const emailVerificationEnabled = this.props.requireEmailVerification;
             const inputs = [];
 
@@ -450,16 +449,7 @@ class UserSettingsGeneralTab extends React.Component {
                 />
             );
 
-            if (!emailEnabled) {
-                helpText = (
-                    <div className='setting-list__hint col-sm-12 text-danger'>
-                        <FormattedMessage
-                            id='user.settings.general.emailHelp2'
-                            defaultMessage='Email has been disabled by your System Administrator. No notification emails will be sent until it is enabled.'
-                        />
-                    </div>
-                );
-            } else if (!emailVerificationEnabled) {
+            if (!emailVerificationEnabled) {
                 helpText = (
                     <FormattedMessage
                         id='user.settings.general.emailHelp3'
@@ -504,6 +494,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='email'
                                     onChange={this.updateEmail}
                                     value={this.state.email}
+                                    aria-label={formatMessage({id: 'user.settings.general.newEmail', defaultMessage: 'New Email'})}
                                 />
                             </div>
                         </div>
@@ -526,6 +517,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='email'
                                     onChange={this.updateConfirmEmail}
                                     value={this.state.confirmEmail}
+                                    aria-label={formatMessage({id: 'user.settings.general.confirmEmail', defaultMessage: 'Confirm Email'})}
                                 />
                             </div>
                         </div>
@@ -548,6 +540,7 @@ class UserSettingsGeneralTab extends React.Component {
                                     type='password'
                                     onChange={this.updateCurrentPassword}
                                     value={this.state.currentPassword}
+                                    aria-label={formatMessage({id: 'user.settings.general.currentPassword', defaultMessage: 'Current Password'})}
                                 />
                             </div>
                         </div>
@@ -562,7 +555,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailGitlabCantUpdate'
                                 defaultMessage='Login occurs through GitLab. Email cannot be updated. Email address used for notifications is {email}.'
@@ -580,7 +573,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailGoogleCantUpdate'
                                 defaultMessage='Login occurs through Google Apps. Email cannot be updated. Email address used for notifications is {email}.'
@@ -598,7 +591,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='form-group'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailOffice365CantUpdate'
                                 defaultMessage='Login occurs through Office 365. Email cannot be updated. Email address used for notifications is {email}.'
@@ -616,7 +609,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='padding-bottom'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailLdapCantUpdate'
                                 defaultMessage='Login occurs through AD/LDAP. Email cannot be updated. Email address used for notifications is {email}.'
@@ -633,7 +626,7 @@ class UserSettingsGeneralTab extends React.Component {
                         key='oauthEmailInfo'
                         className='padding-bottom'
                     >
-                        <div className='setting-list__hint col-sm-12'>
+                        <div className='setting-list__hint padding-bottom x2'>
                             <FormattedMessage
                                 id='user.settings.general.emailSamlCantUpdate'
                                 defaultMessage='Login occurs through SAML. Email cannot be updated. Email address used for notifications is {email}.'
@@ -792,6 +785,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 onChange={this.updateFirstName}
                                 value={this.state.firstName}
                                 onFocus={Utils.moveCursorToEnd}
+                                aria-label={formatMessage({id: 'user.settings.general.firstName', defaultMessage: 'First Name'})}
                             />
                         </div>
                     </div>
@@ -815,6 +809,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 type='text'
                                 onChange={this.updateLastName}
                                 value={this.state.lastName}
+                                aria-label={formatMessage({id: 'user.settings.general.lastName', defaultMessage: 'Last Name'})}
                             />
                         </div>
                     </div>
@@ -942,6 +937,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 value={this.state.nickname}
                                 maxLength={Constants.MAX_NICKNAME_LENGTH}
                                 autoCapitalize='off'
+                                aria-label={formatMessage({id: 'user.settings.general.nickname', defaultMessage: 'Nickname'})}
                             />
                         </div>
                     </div>
@@ -1035,6 +1031,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 value={this.state.username}
                                 autoCapitalize='off'
                                 onFocus={Utils.moveCursorToEnd}
+                                aria-label={formatMessage({id: 'user.settings.general.username', defaultMessage: 'Username'})}
                             />
                         </div>
                     </div>
@@ -1089,7 +1086,7 @@ class UserSettingsGeneralTab extends React.Component {
         if (this.props.activeSection === 'position') {
             let extraInfo;
             let submit = null;
-            if ((this.props.user.auth_service === 'ldap' || this.props.user.auth_service === Constants.SAML_SERVICE) && this.props.positionAttributeSet) {
+            if ((this.props.user.auth_service === Constants.LDAP_SERVICE && this.props.ldapPositionAttributeSet) || (this.props.user.auth_service === Constants.SAML_SERVICE && this.props.samlPositionAttributeSet)) {
                 extraInfo = (
                     <span>
                         <FormattedMessage
@@ -1126,6 +1123,7 @@ class UserSettingsGeneralTab extends React.Component {
                                 maxLength={Constants.MAX_POSITION_LENGTH}
                                 autoCapitalize='off'
                                 onFocus={Utils.moveCursorToEnd}
+                                aria-label={formatMessage({id: 'user.settings.general.position', defaultMessage: 'Position'})}
                             />
                         </div>
                     </div>

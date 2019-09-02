@@ -32,6 +32,7 @@ export default function GetAndroidApp({androidAppDownloadLink, history, location
             <hr/>
             <div>
                 <img
+                    alt={'android app icon'}
                     className='get-android-app__icon'
                     src={MattermostIcon}
                 />
@@ -60,6 +61,7 @@ export default function GetAndroidApp({androidAppDownloadLink, history, location
                 />
             </a>
             <img
+                alt={'get app screenshot'}
                 className='get-app__screenshot'
                 src={Nexus6Mockup}
             />

@@ -6,7 +6,7 @@ import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
-import RemoveIcon from 'components/icon/remove_icon';
+import RemoveIcon from 'components/widgets/icons/fa_remove_icon';
 import Constants, {FileTypes} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -14,6 +14,7 @@ import FileProgressPreview from './file_progress_preview.jsx';
 
 export default class FilePreview extends React.PureComponent {
     static propTypes = {
+        enableSVGs: PropTypes.bool.isRequired,
         onRemove: PropTypes.func.isRequired,
         fileInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
         uploadsInProgress: PropTypes.array,
@@ -38,9 +39,10 @@ export default class FilePreview extends React.PureComponent {
 
             let className = 'file-preview post-image__column';
             let previewImage;
-            if (type === FileTypes.SVG) {
+            if (type === FileTypes.SVG && this.props.enableSVGs) {
                 previewImage = (
                     <img
+                        alt={'file preview'}
                         className='post-image normal'
                         src={getFileUrl(info.id)}
                     />

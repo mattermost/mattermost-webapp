@@ -77,13 +77,19 @@ class LeaveTeamModal extends React.PureComponent {
     render() {
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 className='modal-confirm'
                 show={this.props.show}
                 onHide={this.props.onHide}
                 id='leaveTeamModal'
+                role='dialog'
+                aria-labelledby='leaveTeamModalLabel'
             >
                 <Modal.Header closeButton={false}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='leaveTeamModalLabel'
+                    >
                         <FormattedMessage
                             id='leave_team_modal.title'
                             defaultMessage='Leave the team?'
@@ -112,6 +118,7 @@ class LeaveTeamModal extends React.PureComponent {
                         type='button'
                         className='btn btn-danger'
                         onClick={this.handleSubmit}
+                        id='leaveTeamYes'
                     >
                         <FormattedMessage
                             id='leave_team_modal.yes'

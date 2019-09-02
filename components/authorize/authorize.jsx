@@ -112,10 +112,10 @@ export default class Authorize extends React.Component {
                     <div className='prompt__heading'>
                         <div className='prompt__app-icon'>
                             <img
+                                alt={'prompt icon'}
                                 src={icon}
                                 width='50'
                                 height='50'
-                                alt=''
                             />
                         </div>
                         <div className='text'>

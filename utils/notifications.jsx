@@ -58,7 +58,8 @@ export async function showNotification({title, body, requireInteraction, silent,
         notification.onclick = onClick;
     }
 
-    if (!requireInteraction) {
+    // Mac desktop app notification dismissal is handled by the OS
+    if (!requireInteraction && !UserAgent.isMacApp()) {
         setTimeout(() => {
             notification.close();
         }, Constants.DEFAULT_NOTIFICATION_DURATION);

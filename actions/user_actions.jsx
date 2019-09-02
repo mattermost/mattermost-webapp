@@ -2,12 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {getChannelAndMyMember, getChannelMembersByIds} from 'mattermost-redux/actions/channels';
-import {deletePreferences as deletePreferencesRedux, savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
+import {savePreferences as savePreferencesRedux} from 'mattermost-redux/actions/preferences';
 import {getTeamMembersByIds} from 'mattermost-redux/actions/teams';
 import * as UserActions from 'mattermost-redux/actions/users';
-import {Client4} from 'mattermost-redux/client';
-import {bindClientFunc} from 'mattermost-redux/actions/helpers';
-import {Preferences as PreferencesRedux} from 'mattermost-redux/constants';
+import {Preferences as PreferencesRedux, General} from 'mattermost-redux/constants';
 import {
     getChannel,
     getCurrentChannelId,
@@ -15,11 +13,10 @@ import {
     getMyChannelMember,
     getChannelMembersInChannels,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getBool, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import * as Selectors from 'mattermost-redux/selectors/entities/users';
 
-import {browserHistory} from 'utils/browser_history';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -27,6 +24,16 @@ import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
+
+export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = General.PROFILE_CHUNK_SIZE, sort = '') {
+    return async (doDispatch) => {
+        const {data} = await doDispatch(UserActions.getProfilesInChannel(channelId, page, perPage, sort));
+        if (data) {
+            doDispatch(loadStatusesForProfilesList(data));
+        }
+        return {data: true};
+    };
+}
 
 export function loadProfilesAndTeamMembers(page, perPage, teamId) {
     return async (doDispatch, doGetState) => {
@@ -179,6 +186,26 @@ export async function loadNewGMIfNeeded(channelId) {
     checkPreference();
 }
 
+export function loadProfilesForGroupChannels(groupChannels) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const userIdsInChannels = Selectors.getUserIdsInChannels(state);
+
+        const groupChannelsToFetch = groupChannels.reduce((acc, {id}) => {
+            const userIdsInGroupChannel = (userIdsInChannels[id] || new Set());
+
+            if (userIdsInGroupChannel.size === 0) {
+                acc.push(id);
+            }
+            return acc;
+        }, []);
+
+        if (groupChannelsToFetch.length > 0) {
+            doDispatch(UserActions.getProfilesInGroupChannels(groupChannelsToFetch));
+        }
+    };
+}
+
 export function loadProfilesForSidebar() {
     loadProfilesForDM();
     loadProfilesForGM();
@@ -272,64 +299,6 @@ export async function loadProfilesForDM() {
     }
 }
 
-export function saveTheme(teamId, theme) {
-    return async (doDispatch, doGetState) => {
-        const currentUserId = Selectors.getCurrentUserId(doGetState());
-        const preference = [{
-            user_id: currentUserId,
-            category: Preferences.CATEGORY_THEME,
-            name: teamId,
-            value: JSON.stringify(theme),
-        }];
-
-        await doDispatch(savePreferencesRedux(currentUserId, preference));
-        return doDispatch(onThemeSaved(teamId));
-    };
-}
-
-function onThemeSaved(teamId) {
-    return async (doDispatch, doGetState) => {
-        const getCategory = makeGetCategory();
-        const state = doGetState();
-        const themePreferences = getCategory(state, Preferences.CATEGORY_THEME);
-
-        if (teamId !== '' && themePreferences.length > 1) {
-            // no extra handling to be done to delete team-specific themes
-            return;
-        }
-
-        const currentUserId = Selectors.getCurrentUserId(state);
-        const toDelete = [];
-
-        for (const themePreference of themePreferences) {
-            const name = themePreference.name;
-            if (name === '' || name === teamId) {
-                continue;
-            }
-
-            toDelete.push({
-                user_id: currentUserId,
-                category: Preferences.CATEGORY_THEME,
-                name,
-            });
-        }
-
-        if (toDelete.length > 0) {
-            // we're saving a new global theme so delete any team-specific ones
-            doDispatch(deletePreferencesRedux(currentUserId, toDelete));
-        }
-    };
-}
-
-export async function searchUsers(term, teamId = getCurrentTeamId(getState()), options = {}, success) {
-    const {data} = await UserActions.searchProfiles(term, {team_id: teamId, ...options})(dispatch, getState);
-    dispatch(loadStatusesForProfilesList(data));
-
-    if (success) {
-        success(data);
-    }
-}
-
 export async function autocompleteUsersInTeam(username, success) {
     const {data} = await UserActions.autocompleteUsers(username, getCurrentTeamId(getState()))(dispatch, getState);
     if (success) {
@@ -342,66 +311,6 @@ export async function autocompleteUsers(username, success) {
     if (success) {
         success(data);
     }
-}
-
-export function revokeAllSessions(userId) {
-    return async (doDispatch, doGetState) => {
-        const {data, error} = await doDispatch(UserActions.revokeAllSessionsForUser(userId));
-        if (error) {
-            const serverError = doGetState().requests.users.updateUser.error;
-            return {error: {id: serverError.server_error_id, ...serverError}};
-        }
-        return {data};
-    };
-}
-
-export async function verifyEmail(token, success, error) {
-    const {data, error: err} = await UserActions.verifyUserEmail(token)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function resetPassword(token, password, success, error) {
-    const {data, error: err} = await UserActions.resetUserPassword(token, password)(dispatch, getState);
-    if (data) {
-        browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
-        if (success) {
-            success(data);
-        }
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function resendVerification(email, success, error) {
-    const {data, error: err} = await UserActions.sendVerificationEmail(email)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export function getAuthorizedApps() {
-    return (doDispatch, doGetState) => {
-        const currentUserId = Selectors.getCurrentUserId(doGetState());
-        const getAuthAppsAction = bindClientFunc({
-            clientFunc: Client4.getAuthorizedOAuthApps,
-            params: [currentUserId],
-        });
-
-        return doDispatch(getAuthAppsAction);
-    };
-}
-
-export function deauthorizeOAuthApp(appId) {
-    return bindClientFunc({
-        clientFunc: Client4.deauthorizeOAuthApp,
-        params: [appId],
-    });
 }
 
 export function autoResetStatus() {
@@ -422,13 +331,4 @@ export function autoResetStatus() {
 
         return userStatus;
     };
-}
-
-export async function sendPasswordResetEmail(email, success, error) {
-    const {data, error: err} = await UserActions.sendPasswordResetEmail(email)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
 }

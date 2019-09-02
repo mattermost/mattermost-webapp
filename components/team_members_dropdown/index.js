@@ -9,12 +9,13 @@ import {
     getMyTeamMembers,
     getMyTeamUnreads,
     getTeamStats,
+    getTeamMember,
     updateTeamMemberSchemeRoles,
 } from 'mattermost-redux/actions/teams';
 import {getUser, updateUserActive} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {removeUserFromTeamAndGetStats} from 'actions/team_actions.jsx';
 
@@ -25,6 +26,7 @@ function mapStateToProps(state) {
         currentUser: getCurrentUser(state),
         currentChannelId: getCurrentChannelId(state),
         teamUrl: getCurrentRelativeTeamUrl(state),
+        currentTeam: getCurrentTeam(state),
     };
 }
 
@@ -34,6 +36,7 @@ function mapDispatchToProps(dispatch) {
             getMyTeamMembers,
             getMyTeamUnreads,
             getUser,
+            getTeamMember,
             getTeamStats,
             getChannelStats,
             updateUserActive,

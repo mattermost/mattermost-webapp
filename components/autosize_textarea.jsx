@@ -13,6 +13,10 @@ export default class AutosizeTextarea extends React.Component {
         onHeightChange: PropTypes.func,
     };
 
+    static defaultProps = {
+        placeholder: '',
+    };
+
     constructor(props) {
         super(props);
 
@@ -51,16 +55,23 @@ export default class AutosizeTextarea extends React.Component {
         this.refs.textarea.blur();
     }
 
+    componentDidMount() {
+        this.recalculateSize();
+    }
+
     componentDidUpdate() {
         this.recalculateSize();
     }
 
     recalculateSize = () => {
+        if (!this.refs.reference || !this.refs.textarea) {
+            return;
+        }
+
         const height = this.refs.reference.scrollHeight;
+        const textarea = this.refs.textarea;
 
         if (height > 0 && height !== this.height) {
-            const textarea = this.refs.textarea;
-
             const style = getComputedStyle(textarea);
             const borderWidth = parseInt(style.borderTopWidth, 10) + parseInt(style.borderBottomWidth, 10);
 
@@ -108,6 +119,7 @@ export default class AutosizeTextarea extends React.Component {
         } = props;
 
         const heightProps = {};
+
         if (this.height <= 0) {
             // Set an initial number of rows so that the textarea doesn't appear too large when its first rendered
             heightProps.rows = 1;
@@ -115,15 +127,30 @@ export default class AutosizeTextarea extends React.Component {
             heightProps.height = this.height;
         }
 
+        let textareaPlaceholder = null;
+        const placeholderAriaLabel = placeholder.toLowerCase();
+        if (!this.props.value && !this.props.defaultValue) {
+            textareaPlaceholder = (
+                <div
+                    {...otherProps}
+                    style={style.placeholder}
+                >
+                    {placeholder}
+                </div>
+            );
+        }
+
         return (
             <div>
+                {textareaPlaceholder}
                 <textarea
                     ref='textarea'
                     id={id}
                     {...heightProps}
                     {...otherProps}
+                    role='textbox'
+                    aria-label={placeholderAriaLabel}
                     disabled={disabled}
-                    placeholder={placeholder}
                     onChange={this.handleChange}
                     onInput={onInput}
                     value={value}
@@ -135,10 +162,9 @@ export default class AutosizeTextarea extends React.Component {
                         id={id + '-reference'}
                         style={style.reference}
                         disabled={true}
-                        placeholder={placeholder}
                         rows='1'
                         {...otherProps}
-                        value={value || defaultValue || placeholder}
+                        value={value || defaultValue}
                     />
                 </div>
             </div>
@@ -149,4 +175,5 @@ export default class AutosizeTextarea extends React.Component {
 const style = {
     container: {height: 0, overflow: 'hidden'},
     reference: {height: 'auto', width: '100%'},
+    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap'},
 };

@@ -214,13 +214,18 @@ export default class MoreChannels extends React.Component {
 
         return (
             <Modal
-                dialogClassName='more-modal more-modal--action'
+                dialogClassName='a11y__modal more-modal more-modal--action'
                 show={show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='moreChannelsModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='moreChannelsModalLabel'
+                    >
                         <FormattedMessage
                             id='more_channels.title'
                             defaultMessage='More Channels'

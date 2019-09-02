@@ -1,0 +1,18 @@
+.Badge {
+    margin: 0 0 0 4px;
+    display: flex;
+    align-items: center;
+}
+
+.Badge__box {
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 4px;
+    line-height: 14px;
+
+    &.BotBadge, &.GuestBadge {
+        padding: 2px 4px;
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "baseUrl": "http://localhost:8065",
+    "viewportWidth": 1300,
+    "defaultCommandTimeout": 20000,
+    "taskTimeout": 20000,
+    "video": false,
+    "testFiles": "**/*_spec.js",
+    "env": {
+        "webhookBaseUrl": "http://localhost:3000"
+    }
+}

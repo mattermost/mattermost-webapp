@@ -58,12 +58,18 @@ export default class RemovedFromChannelModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='removeFromChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='removeFromChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='removed_channel.from'
                             defaultMessage='Removed from '

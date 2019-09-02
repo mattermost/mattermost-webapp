@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -66,13 +66,21 @@ export default class SearchableChannelList extends React.Component {
     }
 
     createChannelRow(channel) {
+        const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
+
         return (
             <div
                 className='more-modal__row'
                 key={channel.id}
             >
                 <div className='more-modal__details'>
-                    <p className='more-modal__name'>{channel.display_name}</p>
+                    <button
+                        onClick={this.handleJoin.bind(this, channel)}
+                        aria-label={ariaLabel}
+                        className='style--none more-modal__name'
+                    >
+                        {channel.display_name}
+                    </button>
                     <p className='more-modal__description'>{channel.purpose}</p>
                 </div>
                 <div className='more-modal__actions'>
@@ -213,6 +221,7 @@ export default class SearchableChannelList extends React.Component {
             <div className='filtered-user-list'>
                 {input}
                 <div
+                    role='application'
                     ref='channelList'
                     className='more-modal__list'
                 >

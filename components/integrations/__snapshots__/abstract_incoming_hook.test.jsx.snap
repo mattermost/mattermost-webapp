@@ -6,7 +6,6 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_name/integrations/incoming_webhooks"
     >
       <FormattedMessage
@@ -250,7 +249,6 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
           <FormattedMessage
@@ -261,6 +259,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveWebhook"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -284,7 +283,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_name/integrations/incoming_webhooks"
     >
       <FormattedMessage
@@ -528,7 +526,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
           <FormattedMessage
@@ -539,6 +536,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveWebhook"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -562,7 +560,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_name/integrations/incoming_webhooks"
     >
       <FormattedMessage
@@ -810,7 +807,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
           <FormattedMessage
@@ -821,6 +817,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveWebhook"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -844,7 +841,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_name/integrations/incoming_webhooks"
     >
       <FormattedMessage
@@ -1053,7 +1049,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
           <FormattedMessage
@@ -1064,6 +1059,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveWebhook"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -1087,7 +1083,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_name/integrations/incoming_webhooks"
     >
       <FormattedMessage
@@ -1296,7 +1291,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
           <FormattedMessage
@@ -1307,6 +1301,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveWebhook"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -1330,7 +1325,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/team_name/integrations/incoming_webhooks"
     >
       <FormattedMessage
@@ -1574,7 +1568,6 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/team_name/integrations/incoming_webhooks"
         >
           <FormattedMessage
@@ -1585,6 +1578,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveWebhook"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"

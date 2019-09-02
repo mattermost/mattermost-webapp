@@ -15,6 +15,7 @@ describe('components/post_view/ShowMore', () => {
         isRHSOpen: false,
         maxHeight: 200,
         text: 'text',
+        compactDisplay: false,
     };
 
     test('should match snapshot', () => {
@@ -50,6 +51,17 @@ describe('components/post_view/ShowMore', () => {
             <ShowMore
                 {...baseProps}
                 isAttachmentText={true}
+            />
+        );
+        wrapper.setState({isOverflow: true, isCollapsed: false});
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, PostMessageView on expanded view with compactDisplay', () => {
+        const wrapper = shallow(
+            <ShowMore
+                {...baseProps}
+                compactDisplay={true}
             />
         );
         wrapper.setState({isOverflow: true, isCollapsed: false});

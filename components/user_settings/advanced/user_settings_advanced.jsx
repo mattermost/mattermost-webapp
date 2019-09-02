@@ -11,18 +11,18 @@ import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import BackIcon from 'components/icon/back_icon';
+import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import JoinLeaveSection from './join_leave_section';
-import CodeBlockCtrlEnterSection from './code_block_ctrl_enter_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
-export default class AdvancedSettingsDisplay extends React.Component {
+export default class AdvancedSettingsDisplay extends React.PureComponent {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         advancedSettingsCategory: PropTypes.array.isRequired,
         sendOnCtrlEnter: PropTypes.string.isRequired,
+        codeBlockOnCtrlEnter: PropTypes.bool,
         formatting: PropTypes.string.isRequired,
         joinLeave: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
@@ -35,7 +35,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
             updateUserActive: PropTypes.func.isRequired,
-            revokeAllSessions: PropTypes.func.isRequired,
+            revokeAllSessionsForUser: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -57,6 +57,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
         const advancedSettings = this.props.advancedSettingsCategory;
         const settings = {
             send_on_ctrl_enter: this.props.sendOnCtrlEnter,
+            code_block_ctrl_enter: this.props.codeBlockOnCtrlEnter,
             formatting: this.props.formatting,
             join_leave: this.props.joinLeave,
         };
@@ -140,13 +141,12 @@ export default class AdvancedSettingsDisplay extends React.Component {
         });
 
         this.setState({isSaving: true});
-
         await actions.savePreferences(userId, preferences);
 
         this.handleUpdateSection('');
     }
 
-    handleDeactivateAccountSubmit = () => {
+    handleDeactivateAccountSubmit = async () => {
         const userId = this.props.currentUser.id;
 
         this.setState({isSaving: true});
@@ -158,15 +158,12 @@ export default class AdvancedSettingsDisplay extends React.Component {
                 }
             });
 
-        this.props.actions.revokeAllSessions(userId).then(
-            ({data, error}) => {
-                if (data) {
-                    emitUserLoggedOutEvent();
-                } else if (error) {
-                    this.setState({serverError: error.message});
-                }
-            }
-        );
+        const {data, error} = await this.props.actions.revokeAllSessionsForUser(userId);
+        if (data) {
+            emitUserLoggedOutEvent();
+        } else if (error) {
+            this.setState({serverError: error.message});
+        }
     }
 
     handleShowDeactivateAccountModal = () => {
@@ -207,6 +204,32 @@ export default class AdvancedSettingsDisplay extends React.Component {
         );
     }
 
+    renderCtrlEnterLabel() {
+        const ctrlEnter = this.state.settings.send_on_ctrl_enter;
+        const codeBlockCtrlEnter = this.state.settings.code_block_ctrl_enter;
+        if (ctrlEnter === 'false' && codeBlockCtrlEnter === 'false') {
+            return (
+                <FormattedMessage
+                    id='user.settings.advance.off'
+                    defaultMessage='Off'
+                />
+            );
+        } else if (ctrlEnter === 'true' && codeBlockCtrlEnter === 'true') {
+            return (
+                <FormattedMessage
+                    id='user.settings.advance.onForAllMessages'
+                    defaultMessage='On for all messages'
+                />
+            );
+        }
+        return (
+            <FormattedMessage
+                id='user.settings.advance.onForCode'
+                defaultMessage='On only for code blocks starting with ```'
+            />
+        );
+    }
+
     renderFormattingSection = () => {
         if (this.props.activeSection === 'formatting') {
             return (
@@ -218,7 +241,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     }
                     inputs={[
-                        <div key='formattingSetting'>
+                        <fieldset key='formattingSetting'>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -251,14 +274,13 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 </label>
                                 <br/>
                             </div>
-                            <div>
-                                <br/>
+                            <div className='margin-top x3'>
                                 <FormattedMessage
                                     id='user.settings.advance.formattingDesc'
                                     defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'
                                 />
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={'formatting'}
                     submit={this.handleSubmit}
@@ -306,7 +328,8 @@ export default class AdvancedSettingsDisplay extends React.Component {
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
                 this.state.settings.send_on_ctrl_enter === 'true',
-                this.state.settings.send_on_ctrl_enter === 'false',
+                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === 'true',
+                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === 'false',
             ];
 
             const inputs = [
@@ -318,11 +341,33 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 type='radio'
                                 name='sendOnCtrlEnter'
                                 checked={ctrlSendActive[0]}
-                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', 'true')}
+                                onChange={() => {
+                                    this.updateSetting('send_on_ctrl_enter', 'true');
+                                    this.updateSetting('code_block_ctrl_enter', 'true');
+                                }}
                             />
                             <FormattedMessage
-                                id='user.settings.advance.on'
-                                defaultMessage='On'
+                                id='user.settings.advance.onForAllMessages'
+                                defaultMessage='On for all messages'
+                            />
+                        </label>
+                        <br/>
+                    </div>
+                    <div className='radio'>
+                        <label>
+                            <input
+                                id='ctrlSendOnForCode'
+                                type='radio'
+                                name='sendOnCtrlEnter'
+                                checked={ctrlSendActive[1]}
+                                onChange={() => {
+                                    this.updateSetting('send_on_ctrl_enter', 'false');
+                                    this.updateSetting('code_block_ctrl_enter', 'true');
+                                }}
+                            />
+                            <FormattedMessage
+                                id='user.settings.advance.onForCode'
+                                defaultMessage='On only for code blocks starting with ```'
                             />
                         </label>
                         <br/>
@@ -333,8 +378,11 @@ export default class AdvancedSettingsDisplay extends React.Component {
                                 id='ctrlSendOff'
                                 type='radio'
                                 name='sendOnCtrlEnter'
-                                checked={ctrlSendActive[1]}
-                                onChange={this.updateSetting.bind(this, 'send_on_ctrl_enter', 'false')}
+                                checked={ctrlSendActive[2]}
+                                onChange={() => {
+                                    this.updateSetting('send_on_ctrl_enter', 'false');
+                                    this.updateSetting('code_block_ctrl_enter', 'false');
+                                }}
                             />
                             <FormattedMessage
                                 id='user.settings.advance.off'
@@ -347,7 +395,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         <br/>
                         <FormattedMessage
                             id='user.settings.advance.sendDesc'
-                            defaultMessage='If enabled ENTER inserts a new line and CTRL+ENTER submits the message.'
+                            defaultMessage='When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
                         />
                     </div>
                 </div>,
@@ -361,8 +409,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                         />
                     }
                     inputs={inputs}
-                    setting={'send_on_ctrl_enter'}
-                    submit={this.handleSubmit}
+                    submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
                     saving={this.state.isSaving}
                     server_error={serverError}
                     updateSection={this.handleUpdateSection}
@@ -377,7 +424,7 @@ export default class AdvancedSettingsDisplay extends React.Component {
                             defaultMessage='Send messages on CTRL+ENTER'
                         />
                     }
-                    describe={this.renderOnOffLabel(this.state.settings.send_on_ctrl_enter)}
+                    describe={this.renderCtrlEnterLabel()}
                     focused={this.props.prevActiveSection === this.prevSections.advancedCtrlSend}
                     section={'advancedCtrlSend'}
                     updateSection={this.handleUpdateSection}
@@ -588,12 +635,6 @@ export default class AdvancedSettingsDisplay extends React.Component {
                     </h3>
                     <div className='divider-dark first'/>
                     {ctrlSendSection}
-                    <CodeBlockCtrlEnterSection
-                        activeSection={this.props.activeSection}
-                        onUpdateSection={this.handleUpdateSection}
-                        prevActiveSection={this.props.prevActiveSection}
-                        renderOnOffLabel={this.renderOnOffLabel}
-                    />
                     {formattingSectionDivider}
                     {formattingSection}
                     <div className='divider-light'/>

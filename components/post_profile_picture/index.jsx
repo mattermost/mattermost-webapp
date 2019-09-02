@@ -10,12 +10,14 @@ import PostProfilePicture from './post_profile_picture';
 
 function mapStateToProps(state, ownProps) {
     const config = getConfig(state);
+    const user = getUser(state, ownProps.userId);
 
     return {
         enablePostIconOverride: config.EnablePostIconOverride === 'true',
         hasImageProxy: config.HasImageProxy === 'true',
         status: getStatusForUserId(state, ownProps.userId),
-        user: getUser(state, ownProps.userId),
+        isBot: Boolean(user && user.is_bot),
+        user,
     };
 }
 

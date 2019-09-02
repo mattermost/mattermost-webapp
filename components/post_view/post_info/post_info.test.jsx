@@ -31,6 +31,7 @@ describe('components/post_view/PostInfo', () => {
     const requiredProps = {
         post,
         handleCommentClick: jest.fn(),
+        handleCardClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         compactDisplay: false,
         replyCount: 0,
@@ -83,6 +84,14 @@ describe('components/post_view/PostInfo', () => {
         const requiredPropsWithEphemeralPost = {...requiredProps, post: ephemeralPost};
 
         const wrapper = shallow(<PostInfo {...requiredPropsWithEphemeralPost}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, deleted post', () => {
+        const deletedPost = {...post, state: Posts.POST_DELETED};
+        const requiredPropsWithDeletedPost = {...requiredProps, post: deletedPost};
+
+        const wrapper = shallow(<PostInfo {...requiredPropsWithDeletedPost}/>);
         expect(wrapper).toMatchSnapshot();
     });
 

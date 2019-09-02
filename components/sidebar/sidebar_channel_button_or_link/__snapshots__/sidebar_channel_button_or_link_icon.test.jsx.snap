@@ -14,6 +14,7 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon should match snapshot, on direct message 1`] = `
 <StatusIcon
+  button={false}
   className=""
   status="test"
   type="avatar"

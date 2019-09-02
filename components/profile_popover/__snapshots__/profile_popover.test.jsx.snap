@@ -1,30 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ProfilePopover should match snapshot 1`] = `
+exports[`components/ProfilePopover should hide add-to-channel option if not on team 1`] = `
 <Popover
   bsClass="popover"
   id="user-profile-popover"
+  isInCurrentTeam={false}
   placement="right"
   title={
-    <span>
+    <span
+      data-testid="profilePopoverTitle_some_username"
+    >
       <span
         className="user-popover__username"
       >
         @some_username
       </span>
-       
     </span>
   }
 >
-  <img
-    alt="some_username profile image"
-    className="user-popover__image"
-    height="128"
+  <Avatar
     key="user-popover-image"
-    src="src"
-    width="128"
+    size="xxl"
+    url="src"
+    username="some_username"
   />
   <Connect(Pluggable)
+    hide={[MockFunction]}
     key="profilePopoverPluggable2"
     pluggableName="PopoverUserAttributes"
     status="offline"
@@ -56,51 +57,112 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       />
     </a>
   </div>
-  <Connect(TeamPermissionGate)
-    key="user-popover-add-to-channel"
-    permissions={
-      Array [
-        "manage_private_channel_members",
-        "manage_public_channel_members",
-      ]
-    }
-    teamId="team_id"
-  >
-    <div
-      className="popover__row first"
-      data-toggle="tooltip"
-    >
-      <a
-        className="text-nowrap"
-        href="#"
-      >
-        <Connect(ModalToggleButtonRedux)
-          dialogProps={
-            Object {
-              "user": Object {
-                "name": "some name",
-                "username": "some_username",
-              },
-            }
-          }
-          dialogType={[Function]}
-          modalId="add_user_to_channel"
-          role="menuitem"
-        >
-          <i
-            className="fa fa-user-plus"
-            title="Add User to Channel Icon"
-          />
-          <FormattedMessage
-            defaultMessage="Add to a Channel"
-            id="user_profile.add_user_to_channel"
-            values={Object {}}
-          />
-        </Connect(ModalToggleButtonRedux)>
-      </a>
-    </div>
-  </Connect(TeamPermissionGate)>
   <Connect(Pluggable)
+    hide={[MockFunction]}
+    key="profilePopoverPluggable3"
+    pluggableName="PopoverUserActions"
+    status="offline"
+    user={
+      Object {
+        "name": "some name",
+        "username": "some_username",
+      }
+    }
+  />
+</Popover>
+`;
+
+exports[`components/ProfilePopover should match snapshot 1`] = `
+<Popover
+  bsClass="popover"
+  id="user-profile-popover"
+  isInCurrentTeam={true}
+  placement="right"
+  title={
+    <span
+      data-testid="profilePopoverTitle_some_username"
+    >
+      <span
+        className="user-popover__username"
+      >
+        @some_username
+      </span>
+    </span>
+  }
+>
+  <Avatar
+    key="user-popover-image"
+    size="xxl"
+    url="src"
+    username="some_username"
+  />
+  <Connect(Pluggable)
+    hide={[MockFunction]}
+    key="profilePopoverPluggable2"
+    pluggableName="PopoverUserAttributes"
+    status="offline"
+    user={
+      Object {
+        "name": "some name",
+        "username": "some_username",
+      }
+    }
+  />
+  <div
+    className="popover__row first"
+    data-toggle="tooltip"
+    key="user-popover-dm"
+  >
+    <a
+      className="text-nowrap user-popover__email"
+      href="#"
+      onClick={[Function]}
+    >
+      <i
+        className="fa fa-paper-plane"
+        title="Send Message Icon"
+      />
+      <FormattedMessage
+        defaultMessage="Send Message"
+        id="user_profile.send.dm"
+        values={Object {}}
+      />
+    </a>
+  </div>
+  <div
+    className="popover__row first"
+    data-toggle="tooltip"
+    key="user-popover-add-to-channel"
+  >
+    <a
+      className="text-nowrap"
+      href="#"
+    >
+      <Connect(ModalToggleButtonRedux)
+        accessibilityLabel="Add to a Channel"
+        dialogProps={
+          Object {
+            "user": Object {
+              "name": "some name",
+              "username": "some_username",
+            },
+          }
+        }
+        dialogType={[Function]}
+        modalId="add_user_to_channel"
+        onClick={[MockFunction]}
+        role="menuitem"
+      >
+        <i
+          className="fa fa-user-plus"
+          title="Add User to Channel Icon"
+        />
+        Add to a Channel
+      </Connect(ModalToggleButtonRedux)>
+    </a>
+  </div>
+  <Connect(Pluggable)
+    hide={[MockFunction]}
     key="profilePopoverPluggable3"
     pluggableName="PopoverUserActions"
     status="offline"

@@ -1,0 +1,174 @@
+version: 2.1
+executors:
+  default:
+    working_directory: ~/mattermost-webapp
+    docker:
+      - image: mattermost/mattermost-build-webapp:oct-2-2018
+
+aliases:
+  - &restore_cache
+    restore_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+  - &save_cache
+    save_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+      paths:
+        - node_modules
+
+jobs:
+  install:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm ci
+          cd node_modules/mattermost-redux && npm i && npm run build
+      - *save_cache
+
+  lint:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm run check
+
+  i18n-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          cp i18n/en.json /tmp/en.json
+          mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
+          echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
+          npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
+          diff /tmp/en.json i18n/en.json
+
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: npm run test-ci
+      - store_test_results:
+          path: build/
+
+  build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: make package-ci
+      - store_artifacts:
+          path: ~/mattermost-webapp/mattermost-webapp.tar.gz
+      - persist_to_workspace:
+          root: .
+          paths: mattermost-webapp.tar.gz
+      - run:
+          name: Upload to S3
+          command: |
+            if [[ -z "${CIRCLE_PULL_REQUEST:-}" ]]; then
+              echo "Not a PR using the branch name ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=${CIRCLE_BRANCH}
+              echo "${FOLDER_NAME}"
+            else
+              echo "This is a PR ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')
+              echo "${FOLDER_NAME}"
+            fi
+            curl --request POST \
+            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/${FOLDER_NAME}/"
+      - run:
+          name: Upload to S3 - SHA1
+          command: |
+            curl --request POST \
+            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/"
+
+  build-docker:
+    working_directory: ~/
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - attach_workspace:
+          at: .
+      - setup_remote_docker
+      - run:
+          command: |
+            curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform-pr/${CHANGE_BRANCH}/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+
+            tar xf server.tar.gz
+            rm -rf mattermost/client
+            tar xf mattermost-webapp.tar.gz
+            mv client mattermost/client
+            tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
+      - store_artifacts:
+          path: ~/mattermost-enterprise-linux-amd64.tar.gz
+      - run:
+          name: Upload to S3
+          command: |
+            if [[ -z "${CIRCLE_PULL_REQUEST:-}" ]]; then
+              echo "Not a PR using the branch name ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=${CIRCLE_BRANCH}
+              echo "${FOLDER_NAME}"
+            else
+              echo "This is a PR ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')
+              echo "${FOLDER_NAME}"
+            fi
+            curl --request POST \
+            --url "https://lambdas.devops.mattermost.com/circleci/uploader?token=${UPLOADER_TOKEN}&vcs-type=github&username=${CIRCLE_PROJECT_USERNAME}&project=${CIRCLE_PROJECT_REPONAME}&build_num=${CIRCLE_BUILD_NUM}&bucket=releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/"
+      - add_ssh_keys:
+          fingerprints:
+            - "1f:ea:9e:d2:11:90:f7:35:0f:86:0d:45:e2:a4:73:f7"
+      - run:
+          command: |
+            if [[ -z "${CIRCLE_PULL_REQUEST:-}" ]]; then
+              echo "Not a PR using the branch name ${CIRCLE_BRANCH}..."
+              export FOLDER_NAME=${CIRCLE_BRANCH}
+              echo "${FOLDER_NAME}"
+            else
+              echo "This is a PR ${CIRCLE_BRANCH}..."
+              echo "Commit hash ${TAG}"
+              export FOLDER_NAME=$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')
+              echo "${FOLDER_NAME}"
+            fi
+            export TAG="${CIRCLE_SHA1:0:7}"
+
+            mkdir -p ~/.ssh/
+            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            git clone git@github.com:mattermost/mattermost-docker.git
+
+            cd mattermost-docker
+            export MM_BINARY=https://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
+            docker build --build-arg MM_BINARY=$MM_BINARY -t mattermost/mattermost-enterprise-edition:${TAG} app
+            echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+            docker push mattermost/mattermost-enterprise-edition:${TAG}
+workflows:
+  version: 2
+  untagged-build:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - i18n-check:
+          requires:
+            - install
+      - test:
+          requires:
+            - i18n-check
+            - lint
+      - build:
+          requires:
+            - test
+      - build-docker:
+          context: matterbuild-docker
+          requires:
+            - build

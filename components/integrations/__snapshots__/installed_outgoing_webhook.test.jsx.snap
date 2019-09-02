@@ -22,11 +22,11 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         build
-      </span>
+      </strong>
     </div>
     <div
       className="item-details__row"
@@ -165,7 +165,6 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
     </button>
      - 
     <Link
-      replace={false}
       to="/test/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
     >
       <FormattedMessage

@@ -15,7 +15,7 @@
         }
     }
 
-    .form-control, .suggestion-list {
+    .form-control {
         width: 22rem;
     }
 }
@@ -302,10 +302,17 @@
         }
 
         .attachment-actions {
-            margin-top: 9px;
             position: relative;
             display: flex;
             flex-wrap: wrap;
+
+            .form-group {
+                margin-bottom: 12px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
 
             button {
                 @include border-radius(3px);
@@ -313,10 +320,10 @@
                 margin: 8px 8px 0 0;
                 border-width: 1px;
                 border-style: solid;
-                height: 30px;
+                height: auto;
                 font-size: 13px;
                 font-weight: 700;
-                white-space: nowrap;
+                padding: 6px 12px;
             }
 
             .alert {

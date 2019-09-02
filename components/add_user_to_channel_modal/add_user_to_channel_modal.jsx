@@ -253,15 +253,20 @@ export default class AddUserToChannelModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName='modal--overflow'
+                dialogClassName='a11y__modal modal--overflow'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 ref='modal'
                 enforceFocus={true}
+                role='dialog'
+                aria-labelledby='addChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='addChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='add_user_to_channel_modal.title'
                             defaultMessage='Add {name} to a channel'

@@ -6,7 +6,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/undefined/emoji"
     >
       <FormattedMessage
@@ -122,7 +121,6 @@ exports[`components/emoji/components/AddEmoji should match snapshot 1`] = `
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/undefined/emoji"
         >
           <FormattedMessage
@@ -156,7 +154,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/undefined/emoji"
     >
       <FormattedMessage
@@ -309,7 +306,6 @@ exports[`components/emoji/components/AddEmoji should select a file and match sna
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/undefined/emoji"
         >
           <FormattedMessage
@@ -343,7 +339,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
 >
   <BackstageHeader>
     <Link
-      replace={false}
       to="/undefined/emoji"
     >
       <FormattedMessage
@@ -459,7 +454,6 @@ exports[`components/emoji/components/AddEmoji should update emoji name and match
         />
         <Link
           className="btn btn-link btn-sm"
-          replace={false}
           to="/undefined/emoji"
         >
           <FormattedMessage

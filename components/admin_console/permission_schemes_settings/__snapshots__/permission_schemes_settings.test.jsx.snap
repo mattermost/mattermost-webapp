@@ -17,72 +17,80 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     values={Object {}}
   />
   <div
-    className="banner info"
+    className="admin-console__wrapper"
   >
     <div
-      className="banner__content"
+      className="admin-console__content"
     >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
-          id="admin.permissions.introBanner"
+      <div
+        className="banner info"
+      >
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
+              id="admin.permissions.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelWithLink
+        className=""
+        disabled={false}
+        linkTextDefault="Edit Scheme"
+        linkTextId="admin.permissions.systemSchemeBannerButton"
+        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+        subtitleId="admin.permissions.systemSchemeBannerText"
+        titleDefault="System Scheme"
+        titleId="admin.permissions.systemSchemeBannerTitle"
+        url="/admin_console/user_management/permissions/system_scheme"
+      />
+      <AdminPanelWithLink
+        className="permissions-block"
+        disabled={false}
+        linkTextDefault="New Team Override Scheme"
+        linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+        subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        titleDefault="Team Override Schemes"
+        titleId="admin.permissions.teamOverrideSchemesTitle"
+        url="/admin_console/user_management/permissions/team_override_scheme"
+      >
+        <Connect(PermissionsSchemeSummary)
+          key="id-1"
+          scheme={
+            Object {
+              "description": "Test description 1",
+              "id": "id-1",
+              "name": "Test 1",
+            }
+          }
         />
-      </span>
+        <Connect(PermissionsSchemeSummary)
+          key="id-2"
+          scheme={
+            Object {
+              "description": "Test description 2",
+              "id": "id-2",
+              "name": "Test 2",
+            }
+          }
+        />
+        <Connect(PermissionsSchemeSummary)
+          key="id-3"
+          scheme={
+            Object {
+              "description": "Test description 3",
+              "id": "id-3",
+              "name": "Test 3",
+            }
+          }
+        />
+      </AdminPanelWithLink>
     </div>
   </div>
-  <AdminPanelWithLink
-    className=""
-    disabled={false}
-    linkTextDefault="Edit Scheme"
-    linkTextId="admin.permissions.systemSchemeBannerButton"
-    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-    subtitleId="admin.permissions.systemSchemeBannerText"
-    titleDefault="System Scheme"
-    titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
-  />
-  <AdminPanelWithLink
-    className="permissions-block"
-    disabled={false}
-    linkTextDefault="New Team Override Scheme"
-    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
-    titleDefault="Team Override Schemes"
-    titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
-  >
-    <Connect(PermissionsSchemeSummary)
-      key="id-1"
-      scheme={
-        Object {
-          "description": "Test description 1",
-          "id": "id-1",
-          "name": "Test 1",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-2"
-      scheme={
-        Object {
-          "description": "Test description 2",
-          "id": "id-2",
-          "name": "Test 2",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-3"
-      scheme={
-        Object {
-          "description": "Test description 3",
-          "id": "id-3",
-          "name": "Test 3",
-        }
-      }
-    />
-  </AdminPanelWithLink>
 </div>
 `;
 
@@ -96,51 +104,59 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     values={Object {}}
   />
   <div
-    className="banner info"
+    className="admin-console__wrapper"
   >
     <div
-      className="banner__content"
+      className="admin-console__content"
     >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
-          id="admin.permissions.introBanner"
-        />
-      </span>
+      <div
+        className="banner info"
+      >
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
+              id="admin.permissions.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelWithLink
+        className=""
+        disabled={false}
+        linkTextDefault="Edit Scheme"
+        linkTextId="admin.permissions.systemSchemeBannerButton"
+        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+        subtitleId="admin.permissions.systemSchemeBannerText"
+        titleDefault="System Scheme"
+        titleId="admin.permissions.systemSchemeBannerTitle"
+        url="/admin_console/user_management/permissions/system_scheme"
+      />
+      <AdminPanelWithLink
+        className="permissions-block"
+        disabled={false}
+        linkTextDefault="New Team Override Scheme"
+        linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+        subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        titleDefault="Team Override Schemes"
+        titleId="admin.permissions.teamOverrideSchemesTitle"
+        url="/admin_console/user_management/permissions/team_override_scheme"
+      >
+        <div
+          className="no-team-schemes"
+        >
+          <FormattedMessage
+            defaultMessage="No team override schemes created."
+            id="admin.permissions.teamOverrideSchemesNoSchemes"
+            values={Object {}}
+          />
+        </div>
+      </AdminPanelWithLink>
     </div>
   </div>
-  <AdminPanelWithLink
-    className=""
-    disabled={false}
-    linkTextDefault="Edit Scheme"
-    linkTextId="admin.permissions.systemSchemeBannerButton"
-    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-    subtitleId="admin.permissions.systemSchemeBannerText"
-    titleDefault="System Scheme"
-    titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
-  />
-  <AdminPanelWithLink
-    className="permissions-block"
-    disabled={false}
-    linkTextDefault="New Team Override Scheme"
-    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
-    titleDefault="Team Override Schemes"
-    titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
-  >
-    <div
-      className="no-team-schemes"
-    >
-      <FormattedMessage
-        defaultMessage="No team override schemes created."
-        id="admin.permissions.teamOverrideSchemesNoSchemes"
-        values={Object {}}
-      />
-    </div>
-  </AdminPanelWithLink>
 </div>
 `;
 
@@ -154,99 +170,107 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     values={Object {}}
   />
   <div
-    className="banner info"
+    className="admin-console__wrapper"
   >
     <div
-      className="banner__content"
-    >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
-          id="admin.permissions.introBanner"
-        />
-      </span>
-    </div>
-  </div>
-  <AdminPanelWithLink
-    className=""
-    disabled={true}
-    linkTextDefault="Edit Scheme"
-    linkTextId="admin.permissions.systemSchemeBannerButton"
-    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-    subtitleId="admin.permissions.systemSchemeBannerText"
-    titleDefault="System Scheme"
-    titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
-  />
-  <AdminPanelWithLink
-    className="permissions-block"
-    disabled={true}
-    linkTextDefault="New Team Override Scheme"
-    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
-    titleDefault="Team Override Schemes"
-    titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
-  >
-    <div
-      className="team-override-unavailable"
+      className="admin-console__content"
     >
       <div
-        className="team-override-unavailable__inner"
+        className="banner info"
       >
-        <FormattedMessage
-          defaultMessage="Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}."
-          id="admin.permissions.teamOverrideSchemesInProgress"
-          values={
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
+              id="admin.permissions.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelWithLink
+        className=""
+        disabled={true}
+        linkTextDefault="Edit Scheme"
+        linkTextId="admin.permissions.systemSchemeBannerButton"
+        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+        subtitleId="admin.permissions.systemSchemeBannerText"
+        titleDefault="System Scheme"
+        titleId="admin.permissions.systemSchemeBannerTitle"
+        url="/admin_console/user_management/permissions/system_scheme"
+      />
+      <AdminPanelWithLink
+        className="permissions-block"
+        disabled={true}
+        linkTextDefault="New Team Override Scheme"
+        linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+        subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        titleDefault="Team Override Schemes"
+        titleId="admin.permissions.teamOverrideSchemesTitle"
+        url="/admin_console/user_management/permissions/team_override_scheme"
+      >
+        <div
+          className="team-override-unavailable"
+        >
+          <div
+            className="team-override-unavailable__inner"
+          >
+            <FormattedMessage
+              defaultMessage="Migration job in progress: Team Override Schemes are not available until the job server completes the permissions migration. Learn more in the {documentationLink}."
+              id="admin.permissions.teamOverrideSchemesInProgress"
+              values={
+                Object {
+                  "documentationLink": <a
+                    href="https://docs.mattermost.com/administration/config-settings.html#jobs"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <FormattedMessage
+                      defaultMessage="documentation"
+                      id="admin.permissions.documentationLinkText"
+                      values={Object {}}
+                    />
+                  </a>,
+                }
+              }
+            />
+          </div>
+        </div>
+        <Connect(PermissionsSchemeSummary)
+          key="id-1"
+          scheme={
             Object {
-              "documentationLink": <a
-                href="https://docs.mattermost.com/administration/config-settings.html#jobs"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <FormattedMessage
-                  defaultMessage="documentation"
-                  id="admin.permissions.documentationLinkText"
-                  values={Object {}}
-                />
-              </a>,
+              "description": "Test description 1",
+              "id": "id-1",
+              "name": "Test 1",
             }
           }
         />
-      </div>
+        <Connect(PermissionsSchemeSummary)
+          key="id-2"
+          scheme={
+            Object {
+              "description": "Test description 2",
+              "id": "id-2",
+              "name": "Test 2",
+            }
+          }
+        />
+        <Connect(PermissionsSchemeSummary)
+          key="id-3"
+          scheme={
+            Object {
+              "description": "Test description 3",
+              "id": "id-3",
+              "name": "Test 3",
+            }
+          }
+        />
+      </AdminPanelWithLink>
     </div>
-    <Connect(PermissionsSchemeSummary)
-      key="id-1"
-      scheme={
-        Object {
-          "description": "Test description 1",
-          "id": "id-1",
-          "name": "Test 1",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-2"
-      scheme={
-        Object {
-          "description": "Test description 2",
-          "id": "id-2",
-          "name": "Test 2",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-3"
-      scheme={
-        Object {
-          "description": "Test description 3",
-          "id": "id-3",
-          "name": "Test 3",
-        }
-      }
-    />
-  </AdminPanelWithLink>
+  </div>
 </div>
 `;
 
@@ -260,99 +284,107 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     values={Object {}}
   />
   <div
-    className="banner info"
+    className="admin-console__wrapper"
   >
     <div
-      className="banner__content"
-    >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
-          id="admin.permissions.introBanner"
-        />
-      </span>
-    </div>
-  </div>
-  <AdminPanelWithLink
-    className=""
-    disabled={true}
-    linkTextDefault="Edit Scheme"
-    linkTextId="admin.permissions.systemSchemeBannerButton"
-    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-    subtitleId="admin.permissions.systemSchemeBannerText"
-    titleDefault="System Scheme"
-    titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
-  />
-  <AdminPanelWithLink
-    className="permissions-block"
-    disabled={true}
-    linkTextDefault="New Team Override Scheme"
-    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
-    titleDefault="Team Override Schemes"
-    titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
-  >
-    <div
-      className="team-override-unavailable"
+      className="admin-console__content"
     >
       <div
-        className="team-override-unavailable__inner"
+        className="banner info"
       >
-        <FormattedMessage
-          defaultMessage="Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}."
-          id="admin.permissions.teamOverrideSchemesNoJobsEnabled"
-          values={
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
+              id="admin.permissions.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelWithLink
+        className=""
+        disabled={true}
+        linkTextDefault="Edit Scheme"
+        linkTextId="admin.permissions.systemSchemeBannerButton"
+        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+        subtitleId="admin.permissions.systemSchemeBannerText"
+        titleDefault="System Scheme"
+        titleId="admin.permissions.systemSchemeBannerTitle"
+        url="/admin_console/user_management/permissions/system_scheme"
+      />
+      <AdminPanelWithLink
+        className="permissions-block"
+        disabled={true}
+        linkTextDefault="New Team Override Scheme"
+        linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+        subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        titleDefault="Team Override Schemes"
+        titleId="admin.permissions.teamOverrideSchemesTitle"
+        url="/admin_console/user_management/permissions/team_override_scheme"
+      >
+        <div
+          className="team-override-unavailable"
+        >
+          <div
+            className="team-override-unavailable__inner"
+          >
+            <FormattedMessage
+              defaultMessage="Migration job on hold: Team Override Schemes are not available until the job server can execute the permissions migration. The job will be automatically started when the job server is enabled. Learn more in the {documentationLink}."
+              id="admin.permissions.teamOverrideSchemesNoJobsEnabled"
+              values={
+                Object {
+                  "documentationLink": <a
+                    href="https://docs.mattermost.com/administration/config-settings.html#jobs"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <FormattedMessage
+                      defaultMessage="documentation"
+                      id="admin.permissions.documentationLinkText"
+                      values={Object {}}
+                    />
+                  </a>,
+                }
+              }
+            />
+          </div>
+        </div>
+        <Connect(PermissionsSchemeSummary)
+          key="id-1"
+          scheme={
             Object {
-              "documentationLink": <a
-                href="https://docs.mattermost.com/administration/config-settings.html#jobs"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                <FormattedMessage
-                  defaultMessage="documentation"
-                  id="admin.permissions.documentationLinkText"
-                  values={Object {}}
-                />
-              </a>,
+              "description": "Test description 1",
+              "id": "id-1",
+              "name": "Test 1",
             }
           }
         />
-      </div>
+        <Connect(PermissionsSchemeSummary)
+          key="id-2"
+          scheme={
+            Object {
+              "description": "Test description 2",
+              "id": "id-2",
+              "name": "Test 2",
+            }
+          }
+        />
+        <Connect(PermissionsSchemeSummary)
+          key="id-3"
+          scheme={
+            Object {
+              "description": "Test description 3",
+              "id": "id-3",
+              "name": "Test 3",
+            }
+          }
+        />
+      </AdminPanelWithLink>
     </div>
-    <Connect(PermissionsSchemeSummary)
-      key="id-1"
-      scheme={
-        Object {
-          "description": "Test description 1",
-          "id": "id-1",
-          "name": "Test 1",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-2"
-      scheme={
-        Object {
-          "description": "Test description 2",
-          "id": "id-2",
-          "name": "Test 2",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-3"
-      scheme={
-        Object {
-          "description": "Test description 3",
-          "id": "id-3",
-          "name": "Test 3",
-        }
-      }
-    />
-  </AdminPanelWithLink>
+  </div>
 </div>
 `;
 
@@ -366,71 +398,79 @@ exports[`components/admin_console/permission_schemes_settings/permission_schemes
     values={Object {}}
   />
   <div
-    className="banner info"
+    className="admin-console__wrapper"
   >
     <div
-      className="banner__content"
+      className="admin-console__content"
     >
-      <span>
-        <InjectIntl(FormattedMarkdownMessage)
-          defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
-          id="admin.permissions.introBanner"
+      <div
+        className="banner info"
+      >
+        <div
+          className="banner__content"
+        >
+          <span>
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="Permission Schemes set the default permissions for Team Admins, Channel Admins and everyone else. Learn more about permission schemes in our [documentation](!https://about.mattermost.com/default-advanced-permissions)."
+              id="admin.permissions.introBanner"
+            />
+          </span>
+        </div>
+      </div>
+      <AdminPanelWithLink
+        className=""
+        disabled={false}
+        linkTextDefault="Edit Scheme"
+        linkTextId="admin.permissions.systemSchemeBannerButton"
+        subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
+        subtitleId="admin.permissions.systemSchemeBannerText"
+        titleDefault="System Scheme"
+        titleId="admin.permissions.systemSchemeBannerTitle"
+        url="/admin_console/user_management/permissions/system_scheme"
+      />
+      <AdminPanelWithLink
+        className="permissions-block"
+        disabled={false}
+        linkTextDefault="New Team Override Scheme"
+        linkTextId="admin.permissions.teamOverrideSchemesNewButton"
+        subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
+        subtitleId="admin.permissions.teamOverrideSchemesBannerText"
+        titleDefault="Team Override Schemes"
+        titleId="admin.permissions.teamOverrideSchemesTitle"
+        url="/admin_console/user_management/permissions/team_override_scheme"
+      >
+        <Connect(PermissionsSchemeSummary)
+          key="id-1"
+          scheme={
+            Object {
+              "description": "Test description 1",
+              "id": "id-1",
+              "name": "Test 1",
+            }
+          }
         />
-      </span>
+        <Connect(PermissionsSchemeSummary)
+          key="id-2"
+          scheme={
+            Object {
+              "description": "Test description 2",
+              "id": "id-2",
+              "name": "Test 2",
+            }
+          }
+        />
+        <Connect(PermissionsSchemeSummary)
+          key="id-3"
+          scheme={
+            Object {
+              "description": "Test description 3",
+              "id": "id-3",
+              "name": "Test 3",
+            }
+          }
+        />
+      </AdminPanelWithLink>
     </div>
   </div>
-  <AdminPanelWithLink
-    className=""
-    disabled={false}
-    linkTextDefault="Edit Scheme"
-    linkTextId="admin.permissions.systemSchemeBannerButton"
-    subtitleDefault="Set the default permissions inherited by all teams unless a [Team Override Scheme](!https://about.mattermost.com/default-team-override-scheme) is applied."
-    subtitleId="admin.permissions.systemSchemeBannerText"
-    titleDefault="System Scheme"
-    titleId="admin.permissions.systemSchemeBannerTitle"
-    url="/admin_console/permissions/system-scheme"
-  />
-  <AdminPanelWithLink
-    className="permissions-block"
-    disabled={false}
-    linkTextDefault="New Team Override Scheme"
-    linkTextId="admin.permissions.teamOverrideSchemesNewButton"
-    subtitleDefault="Use when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
-    subtitleId="admin.permissions.teamOverrideSchemesBannerText"
-    titleDefault="Team Override Schemes"
-    titleId="admin.permissions.teamOverrideSchemesTitle"
-    url="/admin_console/permissions/team-override-scheme"
-  >
-    <Connect(PermissionsSchemeSummary)
-      key="id-1"
-      scheme={
-        Object {
-          "description": "Test description 1",
-          "id": "id-1",
-          "name": "Test 1",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-2"
-      scheme={
-        Object {
-          "description": "Test description 2",
-          "id": "id-2",
-          "name": "Test 2",
-        }
-      }
-    />
-    <Connect(PermissionsSchemeSummary)
-      key="id-3"
-      scheme={
-        Object {
-          "description": "Test description 3",
-          "id": "id-3",
-          "name": "Test 3",
-        }
-      }
-    />
-  </AdminPanelWithLink>
 </div>
 `;

@@ -5,7 +5,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getTeams, getTeamStats} from 'mattermost-redux/actions/teams';
-import {getUser, getUserAccessToken, getProfiles} from 'mattermost-redux/actions/users';
+import {
+    getUser,
+    getUserAccessToken,
+    getProfiles,
+    searchProfiles,
+    revokeSessionsForAllUsers,
+} from 'mattermost-redux/actions/users';
+import {logError} from 'mattermost-redux/actions/errors';
 import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -72,6 +79,9 @@ function mapDispatchToProps(dispatch) {
             setSystemUsersSearch,
             loadProfilesWithoutTeam,
             getProfiles,
+            searchProfiles,
+            revokeSessionsForAllUsers,
+            logError,
         }, dispatch),
     };
 }

@@ -4,10 +4,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
+import {localizeMessage} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isDesktopApp} from 'utils/user_agent.jsx';
+import Constants from 'utils/constants.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
@@ -20,19 +23,24 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelType: PropTypes.string.isRequired,
         channelId: PropTypes.string.isRequired,
         channelName: PropTypes.string.isRequired,
-        displayName: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object,
-        ]).isRequired,
+        displayName: PropTypes.string.isRequired,
         channelStatus: PropTypes.string,
         handleClose: PropTypes.func,
         hasDraft: PropTypes.bool.isRequired,
         badge: PropTypes.bool,
         membersCount: PropTypes.number.isRequired,
-        unreadMentions: PropTypes.number,
+        showUnreadForMsgs: PropTypes.bool.isRequired,
+        unreadMsgs: PropTypes.number.isRequired,
+        unreadMentions: PropTypes.number.isRequired,
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
+        teammateIsBot: PropTypes.bool,
         channelIsArchived: PropTypes.bool.isRequired,
+    }
+
+    constructor(props) {
+        super(props);
+        this.gmItemRef = React.createRef();
     }
 
     trackChannelSelectedEvent = () => {
@@ -43,6 +51,11 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     handleClick = () => {
         this.trackChannelSelectedEvent();
         browserHistory.push(this.props.link);
+    }
+
+    removeTooltipLink = () => {
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+        this.gmItemRef.current.removeAttribute('aria-describedby');
     }
 
     render = () => {
@@ -68,6 +81,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     membersCount={this.props.membersCount}
                     teammateId={this.props.teammateId}
                     teammateDeletedAt={this.props.teammateDeletedAt}
+                    teammateIsBot={this.props.teammateIsBot}
                 />
                 <span className='sidebar-item__name'>
                     <span>{this.props.displayName}</span>
@@ -84,24 +98,48 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         );
 
         let element;
+        let ariaLabel = this.props.displayName;
+
+        if (this.props.channelType === Constants.OPEN_CHANNEL) {
+            ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.public', 'public channel')}`;
+        } else if (this.props.channelType === Constants.PRIVATE_CHANNEL) {
+            ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.private', 'private channel')}`;
+        }
+
+        if (this.props.unreadMentions === 1) {
+            ariaLabel += ` ${this.props.unreadMentions} ${localizeMessage('accessibility.sidebar.types.mention', 'mention')}`;
+        } else if (this.props.unreadMentions > 1) {
+            ariaLabel += ` ${this.props.unreadMentions} ${localizeMessage('accessibility.sidebar.types.mentions', 'mentions')}`;
+        }
+
+        if (this.props.unreadMsgs > 0 && this.props.showUnreadForMsgs && this.props.unreadMentions === 0) {
+            ariaLabel += ` ${localizeMessage('accessibility.sidebar.types.unread', 'unread')}`;
+        }
+
+        ariaLabel = ariaLabel.toLowerCase();
+
         if (isDesktopApp()) {
             element = (
-                <CopyUrlContextMenu
-                    link={this.props.link}
-                    menuId={this.props.channelId}
-                >
-                    <button
-                        className={'btn btn-link ' + this.props.rowClass}
-                        onClick={this.handleClick}
+                <div>
+                    <CopyUrlContextMenu
+                        link={this.props.link}
+                        menuId={this.props.channelId}
                     >
-                        {content}
-                    </button>
-                </CopyUrlContextMenu>
+                        <button
+                            className={'btn btn-link ' + this.props.rowClass}
+                            aria-label={ariaLabel}
+                            onClick={this.handleClick}
+                        >
+                            {content}
+                        </button>
+                    </CopyUrlContextMenu>
+                </div>
             );
         } else {
             element = (
                 <Link
                     id={`sidebarItem_${this.props.channelName}`}
+                    aria-label={ariaLabel}
                     to={this.props.link}
                     className={this.props.rowClass}
                     onClick={this.trackChannelSelectedEvent}
@@ -111,6 +149,34 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
 
+        if (this.props.channelType === Constants.GM_CHANNEL) {
+            const displayNameToolTip = (
+                <Tooltip
+                    id='channel-displayname__tooltip'
+                    style={style.channelTooltip}
+                >
+                    {this.props.displayName}
+                </Tooltip>
+            );
+            element = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={displayNameToolTip}
+                    onEntering={this.removeTooltipLink}
+                >
+                    <div ref={this.gmItemRef}>
+                        {element}
+                    </div>
+                </OverlayTrigger>
+            );
+        }
         return element;
     }
 }
+
+const style = {
+    channelTooltip: {
+        paddingLeft: '8px',
+        maxWidth: '228px'},
+};

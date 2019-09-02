@@ -22,6 +22,7 @@ export default class ConfirmIntegration extends React.Component {
             oauthApps: PropTypes.object,
             incomingHooks: PropTypes.object,
             outgoingHooks: PropTypes.object,
+            bots: PropTypes.object,
         };
     }
 
@@ -56,6 +57,7 @@ export default class ConfirmIntegration extends React.Component {
         const incomingHook = this.props.incomingHooks[this.state.id];
         const outgoingHook = this.props.outgoingHooks[this.state.id];
         const oauthApp = this.props.oauthApps[this.state.id];
+        const bot = this.props.bots[this.state.id];
 
         if (this.state.type === Constants.Integrations.COMMAND && command) {
             const commandToken = command.token;
@@ -222,6 +224,46 @@ export default class ConfirmIntegration extends React.Component {
                     />
                 </p>
             );
+        } else if (this.state.type === Constants.Integrations.BOT && bot) {
+            const botToken = (new URLSearchParams(this.props.location.search)).get('token');
+
+            headerText = (
+                <FormattedMessage
+                    id='bots.manage.header'
+                    defaultMessage='Bot Accounts'
+                />
+            );
+            helpText = (
+                <p>
+                    <FormattedMarkdownMessage
+                        id='bots.manage.created.text'
+                        defaultMessage='Your bot account **{botname}** has been created successfully. Please use the following access token to connect to the bot (see [documentation](https://mattermost.com/pl/default-bot-accounts) for further details).'
+                        values={{
+                            botname: bot.display_name || bot.username,
+                        }}
+                    />
+                </p>
+            );
+            tokenText = (
+                <p className='word-break--all'>
+                    <FormattedMarkdownMessage
+                        id='add_outgoing_webhook.token'
+                        defaultMessage='**Token**: {token}'
+                        values={{
+                            token: botToken,
+                        }}
+                    />
+                    <CopyText
+                        value={botToken}
+                    />
+                    <br/>
+                    <br/>
+                    <FormattedMarkdownMessage
+                        id='add_outgoing_webhook.token.message'
+                        defaultMessage='Make sure to add this bot account to teams and channels you want it to interact in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.'
+                    />
+                </p>
+            );
         } else {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PAGE_NOT_FOUND}`);
             return '';
@@ -239,7 +281,10 @@ export default class ConfirmIntegration extends React.Component {
                     />
                 </BackstageHeader>
                 <div className='backstage-form backstage-form__confirmation'>
-                    <h4 className='backstage-form__title'>
+                    <h4
+                        className='backstage-form__title'
+                        id='formTitle'
+                    >
                         <FormattedMessage
                             id='integrations.successful'
                             defaultMessage='Setup Successful'
@@ -252,6 +297,7 @@ export default class ConfirmIntegration extends React.Component {
                             className='btn btn-primary'
                             type='submit'
                             to={'/' + this.props.team.name + '/integrations/' + this.state.type}
+                            id='doneButton'
                         >
                             <FormattedMessage
                                 id='integrations.done'

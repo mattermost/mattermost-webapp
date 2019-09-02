@@ -2,7 +2,7 @@
 
 exports[`plugins/MainMenuActions should match snapshot and click plugin item for main menu 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -35,51 +35,36 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="someteamid"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="someteamid"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={false}
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={false}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="someteamid"
-      >
-        <MenuItemAction
-          icon={false}
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={false}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
         show={true}
-        text="Add Members to Team"
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
+        show={true}
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -101,14 +86,67 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "someteamid",
+          }
+        }
+        dialogType={[Function]}
+        icon={false}
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={true}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -136,7 +174,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       icon={false}
       id="leaveTeam"
       modalId="leave_team"
-      show={true}
+      show={false}
       text="Leave Team"
     />
   </MenuGroup>

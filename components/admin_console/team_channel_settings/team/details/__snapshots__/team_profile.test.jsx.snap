@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`admin_console/team_channel_settings/team/TeamProfile should match snapshot 1`] = `
+<AdminPanel
+  className=""
+  id="team_profile"
+  subtitleDefault="Summary of the team, including team name and description."
+  subtitleId="admin.team_settings.team_detail.profileDescription"
+  titleDefault="Team Profile"
+  titleId="admin.team_settings.team_detail.profileTitle"
+>
+  <div
+    className="group-teams-and-channels"
+  >
+    <div
+      className="group-teams-and-channels--body"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="col-sm-2 large-team-image-col"
+        >
+          <TeamButton
+            displayName="test"
+            teamIconUrl={null}
+          />
+        </div>
+        <div
+          className="col-sm-10"
+        >
+          <div
+            className="row row-bottom-padding"
+          >
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="**Team Name**:"
+              id="admin.team_settings.team_detail.teamName"
+            />
+            <br />
+            test
+          </div>
+          <div
+            className="row"
+          >
+            <InjectIntl(FormattedMarkdownMessage)
+              defaultMessage="**Team Description**:"
+              id="admin.team_settings.team_detail.teamDescription"
+            />
+            <br />
+            <span
+              className="greyed-out"
+            >
+              No team description added.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminPanel>
+`;

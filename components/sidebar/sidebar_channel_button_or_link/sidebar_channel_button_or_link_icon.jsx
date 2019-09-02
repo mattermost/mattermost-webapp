@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 
 import {Constants} from 'utils/constants.jsx';
 
-import ArchiveIcon from 'components/svg/archive_icon';
-import DraftIcon from 'components/svg/draft_icon';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import DraftIcon from 'components/widgets/icons/draft_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
 import StatusIcon from 'components/status_icon.jsx';
+import BotIcon from 'components/widgets/icons/bot_icon.jsx';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {
@@ -21,6 +22,7 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
         membersCount: PropTypes.number,
         teammateId: PropTypes.string,
         teammateDeletedAt: PropTypes.number,
+        teammateIsBot: PropTypes.bool,
     };
 
     render() {
@@ -47,6 +49,10 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
             if (this.props.teammateId && this.props.teammateDeletedAt) {
                 icon = (
                     <ArchiveIcon className='icon icon__archive'/>
+                );
+            } else if (this.props.teammateId && this.props.teammateIsBot) {
+                icon = (
+                    <BotIcon className='icon icon__bot'/>
                 );
             } else {
                 icon = (

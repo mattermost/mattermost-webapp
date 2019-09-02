@@ -1,20 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/post_list_row should render channel header 1`] = `
-<Connect(ChannelIntroMessage)
-  channel={
-    Object {
-      "id": "123",
-    }
-  }
-  fullWidth={true}
+exports[`components/post_view/post_list_row should render channel intro message 1`] = `<Connect(ChannelIntroMessage) />`;
+
+exports[`components/post_view/post_list_row should render combined post 1`] = `
+<Connect(Connect(Post))
+  combinedId="user-activity-1234-5678"
+  previousPostId="abcd"
+  shouldHighlight={false}
 />
 `;
 
 exports[`components/post_view/post_list_row should render date line 1`] = `
 <Connect(DateSeparator)
-  date={2019-03-20T18:30:00.000Z}
-  key="date--Thu Mar 21 2019 00:00:00 GMT+0530 (India Standard Time)"
+  date={1553106600000}
+  key="1553106600000"
 />
 `;
 
@@ -53,20 +52,14 @@ exports[`components/post_view/post_list_row should render more messages loading 
 
 exports[`components/post_view/post_list_row should render new messages line 1`] = `
 <NewMessageSeparator
-  separatorId="START_OF_NEW_MESSAGES"
+  separatorId="start-of-new-messages"
 />
 `;
 
-exports[`components/post_view/post_list_row should render null for unknown type of component 1`] = `""`;
-
 exports[`components/post_view/post_list_row should render post 1`] = `
 <Connect(Post)
-  key="post 1234"
-  post={
-    Object {
-      "id": "1234",
-    }
-  }
+  postId="1234"
+  previousPostId="abcd"
   shouldHighlight={false}
 />
 `;

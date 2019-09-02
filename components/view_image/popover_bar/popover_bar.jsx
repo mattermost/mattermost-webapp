@@ -57,8 +57,11 @@ export default class PopoverBar extends React.PureComponent {
 
         let downloadLinks = null;
         if (this.props.canDownloadFiles) {
+            const shouldOpenFile = this.props.isExternalFile && !this.props.isDesktopApp;
+
             let downloadLinkText;
-            if (this.props.isExternalFile && !this.props.isDesktopApp) {
+            const downloadLinkProps = {};
+            if (shouldOpenFile) {
                 downloadLinkText = (
                     <FormattedMessage
                         id='view_image_popover.open'
@@ -72,6 +75,8 @@ export default class PopoverBar extends React.PureComponent {
                         defaultMessage='Download'
                     />
                 );
+
+                downloadLinkProps.download = this.props.filename;
             }
 
             downloadLinks = (
@@ -79,10 +84,10 @@ export default class PopoverBar extends React.PureComponent {
                     {publicLink}
                     <a
                         href={this.props.fileURL}
-                        download={this.props.filename}
                         className='text'
                         target='_blank'
                         rel='noopener noreferrer'
+                        {...downloadLinkProps}
                     >
                         {downloadLinkText}
                     </a>

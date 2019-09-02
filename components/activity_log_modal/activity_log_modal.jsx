@@ -112,14 +112,19 @@ export default class ActivityLogModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='modal--scroll'
+                dialogClassName='a11y__modal modal--scroll'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 bsSize='large'
+                role='dialog'
+                aria-labelledby='activityLogModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='activityLogModalLabel'
+                    >
                         <FormattedMessage
                             id='activity_log.activeSessions'
                             defaultMessage='Active Sessions'
@@ -135,6 +140,18 @@ export default class ActivityLogModal extends React.PureComponent {
                     </p>
                     {content}
                 </Modal.Body>
+                <Modal.Footer className='modal-footer--invisible'>
+                    <button
+                        id='closeModalButton'
+                        type='button'
+                        className='btn btn-link'
+                    >
+                        <FormattedMessage
+                            id='general_button.close'
+                            defaultMessage='Close'
+                        />
+                    </button>
+                </Modal.Footer>
             </Modal>
         );
     }

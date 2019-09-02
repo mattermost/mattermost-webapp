@@ -15,7 +15,7 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
-import LoadingBars from 'components/widgets/loading/loading_bars.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -56,11 +56,6 @@ export default class PostBody extends React.PureComponent {
          * Set to render a preview of the parent post above this reply
          */
         isFirstReply: PropTypes.bool,
-
-        /**
-         * User's preference to link previews
-         */
-        previewEnabled: PropTypes.bool,
 
         /*
          * Post type components from plugins
@@ -164,7 +159,7 @@ export default class PostBody extends React.PureComponent {
         const messageWrapper = (
             <React.Fragment>
                 {failedOptions}
-                {this.state.sending && <LoadingBars/>}
+                {this.state.sending && <LoadingSpinner/>}
                 <PostMessageView
                     post={this.props.post}
                     compactDisplay={this.props.compactDisplay}
@@ -173,7 +168,8 @@ export default class PostBody extends React.PureComponent {
             </React.Fragment>
         );
 
-        const hasPlugin = post.type && this.props.pluginPostTypes.hasOwnProperty(post.type);
+        const hasPlugin = (post.type && this.props.pluginPostTypes.hasOwnProperty(post.type)) ||
+            (post.props && post.props.type && this.props.pluginPostTypes.hasOwnProperty(post.props.type));
 
         let messageWithAdditionalContent;
         if (this.props.post.state === Posts.POST_DELETED || hasPlugin) {
@@ -182,7 +178,6 @@ export default class PostBody extends React.PureComponent {
             messageWithAdditionalContent = (
                 <PostBodyAdditionalContent
                     post={this.props.post}
-                    previewEnabled={this.props.previewEnabled}
                     isEmbedVisible={this.props.isEmbedVisible}
                 >
                     {messageWrapper}

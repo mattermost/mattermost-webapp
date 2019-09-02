@@ -10,11 +10,11 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         display_name
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >
@@ -86,7 +86,6 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
     </button>
      - 
     <Link
-      replace={false}
       to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
     >
       <FormattedMessage
@@ -114,11 +113,11 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         display_name
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >
@@ -190,7 +189,6 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
     </button>
      - 
     <Link
-      replace={false}
       to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
     >
       <FormattedMessage
@@ -220,11 +218,11 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         display_name
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >
@@ -294,7 +292,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
     <div
       className="item-details__row"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -302,7 +300,7 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
           id="installed_commands.unnamed_command"
           values={Object {}}
         />
-      </span>
+      </strong>
       <span
         className="item-details__trigger"
       >

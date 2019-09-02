@@ -20,10 +20,12 @@ exports[`components/GetIosApp should match snapshot 1`] = `
     rel="noopener noreferrer"
   >
     <img
+      alt="app store button"
       src="mockup.png"
     />
   </a>
   <img
+    alt="get app screenshot"
     className="get-app__screenshot"
     src="mockup.png"
   />

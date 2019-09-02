@@ -10,7 +10,7 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
-import InfoIcon from 'components/svg/info_icon';
+import InfoIcon from 'components/widgets/icons/info_icon';
 
 const headerMarkdownOptions = {mentionHighlight: false};
 

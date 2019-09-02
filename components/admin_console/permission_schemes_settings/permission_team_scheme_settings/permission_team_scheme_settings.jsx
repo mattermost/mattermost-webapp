@@ -5,7 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {PermissionsScope} from 'utils/constants.jsx';
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import {PermissionsScope, ModalIdentifiers} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -14,9 +16,9 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import FormError from 'components/form_error.jsx';
 import TeamSelectorModal from 'components/team_selector_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
-import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable.jsx';
-import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
+import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
+import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -25,6 +27,14 @@ import PermissionsTree from '../permissions_tree';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import TeamInList from './team_in_list';
+
+const EXCLUDED_PERMISSIONS = [
+    Permissions.VIEW_MEMBERS,
+    Permissions.JOIN_PUBLIC_TEAMS,
+    Permissions.LIST_PUBLIC_TEAMS,
+    Permissions.JOIN_PRIVATE_TEAMS,
+    Permissions.LIST_PRIVATE_TEAMS,
+];
 
 export default class PermissionTeamSchemeSettings extends React.Component {
     static propTypes = {
@@ -180,6 +190,20 @@ export default class PermissionTeamSchemeSettings extends React.Component {
         };
     }
 
+    restoreExcludedPermissions = (baseTeam, baseChannel, roles) => {
+        for (const permission of baseTeam.permissions) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
+                roles.team_user.permissions.push(permission);
+            }
+        }
+        for (const permission of baseChannel.permissions) {
+            if (EXCLUDED_PERMISSIONS.includes(permission)) {
+                roles.channel_user.permissions.push(permission);
+            }
+        }
+        return roles;
+    }
+
     handleNameChange = (e) => {
         this.setState({schemeName: e.target.value, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
@@ -203,10 +227,15 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
         this.setState({saving: true});
         if (this.props.schemeId) {
-            const derived = this.deriveRolesFromAllUsers(
+            let derived = this.deriveRolesFromAllUsers(
                 this.props.roles[this.props.scheme.default_team_user_role],
                 this.props.roles[this.props.scheme.default_channel_user_role],
                 allUsers
+            );
+            derived = this.restoreExcludedPermissions(
+                this.props.roles[this.props.scheme.default_team_user_role],
+                this.props.roles[this.props.scheme.default_channel_user_role],
+                derived
             );
             teamUser = derived.team_user;
             channelUser = derived.channel_user;
@@ -216,10 +245,15 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             });
             schemeId = this.props.schemeId;
         } else {
-            const derived = this.deriveRolesFromAllUsers(
+            let derived = this.deriveRolesFromAllUsers(
                 this.props.roles.team_user,
                 this.props.roles.channel_user,
                 allUsers
+            );
+            derived = this.restoreExcludedPermissions(
+                this.props.roles.team_user,
+                this.props.roles.channel_user,
+                derived
             );
             teamUser = derived.team_user;
             channelUser = derived.channel_user;
@@ -285,7 +319,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
 
         this.setState({serverError, saving: false, saveNeeded});
         this.props.actions.setNavigationBlocked(saveNeeded);
-        this.props.history.push('/admin_console/permissions/schemes');
+        this.props.history.push('/admin_console/user_management/permissions');
     }
 
     toggleRole = (roleId) => {
@@ -360,164 +394,171 @@ export default class PermissionTeamSchemeSettings extends React.Component {
             <div className='wrapper--fixed'>
                 {this.state.addTeamOpen &&
                     <TeamSelectorModal
+                        modalID={ModalIdentifiers.ADD_TEAMS_TO_SCHEME}
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
                         currentSchemeId={this.props.schemeId}
                         alreadySelected={teams.map((team) => team.id)}
                     />
                 }
-                <h3 className='admin-console-header with-back'>
-                    <BlockableLink
-                        to='/admin_console/permissions/schemes'
-                        className='fa fa-angle-left back'
-                    />
-                    <FormattedMessage
-                        id='admin.permissions.teamScheme'
-                        defaultMessage='Team Scheme'
-                    />
-                </h3>
-
-                <div className={'banner info'}>
-                    <div className='banner__content'>
-                        <span>
-                            <FormattedMarkdownMessage
-                                id='admin.permissions.teamScheme.introBanner'
-                                defaultMessage='[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
-                            />
-                        </span>
+                <div className='admin-console__header with-back'>
+                    <div>
+                        <BlockableLink
+                            to='/admin_console/user_management/permissions'
+                            className='fa fa-angle-left back'
+                        />
+                        <FormattedMessage
+                            id='admin.permissions.teamScheme'
+                            defaultMessage='Team Scheme'
+                        />
                     </div>
                 </div>
 
-                <AdminPanel
-                    titleId={t('admin.permissions.teamScheme.schemeDetailsTitle')}
-                    titleDefault='Scheme Details'
-                    subtitleId={t('admin.permissions.teamScheme.schemeDetailsDescription')}
-                    subtitleDefault='Set the name and description for this scheme.'
-                >
-                    <div className='team-scheme-details'>
-                        <div className='form-group'>
-                            <label
-                                className='control-label'
-                                htmlFor='scheme-name'
-                            >
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.schemeNameLabel'
-                                    defaultMessage='Scheme Name:'
-                                />
-                            </label>
-                            <LocalizedInput
-                                id='scheme-name'
-                                className='form-control'
-                                type='text'
-                                value={schemeName}
-                                placeholder={{id: 'admin.permissions.teamScheme.schemeNamePlaceholder', defaultMessage: 'Scheme Name'}}
-                                onChange={this.handleNameChange}
-                            />
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <div className={'banner info'}>
+                            <div className='banner__content'>
+                                <span>
+                                    <FormattedMarkdownMessage
+                                        id='admin.permissions.teamScheme.introBanner'
+                                        defaultMessage='[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme).'
+                                    />
+                                </span>
+                            </div>
                         </div>
-                        <div className='form-group'>
-                            <label
-                                className='control-label'
-                                htmlFor='scheme-description'
-                            >
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.schemeDescriptionLabel'
-                                    defaultMessage='Scheme Description:'
-                                />
-                            </label>
-                            <textarea
-                                id='scheme-description'
-                                className='form-control'
-                                rows='5'
-                                value={schemeDescription}
-                                placeholder={localizeMessage('admin.permissions.teamScheme.schemeDescriptionPlaceholder', 'Scheme Description')}
-                                onChange={this.handleDescriptionChange}
+
+                        <AdminPanel
+                            titleId={t('admin.permissions.teamScheme.schemeDetailsTitle')}
+                            titleDefault='Scheme Details'
+                            subtitleId={t('admin.permissions.teamScheme.schemeDetailsDescription')}
+                            subtitleDefault='Set the name and description for this scheme.'
+                        >
+                            <div className='team-scheme-details'>
+                                <div className='form-group'>
+                                    <label
+                                        className='control-label'
+                                        htmlFor='scheme-name'
+                                    >
+                                        <FormattedMessage
+                                            id='admin.permissions.teamScheme.schemeNameLabel'
+                                            defaultMessage='Scheme Name:'
+                                        />
+                                    </label>
+                                    <LocalizedInput
+                                        id='scheme-name'
+                                        className='form-control'
+                                        type='text'
+                                        value={schemeName}
+                                        placeholder={{id: t('admin.permissions.teamScheme.schemeNamePlaceholder'), defaultMessage: 'Scheme Name'}}
+                                        onChange={this.handleNameChange}
+                                    />
+                                </div>
+                                <div className='form-group'>
+                                    <label
+                                        className='control-label'
+                                        htmlFor='scheme-description'
+                                    >
+                                        <FormattedMessage
+                                            id='admin.permissions.teamScheme.schemeDescriptionLabel'
+                                            defaultMessage='Scheme Description:'
+                                        />
+                                    </label>
+                                    <textarea
+                                        id='scheme-description'
+                                        className='form-control'
+                                        rows='5'
+                                        value={schemeDescription}
+                                        placeholder={localizeMessage('admin.permissions.teamScheme.schemeDescriptionPlaceholder', 'Scheme Description')}
+                                        onChange={this.handleDescriptionChange}
+                                    />
+                                </div>
+                            </div>
+                        </AdminPanel>
+
+                        <AdminPanelWithButton
+                            className='permissions-block'
+                            titleId={t('admin.permissions.teamScheme.selectTeamsTitle')}
+                            titleDefault='Select teams to override permissions'
+                            subtitleId={t('admin.permissions.teamScheme.selectTeamsDescription')}
+                            subtitleDefault='Select teams where permission exceptions are required.'
+                            onButtonClick={this.openAddTeam}
+                            buttonTextId={t('admin.permissions.teamScheme.addTeams')}
+                            buttonTextDefault='Add Teams'
+                        >
+                            <div className='teams-list'>
+                                {teams.length === 0 &&
+                                    <div className='no-team-schemes'>
+                                        <FormattedMessage
+                                            id='admin.permissions.teamScheme.noTeams'
+                                            defaultMessage='No team selected. Please add teams to this list.'
+                                        />
+                                    </div>}
+                                {teams.map((team) => (
+                                    <TeamInList
+                                        key={team.id}
+                                        team={team}
+                                        onRemoveTeam={this.removeTeam}
+                                    />
+                                ))}
+                            </div>
+                        </AdminPanelWithButton>
+
+                        <AdminPanelTogglable
+                            className='permissions-block all_users'
+                            open={this.state.openRoles.all_users}
+                            id='all_users'
+                            onToggle={() => this.toggleRole('all_users')}
+                            titleId={t('admin.permissions.systemScheme.allMembersTitle')}
+                            titleDefault='All Members'
+                            subtitleId={t('admin.permissions.systemScheme.allMembersDescription')}
+                            subtitleDefault='Permissions granted to all members, including administrators and newly created users.'
+                        >
+                            <PermissionsTree
+                                selected={this.state.selectedPermission}
+                                role={roles.all_users}
+                                scope={'team_scope'}
+                                onToggle={this.togglePermission}
+                                selectRow={this.selectRow}
                             />
-                        </div>
-                    </div>
-                </AdminPanel>
+                        </AdminPanelTogglable>
 
-                <AdminPanelWithButton
-                    className='permissions-block'
-                    titleId={t('admin.permissions.teamScheme.selectTeamsTitle')}
-                    titleDefault='Select teams to override permissions'
-                    subtitleId={t('admin.permissions.teamScheme.selectTeamsDescription')}
-                    subtitleDefault='Select teams where permission exceptions are required.'
-                    onButtonClick={this.openAddTeam}
-                    buttonTextId={t('admin.permissions.teamScheme.addTeams')}
-                    buttonTextDefault='Add Teams'
-                >
-                    <div className='teams-list'>
-                        {teams.length === 0 &&
-                            <div className='no-team-schemes'>
-                                <FormattedMessage
-                                    id='admin.permissions.teamScheme.noTeams'
-                                    defaultMessage='No team selected. Please add teams to this list.'
-                                />
-                            </div>}
-                        {teams.map((team) => (
-                            <TeamInList
-                                key={team.id}
-                                team={team}
-                                onRemoveTeam={this.removeTeam}
+                        <AdminPanelTogglable
+                            className='permissions-block channel_admin'
+                            open={this.state.openRoles.channel_admin}
+                            onToggle={() => this.toggleRole('channel_admin')}
+                            titleId={t('admin.permissions.systemScheme.channelAdminsTitle')}
+                            titleDefault='Channel Administrators'
+                            subtitleId={t('admin.permissions.systemScheme.channelAdminsDescription')}
+                            subtitleDefault='Permissions granted to channel creators and any users promoted to Channel Administrator.'
+                        >
+                            <PermissionsTree
+                                parentRole={roles.all_users}
+                                role={roles.channel_admin}
+                                scope={'channel_scope'}
+                                onToggle={this.togglePermission}
+                                selectRow={this.selectRow}
                             />
-                        ))}
+                        </AdminPanelTogglable>
+
+                        <AdminPanelTogglable
+                            className='permissions-block team_admin'
+                            open={this.state.openRoles.team_admin}
+                            onToggle={() => this.toggleRole('team_admin')}
+                            titleId={t('admin.permissions.systemScheme.teamAdminsTitle')}
+                            titleDefault='Team Administrators'
+                            subtitleId={t('admin.permissions.systemScheme.teamAdminsDescription')}
+                            subtitleDefault='Permissions granted to team creators and any users promoted to Team Administrator.'
+                        >
+                            <PermissionsTree
+                                parentRole={roles.all_users}
+                                role={roles.team_admin}
+                                scope={'team_scope'}
+                                onToggle={this.togglePermission}
+                                selectRow={this.selectRow}
+                            />
+                        </AdminPanelTogglable>
                     </div>
-                </AdminPanelWithButton>
-
-                <AdminPanelTogglable
-                    className='permissions-block all_users'
-                    open={this.state.openRoles.all_users}
-                    id='all_users'
-                    onToggle={() => this.toggleRole('all_users')}
-                    titleId={t('admin.permissions.systemScheme.allMembersTitle')}
-                    titleDefault='All Members'
-                    subtitleId={t('admin.permissions.systemScheme.allMembersDescription')}
-                    subtitleDefault='Permissions granted to all members, including administrators and newly created users.'
-                >
-                    <PermissionsTree
-                        selected={this.state.selectedPermission}
-                        role={roles.all_users}
-                        scope={'team_scope'}
-                        onToggle={this.togglePermission}
-                        selectRow={this.selectRow}
-                    />
-                </AdminPanelTogglable>
-
-                <AdminPanelTogglable
-                    className='permissions-block channel_admin'
-                    open={this.state.openRoles.channel_admin}
-                    onToggle={() => this.toggleRole('channel_admin')}
-                    titleId={t('admin.permissions.systemScheme.channelAdminsTitle')}
-                    titleDefault='Channel Administrators'
-                    subtitleId={t('admin.permissions.systemScheme.channelAdminsDescription')}
-                    subtitleDefault='Permissions granted to channel creators and any users promoted to Channel Administrator.'
-                >
-                    <PermissionsTree
-                        parentRole={roles.all_users}
-                        role={roles.channel_admin}
-                        scope={'channel_scope'}
-                        onToggle={this.togglePermission}
-                        selectRow={this.selectRow}
-                    />
-                </AdminPanelTogglable>
-
-                <AdminPanelTogglable
-                    className='permissions-block team_admin'
-                    open={this.state.openRoles.team_admin}
-                    onToggle={() => this.toggleRole('team_admin')}
-                    titleId={t('admin.permissions.systemScheme.teamAdminsTitle')}
-                    titleDefault='Team Administrators'
-                    subtitleId={t('admin.permissions.systemScheme.teamAdminsDescription')}
-                    subtitleDefault='Permissions granted to team creators and any users promoted to Team Administrator.'
-                >
-                    <PermissionsTree
-                        parentRole={roles.all_users}
-                        role={roles.team_admin}
-                        scope={'team_scope'}
-                        onToggle={this.togglePermission}
-                        selectRow={this.selectRow}
-                    />
-                </AdminPanelTogglable>
+                </div>
 
                 <div className='admin-console-save'>
                     <SaveButton
@@ -528,7 +569,7 @@ export default class PermissionTeamSchemeSettings extends React.Component {
                     />
                     <BlockableLink
                         className='cancel-button'
-                        to='/admin_console/permissions/schemes'
+                        to='/admin_console/user_management/permissions'
                     >
                         <FormattedMessage
                             id='admin.permissions.permissionSchemes.cancel'

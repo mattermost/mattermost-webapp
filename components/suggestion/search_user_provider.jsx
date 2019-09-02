@@ -5,7 +5,9 @@ import React from 'react';
 
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
-import SelectIcon from 'components/icon/select_icon';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import SelectIcon from 'components/widgets/icons/fa_select_icon';
+import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -16,7 +18,7 @@ class SearchUserSuggestion extends Suggestion {
 
         let className = 'search-autocomplete__item';
         if (isSelection) {
-            className += ' selected';
+            className += ' selected a11y--focused';
         }
 
         const username = item.username;
@@ -37,14 +39,19 @@ class SearchUserSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
-                <img
-                    className='profile-img rounded'
-                    src={Utils.imageURLForUser(item)}
+                <Avatar
+                    size='xs'
+                    username={username}
+                    url={Utils.imageURLForUser(item)}
                 />
                 <div className='mention--align'>
                     <span>
                         {username}
                     </span>
+                    <BotBadge
+                        show={Boolean(item.is_bot)}
+                        className='badge-autocomplete'
+                    />
                     <span className='mention__fullname'>
                         {' '}
                         {description}

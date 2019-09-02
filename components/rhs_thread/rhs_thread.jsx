@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
-import FloatingTimestamp from 'components/post_view/floating_timestamp.jsx';
+import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
@@ -53,8 +53,11 @@ export default class RhsThread extends React.Component {
         currentUserId: PropTypes.string.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
+        socketConnectionStatus: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
+            getPostThread: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -69,7 +72,7 @@ export default class RhsThread extends React.Component {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
-            topRhsPostCreateAt: 0,
+            topRhsPostId: 0,
             openTime,
         };
     }
@@ -98,6 +101,10 @@ export default class RhsThread extends React.Component {
     componentDidUpdate(prevProps) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
+
+        if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
+            this.props.actions.getPostThread(this.props.selected.id);
+        }
 
         if (prevPostsArray.length >= curPostsArray.length) {
             return;
@@ -131,7 +138,7 @@ export default class RhsThread extends React.Component {
             return true;
         }
 
-        if (nextState.topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
+        if (nextState.topRhsPostId !== this.state.topRhsPostId) {
             return true;
         }
 
@@ -147,6 +154,22 @@ export default class RhsThread extends React.Component {
         if (UserAgent.isMobile() && document.activeElement.id === 'reply_textbox') {
             this.scrollToBottom();
         }
+    }
+
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
+    }
+
+    handleCardClickPost = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
     }
 
     onBusy = (isBusy) => {
@@ -185,20 +208,20 @@ export default class RhsThread extends React.Component {
         if (this.props.posts) {
             const childNodes = this.refs.rhspostlist.childNodes;
             const viewPort = this.refs.rhspostlist.getBoundingClientRect();
-            let topRhsPostCreateAt = 0;
+            let topRhsPostId = '';
             const offset = 100;
 
             // determine the top rhs comment assuming that childNodes and postsArray are of same length
             for (let i = 0; i < childNodes.length; i++) {
                 if ((childNodes[i].offsetTop + viewPort.top) - offset > 0) {
-                    topRhsPostCreateAt = this.props.posts[i].create_at;
+                    topRhsPostId = this.props.posts[i].id;
                     break;
                 }
             }
 
-            if (topRhsPostCreateAt !== this.state.topRhsPostCreateAt) {
+            if (topRhsPostId !== this.state.topRhsPostId) {
                 this.setState({
-                    topRhsPostCreateAt,
+                    topRhsPostId,
                 });
             }
         }
@@ -273,6 +296,7 @@ export default class RhsThread extends React.Component {
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
+                    handleCardClick={this.handleCardClickPost}
                 />
             );
         }
@@ -330,7 +354,7 @@ export default class RhsThread extends React.Component {
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}
                     isMobile={Utils.isMobile()}
-                    createAt={this.state.topRhsPostCreateAt}
+                    postId={this.state.topRhsPostId}
                     isRhsPost={true}
                 />
                 <RhsHeaderPost
@@ -346,23 +370,34 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
-                        <RhsRootPost
-                            ref={selected.id}
-                            post={selected}
-                            commentCount={postsLength}
-                            teamId={this.props.channel.team_id}
-                            currentUserId={this.props.currentUserId}
-                            previewCollapsed={this.props.previewCollapsed}
-                            previewEnabled={this.props.previewEnabled}
-                            isBusy={this.state.isBusy}
-                        />
-                        {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                         <div
-                            ref='rhspostlist'
-                            className='post-right-comments-container'
+                            role='application'
+                            id='rhsContent'
+                            aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
+                            className='post-right__content a11y__region'
+                            data-a11y-sort-order='3'
+                            data-a11y-focus-child={true}
+                            data-a11y-order-reversed={true}
                         >
-                            {commentsLists}
+                            {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                            <RhsRootPost
+                                ref={selected.id}
+                                post={selected}
+                                commentCount={postsLength}
+                                teamId={this.props.channel.team_id}
+                                currentUserId={this.props.currentUserId}
+                                previewCollapsed={this.props.previewCollapsed}
+                                previewEnabled={this.props.previewEnabled}
+                                isBusy={this.state.isBusy}
+                                handleCardClick={this.handleCardClick}
+                            />
+                            {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
+                            <div
+                                ref='rhspostlist'
+                                className='post-right-comments-container'
+                            >
+                                {commentsLists}
+                            </div>
                         </div>
                         {createComment}
                     </div>

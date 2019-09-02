@@ -12,6 +12,18 @@
     right: 0;
     width: 220px;
 
+    .icon {
+        width: 20px;
+        margin-right: 8px;
+        display: inline-block;
+        text-align: center;
+
+        svg {
+            max-width: 16px;
+            max-height: 16px;
+        }
+    }
+
     .nav-pills__container {
         padding-top: 5px;
     }

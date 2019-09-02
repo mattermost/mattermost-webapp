@@ -3,9 +3,11 @@
 exports[`components/GetLinkModal should have called onHide 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="getLinkModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -24,12 +26,14 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    id="getLinkModalLabel"
   >
     <h4
       className="modal-title"
@@ -95,9 +99,11 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
 exports[`components/GetLinkModal should have called onHide 2`] = `
 <Modal
   animation={true}
+  aria-labelledby="getLinkModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -116,12 +122,14 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    id="getLinkModalLabel"
   >
     <h4
       className="modal-title"
@@ -177,9 +185,11 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
 exports[`components/GetLinkModal should match snapshot when all props is set 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="getLinkModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -198,12 +208,14 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    id="getLinkModalLabel"
   >
     <h4
       className="modal-title"
@@ -264,9 +276,11 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
 exports[`components/GetLinkModal should match snapshot when helpText is not set 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="getLinkModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -285,12 +299,14 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    id="getLinkModalLabel"
   >
     <h4
       className="modal-title"

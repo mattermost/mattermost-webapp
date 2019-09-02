@@ -8,6 +8,7 @@ button {
 
         &:focus {
             outline: 0;
+            text-decoration: none;
         }
 
         &.btn {
@@ -91,4 +92,8 @@ button {
             outline: none;
         }
     }
+}
+
+%btn-transition {
+    @include single-transition(all, .15s, ease);
 }

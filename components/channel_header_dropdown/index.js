@@ -4,9 +4,11 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {
+    getUser,
     getCurrentUser,
     getUserStatuses,
 } from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentChannel,
     isCurrentChannelDefault,
@@ -14,6 +16,7 @@ import {
     isCurrentChannelMuted,
     isCurrentChannelArchived,
     isCurrentChannelReadOnly,
+    getRedirectChannelNameForTeam,
 } from 'mattermost-redux/selectors/entities/channels';
 
 import {getPenultimateViewedChannelName} from 'selectors/local_storage';
@@ -56,15 +59,28 @@ const mapStateToProps = (state) => ({
     isMuted: isCurrentChannelMuted(state),
     isReadonly: isCurrentChannelReadOnly(state),
     isArchived: isCurrentChannelArchived(state),
-    penultimateViewedChannelName: getPenultimateViewedChannelName(state) || Constants.DEFAULT_CHANNEL,
+    penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
 });
 
-const mobileMapStateToProps = (state) => ({
-    user: getCurrentUser(state),
-    channel: getCurrentChannel(state),
-    teammateId: getTeammateId(state),
-    teammateStatus: getTeammateStatus(state),
-});
+const mobileMapStateToProps = (state) => {
+    const user = getCurrentUser(state);
+    const channel = getCurrentChannel(state);
+    const teammateId = getTeammateId(state);
+
+    let teammateIsBot = false;
+    if (teammateId) {
+        const teammate = getUser(state, teammateId);
+        teammateIsBot = teammate && teammate.is_bot;
+    }
+
+    return {
+        user,
+        channel,
+        teammateId,
+        teammateIsBot,
+        teammateStatus: getTeammateStatus(state),
+    };
+};
 
 export const ChannelHeaderDropdown = Desktop;
 export const ChannelHeaderDropdownItems = connect(mapStateToProps)(Items);

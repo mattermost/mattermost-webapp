@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {cleanUpUrlable} from 'utils/url.jsx';
 import logoImage from 'images/logo.png';
-import NextIcon from 'components/icon/next_icon';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
 
 export default class TeamSignupDisplayNamePage extends React.PureComponent {
     static propTypes = {
@@ -86,6 +86,7 @@ export default class TeamSignupDisplayNamePage extends React.PureComponent {
             <div>
                 <form>
                     <img
+                        alt={'signup logo'}
                         className='signup-team-logo'
                         src={logoImage}
                     />

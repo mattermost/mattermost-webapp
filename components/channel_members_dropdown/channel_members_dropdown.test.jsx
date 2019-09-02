@@ -39,6 +39,8 @@ describe('components/channel_members_dropdown', () => {
         isLicensed: true,
         canChangeMemberRoles: false,
         canRemoveMember: true,
+        index: 0,
+        totalUsers: 10,
         actions: {
             removeChannelMember: jest.fn().mockImplementation(() => {
                 const error = {
@@ -55,6 +57,17 @@ describe('components/channel_members_dropdown', () => {
     test('should match snapshot for channel_members_dropdown', () => {
         const wrapper = shallow(
             <ChannelMembersDropdown {...baseProps}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot opening dropdown upwards', () => {
+        const wrapper = shallow(
+            <ChannelMembersDropdown
+                {...baseProps}
+                index={4}
+                totalUsers={5}
+            />
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -111,5 +124,13 @@ describe('components/channel_members_dropdown', () => {
             expect(wrapper.instance().props.actions.getChannelStats).toHaveBeenCalledWith('owsyt8n43jfxjpzh9np93mx1wa');
             done();
         });
+    });
+
+    test('should match snapshot for group_constrained channel', () => {
+        baseProps.channel.group_constrained = true;
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...baseProps}/>
+        );
+        expect(wrapper).toMatchSnapshot();
     });
 });

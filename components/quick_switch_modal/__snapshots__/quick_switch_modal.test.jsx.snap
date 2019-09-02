@@ -3,10 +3,11 @@
 exports[`components/QuickSwitchModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="quickSwitchModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="channel-switch-modal modal--overflow"
+  dialogClassName="a11y__modal channel-switch-modal modal--overflow"
   dialogComponentClass={[Function]}
   enforceFocus={false}
   keyboard={true}
@@ -25,12 +26,14 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={false}
+  role="dialog"
   show={true}
 >
   <ModalHeader
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    id="quickSwitchModalLabel"
   />
   <ModalBody
     bsClass="modal-body"
@@ -76,6 +79,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
       renderNoResults={false}
       replaceAllInputOnSelect={false}
       requiredCharacters={1}
+      spellCheck="false"
       value=""
     />
   </ModalBody>

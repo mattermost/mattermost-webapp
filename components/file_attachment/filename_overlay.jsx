@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
-import AttachmentIcon from 'components/svg/attachment_icon';
+import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import {trimFilename} from 'utils/file_utils';
 import {localizeMessage} from 'utils/utils.jsx';
 
@@ -61,7 +61,6 @@ export default class FilenameOverlay extends React.PureComponent {
         if (compactDisplay) {
             filenameOverlay = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={1000}
                     placement='top'
                     overlay={<Tooltip id='file-name__tooltip'>{fileName}</Tooltip>}
@@ -79,26 +78,27 @@ export default class FilenameOverlay extends React.PureComponent {
             );
         } else if (canDownload) {
             filenameOverlay = (
-                <a
-                    href={getFileDownloadUrl(fileInfo.id)}
-                    download={fileName}
-                    className={iconClass || 'post-image__name'}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                >
-                    <OverlayTrigger
-                        trigger={['hover', 'focus']}
-                        delayShow={1000}
-                        placement='top'
-                        overlay={
-                            <Tooltip id='file-name__tooltip'>
-                                {localizeMessage('file_attachment.download', 'Download')}
-                            </Tooltip>
-                        }
+                <div className={iconClass || 'post-image__name'}>
+                    <a
+                        href={getFileDownloadUrl(fileInfo.id)}
+                        aria-label={localizeMessage('view_image_popover.download', 'Download').toLowerCase()}
+                        download={fileName}
+                        target='_blank'
+                        rel='noopener noreferrer'
                     >
-                        {children || trimmedFilename}
-                    </OverlayTrigger>
-                </a>
+                        <OverlayTrigger
+                            delayShow={1000}
+                            placement='top'
+                            overlay={
+                                <Tooltip id='file-name__tooltip'>
+                                    {localizeMessage('view_image_popover.download', 'Download').toLowerCase()}
+                                </Tooltip>
+                            }
+                        >
+                            {children || trimmedFilename}
+                        </OverlayTrigger>
+                    </a>
+                </div>
             );
         } else {
             filenameOverlay = (

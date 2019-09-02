@@ -1,5 +1,13 @@
 @charset 'UTF-8';
 
+body {
+    &.announcement-bar--fixed {
+        .signup-header {
+            top: 24px;
+        }
+    }
+}
+
 .signup-header {
     background: $bg--gray;
     line-height: 33px;
@@ -506,12 +514,23 @@
     @include border-radius(2px);
     border: 1px solid #dddddd;
     margin: 0 0 20px;
+    border-radius: 4px;
+    overflow: hidden;
 
     .signup-team-dir {
         @include legacy-pie-clearfix;
+        display: flex;
+        align-items: center;
         background: #fafafa;
-        border-top: 1px solid #d5d5d5;
+        border-top: 1px solid #ddd;
         position: relative;
+        padding-top: 3px;
+        height: 3.8em;
+
+        &:hover {
+            @include single-transition(background-color, .15s, ease);
+            background: $white;
+        }
 
         &:first-child {
             border: none;
@@ -524,8 +543,9 @@
         .icon {
             cursor: pointer;
             float: left;
-            margin: 16px 7px 0 15px;
+            margin: 0 -8px 0 15px;
             opacity: .45;
+            height: 20px;
 
             svg {
                 height: 20px;
@@ -533,13 +553,24 @@
             }
         }
 
+        .fa-lock {
+            top: 1px;
+            position: relative;
+            font-size: 18px;
+        }
+
         a {
             color: inherit;
-            display: block;
+            display: flex;
             font-size: 1.1em;
             height: 3.5em;
             line-height: 3.6em;
-            padding: 0 15px;
+            text-decoration: none;
+            padding: 0 20px 0 16px;
+            align-items: center;
+            flex: 1 1 auto;
+            justify-content: space-between;
+
             &.disabled {
                 cursor: default;
                 color: $dark-gray;
@@ -569,11 +600,8 @@
 
     .signup-team__icon {
         color: $dark-gray;
-        float: right;
         font-size: 1.5em;
-        line-height: 25px;
         position: relative;
-        top: .66em;
 
         &.fa-spin {
             font-size: .9em;

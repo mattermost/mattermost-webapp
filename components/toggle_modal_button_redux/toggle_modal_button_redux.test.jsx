@@ -26,11 +26,11 @@ describe('components/ToggleModalButtonRedux', () => {
     test('component should match snapshot', () => {
         const wrapper = mountWithIntl(
             <ToggleModalButtonRedux
+                accessibilityLabel={'Delete Channel'}
                 id='channelDelete'
                 role='menuitem'
                 modalId={ModalIdentifiers.DELETE_CHANNEL}
                 dialogType={TestModal}
-                dialogProps={{}}
                 actions={{openModal: () => true}}
             >
                 <FormattedMessage

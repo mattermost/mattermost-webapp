@@ -27,9 +27,9 @@ import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
-import SuccessIcon from 'components/icon/success_icon';
-import WarningIcon from 'components/icon/warning_icon';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import SuccessIcon from 'components/widgets/icons/fa_success_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import LoginMfa from '../login_mfa.jsx';
@@ -331,7 +331,7 @@ class LoginController extends React.Component {
         } else if (team) {
             browserHistory.push(`/${team.name}`);
         } else if (experimentalPrimaryTeam) {
-            browserHistory.push(`/${experimentalPrimaryTeam}/channels/${Constants.DEFAULT_CHANNEL}`);
+            browserHistory.push(`/${experimentalPrimaryTeam}`);
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
@@ -363,6 +363,7 @@ class LoginController extends React.Component {
             return (
                 <div>
                     <img
+                        alt={'brand image'}
                         src={brandImageUrl}
                         onError={this.handleBrandImageError}
                         style={brandImageStyle}
@@ -496,7 +497,10 @@ class LoginController extends React.Component {
             );
         } else if (extraParam === Constants.PASSWORD_CHANGE) {
             return (
-                <div className='alert alert-success'>
+                <div
+                    id='passwordUpdatedSuccess'
+                    className='alert alert-success'
+                >
                     <SuccessIcon/>
                     <FormattedMessage
                         id='login.passwordChanged'
@@ -568,7 +572,7 @@ class LoginController extends React.Component {
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
-                                placeholder={{id: 'login.password', defaultMessage: 'Password'}}
+                                placeholder={{id: t('login.password'), defaultMessage: 'Password'}}
                                 spellCheck='false'
                             />
                         </div>
@@ -813,6 +817,7 @@ class LoginController extends React.Component {
                             {customContent}
                         </div>
                         <img
+                            alt={'signup team logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />

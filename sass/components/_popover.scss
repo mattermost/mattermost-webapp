@@ -121,6 +121,10 @@
 #user-profile-popover .user-popover__username:only-child > a{
     max-width: 100%;
 }
+#user-profile-popover .Avatar {
+    margin: 5px auto;
+    display: block;
+}
 
 .user-popover__role {
     padding: 3px 5px;
@@ -132,11 +136,6 @@
     color: $white;
 }
 
-.user-popover__image {
-    @include border-radius(128px);
-    margin: 5px auto;
-    display: block;
-}
 
 .user-popover__email {
     display: block;
@@ -195,6 +194,8 @@
     .search-autocomplete__item {
         @include border-radius(2px);
         cursor: pointer;
+        display: flex;
+        align-items: center;
         margin: 3px 0 0 5px;
         overflow: hidden;
         padding: 6px 8px;
@@ -207,22 +208,29 @@
 
         &.selected {
             background: alpha-color($black, .2);
+            box-shadow: none;
         }
 
         .mention--align {
-            display: inline;
+            display: inline-flex;
+            overflow: hidden;
+        }
+
+        .search-autocomplete__name {
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         .fa {
             @include opacity(.5);
             margin-right: 5px;
+            top: 1px;
+            position: relative;
         }
 
-        .profile-img {
-            height: 16px;
+        .Avatar {
             margin-right: 6px;
             margin-top: -1px;
-            width: 16px;
         }
     }
 
@@ -291,6 +299,14 @@
         span {
             font-weight: 600;
         }
+
+        .subhead {
+            font-size: 12px;
+            opacity: 0.6;
+            span {
+                font-weight: normal;
+            }
+        }
     }
 
     .more-modal__button {
@@ -306,14 +322,33 @@
             height: 50px;
             margin: 1px 0;
             overflow: hidden;
-            padding-left: 20px;
+            padding: 0 12px 0 20px;
+
+            .more-modal__actions {
+                opacity: 1;
+                padding: 0;
+                margin-left: 12px;
+
+                button {
+                    opacity: 0;
+                    line-height: 0;
+                    width: 2em;
+                    height: 2em;
+
+                    &.a11y--focused {
+                        opacity: 1;
+                    }
+                }
+            }
 
             &:hover {
                 border-left: 3px solid transparent;
                 padding-left: 17px;
 
                 .more-modal__actions {
-                    @include opacity(1);
+                    button {
+                        @include opacity(1);
+                    }
                 }
 
                 .more-modal__name {
@@ -338,6 +373,7 @@
         }
 
         .more-modal__name {
+            display: block;
             font-size: 13.5px;
             font-weight: normal;
         }
@@ -350,7 +386,7 @@
 
         .more-modal__details {
             line-height: 39px;
-            padding-left: 30px;
+            padding-left: 16px;
         }
 
         .more-modal__actions {

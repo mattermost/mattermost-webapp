@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {ErrorPageTypes, Constants} from 'utils/constants.jsx';
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import ErrorTitle from './error_title.jsx';
 import ErrorMessage from './error_message.jsx';
@@ -19,6 +19,7 @@ export default class ErrorPage extends React.PureComponent {
         location: PropTypes.object.isRequired,
         asymmetricSigningPublicKey: PropTypes.string,
         siteName: PropTypes.string,
+        isGuest: PropTypes.bool,
     };
 
     componentDidMount() {
@@ -30,6 +31,7 @@ export default class ErrorPage extends React.PureComponent {
     }
 
     render() {
+        const {isGuest} = this.props;
         const params = new URLSearchParams(this.props.location.search);
         const signature = params.get('s');
 
@@ -70,6 +72,15 @@ export default class ErrorPage extends React.PureComponent {
                         values={{
                             siteName: this.props.siteName,
                         }}
+                    />
+                </Link>
+            );
+        } else if (type === ErrorPageTypes.CHANNEL_NOT_FOUND && isGuest) {
+            backButton = (
+                <Link to={params.get('returnTo')}>
+                    <FormattedMessage
+                        id='error.channelNotFound.guest_link'
+                        defaultMessage='Back'
                     />
                 </Link>
             );

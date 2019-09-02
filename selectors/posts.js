@@ -4,12 +4,12 @@
 import {createSelector} from 'reselect';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool as getBoolPreference} from 'mattermost-redux/selectors/entities/preferences';
-import {shouldFilterJoinLeavePost} from 'mattermost-redux/utils/post_utils';
-import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
+import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {isUserActivityPost} from 'mattermost-redux/utils/post_utils';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {getGlobalItem} from 'selectors/storage';
-import {Preferences, StoragePrefixes, PostTypes, PostListRowListIds} from 'utils/constants';
+import {Preferences, StoragePrefixes} from 'utils/constants';
 
 export const getEditingPost = createSelector(
     (state) => {
@@ -43,74 +43,52 @@ export function shouldShowJoinLeaveMessages(state) {
     return getBoolPreference(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_FILTER_JOIN_LEAVE, true);
 }
 
-// Returns a selector that, given the state and an object containing an array of postIds and an optional
-// timestamp of when the channel was last read, returns a memoized array of postIds interspersed with
-// day indicators and an optional new message indicator.
-export function makePreparePostIdsForPostList() {
-    return createIdsSelector(
-        (state, props) => props.posts,
-        (state) => state.entities.posts.selectedPostId,
-        (state, props) => props.lastViewedAt,
-        (state, props) => props.indicateNewMessages,
-        getCurrentUser,
-        shouldShowJoinLeaveMessages,
-        (posts, selectedPostId, lastViewedAt, indicateNewMessages, currentUser, showJoinLeave) => {
-            if (!posts || posts.length === 0 || !currentUser) {
-                return {
-                    postIds: [],
-                    postsObjById: {},
-                };
+export function makeCombineUserActivityFromPosts() {
+    return memoizeResult(
+        (posts) => {
+            let lastPostIsUserActivity = false;
+            let combinedCount = 0;
+
+            const out = [];
+            let changed = false;
+
+            for (const post of posts) {
+                const postIsUserActivity = isUserActivityPost(post.type);
+
+                if (postIsUserActivity && lastPostIsUserActivity && combinedCount < PostListUtils.MAX_COMBINED_SYSTEM_POSTS) {
+                    // Add the ID to the previous combined post
+                    out[out.length - 1].id += '_' + post.id;
+
+                    combinedCount += 1;
+
+                    changed = true;
+                } else if (postIsUserActivity) {
+                    // Start a new combined post, even if the "combined" post is only a single post
+                    const formattedPost = {
+                        ...post,
+                        id: PostListUtils.COMBINED_USER_ACTIVITY + post.id,
+                    };
+
+                    out.push(formattedPost);
+
+                    combinedCount = 1;
+
+                    changed = true;
+                } else {
+                    out.push(post);
+
+                    combinedCount = 0;
+                }
+
+                lastPostIsUserActivity = postIsUserActivity;
             }
 
-            const postIds = [];
-            const postsObjById = {};
-
-            let lastDate = null;
-            let addedNewMessagesIndicator = false;
-
-            // Iterating through the posts from oldest to newest
-            for (let i = posts.length - 1; i >= 0; i--) {
-                const post = posts[i];
-
-                if (
-                    !post ||
-                    (post.type === PostTypes.EPHEMERAL_ADD_TO_CHANNEL && !selectedPostId)
-                ) {
-                    continue;
-                }
-
-                // Filter out join/leave messages if necessary
-                if (shouldFilterJoinLeavePost(post, showJoinLeave, currentUser.username)) {
-                    continue;
-                }
-
-                // Push on a date header if the last post was on a different day than the current one
-                const postDate = new Date(post.create_at);
-                postDate.setHours(0, 0, 0, 0);
-
-                if (!lastDate || lastDate.toDateString() !== postDate.toDateString()) {
-                    postIds.unshift(PostListRowListIds.DATE_LINE + postDate);
-                    lastDate = postDate;
-                }
-
-                if (
-                    lastViewedAt &&
-                    post.create_at > lastViewedAt &&
-                    post.user_id !== currentUser.id &&
-                    !addedNewMessagesIndicator &&
-                    indicateNewMessages
-                ) {
-                    postIds.unshift(PostListRowListIds.START_OF_NEW_MESSAGES);
-                    addedNewMessagesIndicator = true;
-                }
-                postIds.unshift(post.id);
-                postsObjById[post.id] = post;
+            if (!changed) {
+                // Nothing was combined, so return the original array
+                return posts;
             }
 
-            return {
-                postIds,
-                postsObjById,
-            };
-        }
+            return out;
+        },
     );
 }

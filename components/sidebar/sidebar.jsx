@@ -11,14 +11,18 @@ import classNames from 'classnames';
 import Scrollbars from 'react-custom-scrollbars';
 import {SpringSystem, MathUtil} from 'rebound';
 
-import {browserHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import favicon from 'images/favicon/favicon-16x16.png';
-import redFavicon from 'images/favicon/redfavicon-16x16.png';
+import favicon16x16 from 'images/favicon/favicon-16x16.png';
+import favicon32x32 from 'images/favicon/favicon-32x32.png';
+import favicon96x96 from 'images/favicon/favicon-96x96.png';
+import redDotFavicon16x16 from 'images/favicon/favicon-reddot-16x16.png';
+import redDotFavicon32x32 from 'images/favicon/favicon-reddot-32x32.png';
+import redDotFavicon96x96 from 'images/favicon/favicon-reddot-96x96.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
@@ -194,14 +198,15 @@ export default class Sidebar extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        // if the active channel disappeared (which can happen when dm channels autoclose), go to town square
+        // if the active channel disappeared (which can happen when dm channels
+        // autoclose), go to user default channel in team
         if (this.props.currentTeam === prevProps.currentTeam &&
             this.props.currentChannel.id === prevProps.currentChannel.id &&
             !this.channelIdIsDisplayedForProps(this.props.orderedChannelIds, this.props.currentChannel.id) &&
             this.channelIdIsDisplayedForProps(prevProps.orderedChannelIds, this.props.currentChannel.id)
         ) {
             this.closedDirectChannel = true;
-            browserHistory.push(`/${this.props.currentTeam.name}/channels/${Constants.DEFAULT_CHANNEL}`);
+            redirectUserToDefaultTeam();
             return;
         }
 
@@ -221,8 +226,7 @@ export default class Sidebar extends React.PureComponent {
 
         this.updateTitle();
 
-        // Don't modify favicon for now: https://mattermost.atlassian.net/browse/MM-13643.
-        // this.setBadgesActiveAndFavicon();
+        this.setBadgesActiveAndFavicon();
 
         this.setFirstAndLastUnreadChannels();
         this.updateUnreadIndicators();
@@ -238,26 +242,18 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setBadgesActiveAndFavicon() {
+        const link = document.querySelector('link[rel="icon"]');
+
+        if (!link) {
+            return;
+        }
+
         this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentionCount;
+        this.badgesActive = this.props.unreads.mentionCount > 0;
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
-            var link = document.createElement('link');
-            link.type = 'image/x-icon';
-            link.rel = 'shortcut icon';
-            link.id = 'favicon';
-            if (this.badgesActive) {
-                link.href = typeof redFavicon === 'string' ? redFavicon : '';
-            } else {
-                link.href = typeof favicon === 'string' ? favicon : '';
-            }
-            var head = document.getElementsByTagName('head')[0];
-            var oldLink = document.getElementById('favicon');
-            if (oldLink) {
-                head.removeChild(oldLink);
-            }
-            head.appendChild(link);
+            this.updateFavicon(this.badgesActive);
         }
     }
 
@@ -310,6 +306,22 @@ export default class Sidebar extends React.PureComponent {
             const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
             const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
+        }
+    }
+
+    updateFavicon = (active) => {
+        const link16x16 = document.querySelector('link[rel="icon"][sizes="16x16"]');
+        const link32x32 = document.querySelector('link[rel="icon"][sizes="32x32"]');
+        const link96x96 = document.querySelector('link[rel="icon"][sizes="96x96"]');
+
+        if (active) {
+            link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : '';
+            link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : '';
+            link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : '';
+        } else {
+            link16x16.href = typeof favicon16x16 === 'string' ? favicon16x16 : '';
+            link32x32.href = typeof favicon32x32 === 'string' ? favicon32x32 : '';
+            link96x96.href = typeof favicon96x96 === 'string' ? favicon96x96 : '';
         }
     }
 
@@ -599,32 +611,41 @@ export default class Sidebar extends React.PureComponent {
                         }
 
                         const sectionId = `${section.type}Channel`;
+                        const ariaLabel = section.name.toLowerCase();
 
                         return (
                             <ul
                                 key={section.type}
-                                className='nav nav-pills nav-stacked'
+                                aria-label={ariaLabel}
+                                role='presentation'
+                                className='nav nav-pills nav-stacked a11y__section'
+                                id={sectionId + 'List'}
+                                tabIndex='-1'
                             >
-                                <li>
-                                    <h4 id={sectionId}>
+                                <li className='sidebar-section__header'>
+                                    <h4
+                                        role='presentation'
+                                        id={sectionId}
+                                    >
                                         <ChannelName
                                             sectionType={section.type}
                                             channelName={section.name}
                                             browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                         />
-                                        <ChannelCreate
-                                            sectionType={section.type}
-                                            canCreatePublicChannel={this.props.canCreatePublicChannel}
-                                            canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                                            createPublicChannel={this.showNewPublicChannelModal}
-                                            createPrivateChannel={this.showNewPrivateChannelModal}
-                                            createDirectMessage={this.handleOpenMoreDirectChannelsModal}
-                                            createPublicDirectChannel={this.showNewPublicChannelModal}
-                                        />
                                     </h4>
+                                    <ChannelCreate
+                                        sectionType={section.type}
+                                        canCreatePublicChannel={this.props.canCreatePublicChannel}
+                                        canCreatePrivateChannel={this.props.canCreatePrivateChannel}
+                                        createPublicChannel={this.showNewPublicChannelModal}
+                                        createPrivateChannel={this.showNewPrivateChannelModal}
+                                        createDirectMessage={this.handleOpenMoreDirectChannelsModal}
+                                        createPublicDirectChannel={this.showNewPublicChannelModal}
+                                    />
                                 </li>
                                 {section.items}
                                 <ChannelMore
+                                    currentTeamId={this.props.currentTeam.id}
                                     sectionType={section.type}
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
@@ -640,13 +661,12 @@ export default class Sidebar extends React.PureComponent {
 
     render() {
         const {channelSwitcherOption} = this.props;
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region');
 
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);
         }
-
-        this.badgesActive = false;
 
         // keep track of the first and last unread channels so we can use them to set the unread indicators
         this.firstUnreadChannel = null;
@@ -763,7 +783,14 @@ export default class Sidebar extends React.PureComponent {
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
 
-                <div className='sidebar--left__list'>
+                <div
+                    id='lhsList'
+                    role='application'
+                    aria-label={ariaLabel}
+                    tabIndex='-1'
+                    className='sidebar--left__list a11y__region'
+                    data-a11y-sort-order='6'
+                >
                     <UnreadChannelIndicator
                         name='Top'
                         show={this.state.showTopUnread}

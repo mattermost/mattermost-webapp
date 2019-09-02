@@ -9,8 +9,7 @@ import ComplianceReports from 'components/admin_console/compliance_reports';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
-import ReloadIcon from 'components/icon/reload_icon';
+import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 
 export default class Audits extends React.PureComponent {
     static propTypes = {
@@ -51,18 +50,54 @@ export default class Audits extends React.PureComponent {
         );
     }
 
-    render() {
-        let content = null;
+    activityLogHeader = () => {
+        const h4Style = {
+            display: 'inline-block',
+            marginBottom: '6px',
+        };
+        const divStyle = {
+            clear: 'both',
+        };
+        return (
+            <div style={divStyle}>
+                <h4 style={h4Style}>
+                    <FormattedMessage
+                        id='admin.complianceMonitoring.userActivityLogsTitle'
+                        defaultMessage='User Activity Logs'
+                    />
+                </h4>
+                <button
+                    type='submit'
+                    className='btn btn-link pull-right'
+                    onClick={this.reload}
+                >
+                    <ReloadIcon/>
+                    <FormattedMessage
+                        id='admin.audits.reload'
+                        defaultMessage='Reload User Activity Logs'
+                    />
+                </button>
+            </div>
+        );
+    }
 
+    renderComplianceReports = () => {
         if (!this.props.isLicensed) {
             return <div/>;
         }
+        return (
+            <ComplianceReports/>
+        );
+    }
+
+    render() {
+        let content = null;
 
         if (this.state.loadingAudits) {
             content = <LoadingScreen/>;
         } else {
             content = (
-                <div style={style.auditTable}>
+                <div>
                     <AuditTable
                         audits={this.props.audits}
                         showUserId={true}
@@ -74,28 +109,11 @@ export default class Audits extends React.PureComponent {
         }
 
         return (
-            <div className='wrapper--admin'>
-                <ComplianceReports/>
-
-                <div className='panel audit-panel'>
-                    <AdminHeader>
-                        <FormattedMessage
-                            id='admin.audits.title'
-                            defaultMessage='User Activity Logs'
-                        />
-                        <button
-                            type='submit'
-                            className='btn btn-link pull-right'
-                            onClick={this.reload}
-                        >
-                            <ReloadIcon/>
-                            <FormattedMessage
-                                id='admin.audits.reload'
-                                defaultMessage='Reload User Activity Logs'
-                            />
-                        </button>
-                    </AdminHeader>
-                    <div className='audit-panel__table'>
+            <div>
+                {this.renderComplianceReports()}
+                <div className='panel compliance-panel'>
+                    {this.activityLogHeader()}
+                    <div className='compliance-panel__table'>
                         {content}
                     </div>
                 </div>
@@ -103,7 +121,3 @@ export default class Audits extends React.PureComponent {
         );
     }
 }
-
-const style = {
-    auditTable: {margin: 10},
-};

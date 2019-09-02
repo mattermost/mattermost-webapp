@@ -77,8 +77,6 @@ export default class SearchableUserList extends React.Component {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
             this.refs.userList.scrollToTop();
         }
-
-        this.focusSearchBar();
     }
 
     componentWillUnmount() {
@@ -186,6 +184,7 @@ export default class SearchableUserList extends React.Component {
             if (pageEnd < this.props.users.length) {
                 nextButton = (
                     <button
+                        id='searchableUserListNextBtn'
                         className='btn btn-link filter-control filter-control__next'
                         onClick={this.nextPage}
                         disabled={this.state.nextDisabled}
@@ -201,6 +200,7 @@ export default class SearchableUserList extends React.Component {
             if (this.props.page > 0) {
                 previousButton = (
                     <button
+                        id='searchableUserListPrevBtn'
                         className='btn btn-link filter-control filter-control__prev'
                         onClick={this.previousPage}
                     >
@@ -237,12 +237,16 @@ export default class SearchableUserList extends React.Component {
                 <div className='filter-row'>
                     {filterRow}
                     <div className='col-sm-12'>
-                        <span className='member-count pull-left'>{this.renderCount(usersToDisplay)}</span>
+                        <span
+                            id='searchableUserListTotal'
+                            className='member-count pull-left'
+                            aria-live='polite'
+                        >
+                            {this.renderCount(usersToDisplay)}
+                        </span>
                     </div>
                 </div>
-                <div
-                    className='more-modal__list'
-                >
+                <div className='more-modal__list'>
                     <UserList
                         ref='userList'
                         users={usersToDisplay}

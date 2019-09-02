@@ -13,8 +13,6 @@ import PostMarkdown from 'components/post_markdown';
 import Pluggable from 'plugins/pluggable';
 import ShowMore from 'components/post_view/show_more';
 
-const MAX_POST_HEIGHT = 600;
-
 export default class PostMessageView extends React.PureComponent {
     static propTypes = {
 
@@ -143,7 +141,8 @@ export default class PostMessageView extends React.PureComponent {
             return <span>{post.message}</span>;
         }
 
-        const postType = post.type;
+        const postType = post.props && post.props.type ? post.props.type : post.type;
+
         if (pluginPostTypes.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostTypes[postType].component;
             return (
@@ -166,10 +165,11 @@ export default class PostMessageView extends React.PureComponent {
         return (
             <ShowMore
                 checkOverflow={this.state.checkOverflow}
-                maxHeight={MAX_POST_HEIGHT}
                 text={message}
             >
                 <div
+                    aria-readonly='true'
+                    tabIndex='0'
                     id={`postMessageText_${post.id}`}
                     className='post-message__text'
                     onClick={Utils.handleFormattedTextClick}

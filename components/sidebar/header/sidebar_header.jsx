@@ -30,13 +30,23 @@ export default class SidebarHeader extends React.PureComponent {
     }
 
     render() {
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsHeader', 'team menu region');
+
         return (
             <div
-                id='teamHeader'
-                className='SidebarHeader team__header theme'
+                id='lhsHeader'
+                aria-label={ariaLabel}
+                tabIndex='-1'
+                role='application'
+                className='SidebarHeader team__header theme a11y__region'
+                data-a11y-sort-order='5'
             >
-                <SidebarHeaderDropdown/>
-                {!this.state.isMobile && <StatusDropdown/>}
+                <div
+                    className='d-flex'
+                >
+                    {!this.state.isMobile && <StatusDropdown/>}
+                    <SidebarHeaderDropdown/>
+                </div>
             </div>
         );
     }

@@ -7,8 +7,9 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {Locations} from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
-import ReplyIcon from 'components/svg/reply_icon';
+import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 export default class CommentIcon extends React.PureComponent {
     static propTypes = {
@@ -54,21 +55,24 @@ export default class CommentIcon extends React.PureComponent {
         );
 
         return (
-            <OverlayTrigger
-                className='hidden-xs'
-                delayShow={500}
-                placement='top'
-                overlay={tooltip}
+            <button
+                id={`${this.props.location}_commentIcon_${this.props.postId}`}
+                aria-label={localizeMessage('post_info.comment_icon.tooltip.reply', 'Reply').toLowerCase()}
+                className={iconStyle + ' color--link style--none ' + this.props.extraClass}
+                onClick={this.props.handleCommentClick}
             >
-                <button
-                    id={`${this.props.location}_commentIcon_${this.props.postId}`}
-                    className={iconStyle + ' color--link style--none ' + this.props.extraClass}
-                    onClick={this.props.handleCommentClick}
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={tooltip}
                 >
-                    <ReplyIcon className='comment-icon'/>
-                    {commentCountSpan}
-                </button>
-            </OverlayTrigger>
+                    <span className='d-flex'>
+                        <ReplyIcon className='comment-icon'/>
+                        {commentCountSpan}
+                    </span>
+                </OverlayTrigger>
+            </button>
         );
     }
 }

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getTeamStats} from 'mattermost-redux/actions/teams';
-import {getProfilesNotInChannel} from 'mattermost-redux/actions/users';
+import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/users';
 import {getProfilesNotInCurrentChannel} from 'mattermost-redux/selectors/entities/users';
 
 import {addUsersToChannel} from 'actions/channel_actions';
@@ -24,6 +24,7 @@ function mapDispatchToProps(dispatch) {
             addUsersToChannel,
             getProfilesNotInChannel,
             getTeamStats,
+            searchProfiles,
         }, dispatch),
     };
 }

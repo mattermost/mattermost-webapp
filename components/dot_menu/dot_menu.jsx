@@ -20,7 +20,6 @@ import Pluggable from 'plugins/pluggable';
 
 import Menu from 'components/widgets/menu/menu.jsx';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.jsx';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -80,6 +79,7 @@ export default class DotMenu extends Component {
         isReadOnly: false,
         pluginMenuItems: [],
         location: Locations.CENTER,
+        enableEmojiPicker: false,
     }
 
     constructor(props) {
@@ -219,7 +219,7 @@ export default class DotMenu extends Component {
             }).
             map((item) => {
                 return (
-                    <MenuItemAction
+                    <Menu.ItemAction
                         key={item.id + '_pluginmenuitem'}
                         text={item.text}
                         onClick={() => {
@@ -246,12 +246,14 @@ export default class DotMenu extends Component {
                 >
                     <button
                         id={`${this.props.location}_button_${this.props.post.id}`}
+                        aria-label={Utils.localizeMessage('post_info.dot_menu.tooltip.more_actions', 'More Actions').toLowerCase()}
                         className='post__dropdown color--link style--none'
                         type='button'
                         aria-expanded='false'
                     />
                 </OverlayTrigger>
                 <Menu
+                    id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
                     ref={this.refCallback}
@@ -262,54 +264,63 @@ export default class DotMenu extends Component {
                         teamId={this.props.teamId}
                         permissions={[Permissions.ADD_REACTION]}
                     >
-                        <MenuItemAction
+                        <Menu.ItemAction
                             show={isMobile && !isSystemMessage && !this.props.isReadOnly && this.props.enableEmojiPicker}
                             text={Utils.localizeMessage('rhs_root.mobile.add_reaction', 'Add Reaction')}
                             onClick={this.handleAddReactionMenuItemActivated}
                         />
                     </ChannelPermissionGate>
-                    <MenuItemAction
+                    <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Unflag')}
                         onClick={this.handleFlagMenuItemActivated}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
                         show={isMobile && !isSystemMessage && !this.props.isFlagged}
                         text={Utils.localizeMessage('rhs_root.mobile.flag', 'Flag')}
                         onClick={this.handleFlagMenuItemActivated}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
                         show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         onClick={this.props.handleCommentClick}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
                         show={!isSystemMessage}
                         text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
                         onClick={this.handlePermalinkMenuItemActivated}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
+                        id={`unpin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.unpin', 'Unpin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
+                        id={`pin_post_${this.props.post.id}`}
                         show={!isSystemMessage && !this.props.isReadOnly && !this.props.post.is_pinned}
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
                         id={`delete_post_${this.props.post.id}`}
                         show={this.state.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         onClick={this.handleDeleteMenuItemActivated}
                     />
-                    <MenuItemAction
+                    <Menu.ItemAction
                         id={`edit_post_${this.props.post.id}`}
                         show={this.state.canEdit}
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         onClick={this.handleEditMenuItemActivated}
                     />
+                    {pluginItems.length > 0 &&
+                    <li
+                        id={`divider_post_${this.props.post.id}`}
+                        className='MenuItem__divider'
+                        role='menuitem'
+                    />
+                    }
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}

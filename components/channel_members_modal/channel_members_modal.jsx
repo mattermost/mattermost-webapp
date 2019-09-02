@@ -68,13 +68,18 @@ export default class ChannelMembersModal extends React.PureComponent {
         return (
             <div>
                 <Modal
-                    dialogClassName='more-modal more-modal--action'
+                    dialogClassName='a11y__modal more-modal more-modal--action'
                     show={this.state.show}
                     onHide={this.handleHide}
                     onExited={this.handleExit}
+                    role='dialog'
+                    aria-labelledby='channelMembersModalLabel'
                 >
                     <Modal.Header closeButton={true}>
-                        <Modal.Title>
+                        <Modal.Title
+                            componentClass='h1'
+                            id='channelMembersModalLabel'
+                        >
                             <span className='name'>{this.props.channel.display_name}</span>
                             <FormattedMessage
                                 id='channel_members_modal.members'

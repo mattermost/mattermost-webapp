@@ -12,7 +12,6 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {makeAsyncComponent} from 'components/async_load';
 import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
@@ -20,11 +19,10 @@ import ChannelController from 'components/channel_layout/channel_controller';
 const BackstageController = makeAsyncComponent(loadBackstageController);
 
 let wakeUpInterval;
-let lastTime = (new Date()).getTime();
+let lastTime = Date.now();
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
 const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
-const TEAMS_PER_PAGE = 200;
 
 export default class NeedsTeam extends React.Component {
     static propTypes = {
@@ -32,17 +30,17 @@ export default class NeedsTeam extends React.Component {
         currentUser: PropTypes.object,
         currentChannelId: PropTypes.string,
         currentTeamId: PropTypes.string,
-        teamsList: PropTypes.array,
         actions: PropTypes.shape({
             fetchMyChannelsAndMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
             markChannelAsRead: PropTypes.func.isRequired,
-            getTeams: PropTypes.func.isRequired,
+            getTeamByName: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
             selectTeam: PropTypes.func.isRequired,
             setPreviousTeamId: PropTypes.func.isRequired,
             loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
+            loadProfilesForDirect: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -153,14 +151,14 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.markChannelAsRead(this.props.currentChannelId);
         window.isActive = true;
 
-        if (new Date().getTime() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
-            this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId).then(loadProfilesForSidebar);
+        if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
+            this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
+            this.props.actions.loadProfilesForDirect();
         }
     }
 
     joinTeam = async (props) => {
-        const openTeams = await this.props.actions.getTeams(0, TEAMS_PER_PAGE);
-        const team = openTeams.data.find((teamObj) => teamObj.name === props.match.params.team);
+        const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
         if (team) {
             const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
             if (error) {
@@ -191,7 +189,7 @@ export default class NeedsTeam extends React.Component {
         );
 
         this.props.actions.loadStatusesForChannelAndSidebar();
-        loadProfilesForSidebar();
+        this.props.actions.loadProfilesForDirect();
 
         return team;
     }

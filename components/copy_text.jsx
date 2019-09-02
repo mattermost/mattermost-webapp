@@ -47,7 +47,6 @@ export default class CopyText extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
                 overlay={tooltip}

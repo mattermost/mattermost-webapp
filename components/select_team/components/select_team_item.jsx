@@ -6,7 +6,7 @@ import React from 'react';
 import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import TeamInfoIcon from 'components/svg/team_info_icon';
+import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
@@ -41,7 +41,6 @@ export default class SelectTeamItem extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                trigger={['hover', 'focus', 'click']}
                 delayShow={1000}
                 placement='top'
                 overlay={descriptionTooltip}
@@ -85,12 +84,12 @@ export default class SelectTeamItem extends React.PureComponent {
                     onClick={canJoin ? this.handleTeamClick : null}
                     className={canJoin ? '' : 'disabled'}
                 >
+                    <span className='signup-team-dir__name'>{team.display_name}</span>
                     {!team.allow_open_invite &&
                         <span
-                            className='fa fa-lock'
+                            className='fa fa-lock light'
                             title={formatMessage({id: 'select_team.private.icon', defaultMessage: 'Private team'})}
                         />}
-                    <span className='signup-team-dir__name'>{team.display_name}</span>
                     {canJoin && icon}
                 </a>
             </div>

@@ -3,10 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -18,6 +20,8 @@ export default class UserListRowWithError extends React.Component {
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
+        index: PropTypes.number,
+        totalUsers: PropTypes.number,
         userCount: PropTypes.number,
     };
 
@@ -49,6 +53,8 @@ export default class UserListRowWithError extends React.Component {
                     <Action
                         key={index.toString()}
                         user={this.props.user}
+                        index={this.props.index}
+                        totalUsers={this.props.totalUsers}
                         {...this.props.actionProps}
                         {...this.props.actionUserProps}
                         onError={this.onError}
@@ -61,7 +67,9 @@ export default class UserListRowWithError extends React.Component {
         let email = this.props.user.email;
         let emailStyle = 'more-modal__description';
         let status;
-        if (this.props.extraInfo && this.props.extraInfo.length > 0) {
+        if (this.props.user.is_bot) {
+            email = null;
+        } else if (this.props.extraInfo && this.props.extraInfo.length > 0) {
             email = (
                 <FormattedMarkdownMessage
                     id='admin.user_item.emailTitle'
@@ -76,6 +84,10 @@ export default class UserListRowWithError extends React.Component {
             status = this.props.user.status;
         } else {
             status = this.props.status;
+        }
+
+        if (this.props.user.is_bot) {
+            status = null;
         }
 
         let userCountID = null;
@@ -102,8 +114,7 @@ export default class UserListRowWithError extends React.Component {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__right'>
                     <div className='more-modal__top'>
@@ -112,7 +123,11 @@ export default class UserListRowWithError extends React.Component {
                                 id={userCountID}
                                 className='more-modal__name'
                             >
-                                {Utils.displayEntireNameForUser(this.props.user)}
+                                <Link to={'/admin_console/user_management/user/' + this.props.user.id}>{Utils.displayEntireNameForUser(this.props.user)}</Link>
+                                <BotBadge
+                                    className='badge-admin'
+                                    show={Boolean(this.props.user.is_bot)}
+                                />
                             </div>
                             <div
                                 id={userCountEmail}

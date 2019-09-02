@@ -4,13 +4,13 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import exif2css from 'exif2css';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants.jsx';
 import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
+import * as FileUtils from 'utils/file_utils.jsx';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import FormError from 'components/form_error.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -41,11 +41,29 @@ export default class SettingPicture extends Component {
     constructor(props) {
         super(props);
 
+        this.settingList = React.createRef();
+        this.selectInput = React.createRef();
+        this.confirmButton = React.createRef();
+
         this.state = {
             image: null,
             removeSrc: false,
             setDefaultSrc: false,
         };
+    }
+
+    focusFirstElement() {
+        if (this.settingList.current) {
+            this.settingList.current.focus();
+        }
+    }
+
+    componentDidMount() {
+        this.focusFirstElement();
+
+        if (this.selectInput.current) {
+            this.selectInput.current.addEventListener('input', this.handleFileSelected);
+        }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
@@ -60,11 +78,21 @@ export default class SettingPicture extends Component {
         if (this.previewBlob) {
             URL.revokeObjectURL(this.previewBlob);
         }
+
+        if (this.selectInput.current) {
+            this.selectInput.current.removeEventListener('input', this.handleFileSelected);
+        }
     }
 
     handleCancel = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.updateSection(e);
+    }
+
+    handleFileSelected = () => {
+        if (this.confirmButton.current) {
+            this.confirmButton.current.focus();
+        }
     }
 
     handleSave = (e) => {
@@ -81,16 +109,23 @@ export default class SettingPicture extends Component {
     handleRemoveSrc = (e) => {
         e.preventDefault();
         this.setState({removeSrc: true});
+        this.focusFirstElement();
     }
 
     handleSetDefaultSrc = (e) => {
         e.preventDefault();
         this.setState({setDefaultSrc: true});
+        this.focusFirstElement();
     }
 
     handleFileChange = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.onFileChange(e);
+    }
+
+    handleInputFile = () => {
+        this.selectInput.current.value = '';
+        this.selectInput.current.click();
     }
 
     setPicture = (file) => {
@@ -99,8 +134,8 @@ export default class SettingPicture extends Component {
 
             var reader = new FileReader();
             reader.onload = (e) => {
-                const orientation = this.getExifOrientation(e.target.result);
-                const orientationStyles = this.getOrientationStyles(orientation);
+                const orientation = FileUtils.getExifOrientation(e.target.result);
+                const orientationStyles = FileUtils.getOrientationStyles(orientation);
 
                 this.setState({
                     image: this.previewBlob,
@@ -109,53 +144,6 @@ export default class SettingPicture extends Component {
             };
             reader.readAsArrayBuffer(file);
         }
-    }
-
-    // based on https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side/32490603#32490603
-    getExifOrientation(data) {
-        var view = new DataView(data);
-
-        if (view.getUint16(0, false) !== 0xFFD8) {
-            return -2;
-        }
-
-        var length = view.byteLength;
-        var offset = 2;
-
-        while (offset < length) {
-            var marker = view.getUint16(offset, false);
-            offset += 2;
-
-            if (marker === 0xFFE1) {
-                if (view.getUint32(offset += 2, false) !== 0x45786966) {
-                    return -1;
-                }
-
-                var little = view.getUint16(offset += 6, false) === 0x4949;
-                offset += view.getUint32(offset + 4, little);
-                var tags = view.getUint16(offset, little);
-                offset += 2;
-
-                for (var i = 0; i < tags; i++) {
-                    if (view.getUint16(offset + (i * 12), little) === 0x0112) {
-                        return view.getUint16(offset + (i * 12) + 8, little);
-                    }
-                }
-            } else if ((marker & 0xFF00) === 0xFF00) {
-                offset += view.getUint16(offset, false);
-            } else {
-                break;
-            }
-        }
-        return -1;
-    }
-
-    getOrientationStyles(orientation) {
-        const {
-            transform,
-            'transform-origin': transformOrigin,
-        } = exif2css(orientation);
-        return {transform, transformOrigin};
     }
 
     renderImg = () => {
@@ -224,25 +212,30 @@ export default class SettingPicture extends Component {
 
             return (
                 <div className={`${imageContext}-img__container`}>
-                    <div className='img-preview__image'>
+                    <div
+                        className='img-preview__image'
+                        aria-hidden={true}
+                    >
                         {imageElement}
                     </div>
                     <OverlayTrigger
-                        trigger={['hover', 'focus']}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='right'
                         overlay={(
                             <Tooltip id='removeIcon'>
-                                {title}
+                                <div aria-hidden={true}>
+                                    {title}
+                                </div>
                             </Tooltip>
                         )}
                     >
-                        <a
+                        <button
                             className={`${imageContext}-img__remove`}
                             onClick={handler}
                         >
-                            <span>{'×'}</span>
-                        </a>
+                            <span aria-hidden={true}>{'×'}</span>
+                            <span className='sr-only'>{title}</span>
+                        </button>
                     </OverlayTrigger>
                 </div>
             );
@@ -256,10 +249,12 @@ export default class SettingPicture extends Component {
         const img = this.renderImg();
 
         let confirmButtonClass = 'btn btn-sm';
+        let disableSaveButtonFocus = false;
         if (this.props.submitActive || this.state.removeSrc || this.state.setDefaultSrc) {
             confirmButtonClass += ' btn-primary';
         } else {
             confirmButtonClass += ' btn-inactive disabled';
+            disableSaveButtonFocus = true;
         }
 
         let helpText;
@@ -280,40 +275,73 @@ export default class SettingPicture extends Component {
             );
         }
 
+        let imgRender;
+        if (img) {
+            imgRender = (
+                <li
+                    className='setting-list-item'
+                    role='presentation'
+                >
+                    {img}
+                </li>
+            );
+        }
+
         return (
             <ul className='section-max form-horizontal'>
                 <li className='col-xs-12 section-title'>{this.props.title}</li>
                 <li className='col-xs-offset-3 col-xs-8'>
-                    <ul className='setting-list'>
-                        {img ? <li className='setting-list-item'> {img} </li> : ''}
-                        <li className='setting-list-item padding-top x2'>
+                    <ul
+                        className='setting-list'
+                        ref={this.settingList}
+                        tabIndex='-1'
+                        aria-label={this.props.title}
+                        aria-describedby='setting-picture__helptext'
+                    >
+                        {imgRender}
+                        <li
+                            id='setting-picture__helptext'
+                            className='setting-list-item padding-top x2'
+                            role='presentation'
+                        >
                             {helpText}
                         </li>
-                        <li className='setting-list-item'>
+                        <li
+                            className='setting-list-item'
+                            role='presentation'
+                        >
                             <hr/>
                             <FormError
                                 errors={[this.props.clientError, this.props.serverError]}
                                 type={'modal'}
                             />
-                            <div
+                            <input
+                                ref={this.selectInput}
+                                className='hidden'
+                                accept='.jpg,.png,.bmp'
+                                type='file'
+                                onChange={this.handleFileChange}
+                                disabled={this.props.loadingPicture}
+                                aria-hidden={true}
+                                tabIndex='-1'
+                            />
+                            <button
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
+                                onClick={this.handleInputFile}
+                                aria-label={localizeMessage('setting_picture.select', 'Select')}
                             >
                                 <FormattedMessage
                                     id='setting_picture.select'
                                     defaultMessage='Select'
                                 />
-                                <input
-                                    ref='input'
-                                    accept='.jpg,.png,.bmp'
-                                    type='file'
-                                    onChange={this.handleFileChange}
-                                    disabled={this.props.loadingPicture}
-                                />
-                            </div>
-                            <a
+                            </button>
+                            <button
+                                tabIndex={disableSaveButtonFocus ? '-1' : '0'}
+                                ref={this.confirmButton}
                                 className={confirmButtonClass}
                                 onClick={this.props.loadingPicture ? () => true : this.handleSave}
+                                aria-label={this.props.loadingPicture ? localizeMessage('setting_picture.uploading', 'Uploading...') : localizeMessage('setting_picture.save', 'Save')}
                             >
                                 <LoadingWrapper
                                     loading={this.props.loadingPicture}
@@ -324,17 +352,18 @@ export default class SettingPicture extends Component {
                                         defaultMessage='Save'
                                     />
                                 </LoadingWrapper>
-                            </a>
-                            <a
+                            </button>
+                            <button
                                 className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}
+                                aria-label={localizeMessage('setting_picture.cancel', 'Cancel')}
                             >
                                 <FormattedMessage
                                     id='setting_picture.cancel'
                                     defaultMessage='Cancel'
                                 />
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </li>
