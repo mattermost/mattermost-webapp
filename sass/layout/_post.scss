@@ -567,6 +567,12 @@
         textarea {
             box-shadow: none;
         }
+
+        .form-control {
+            &:hover, &:focus {
+                border-color: var(--link-color);
+            }
+        }
     }
 
     .msg-typing {
