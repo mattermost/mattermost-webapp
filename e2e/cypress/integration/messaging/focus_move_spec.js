@@ -99,7 +99,7 @@ describe('Messaging', () => {
         //* Verify focus is moved to main input box when the channel is opened
         cy.get('#post_textbox').should('be.focused');
     });
-    
+
     it('M17450 - Focus to remain in RHS textbox each time Reply arrow is clicked', () => {
         //# Click on Town-Square channel
         cy.get('#sidebarItem_town-square').click({force: true});
