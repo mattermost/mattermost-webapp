@@ -308,9 +308,6 @@
 
     .video-div {
         &.embed-responsive-item {
-            height: 0;
-            padding-bottom: 75%;
-
             iframe {
                 height: 100%;
                 left: 0;

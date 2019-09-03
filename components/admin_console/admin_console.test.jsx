@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AdminConsole from 'components/admin_console/admin_console';
+import AdminDefinition from 'components/admin_console/admin_definition';
 
 describe('components/AdminConsole', () => {
     const baseProps = {
@@ -14,6 +15,7 @@ describe('components/AdminConsole', () => {
                 RestrictSystemAdmin: false,
             },
         },
+        adminDefinition: AdminDefinition,
         license: {},
         buildEnterpriseReady: true,
         match: {

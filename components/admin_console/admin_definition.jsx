@@ -156,7 +156,7 @@ export const it = {
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
 };
 
-export default {
+const AdminDefinition = {
     about: {
         icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
@@ -4311,3 +4311,5 @@ t('admin.field_names.postEditTimeLimit');
 t('admin.field_names.restrictCreationToDomains');
 t('admin.field_names.restrictDirectMessage');
 t('admin.field_names.teammateNameDisplay');
+
+export default AdminDefinition;

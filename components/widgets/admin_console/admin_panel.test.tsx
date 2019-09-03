@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AdminPanel from './admin_panel.jsx';
+import AdminPanel from './admin_panel';
 
 describe('components/widgets/admin_console/AdminPanel', () => {
     const defaultProps = {
@@ -15,8 +15,6 @@ describe('components/widgets/admin_console/AdminPanel', () => {
         subtitleId: 'test-subtitle-id',
         subtitleDefault: 'test-subtitle-default',
         subtitleValues: {foo: 'bar'},
-        onHeaderClick: null,
-        button: null,
     };
 
     test('should match snapshot', () => {
@@ -28,7 +26,6 @@ describe('components/widgets/admin_console/AdminPanel', () => {
 >
   <div
     className="header"
-    onClick={null}
   >
     <div>
       <h3>
@@ -72,7 +69,6 @@ describe('components/widgets/admin_console/AdminPanel', () => {
 >
   <div
     className="header"
-    onClick={null}
   >
     <div>
       <h3>
