@@ -13,8 +13,6 @@ import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
 import InvitationModal from 'components/invitation_modal';
 
-import MarketplaceModal from 'components/integrations_marketplace';
-
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
@@ -26,6 +24,7 @@ import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
+import MarketplaceModal from 'components/integrations_marketplace';
 
 import Menu from 'components/widgets/menu/menu.jsx';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';

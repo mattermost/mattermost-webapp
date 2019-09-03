@@ -172,7 +172,8 @@ export default class MarketplaceModal extends React.Component {
                                 {this.state.loading ?
                                     <LoadingScreen/> : (
                                         this.getPluginsListContent(this.props.marketplacePlugins, false)
-                                    ) }
+                                    )
+                                }
                             </Tab>
                             <Tab
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
