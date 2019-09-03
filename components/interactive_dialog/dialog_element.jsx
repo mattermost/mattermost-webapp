@@ -13,6 +13,7 @@ import GenericChannelProvider from 'components/suggestion/generic_channel_provid
 import TextSetting from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import BoolSetting from 'components/widgets/settings/bool_setting';
+import RadioSetting from 'components/widgets/settings/radio_setting';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
@@ -79,6 +80,7 @@ export default class DialogElement extends React.PureComponent {
             helpText,
             errorText,
             optional,
+            options,
         } = this.props;
 
         let {type, maxLength} = this.props;
@@ -163,6 +165,17 @@ export default class DialogElement extends React.PureComponent {
                     value={value || false}
                     helpText={helpTextContent}
                     placeholder={placeholder}
+                    onChange={onChange}
+                />
+            );
+        } else if (type === 'radio') {
+            return (
+                <RadioSetting
+                    id={name}
+                    label={displayNameContent}
+                    helpText={helpTextContent}
+                    values={options}
+                    value={value || options[0]['value']}
                     onChange={onChange}
                 />
             );
