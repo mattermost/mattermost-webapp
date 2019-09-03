@@ -2546,7 +2546,7 @@
   "invite.guests.added-to-channel": "An invitation email has been sent.",
   "invite.guests.already-all-channels-member": "This person is already a member of all the channels.",
   "invite.guests.already-some-channels-member": "This person is already a member of some of the channels.",
-  "invite.guests.new-member": "This guest has been added to the team and channels.",
+  "invite.guests.new-member": "This guest has been added to the team and {count, plural, one {channel} other {channels}}.",
   "invite.guests.unable-to-add-the-user-to-the-channels": "Unable to add the guest to the channels.",
   "invite.members.added-to-team": "This member has been added to the team.",
   "invite.members.already-member": "This person is already a team member.",

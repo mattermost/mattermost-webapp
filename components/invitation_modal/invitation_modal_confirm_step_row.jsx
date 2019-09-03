@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import EmailIcon from 'components/widgets/icons/mail_icon';
 import AlertIcon from 'components/widgets/icons/alert_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -47,6 +49,18 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             icon = <AlertIcon className='alert-icon'/>;
             username = invitation.text;
         }
+
+        let reason = invitation.reason;
+        if (invitation.reason && invitation.reason.id) {
+            reason = (
+                <FormattedMessage
+                    id={invitation.reason.id}
+                    defaultMessage={invitation.reason.message}
+                    values={invitation.reason.values}
+                />
+            );
+        }
+
         return (
             <div className='InvitationModalConfirmStepRow'>
                 <div className='username-or-icon'>
@@ -57,7 +71,7 @@ export default class InvitationModalConfirmStepRow extends React.Component {
                     </span>
                 </div>
                 <div className='reason'>
-                    {invitation.reason}
+                    {reason}
                 </div>
             </div>
         );

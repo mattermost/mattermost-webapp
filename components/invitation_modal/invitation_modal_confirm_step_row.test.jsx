@@ -34,6 +34,28 @@ describe('components/invitation_modal/InvitationModalConfirmStepRow', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match the snapshot for guest addition to channel', () => {
+        const wrapper = shallow(
+            <InvitationModalConfirmStepRow
+                invitation={{
+                    user: {
+                        id: 'test-id',
+                        username: 'test',
+                        nickname: 'test-nickname',
+                        first_name: 'first-name',
+                        last_name: 'last-name',
+                    },
+                    reason: {
+                        id: 'some-id',
+                        message: 'some message',
+                        values: {count: 1},
+                    },
+                }}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match the snapshot for text failure', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStepRow
