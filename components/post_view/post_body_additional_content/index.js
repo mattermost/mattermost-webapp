@@ -13,6 +13,7 @@ import PostBodyAdditionalContent from './post_body_additional_content';
 function mapStateToProps(state, ownProps) {
     return {
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
+        pluginPostWillRenderEmbedComponents: state.plugins.components.PostWillRenderEmbedComponent,
     };
 }
 

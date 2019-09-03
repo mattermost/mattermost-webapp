@@ -1,0 +1,48 @@
+@charset 'UTF-8';
+
+.remove-image {
+    display: inline-block;
+    position: relative;
+}
+
+.remove-image__img {
+    border: 1px solid alpha-color($black, .15);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $white;
+    border-radius: 4px;
+    width: 128px;
+    height: 128px;
+
+    img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+.remove-image__btn {
+    background: alpha-color($black, .8);
+    color: white;
+    position: absolute;
+    top: -8px;
+    right: -9px;
+    border: none;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    border-radius: 40px;
+    font-size: 20px;
+    justify-content: center;
+
+    &:hover {
+        background: $black;
+    }
+
+    span {
+        line-height: 0;
+        margin-left: 1px;
+    }
+}
