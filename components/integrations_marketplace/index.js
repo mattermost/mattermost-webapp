@@ -4,7 +4,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {installPluginFromUrl} from 'mattermost-redux/actions/admin';
 import {getMarketplacePlugins} from 'mattermost-redux/actions/plugins';
 import {getMarketplaceInstalledPlugins} from 'mattermost-redux/selectors/entities/plugins';
 
@@ -27,7 +26,6 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             closeModal: () => closeModal(ModalIdentifiers.INTEGRATIONS_MARKETPLACE),
-            installPluginFromUrl,
             getMarketplacePlugins,
         }, dispatch),
     };
