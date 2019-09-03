@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AdminPanelWithLink from './admin_panel_with_link.jsx';
+import AdminPanelWithButton from './admin_panel_with_button';
 
-describe('components/widgets/admin_console/AdminPanelWithLink', () => {
+describe('components/widgets/admin_console/AdminPanelWithButton', () => {
     const defaultProps = {
         className: 'test-class-name',
         id: 'test-id',
@@ -14,34 +14,33 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
         titleDefault: 'test-title-default',
         subtitleId: 'test-subtitle-id',
         subtitleDefault: 'test-subtitle-default',
-        url: '/path',
-        linkTextId: 'test-button-text-id',
-        linkTextDefault: 'test-button-text-default',
+        onButtonClick: jest.fn(),
+        buttonTextId: 'test-button-text-id',
+        buttonTextDefault: 'test-button-text-default',
         disabled: false,
     };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <AdminPanelWithLink {...defaultProps}>
+            <AdminPanelWithButton {...defaultProps}>
                 {'Test'}
-            </AdminPanelWithLink>
+            </AdminPanelWithButton>
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminPanel
   button={
-    <Link
+    <a
       className="btn btn-primary"
-      disabled={false}
-      to="/path"
+      onClick={[MockFunction]}
     >
       <FormattedMessage
         defaultMessage="test-button-text-default"
         id="test-button-text-id"
         values={Object {}}
       />
-    </Link>
+    </a>
   }
-  className="AdminPanelWithLink test-class-name"
+  className="AdminPanelWithButton test-class-name"
   id="test-id"
   subtitleDefault="test-subtitle-default"
   subtitleId="test-subtitle-id"
@@ -56,29 +55,28 @@ describe('components/widgets/admin_console/AdminPanelWithLink', () => {
 
     test('should match snapshot when disabled', () => {
         const wrapper = shallow(
-            <AdminPanelWithLink
+            <AdminPanelWithButton
                 {...defaultProps}
                 disabled={true}
             >
                 {'Test'}
-            </AdminPanelWithLink>
+            </AdminPanelWithButton>
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <AdminPanel
   button={
-    <Link
+    <a
       className="btn btn-primary"
-      disabled={true}
-      to="/path"
+      onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="test-button-text-default"
         id="test-button-text-id"
         values={Object {}}
       />
-    </Link>
+    </a>
   }
-  className="AdminPanelWithLink test-class-name"
+  className="AdminPanelWithButton test-class-name"
   id="test-id"
   subtitleDefault="test-subtitle-default"
   subtitleId="test-subtitle-id"

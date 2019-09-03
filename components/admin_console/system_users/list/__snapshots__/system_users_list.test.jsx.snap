@@ -102,11 +102,31 @@ exports[`components/admin_console/system_users/list should match default snapsho
             defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
           />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id1",
+              }
+            }
+          />,
         ],
         "id2": Array [
           <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id2",
+              }
+            }
           />,
         ],
         "id3": Array [
@@ -116,6 +136,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
             values={
               Object {
                 "service": "LDAP",
+              }
+            }
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id3",
               }
             }
           />,
@@ -130,6 +160,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
               }
             }
           />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id4",
+              }
+            }
+          />,
         ],
         "id5": Array [
           <InjectIntl(FormattedMarkdownMessage)
@@ -138,6 +178,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
             values={
               Object {
                 "service": "Other Service",
+              }
+            }
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id5",
               }
             }
           />,
@@ -245,6 +295,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
           ", ",
           <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id1",
+              }
+            }
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
           />,
@@ -253,6 +313,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
           <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="**Sign-in Method:** Email"
             id="admin.user_item.authServiceEmail"
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id2",
+              }
+            }
           />,
           ", ",
           <InjectIntl(FormattedMarkdownMessage)
@@ -267,6 +337,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
             values={
               Object {
                 "service": "LDAP",
+              }
+            }
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id3",
               }
             }
           />,
@@ -288,6 +368,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
           />,
           ", ",
           <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id4",
+              }
+            }
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="**MFA**: No"
             id="admin.user_item.mfaNo"
           />,
@@ -299,6 +389,16 @@ exports[`components/admin_console/system_users/list should match default snapsho
             values={
               Object {
                 "service": "Other Service",
+              }
+            }
+          />,
+          ", ",
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="**User ID:** {userID}"
+            id="admin.user_item.user_id"
+            values={
+              Object {
+                "userID": "id5",
               }
             }
           />,
