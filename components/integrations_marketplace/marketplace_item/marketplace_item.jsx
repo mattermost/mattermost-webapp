@@ -89,10 +89,7 @@ export default class MarketplaceItem extends React.Component {
             this.installPlugin(false);
         }
 
-        render() {
-            const ariaLabel = `${this.props.name}, ${this.props.description}`.toLowerCase();
-            const versionLabel = `(${this.props.version})`;
-
+        getItemButton() {
             let button = (
                 <button
                     onClick={this.onInstall}
@@ -134,28 +131,35 @@ export default class MarketplaceItem extends React.Component {
                     </Link>);
             }
 
+            return button;
+        }
+
+        render() {
+            const ariaLabel = `${this.props.name}, ${this.props.description}`.toLowerCase();
+            const versionLabel = `(${this.props.version})`;
+
             return (
-                <a
+                <div
                     className={'more-modal__row more-modal__row--link' + (this.state.serverError ? ' item_error' : '')}
                     key={this.props.id}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.homepageUrl}
                 >
                     <PluginIcon className='icon__plugin'/>
                     <div className='more-modal__details'>
-                        <button
+                        <a
                             aria-label={ariaLabel}
-                            className='style--none more-modal__name'
+                            className='style--none more-modal__row--link'
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            href={this.props.homepageUrl}
                         >
                             {this.props.name} <span className='light subtitle'>{versionLabel}</span>
-                        </button>
-                        <p className={'more-modal__description' + (this.state.serverError ? ' error_text' : '')}>
-                            { this.state.serverError ? this.state.serverError : this.props.description}
-                        </p>
+                            <p className={'more-modal__description' + (this.state.serverError ? ' error_text' : '')}>
+                                { this.state.serverError ? this.state.serverError : this.props.description}
+                            </p>
+                        </a>
                     </div>
                     <div className='more-modal__actions'>
-                        {button}
+                        {this.getItemButton()}
                     </div>
                     <ConfirmModal
                         show={this.state.confirmOverwriteInstallModal}
@@ -178,7 +182,7 @@ export default class MarketplaceItem extends React.Component {
                         onConfirm={this.onClickOvewriteModal}
                         onCancel={this.onCancelOvewriteModal}
                     />
-                </a>
+                </div>
             );
         }
 }
