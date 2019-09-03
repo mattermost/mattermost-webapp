@@ -13,11 +13,11 @@ describe('components/widgets/settings/RadioSetting', () => {
                 id='string.id'
                 label='some label'
                 values={[
-                    { "text":"this is engineering", "value":"Engineering" },
-                    { "text":"this is sales", "value":"Sales" },
-                    { "text":"this is administration", "value":"Administration" },
+                    {text: 'this is engineering', value: 'Engineering'},
+                    {text: 'this is sales', value: 'Sales'},
+                    {text: 'this is administration', value: 'Administration'},
                 ]}
-                value={"Sales"}
+                value={'Sales'}
                 onChange={onChange}
             />
         );
@@ -84,18 +84,18 @@ describe('components/widgets/settings/RadioSetting', () => {
                 id='string.id'
                 label='some label'
                 values={[
-                    { "text":"this is engineering", "value":"Engineering" },
-                    { "text":"this is sales", "value":"Sales" },
-                    { "text":"this is administration", "value":"Administration" },
+                    {text: 'this is engineering', value: 'Engineering'},
+                    {text: 'this is sales', value: 'Sales'},
+                    {text: 'this is administration', value: 'Administration'},
                 ]}
-                value={"Sales"}
+                value={'Sales'}
                 onChange={onChange}
             />
         );
 
-        wrapper.find('input').at(0).simulate('change', {target: {value: "Administration"}});
+        wrapper.find('input').at(0).simulate('change', {target: {value: 'Administration'}});
 
         expect(onChange).toHaveBeenCalledTimes(1);
-        expect(onChange).toHaveBeenCalledWith('string.id', "Administration");
+        expect(onChange).toHaveBeenCalledWith('string.id', 'Administration');
     });
 });

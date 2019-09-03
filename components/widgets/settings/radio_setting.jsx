@@ -13,6 +13,8 @@ export default class RadioSetting extends React.Component {
         label: PropTypes.node.isRequired,
         value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
+        labelClassName: PropTypes.string,
+        inputClassName: PropTypes.string,
         helpText: PropTypes.node,
     };
 

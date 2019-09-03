@@ -175,7 +175,7 @@ export default class DialogElement extends React.PureComponent {
                     label={displayNameContent}
                     helpText={helpTextContent}
                     values={options}
-                    value={value || options[0]['value']}
+                    value={value || options[0].value}
                     onChange={onChange}
                 />
             );
