@@ -84,7 +84,7 @@
     "@babel/preset-react": "7.0.0",
     "@babel/preset-typescript": "7.3.3",
     "@hot-loader/react-dom": "16.8.6",
-    "@types/react-color": "^3.0.1",
+    "@types/react-color": "3.0.1",
     "@types/react-intl": "2.3.18",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "babel-eslint": "10.0.2",
