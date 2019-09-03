@@ -29,7 +29,7 @@ import TeamList from 'components/admin_console/system_user_detail/team_list';
 
 import './system_user_detail.scss';
 
-export default class SystemUserDetail extends React.Component {
+export default class SystemUserDetail extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -49,6 +49,7 @@ export default class SystemUserDetail extends React.Component {
         super(props);
         this.state = {
             teams: null,
+            teamIds: null,
             loading: false,
             searching: false,
             showPasswordModal: false,
@@ -67,7 +68,9 @@ export default class SystemUserDetail extends React.Component {
     }
 
     teamsData = (teams) => {
+        const teamIds = teams.map((team) => team.team_id);
         this.setState({teams});
+        this.setState({teamIds});
         this.setState({refreshTeams: false});
     }
 
@@ -80,7 +83,7 @@ export default class SystemUserDetail extends React.Component {
         for (const team of teams) {
             promises.push(this.props.actions.addUserToTeam(team.id, this.props.user.id));
         }
-        return Promise.all(promises).finally(this.setState({refreshTeams: true}));
+        Promise.all(promises).finally(this.setState({refreshTeams: true}));
     }
 
     closeAddTeam = () => {
@@ -434,7 +437,7 @@ export default class SystemUserDetail extends React.Component {
                     <TeamSelectorModal
                         onModalDismissed={this.closeAddTeam}
                         onTeamsSelected={this.addTeams}
-                        alreadySelected={this.state.teams.map((team) => team.team_id)}
+                        alreadySelected={this.state.teamIds}
                     />
                 }
             </div>
