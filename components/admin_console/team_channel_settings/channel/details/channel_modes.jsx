@@ -44,7 +44,7 @@ const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
             toggled={isPublic}
             last={isPublic}
             onToggle={() => {
-                onToggle(isSynced, !isPublic, false);
+                onToggle(isSynced, !isPublic);
             }}
             title={(
                 <FormattedMessage

@@ -78,19 +78,11 @@ export default class ChannelDetails extends React.Component {
             then(() => this.setState({groups: this.props.groups}));
     }
 
-    setToggles = (isSynced, isPublic, syncToggle) => {
-        const {channel} = this.props;
-        const isOriginallyPublic = channel.type === Constants.OPEN_CHANNEL;
-        let channelPrivacy = isPublic;
-        if (isSynced) {
-            channelPrivacy = false;
-        } else if (syncToggle) {
-            channelPrivacy = isOriginallyPublic;
-        }
+    setToggles = (isSynced, isPublic) => {
         this.setState({
             saveNeeded: true,
             isSynced,
-            isPublic: channelPrivacy,
+            isPublic,
         }, () => this.processGroupsChange(this.state.groups));
         this.props.actions.setNavigationBlocked(true);
     }
@@ -167,10 +159,16 @@ export default class ChannelDetails extends React.Component {
 
     handleSubmit = async () => {
         this.setState({showRemoveConfirmation: false, showConvertConfirmation: false, saving: true});
-        const {groups, isSynced, isPublic} = this.state;
+        const {groups, isSynced} = this.state;
+        let {isPublic} = this.state;
 
         let serverError = null;
         let saveNeeded = false;
+
+        if (isSynced) {
+            isPublic = false;
+            this.setState({isPublic});
+        }
 
         const {groups: origGroups, channelID, actions, channel} = this.props;
         if (this.state.groups.length === 0 && isSynced) {
@@ -184,7 +182,6 @@ export default class ChannelDetails extends React.Component {
                 promises.push(actions.patchChannel(channel.id, {
                     ...channel,
                     group_constrained: isSynced,
-                    type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
                 }));
             } else {
                 const convert = actions.updateChannelPrivacy(channel.id, isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL);
@@ -195,7 +192,6 @@ export default class ChannelDetails extends React.Component {
                     return actions.patchChannel(channel.id, {
                         ...channel,
                         group_constrained: isSynced,
-                        type: isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL,
                     });
                 }));
             }
