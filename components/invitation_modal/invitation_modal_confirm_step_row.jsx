@@ -51,8 +51,10 @@ export default class InvitationModalConfirmStepRow extends React.Component {
             <div className='InvitationModalConfirmStepRow'>
                 <div className='username-or-icon'>
                     {icon}
-                    <span className={className}>{username}</span>
-                    {guestBadge}
+                    <span className={className}>
+                        {username}
+                        {guestBadge}
+                    </span>
                 </div>
                 <div className='reason'>
                     {invitation.reason}
