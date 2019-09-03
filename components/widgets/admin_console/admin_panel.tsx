@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import "./admin_panel.scss";
+import './admin_panel.scss';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
