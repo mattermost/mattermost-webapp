@@ -14,7 +14,7 @@ type State = {
     isOpened: boolean;
 }
 
-class ColorInput extends React.Component<Props, State> {
+class ColorInput extends React.PureComponent<Props, State> {
     private colorPicker: React.RefObject<HTMLDivElement>;
 
     public constructor(props: Props) {
