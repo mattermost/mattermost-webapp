@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MarkdownImage should match snapsnot 1`] = `
+<Provider
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <MarkdownImage
+    imagesMetadata={
+      Object {
+        "format": "jpg",
+        "frame_count": 0,
+        "height": 100,
+        "width": 100,
+      }
+    }
+    src="path/image"
+  >
+    <Connect(ExternalImage)
+      src="path/image"
+    >
+      <ExternalImage
+        dispatch={[Function]}
+        enableSVGs={false}
+        hasImageProxy={false}
+        src="path/image"
+      >
+        <SizeAwareImage
+          imagesMetadata={
+            Object {
+              "format": "jpg",
+              "frame_count": 0,
+              "height": 100,
+              "width": 100,
+            }
+          }
+          src="path/image"
+        >
+          <div
+            className="style--none file-preview__button"
+            style={Object {}}
+          >
+            <img
+              aria-label="file thumbnail"
+              onError={[Function]}
+              onKeyDown={[Function]}
+              onLoad={[Function]}
+              src="path/image"
+              tabIndex="0"
+            />
+          </div>
+        </SizeAwareImage>
+      </ExternalImage>
+    </Connect(ExternalImage)>
+  </MarkdownImage>
+</Provider>
+`;
