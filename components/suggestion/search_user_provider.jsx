@@ -5,7 +5,7 @@ import React from 'react';
 
 import {autocompleteUsersInTeam} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
 import SelectIcon from 'components/widgets/icons/fa_select_icon';
 import Avatar from 'components/widgets/users/avatar';
 

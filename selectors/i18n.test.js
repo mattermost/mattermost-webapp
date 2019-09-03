@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {General} from 'mattermost-redux/constants';
+
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 describe('selectors/i18n', () => {
@@ -43,6 +45,28 @@ describe('selectors/i18n', () => {
             };
 
             expect(getCurrentLocale(state)).toEqual('de');
+        });
+
+        test('returns default locale when invalid user locale specified', () => {
+            const state = {
+                entities: {
+                    general: {
+                        config: {
+                            DefaultClientLocale: 'en',
+                        },
+                    },
+                    users: {
+                        currentUserId: 'abcd',
+                        profiles: {
+                            abcd: {
+                                locale: 'not_valid',
+                            },
+                        },
+                    },
+                },
+            };
+
+            expect(getCurrentLocale(state)).toEqual(General.DEFAULT_LOCALE);
         });
     });
 

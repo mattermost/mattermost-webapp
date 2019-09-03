@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AdminPanelTogglable from './admin_panel_togglable.jsx';
+import AdminPanelTogglable from './admin_panel_togglable';
 
 describe('components/widgets/admin_console/AdminPanelTogglable', () => {
     const defaultProps = {

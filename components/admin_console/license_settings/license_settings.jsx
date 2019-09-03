@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 export default class LicenseSettings extends React.Component {
     static propTypes = {
@@ -120,7 +120,17 @@ export default class LicenseSettings extends React.Component {
                     {`Start date of license: ${startsAt}`}<br/>
                     {`Expiry date of license: ${expiresAt}`}<br/>
                     <br/>
-                    {'See also '}<a href='https://about.mattermost.com/enterprise-edition-terms/'>{'Enterprise Edition Terms of Service'}</a>{' and '}<a href='https://about.mattermost.com/privacy/'>{'Privacy Policy.'}</a>
+                    {'See also '}
+                    <a
+                        rel='noopener noreferrer'
+                        target='_blank'
+                        href='https://about.mattermost.com/enterprise-edition-terms/'
+                    >{'Enterprise Edition Terms of Service'}</a>{' and '}
+                    <a
+                        rel='noopener noreferrer'
+                        target='_blank'
+                        href='https://about.mattermost.com/privacy/'
+                    >{'Privacy Policy.'}</a>
                 </div>
             );
 
