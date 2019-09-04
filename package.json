@@ -67,7 +67,7 @@
     "redux": "4.0.4",
     "redux-batched-actions": "0.4.1",
     "redux-persist": "4.10.2",
-    "regenerator-runtime": "^0.13.3",
+    "regenerator-runtime": "0.13.3",
     "reselect": "4.0.0",
     "superagent": "5.1.0",
     "typescript": "3.5.3",
@@ -84,8 +84,14 @@
     "@babel/preset-react": "7.0.0",
     "@babel/preset-typescript": "7.3.3",
     "@hot-loader/react-dom": "16.8.6",
+    "@storybook/addon-actions": "5.1.11",
+    "@storybook/addon-knobs": "5.1.11",
+    "@storybook/addon-links": "5.1.11",
+    "@storybook/addon-notes": "5.1.11",
+    "@storybook/addons": "5.1.11",
+    "@storybook/react": "5.1.11",
     "@types/react-intl": "2.3.18",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/eslint-plugin": "1.13.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "24.8.0",
     "babel-loader": "8.0.6",
@@ -206,6 +212,8 @@
     "updatesnapshot": "jest --updateSnapshot",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "mmjstool": "mmjstool"
+    "mmjstool": "mmjstool",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   }
 }
