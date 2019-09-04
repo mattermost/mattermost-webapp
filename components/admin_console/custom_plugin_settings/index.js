@@ -42,7 +42,7 @@ function makeGetPluginSchema() {
                 type: Constants.SettingsTypes.TYPE_BOOL,
                 key: pluginEnabledConfigKey,
                 label: t('admin.plugin.enable_plugin'),
-                label_default: 'Enable plugin: ',
+                label_default: 'Enable Plugin: ',
                 help_text: t('admin.plugin.enable_plugin.help'),
                 help_text_default: 'When true, this plugin is enabled.',
             });
