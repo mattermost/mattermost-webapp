@@ -121,6 +121,10 @@
 #user-profile-popover .user-popover__username:only-child > a{
     max-width: 100%;
 }
+#user-profile-popover .Avatar {
+    margin: 5px auto;
+    display: block;
+}
 
 .user-popover__role {
     padding: 3px 5px;
@@ -132,11 +136,6 @@
     color: $white;
 }
 
-.user-popover__image {
-    @include border-radius(128px);
-    margin: 5px auto;
-    display: block;
-}
 
 .user-popover__email {
     display: block;
@@ -229,11 +228,9 @@
             position: relative;
         }
 
-        .profile-img {
-            height: 16px;
+        .Avatar {
             margin-right: 6px;
             margin-top: -1px;
-            width: 16px;
         }
     }
 
@@ -325,10 +322,23 @@
             height: 50px;
             margin: 1px 0;
             overflow: hidden;
-            padding: 0 20px;
+            padding: 0 12px 0 20px;
 
             .more-modal__actions {
-                padding-left: 12px;
+                opacity: 1;
+                padding: 0;
+                margin-left: 12px;
+
+                button {
+                    opacity: 0;
+                    line-height: 0;
+                    width: 2em;
+                    height: 2em;
+
+                    &.a11y--focused {
+                        opacity: 1;
+                    }
+                }
             }
 
             &:hover {
@@ -336,7 +346,9 @@
                 padding-left: 17px;
 
                 .more-modal__actions {
-                    @include opacity(1);
+                    button {
+                        @include opacity(1);
+                    }
                 }
 
                 .more-modal__name {

@@ -6,7 +6,7 @@
     height: 100%;
     line-height: 20px;
     min-height: 36px;
-    overflow-x: hidden;
+    overflow: hidden;
     resize: none;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -69,7 +69,7 @@
 
 .help__format-text {
     @include opacity(0);
-    @include single-transition(all, .5s, ease, .5s);
+    @include single-transition(all, .3s, ease-in, .3s);
     display: inline-block;
     font-size: .85em;
     vertical-align: bottom;
@@ -440,12 +440,8 @@
     .custom-textarea {
         bottom: 0;
         max-height: calc(50vh - 40px);
-        overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
-        -ms-overflow-style: auto;
-        -webkit-overflow-scrolling: touch;
-        overflow-y: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -736,7 +732,7 @@
 }
 
 .post {
-    @include legacy-pie-clearfix;
+    overflow: hidden;
     max-width: 100%;
     padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
@@ -772,6 +768,9 @@
 
     &:hover,
     &.a11y--active {
+        @include legacy-pie-clearfix;
+        overflow: visible;
+
         .dropdown,
         .comment-icon__container,
         .card-icon__container,
@@ -799,6 +798,9 @@
 
     &.post--hovered,
     &.a11y--active {
+        @include legacy-pie-clearfix;
+        overflow: visible;
+
         .dropdown,
         .comment-icon__container,
         .card-icon__container,
@@ -890,10 +892,6 @@
                     height: 0;
                 }
             }
-        }
-
-        .Badge {
-            margin: 0;
         }
 
         .card-icon__container {
@@ -1636,6 +1634,7 @@
 
         .post-reaction-list {
             display: flex;
+            flex-wrap: wrap;
             padding: 4px 0 0;
             align-items: center;
             min-height: 30px;

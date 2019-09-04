@@ -11,14 +11,13 @@ import {localizeMessage} from 'utils/utils.jsx';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import BlockableLink from 'components/admin_console/blockable_link';
 
 import TeamSelectorModal from 'components/team_selector_modal';
 import ChannelSelectorModal from 'components/channel_selector_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 export default class GroupDetails extends React.PureComponent {
     static propTypes = {
@@ -154,11 +153,11 @@ export default class GroupDetails extends React.PureComponent {
                                             <i className={'fa fa-caret-down'}/>
                                         </button>
                                         <Menu ariaLabel={localizeMessage('admin.group_settings.group_details.menuAriaLabel', 'Add Team or Channel Menu')}>
-                                            <MenuItemAction
+                                            <Menu.ItemAction
                                                 onClick={this.openAddTeam}
                                                 text={localizeMessage('admin.group_settings.group_details.add_team', 'Add Team')}
                                             />
-                                            <MenuItemAction
+                                            <Menu.ItemAction
                                                 onClick={this.openAddChannel}
                                                 text={localizeMessage('admin.group_settings.group_details.add_channel', 'Add Channel')}
                                             />

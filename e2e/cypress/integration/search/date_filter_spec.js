@@ -122,11 +122,11 @@ describe('SF15699 Search Date Filter', () => {
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as new admin to Town Square
             cy.get('@newAdmin').then((user) => {
-                cy.postMessageAs({sender: user, message: firstMessage, channelId, createAt: firstDateEarly.ms, baseUrl});
+                cy.postMessageAs({sender: user, message: firstMessage, channelId, createAt: firstDateEarly.ms});
             });
 
             // Post message as sysadmin to Town Square
-            cy.postMessageAs({sender: users.sysadmin, message: secondMessage, channelId, createAt: secondDateEarly.ms, baseUrl});
+            cy.postMessageAs({sender: users.sysadmin, message: secondMessage, channelId, createAt: secondDateEarly.ms});
         });
 
         // # Create messages at same dates in Off Topic channel
@@ -136,11 +136,11 @@ describe('SF15699 Search Date Filter', () => {
 
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as sysadmin to off topic
-            cy.postMessageAs({sender: users.sysadmin, message: firstOffTopicMessage, channelId, createAt: firstDateLater.ms, baseUrl});
+            cy.postMessageAs({sender: users.sysadmin, message: firstOffTopicMessage, channelId, createAt: firstDateLater.ms});
 
             // Post message as new admin to off topic
             cy.get('@newAdmin').then((user) => {
-                cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms, baseUrl});
+                cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms});
             });
         });
     });
@@ -316,10 +316,10 @@ describe('SF15699 Search Date Filter', () => {
 
             // Post same message at different times
             cy.getCurrentChannelId().then((channelId) => {
-                cy.postMessageAs({sender: users.sysadmin, message: 'pretarget ' + identifier, channelId, createAt: preTarget.ms, baseUrl});
-                cy.postMessageAs({sender: users.sysadmin, message: targetAMMessage, channelId, createAt: targetAM.ms, baseUrl});
-                cy.postMessageAs({sender: users.sysadmin, message: targetPMMessage, channelId, createAt: targetPM.ms, baseUrl});
-                cy.postMessageAs({sender: users.sysadmin, message: 'postTarget' + identifier, channelId, createAt: postTarget.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: 'pretarget ' + identifier, channelId, createAt: preTarget.ms});
+                cy.postMessageAs({sender: users.sysadmin, message: targetAMMessage, channelId, createAt: targetAM.ms});
+                cy.postMessageAs({sender: users.sysadmin, message: targetPMMessage, channelId, createAt: targetPM.ms});
+                cy.postMessageAs({sender: users.sysadmin, message: 'postTarget' + identifier, channelId, createAt: postTarget.ms});
             });
 
             // * Verify we only see messages from the expected date, and not outside of it
@@ -367,7 +367,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: targetDate.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: targetDate.ms});
             });
 
             // # Set clock to custom date, reload page for it to take effect
@@ -441,7 +441,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: target.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: target.ms});
             });
 
             // * Verify result appears in current timezone

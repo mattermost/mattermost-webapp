@@ -101,6 +101,7 @@ export default class Post extends React.PureComponent {
             a11yActive: false,
             sameRoot: this.hasSameRoot(props),
             currentAriaLabel: '',
+            ariaHidden: true,
         };
     }
 
@@ -240,11 +241,17 @@ export default class Post extends React.PureComponent {
     }
 
     handleA11yActivateEvent = () => {
-        this.setState({a11yActive: true});
+        this.setState({
+            a11yActive: true,
+            ariaHidden: false,
+        });
     }
 
     handleA11yDeactivateEvent = () => {
-        this.setState({a11yActive: false});
+        this.setState({
+            a11yActive: false,
+            ariaHidden: true,
+        });
     }
 
     handlePostFocus = () => {
@@ -304,9 +311,11 @@ export default class Post extends React.PureComponent {
                 aria-atomic={true}
             >
                 <div
+                    role='application'
                     id='postContent'
+                    data-testid='postContent'
                     className={'post__content ' + centerClass}
-                    aria-hidden={true}
+                    aria-hidden={this.state.ariaHidden}
                 >
                     <div className='post__img'>
                         {profilePic}

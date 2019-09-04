@@ -129,13 +129,13 @@ Cypress.Commands.add('postMessage', (message) => {
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').clear().type(message).type('{enter}');
+    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
     cy.wait(TIMEOUTS.TINY);
 });
 
 Cypress.Commands.add('getLastPost', () => {
     cy.get('#post-list', {timeout: TIMEOUTS.HUGE}).should('be.visible');
-    return cy.get('#postListContent #postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
+    return cy.getAllByTestId('postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
 });
 
 Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {

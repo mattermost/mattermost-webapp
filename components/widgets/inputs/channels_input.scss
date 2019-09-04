@@ -1,6 +1,13 @@
 @import 'utils/variables';
 
 .ChannelsInput {
+    &.empty {
+        .channels-input__control {
+            .channels-input__input {
+                border-bottom: 0;
+            }
+        }
+    }
     .channels-input__control {
         min-height: 48px;
         background: var(--center-channel-bg);
@@ -8,6 +15,7 @@
         box-shadow: none;
         border-color: var(--center-channel-color-20);
         padding: 3px;
+        transition: none;
         &:hover {
             border-color: var(--center-channel-color-20);
             cursor: text;
@@ -20,6 +28,17 @@
             border-width: 2px;
             padding: 2px;
             transition: none;
+            .channels-input__value-container {
+                .channels-input__input {
+                    border-bottom: 0;
+                }
+            }
+        }
+        .channels-input__input {
+            border-bottom: 1px dotted red;
+            >div {
+                width: 1px;
+            }
         }
     }
     .channels-input__value-container {
@@ -96,6 +115,18 @@
                 fill: var(--center-channel-color-50);
             }
         }
+        .channel-name {
+            opacity: .5;
+            &::before {
+                opacity: .5;
+                padding-left: 5px;
+                content: "(";
+            }
+            &::after {
+                opacity: .5;
+                content: ")";
+            }
+        }
     }
     .show {
         display: block;
@@ -141,6 +172,9 @@
                 margin: 0 1px;
                 fill: var(--button-color-80);
             }
+        }
+        .channel-name {
+            display: none;
         }
     }
     .channels-input__multi-value__remove {

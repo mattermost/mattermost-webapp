@@ -11,6 +11,8 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
+import Avatar from 'components/widgets/users/avatar';
+
 export default class AdminGroupUsersRow extends React.PureComponent {
     static propTypes = {
         displayName: PropTypes.string.isRequired,
@@ -52,16 +54,16 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                 className={'group '}
             >
                 <div
-                    className='group-row'
+                    className='group-row roc'
                     style={{padding: '30px 0px'}}
                 >
-                    <div className='group-name'>
+                    <div className='group-name col-sm-8'>
                         <div className='row'>
                             <div className='col-sm-2'>
-                                <img
-                                    className='group-user-profile-picture'
-                                    alt={''}
-                                    src={Client4.getProfilePictureUrl(user.id, lastPictureUpdate)}
+                                <Avatar
+                                    username={user.username}
+                                    url={Client4.getProfilePictureUrl(user.id, lastPictureUpdate)}
+                                    size='lg'
                                 />
                             </div>
                             <div className='col-sm-10'>
@@ -70,7 +72,7 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                                     {'-'}&nbsp;
                                     {displayName}
                                 </div>
-                                <div className='row'>
+                                <div className='row email-group-row'>
                                     {user.email}
                                 </div>
 
@@ -79,10 +81,10 @@ export default class AdminGroupUsersRow extends React.PureComponent {
 
                     </div>
                     <span
-                        className='group-user-removal-column group-description'
+                        className='col-sm-2 group-user-removal-column group-description'
                     >{this.renderRolesColumn(user)}</span>
                     <span
-                        className='group-user-removal-column group-description group-description-link'
+                        className='col-sm-2 group-user-removal-column group-description group-description-link'
                     >{this.renderGroupsColumn(user)}</span>
                 </div>
             </div>

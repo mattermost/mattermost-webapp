@@ -13,7 +13,7 @@ import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import MemberIcon from 'components/svg/member_icon';
+import MemberIcon from 'components/widgets/icons/member_icon';
 import TeamMembersModal from 'components/team_members_modal';
 
 import PopoverListMembersItem from './popover_list_members_item';
@@ -28,13 +28,14 @@ export default class PopoverListMembers extends React.Component {
         teamUrl: PropTypes.string,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
-            getProfilesInChannel: PropTypes.func.isRequired,
+            loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
     };
 
     constructor(props) {
         super(props);
+        this.membersList = React.createRef();
 
         this.state = {
             showPopover: false,
@@ -106,10 +107,11 @@ export default class PopoverListMembers extends React.Component {
 
     handleGetProfilesInChannel = (e) => {
         this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
-        this.props.actions.getProfilesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
+        this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
     };
 
     getTargetPopover = () => {
+        this.membersList.current.focus();
         return this.state.popoverTarget;
     };
 
@@ -254,11 +256,12 @@ export default class PopoverListMembers extends React.Component {
                     placement='bottom'
                 >
                     <Popover
-                        ref='memebersPopover'
                         className='member-list__popover'
                         id='member-list-popover'
                     >
-                        <div className='more-modal__header'>
+                        <div
+                            className='more-modal__header'
+                        >
                             {title}
                             {this.props.channel.group_constrained && <div className='subhead'>
                                 <FormattedMessage
@@ -268,7 +271,12 @@ export default class PopoverListMembers extends React.Component {
                             </div>}
                         </div>
                         <div className='more-modal__body'>
-                            <div className='more-modal__list'>
+                            <div
+                                tabIndex='-1'
+                                role='presentation'
+                                ref={this.membersList}
+                                className='more-modal__list'
+                            >
                                 {items}
                             </div>
                         </div>

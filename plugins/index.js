@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import regeneratorRuntime from 'regenerator-runtime';
+
 import {Client4} from 'mattermost-redux/client';
 
 import store from 'stores/redux_store.jsx';
@@ -8,6 +10,12 @@ import {ActionTypes} from 'utils/constants.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
+import {unregisterPluginTranslationsSource} from 'actions/views/root';
+import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
+
+// Plugins may have been compiled with the regenerator runtime. Ensure this remains available
+// as a global export even though the webapp does not depend on same.
+window.regeneratorRuntime = regeneratorRuntime;
 
 // plugins records all active web app plugins by id.
 window.plugins = {};
@@ -69,9 +77,15 @@ const loadedPlugins = {};
 export function loadPlugin(manifest) {
     return new Promise((resolve, reject) => {
         // Don't load it again if previously loaded
-        if (loadedPlugins[manifest.id]) {
+        const oldManifest = loadedPlugins[manifest.id];
+        if (oldManifest && oldManifest.webapp.bundle_path === manifest.webapp.bundle_path) {
             resolve();
             return;
+        }
+
+        if (oldManifest) {
+            // upgrading, perform cleanup
+            store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
         }
 
         function onLoad() {
@@ -100,7 +114,7 @@ export function loadPlugin(manifest) {
         script.onerror = onError;
 
         document.getElementsByTagName('head')[0].appendChild(script);
-        loadedPlugins[manifest.id] = true;
+        loadedPlugins[manifest.id] = manifest;
     });
 }
 
@@ -119,9 +133,14 @@ function initializePlugin(manifest) {
 // event handlers, and removes the plugin script from the DOM entirely. The plugin is responsible
 // for removing any of its registered components.
 export function removePlugin(manifest) {
+    if (!loadedPlugins[manifest.id]) {
+        return;
+    }
     console.log('Removing ' + manifest.id + ' plugin'); //eslint-disable-line no-console
 
-    loadedPlugins[manifest.id] = false;
+    delete loadedPlugins[manifest.id];
+
+    store.dispatch({type: ActionTypes.REMOVED_WEBAPP_PLUGIN, data: manifest});
 
     const plugin = window.plugins[manifest.id];
     if (plugin && plugin.uninitialize) {
@@ -133,6 +152,8 @@ export function removePlugin(manifest) {
     }
     unregisterAllPluginWebSocketEvents(manifest.id);
     unregisterPluginReconnectHandler(manifest.id);
+    store.dispatch(unregisterAdminConsolePlugin(manifest.id));
+    unregisterPluginTranslationsSource(manifest.id);
     const script = document.getElementById('plugin_' + manifest.id);
     if (!script) {
         return;
