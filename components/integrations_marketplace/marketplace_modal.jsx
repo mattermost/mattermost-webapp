@@ -149,7 +149,7 @@ export default class MarketplaceModal extends React.Component {
                 <div
                     className='error-bar'
                     dangerouslySetInnerHTML={{__html: Markdown.format(localizeMessage('app.plugin.marketplace_plugins.app_error',
-                        'Error connecting to the marketplace server. Please check your settings in the [System Console](/admin_console/plugins/plugin_management).'))}} 
+                        'Error connecting to the marketplace server. Please check your settings in the [System Console](/admin_console/plugins/plugin_management).'))}}
                 />
             );
         }

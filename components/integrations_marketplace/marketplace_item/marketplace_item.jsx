@@ -5,9 +5,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
+
 import {Link} from 'react-router-dom';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
