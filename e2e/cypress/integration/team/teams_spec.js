@@ -88,7 +88,7 @@ describe('Teams Suite', () => {
             // * Verify user is on the list, then select by clicking on it
             cy.wrap($el).get('.users-emails-input__menu').
                 children().should('have.length', 1).
-                eq(0).should('have.text', `@${user.username} - ${user.firstName} ${user.lastName}`).
+                eq(0).should('contain', `@${user.username}`).and('contain', `${user.firstName} ${user.lastName}`).
                 click();
         });
 

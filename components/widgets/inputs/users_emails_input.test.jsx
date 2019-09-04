@@ -37,11 +37,15 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
   isClearable={false}
   isMulti={true}
   isValidNewOption={[Function]}
-  loadOptions={[MockFunction]}
+  loadOptions={[Function]}
   loadingMessage={[Function]}
   onChange={[Function]}
+  onFocus={[Function]}
+  onInputChange={[Function]}
   openMenuOnClick={false}
+  openMenuOnFocus={true}
   placeholder="test"
+  tabSelectsValue={true}
   value={
     Array [
       Object {

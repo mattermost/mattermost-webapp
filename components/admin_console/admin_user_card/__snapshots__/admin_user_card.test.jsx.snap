@@ -9,12 +9,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match d
   >
     <ProfilePicture
       hasMention={false}
-      height="134"
       isEmoji={false}
       isRHS={false}
+      size="xxl"
       src="/api/v4/users/1234/image"
       userId="1234"
-      width="134"
       wrapperClass="admin-user-card"
     />
     <div
@@ -40,6 +39,13 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match d
       >
         Big Tuna
       </span>
+    </div>
+    <div
+      className="AdminUserCard__user-id"
+    >
+      User ID:
+       
+      1234
     </div>
   </div>
   <div
@@ -60,12 +66,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
   >
     <ProfilePicture
       hasMention={false}
-      height="134"
       isEmoji={false}
       isRHS={false}
+      size="xxl"
       src="/api/v4/users/1234/image"
       userId="1234"
-      width="134"
       wrapperClass="admin-user-card"
     />
     <div
@@ -90,6 +95,13 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
         Big Tuna
       </span>
     </div>
+    <div
+      className="AdminUserCard__user-id"
+    >
+      User ID:
+       
+      1234
+    </div>
   </div>
   <div
     className="AdminUserCard__body"
@@ -109,12 +121,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
   >
     <ProfilePicture
       hasMention={false}
-      height="134"
       isEmoji={false}
       isRHS={false}
+      size="xxl"
       src="/api/v4/users/1234/image"
       userId="1234"
-      width="134"
       wrapperClass="admin-user-card"
     />
     <div
@@ -137,6 +148,13 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
         className="AdminUserCard__user-nickname"
       />
     </div>
+    <div
+      className="AdminUserCard__user-id"
+    >
+      User ID:
+       
+      1234
+    </div>
   </div>
   <div
     className="AdminUserCard__body"
@@ -156,12 +174,11 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
   >
     <ProfilePicture
       hasMention={false}
-      height="134"
       isEmoji={false}
       isRHS={false}
+      size="xxl"
       src="/api/v4/users/1234/image"
       userId="1234"
-      width="134"
       wrapperClass="admin-user-card"
     />
     <div
@@ -185,6 +202,13 @@ exports[`components/admin_console/admin_user_card/admin_user_card should match s
       <span
         className="AdminUserCard__user-nickname"
       />
+    </div>
+    <div
+      className="AdminUserCard__user-id"
+    >
+      User ID:
+       
+      1234
     </div>
   </div>
   <div

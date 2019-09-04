@@ -81,6 +81,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     className="custom-message"
   >
     <a
+      href="#"
       onClick={[Function]}
     >
       <FormattedMessage

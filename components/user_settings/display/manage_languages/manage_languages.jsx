@@ -51,6 +51,7 @@ export default class ManageLanguage extends React.Component {
 
     handleContainerKeyDown = (e) => {
         if (isKeyPressed(e, Constants.KeyCodes.ESCAPE) && this.state.openMenu) {
+            document.querySelector('.modal-body').classList.remove('no-scroll');
             this.setState({openMenu: false});
             e.stopPropagation();
         }
@@ -58,6 +59,7 @@ export default class ManageLanguage extends React.Component {
 
     handleKeyDown = (e) => {
         if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
+            document.querySelector('.modal-body').classList.add('no-scroll');
             this.setState({openMenu: true});
         }
     }
@@ -100,10 +102,12 @@ export default class ManageLanguage extends React.Component {
     }
 
     handleMenuClose = () => {
+        document.querySelector('.modal-body').classList.remove('no-scroll');
         this.setState({openMenu: false});
     }
 
     handleMenuOpen = () => {
+        document.querySelector('.modal-body').classList.add('no-scroll');
         this.setState({openMenu: true});
     }
 
@@ -130,6 +134,13 @@ export default class ManageLanguage extends React.Component {
             );
         });
 
+        const reactStyles = {
+            menuPortal: (provided) => ({
+                ...provided,
+                zIndex: 9999,
+            }),
+        };
+
         const input = (
             <div key='changeLanguage'>
                 <br/>
@@ -148,6 +159,8 @@ export default class ManageLanguage extends React.Component {
                         classNamePrefix='react-select'
                         id='displayLanguage'
                         menuIsOpen={this.state.openMenu}
+                        menuPortalTarget={document.body}
+                        styles={reactStyles}
                         options={options}
                         clearable={false}
                         onChange={this.setLanguage}

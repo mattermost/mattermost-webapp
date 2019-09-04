@@ -5,8 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import NextIcon from 'components/icon/next_icon';
-import PreviousIcon from 'components/icon/previous_icon';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 
 import GroupUsersRow from './group_users_row';
 
@@ -35,16 +35,19 @@ export default class AdminGroupUsers extends React.PureComponent {
         this.setState({page});
     }
 
-    renderRows = () =>
-        this.props.members.map((member) =>
-            (
-                <GroupUsersRow
-                    key={member.id}
-                    user={member}
-                    displayName={member.first_name + ' ' + member.last_name}
-                    lastPictureUpdate={member.last_picture_update || 0}
-                />
-            ))
+    renderRow = (member) => (
+        <GroupUsersRow
+            key={member.id}
+            user={member}
+            displayName={member.first_name + ' ' + member.last_name}
+            lastPictureUpdate={member.last_picture_update || 0}
+        />
+    );
+
+    renderRows = () => {
+        const offset = this.state.page * GROUP_MEMBERS_PAGE_SIZE;
+        return this.props.members.slice(offset, offset + GROUP_MEMBERS_PAGE_SIZE).map(this.renderRow);
+    }
 
     renderPagination = () => {
         const {page} = this.state;
@@ -98,13 +101,13 @@ export default class AdminGroupUsers extends React.PureComponent {
                             defaultMessage='Name'
                         />
                     </div>
-                    <div className='group-description'>
+                    <div className='group-description group-users--header-padded'>
                         <FormattedMessage
                             id='admin.team_channel_settings.user_list.roleHeader'
                             defaultMessage='Role'
                         />
                     </div>
-                    <div className='group-description'>
+                    <div className='group-description group-users--header-padded'>
                         <FormattedMessage
                             id='admin.team_channel_settings.user_list.groupsHeader'
                             defaultMessage='Groups'

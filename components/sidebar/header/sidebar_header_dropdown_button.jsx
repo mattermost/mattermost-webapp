@@ -7,7 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
-import MenuIcon from 'components/svg/menu_icon';
+import MenuIcon from 'components/widgets/icons/menu_icon';
 import Constants from 'utils/constants.jsx';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';

@@ -15,7 +15,7 @@
 }
 
 .AdminUserCard__body {
-    padding: 20px 20px 20px 184px;
+    padding: 20px 20px 20px 178px;
     background-color: #fff;
 }
 
@@ -35,5 +35,12 @@
 }
 
 .AdminUserCard__user-nickname {
+    opacity: .5;
+}
+
+.AdminUserCard__user-id {
+    color: #fff;
+    margin-left: auto;
+    align-self: flex-end;
     opacity: .5;
 }

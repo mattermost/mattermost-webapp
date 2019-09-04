@@ -77,8 +77,6 @@ export default class SearchableUserList extends React.Component {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
             this.refs.userList.scrollToTop();
         }
-
-        this.focusSearchBar();
     }
 
     componentWillUnmount() {

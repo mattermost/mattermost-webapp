@@ -27,9 +27,9 @@ import FormError from 'components/form_error.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
-import SuccessIcon from 'components/icon/success_icon';
-import WarningIcon from 'components/icon/warning_icon';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import SuccessIcon from 'components/widgets/icons/fa_success_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import LoginMfa from '../login_mfa.jsx';

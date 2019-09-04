@@ -136,11 +136,11 @@ export default class ChannelHeaderPlug extends React.PureComponent {
                 >
                     <a
                         href='#'
-                        className='overflow--ellipsis'
+                        className='d-flex align-items-center'
                         onClick={() => this.fireActionAndClose(plug.action)}
                     >
-                        <span>{plug.icon}</span>
-                        {plug.dropdownText}
+                        <span className='d-flex align-items-center overflow--ellipsis'>{plug.icon}</span>
+                        <span>{plug.dropdownText}</span>
                     </a>
                 </li>
             );

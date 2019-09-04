@@ -8,12 +8,12 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {isEmptyObject} from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
+        ariaLiveRef: PropTypes.object,
         open: PropTypes.bool.isRequired,
         location: PropTypes.string,
         renderDividers: PropTypes.bool,
@@ -49,17 +49,26 @@ export default class SuggestionList extends React.PureComponent {
             this.scrollToItem(this.props.selection);
         }
 
-        setTimeout(() => {
-            if (!isEmptyObject(this.currentItem)) {
-                this.generateLabel(this.currentItem);
-            }
-        }, Constants.OVERLAY_TIME_DELAY);
+        if (!isEmptyObject(this.currentItem)) {
+            this.generateLabel(this.currentItem);
+        }
+    }
+
+    componentWillUnmount() {
+        this.removeLabel();
     }
 
     announceLabel() {
-        const suggestionReadOut = this.suggestionReadOut.current;
+        const suggestionReadOut = this.props.ariaLiveRef.current;
         if (suggestionReadOut) {
             suggestionReadOut.innerHTML = this.currentLabel;
+        }
+    }
+
+    removeLabel() {
+        const suggestionReadOut = this.props.ariaLiveRef.current;
+        if (suggestionReadOut) {
+            suggestionReadOut.innerHTML = '';
         }
     }
 
@@ -77,7 +86,9 @@ export default class SuggestionList extends React.PureComponent {
             this.currentLabel = item.channel.display_name;
         }
 
-        this.currentLabel = this.currentLabel.toLowerCase();
+        if (this.currentLabel) {
+            this.currentLabel = this.currentLabel.toLowerCase();
+        }
         this.announceLabel();
     }
 
@@ -203,11 +214,6 @@ export default class SuggestionList extends React.PureComponent {
 
         return (
             <div className={mainClass}>
-                <div
-                    ref={this.suggestionReadOut}
-                    aria-live='polite'
-                    className='hidden-label'
-                />
                 <div
                     id='suggestionList'
                     ref='content'

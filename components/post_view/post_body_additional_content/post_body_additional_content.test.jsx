@@ -222,6 +222,97 @@ describe('PostBodyAdditionalContent', () => {
         });
     });
 
+    describe('with a normal link', () => {
+        const mp3Url = 'https://example.com/song.mp3';
+
+        const EmbedMP3 = ({embed}) => (embed);
+
+        const linkBaseProps = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                message: mp3Url,
+                metadata: {
+                    embeds: [{
+                        type: 'link',
+                        url: mp3Url,
+                    }],
+                },
+            },
+        };
+
+        test("Should render nothing if the registered plugins don't match", () => {
+            const props = {
+                ...linkBaseProps,
+                pluginPostWillRenderEmbedComponents: [
+                    {
+                        match: () => false,
+                        toggleable: true,
+                        component: EmbedMP3,
+                    },
+                ],
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+            expect(wrapper.find(EmbedMP3).exists()).toBe(false);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('Should render the plugin component if it matches and is toggeable', () => {
+            const props = {
+                ...linkBaseProps,
+                pluginPostWillRenderEmbedComponents: [
+                    {
+                        match: ({url}) => url === mp3Url,
+                        toggleable: true,
+                        component: EmbedMP3,
+                    },
+                ],
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+            expect(wrapper.find(EmbedMP3).exists()).toBe(true);
+            expect(wrapper.find('button.post__embed-visibility').exists()).toBe(true);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('Should render the plugin component if it matches and is not toggeable', () => {
+            const props = {
+                ...linkBaseProps,
+                pluginPostWillRenderEmbedComponents: [
+                    {
+                        match: ({url}) => url === mp3Url,
+                        toggleable: false,
+                        component: EmbedMP3,
+                    },
+                ],
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+            expect(wrapper.find(EmbedMP3).exists()).toBe(true);
+            expect(wrapper.find('button.post__embed-visibility').exists()).toBe(false);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('Should render nothing if the plugin matches but isEmbedVisible is false', () => {
+            const props = {
+                ...linkBaseProps,
+                pluginPostWillRenderEmbedComponents: [
+                    {
+                        match: ({url}) => url === mp3Url,
+                        toggleable: false,
+                        component: EmbedMP3,
+                    },
+                ],
+                isEmbedVisible: false,
+            };
+
+            const wrapper = shallow(<PostBodyAdditionalContent {...props}/>);
+            expect(wrapper.find(EmbedMP3).exists()).toBe(false);
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
+
     test('should call toggleEmbedVisibility with post id', () => {
         const wrapper = shallow(<PostBodyAdditionalContent {...baseProps}/>);
 

@@ -144,6 +144,8 @@ export const ActionTypes = keyMirror({
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,
+    RECEIVED_ADMIN_CONSOLE_REDUCER: null,
+    REMOVED_ADMIN_CONSOLE_REDUCER: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -710,7 +712,7 @@ export const Constants = {
     NOTIFY_ALL_MEMBERS: 5,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
-    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg'],
+    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
     PRESENTATION_TYPES: ['ppt', 'pptx'],
