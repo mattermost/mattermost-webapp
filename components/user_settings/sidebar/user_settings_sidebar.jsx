@@ -12,7 +12,7 @@ import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 
 export default class UserSettingsSidebar extends React.Component {
     static propTypes = {
@@ -80,8 +80,6 @@ export default class UserSettingsSidebar extends React.Component {
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-
-        prevActiveSection: PropTypes.string.isRequired,
     };
 
     static contextTypes = {
@@ -284,7 +282,6 @@ export default class UserSettingsSidebar extends React.Component {
                     describe={this.renderAutoCloseDMLabel(this.state.settings.close_unused_direct_messages)}
                     section={'autoCloseDM'}
                     updateSection={this.updateSection}
-                    focused={this.props.prevActiveSection === this.getPreviousSection('autoCloseDM')}
                 />
             );
         }
@@ -587,7 +584,6 @@ export default class UserSettingsSidebar extends React.Component {
                     describe={this.renderOrganizationLabel()}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
-                    focused={this.props.prevActiveSection === this.getPreviousSection('groupChannels')}
                 />
             );
         }
@@ -690,7 +686,6 @@ export default class UserSettingsSidebar extends React.Component {
                 describe={this.renderChannelSwitcherLabel(this.props.channelSwitcherOption)}
                 section={'channelSwitcher'}
                 updateSection={this.updateSection}
-                focused={this.props.prevActiveSection === this.getPreviousSection('channelSwitcher')}
             />
         );
     };

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from './setting_item_min';
 
 describe('components/SettingItemMin', () => {
     const baseProps = {
@@ -13,6 +13,9 @@ describe('components/SettingItemMin', () => {
         section: 'section',
         updateSection: jest.fn(),
         describe: 'describe',
+        actions: {
+            updateActiveSection: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {
