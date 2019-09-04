@@ -308,9 +308,6 @@
 
     .video-div {
         &.embed-responsive-item {
-            height: 0;
-            padding-bottom: 75%;
-
             iframe {
                 height: 100%;
                 left: 0;
@@ -387,8 +384,8 @@
         font-size: 1em;
     }
 
-    .sidebar--left .team__header .user__picture,
-    .sidebar--menu .team__header .user__picture {
+    .sidebar--left .team__header .Avatar,
+    .sidebar--menu .team__header .Avatar {
         display: none;
     }
 
@@ -886,11 +883,11 @@
                         display: block;
 
                         .settings-content {
-                            .section-title {
+                            .section-min__title {
                                 padding-right: 15px;
                             }
 
-                            .section-edit {
+                            .section-min__edit {
                                 position: relative;
                                 right: 0;
                                 text-align: left;
@@ -975,7 +972,7 @@
                     }
 
                     .settings-content {
-                        .section-edit {
+                        .section-min__edit {
                             text-align: left;
 
                             button {
@@ -1615,6 +1612,10 @@
         &.browser--ie {
             min-width: 600px;
         }
+    }
+
+    .section-min .d-flex {
+        flex-direction: column;
     }
 
     .multi-select__help {

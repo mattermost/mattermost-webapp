@@ -144,7 +144,7 @@ var config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)?$/,
+                test: /\.(js|jsx|ts|tsx)?$/,
                 exclude: STANDARD_EXCLUDE,
                 use: {
                     loader: 'babel-loader',
@@ -230,7 +230,7 @@ var config = {
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     performance: {
         hints: 'warning',
@@ -268,6 +268,7 @@ var config = {
             {from: 'images/favicon', to: 'images/favicon'},
             {from: 'images/appIcons.png', to: 'images'},
             {from: 'images/warning.png', to: 'images'},
+            {from: 'images/browser-icons', to: 'images/browser-icons'},
         ]),
 
         // Generate manifest.json, honouring any configured publicPath. This also handles injecting

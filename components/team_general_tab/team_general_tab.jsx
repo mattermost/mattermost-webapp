@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min.jsx';
 import SettingPicture from 'components/setting_picture.jsx';
-import BackIcon from 'components/icon/back_icon';
+import BackIcon from 'components/widgets/icons/fa_back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -668,7 +668,7 @@ export default class GeneralTab extends React.Component {
                 );
             } else {
                 minMessage = Utils.isMobile() ?
-                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image.') :
+                    Utils.localizeMessage('general_tab.teamIconEditHintMobile', 'Click to upload an image') :
                     Utils.localizeMessage('general_tab.teamIconEditHint', 'Click \'Edit\' to upload an image.');
             }
 

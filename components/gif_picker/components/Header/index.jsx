@@ -11,8 +11,8 @@ import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_ut
 
 import constants from 'components/gif_picker/utils/constants';
 import SearchBar from 'components/gif_picker/components/SearchBar';
-import GifTrendingIcon from 'components/svg/gif_trending_icon';
-import GifReactionsIcon from 'components/svg/gif_reactions_icon';
+import GifTrendingIcon from 'components/widgets/icons/gif_trending_icon';
+import GifReactionsIcon from 'components/widgets/icons/gif_reactions_icon';
 import './Header.scss';
 
 function mapStateToProps(state) {

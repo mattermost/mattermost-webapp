@@ -14,6 +14,10 @@
     padding: 20px 15px;
 }
 
+.no-scroll {
+    overflow: hidden !important;
+}
+
 .edit-modal-body {
     overflow: visible;
 
@@ -21,6 +25,9 @@
         height: auto;
         max-height: 60vh;
         min-height: 8em;
+        -ms-overflow-style: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
 
         &.custom-textarea--preview {
             display: none;

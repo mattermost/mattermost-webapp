@@ -15,9 +15,8 @@ import {browserHistory} from 'utils/browser_history';
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
-import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 import Highlight from 'components/admin_console/highlight.jsx';
-import SearchIcon from 'components/svg/search_icon.jsx';
+import SearchIcon from 'components/widgets/icons/search_icon.jsx';
 
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
@@ -30,6 +29,7 @@ export default class AdminSidebar extends React.Component {
         license: PropTypes.object.isRequired,
         config: PropTypes.object,
         plugins: PropTypes.object,
+        adminDefinition: PropTypes.object,
         buildEnterpriseReady: PropTypes.bool,
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
@@ -92,7 +92,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.context.intl);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -147,7 +147,7 @@ export default class AdminSidebar extends React.Component {
             return true;
         };
         const result = new Set();
-        for (const section of Object.values(AdminDefinition)) {
+        for (const section of Object.values(this.props.adminDefinition)) {
             for (const item of Object.values(section)) {
                 if (isVisible(item)) {
                     result.add(item.url);
@@ -320,7 +320,7 @@ export default class AdminSidebar extends React.Component {
                                         </OverlayTrigger>
                                     </div>}
                             </li>
-                            {this.renderRootMenu(AdminDefinition)}
+                            {this.renderRootMenu(this.props.adminDefinition)}
                         </ul>
                     </Highlight>
                 </div>

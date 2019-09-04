@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import UnreadBelowIcon from 'components/svg/unread_below_icon';
+import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 
 export default class UnreadChannelIndicator extends React.PureComponent {
     static propTypes = {

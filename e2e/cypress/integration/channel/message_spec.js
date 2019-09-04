@@ -56,7 +56,7 @@ describe('Message', () => {
 
         // # Post a message to force next user message to display a message
         cy.getCurrentChannelId().then((channelId) => {
-            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId, baseUrl: Cypress.config('baseUrl')});
+            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId});
         });
 
         // # Post message "One"
@@ -103,7 +103,7 @@ describe('Message', () => {
         });
     });
 
-    it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
+    it('M14320 @here, @all and @channel (ending in a period) still highlight', () => {
         // # Login as new user
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL

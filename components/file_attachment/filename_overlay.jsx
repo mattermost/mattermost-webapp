@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
-import AttachmentIcon from 'components/svg/attachment_icon';
+import AttachmentIcon from 'components/widgets/icons/attachment_icon';
 import {trimFilename} from 'utils/file_utils';
 import {localizeMessage} from 'utils/utils.jsx';
 
