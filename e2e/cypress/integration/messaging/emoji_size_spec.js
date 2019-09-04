@@ -85,7 +85,7 @@ describe('Messaging', () => {
         checkEmojiSize('@newLineMessage', emojis, false);
     });
 
-    it('MM-17457 Unicode and emoticon', () => {
+    it('M17457 Emojis show as jumbo in main thread - Multi emoji, no text, including unicode and emoticon', () => {
         // # Create list of emojis we want to post
         const emojis = [':smiley:', ':thumbsup:', '🤟'];
 
@@ -97,7 +97,7 @@ describe('Messaging', () => {
             cy.get(`#postMessageText_${postId}`).as('lastMessage');
 
             //# Expect unicode value from last message to have jumbo size
-            cy.get('@lastMessage').find('.emoticon--unicode').should('have.css', 'height', '32px').and('have.css', 'width', '32px');
+            cy.get('@lastMessage').find('.emoticon--unicode').should('have.css', 'height', '32px').and('have.css', 'width', '32px').and('have.text', '🤟')
 
             //#Removes unicode item
             emojis.pop();
