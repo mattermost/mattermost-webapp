@@ -16,7 +16,7 @@ const SyncGroupsToggle = ({isSynced, isPublic, onToggle}) => (
         toggled={isSynced}
         last={isSynced}
         onToggle={() => {
-            onToggle(!isSynced, isPublic, true);
+            onToggle(!isSynced, isPublic);
         }}
         title={(
             <FormattedMessage
