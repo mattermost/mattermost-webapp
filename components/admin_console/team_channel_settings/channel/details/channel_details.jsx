@@ -12,7 +12,9 @@ import FormError from 'components/form_error';
 import Constants from 'utils/constants';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
-import UpdateConfirmModal from '../../update_confirm_modal';
+import ConvertConfirmModal from '../../convert_confirm_modal';
+import RemoveConfirmModal from '../../remove_confirm_modal';
+import ConvertAndRemoveConfirmModal from '../../convert_and_remove_confirm_modal';
 import SaveChangesPanel from '../../save_changes_panel';
 
 import {ChannelModes} from './channel_modes';
@@ -51,7 +53,9 @@ export default class ChannelDetails extends React.Component {
             isPrivacyChanging: false,
             saving: false,
             totalGroups: props.totalGroups,
-            showUpdateConfirmation: false,
+            showConvertConfirmModal: false,
+            showRemoveConfirmModal: false,
+            showConvertAndRemoveConfirmModal: false,
             usersToRemove: 0,
             groups: props.groups,
             saveNeeded: false,
@@ -133,8 +137,16 @@ export default class ChannelDetails extends React.Component {
         this.processGroupsChange(groups);
     }
 
-    hideUpdateChannelModal = () => {
-        this.setState({showUpdateConfirmation: false});
+    hideConvertConfirmModal = () => {
+        this.setState({showConvertConfirmModal: false});
+    }
+
+    hideRemoveConfirmModal = () => {
+        this.setState({showRemoveConfirmModal: false});
+    }
+
+    hideConvertAndRemoveConfirmModal = () => {
+        this.setState({showConvertAndRemoveConfirmModal: false});
     }
 
     onSave = () => {
@@ -155,8 +167,18 @@ export default class ChannelDetails extends React.Component {
             }
         }
 
-        if (isPrivacyChanging || usersToRemove > 0) {
-            this.setState({showUpdateConfirmation: true});
+        if (isPrivacyChanging && usersToRemove > 0) {
+            this.setState({showConvertAndRemoveConfirmModal: true});
+            return;
+        }
+
+        if (isPrivacyChanging && usersToRemove === 0) {
+            this.setState({showConvertConfirmModal: true});
+            return;
+        }
+
+        if (!isPrivacyChanging && usersToRemove > 0) {
+            this.setState({showRemoveConfirmModal: true});
             return;
         }
 
@@ -164,7 +186,7 @@ export default class ChannelDetails extends React.Component {
     }
 
     handleSubmit = async () => {
-        this.setState({showUpdateConfirmation: false, saving: true});
+        this.setState({showConvertConfirmModal: false, showRemoveConfirmModal: false, showConvertAndRemoveConfirmModal: false, saving: true});
         const {groups, isSynced, isPublic, isPrivacyChanging} = this.state;
 
         let serverError = null;
@@ -210,7 +232,7 @@ export default class ChannelDetails extends React.Component {
     }
 
     render = () => {
-        const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, isPrivacyChanging, groups, showUpdateConfirmation, usersToRemove} = this.state;
+        const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showConvertConfirmModal, showRemoveConfirmModal, showConvertAndRemoveConfirmModal, usersToRemove} = this.state;
         const {channel, team} = this.props;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
@@ -236,13 +258,28 @@ export default class ChannelDetails extends React.Component {
                             team={team}
                         />
 
-                        <UpdateConfirmModal
-                            show={showUpdateConfirmation}
-                            onCancel={this.hideUpdateChannelModal}
+                        <ConvertConfirmModal
+                            show={showConvertConfirmModal}
+                            onCancel={this.hideConvertConfirmModal}
                             onConfirm={this.handleSubmit}
                             displayName={channel.display_name || ''}
                             toPublic={isPublic}
-                            isPrivacyChanging={isPrivacyChanging}
+                        />
+
+                        <RemoveConfirmModal
+                            show={showRemoveConfirmModal}
+                            onCancel={this.hideRemoveConfirmModal}
+                            onConfirm={this.handleSubmit}
+                            inChannel={true}
+                            amount={usersToRemove}
+                        />
+
+                        <ConvertAndRemoveConfirmModal
+                            show={showConvertAndRemoveConfirmModal}
+                            onCancel={this.hideConvertAndRemoveConfirmModal}
+                            onConfirm={this.handleSubmit}
+                            displayName={channel.display_name || ''}
+                            toPublic={isPublic}
                             removeAmount={usersToRemove}
                         />
 

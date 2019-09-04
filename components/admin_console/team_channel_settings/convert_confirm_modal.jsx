@@ -33,40 +33,49 @@ export default class ConvertConfirmModal extends React.PureComponent {
         displayName: PropTypes.string.isRequired,
 
         /*
-         * Channel public/private state
+         * Channel privacy setting
          */
-        isPublic: PropTypes.bool.isRequired,
+        toPublic: PropTypes.bool.isRequired,
     }
 
     render() {
-        const {displayName, isPublic} = this.props;
-        const newType = isPublic ? 'private' : 'public';
-        const title = (
-            <FormattedMessage
-                id='admin.team_channel_settings.convertConfirmModal.title'
-                defaultMessage='Convert {displayName} to a {newType} channel?'
-                values={{displayName, newType}}
-            />
-        );
+        const {displayName, toPublic} = this.props;
 
         const toPublicMsg = 'When you convert **{displayName}** to a public channel, history and membership are preserved. Public channels are discoverable and can by joined by users on the system without invitation.  \n \nAre you sure you want to convert **{displayName}** to a public channel?';
         const toPrivateMsg = 'When you convert **{displayName}** to a private channel, history and membership are preserved. Publicly shared files remain accessible to anyone with the link. Membership in a private channel is by invitation only.  \n \nAre you sure you want to convert **{displayName}** to a private channel?';
-        const messageId = isPublic ? t('admin.team_channel_settings.convertConfirmModal.toPrivateMessage') :
-            t('admin.team_channel_settings.convertConfirmModal.toPublicMessage');
+        const messageId = toPublic ? t('admin.team_channel_settings.convertConfirmModal.toPublicMessage') :
+            t('admin.team_channel_settings.convertConfirmModal.toPrivateMessage');
+
+        const toPublicTitle = 'Convert {displayName} to a public channel?';
+        const toPrivateTitle = 'Convert {displayName} to a private channel?';
+        const titleId = toPublic ? t('admin.team_channel_settings.convertConfirmModal.toPublicTitle') :
+            t('admin.team_channel_settings.convertConfirmModal.toPrivateTitle');
+
+        const toPublicConfirmMsg = 'Yes, convert to public channel';
+        const toPrivateConfirmMsg = 'Yes, convert to private channel';
+        const confirmMsgId = toPublic ? t('admin.team_channel_settings.convertConfirmModal.toPublicConfirm') :
+            t('admin.team_channel_settings.convertConfirmModal.toPrivateConfirm');
+
+        const title = (
+            <FormattedMessage
+                id={titleId}
+                defaultMessage={toPublic ? toPublicTitle : toPrivateTitle}
+                values={{displayName}}
+            />
+        );
 
         const message = (
             <FormattedMarkdownMessage
                 id={messageId}
-                defaultMessage={isPublic ? toPrivateMsg : toPublicMsg}
+                defaultMessage={toPublic ? toPublicMsg : toPrivateMsg}
                 values={{displayName}}
             />
         );
 
         const confirmButton = (
             <FormattedMessage
-                id='admin.team_channel_settings.convertConfirmModal.convert'
-                defaultMessage='Yes, convert to {newType} channel'
-                values={{newType}}
+                id={confirmMsgId}
+                defaultMessage={toPublic ? toPublicConfirmMsg : toPrivateConfirmMsg}
             />
         );
 
