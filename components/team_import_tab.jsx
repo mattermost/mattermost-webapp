@@ -8,7 +8,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 import SettingUpload from 'components/setting_upload.jsx';

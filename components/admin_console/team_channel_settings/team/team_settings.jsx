@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import TeamList from 'components/admin_console/team_channel_settings/team/list';
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 export class TeamsSettings extends React.Component {
     static propTypes = {

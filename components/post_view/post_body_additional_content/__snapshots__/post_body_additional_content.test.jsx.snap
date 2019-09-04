@@ -28,7 +28,6 @@ exports[`PostBodyAdditionalContent with a YouTube video should render correctly 
     some children
   </span>
   <Connect(YoutubeVideo)
-    channelId="channel_id"
     link="https://www.youtube.com/watch?v=d-YO3v-wJts"
     show={true}
   />
@@ -48,7 +47,6 @@ exports[`PostBodyAdditionalContent with a YouTube video should render the toggle
     onClick={[Function]}
   />
   <Connect(YoutubeVideo)
-    channelId="channel_id"
     link="https://www.youtube.com/watch?v=d-YO3v-wJts"
     show={true}
   />
