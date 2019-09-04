@@ -687,7 +687,7 @@ export default class UserSettingsSidebar extends React.Component {
                         defaultMessage='Channel Switcher'
                     />
                 }
-                describe={this.renderChannelSwitcherLabel(this.state.settings.channel_switcher_section)}
+                describe={this.renderChannelSwitcherLabel(this.props.channelSwitcherOption)}
                 section={'channelSwitcher'}
                 updateSection={this.updateSection}
                 focused={this.props.prevActiveSection === this.getPreviousSection('channelSwitcher')}
