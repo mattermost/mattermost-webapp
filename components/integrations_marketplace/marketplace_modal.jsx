@@ -15,6 +15,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
+import * as Markdown from 'utils/markdown';
 
 import MarketplaceItem from './marketplace_item';
 
@@ -30,6 +31,7 @@ export default class MarketplaceModal extends React.Component {
         show: PropTypes.bool,
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
+        serverError: PropTypes.object,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             getMarketplacePlugins: PropTypes.func.isRequired,
@@ -141,12 +143,24 @@ export default class MarketplaceModal extends React.Component {
             </div>
         );
 
+        let errorBanner = null;
+        if (this.props.serverError) {
+            errorBanner = (
+                <div
+                    className='error-bar'
+                    dangerouslySetInnerHTML={{__html: Markdown.format(localizeMessage(this.props.serverError.server_error_id,
+                        'Error connecting to the marketplace server.  Please check your settings in the [System Console](/admin_console/plugins/plugin_management).'))}} 
+                />
+            );
+        }
+
         return (
             <RootPortal>
                 <FullScreenModal
                     show={Boolean(this.props.show)}
                     onClose={this.close}
                 >
+                    {errorBanner}
                     <div className='modal-marketplace'>
                         <h1>
                             <strong>

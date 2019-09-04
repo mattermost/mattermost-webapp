@@ -1664,6 +1664,7 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} removed the channel purpose (was: {old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} updated the channel purpose from: {old} to: {new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} updated the channel purpose to: {new}",
+  "app.plugin.marketplace_plugins.app_error": "Error connecting to the marketplace server.  Please check your settings in the [System Console](/admin_console/plugins/plugin_management).",
   "archivedChannelMessage": "You are viewing an **archived channel**. New messages cannot be posted.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "Account activated",

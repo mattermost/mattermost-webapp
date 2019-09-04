@@ -131,3 +131,17 @@
         opacity: 1;
     }
 }
+
+.error-bar {
+    background-color: var(--error-text-08);
+    color: var(--error-text);
+    min-height: $announcement-bar-height;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    overflow: hidden;
+    padding: 5px 30px;
+    max-height: $announcement-bar-height;
+}
