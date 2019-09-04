@@ -8,6 +8,7 @@ import {joinChannel} from 'mattermost-redux/actions/channels';
 
 import {addUsersToTeam} from 'actions/team_actions';
 
+import {t} from 'utils/i18n';
 import {isGuest, localizeMessage} from 'utils/utils';
 
 export function sendMembersInvites(teamId, users, emails) {
@@ -98,7 +99,7 @@ export async function sendGuestInviteForUser(dispatch, user, teamId, channels, m
     if (memberOfAny) {
         return {notSent: {user, reason: localizeMessage('invite.guests.already-some-channels-member', 'This person is already a member of some of the channels.')}};
     }
-    return {sent: {user, reason: localizeMessage('invite.guests.new-member', 'This guest has been added to the team and channels.')}};
+    return {sent: {user, reason: {id: t('invite.guests.new-member'), message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.', values: {count: channels.length}}}};
 }
 
 export function sendGuestsInvites(teamId, channels, users, emails, message) {

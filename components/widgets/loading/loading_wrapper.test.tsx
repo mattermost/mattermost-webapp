@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LoadingWrapper from './loading_wrapper.jsx';
+import LoadingWrapper from './loading_wrapper';
 
 describe('components/widgets/loading/LoadingWrapper', () => {
     const testCases = [
@@ -47,7 +47,6 @@ describe('components/widgets/loading/LoadingWrapper', () => {
                 <LoadingWrapper
                     loading={testCase.loading}
                     text={testCase.text}
-                    type={testCase.type}
                 >
                     {testCase.children}
                 </LoadingWrapper>

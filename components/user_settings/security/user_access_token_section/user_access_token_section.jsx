@@ -569,7 +569,7 @@ export default class UserAccessTokenSection extends React.Component {
                     message={this.state.confirmMessage ? this.state.confirmMessage(this.state) : null}
                     confirmButtonText={this.state.confirmButton}
                     show={this.state.showConfirmModal}
-                    onConfirm={this.state.confirmComplete || (() => {})} //eslint-disable-line no-empty-function
+                    onConfirm={this.state.confirmComplete || (() => null)}
                     onCancel={this.handleCancelConfirm}
                     hideCancel={this.state.confirmHideCancel}
                 />
