@@ -42,6 +42,7 @@ export default class InteractiveDialog extends React.Component {
         this.state = {
             show: true,
             values,
+            error: null,
             errors: {},
             submitting: false,
         };
@@ -89,17 +90,26 @@ export default class InteractiveDialog extends React.Component {
 
         this.setState({submitting: false});
 
-        if (!data || !data.errors || Object.keys(data.errors).length === 0) {
+        let hasErrors = false;
+
+        if (data) {
+            if (data.error) {
+                hasErrors = true;
+                this.setState({error: data.error});
+            }
+
+            if (data.errors
+                && Object.keys(data.errors).length >= 0
+                && checkIfErrorsMatchElements(data.errors, elements)) 
+            {
+                hasErrors = true;
+                this.setState({errors: data.errors});
+            }
+        }
+
+        if (!hasErrors) {
             this.handleHide(true);
-            return;
         }
-
-        if (checkIfErrorsMatchElements(data.errors, elements)) {
-            this.setState({errors: data.errors});
-            return;
-        }
-
-        this.handleHide(true);
     }
 
     onHide = () => {
@@ -201,6 +211,11 @@ export default class InteractiveDialog extends React.Component {
                     })}
                 </Modal.Body>}
                 <Modal.Footer>
+                    {this.state.error && (
+                        <div className='error-text'>
+                            {this.state.error}
+                        </div>
+                    )}
                     <button
                         id='interactiveDialogCancel'
                         type='button'
