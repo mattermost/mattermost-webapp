@@ -211,6 +211,19 @@ export default class SystemUsersList extends React.Component {
             );
         }
 
+        info.push(', ');
+        const userID = user.id;
+        info.push(
+            <FormattedMarkdownMessage
+                key='admin.user_item.user_id'
+                id='admin.user_item.user_id'
+                defaultMessage='**User ID:** {userID}'
+                values={{
+                    userID,
+                }}
+            />
+        );
+
         if (this.props.mfaEnabled) {
             info.push(', ');
 

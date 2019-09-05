@@ -176,7 +176,7 @@ var definition = yup.object().shape({
 });
 
 describe('components/admin_console/admin_definition', () => {
-    test('should pass all validations checks', () => {
+    it('should pass all validations checks', () => {
         definition.strict().validateSync(adminDefinition);
     });
 });

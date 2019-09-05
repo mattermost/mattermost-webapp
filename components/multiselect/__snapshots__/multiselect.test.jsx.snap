@@ -92,7 +92,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         extraClasses=""
         id="saveItems"
         onClick={[Function]}
-        onKeyDown={[Function]}
         saving={false}
       />
     </div>
@@ -255,7 +254,6 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
         extraClasses=""
         id="saveItems"
         onClick={[Function]}
-        onKeyDown={[Function]}
         saving={false}
       />
     </div>
