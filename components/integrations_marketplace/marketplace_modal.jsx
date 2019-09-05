@@ -116,6 +116,7 @@ export default class MarketplaceModal extends React.Component {
                             version={p.Manifest.version}
                             isPrepackaged={false}
                             downloadUrl={p.DownloadURL}
+                            signatureUrl={p.SignatureURL}
                             homepageUrl={p.HomepageURL}
                             installed={p.InstalledVersion !== ''}
                             onConfigure={this.close}
