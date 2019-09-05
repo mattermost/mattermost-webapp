@@ -12,6 +12,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import {getSiteURL} from 'utils/url.jsx';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -217,9 +218,10 @@ export default class SystemUsersDropdown extends React.PureComponent {
                     messageForUsersWithBotAccounts = (
                         <FormattedMarkdownMessage
                             id='deactivate_member_modal.desc.for_users_with_bot_accounts'
-                            defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to Integrations > Bot Accounts. [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n'
+                            defaultMessage='This action deactivates {username}.\n \n * They will be logged out and not have access to any teams or channels on this system.\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\n \n \n'
                             values={{
                                 username: user.username,
+                                siteURL: getSiteURL(),
                             }}
                         />);
                     break;
