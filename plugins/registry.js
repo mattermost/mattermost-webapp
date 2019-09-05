@@ -11,11 +11,16 @@ import {
     unregisterPluginReconnectHandler,
 } from 'actions/websocket_actions.jsx';
 
-import {showRHSPlugin} from 'actions/views/rhs';
+import {showRHSPlugin, hideRHSPlugin, toggleRHSPlugin} from 'actions/views/rhs';
 
 import {
     registerPluginTranslationsSource,
 } from 'actions/views/root';
+
+import {
+    registerAdminConsolePlugin,
+    unregisterAdminConsolePlugin,
+} from 'actions/admin_actions';
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants.jsx';
@@ -466,6 +471,23 @@ export default class PluginRegistry {
         store.dispatch(registerPluginTranslationsSource(this.id, getTranslationsForLocale));
     }
 
+    // Register a admin console definitions override function (This is a
+    // low-level interface and can change in the future).
+    // - func - A function that recieve the admin console config
+    // definitions and return a new version of it, which is used for build the
+    // admin console.
+    // Each plugin can only register a function, if the plugin register
+    // multiple functions the last one will be used.
+    registerAdminConsolePlugin(func) {
+        store.dispatch(registerAdminConsolePlugin(this.id, func));
+    }
+
+    // Unregister a previously registered admin console definition override function.
+    // Returns undefined.
+    unregisterAdminConsolePlugin() {
+        store.dispatch(unregisterAdminConsolePlugin(this.id));
+    }
+
     // Register a Right-Hand Sidebar component by providing a title for the right hand component.
     // Accepts the following:
     // - title - A string or JSX element to display as a title for the RHS.
@@ -473,6 +495,8 @@ export default class PluginRegistry {
     // Returns:
     // - id: a unique identifier
     // - showRHSPlugin: the action to dispatch that will open the RHS.
+    // - hideRHSPlugin: the action to dispatch that will close the RHS
+    // - toggleRHSPlugin: the action to dispatch that will toggle the RHS
     registerRightHandSidebarComponent(component, title) {
         const id = generateId();
 
@@ -487,6 +511,6 @@ export default class PluginRegistry {
             },
         });
 
-        return {id, showRHSPlugin: showRHSPlugin(id)};
+        return {id, showRHSPlugin: showRHSPlugin(id), hideRHSPlugin: hideRHSPlugin(id), toggleRHSPlugin: toggleRHSPlugin(id)};
     }
 }
