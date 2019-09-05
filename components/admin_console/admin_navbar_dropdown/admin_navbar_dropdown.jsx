@@ -15,6 +15,8 @@ import AboutBuildModal from 'components/about_build_modal';
 
 import Menu from 'components/widgets/menu/menu';
 
+import MenuItemBlockableLink from './menu_item_blockable_link';
+
 export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {
         locale: PropTypes.string.isRequired,
@@ -50,7 +52,7 @@ export default class AdminNavbarDropdown extends React.Component {
 
             for (const team of teamsArray) {
                 teamToRender.push(
-                    <Menu.ItemBlockableLink
+                    <MenuItemBlockableLink
                         key={'team_' + team.name}
                         to={'/' + team.name}
                         text={Utils.localizeMessage('navbar_dropdown.switchTo', 'Switch to ') + ' ' + team.display_name}
@@ -59,7 +61,7 @@ export default class AdminNavbarDropdown extends React.Component {
             }
         } else {
             switchTeams = (
-                <Menu.ItemBlockableLink
+                <MenuItemBlockableLink
                     to={'/select_team'}
                     icon={
                         <FormattedMessage
