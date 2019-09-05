@@ -56,7 +56,7 @@ export default class MarketplaceItem extends React.Component {
         }
 
         installPlugin = async (force) => {
-            const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, this.props.signatureUrl, force);
+            const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, force, this.props.signatureUrl);
 
             if (error) {
                 if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {

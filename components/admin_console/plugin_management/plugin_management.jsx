@@ -555,7 +555,7 @@ export default class PluginManagement extends AdminSettings {
             serverError: null,
             lastMessage: null,
         });
-        const {error} = await this.props.actions.installPluginFromUrl(pluginDownloadUrl, null, force);
+        const {error} = await this.props.actions.installPluginFromUrl(pluginDownloadUrl, force);
 
         if (error) {
             if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
