@@ -1,0 +1,48 @@
+
+.TeamIconBlock {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+
+    .TeamIcon__icon {
+        border-radius: 4px;
+        background-color: var(--center-channel-color-15);;
+        color: white;
+        font-weight: bold;
+        height: 44px;
+        letter-spacing: -.5px;
+        line-height: 42px;
+        position: relative;
+        text-align: center;
+        text-transform: capitalize;
+        vertical-align: top;
+        width: 44px;
+
+        .TeamIcon__icon__image {
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: white;
+            background-repeat: round;
+            background-size: contain;
+            height: 100%;
+            width: 100%;
+        }
+
+        .TeamIcon__icon__content {
+            bottom: 4px;
+            font-size: 8.5px;
+            font-weight: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 31px;
+        }
+    }
+    .TeamIcon__data {
+        flex-grow: 1;
+        padding: 0 0 0 10px;
+        .TeamIcon__data__title {
+            font-weight: bold;
+        }
+    }
+}
