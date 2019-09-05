@@ -131,8 +131,127 @@ function plugins(state = {}, action) {
     }
 }
 
+// function addMenuItem(menu, data) {
+//     if (menu.id === data.parentId) {
+//         // if (!menu.subMenu) {
+//         //     // menu.subMenu = [];
+//         // }
+//         // menu.subMenu.push(data);
+//         menu.subMenu = [...menu.subMenu, data];
+//     } else {
+//         if (menu.subMenu) {
+//             menu.subMenu.forEach(item => {
+//                 addMenuItem(item, data);
+//             });
+//         }
+//     }
+// }
+
 function components(state = {}, action) {
     switch (action.type) {
+    case ActionTypes.RECEIVED_PLUGIN_MENUITEM: {
+
+
+        //0) REBUILD THE MENU TREE
+        //1) add action to each node
+        //2) add filter to each node (find example of filter)
+        if (!action.name || !action.data) {
+            return state;
+        }
+        // console.warn('explosions '+action.name); // eslint-disable-line no-console
+
+        if (!action.data.parentId) {
+            const nextState = {...state};
+            const currentArray = nextState[action.name] || [];
+            const nextArray = [...currentArray];
+            nextArray.sort(sortComponents);
+            const menu = {
+                id: action.data.id,
+                text: action.data.text,
+                subMenu: [],
+            };
+            action.data.text = menu;
+            const menuAction = {
+                id: action.data.id,
+                pluginId: action.data.pluginId,
+                text: menu,
+                action: action.data.action,
+                filter: action.data.filter,
+            };
+            // nextState[action.name] = [...nextArray, action.data];
+            nextState[action.name] = [...nextArray, menuAction];
+            return nextState;
+        } else {
+            console.warn(':) :) :) '+action.name); // eslint-disable-line no-console
+
+            function addMenuItem(menu, data) {
+                console.log(menu.id); // eslint-disable-line no-console
+
+                if (menu.id === data.parentId) {
+                    if (!menu["subMenu"]) {
+                        menu.subMenu = [];
+                    }
+                    // menu.subMenu.push(data);
+                    menu.subMenu = [...menu.subMenu, data];
+                } else {
+                    if (menu["subMenu"]) {
+                        menu.subMenu.forEach(item => {
+                            addMenuItem(Object.assign({}, item), data);
+                        });
+                    }
+                }
+            }
+
+            const nextState = {...state};
+            const currentArray = nextState[action.name];
+            if (!currentArray) {
+                return state;
+            }
+            // let menu = currentArray.find( c => c.id === action.data.parentId).text;
+            // let root = currentArray.find( c => c.id === action.data.parentId);
+            const root = currentArray.find( c => c.text["subMenu"]);
+            let menu = Object.assign({}, root.text);
+            // let menu = {
+            //     id: root.text.id,
+            //     text: root.text.text,
+            //     subMenu: root.text.subMenu
+            // };
+            // console.log(JSON.stringify(menu, null, 4));  // eslint-disable-line no-console
+
+            addMenuItem(menu, {
+                id: action.data.id,
+                parentId: action.data.parentId,
+                text: action.data.text,
+                subMenu: [],
+            });
+            // console.log(JSON.stringify(menu, null, 4));  // eslint-disable-line no-console
+
+            // menu = {
+            //     id: 'foo',
+            //     text: 'bar',
+            //     subMenu: [],
+            // };
+
+
+            console.log(JSON.stringify(menu, null, 4));  // eslint-disable-line no-console
+            debugger; // eslint-disable-line no-debugger
+
+            const menuAction = {
+                id: root.id,
+                pluginId: root.pluginId,
+                text: menu,
+                action: root.action,
+                filter: root.filter,
+            };
+
+            const nextArray = [...currentArray.filter(c => !c.text["subMenu"])];
+            nextArray.sort(sortComponents);
+            // nextState[action.name] = [...nextArray, action.data];
+            nextState[action.name] = [...nextArray, menuAction];
+            return nextState;
+        }
+        return state;
+    }
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
             const nextState = {...state};
