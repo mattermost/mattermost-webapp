@@ -176,6 +176,8 @@ export const ActionTypes = keyMirror({
     CHANNEL_POSTS_STATUS: null,
     CHANNEL_SYNC_STATUS: null,
     ALL_CHANNEL_SYNC_STATUS: null,
+
+    UPDATE_ACTIVE_SECTION: null,
 });
 
 export const PostRequestTypes = keyMirror({
