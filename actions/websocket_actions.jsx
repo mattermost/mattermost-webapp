@@ -264,6 +264,10 @@ export function handleEvent(msg) {
         handlePostDeleteEvent(msg);
         break;
 
+    case SocketEvents.POST_UNREAD:
+        handlePostUnreadEvent(msg);
+        break;
+
     case SocketEvents.LEAVE_TEAM:
         handleLeaveTeamEvent(msg);
         break;
@@ -536,6 +540,20 @@ export function handlePostEditEvent(msg) {
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(postDeleted(post));
+}
+
+async function handlePostUnreadEvent(msg) {
+    await dispatch(
+        {
+            type: ActionTypes.POST_UNREAD_SUCCESS,
+            data: {
+                lastViewedAt: msg.data.last_viewed_at,
+                channelId: msg.broadcast.channel_id,
+                msgCount: msg.data.msg_count,
+                mentionCount: msg.data.mention_count,
+            },
+        }
+    );
 }
 
 async function handleTeamAddedEvent(msg) {

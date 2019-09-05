@@ -79,7 +79,7 @@ export default class Post extends React.PureComponent {
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
-            unreadPost: PropTypes.func.isRequired,
+            markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -154,7 +154,7 @@ export default class Post extends React.PureComponent {
             return;
         }
         if (e.altKey) {
-            this.props.actions.unreadPost(post);
+            this.props.actions.markPostAsUnread(post);
         }
     }
 

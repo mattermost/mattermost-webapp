@@ -12,7 +12,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isPostEphemeral, isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {selectPost, selectPostCard} from 'actions/views/rhs';
-import {unreadPost} from 'actions/post_actions.jsx';
+import {markPostAsUnread} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants.jsx';
 import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 
@@ -94,7 +94,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             selectPost,
             selectPostCard,
-            unreadPost,
+            markPostAsUnread,
         }, dispatch),
     };
 }
