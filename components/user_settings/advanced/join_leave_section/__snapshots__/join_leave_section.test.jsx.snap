@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 1`] = `
-<SettingItemMin
-  focused={false}
+<Connect(SettingItemMin)
   section="joinLeave"
   title={
     <FormattedMessage
