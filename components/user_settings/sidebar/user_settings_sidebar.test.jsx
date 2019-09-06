@@ -63,10 +63,27 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         const props = {...defaultProps, updateSection: newUpdateSection};
         const wrapper = shallowWithIntl(<UserSettingsSidebar {...props}/>);
 
-        wrapper.setState({isSaving: true});
+        wrapper.setState({isSaving: true,
+            settings: {
+                close_unused_direct_messages: 'junk',
+                channel_switcher_section: defaultProps.channelSwitcherOption,
+                grouping: defaultProps.sidebarPreference.grouping,
+                sorting: defaultProps.sidebarPreference.sorting,
+                unreadsAtTop: defaultProps.unreadsAtTop,
+                favoriteAtTop: defaultProps.favoriteAtTop,
+            },
+        });
         wrapper.instance().updateSection(updateArg);
 
         expect(wrapper.state('isSaving')).toEqual(false);
+        expect(wrapper.state('settings')).toEqual({
+            close_unused_direct_messages: defaultProps.closeUnusedDirectMessages,
+            channel_switcher_section: defaultProps.channelSwitcherOption,
+            grouping: defaultProps.sidebarPreference.grouping,
+            sorting: defaultProps.sidebarPreference.sorting,
+            unreadsAtTop: defaultProps.unreadsAtTop,
+            favoriteAtTop: defaultProps.favoriteAtTop,
+        });
         expect(newUpdateSection).toHaveBeenCalledTimes(1);
         expect(newUpdateSection).toHaveBeenCalledWith(updateArg);
     });
