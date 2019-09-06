@@ -67,7 +67,7 @@ export default class SystemUserDetail extends React.PureComponent {
         };
     }
 
-    teamsData = (teams) => {
+    setTeamsData = (teams) => {
         const teamIds = teams.map((team) => team.team_id);
         this.setState({teams});
         this.setState({teamIds});
@@ -394,7 +394,7 @@ export default class SystemUserDetail extends React.PureComponent {
                         >
                             <TeamList
                                 userId={this.props.user.id}
-                                userDetailCallback={this.teamsData}
+                                userDetailCallback={this.setTeamsData}
                                 refreshTeams={this.state.refreshTeams}
                             />
                         </AdminPanel>
