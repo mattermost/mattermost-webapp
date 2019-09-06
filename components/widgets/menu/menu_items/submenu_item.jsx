@@ -112,9 +112,10 @@ export default class SubMenuItem extends React.PureComponent {
 
         const hasSubmenu = subMenu && subMenu.length;
         const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width : 0;
+        const childOffset = (root ? 2 : ( React.isValidElement(text) ) ? 20 : 0);
         const subMenuStyle = {
             visibility: this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden',
-            right: (parseInt(xOffset, 10) - (root ? 2 : 0)) + 'px',
+            right: (parseInt(xOffset, 10) - childOffset) + 'px',
         };
 
         let subMenuContent = '';
