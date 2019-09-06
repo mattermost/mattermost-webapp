@@ -12,6 +12,7 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {localizeMessage} from 'utils/utils';
 
 export default class MarketplaceItem extends React.Component {
@@ -88,7 +89,15 @@ export default class MarketplaceItem extends React.Component {
 
         onInstall = () => {
             this.setState({installing: true});
+            trackEvent('plugins', 'ui_marketplace_download');
+
             this.installPlugin(false);
+        }
+
+        onConfigure = () => {
+            trackEvent('plugins', 'ui_marketplace_configure');
+
+            this.props.onConfigure();
         }
 
         getItemButton() {
@@ -122,7 +131,7 @@ export default class MarketplaceItem extends React.Component {
                         to={'/admin_console/plugins/plugin_' + this.props.id}
                     >
                         <button
-                            onClick={this.props.onConfigure}
+                            onClick={this.onConfigure}
                             className='btn btn-outline'
                         >
                             <FormattedMessage

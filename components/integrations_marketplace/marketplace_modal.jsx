@@ -13,6 +13,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 import * as Markdown from 'utils/markdown';
@@ -51,6 +52,10 @@ export default class MarketplaceModal extends React.Component {
         this.getMarketplacePlugins();
     }
 
+    componentDidMount() {
+        trackEvent('plugins', 'ui_marketplace_opened');
+    }
+
     getMarketplacePlugins = async () => {
         await this.props.actions.getMarketplacePlugins();
 
@@ -62,6 +67,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     close = () => {
+        trackEvent('plugins', 'ui_marketplace_closed');
         this.props.actions.closeModal();
     }
 
