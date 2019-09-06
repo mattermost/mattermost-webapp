@@ -19,6 +19,8 @@ import store from 'stores/redux_store';
 //         {
 //             "id": "B",
 //             "text": "B text"
+//             "action": () => {},
+//             "filter": () => {},
 //         }
 //     ],
 //     "action": () => {},
@@ -81,14 +83,14 @@ export default class SubMenuItem extends React.PureComponent {
                 }
                 this.handleShowMobileSubMenuItem(subMenu);
             } else if (action) { // leaf node in the tree handles action only
-                action(postId, id);
+                action(postId);
             }
         } else if (event.nativeEvent.path && // the first 2 elements in path match original event id
             event.nativeEvent.path.slice(0, 2).find((e) => e.id === id) &&
             action) {
-            action(postId, id);
+            action(postId);
         } else if (!event.nativeEvent.path && action) { //for tests only that don't contain `path`
-            action(postId, id);
+            action(postId);
         }
     }
 
