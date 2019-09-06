@@ -93,7 +93,7 @@ export default class SubMenuItem extends React.PureComponent {
     }
 
     render() {
-        const {id, postId, text, subMenu, icon, filter, xOffset, ariaLabel} = this.props;
+        const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -111,10 +111,10 @@ export default class SubMenuItem extends React.PureComponent {
         }
 
         const hasSubmenu = subMenu && subMenu.length;
-        const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width - 19 : 0;
+        const parentWidth = this.node && this.node.current ? this.node.current.getBoundingClientRect().width : 0;
         const subMenuStyle = {
             visibility: this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden',
-            right: (parseInt(xOffset, 10) - 1) + 'px',
+            right: (parseInt(xOffset, 10) - (root ? 2 : 0)) + 'px',
         };
 
         let subMenuContent = '';
