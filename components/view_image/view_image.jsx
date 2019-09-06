@@ -348,7 +348,6 @@ export default class ViewImageModal extends React.PureComponent {
                                 {content}
                             </div>
                             <PopoverBar
-                                show={this.state.showFooter}
                                 showPublicLink={showPublicLink}
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}
