@@ -12,7 +12,7 @@ import {isMobile} from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 import SaveButton from 'components/save_button.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
