@@ -11,7 +11,6 @@ import EditIcon from 'components/icon/edit_icon';
 export default class SettingItemMin extends React.PureComponent {
     static defaultProps = {
         section: '',
-        focused: false,
     };
 
     static propTypes = {
@@ -27,11 +26,6 @@ export default class SettingItemMin extends React.PureComponent {
         disableOpen: PropTypes.bool,
 
         /**
-         * Indicates whether the focus should be on the "Edit" button
-         */
-        focused: PropTypes.bool,
-
-        /**
          * Settings or tab section
          */
         section: PropTypes.string,
@@ -45,16 +39,26 @@ export default class SettingItemMin extends React.PureComponent {
          * Settings description
          */
         describe: PropTypes.node,
+
+        /**
+         * Shows the previous active section for focusing
+         */
+        previousActiveSection: PropTypes.string,
+
+        /**
+         * Actions
+         */
+        actions: PropTypes.shape({
+
+            /**
+             * Update the active section for focusing
+             */
+            updateActiveSection: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     componentDidMount() {
-        if (this.props.focused && this.edit) {
-            this.edit.focus();
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.focused && this.edit) {
+        if (this.props.previousActiveSection === this.props.section) {
             this.edit.focus();
         }
     }
@@ -65,6 +69,7 @@ export default class SettingItemMin extends React.PureComponent {
 
     handleUpdateSection = (e) => {
         e.preventDefault();
+        this.props.actions.updateActiveSection(this.props.section);
         this.props.updateSection(this.props.section);
     }
 
