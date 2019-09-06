@@ -225,13 +225,10 @@ export default class DotMenu extends Component {
                         <Menu.ItemSubMenu
                             key={item.id + '_pluginmenuitem'}
                             id={item.text.id}
+                            postId={this.props.post.id}
                             text={item.text.text}
                             subMenu={item.text.subMenu}
-                            action={(id) => {
-                                if (item.action) {
-                                    item.action(this.props.post.id, id);
-                                }
-                            }}
+                            action={item.action}
                             xOffset={this.state.width}
                             root={true}
                         />

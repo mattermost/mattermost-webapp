@@ -12,7 +12,6 @@ import * as Utils from 'utils/utils.jsx';
 export default class SubMenuModal extends React.PureComponent {
     static propTypes = {
         elements: PropTypes.array,
-        action: PropTypes.func,
         onHide: PropTypes.func.isRequired,
     }
 
@@ -53,7 +52,8 @@ export default class SubMenuModal extends React.PureComponent {
                                         id={element.id}
                                         text={element.text}
                                         subMenu={element.subMenu}
-                                        action={this.props.action}
+                                        action={element.action}
+                                        filter={element.filter}
                                         xOffset={0}
                                         root={false}
                                     />

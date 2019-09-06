@@ -20,16 +20,20 @@ import store from 'stores/redux_store';
 //             "id": "B",
 //             "text": "B text"
 //         }
-//     ]
+//     ],
+//     "action": () => {},
+//     "filter": () => {},
 // }
 // Submenus can contain Submenus as well
 export default class SubMenuItem extends React.PureComponent {
     static propTypes= {
         id: PropTypes.string,
+        postId: PropTypes.string,
         text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
         subMenu: PropTypes.arrayOf(PropTypes.object),
         icon: PropTypes.node,
-        action: PropTypes.func.isRequired,
+        action: PropTypes.func,
+        filter: PropTypes.func,
         xOffset: PropTypes.number,
         ariaLabel: PropTypes.string,
         root: PropTypes.bool,
@@ -55,13 +59,12 @@ export default class SubMenuItem extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleShowMobileSubMenuItem = (elements, action) => {
+    handleShowMobileSubMenuItem = (elements) => {
         const submenuModalData = {
             ModalId: ModalIdentifiers.MOBILE_SUBMENU,
             dialogType: SubMenuModal,
             dialogProps: {
                 elements,
-                action,
             },
         };
 
@@ -69,28 +72,33 @@ export default class SubMenuItem extends React.PureComponent {
     }
 
     onClick = (event) => {
-        const {id, subMenu, action, root} = this.props;
+        const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
         if (isMobile) {
             if (subMenu && subMenu.length) { // if contains a submenu, call openModal with it
                 if (!root) { //required to close only the original menu
                     event.stopPropagation();
                 }
-                this.handleShowMobileSubMenuItem(subMenu, action);
-            } else { // leaf node in the tree handles action only
-                action(id);
+                this.handleShowMobileSubMenuItem(subMenu);
+            } else if (action) { // leaf node in the tree handles action only
+                action(postId, id);
             }
         } else if (event.nativeEvent.path && // the first 2 elements in path match original event id
-            event.nativeEvent.path.slice(0, 2).find((e) => e.id === id)) {
-            action(id);
-        } else if (!event.nativeEvent.path) { //for tests only that don't contain `path`
-            action(id);
+            event.nativeEvent.path.slice(0, 2).find((e) => e.id === id) &&
+            action) {
+            action(postId, id);
+        } else if (!event.nativeEvent.path && action) { //for tests only that don't contain `path`
+            action(postId, id);
         }
     }
 
     render() {
-        const {id, text, subMenu, icon, action, xOffset, ariaLabel} = this.props;
+        const {id, postId, text, subMenu, icon, filter, xOffset, ariaLabel} = this.props;
         const isMobile = Utils.isMobile();
+
+        if (filter && !filter(id)) {
+            return ('');
+        }
 
         let textProp = text;
         if (icon) {
@@ -122,9 +130,11 @@ export default class SubMenuItem extends React.PureComponent {
                             <SubMenuItem
                                 key={s.id}
                                 id={s.id}
+                                postId={postId}
                                 text={s.text}
                                 subMenu={s.subMenu}
-                                action={action}
+                                action={s.action}
+                                filter={s.filter}
                                 xOffset={parentWidth}
                                 ariaLabel={ariaLabel}
                                 root={false}

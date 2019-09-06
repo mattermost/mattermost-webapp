@@ -15,24 +15,29 @@ global.MutationObserver = class {
 };
 
 describe('components/submenu_modal', () => {
+    const action1 = jest.fn().mockReturnValueOnce();
+    const action2 = jest.fn().mockReturnValueOnce();
+    const action3 = jest.fn().mockReturnValueOnce();
     const baseProps = {
         elements: [
             {
                 id: 'A',
                 text: 'Text A',
+                action: action1,
             },
             {
                 id: 'B',
                 text: 'Text B',
+                action: action2,
                 subMenu: [
                     {
                         id: 'C',
                         text: 'Text C',
+                        action: action3,
                     },
                 ],
             },
         ],
-        action: jest.fn(),
         onHide: jest.fn(),
     };
 
@@ -55,10 +60,8 @@ describe('components/submenu_modal', () => {
 
     test('should have called click function when button is clicked', async () => {
         browserHistory.push = jest.fn();
-        const action = jest.fn().mockReturnValueOnce();
         const props = {
             ...baseProps,
-            action,
         };
         const wrapper = mount(
             <SubMenuModal {...props}/>
@@ -66,20 +69,17 @@ describe('components/submenu_modal', () => {
 
         wrapper.setState({show: true});
         await wrapper.find('#A').at(1).simulate('click');
-        expect(action).toHaveBeenCalledTimes(1);
-        expect(action).toHaveBeenCalledWith('A');
+        expect(action1).toHaveBeenCalledTimes(1);
         expect(wrapper.state('show')).toEqual(false);
 
         wrapper.setState({show: true});
         await wrapper.find('#B').at(1).simulate('click');
-        expect(action).toHaveBeenCalledTimes(2);
-        expect(action).toHaveBeenCalledWith('B');
+        expect(action2).toHaveBeenCalledTimes(1);
         expect(wrapper.state('show')).toEqual(false);
 
         wrapper.setState({show: true});
         await wrapper.find('#C').at(1).simulate('click');
-        expect(action).toHaveBeenCalledTimes(4);
-        expect(action).toHaveBeenCalledWith('C');
+        expect(action3).toHaveBeenCalledTimes(1);
         expect(wrapper.state('show')).toEqual(false);
     });
 

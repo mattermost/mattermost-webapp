@@ -61,6 +61,7 @@ exports[`components/submenu_modal should match snapshot 1`] = `
           subMenu={
             Array [
               Object {
+                "action": [MockFunction],
                 "id": "C",
                 "text": "Text C",
               },

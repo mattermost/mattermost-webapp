@@ -79,7 +79,6 @@ class SubMenuGroup {
 
         return (...args) =>
             this.subMenuGroup[this.subMenuGroup.length - 1].registerMenuItem(...args);
-
     }
 }
 
@@ -292,12 +291,16 @@ export default class PluginRegistry {
         const id = generateId();
 
         store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_MENUITEM,
+            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
             name: 'PostDropdownMenu',
             data: {
                 id,
                 pluginId: this.id,
-                text: resolveReactElement(text),
+                text: {
+                    id,
+                    text: resolveReactElement(text),
+                    subMenu: [],
+                },
                 action,
                 filter,
             },
