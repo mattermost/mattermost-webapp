@@ -344,9 +344,23 @@
             align-items: center;
         }
 
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in, step-end);
+        }
+
         &.visible {
             @include opacity(1);
             visibility: visible;
+
+            body.enable-animations & {
+                @include transition-property(opacity, visibility);
+                @include transition-duration($transition-quick);
+                @include transition-delay(0s);
+                @include transition-timing-function(ease-out, step-start);
+            }
         }
 
         &.disabled {
