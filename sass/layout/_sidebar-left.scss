@@ -290,6 +290,13 @@
                 white-space: nowrap;
                 width: 100%;
 
+                body.enable-animations & {
+                    @include transition-property(color, background-color);
+                    @include transition-duration($transition-quick);
+                    @include transition-delay(0s);
+                    @include transition-timing-function(ease-in-out);
+                }
+
                 .status {
                     flex: 0 0 auto;
                 }
@@ -324,6 +331,10 @@
                         line-height: 20px;
                         margin-right: 7px;
                         text-align: center;
+
+                        body.enable-animations & {
+                            @include single-transition(opacity, $transition-quick, ease-in-out);
+                        }
 
                         &:hover {
                             @include opacity(1);
