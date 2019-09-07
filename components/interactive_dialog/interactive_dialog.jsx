@@ -8,12 +8,11 @@ import {FormattedMessage} from 'react-intl';
 import {checkDialogElementForError, checkIfErrorsMatchElements} from 'mattermost-redux/utils/integration_utils';
 
 import SpinnerButton from 'components/spinner_button';
-import {CustomRenderer} from 'components/formatted_markdown_message';
 
 import {localizeMessage} from 'utils/utils.jsx';
-import {formatWithRenderer} from 'utils/markdown';
 
 import DialogElement from './dialog_element';
+import DialogIntroductionText from './dialog_introduction_text';
 
 export default class InteractiveDialog extends React.Component {
     static propTypes = {
@@ -182,12 +181,10 @@ export default class InteractiveDialog extends React.Component {
                 </Modal.Header>
                 {(elements || introductionText) && <Modal.Body>
                     {introductionText &&
-                        <p>
-                            <span
-                                id='interactiveDialogModalIntroductionText'
-                                dangerouslySetInnerHTML={{__html: formatWithRenderer(introductionText, new CustomRenderer())}}
-                            />
-                        </p>
+                        <DialogIntroductionText
+                            id='interactiveDialogModalIntroductionText'
+                            value={introductionText}
+                        />
                     }
                     {elements && elements.map((e) => {
                         return (
