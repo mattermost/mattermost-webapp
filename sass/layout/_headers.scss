@@ -514,7 +514,7 @@
         padding: 10px;
 
         &:before {
-            @include single-transition(all, .05s, linear);
+            @include single-transition(all, $transition-quick, ease-in-out);
             background: none;
             content: '';
             height: 100%;
@@ -652,6 +652,7 @@
             width: 100%;
 
             .sidebar-header-dropdown__icon {
+                @include single-transition(opacity, $transition-quick, ease-in-out);
                 @include opacity(.8);
                 border-radius: 36px;
                 fill: $white;
@@ -684,7 +685,7 @@
         }
 
         .user__name {
-            @include single-transition(all, .1s, linear);
+            @include single-transition(all, $transition-quick, ease-in-out);
             @include alpha-property(color, $white, .8);
             font-size: 14px;
             font-weight: 400;

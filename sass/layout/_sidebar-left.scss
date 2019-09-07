@@ -129,6 +129,13 @@
                     @include opacity(1);
                 }
             }
+
+            body.enable-animations & {
+                @include transition-property(background-color);
+                @include transition-duration($transition-quick);
+                @include transition-delay(0s);
+                @include transition-timing-function(ease-in-out);
+            }
         }
 
         .switch__shortcut {
@@ -273,6 +280,13 @@
                 padding: 5px 0 5px 15px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+
+                body.enable-animations & {
+                    @include transition-property(color, background-color);
+                    @include transition-duration($transition-quick);
+                    @include transition-delay(0s);
+                    @include transition-timing-function(ease-in-out);
+                }
             }
 
             .sidebar-item {
@@ -315,13 +329,20 @@
                     &:hover {
                         .btn-close {
                             @include opacity(.8);
-                            display: block;
+                            visibility: visible;
+
+                            body.enable-animations & {
+                                @include transition-property(opacity, visibility);
+                                @include transition-duration($transition-quick);
+                                @include transition-delay(0s);
+                                @include transition-timing-function(ease-out, step-start);
+                            }
                         }
                     }
 
                     .btn-close {
                         @include opacity(0);
-                        display: none;
+                        visibility: hidden;
                         font-family: 'Open Sans', sans-serif;
                         font-size: 21px;
                         font-weight: 600;
@@ -333,7 +354,10 @@
                         text-align: center;
 
                         body.enable-animations & {
-                            @include single-transition(opacity, $transition-quick, ease-in-out);
+                            @include transition-property(opacity, visibility);
+                            @include transition-duration($transition-quick);
+                            @include transition-delay(0s);
+                            @include transition-timing-function(ease-in, step-end);
                         }
 
                         &:hover {
@@ -418,6 +442,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        body.enable-animations & {
+            @include transition-property(color);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in-out);
         }
     }
 }
