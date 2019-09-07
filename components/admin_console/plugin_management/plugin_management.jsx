@@ -717,14 +717,14 @@ export default class PluginManagement extends AdminSettings {
         const title = (
             <FormattedMessage
                 id='admin.plugin.remove_modal.title'
-                defaultMessage='Remove existing plugin?'
+                defaultMessage='Remove plugin?'
             />
         );
 
         const message = (
             <FormattedMessage
                 id='admin.plugin.remove_modal.desc'
-                defaultMessage='The plugin will be removed from the server. Would you like to remove it?'
+                defaultMessage='Are you sure you whould like to remove the plugin?'
             />
         );
 
