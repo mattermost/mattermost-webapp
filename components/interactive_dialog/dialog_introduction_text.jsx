@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as Markdown from 'utils/markdown'
+import * as Markdown from 'utils/markdown';
 
 export default class DialogIntroductionText extends React.PureComponent {
     static propTypes = {
@@ -16,13 +16,13 @@ export default class DialogIntroductionText extends React.PureComponent {
         const formattedMessage = Markdown.format(this.props.value, {
             breaks: true,
             sanitize: true,
-            gfm: true
+            gfm: true,
         });
 
         return (
             <span
                 id={this.props.id}
-                dangerouslySetInnerHTML={{ __html: formattedMessage}}
+                dangerouslySetInnerHTML={{__html: formattedMessage}}
             />
         );
     }
