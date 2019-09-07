@@ -426,6 +426,8 @@ export default class PluginManagement extends AdminSettings {
             confirmOverwriteUploadModal: false,
             overwritingInstall: false,
             confirmOverwriteInstallModal: false,
+            showRemoveModal: false,
+            resolveRemoveModal: null,
         });
     }
 
@@ -606,17 +608,40 @@ export default class PluginManagement extends AdminSettings {
         return this.installFromUrl(true);
     }
 
+    handleRemovePluginCancel = () => {
+        this.setState({
+            showRemoveModal: false,
+        });
+        this.resolveRemoveModal(false);
+    }
+
+    handleRemovePlugin = () => {
+        this.setState({showRemoveModal: false});
+        this.resolveRemoveModal(true);
+    }
+
+    showRemovePluginModal = () => {
+        this.setState({showRemoveModal: true});
+        return new Promise((res) => {
+            this.resolveRemoveModal = res;
+        });
+    }
+
     handleRemove = async (e) => {
         this.setState({lastMessage: null, serverError: null});
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
-        this.setState({removing: pluginId});
 
-        const {error} = await this.props.actions.removePlugin(pluginId);
-        this.setState({removing: null});
+        const result = await this.showRemovePluginModal();
+        if (result) {
+            this.setState({removing: pluginId});
 
-        if (error) {
-            this.setState({serverError: error.message});
+            const {error} = await this.props.actions.removePlugin(pluginId);
+            this.setState({removing: null});
+
+            if (error) {
+                this.setState({serverError: error.message});
+            }
         }
     }
 
@@ -682,6 +707,41 @@ export default class PluginManagement extends AdminSettings {
                 message={message}
                 confirmButtonClass='btn btn-danger'
                 confirmButtonText={overwriteButton}
+                onConfirm={onConfirm}
+                onCancel={onCancel}
+            />
+        );
+    }
+
+    renderRemovePluginModal = ({show, onConfirm, onCancel}) => {
+        const title = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.title'
+                defaultMessage='Remove existing plugin?'
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.desc'
+                defaultMessage='The plugin will be removed from the server. Would you like to remove it?'
+            />
+        );
+
+        const removeButton = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.overwrite'
+                defaultMessage='Remove'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={show}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                confirmButtonText={removeButton}
                 onConfirm={onConfirm}
                 onCancel={onCancel}
             />
@@ -862,6 +922,12 @@ export default class PluginManagement extends AdminSettings {
             onCancel: this.handleOverwriteUploadPluginCancel,
         });
 
+        const removePluginModal = this.state.showRemoveModal && this.renderRemovePluginModal({
+            show: this.state.showRemoveModal,
+            onConfirm: this.handleRemovePlugin,
+            onCancel: this.handleRemovePluginCancel,
+        });
+
         return (
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
@@ -919,6 +985,7 @@ export default class PluginManagement extends AdminSettings {
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
+                    {removePluginModal}
                 </div>
             </div>
         );
