@@ -63,7 +63,7 @@ export default class ProfilePicture extends React.PureComponent {
                         />
                     }
                 >
-                    <span className={`status-wrapper ${this.props.wrapperClass}`}>
+                    <button className={`status-wrapper style--none ${this.props.wrapperClass}`} tabIndex='-1'>
                         <span className={profileIconClass}>
                             <Avatar
                                 username={this.props.username}
@@ -72,7 +72,7 @@ export default class ProfilePicture extends React.PureComponent {
                             />
                         </span>
                         <StatusIcon status={this.props.status}/>
-                    </span>
+                    </button>
                 </OverlayTrigger>
             );
         }
