@@ -110,6 +110,7 @@
     position: relative;
     text-align: center;
     z-index: 0;
+    pointer-events: none;
 
     &:before,
     &:after {
@@ -655,14 +656,14 @@
         top: 1px;
         position: relative;
 
-        &:hover {
-            @include opacity(.7);
-        }
-
         svg {
             position: relative;
             top: 1px;
         }
+    }
+
+    .post-action:hover .icon--emoji {
+        @include opacity(.7);
     }
 
     .icon--attachment {
@@ -683,17 +684,17 @@
         }
 
         & + input {
+            @include opacity(0);
             cursor: pointer;
             direction: ltr;
-            filter: alpha(opacity=0);
             font-size: 23px;
             height: 100%;
             margin: 0;
-            opacity: 0;
             position: absolute;
             right: 0;
             top: 0;
             width: 100%;
+            pointer-events: none;
         }
 
         svg {
@@ -759,6 +760,13 @@
     padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
     word-wrap: break-word;
+
+    body.enable-animations & {
+        @include transition-property(background-color);
+        @include transition-duration($transition-quick);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in-out);
+    }
 
     .browser--ie & {
         .post__header {
@@ -2143,17 +2151,17 @@
 }
 
 .file-attachment-menu-item-input {
+    @include opacity(0);
     cursor: pointer;
     direction: ltr;
-    filter: alpha(opacity=0);
     font-size: 23px;
     height: 35px;
     margin: 0;
-    opacity: 0;
     position: absolute;
     right: 0;
     top: 0;
     width: 0;
+    pointer-events: none;
 }
 
 .post-row__padding {
