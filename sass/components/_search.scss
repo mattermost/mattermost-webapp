@@ -28,9 +28,8 @@
     top: 6px;
 
     svg {
-
         body.enable-animations & {
-            @include single-transition(all, .3s, ease-out);
+            @include single-transition(all, $transition-quick, ease-out);
         }
     }
 }
@@ -56,7 +55,7 @@
     }
 
     body.enable-animations & {
-        @include single-transition(all, .3s, ease-out);
+        @include single-transition(all, $transition-quick, ease-out);
     }
 }
 
@@ -76,7 +75,10 @@
     }
 
     body.enable-animations .search-bar__container & {
-        @include single-transition(all, .3s, ease-out);
+        @include transition-property(border-color, width);
+        @include transition-duration($transition-quick, 0.3s);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in-out, ease-out);
     }
 
     .sidebar--right & {
