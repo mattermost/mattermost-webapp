@@ -21,9 +21,10 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
         <div
           className="col-sm-2 large-team-image-col"
         >
-          <TeamButton
-            displayName="test"
-            teamIconUrl={null}
+          <TeamIcon
+            name="test"
+            size="large"
+            url={null}
           />
         </div>
         <div

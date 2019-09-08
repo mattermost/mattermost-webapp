@@ -4,30 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Team_icon from './badge';
+import TeamIcon from './team_icon';
 
-describe('components/widgets/badges/Badge', () => {
-    test('should match the snapshot on show', () => {
+describe('components/widgets/team-icon', () => {
+    test('should match the snapshot', () => {
         const wrapper = shallow(
-            <Team_icon className={'test'}>{'Test text'}</Team_icon>
+            <TeamIcon name='test'/>
         );
-        expect(wrapper).toMatchInlineSnapshot(`
-<div
-  className="Badge"
->
-  <div
-    className="Badge__box test"
-  >
-    Test text
-  </div>
-</div>
-`);
-    });
-
-    test('should match the snapshot on hide', () => {
-        const wrapper = shallow(
-            <Team_icon show={false}>{'Test text'}</Team_icon>
-        );
-        expect(wrapper).toMatchInlineSnapshot('""');
+        expect(wrapper).toMatchSnapshot();
     });
 });

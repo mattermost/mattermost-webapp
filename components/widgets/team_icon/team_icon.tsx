@@ -9,36 +9,43 @@ import './team_icon.scss';
 
 type Props = {
     url?: string;
-    team: {
-        display_name: string;
-        id?: string;
-    };
+    name: string;
+    size?: 'small'|'regular'|'large';
+    withHover?: boolean;
 };
 
 export default class TeamIcon extends React.PureComponent<Props> {
+    public static defaultProps = {
+        size: 'regular',
+    };
+
     public render() {
-        const {team, url} = this.props;
-        const teamIconUrl = url || imageURLForTeam(team);
+        const {name, url, size, withHover} = this.props;
+        if (!name && !url) {
+            throw new Error("Either `url` or `name` prop is required ");
+        }
+        const hoverCss = withHover ? '' : 'no-hover';
+        const teamIconUrl = url || imageURLForTeam({display_name: name});
         let icon = null;
         if (teamIconUrl) {
             icon = (
                 <div
-                    className='TeamIcon__image'
+                    className={`TeamIcon__image TeamIcon__${size}`}
                     style={{backgroundImage: `url('${teamIconUrl}')`}}
                 />
             );
         } else {
             icon = (
-                <div className='TeamIcon__initials'>
-                    {team.display_name ? team.display_name.replace(/\s/g, '').substring(0, 2) : '??'}
+                <div className={`TeamIcon__initials TeamIcon__initials__${size}`}>
+                    {name ? name.replace(/\s/g, '').substring(0, 2) : '??'}
                 </div>
             );
         }
         return (
-            <div className='TeamIconBlock'>
-                <span className='TeamIcon__icon'>{icon}</span>
-                <div className='TeamIcon__data'>
-                    <div className='TeamIcon__data__title'>{team.display_name}</div>
+
+            <div className={`TeamIcon ${hoverCss} TeamIcon__${size}`}>
+                <div className={`TeamIcon__content ${hoverCss}`}>
+                    {icon}
                 </div>
             </div>
         );

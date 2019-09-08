@@ -1,48 +1,86 @@
+@charset 'UTF-8';
 
-.TeamIconBlock {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
+@import 'compass/utilities';
+@import 'compass/css3';
+@import 'utils/module';
 
-    .TeamIcon__icon {
-        border-radius: 4px;
-        background-color: var(--center-channel-color-15);;
-        color: white;
-        font-weight: bold;
-        height: 44px;
-        letter-spacing: -.5px;
-        line-height: 42px;
-        position: relative;
-        text-align: center;
-        text-transform: capitalize;
-        vertical-align: top;
-        width: 44px;
+.TeamIcon__content {
+    @include single-transition(all, .25s, ease);
+    @include opacity(.5);
+    @include border-radius(3px);
+    background-color: alpha-color($black, .3);
+    overflow: hidden;
+    height: 100%;
+    &.no-hover {
+        transition:none;
+    }
+}
 
-        .TeamIcon__icon__image {
-            border-radius: 4px;
-            overflow: hidden;
-            background-color: white;
-            background-repeat: round;
-            background-size: contain;
-            height: 100%;
-            width: 100%;
-        }
+.TeamIcon__initials {
+    &.TeamIcon__initials__large {
+        font-size: 3em;
+    }
+    &.TeamIcon__initials__small {
+        font-size: 14px;
+    }
+}
+.TeamIcon {
+    @include border-radius(4px);
+    border: 1px solid transparent;
+    font-weight: bold;
+    height: 44px;
+    letter-spacing: -.5px;
+    line-height: 42px;
+    position: relative;
+    text-align: center;
+    text-transform: capitalize;
+    vertical-align: top;
+    width: 44px;
 
-        .TeamIcon__icon__content {
-            bottom: 4px;
-            font-size: 8.5px;
-            font-weight: normal;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            width: 31px;
+    &.TeamIcon__large {
+        width: 94px;
+        height: 94px;
+        line-height: 92px;
+    }
+
+    &.TeamIcon__small {
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+    }
+
+
+    &:hover {
+        .TeamIcon__content {
+            @include opacity(.8);
+
+            &.no-hover {
+                @include opacity(.5);
+            }
         }
     }
-    .TeamIcon__data {
-        flex-grow: 1;
-        padding: 0 0 0 10px;
-        .TeamIcon__data__title {
-            font-weight: bold;
+
+    .TeamIcon__image {
+        @include clearfix;
+        @include background-size(100% 100%);
+        background-color: $white;
+        background-repeat: no-repeat;
+        width: 43px;
+        height: 100%;
+        &.TeamIcon__large {
+            width: 98px;
         }
+
+        &.TeamIcon__small {
+            width: 40px;
+        }
+
+    }
+
+    &.team-btn__add {
+        font-size: 25px;
+        line-height: 41px;
+        vertical-align: middle;
+        background-color: alpha-color($black, .3);
     }
 }

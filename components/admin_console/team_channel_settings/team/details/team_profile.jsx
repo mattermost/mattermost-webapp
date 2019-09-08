@@ -11,7 +11,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import * as Utils from 'utils/utils';
 
-import TeamImage from './team_image.jsx';
+import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 export function TeamProfile({team}) {
     const teamIconUrl = Utils.imageURLForTeam(team);
@@ -30,9 +30,10 @@ export function TeamProfile({team}) {
                 <div className='group-teams-and-channels--body'>
                     <div className='row'>
                         <div className='col-sm-2 large-team-image-col'>
-                            <TeamImage
-                                displayName={team.display_name}
-                                teamIconUrl={teamIconUrl}
+                            <TeamIcon
+                                name={team.display_name}
+                                size='large'
+                                url={teamIconUrl}
                             />
                         </div>
                         <div className='col-sm-10'>
