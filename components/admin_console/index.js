@@ -13,12 +13,14 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
+import {getAdminDefinition} from 'selectors/admin_console';
 
 import AdminConsole from './admin_console.jsx';
 
 function mapStateToProps(state) {
     const generalConfig = getGeneralConfig(state);
     const buildEnterpriseReady = generalConfig.BuildEnterpriseReady === 'true';
+    const adminDefinition = getAdminDefinition(state);
 
     return {
         config: Selectors.getConfig(state),
@@ -29,6 +31,7 @@ function mapStateToProps(state) {
         showNavigationPrompt: showNavigationPrompt(state),
         isCurrentUserSystemAdmin: isCurrentUserSystemAdmin(state),
         roles: getRoles(state),
+        adminDefinition,
     };
 }
 

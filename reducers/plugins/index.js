@@ -208,6 +208,37 @@ function postCardTypes(state = {}, action) {
     }
 }
 
+function adminConsoleReducers(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.RECEIVED_ADMIN_CONSOLE_REDUCER: {
+        if (action.data) {
+            const nextState = {...state};
+            nextState[action.data.pluginId] = action.data.reducer;
+            return nextState;
+        }
+        return state;
+    }
+    case ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER: {
+        if (action.data) {
+            const nextState = {...state};
+            delete nextState[action.data.pluginId];
+            return nextState;
+        }
+        return state;
+    }
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+        if (action.data) {
+            const nextState = {...state};
+            delete nextState[action.data.id];
+            return nextState;
+        }
+        return state;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
@@ -224,4 +255,8 @@ export default combineReducers({
     // object where every key is a post type and the values are components wrapped in an
     // an object that contains a plugin id
     postCardTypes,
+
+    // object where every key is a plugin id and the value is a function that
+    // modifies the admin console definition data structure
+    adminConsoleReducers,
 });
