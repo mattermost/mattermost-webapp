@@ -78,6 +78,9 @@ describe('Messaging', () => {
         //# Click on Town-Square channel
         cy.get('#sidebarItem_town-square').click({force: true});
 
+        // # Post a new message
+        cy.postMessage('new post');
+
         //# Open the reply thread on the most recent post on Town-Square channel
         cy.clickPostCommentIcon();
 
@@ -103,6 +106,9 @@ describe('Messaging', () => {
     it('M17450 - Focus to remain in RHS textbox each time Reply arrow is clicked', () => {
         //# Click on Town-Square channel
         cy.get('#sidebarItem_town-square').click({force: true});
+
+        // # Post a new message
+        cy.postMessage('new post');
 
         //# Open the reply thread on the most recent post on Town-Square channel
         cy.clickPostCommentIcon();
