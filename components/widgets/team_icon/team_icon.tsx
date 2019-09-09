@@ -8,13 +8,29 @@ import {imageURLForTeam} from 'utils/utils.jsx';
 import './team_icon.scss';
 
 type Props = {
+
+    /** Team icon URL (when available) */
     url?: string;
+
+    /** Team display name (used for the initials) if icon URL is not set */
     name: string;
+
+    /**
+     * Size of the icon, "small", "regular" or "large".
+     *
+     * @default "regular"
+     **/
     size?: 'small'|'regular'|'large';
+
+    /** Whether to add hover effect to the icon */
     withHover?: boolean;
 };
 
-export default class TeamIcon extends React.PureComponent<Props> {
+/**
+ * An icon representing a Team. If `url` is set - shows the image,
+ * otherwise shows team initials
+ */
+export class TeamIcon extends React.PureComponent<Props> {
     public static defaultProps = {
         size: 'regular',
     };
@@ -22,7 +38,7 @@ export default class TeamIcon extends React.PureComponent<Props> {
     public render() {
         const {name, url, size, withHover} = this.props;
         if (!name && !url) {
-            throw new Error("Either `url` or `name` prop is required ");
+            throw new Error('Either `url` or `name` prop is required ');
         }
         const hoverCss = withHover ? '' : 'no-hover';
         const teamIconUrl = url || imageURLForTeam({display_name: name});
@@ -51,3 +67,5 @@ export default class TeamIcon extends React.PureComponent<Props> {
         );
     }
 }
+
+export default TeamIcon;

@@ -1,20 +1,16 @@
 .team-btn {
     @include border-radius(4px);
-    border: 1px solid transparent;
     font-weight: bold;
-    height: 44px;
+    height: 46px;
     letter-spacing: -.5px;
-    line-height: 42px;
+    line-height: 44px;
     position: relative;
     text-align: center;
     text-transform: capitalize;
     vertical-align: top;
-    width: 44px;
+    width: 46px;
 
-    .TeamIcon {
-        margin-left: -1px;
-        margin-top: -1px;
-    }
+
     &.team-btn__add {
         font-size: 25px;
         line-height: 41px;
