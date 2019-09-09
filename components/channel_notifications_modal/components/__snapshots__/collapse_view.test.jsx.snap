@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/channel_notifications_modal/CollapseView should match snapshot, DESKTOP on collapsed view 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <Describe
       globalNotifyLevel="default"
@@ -10,7 +10,6 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="desktop"
     />
   }
-  focused={false}
   section="desktop"
   title={
     <SectionTitle
@@ -22,7 +21,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
 `;
 
 exports[`components/channel_notifications_modal/CollapseView should match snapshot, MARK_UNREAD on collapsed view 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <Describe
       globalNotifyLevel={null}
@@ -31,7 +30,6 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="markUnread"
     />
   }
-  focused={false}
   section="markUnread"
   title={
     <SectionTitle
@@ -43,7 +41,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
 `;
 
 exports[`components/channel_notifications_modal/CollapseView should match snapshot, PUSH on collapsed view 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <Describe
       globalNotifyLevel="default"
@@ -52,7 +50,6 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="push"
     />
   }
-  focused={false}
   section="push"
   title={
     <SectionTitle
