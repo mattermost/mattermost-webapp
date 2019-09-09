@@ -20,7 +20,7 @@ describe('components/MarkdownImage', () => {
         },
     };
     const store = mockStore(initialState);
-    it('should match snapsnot', () => {
+    it('should match snapsnot for SizeAwareImage dimensions', () => {
         const imageMetadata = {format: 'jpg', frame_count: 0, width: 100, height: 100};
         const wrapper = shallow(
             <MarkdownImage
