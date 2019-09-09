@@ -8,33 +8,40 @@ import {ModalIdentifiers} from 'utils/constants.jsx';
 
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 
-export function openInteractiveDialog(dialog) {
-    store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
-
-    const currentTriggerId = store.getState().entities.integrations.dialogTriggerId;
-
-    if (dialog.trigger_id !== currentTriggerId) {
-        return;
+export async function openInteractiveDialog(dialog) {
+    if (await matchesCurrentOrNextTriggerId(dialog.trigger_id)) {
+        store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
+        store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
     }
-
-    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
 }
 
-let previousTriggerId = '';
-store.subscribe(() => {
-    const state = store.getState();
-    const currentTriggerId = state.entities.integrations.dialogTriggerId;
+// matchesCurrentOrNextTriggerId determines if the given id matches the state's
+// current dialogTriggerId, or the next one that is asynchronously after a slach command
+// or post request.
+//
+// This verifies that the requested dialog has been triggered by the most recent
+// request, accounting for the case where the interactive dialog websocket event
+// arrives before the request has returned its dialogTriggerId.
+async function matchesCurrentOrNextTriggerId(id) {
+    return new Promise((resolve, reject) => {
+        let current = getDialogTriggerId(store.getState());
 
-    if (currentTriggerId === previousTriggerId) {
-        return;
-    }
+        if (id === current) {
+            resolve(true)    
+        } else {
+            let unsubscribe = store.subscribe(() => {
+                let previous = current;
+                current = getDialogTriggerId(store.getState());
+    
+                if (current !== previous) {
+                    resolve(id === current);
+                    unsubscribe();
+                }
+            });
+        }
+    });
+}
 
-    previousTriggerId = currentTriggerId;
-
-    const dialog = state.entities.integrations.dialog || {};
-    if (dialog.trigger_id !== currentTriggerId) {
-        return;
-    }
-
-    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
-});
+function getDialogTriggerId(state) {
+    return state.entities.integrations.dialogTriggerId;
+}
