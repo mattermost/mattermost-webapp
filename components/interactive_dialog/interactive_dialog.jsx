@@ -98,10 +98,10 @@ export default class InteractiveDialog extends React.Component {
                 this.setState({error: data.error});
             }
 
-            if (data.errors
-                && Object.keys(data.errors).length >= 0
-                && checkIfErrorsMatchElements(data.errors, elements)) 
-            {
+            if (data.errors &&
+                Object.keys(data.errors).length >= 0 &&
+                checkIfErrorsMatchElements(data.errors, elements)
+            ) {
                 hasErrors = true;
                 this.setState({errors: data.errors});
             }
