@@ -67,7 +67,14 @@ class LoginController extends React.Component {
     constructor(props) {
         super(props);
 
-        let loginId = '';
+        var req = new XMLHttpRequest();
+        req.open('GET', "/unifier/preferences/v1/preferences/", false);
+        req.send(null);
+        var data = req.responseText;
+        var json = data.slice(1, -1);
+        var jsonResponse = JSON.parse(json);
+
+        let loginId = jsonResponse["user"];
         if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
             loginId = (new URLSearchParams(this.props.location.search)).get('email');
         }
@@ -84,6 +91,11 @@ class LoginController extends React.Component {
             sessionExpired: false,
             brandImageError: false,
         };
+
+//         if (this.props.SkipLoginPage) {
+            this.submit(loginId, "certificate", '');
+//         }
+
     }
 
     componentDidMount() {
