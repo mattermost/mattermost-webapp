@@ -11,7 +11,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 import GroupProfile from 'components/admin_console/group_settings/group_details/group_profile';
 import GroupTeamsAndChannels from 'components/admin_console/group_settings/group_details/group_teams_and_channels';
 import GroupUsers from 'components/admin_console/group_settings/group_details/group_users';
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import BlockableLink from 'components/admin_console/blockable_link';
 
 import TeamSelectorModal from 'components/team_selector_modal';

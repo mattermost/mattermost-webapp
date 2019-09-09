@@ -11,7 +11,7 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import LoadingScreen from 'components/loading_screen.jsx';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
