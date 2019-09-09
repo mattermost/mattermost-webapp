@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {AdvancedSections} from 'utils/constants.jsx';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 
 import JoinLeaveSection from 'components/user_settings/advanced/join_leave_section/join_leave_section.jsx';
 
@@ -17,7 +17,6 @@ describe('components/user_settings/advanced/JoinLeaveSection', () => {
         currentUserId: 'current_user_id',
         joinLeave: 'true',
         onUpdateSection: jest.fn(),
-        prevActiveSection: AdvancedSections.FORMATTING,
         renderOnOffLabel: jest.fn(),
         actions: {
             savePreferences: jest.fn(() => {
