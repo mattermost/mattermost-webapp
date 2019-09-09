@@ -148,7 +148,6 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        e.preventDefault();
         const post = this.props.post;
         if (!post) {
             return;
@@ -256,7 +255,7 @@ export default class Post extends React.PureComponent {
     }
 
     unsetHover = () => {
-        this.setState({hover: false, alt: false});
+        this.setState({hover: false});
     }
 
     handleAlt = (e) => {
