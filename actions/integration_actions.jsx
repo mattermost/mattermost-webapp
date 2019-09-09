@@ -6,11 +6,6 @@ import * as IntegrationActions from 'mattermost-redux/actions/integrations';
 import {getProfilesByIds} from 'mattermost-redux/actions/users';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
-import {ModalIdentifiers} from 'utils/constants';
-import {openModal} from 'actions/views/modals';
-import InteractiveDialog from 'components/interactive_dialog';
-import store from 'stores/redux_store.jsx';
-
 const DEFAULT_PAGE_SIZE = 100;
 
 export function loadIncomingHooksAndProfilesForTeam(teamId, page = 0, perPage = DEFAULT_PAGE_SIZE) {

@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {IntegrationTypes} from 'mattermost-redux/action_types';
+
 import {openModal} from 'actions/views/modals';
 import InteractiveDialog from 'components/interactive_dialog';
 import store from 'stores/redux_store.jsx';
 import {ModalIdentifiers} from 'utils/constants.jsx';
-
-import {IntegrationTypes} from 'mattermost-redux/action_types';
 
 export async function openInteractiveDialog(dialog) {
     if (await matchesCurrentOrNextTriggerId(dialog.trigger_id)) {
@@ -23,16 +23,16 @@ export async function openInteractiveDialog(dialog) {
 // request, accounting for the case where the interactive dialog websocket event
 // arrives before the request has returned its dialogTriggerId.
 async function matchesCurrentOrNextTriggerId(id) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         let current = getDialogTriggerId(store.getState());
 
         if (id === current) {
-            resolve(true)    
+            resolve(true);
         } else {
-            let unsubscribe = store.subscribe(() => {
-                let previous = current;
+            const unsubscribe = store.subscribe(() => {
+                const previous = current;
                 current = getDialogTriggerId(store.getState());
-    
+
                 if (current !== previous) {
                     resolve(id === current);
                     unsubscribe();
