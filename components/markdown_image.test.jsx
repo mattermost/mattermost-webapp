@@ -3,23 +3,11 @@
 
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import {shallow} from 'enzyme';
 
 import MarkdownImage from 'components/markdown_image.jsx';
 
 describe('components/MarkdownImage', () => {
-    const mockStore = configureStore();
-    const initialState = {
-        entities: {
-            general: {
-                config: {
-                    DefaultClientLocale: 'en',
-                },
-            },
-        },
-    };
-    const store = mockStore(initialState);
     it('should match snapsnot for SizeAwareImage dimensions', () => {
         const imageMetadata = {format: 'jpg', frame_count: 0, width: 100, height: 100};
         const wrapper = shallow(
@@ -29,8 +17,7 @@ describe('components/MarkdownImage', () => {
             />
         );
 
-        const childrenWrapper = wrapper.dive({context: {store}}).props().children('safeSrc');
-
+        const childrenWrapper = wrapper.props().children('safeSrc');
         expect(childrenWrapper).toMatchSnapshot();
     });
 });
