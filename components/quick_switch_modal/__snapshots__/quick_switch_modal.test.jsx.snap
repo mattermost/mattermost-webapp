@@ -2,7 +2,7 @@
 
 exports[`components/QuickSwitchModal should match snapshot 1`] = `
 <Modal
-  animation={true}
+  animation={false}
   aria-labelledby="quickSwitchModalLabel"
   autoFocus={true}
   backdrop={true}
