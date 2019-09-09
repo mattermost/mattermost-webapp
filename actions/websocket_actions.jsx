@@ -11,7 +11,6 @@ import {
     RoleTypes,
     GeneralTypes,
     AdminTypes,
-    IntegrationTypes,
     PreferenceTypes,
 } from 'mattermost-redux/action_types';
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
@@ -51,6 +50,7 @@ import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selec
 
 import {getSelectedChannelId} from 'selectors/rhs';
 
+import {openInteractiveDialog} from 'actions/interactive_dialog_actions';
 import {openModal} from 'actions/views/modals';
 import {incrementWsErrorCount, resetWsErrorCount} from 'actions/views/system';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -69,7 +69,6 @@ import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIde
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url.jsx';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
-import InteractiveDialog from 'components/interactive_dialog';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -941,14 +940,5 @@ function handlePluginStatusesChangedEvent(msg) {
 function handleOpenDialogEvent(msg) {
     const data = (msg.data && msg.data.dialog) || {};
     const dialog = JSON.parse(data);
-
-    store.dispatch({type: IntegrationTypes.RECEIVED_DIALOG, data: dialog});
-
-    const currentTriggerId = getState().entities.integrations.dialogTriggerId;
-
-    if (dialog.trigger_id !== currentTriggerId) {
-        return;
-    }
-
-    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
+    openInteractiveDialog(dialog);
 }

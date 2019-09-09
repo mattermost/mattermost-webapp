@@ -144,22 +144,3 @@ export function getYoutubeVideoInfo(googleKey, videoId, success, error) {
             return success(res.body);
         });
 }
-
-let previousTriggerId = '';
-store.subscribe(() => {
-    const state = store.getState();
-    const currentTriggerId = state.entities.integrations.dialogTriggerId;
-
-    if (currentTriggerId === previousTriggerId) {
-        return;
-    }
-
-    previousTriggerId = currentTriggerId;
-
-    const dialog = state.entities.integrations.dialog || {};
-    if (dialog.trigger_id !== currentTriggerId) {
-        return;
-    }
-
-    store.dispatch(openModal({modalId: ModalIdentifiers.INTERACTIVE_DIALOG, dialogType: InteractiveDialog}));
-});
