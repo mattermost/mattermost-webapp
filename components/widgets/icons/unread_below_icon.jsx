@@ -13,10 +13,20 @@ export default class UnreadBelowIcon extends React.PureComponent {
                     defaultMessage='Down Arrow Icon'
                 >
                     {(ariaLabel) => (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-                            <g transform="rotate(180 12 12)">
-                                <path fill="none" d="M0 0h24v24H0V0z"/>
-                                <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/>
+                        <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            width='16'
+                            height='16'
+                            viewBox='0 0 24 24'
+                            role='icon'
+                            aria-label={ariaLabel}
+                        >
+                            <g transform='rotate(180 12 12)'>
+                                <path
+                                    fill='none'
+                                    d='M0 0h24v24H0V0z'
+                                />
+                                <path d='M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z'/>
                             </g>
                         </svg>
                     )}
@@ -25,10 +35,3 @@ export default class UnreadBelowIcon extends React.PureComponent {
         );
     }
 }
-
-const style = {
-    fillRule: 'evenodd',
-    clipRule: 'evenodd',
-    strokeLinejoin: 'round',
-    strokeMiterlimit: 1.41421,
-};

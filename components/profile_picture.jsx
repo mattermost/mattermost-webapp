@@ -63,7 +63,10 @@ export default class ProfilePicture extends React.PureComponent {
                         />
                     }
                 >
-                    <button className={`status-wrapper style--none ${this.props.wrapperClass}`} tabIndex='-1'>
+                    <button
+                        className={`status-wrapper style--none ${this.props.wrapperClass}`}
+                        tabIndex='-1'
+                    >
                         <span className={profileIconClass}>
                             <Avatar
                                 username={this.props.username}
