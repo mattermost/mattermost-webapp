@@ -58,7 +58,7 @@ function mapStateToProps(state, ownProps) {
         enableTimezone: areTimezonesEnabledAndSupported(state),
         isTeamAdmin,
         isChannelAdmin,
-        isInCurrentTeam: Boolean(teamMember),
+        isInCurrentTeam: Boolean(teamMember) && teamMember.delete_at === 0,
         canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
