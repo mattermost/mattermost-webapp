@@ -101,6 +101,11 @@
                 top: 10px;
             }
         }
+        .suggestion-list__content {
+            box-shadow: none;
+            border: none;
+            overflow: auto;
+        }
     }
 
     .modal--overflow {
