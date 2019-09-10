@@ -11,7 +11,6 @@ import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
@@ -51,8 +50,8 @@ export default class MarketplaceModal extends React.Component {
         this.getMarketplacePlugins();
     }
 
-    getMarketplacePlugins = async () => {
-        await this.props.actions.getMarketplacePlugins();
+    getMarketplacePlugins = async (filter) => {
+        await this.props.actions.getMarketplacePlugins(filter);
 
         this.setState({loading: false});
     }
@@ -67,6 +66,13 @@ export default class MarketplaceModal extends React.Component {
 
     changeTab = (tabKey) => {
         this.setState({tabKey});
+    }
+
+    doSearch = () => {
+        const filter = this.refs.filter.value;
+        this.setState({loading: true});
+
+        this.getMarketplacePlugins(filter);
     }
 
     getPluginsListContent = (pluginsArray, installedList) => {
@@ -128,12 +134,11 @@ export default class MarketplaceModal extends React.Component {
     }
 
     render() {
-        //WIP: To add pagination section
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
                     <QuickInput
-                        id='searchChannelsTextbox'
+                        id='searchMarketplaceTextbox'
                         ref='filter'
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
@@ -184,11 +189,7 @@ export default class MarketplaceModal extends React.Component {
                                 eventKey={MarketplaceTabs.ALL_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.all_plugins', 'All Plugins')}
                             >
-                                {this.state.loading ?
-                                    <LoadingScreen/> : (
-                                        this.getPluginsListContent(this.props.marketplacePlugins, false)
-                                    )
-                                }
+                                {this.getPluginsListContent(this.props.marketplacePlugins, false)}
                             </Tab>
                             <Tab
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
