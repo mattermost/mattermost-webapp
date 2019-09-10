@@ -3,9 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import truncate from 'lodash/truncate';
 
 import {isUrlSafe} from 'utils/url';
 import {handleFormattedTextClick} from 'utils/utils';
+import {Constants} from 'utils/constants';
 
 import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
@@ -365,6 +367,38 @@ export default class MessageAttachment extends React.PureComponent {
             );
         }
 
+        let footer;
+        if (attachment.footer) {
+            let footerIcon;
+            if (attachment.footer_icon) {
+                const footerIconMetadata = this.props.imagesMetadata[attachment.footer_icon];
+
+                footerIcon = (
+                    <ExternalImage
+                        src={attachment.footer_icon}
+                        imageMetadata={footerIconMetadata}
+                    >
+                        {(footerIconUrl) => (
+                            <img
+                                alt={'attachment footer icon'}
+                                className='attachment__footer-icon'
+                                src={footerIconUrl}
+                                height='16'
+                                width='16'
+                            />
+                        )}
+                    </ExternalImage>
+                );
+            }
+
+            footer = (
+                <div className='attachment__footer-container'>
+                    {footerIcon}
+                    <span>{truncate(attachment.footer, {length: Constants.MAX_ATTACHMENT_FOOTER_LENGTH, omission: '…'})}</span>
+                </div>
+            );
+        }
+
         let thumb;
         if (attachment.thumb_url) {
             const thumbMetadata = this.props.imagesMetadata[attachment.thumb_url];
@@ -416,6 +450,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 {attachmentText}
                                 {image}
                                 {fields}
+                                {footer}
                                 {actions}
                             </div>
                             {thumb}

@@ -1,3 +1,8 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+
+@import 'utils/module';
+
 .AdminPanel {
     @include border-radius($border-rad);
     @include box-shadow(0 1px 2px 0 alpha-color($black, .5));

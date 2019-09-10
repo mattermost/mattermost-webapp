@@ -1,9 +1,17 @@
-.PHONY: build test run clean stop check-style run-unit emojis help package-ci
+.PHONY: build test run clean stop check-style run-unit emojis help package-ci storybook build-storybook
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
 MM_UTILITIES_DIR = ../mattermost-utilities
 EMOJI_TOOLS_DIR = ./build/emoji
+
+build-storybook: node_modules ## Build the storybook
+	@echo Building storybook
+
+	npm run build-storybook
+
+storybook: node_modules ## Run the storybook development environment
+	npm run storybook
 
 check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
