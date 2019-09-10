@@ -526,6 +526,7 @@ body {
         position: relative;
         padding-top: 3px;
         height: 3.8em;
+        max-width: 100%;
 
         &:hover {
             @include single-transition(background-color, .15s, ease);
