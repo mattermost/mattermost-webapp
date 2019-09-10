@@ -50,7 +50,8 @@ export default class MarketplaceModal extends React.Component {
         this.getMarketplacePlugins();
     }
 
-    getMarketplacePlugins = async (filter) => {
+    getMarketplacePlugins = async () => {
+        const filter = this.refs.filter ? this.refs.filter.value : '';
         await this.props.actions.getMarketplacePlugins(filter);
 
         this.setState({loading: false});
@@ -69,10 +70,9 @@ export default class MarketplaceModal extends React.Component {
     }
 
     doSearch = () => {
-        const filter = this.refs.filter.value;
         this.setState({loading: true});
 
-        this.getMarketplacePlugins(filter);
+        this.getMarketplacePlugins();
     }
 
     getPluginsListContent = (pluginsArray, installedList) => {
