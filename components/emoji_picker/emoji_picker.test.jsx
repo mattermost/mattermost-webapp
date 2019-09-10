@@ -87,7 +87,6 @@ describe('components/emoji_picker/EmojiPicker', () => {
         // People EmojiPickerCategory should have prop selected true
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).find({category: 'people'}).length).toBe(1);
 
-        expect(wrapper.find(EmojiPickerItem).length).toBe(291);
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(1);
         expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'people'}).length).toBe(1);
     });
@@ -115,7 +114,6 @@ describe('components/emoji_picker/EmojiPicker', () => {
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).find({category: 'recent'}).length).toBe(1);
 
-        expect(wrapper.find(EmojiPickerItem).length).toBe(292);
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
         expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'recent'}).length).toBe(1);
     });
@@ -138,17 +136,12 @@ describe('components/emoji_picker/EmojiPicker', () => {
 
         //oveflow hidden to not show the scroll bar
         expect(wrapper.find('.emoji-picker__items').prop('style')).toStrictEqual({overflowY: 'hidden'});
+        expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
 
         jest.runAllTimers();
         wrapper.update();
 
-        // 10 categories as there is recent caterogry and prop selected should be true on EmojiPickerCategory for recent category
-        expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
-        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
-        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).find({category: 'recent'}).length).toBe(1);
-
         expect(wrapper.state('renderAllCategories')).toEqual(true);
-        expect(wrapper.find(EmojiPickerItem).length).toBe(1449);
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(10);
 
         //oveflow hidden to not show the scroll bar
