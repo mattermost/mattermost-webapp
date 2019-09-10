@@ -11,13 +11,11 @@ exports[`admin_console/team_channel_settings/team/TeamRow should match snapshot 
     <div
       className="group-name adjusted center-row row-content"
     >
-      <div>
-        <TeamIcon
-          name="team"
-          size="small"
-          url={null}
-        />
-      </div>
+      <TeamIcon
+        name="team"
+        size="small"
+        url={null}
+      />
       <div>
         <b>
           team
