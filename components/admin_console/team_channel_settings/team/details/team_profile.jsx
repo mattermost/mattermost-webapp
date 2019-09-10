@@ -32,7 +32,7 @@ export function TeamProfile({team}) {
                         <div className='col-sm-2 large-team-image-col'>
                             <TeamIcon
                                 name={team.display_name}
-                                size='large'
+                                size='lg'
                                 url={teamIconUrl}
                             />
                         </div>

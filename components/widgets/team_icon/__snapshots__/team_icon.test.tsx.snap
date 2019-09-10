@@ -1,15 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-
-exports[`components/widgets/team-icon should match the snapshot 1`] = `
+exports[`components/widgets/team-icon basic icon 1`] = `
 <div
-  className="TeamIcon no-hover TeamIcon__regular"
+  className="TeamIcon no-hover TeamIcon__md"
 >
   <div
     className="TeamIcon__content no-hover"
   >
     <div
-      className="TeamIcon__initials TeamIcon__initials__regular"
+      className="TeamIcon__initials TeamIcon__initials__md"
+    >
+      te
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/widgets/team-icon icon with hover 1`] = `
+<div
+  className="TeamIcon  TeamIcon__md"
+>
+  <div
+    className="TeamIcon__content "
+  >
+    <div
+      className="TeamIcon__initials TeamIcon__initials__md"
+    >
+      te
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/widgets/team-icon image icon 1`] = `
+<div
+  className="TeamIcon no-hover TeamIcon__md"
+>
+  <div
+    className="TeamIcon__content no-hover"
+  >
+    <div
+      className="TeamIcon__image TeamIcon__md"
+      style={
+        Object {
+          "backgroundImage": "url('http://example.com/image.png')",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`components/widgets/team-icon small icon 1`] = `
+<div
+  className="TeamIcon no-hover TeamIcon__sm"
+>
+  <div
+    className="TeamIcon__content no-hover"
+  >
+    <div
+      className="TeamIcon__initials TeamIcon__initials__sm"
     >
       te
     </div>

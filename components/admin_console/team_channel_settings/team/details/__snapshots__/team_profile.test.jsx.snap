@@ -23,7 +23,7 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
         >
           <TeamIcon
             name="test"
-            size="large"
+            size="lg"
             url={null}
           />
         </div>

@@ -30,7 +30,7 @@ export default class TeamRow extends React.Component {
                 <div className='group-row group-row-large'>
                     <div className='group-name adjusted center-row row-content'>
                         <TeamIcon
-                            size='small'
+                            size='sm'
                             url={teamIconUrl}
                             name={team.display_name}
                         />

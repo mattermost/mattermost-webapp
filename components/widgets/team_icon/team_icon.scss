@@ -17,10 +17,10 @@
 }
 
 .TeamIcon__initials {
-    &.TeamIcon__initials__large {
+    &.TeamIcon__initials__lg {
         font-size: 3em;
     }
-    &.TeamIcon__initials__small {
+    &.TeamIcon__initials__sm {
         font-size: 14px;
     }
 }
@@ -38,13 +38,13 @@
     width: 44px;
     margin-right: 10px;
 
-    &.TeamIcon__large {
+    &.TeamIcon__lg {
         width: 94px;
         height: 94px;
         line-height: 92px;
     }
 
-    &.TeamIcon__small {
+    &.TeamIcon__sm {
         width: 40px;
         height: 40px;
         line-height: 38px;
@@ -68,11 +68,11 @@
         background-repeat: no-repeat;
         width: 43px;
         height: 100%;
-        &.TeamIcon__large {
+        &.TeamIcon__lg {
             width: 98px;
         }
 
-        &.TeamIcon__small {
+        &.TeamIcon__sm {
             width: 40px;
         }
 
