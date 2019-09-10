@@ -20,7 +20,7 @@ export function openInteractiveDialog(dialog) {
 // This code is problematic for a couple of different reasons:
 // * it monitors the store to modify the store: this is perhaps better handled by a saga
 // * it makes importing this file impure by triggering a side-effect which may not be obvious
-// * it's not really located in the "right place": dialogs are applicable to non-modals too
+// * it's not really located in the "right place": dialogs are applicable to non-plugins too
 // * it's nigh impossible to test as written
 //
 // It's worth fixing all of this, but I think this requires some refactoring.
