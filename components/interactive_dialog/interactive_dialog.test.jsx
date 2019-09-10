@@ -32,7 +32,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
                 }),
             },
         };
-        const wrapper = shallow(<InteractiveDialog {...props} />);
+        const wrapper = shallow(<InteractiveDialog {...props}/>);
 
         await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
