@@ -51,7 +51,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     getMarketplacePlugins = async () => {
-        const filter = this.refs.filter ? this.refs.filter.value : '';
+        const filter = this.refs.filter ? this.refs.filter.value : null;
         await this.props.actions.getMarketplacePlugins(filter);
 
         this.setState({loading: false});
