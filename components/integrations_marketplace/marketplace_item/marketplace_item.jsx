@@ -21,7 +21,6 @@ export default class MarketplaceItem extends React.Component {
             description: PropTypes.string.isRequired,
             version: PropTypes.string.isRequired,
             downloadUrl: PropTypes.string,
-            signatureUrl: PropTypes.string,
             homepageUrl: PropTypes.string,
             installed: PropTypes.bool.isRequired,
             onConfigure: PropTypes.func.isRequired,
@@ -56,7 +55,7 @@ export default class MarketplaceItem extends React.Component {
         }
 
         installPlugin = async (force) => {
-            const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, force, this.props.signatureUrl);
+            const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, force);
 
             if (error) {
                 if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
