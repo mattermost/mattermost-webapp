@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';
 import EmailNotificationSetting from './email_notification_setting';
@@ -107,20 +107,11 @@ function getNotificationsStateFromProps(props) {
     };
 }
 
-const prevSections = {
-    desktop: 'dummySectionName', // dummy value that should never match any section name
-    email: 'desktop',
-    push: 'email',
-    keys: 'push',
-    comments: 'keys',
-};
-
 export default class NotificationsTab extends React.Component {
     static propTypes = {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        prevActiveSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         siteName: PropTypes.string,
@@ -134,7 +125,6 @@ export default class NotificationsTab extends React.Component {
     static defaultProps = {
         user: null,
         activeSection: '',
-        prevActiveSection: '',
         activeTab: '',
     }
 
@@ -181,7 +171,7 @@ export default class NotificationsTab extends React.Component {
         this.props.actions.updateMe({notify_props: data}).
             then(({data: result, error: err}) => {
                 if (result) {
-                    this.updateSection('');
+                    this.handleUpdateSection('');
                     this.setState(getNotificationsStateFromProps(this.props));
                 } else if (err) {
                     this.setState({serverError: err.message, isSaving: false});
@@ -201,19 +191,15 @@ export default class NotificationsTab extends React.Component {
             this.props.updateSection(section);
         } else {
             this.props.updateSection('');
-            this.handleCancel();
         }
+        this.setState({isSaving: false});
+        this.handleCancel();
     };
 
     setStateValue = (key, value) => {
         const data = {};
         data[key] = value;
         this.setState(data);
-    }
-
-    updateSection = (section) => {
-        this.setState({isSaving: false});
-        this.props.updateSection(section);
     }
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
@@ -515,7 +501,6 @@ export default class NotificationsTab extends React.Component {
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.push', 'Mobile push notifications')}
                 describe={describe}
-                focused={this.props.prevActiveSection === prevSections.push}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
             />
@@ -698,7 +683,6 @@ export default class NotificationsTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('user.settings.notifications.wordsTrigger', 'Words that trigger mentions')}
                     describe={describe}
-                    focused={this.props.prevActiveSection === prevSections.keys}
                     section={'keys'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -822,7 +806,6 @@ export default class NotificationsTab extends React.Component {
                 <SettingItemMin
                     title={Utils.localizeMessage('user.settings.notifications.comments', 'Reply notifications')}
                     describe={describe}
-                    focused={this.props.prevActiveSection === prevSections.comments}
                     section={'comments'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -837,7 +820,7 @@ export default class NotificationsTab extends React.Component {
                         <ManageAutoResponder
                             autoResponderActive={this.state.autoResponderActive}
                             autoResponderMessage={this.state.autoResponderMessage}
-                            updateSection={this.updateSection}
+                            updateSection={this.handleUpdateSection}
                             setParentState={this.setStateValue}
                             submit={this.handleSubmit}
                             error={this.state.serverError}
@@ -870,7 +853,7 @@ export default class NotificationsTab extends React.Component {
                         width='medium'
                         describe={describe}
                         section={'auto-responder'}
-                        updateSection={this.updateSection}
+                        updateSection={this.handleUpdateSection}
                     />
                 );
             }
@@ -938,19 +921,17 @@ export default class NotificationsTab extends React.Component {
                         cancel={this.handleCancel}
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
-                        focused={this.props.prevActiveSection === prevSections.desktop}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
+                        updateSection={this.handleUpdateSection}
                         enableEmail={this.state.enableEmail === 'true'}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}
                         onChange={this.handleEmailRadio}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
-                        focused={this.props.prevActiveSection === prevSections.email}
                         siteName={this.props.siteName}
                     />
                     <div className='divider-light'/>
