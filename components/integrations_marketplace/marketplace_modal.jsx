@@ -11,6 +11,7 @@ import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
@@ -42,11 +43,13 @@ export default class MarketplaceModal extends React.Component {
 
         this.state = {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
-            loading: true,
+            loading: false,
         };
     }
 
     componentWillMount() {
+        this.setState({loading: true});
+
         this.getMarketplacePlugins();
     }
 
@@ -70,8 +73,6 @@ export default class MarketplaceModal extends React.Component {
     }
 
     doSearch = () => {
-        this.setState({loading: true});
-
         this.getMarketplacePlugins();
     }
 
@@ -189,7 +190,11 @@ export default class MarketplaceModal extends React.Component {
                                 eventKey={MarketplaceTabs.ALL_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.all_plugins', 'All Plugins')}
                             >
-                                {this.getPluginsListContent(this.props.marketplacePlugins, false)}
+                                {this.state.loading ?
+                                    <LoadingScreen/> : (
+                                        this.getPluginsListContent(this.props.marketplacePlugins, false)
+                                    )
+                                }
                             </Tab>
                             <Tab
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
