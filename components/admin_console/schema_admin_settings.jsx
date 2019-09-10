@@ -631,7 +631,7 @@ export default class SchemaAdminSettings extends React.Component {
     buildJobsTableSetting = (setting) => {
         return (
             <JobsTable
-                key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                key={this.props.schema.id + '_jobstable_' + setting.key}
                 jobType={setting.job_type}
                 getExtraInfoText={setting.render_job}
                 disabled={this.isDisabled(setting)}
@@ -719,10 +719,15 @@ export default class SchemaAdminSettings extends React.Component {
         const CustomComponent = setting.component;
         return (
             <CustomComponent
-                key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                key={this.props.schema.id + '_custom_' + setting.key}
                 id={setting.key}
-                value={this.state[setting.key] || ''}
+                label={this.renderLabel(setting)}
+                helpText={this.renderHelpText(setting)}
+                value={this.state[setting.key]}
                 disabled={this.isDisabled(setting)}
+                config={this.props.config}
+                currentState={this.state}
+                license={this.props.license}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
                 registerSaveAction={this.registerSaveAction}

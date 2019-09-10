@@ -8,6 +8,7 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
@@ -16,7 +17,8 @@ import CustomPluginSettings from './custom_plugin_settings.jsx';
 function makeGetPluginSchema() {
     return createSelector(
         (state, pluginId) => state.entities.admin.plugins[pluginId],
-        (plugin) => {
+        (state, pluginId) => getAdminConsoleCustomComponents(state, pluginId),
+        (plugin, customComponents) => {
             if (!plugin) {
                 return null;
             }
@@ -27,13 +29,20 @@ function makeGetPluginSchema() {
             let settings;
             if (plugin.settings_schema && plugin.settings_schema.settings) {
                 settings = plugin.settings_schema.settings.map((setting) => {
+                    const key = setting.key.toLowerCase();
+                    const component = customComponents[key];
+                    const type = component ? Constants.SettingsTypes.TYPE_CUSTOM : setting.type;
+                    console.log(key, component);
+
                     return {
                         ...setting,
-                        key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + setting.key.toLowerCase(),
+                        type,
+                        key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + key,
                         help_text_markdown: true,
                         label: setting.display_name,
                         translate: Boolean(plugin.translate),
                         isDisabled: it.stateIsFalse(pluginEnabledConfigKey),
+                        component,
                     };
                 });
             }

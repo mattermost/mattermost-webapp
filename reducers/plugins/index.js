@@ -247,12 +247,13 @@ function adminConsoleCustomComponents(state = {}, action) {
         }
 
         const pluginId = action.data.pluginId;
+        const key = action.data.key.toLowerCase();
 
         const nextState = {...state};
         if (!nextState[pluginId]) {
             nextState[pluginId] = {};
         }
-        nextState[pluginId][action.data.key] = action.data.component;
+        nextState[pluginId][key] = action.data.component;
         return nextState;
     }
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
