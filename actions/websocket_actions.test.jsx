@@ -718,7 +718,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             // Assert handlePluginDisabled is idempotent
             handlePluginDisabled({data: {manifest}});
 
-            expect(store.dispatch).toHaveBeenCalledTimes(1);
+            expect(store.dispatch).toHaveBeenCalledTimes(2);
             const dispatchRemovedArg = store.dispatch.mock.calls[0][0];
             expect(dispatchRemovedArg.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
             expect(dispatchRemovedArg.data).toBe(manifest);
