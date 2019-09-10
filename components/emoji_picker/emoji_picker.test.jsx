@@ -9,7 +9,6 @@ import EmojiMap from 'utils/emoji_map';
 import EmojiPicker, {filterEmojiSearchInput} from 'components/emoji_picker/emoji_picker';
 
 import EmojiPickerCategory from './components/emoji_picker_category';
-import EmojiPickerItem from './components/emoji_picker_item';
 import EmojiPickerCategorySection from './emoji_picker_category_section';
 
 describe('components/emoji_picker/EmojiPicker', () => {
