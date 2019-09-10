@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Bezig met laden",
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type email address",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
-  "yourcomputer": "Your computer",
-  "youtube_video.notFound": "Video niet gevonden"
+  "yourcomputer": "Your computer"
 }

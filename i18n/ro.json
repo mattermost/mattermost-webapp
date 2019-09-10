@@ -2547,7 +2547,7 @@
   "login.verified": " Email verificat",
   "manage_channel_groups_modal.search_placeholder": "Căutați grupuri",
   "manage_team_groups_modal.search_placeholder": "Căutați grupuri",
-  "members_popover.button.message": "Mesaj",
+  "members_popover.button.message": "mesaj",
   "members_popover.manageMembers": "Gestioneaza membri",
   "members_popover.title": "Am putut sa ma membrii canalului",
   "members_popover.viewMembers": "Vezi membrii",
@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Se încarcă",
   "widgets.users_emails_input.no_user_found_matching": "Nimeni nu a găsit potrivirea **{text}**, introduceți adresa de e-mail",
   "widgets.users_emails_input.valid_email": "Adaugă **{email}**",
-  "yourcomputer": "Computerul tău",
-  "youtube_video.notFound": "Video-ul nu a fost găsit"
+  "yourcomputer": "Computerul tău"
 }

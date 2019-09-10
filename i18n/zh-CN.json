@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "加载中",
   "widgets.users_emails_input.no_user_found_matching": "未找到匹配 **{text}** 的用户，输入邮箱地址",
   "widgets.users_emails_input.valid_email": "添加 **{email}**",
-  "yourcomputer": "您的电脑",
-  "youtube_video.notFound": "视频未找到"
+  "yourcomputer": "您的电脑"
 }

@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Завантаження",
   "widgets.users_emails_input.no_user_found_matching": "No one found matching **{text}**, type email address",
   "widgets.users_emails_input.valid_email": "Add **{email}**",
-  "yourcomputer": "Ваш комп'ютер",
-  "youtube_video.notFound": "Відео не знайдено"
+  "yourcomputer": "Ваш комп'ютер"
 }

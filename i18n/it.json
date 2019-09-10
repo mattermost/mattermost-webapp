@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Caricamento",
   "widgets.users_emails_input.no_user_found_matching": "Nessuna corrispondenza per **{text}**, digitare l'indirizzo email",
   "widgets.users_emails_input.valid_email": "Aggiungi **{email}**",
-  "yourcomputer": "Il tuo pc",
-  "youtube_video.notFound": "Video non trovato"
+  "yourcomputer": "Il tuo pc"
 }
