@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/EmojiPicker/components/EmojiPickerPreview should match snapshot with custom emoji 1`] = `
+<div
+  className="emoji-picker__preview"
+>
+  <div
+    className="emoji-picker__preview-image-box"
+  >
+    <img
+      alt="emoji preview image"
+      className="emoji-picker__preview-image"
+      id="emojiPickerSpritePreview"
+      src="/api/v4/emoji/c4d3e4c85frmbfpirk3ctr7opw/image"
+    />
+  </div>
+  <div
+    className="emoji-picker__preview-image-label-box"
+  >
+    <span
+      className="emoji-picker__preview-name"
+    >
+      test
+    </span>
+    <span
+      className="emoji-picker__preview-aliases"
+      id="emojiPickerAliasesPreview"
+    >
+      :test:
+    </span>
+  </div>
+</div>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerPreview should match snapshot with no emoji 1`] = `
+<div
+  className="emoji-picker__preview emoji-picker__preview-placeholder"
+>
+  <FormattedMessage
+    defaultMessage="Emoji Picker"
+    id="emoji_picker.emojiPicker"
+    values={Object {}}
+  />
+</div>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerPreview should match snapshot with system emoji 1`] = `
+<div
+  className="emoji-picker__preview"
+>
+  <div
+    className="emoji-picker__preview-image-box"
+  >
+    <span
+      className="sprite-preview"
+    >
+      <img
+        alt="emoji category image"
+        className="emojisprite-preview emoji-category-people-1 emoji-1f600"
+        id="emojiPickerSpritePreview"
+        src={null}
+      />
+    </span>
+  </div>
+  <div
+    className="emoji-picker__preview-image-label-box"
+  >
+    <span
+      className="emoji-picker__preview-name"
+    >
+      grinning
+    </span>
+    <span
+      className="emoji-picker__preview-aliases"
+      id="emojiPickerAliasesPreview"
+    >
+      :grinning:
+    </span>
+  </div>
+</div>
+`;
