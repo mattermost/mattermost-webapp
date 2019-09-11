@@ -24,7 +24,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
     };
 
     describe('generic error message', () => {
-        test('appers when submit returns an error', async () => {
+        test('should appear when submit returns an error', async () => {
             const props = {
                 ...baseProps,
                 actions: {
@@ -45,7 +45,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
             expect(wrapper.find(Modal.Footer).containsMatchingElement(expected)).toBe(true);
         });
 
-        test('does not appear when submit does not return an error', async () => {
+        test('should not appear when submit does not return an error', async () => {
             const wrapper = shallow(<InteractiveDialog {...baseProps}/>);
             await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
