@@ -143,7 +143,12 @@ export default class MarketplaceItem extends React.Component {
 
             let pluginIcon;
             if (this.props.iconData) {
-                pluginIcon = <img src={this.props.iconData} className='icon__plugin' />;
+                pluginIcon = (
+                    <img
+                        src={this.props.iconData}
+                        className='icon__plugin'
+                    />
+                );
             } else {
                 pluginIcon = <PluginIcon className='icon__plugin'/>;
             }
