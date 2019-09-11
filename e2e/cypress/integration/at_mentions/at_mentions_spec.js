@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -103,7 +103,7 @@ describe('at-mention', () => {
         // # Get the current channelId
         cy.getCurrentChannelId().as('channelId');
 
-        // 4. Navigate to a channel we are NOT going to post to
+        // # Navigate to a channel we are NOT going to post to
         cy.get('#sidebarItem_saepe-5').scrollIntoView().click({force: true});
     });
 
