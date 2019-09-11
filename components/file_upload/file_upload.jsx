@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
-import 'jquery-dragster/jquery.dragster.js';
 
+import dragster from 'utils/dragster.js';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action.jsx';
 import {t} from 'utils/i18n';
@@ -199,7 +199,7 @@ export default class FileUpload extends PureComponent {
         document.removeEventListener('paste', this.pasteUpload);
         document.removeEventListener('keydown', this.keyUpload);
 
-        // jquery-dragster doesn't provide a function to unregister itself so do it manually
+        // dragster doesn't provide a function to unregister itself so do it manually
         target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
     }
 
@@ -358,8 +358,8 @@ export default class FileUpload extends PureComponent {
 
         this.props.onUploadError(null);
 
-        const items = e.originalEvent.dataTransfer.items || [];
-        const droppedFiles = e.originalEvent.dataTransfer.files;
+        const items = e.dataTransfer.items || [];
+        const droppedFiles = e.dataTransfer.files;
         const files = [];
         Array.from(droppedFiles).forEach((file, index) => {
             const item = items[index];
@@ -369,7 +369,7 @@ export default class FileUpload extends PureComponent {
             files.push(file);
         });
 
-        const types = e.originalEvent.dataTransfer.types;
+        const types = e.dataTransfer.types;
         if (types) {
             // For non-IE browsers
             if (types.includes && !types.includes('Files')) {
@@ -408,15 +408,15 @@ export default class FileUpload extends PureComponent {
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
             dragsterActions = {
-                enter(dragsterEvent, e) {
-                    var files = e.originalEvent.dataTransfer;
+                enter(e) {
+                    var files = e.detail.dataTransfer;
 
                     if (isFileTransfer(files)) {
                         $(overlaySelector).removeClass('hidden');
                     }
                 },
-                leave(dragsterEvent, e) {
-                    var files = e.originalEvent.dataTransfer;
+                leave(e) {
+                    var files = e.detail.dataTransfer;
 
                     if (isFileTransfer(files) && !overlay.hasClass('hidden')) {
                         overlay.addClass('hidden');
@@ -427,25 +427,25 @@ export default class FileUpload extends PureComponent {
                 over() {
                     dragTimeout.fireAfter(OVERLAY_TIMEOUT);
                 },
-                drop(dragsterEvent, e) {
+                drop(e) {
                     if (!overlay.hasClass('hidden')) {
                         overlay.addClass('hidden');
                     }
 
                     dragTimeout.cancel();
 
-                    self.handleDrop(e);
+                    self.handleDrop(e.detail);
                 },
             };
         } else {
             dragsterActions = {
-                drop(dragsterEvent, e) {
-                    self.handleDrop(e);
+                drop(e) {
+                    self.handleDrop(e.detail);
                 },
             };
         }
 
-        $(containerSelector).dragster(dragsterActions);
+        dragster(containerSelector, dragsterActions);
     }
 
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
