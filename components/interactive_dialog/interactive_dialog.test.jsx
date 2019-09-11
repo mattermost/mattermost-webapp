@@ -19,28 +19,37 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
         state: 'some state',
         onHide: () => {},
         actions: {
-            submitInteractiveDialog: () => {},
+            submitInteractiveDialog: () => ({}),
         },
     };
 
-    test('should show generic error after submit', async () => {
-        const props = {
-            ...baseProps,
-            actions: {
-                submitInteractiveDialog: () => ({
-                    data: {error: 'This is an error.'},
-                }),
-            },
-        };
-        const wrapper = shallow(<InteractiveDialog {...props}/>);
+    describe('generic error message', () => {
+        test('appers when submit returns an error', async () => {
+            const props = {
+                ...baseProps,
+                actions: {
+                    submitInteractiveDialog: () => ({
+                        data: {error: 'This is an error.'},
+                    }),
+                },
+            };
+            const wrapper = shallow(<InteractiveDialog {...props}/>);
 
-        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
-        const expected = (
-            <div className='error-text'>
-                {'This is an error.'}
-            </div>
-        );
-        expect(wrapper.find(Modal.Footer).containsMatchingElement(expected)).toBe(true);
+            const expected = (
+                <div className='error-text'>
+                    {'This is an error.'}
+                </div>
+            );
+            expect(wrapper.find(Modal.Footer).containsMatchingElement(expected)).toBe(true);
+        });
+
+        test('does not appear when submit does not return an error', async () => {
+            const wrapper = shallow(<InteractiveDialog {...baseProps}/>);
+            await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+            expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
+        });
     });
 });
