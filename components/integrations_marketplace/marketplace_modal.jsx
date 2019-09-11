@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import debounce from 'lodash/debounce';
 import {Tabs, Tab} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -26,6 +27,8 @@ const MarketplaceTabs = {
     ALL_PLUGINS: 'allPlugins',
     INSTALLED_PLUGINS: 'installed',
 };
+
+const TRACK_SEARCH_WAIT = 150;
 
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
@@ -78,7 +81,13 @@ export default class MarketplaceModal extends React.Component {
         this.setState({tabKey});
     }
 
+    trackSearch = () => {
+        trackEvent('plugins', 'ui_marketplace_search', {filter: this.refs.filter.value});
+    }
+
     doSearch = () => {
+        debounce(this.trackSearch, TRACK_SEARCH_WAIT);
+
         this.getMarketplacePlugins();
     }
 
