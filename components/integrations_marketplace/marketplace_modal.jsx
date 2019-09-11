@@ -44,11 +44,13 @@ export default class MarketplaceModal extends React.Component {
 
         this.state = {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
-            loading: true,
+            loading: false,
         };
     }
 
     componentWillMount() {
+        this.setState({loading: true});
+
         this.getMarketplacePlugins();
     }
 
@@ -57,7 +59,8 @@ export default class MarketplaceModal extends React.Component {
     }
 
     getMarketplacePlugins = async () => {
-        await this.props.actions.getMarketplacePlugins();
+        const filter = this.refs.filter ? this.refs.filter.value : null;
+        await this.props.actions.getMarketplacePlugins(filter);
 
         this.setState({loading: false});
     }
@@ -73,6 +76,10 @@ export default class MarketplaceModal extends React.Component {
 
     changeTab = (tabKey) => {
         this.setState({tabKey});
+    }
+
+    doSearch = () => {
+        this.getMarketplacePlugins();
     }
 
     getPluginsListContent = (pluginsArray, installedList) => {
@@ -134,12 +141,11 @@ export default class MarketplaceModal extends React.Component {
     }
 
     render() {
-        //WIP: To add pagination section
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
                     <QuickInput
-                        id='searchChannelsTextbox'
+                        id='searchMarketplaceTextbox'
                         ref='filter'
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
