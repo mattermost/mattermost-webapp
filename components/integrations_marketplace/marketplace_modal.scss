@@ -111,10 +111,13 @@
         flex: 0 0 42px;
         margin-right: 4px;
 
-        svg {
-            fill: var(--button-bg-60);
+        img, svg {
             width: 32px;
             height: 32px;
+        }
+
+        svg {
+            fill: var(--button-bg-60);
         }
     }
 

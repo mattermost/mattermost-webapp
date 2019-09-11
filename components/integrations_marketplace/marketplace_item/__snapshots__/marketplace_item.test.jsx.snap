@@ -89,13 +89,8 @@ exports[`components/MarketplaceItem should match snapshot, with plugin icon 1`] 
   key="id"
 >
   <img
+    className="icon__plugin"
     src="icon"
-    style={
-      Object {
-        "height": 32,
-        "width": 32,
-      }
-    }
   />
   <div
     className="more-modal__details"
