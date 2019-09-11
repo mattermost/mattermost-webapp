@@ -23,6 +23,7 @@ export default class MarketplaceItem extends React.Component {
             version: PropTypes.string.isRequired,
             downloadUrl: PropTypes.string,
             homepageUrl: PropTypes.string,
+            iconData: PropTypes.string,
             installed: PropTypes.bool.isRequired,
             onConfigure: PropTypes.func.isRequired,
             onInstalled: PropTypes.func.isRequired,
@@ -148,12 +149,24 @@ export default class MarketplaceItem extends React.Component {
             const ariaLabel = `${this.props.name}, ${this.props.description}`.toLowerCase();
             const versionLabel = `(${this.props.version})`;
 
+            let pluginIcon;
+            if (this.props.iconData) {
+                pluginIcon = (
+                    <img
+                        src={this.props.iconData}
+                        className='icon__plugin'
+                    />
+                );
+            } else {
+                pluginIcon = <PluginIcon className='icon__plugin'/>;
+            }
+
             return (
                 <div
                     className={'more-modal__row more-modal__row--link' + (this.state.serverError ? ' item_error' : '')}
                     key={this.props.id}
                 >
-                    <PluginIcon className='icon__plugin'/>
+                    {pluginIcon}
                     <div className='more-modal__details'>
                         <a
                             aria-label={ariaLabel}

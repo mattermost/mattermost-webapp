@@ -139,6 +139,7 @@ export default class MarketplaceModal extends React.Component {
                             isPrepackaged={false}
                             downloadUrl={p.DownloadURL}
                             homepageUrl={p.HomepageURL}
+                            iconData={p.IconData}
                             installed={p.InstalledVersion !== ''}
                             onConfigure={this.close}
                             onInstalled={this.getMarketplacePlugins}
