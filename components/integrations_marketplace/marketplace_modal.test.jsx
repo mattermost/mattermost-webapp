@@ -11,11 +11,11 @@ describe('components/MarketplaceModal', () => {
         HomepageURL: 'https://github.com/mattermost/mattermost-plugin-nps',
         DownloadURL: 'https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
         Manifest: {
-            Id: 'com.mattermost.nps',
-            Name: 'User Satisfaction Surveys',
-            Description: 'This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost',
-            Version: '1.0.3',
-            MinServerVersion: '5.14.0',
+            id: 'com.mattermost.nps',
+            name: 'User Satisfaction Surveys',
+            description: 'This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost',
+            version: '1.0.3',
+            minServerVersion: '5.14.0',
         },
         InstalledVersion: '',
     }];
@@ -37,7 +37,6 @@ describe('components/MarketplaceModal', () => {
         const wrapper = shallow(
             <MarketplaceModal {...defaultProps}/>
         );
-
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -46,11 +45,11 @@ describe('components/MarketplaceModal', () => {
             HomepageURL: 'https://github.com/mattermost/mattermost-test',
             DownloadURL: 'https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
             Manifest: {
-                Id: 'com.mattermost.test',
-                Name: 'Test',
-                Description: 'This plugin is to test',
-                Version: '1.0.3',
-                MinServerVersion: '5.14.0',
+                id: 'com.mattermost.test',
+                name: 'Test',
+                description: 'This plugin is to test',
+                version: '1.0.3',
+                minServerVersion: '5.14.0',
             },
             InstalledVersion: '1.0.3',
         };

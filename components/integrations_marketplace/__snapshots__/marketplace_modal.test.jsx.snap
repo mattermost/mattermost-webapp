@@ -159,12 +159,17 @@ exports[`components/MarketplaceModal should match the snapshot, with plugins ins
             className="more-modal__list"
           >
             <Connect(MarketplaceItem)
+              description="This plugin is to test"
               downloadUrl="https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
               homepageUrl="https://github.com/mattermost/mattermost-test"
+              id="com.mattermost.test"
               installed={true}
               isPrepackaged={false}
+              key="com.mattermost.test"
+              name="Test"
               onConfigure={[Function]}
               onInstalled={[Function]}
+              version="1.0.3"
             />
           </div>
         </Tab>
