@@ -89,7 +89,7 @@ exports[`components/MarketplaceItem should match snapshot, with plugin icon 1`] 
   key="id"
 >
   <img
-    src="http://example.com/icon"
+    src="icon"
     style={
       Object {
         "height": 32,

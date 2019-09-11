@@ -23,7 +23,7 @@ export default class MarketplaceItem extends React.Component {
             downloadUrl: PropTypes.string,
             signatureUrl: PropTypes.string,
             homepageUrl: PropTypes.string,
-            iconUrl: PropTypes.string,
+            iconData: PropTypes.string,
             installed: PropTypes.bool.isRequired,
             onConfigure: PropTypes.func.isRequired,
             onInstalled: PropTypes.func.isRequired,
@@ -142,10 +142,10 @@ export default class MarketplaceItem extends React.Component {
             const versionLabel = `(${this.props.version})`;
 
             let pluginIcon;
-            if (this.props.iconUrl) {
+            if (this.props.iconData) {
                 pluginIcon = (
                     <img
-                        src={this.props.iconUrl}
+                        src={this.props.iconData}
                         style={{width: 32, height: 32}}
                     />
                 );

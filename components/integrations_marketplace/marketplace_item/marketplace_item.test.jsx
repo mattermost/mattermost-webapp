@@ -35,7 +35,7 @@ describe('components/MarketplaceItem', () => {
     test('should match snapshot, with plugin icon', () => {
         const props = {
             ...baseProps,
-            iconUrl: 'http://example.com/icon',
+            iconData: 'icon',
         };
         const wrapper = shallow(
             <MarketplaceItem {...props}/>
