@@ -2802,7 +2802,6 @@
   "post.ariaLabel.reactionMultiple": ", {reactionCount} reactions",
   "post.ariaLabel.replyMessage": "{authorName} at {time} {date} wrote a reply, {message}",
   "posts_view.loadMore": "Load more messages",
-  "posts_view.maxLoaded": "Looking for a specific message? Try searching for it",
   "posts_view.newMsg": "New Messages",
   "posts_view.newMsgBelow": "New {count, plural, one {message} other {messages}}",
   "promote_to_user_modal.desc": "This action promotes the guest {username} to a member. It will allow the user to join public channels and interact with users outside of the channels they are currently members of. Are you sure you want to promote guest {username} to user?",
