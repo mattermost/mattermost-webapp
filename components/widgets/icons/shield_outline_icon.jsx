@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-export default class EmailIcon extends React.PureComponent {
+export default class ShieldOutlineIcon extends React.PureComponent {
     render() {
         return (
             <span {...this.props}>
