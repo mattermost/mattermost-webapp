@@ -5,8 +5,12 @@ import React from 'react';
 import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
+import {samplePlugin1} from '../../../tests/helpers/admin_console_plugin_index_sample_pluings';
+
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
 import AdminDefinition from 'components/admin_console/admin_definition';
+
+const enMessages = require('../../../i18n/en');
 
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
@@ -17,7 +21,7 @@ jest.mock('utils/utils', () => {
 });
 
 describe('components/AdminSidebar', () => {
-    const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
+    const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
     const {intl} = intlProvider.getChildContext();
     const defaultProps = {
         license: {},
@@ -239,5 +243,56 @@ describe('components/AdminSidebar', () => {
         const context = {router: {}, intl};
         const wrapper = shallow(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
+    });
+
+    describe('Plugins', () => {
+        const props = {
+            license: {},
+            config: {
+                ServiceSettings: {
+                    ExperimentalLdapGroupSync: true,
+                },
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            adminDefinition: AdminDefinition,
+            buildEnterpriseReady: true,
+            navigationBlocked: false,
+            siteName: 'test snap',
+            plugins: {
+                'mattermost-autolink': samplePlugin1,
+            },
+            onFilterChange: jest.fn(),
+            actions: {
+                getPlugins: jest.fn(),
+            },
+        };
+
+        test('should match snapshot', () => {
+            const context = {router: {}, intl};
+
+            const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should filter plugins', () => {
+            const context = {router: {}, intl};
+            const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+
+            wrapper.find('#adminSidebarFilter').simulate('change', {target: {value: 'autolink'}});
+
+            expect(wrapper.instance().state.sections).toEqual(['plugin_mattermost-autolink']);
+            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find('AdminSidebarCategory')).toHaveLength(1);
+            expect(wrapper.find('AdminSidebarSection')).toHaveLength(1);
+            const autoLinkPluginSection = wrapper.find('AdminSidebarSection').at(0);
+            expect(autoLinkPluginSection.prop('name')).toBe('plugins/plugin_mattermost-autolink');
+        });
     });
 });
