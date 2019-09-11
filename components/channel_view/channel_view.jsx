@@ -53,7 +53,7 @@ export default class ChannelView extends React.PureComponent {
     componentDidMount() {
         const platform = window.navigator.platform;
 
-        $('body').addClass('app__body');
+        document.body.classList.add('app__body', 'channel-view');
 
         // IE Detection
         if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
@@ -69,7 +69,7 @@ export default class ChannelView extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        $('body').removeClass('app__body');
+        document.body.classList.remove('app__body', 'channel-view');
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
