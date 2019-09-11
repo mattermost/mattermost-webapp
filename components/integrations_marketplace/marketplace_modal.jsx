@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import debounce from 'lodash/debounce';
 import {Tabs, Tab} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -13,6 +14,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 
+import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 import * as Markdown from 'utils/markdown';
@@ -25,6 +27,8 @@ const MarketplaceTabs = {
     ALL_PLUGINS: 'allPlugins',
     INSTALLED_PLUGINS: 'installed',
 };
+
+const TRACK_SEARCH_WAIT = 1000;
 
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
@@ -53,6 +57,10 @@ export default class MarketplaceModal extends React.Component {
         this.getMarketplacePlugins();
     }
 
+    componentDidMount() {
+        trackEvent('plugins', 'ui_marketplace_opened');
+    }
+
     getMarketplacePlugins = async () => {
         const filter = this.refs.filter ? this.refs.filter.value : null;
         await this.props.actions.getMarketplacePlugins(filter);
@@ -65,6 +73,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     close = () => {
+        trackEvent('plugins', 'ui_marketplace_closed');
         this.props.actions.closeModal();
     }
 
@@ -72,7 +81,13 @@ export default class MarketplaceModal extends React.Component {
         this.setState({tabKey});
     }
 
+    trackSearch = () => {
+        trackEvent('plugins', 'ui_marketplace_search', {filter: this.refs.filter.value});
+    }
+
     doSearch = () => {
+        debounce(this.trackSearch, TRACK_SEARCH_WAIT);
+
         this.getMarketplacePlugins();
     }
 
