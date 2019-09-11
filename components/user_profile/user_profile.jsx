@@ -8,8 +8,8 @@ import {OverlayTrigger} from 'react-bootstrap';
 import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
 
 import ProfilePopover from 'components/profile_popover';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
 export default class UserProfile extends PureComponent {
     static propTypes = {

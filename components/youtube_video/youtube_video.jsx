@@ -4,41 +4,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {getYoutubeVideoInfo} from 'actions/integration_actions';
-
-import WarningIcon from 'components/widgets/icons/fa_warning_icon';
-
-import * as PostUtils from 'utils/post_utils.jsx';
-import * as Utils from 'utils/utils';
+import ExternalImage from 'components/external_image';
 
 const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;
 
 export default class YoutubeVideo extends React.PureComponent {
     static propTypes = {
-        channelId: PropTypes.string.isRequired,
-        currentChannelId: PropTypes.string.isRequired,
-        hasImageProxy: PropTypes.bool.isRequired,
         link: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired,
-        googleDeveloperKey: PropTypes.string,
+        metadata: PropTypes.object,
     }
 
     constructor(props) {
         super(props);
 
-        this.updateStateFromProps = this.updateStateFromProps.bind(this);
-        this.handleReceivedMetadata = this.handleReceivedMetadata.bind(this);
-        this.handleMetadataError = this.handleMetadataError.bind(this);
-        this.loadWithoutKey = this.loadWithoutKey.bind(this);
-
-        this.play = this.play.bind(this);
-        this.stop = this.stop.bind(this);
-
         this.state = {
-            loaded: false,
-            failed: false,
             playing: false,
-            title: '',
         };
     }
 
@@ -50,7 +31,7 @@ export default class YoutubeVideo extends React.PureComponent {
         this.updateStateFromProps(nextProps);
     }
 
-    updateStateFromProps(props) {
+    updateStateFromProps = (props) => {
         const link = props.link;
 
         const match = link.trim().match(ytRegex);
@@ -59,10 +40,6 @@ export default class YoutubeVideo extends React.PureComponent {
         }
 
         if (props.show === false) {
-            this.stop();
-        }
-
-        if (props.channelId !== props.currentChannelId) {
             this.stop();
         }
 
@@ -101,107 +78,35 @@ export default class YoutubeVideo extends React.PureComponent {
         return '&start=' + ticks.toString();
     }
 
-    componentDidMount() {
-        const key = this.props.googleDeveloperKey;
-        if (key) {
-            getYoutubeVideoInfo(key, this.state.videoId,
-                this.handleReceivedMetadata, this.handleMetadataError);
-        } else {
-            this.loadWithoutKey();
-        }
-    }
-
-    loadWithoutKey() {
-        this.setState({
-            loaded: true,
-            thumb: PostUtils.getImageSrc('https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg', this.props.hasImageProxy),
-        });
-    }
-
-    handleMetadataError() {
-        this.setState({
-            failed: true,
-            loaded: true,
-            title: Utils.localizeMessage('youtube_video.notFound', 'Video not found'),
-        });
-    }
-
-    handleReceivedMetadata(data) {
-        if (!data || !data.items || !data.items.length || !data.items[0].snippet) {
-            this.setState({
-                failed: true,
-                loaded: true,
-                title: Utils.localizeMessage('youtube_video.notFound', 'Video not found'),
-            });
-            return null;
-        }
-        const metadata = data.items[0].snippet;
-        let thumb = 'https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault.jpg';
-        if (metadata.liveBroadcastContent === 'live') {
-            thumb = 'https://i.ytimg.com/vi/' + this.state.videoId + '/hqdefault_live.jpg';
-        }
-
-        this.setState({
-            loaded: true,
-            receivedYoutubeData: true,
-            title: metadata.title,
-            thumb: PostUtils.getImageSrc(thumb, this.props.hasImageProxy),
-        });
-        return null;
-    }
-
-    play() {
+    play = () => {
         this.setState({playing: true});
     }
 
-    stop() {
+    stop = () => {
         this.setState({playing: false});
     }
 
     render() {
-        if (!this.state.loaded) {
-            return (
-                <div
-                    className='post__embed-container'
-                >
-                    <div className='video-loading'/>
-                </div>
-            );
-        }
+        const {metadata} = this.props;
 
-        let header;
-        if (this.state.title) {
-            header = (
-                <h4>
-                    <span className='video-type'>{'YouTube - '}</span>
-                    <span className='video-title'>
-                        <a
-                            href={this.props.link}
-                            target='blank'
-                            rel='noopener noreferrer'
-                        >
-                            {this.state.title}
-                        </a>
-                    </span>
-                </h4>
-            );
-        }
+        const header = (
+            <h4>
+                <span className='video-type'>{'YouTube - '}</span>
+                <span className='video-title'>
+                    <a
+                        href={this.props.link}
+                        target='blank'
+                        rel='noopener noreferrer'
+                    >
+                        {metadata.title}
+                    </a>
+                </span>
+            </h4>
+        );
 
         let content;
-        if (this.state.failed) {
-            content = (
-                <div>
-                    <div className='video-thumbnail__container'>
-                        <div className='video-thumbnail__error'>
-                            <div>
-                                <WarningIcon additionalClassName='fa-2x'/>
-                            </div>
-                            <div>{Utils.localizeMessage('youtube_video.notFound', 'Video not found')}</div>
-                        </div>
-                    </div>
-                </div>
-            );
-        } else if (this.state.playing) {
+
+        if (this.state.playing) {
             content = (
                 <iframe
                     src={'https://www.youtube.com/embed/' + this.state.videoId + '?autoplay=1&autohide=1&border=0&wmode=opaque&fs=1&enablejsapi=1' + this.state.time}
@@ -213,14 +118,20 @@ export default class YoutubeVideo extends React.PureComponent {
                 />
             );
         } else {
+            const image = metadata.images[0];
+
             content = (
-                <div className='embed-responsive embed-responsive-4by3 video-div__placeholder'>
+                <div className='embed-responsive video-div__placeholder'>
                     <div className='video-thumbnail__container'>
-                        <img
-                            alt='youtube video thumbnail'
-                            className='video-thumbnail'
-                            src={this.state.thumb}
-                        />
+                        <ExternalImage src={image.secure_url || image.url}>
+                            {(safeUrl) => (
+                                <img
+                                    src={safeUrl}
+                                    alt='youtube video thumbnail'
+                                    className='video-thumbnail'
+                                />
+                            )}
+                        </ExternalImage>
                         <div className='block'>
                             <span className='play-button'><span/></span>
                         </div>

@@ -90,6 +90,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: calc(100% - 50px);
+            display: inline-block;
         }
     }
 
@@ -379,11 +380,13 @@
         }
 
         &.light {
-            @include opacity(.6);
+            opacity: 1;
             color: inherit;
             overflow: visible;
 
             button {
+                @include opacity(.6);
+
                 &:hover
                 &:focus {
                     text-decoration: underline;

@@ -8,7 +8,7 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import SelectIcon from 'components/widgets/icons/fa_select_icon';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 

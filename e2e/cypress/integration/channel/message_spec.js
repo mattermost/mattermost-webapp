@@ -56,7 +56,7 @@ describe('Message', () => {
 
         // # Post a message to force next user message to display a message
         cy.getCurrentChannelId().then((channelId) => {
-            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId, baseUrl: Cypress.config('baseUrl')});
+            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId});
         });
 
         // # Post message "One"
