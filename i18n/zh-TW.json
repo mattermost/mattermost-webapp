@@ -333,8 +333,8 @@
   "admin.customization.enableGifPickerTitle": "啟用 GIF 選擇器：",
   "admin.customization.enableLinkPreviewsDesc": "在可行時於訊息下方顯示網站內容的預覽。使用者可以在 帳號設定 > 顯示 > 網站連結預覽 停用預覽功能。此設定只對有 OpenGraph 資料的網站有效，不會應用到圖片連結或 YouTube 預覽。",
   "admin.customization.enableLinkPreviewsTitle": "啟用連結預覽：",
-  "admin.customization.enableSVGsDesc": "Enable previews for SVG file attachments and allow them to appear in messages.",
-  "admin.customization.enableSVGsTitle": "Enable SVGs:",
+  "admin.customization.enableSVGsDesc": "啟用 SVG 附加檔案的預覽並允許在訊息中顯示。",
+  "admin.customization.enableSVGsTitle": "啟用 SVG：",
   "admin.customization.gfycatApiKey": "Gfycat API 鍵：",
   "admin.customization.gfycatApiKeyDescription": "於 [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#) 要求 API 金鑰。在此欄位輸入經由電子郵件傳送的用戶端 ID。空白時使用 Gfycat 提供的預設 API 金鑰。",
   "admin.customization.gfycatApiSecret": "Gfycat API 金鑰：",
@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "載入中",
   "widgets.users_emails_input.no_user_found_matching": "沒有人符合 **{text}**，輸入電子郵件",
   "widgets.users_emails_input.valid_email": "新增 **{email}**",
-  "yourcomputer": "您的電腦",
-  "youtube_video.notFound": "找不到影片"
+  "yourcomputer": "您的電腦"
 }

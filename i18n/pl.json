@@ -2547,7 +2547,7 @@
   "login.verified": " E-Mail został zweryfikowany",
   "manage_channel_groups_modal.search_placeholder": "Szukaj grup",
   "manage_team_groups_modal.search_placeholder": "Szukaj grup",
-  "members_popover.button.message": "Wiadomość",
+  "members_popover.button.message": "wiadomość",
   "members_popover.manageMembers": "Zarządzaj Użytkownikami",
   "members_popover.title": "Członkowie kanału",
   "members_popover.viewMembers": "Wyświetl Użytkowników",
@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Wczytywanie",
   "widgets.users_emails_input.no_user_found_matching": "Nie znaleziono pasującego **{text}**, wpisz adres email",
   "widgets.users_emails_input.valid_email": "Dodaj **{email}**",
-  "yourcomputer": "Twój komputer",
-  "youtube_video.notFound": "Wideo nie znalezione"
+  "yourcomputer": "Twój komputer"
 }
