@@ -28,7 +28,7 @@ const MarketplaceTabs = {
     INSTALLED_PLUGINS: 'installed',
 };
 
-const TRACK_SEARCH_WAIT = 150;
+const TRACK_SEARCH_WAIT = 1000;
 
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
