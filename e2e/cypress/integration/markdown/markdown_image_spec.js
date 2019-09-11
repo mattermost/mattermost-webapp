@@ -24,7 +24,7 @@ describe('Markdown', () => {
 
     it('with in-line images 1', () => {
         // #  Post markdown message
-        cy.postMessageFromFile(`markdown/markdown_inline_images_1.md`).wait(TIMEOUTS.SMALL);
+        cy.postMessageFromFile('markdown/markdown_inline_images_1.md').wait(TIMEOUTS.SMALL);
 
         // * Verify that HTML Content is correct.
         // Note we use the Gigantic timeout to ensure that the large images will load
@@ -41,7 +41,7 @@ describe('Markdown', () => {
 
     it('with in-line images 2', () => {
         // #  Post markdown message
-        cy.postMessageFromFile(`markdown/markdown_inline_images_2.md`).wait(TIMEOUTS.SMALL);
+        cy.postMessageFromFile('markdown/markdown_inline_images_2.md').wait(TIMEOUTS.SMALL);
 
         // * Verify that HTML Content is correct.
         // Note we use the Gigantic timeout to ensure that the large images will load
