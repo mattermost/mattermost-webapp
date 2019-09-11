@@ -63,4 +63,13 @@ describe('components/MarketplaceModal', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match the snapshot, error banner is shown', () => {
+        defaultProps.serverError = {message: 'Error test'};
+        const wrapper = shallow(
+            <MarketplaceModal {...defaultProps}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
