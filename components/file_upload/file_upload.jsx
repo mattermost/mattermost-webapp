@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
@@ -191,9 +190,9 @@ export default class FileUpload extends PureComponent {
     componentWillUnmount() {
         let target;
         if (this.props.postType === 'post') {
-            target = $('.row.main');
+            target = document.querySelector('.row.main');
         } else {
-            target = $('.post-right__container');
+            target = document.querySelector('.post-right__container');
         }
 
         document.removeEventListener('paste', this.pasteUpload);
@@ -397,11 +396,11 @@ export default class FileUpload extends PureComponent {
     registerDragEvents = (containerSelector, overlaySelector) => {
         const self = this;
 
-        const overlay = $(overlaySelector);
+        const overlay = document.querySelector(overlaySelector);
 
         const dragTimeout = new DelayedAction(() => {
-            if (!overlay.hasClass('hidden')) {
-                overlay.addClass('hidden');
+            if (!overlay.classList.contains('hidden')) {
+                overlay.classList.add('hidden');
             }
         });
 
@@ -412,14 +411,14 @@ export default class FileUpload extends PureComponent {
                     var files = e.detail.dataTransfer;
 
                     if (isFileTransfer(files)) {
-                        $(overlaySelector).removeClass('hidden');
+                        overlay.classList.remove('hidden');
                     }
                 },
                 leave(e) {
                     var files = e.detail.dataTransfer;
 
-                    if (isFileTransfer(files) && !overlay.hasClass('hidden')) {
-                        overlay.addClass('hidden');
+                    if (isFileTransfer(files) && !overlay.classList.contains('hidden')) {
+                        overlay.classList.add('hidden');
                     }
 
                     dragTimeout.cancel();
@@ -428,8 +427,8 @@ export default class FileUpload extends PureComponent {
                     dragTimeout.fireAfter(OVERLAY_TIMEOUT);
                 },
                 drop(e) {
-                    if (!overlay.hasClass('hidden')) {
-                        overlay.addClass('hidden');
+                    if (!overlay.classList.contains('hidden')) {
+                        overlay.classList.add('hidden');
                     }
 
                     dragTimeout.cancel();
