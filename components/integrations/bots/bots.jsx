@@ -204,24 +204,30 @@ export default class Bots extends React.PureComponent {
                     />
                 }
                 helpText={
-                    <FormattedMarkdownMessage
-                        id='bots.manage.help'
-                        defaultMessage='Use {botAccounts} to integrate with Mattermost through plugins or the API. Bot accounts are available to everyone on your server. Enable bot account creation in the [System Console](/admin_console/integrations/bot_accounts).'
-                        values={{
-                            botAccounts: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='https://mattermost.com/pl/default-bot-accounts'
-                                >
-                                    <FormattedMessage
-                                        id='bots.manage.bot_accounts'
-                                        defaultMessage='Bot Accounts'
-                                    />
-                                </a>
-                            ),
-                        }}
-                    />
+                    <React.Fragment>
+                        <FormattedMessage
+                            id='bots.manage.help1'
+                            defaultMessage='Use {botAccounts} to integrate with Mattermost through plugins or the API. Bot accounts are available to everyone on your server. '
+                            values={{
+                                botAccounts: (
+                                    <a
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        href='https://mattermost.com/pl/default-bot-accounts'
+                                    >
+                                        <FormattedMessage
+                                            id='bots.manage.bot_accounts'
+                                            defaultMessage='Bot Accounts'
+                                        />
+                                    </a>
+                                ),
+                            }}
+                        />
+                        <FormattedMarkdownMessage
+                            id='bots.manage.help2'
+                            defaultMessage='Enable bot account creation in the [System Console](/admin_console/integrations/bot_accounts).'
+                        />
+                    </React.Fragment>
                 }
                 searchPlaceholder={Utils.localizeMessage('bots.manage.search', 'Search Bot Accounts')}
                 loading={this.state.loading}
