@@ -12,7 +12,7 @@ describe('components/widgets/settings/RadioSetting', () => {
             <RadioSetting
                 id='string.id'
                 label='some label'
-                values={[
+                options={[
                     {text: 'this is engineering', value: 'Engineering'},
                     {text: 'this is sales', value: 'Sales'},
                     {text: 'this is administration', value: 'Administration'},
@@ -83,7 +83,7 @@ describe('components/widgets/settings/RadioSetting', () => {
             <RadioSetting
                 id='string.id'
                 label='some label'
-                values={[
+                options={[
                     {text: 'this is engineering', value: 'Engineering'},
                     {text: 'this is sales', value: 'Sales'},
                     {text: 'this is administration', value: 'Administration'},

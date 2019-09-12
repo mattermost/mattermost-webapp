@@ -101,6 +101,7 @@ describe('ID15888 Interactive Dialog', () => {
                     cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
+
                     // * Verify that the default value is the first element of the list
                     cy.wrap($elForm).find('input').first().should('have.value', 'engineering').and('have.attr', 'checked');
                 } else {

@@ -107,6 +107,61 @@ describe('components/interactive_dialog/DialogElement', () => {
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
         });
 
+        test('RadioSetting is rendered when options are null', () => {
+            const wrapper = shallow(
+                <DialogElement
+                    {...baseDialogProps}
+                    type='radio'
+                    options={null}
+                    onChange={jest.fn()}
+                />
+            );
+
+            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+        });
+
+        test('RadioSetting is rendered when options are null and value is null', () => {
+            const wrapper = shallow(
+                <DialogElement
+                    {...baseDialogProps}
+                    type='radio'
+                    options={null}
+                    value={null}
+                    onChange={jest.fn()}
+                />
+            );
+
+            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+        });
+
+        test('RadioSetting is rendered when options are null and value is not null', () => {
+            const wrapper = shallow(
+                <DialogElement
+                    {...baseDialogProps}
+                    type='radio'
+                    options={null}
+                    value={'a'}
+                    onChange={jest.fn()}
+                />
+            );
+
+            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+        });
+
+        test('RadioSetting is rendered when value is not one of the options', () => {
+            const wrapper = shallow(
+                <DialogElement
+                    {...baseDialogProps}
+                    type='radio'
+                    options={radioOptions}
+                    value={'a'}
+                    onChange={jest.fn()}
+                />
+            );
+
+            expect(wrapper.find(RadioSetting).exists()).toBe(true);
+        });
+
         test('The default value is the first element of the list', () => {
             const wrapper = shallow(
                 <DialogElement
@@ -116,7 +171,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     onChange={jest.fn()}
                 />
             );
-            expect(wrapper.find({values: radioOptions, value: radioOptions[0].value}).exists()).toBe(true);
+            expect(wrapper.find({options: radioOptions, value: radioOptions[0].value}).exists()).toBe(true);
         });
 
         test('The default value can be specified from the list', () => {
@@ -129,7 +184,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     onChange={jest.fn()}
                 />
             );
-            expect(wrapper.find({values: radioOptions, value: radioOptions[1].value}).exists()).toBe(true);
+            expect(wrapper.find({options: radioOptions, value: radioOptions[1].value}).exists()).toBe(true);
         });
     });
 });

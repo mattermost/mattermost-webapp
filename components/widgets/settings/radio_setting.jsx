@@ -9,10 +9,13 @@ import Setting from './setting.jsx';
 export default class RadioSetting extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
-        values: PropTypes.array.isRequired,
+        options: PropTypes.arrayOf(PropTypes.shape({
+            text: PropTypes.string,
+            value: PropTypes.string,
+        })),
         label: PropTypes.node.isRequired,
-        value: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
+        value: PropTypes.string,
         labelClassName: PropTypes.string,
         inputClassName: PropTypes.string,
         helpText: PropTypes.node,
@@ -21,6 +24,7 @@ export default class RadioSetting extends React.Component {
     static defaultProps = {
         labelClassName: '',
         inputClassName: '',
+        options: []
     };
 
     handleChange = (e) => {
@@ -28,27 +32,6 @@ export default class RadioSetting extends React.Component {
     }
 
     render() {
-        const options = [];
-        for (const {value, text} of this.props.values) {
-            options.push(
-                <div
-                    className='radio'
-                    key={value}
-                >
-                    <label>
-                        <input
-                            type='radio'
-                            value={value}
-                            name={this.props.id}
-                            checked={value === this.props.value}
-                            onChange={this.handleChange}
-                        />
-                        {text}
-                    </label>
-                </div>
-            );
-        }
-
         return (
             <Setting
                 label={this.props.label}
@@ -57,7 +40,27 @@ export default class RadioSetting extends React.Component {
                 helpText={this.props.helpText}
                 inputId={this.props.id}
             >
-                {options}
+                {
+                    this.props.options.map(({value, text}) => {
+                        return (
+                            <div
+                                className='radio'
+                                key={value}
+                            >
+                                <label>
+                                    <input
+                                        type='radio'
+                                        value={value}
+                                        name={this.props.id}
+                                        checked={value === this.props.value}
+                                        onChange={this.handleChange}
+                                    />
+                                    {text}
+                                </label>
+                            </div>
+                        );
+                    })
+                }
             </Setting>
         );
     }
