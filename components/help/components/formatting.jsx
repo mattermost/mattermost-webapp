@@ -262,7 +262,7 @@ export default function HelpFormatting() {
             </p>
             <FormattedMessage
                 id='help.formatting.imagesExample'
-                defaultMessage={'![alt text](link "hover text")\n\nand\n\n[![Build Status](https://travis-ci.org/mattermost/mattermost-server.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-server) [![Github](https://assets-cdn.github.com/favicon.ico)](https://github.com/mattermost/mattermost-server)'}
+                defaultMessage={'![alt text](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontalPreview.png "Mattermost horizontal logo")\n\nand\n\n[![Build Status](https://travis-ci.org/mattermost/mattermost-server.svg?branch=master)](https://travis-ci.org/mattermost/mattermost-server) [![Github](https://cdn.travis-ci.org/images/favicon-076a22660830dc325cc8ed70e7146a59.png)](https://github.com/mattermost/mattermost-server)'}
             >
                 {(example) => renderRawExampleWithResult(example)}
             </FormattedMessage>
