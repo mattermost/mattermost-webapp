@@ -14,3 +14,4 @@ mattermost-webapp.iml
 e2e/node_modules
 e2e/cypress/videos
 e2e/results
+storybook-static
