@@ -68,7 +68,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         actions,
     };
 
-    test('init snapshot', () => {
+    test('Recent category should not exist if there are no recent emojis', () => {
         const wrapper = shallow(
             <EmojiPicker {...baseProps}/>
         );
@@ -77,7 +77,6 @@ describe('components/emoji_picker/EmojiPicker', () => {
             offsetHeight: 200,
         };
 
-        expect(wrapper).toMatchSnapshot();
 
         // Nine categories as there is no recent caterogry
         expect(wrapper.find(EmojiPickerCategory).length).toBe(9);
@@ -90,7 +89,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'people'}).length).toBe(1);
     });
 
-    test('init snapshot with recent category', () => {
+    test('Recent category should exist if there are recent emojis', () => {
         const props = {
             ...baseProps,
             recentEmojis: [
@@ -105,8 +104,6 @@ describe('components/emoji_picker/EmojiPicker', () => {
         wrapper.instance().emojiPickerContainer = {
             offsetHeight: 200,
         };
-
-        expect(wrapper).toMatchSnapshot();
 
         // 10 categories as there is recent caterogry and prop selected should be true on EmojiPickerCategory for recent category
         expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
