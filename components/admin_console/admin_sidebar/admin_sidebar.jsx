@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
+import isEqual from 'lodash.isequal';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
@@ -88,6 +89,26 @@ export default class AdminSidebar extends React.Component {
         }
 
         this.updateTitle();
+
+        if (!Utils.isMobile()) {
+            $('.admin-sidebar .nav-pills__container').perfectScrollbar({
+                suppressScrollX: true,
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.idx != null &&
+            (!isEqual(this.props.plugins, prevProps.plugins) ||
+                !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
+            this.idx = generateIndex(this.props.adminDefinition, this.context.intl, this.props.plugins);
+        }
+
+        if (!Utils.isMobile()) {
+            $('.admin-sidebar .nav-pills__container').perfectScrollbar({
+                suppressScrollX: true,
+            });
+        }
     }
 
     onFilterChange = (e) => {
