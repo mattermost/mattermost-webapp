@@ -83,11 +83,10 @@ export default class TeamButton extends React.Component {
 
         ariaLabel = ariaLabel.toLowerCase();
 
-        const content = this.props.content ||
-        (
+        const content = (
             <TeamIcon
                 withHover={true}
-                name={displayName}
+                name={this.props.content || displayName}
                 url={teamIconUrl}
             />
         );
