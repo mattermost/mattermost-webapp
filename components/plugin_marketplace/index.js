@@ -16,7 +16,7 @@ import MarketplaceModal from './marketplace_modal.jsx';
 
 function mapStateToProps(state) {
     return {
-        show: isModalOpen(state, ModalIdentifiers.PLUGINS_MARKETPLACE),
+        show: isModalOpen(state, ModalIdentifiers.PLUGIN_MARKETPLACE),
         installedPlugins: getMarketplaceInstalledPlugins(state),
         marketplacePlugins: state.entities.plugins.marketplacePlugins.data,
         serverError: state.entities.plugins.marketplacePlugins.serverError,
@@ -26,7 +26,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            closeModal: () => closeModal(ModalIdentifiers.PLUGINS_MARKETPLACE),
+            closeModal: () => closeModal(ModalIdentifiers.PLUGIN_MARKETPLACE),
             getMarketplacePlugins,
         }, dispatch),
     };
