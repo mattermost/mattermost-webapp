@@ -306,9 +306,18 @@
 
                 body.enable-animations & {
                     @include transition-property(color, background-color);
-                    @include transition-duration($transition-quick);
+                    @include transition-duration(0.1s);
                     @include transition-delay(0s);
-                    @include transition-timing-function(ease-in-out);
+                    @include transition-timing-function(ease-in);
+                }
+
+                &:hover {
+                    body.enable-animations & {
+                        @include transition-property(color, background-color);
+                        @include transition-duration(0.1s);
+                        @include transition-delay(0s);
+                        @include transition-timing-function(ease-out);
+                    }
                 }
 
                 .status {
@@ -333,7 +342,7 @@
 
                             body.enable-animations & {
                                 @include transition-property(opacity, visibility);
-                                @include transition-duration($transition-quick);
+                                @include transition-duration(0.1s);
                                 @include transition-delay(0s);
                                 @include transition-timing-function(ease-out, step-start);
                             }
@@ -355,7 +364,7 @@
 
                         body.enable-animations & {
                             @include transition-property(opacity, visibility);
-                            @include transition-duration($transition-quick);
+                            @include transition-duration(0.1s);
                             @include transition-delay(0s);
                             @include transition-timing-function(ease-in, step-end);
                         }
