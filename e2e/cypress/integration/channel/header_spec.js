@@ -34,10 +34,10 @@ describe('Header', () => {
         cy.updateChannelHeader('>' + ' newheader'.repeat(20));
 
         // * Check if channel header description has ellipsis
-        cy.get('#channelHeaderDescription').should('have.text', ' newheader'.repeat(20));
-        cy.get('#channelHeaderDescription').then(($header) => {
-            expect($header.outerWidth()).lt($header[0].scrollWidth);
-        });
+        cy.get('#channelHeaderDescription').find('p').
+            should('have.text', ' newheader'.repeat(20).trim()).
+            and('have.css', 'overflow', 'hidden').
+            and('have.css', 'text-overflow', 'ellipsis');
     });
 
     it('CS14730 - Channel Header: Markdown quote', () => {
