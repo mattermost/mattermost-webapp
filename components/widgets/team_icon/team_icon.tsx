@@ -47,19 +47,23 @@ export class TeamIcon extends React.PureComponent<Props> {
             icon = (
                 <div
                     className={`TeamIcon__image TeamIcon__${size}`}
+                    aria-label={'Team Icon'}
                     style={{backgroundImage: `url('${teamIconUrl}')`}}
                 />
             );
         } else {
             icon = (
-                <div className={`TeamIcon__initials TeamIcon__initials__${size}`}>
+                <div
+                    className={`TeamIcon__initials TeamIcon__initials__${size}`}
+                    aria-label={'Team Initials'}
+                >
                     {name ? name.replace(/\s/g, '').substring(0, 2) : '??'}
                 </div>
             );
         }
         return (
 
-            <div className={`TeamIcon ${hoverCss} TeamIcon__${size}`}>
+            <div className={`TeamIcon ${hoverCss} TeamIcon__${size}`} >
                 <div className={`TeamIcon__content ${hoverCss}`}>
                     {icon}
                 </div>

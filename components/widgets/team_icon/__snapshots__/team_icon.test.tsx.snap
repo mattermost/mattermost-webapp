@@ -8,6 +8,7 @@ exports[`components/widgets/team-icon basic icon 1`] = `
     className="TeamIcon__content no-hover"
   >
     <div
+      aria-label="Team Initials"
       className="TeamIcon__initials TeamIcon__initials__md"
     >
       te
@@ -24,6 +25,7 @@ exports[`components/widgets/team-icon icon with hover 1`] = `
     className="TeamIcon__content "
   >
     <div
+      aria-label="Team Initials"
       className="TeamIcon__initials TeamIcon__initials__md"
     >
       te
@@ -40,6 +42,7 @@ exports[`components/widgets/team-icon image icon 1`] = `
     className="TeamIcon__content no-hover"
   >
     <div
+      aria-label="Team Icon"
       className="TeamIcon__image TeamIcon__md"
       style={
         Object {
@@ -59,6 +62,7 @@ exports[`components/widgets/team-icon small icon 1`] = `
     className="TeamIcon__content no-hover"
   >
     <div
+      aria-label="Team Initials"
       className="TeamIcon__initials TeamIcon__initials__sm"
     >
       te
