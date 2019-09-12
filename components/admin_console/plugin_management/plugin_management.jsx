@@ -876,47 +876,6 @@ export default class PluginManagement extends AdminSettings {
                     >
                         {this.renderEnablePluginsSetting()}
 
-                        <BooleanSetting
-                            id='enableMarketplace'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.enableMarketplace'
-                                    defaultMessage='Enable Marketplace:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.enableMarketplaceDesc'
-                                    defaultMessage='Enables system admins to install plugins from Mattermost marketplace.'
-                                />
-                            }
-                            value={this.state.enableMarketplace}
-                            disabled={!this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
-                        />
-
-                        <TextSetting
-                            id={'marketplaceUrl'}
-                            type={'input'}
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.marketplaceUrl'
-                                    defaultMessage='Marketplace URL:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.marketplaceUrlDesc'
-                                    defaultMessage='URL of the marketplace server.'
-                                />
-                            }
-                            value={this.state.marketplaceUrl}
-                            disabled={!this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
-                        />
-
                         <div className='form-group'>
                             <label
                                 className='control-label col-sm-4'
@@ -962,6 +921,46 @@ export default class PluginManagement extends AdminSettings {
                                 </p>
                             </div>
                         </div>
+                        <BooleanSetting
+                            id='enableMarketplace'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enableMarketplace'
+                                    defaultMessage='Enable Marketplace:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.enableMarketplaceDesc'
+                                    defaultMessage='Enables system admins to install plugins from Mattermost marketplace.'
+                                />
+                            }
+                            value={this.state.enableMarketplace}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
+                        />
+
+                        <TextSetting
+                            id={'marketplaceUrl'}
+                            type={'input'}
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.marketplaceUrl'
+                                    defaultMessage='Marketplace URL:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.marketplaceUrlDesc'
+                                    defaultMessage='URL of the marketplace server.'
+                                />
+                            }
+                            value={this.state.marketplaceUrl}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
+                        />
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
