@@ -131,16 +131,16 @@ export default class MarketplaceModal extends React.Component {
                 pluginsArray.map((p) => {
                     return (
                         <MarketplaceItem
-                            key={p.Manifest.id}
-                            id={p.Manifest.id}
-                            name={p.Manifest.name}
-                            description={p.Manifest.description}
-                            version={p.Manifest.version}
+                            key={p.manifest.id}
+                            id={p.manifest.id}
+                            name={p.manifest.name}
+                            description={p.manifest.description}
+                            version={p.manifest.version}
                             isPrepackaged={false}
-                            downloadUrl={p.DownloadURL}
-                            homepageUrl={p.HomepageURL}
-                            iconData={p.IconData}
-                            installed={p.InstalledVersion !== ''}
+                            downloadUrl={p.download_url}
+                            homepageUrl={p.homepage_url}
+                            iconData={p.icon_data}
+                            installed={p.installed_version !== ''}
                             onConfigure={this.close}
                             onInstalled={this.getMarketplacePlugins}
                         />);
