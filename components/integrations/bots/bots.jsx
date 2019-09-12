@@ -204,7 +204,7 @@ export default class Bots extends React.PureComponent {
                     />
                 }
                 helpText={
-                    <FormattedMessage
+                    <FormattedMarkdownMessage
                         id='bots.manage.help'
                         defaultMessage='Use {botAccounts} to integrate with Mattermost through plugins or the API. Bot accounts are available to everyone on your server. Enable bot account creation in the [System Console]({siteURL}/_redirect/integrations/bots).'
                         values={{
