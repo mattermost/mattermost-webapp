@@ -20,7 +20,7 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
       <h1>
         <strong>
           <FormattedMessage
-            defaultMessage="Plugins Marketplace"
+            defaultMessage="Plugin Marketplace"
             id="marketplace_modal.title"
             values={Object {}}
           />
@@ -105,7 +105,7 @@ exports[`components/MarketplaceModal should match the snapshot, no plugins insta
       <h1>
         <strong>
           <FormattedMessage
-            defaultMessage="Plugins Marketplace"
+            defaultMessage="Plugin Marketplace"
             id="marketplace_modal.title"
             values={Object {}}
           />
@@ -199,7 +199,7 @@ exports[`components/MarketplaceModal should match the snapshot, with plugins ins
       <h1>
         <strong>
           <FormattedMessage
-            defaultMessage="Plugins Marketplace"
+            defaultMessage="Plugin Marketplace"
             id="marketplace_modal.title"
             values={Object {}}
           />

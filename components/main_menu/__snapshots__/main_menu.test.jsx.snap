@@ -210,9 +210,9 @@ exports[`components/Menu should match snapshot with id 1`] = `
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={false}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -497,9 +497,9 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={false}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -830,9 +830,9 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={false}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -1141,9 +1141,9 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={true}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -1474,9 +1474,9 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={false}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -1802,9 +1802,9 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={false}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -2152,9 +2152,9 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={false}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink

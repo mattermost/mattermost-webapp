@@ -218,9 +218,9 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         id="marketplaceModal"
-        modalId="integrations_marketplace"
+        modalId="plugin_marketplace"
         show={true}
-        text="Plugins Marketplace"
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
