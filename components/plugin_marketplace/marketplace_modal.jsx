@@ -82,7 +82,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     trackSearch = () => {
-        trackEvent('plugins', 'ui_marketplace_search', {filter: this.refs.filter.value});
+        trackEvent('plugins', 'ui_marketplace_search');
     }
 
     doSearch = () => {
