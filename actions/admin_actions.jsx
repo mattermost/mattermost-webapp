@@ -349,7 +349,7 @@ export function unregisterAdminConsolePlugin(pluginId) {
 }
 
 export async function testSiteURL(success, error, state) {
-    const siteURL = state["ServiceSettings.SiteURL"];
+    const siteURL = state['ServiceSettings.SiteURL'];
     const {data, error: err} = await dispatch(AdminActions.testSiteURL(siteURL));
     if (data && success) {
         success(data);
