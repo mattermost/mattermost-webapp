@@ -24,7 +24,7 @@ import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
-import MarketplaceModal from 'components/integrations_marketplace';
+import MarketplaceModal from 'components/plugins_marketplace';
 
 import Menu from 'components/widgets/menu/menu.jsx';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
@@ -298,7 +298,7 @@ export default class MainMenu extends React.PureComponent {
                     >
                         <Menu.ItemToggleModalRedux
                             id='marketplaceModal'
-                            modalId={ModalIdentifiers.INTEGRATIONS_MARKETPLACE}
+                            modalId={ModalIdentifiers.PLUGINS_MARKETPLACE}
                             show={!this.props.mobile && this.props.enablePluginMarketplace}
                             dialogType={MarketplaceModal}
                             text={localizeMessage('navbar_dropdown.marketplace', 'Plugins Marketplace')}
