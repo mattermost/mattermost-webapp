@@ -126,7 +126,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
         id="add_incoming_webhook.url"
         values={
           Object {
-            "url": "http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic",
+            "url": "\`http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic\`",
           }
         }
       />

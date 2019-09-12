@@ -284,7 +284,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="Email notifications are not enabled"
@@ -292,7 +292,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       values={Object {}}
     />
   }
-  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
@@ -300,7 +299,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications = true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="Never"
@@ -308,7 +307,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       values={Object {}}
     />
   }
-  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
@@ -316,7 +314,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="Never"
@@ -324,7 +322,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       values={Object {}}
     />
   }
-  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
