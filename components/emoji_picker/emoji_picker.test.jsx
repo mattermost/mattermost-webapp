@@ -77,7 +77,6 @@ describe('components/emoji_picker/EmojiPicker', () => {
             offsetHeight: 200,
         };
 
-
         // Nine categories as there is no recent caterogry
         expect(wrapper.find(EmojiPickerCategory).length).toBe(9);
         expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
