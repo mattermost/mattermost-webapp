@@ -78,7 +78,6 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('be.disabled');
         cy.getByTestId('inputPlaceholder').should('be.visible').within(($el) => {
-
             // * Verify the input placeholder text
             cy.wrap($el).get('.users-emails-input__placeholder').should('have.text', 'Add members or email addresses');
 
