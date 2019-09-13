@@ -682,7 +682,9 @@ export default class A11yController {
             if (!this.regions || !this.regions.length) {
                 return;
             }
-            if (modifierKeys.ctrlIsPressed) {
+
+            // Check to make sure both aren't pressed because some older webkit browsers set CTRL and ALT when AltGr is pressed
+            if (modifierKeys.ctrlIsPressed && !modifierKeys.altIsPressed) {
                 this.tildeKeyIsPressed = true;
                 event.preventDefault();
                 if (modifierKeys.shiftIsPressed) {
