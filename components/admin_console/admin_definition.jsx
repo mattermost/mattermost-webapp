@@ -3292,7 +3292,7 @@ export default {
                         key: 'GoogleSettings.UserApiEndpoint',
                         label: t('admin.google.userTitle'),
                         label_default: 'User API Endpoint:',
-                        dynamic_value: () => 'https://www.googleapis.com/plus/v1/people/me',
+                        dynamic_value: () => 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
                     },

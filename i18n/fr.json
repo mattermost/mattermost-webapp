@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Chargement en cours",
   "widgets.users_emails_input.no_user_found_matching": "Aucun utilisateur trouvé correspondant aux termes **{text}**, spécifiez une adresse e-mail",
   "widgets.users_emails_input.valid_email": "Ajouter **{email}**",
-  "yourcomputer": "Votre ordinateur",
-  "youtube_video.notFound": "Vidéo non trouvé"
+  "yourcomputer": "Votre ordinateur"
 }

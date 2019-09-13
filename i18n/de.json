@@ -333,8 +333,8 @@
   "admin.customization.enableGifPickerTitle": "GIF-Auswahl aktivieren:",
   "admin.customization.enableLinkPreviewsDesc": "Zeige eine Vorschau des Webseiteninhaltes unterhalb von Nachrichten, sofern verfügbar, Benutzer konnten diese Vorschauen über Kontoeinstellungen > Anzeige > Webseitenvorschauen deaktivieren. Diese Einstellung gilt nur für Webseiten mit OpenGraph Metadaten und nicht für Bildlinks oder YouTube-Vorschauen.",
   "admin.customization.enableLinkPreviewsTitle": "Erlaube Link-Vorschauen:",
-  "admin.customization.enableSVGsDesc": "Enable previews for SVG file attachments and allow them to appear in messages.",
-  "admin.customization.enableSVGsTitle": "Enable SVGs:",
+  "admin.customization.enableSVGsDesc": "Vorschau für SVG-Dateianhänge aktivieren und erlauben, dass sie in Nachrichten angezeigt werden.",
+  "admin.customization.enableSVGsTitle": "SVGs aktivieren:",
   "admin.customization.gfycatApiKey": "Gfycat-API-Schlüssel:",
   "admin.customization.gfycatApiKeyDescription": "Fordern Sie einen API-Schlüssel unter [https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#) an. Geben Sie die Client-ID, die Sie per E-Mail erhalten, in dieses Feld ein. Falls leer, wird der Standard-API-Schlüssel von Gfycat verwendet.",
   "admin.customization.gfycatApiSecret": "Gfycat-API-Geheimnis:",
@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Laden",
   "widgets.users_emails_input.no_user_found_matching": "Es wurde keine mit **{text}** übereinstimmende gefunden, Typ E-Mail-Adresse",
   "widgets.users_emails_input.valid_email": "**{email}** hinzufügen",
-  "yourcomputer": "Ihr Computer",
-  "youtube_video.notFound": "Video nicht gefunden"
+  "yourcomputer": "Ihr Computer"
 }

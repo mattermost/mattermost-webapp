@@ -2547,7 +2547,7 @@
   "login.verified": " E-posta Doğrulandı",
   "manage_channel_groups_modal.search_placeholder": "Grup arama",
   "manage_team_groups_modal.search_placeholder": "Grup arama",
-  "members_popover.button.message": "İleti",
+  "members_popover.button.message": "ileti",
   "members_popover.manageMembers": "Üye Yönetimi",
   "members_popover.title": "Kanal Üyeleri",
   "members_popover.viewMembers": "Üyeleri Görüntüle",
@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "Yükleniyor",
   "widgets.users_emails_input.no_user_found_matching": "**{text}** ile eşleşen kimse bulunamadı, e-posta adresini yazın",
   "widgets.users_emails_input.valid_email": "**{email}** Ekle",
-  "yourcomputer": "Bilgisayarınız",
-  "youtube_video.notFound": "Görüntü bulunamadı"
+  "yourcomputer": "Bilgisayarınız"
 }

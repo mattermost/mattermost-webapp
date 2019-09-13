@@ -333,8 +333,8 @@
   "admin.customization.enableGifPickerTitle": "GIF選択機能を有効にする:",
   "admin.customization.enableLinkPreviewsDesc": "有効な場合、メッセージの下にウェブサイトのプレビューを表示します。ユーザーは アカウント設定 > ディスプレイ > ウェブサイトリンクプレビュー から、これらのプレビューを無効にすることができます。この設定はOpenGraphメタデータを持つウェブサイトに対してのみ適用され、画像リンクやYouTubeプレビューには適用されません。",
   "admin.customization.enableLinkPreviewsTitle": "リンクのプレビューを有効にする:",
-  "admin.customization.enableSVGsDesc": "Enable previews for SVG file attachments and allow them to appear in messages.",
-  "admin.customization.enableSVGsTitle": "Enable SVGs:",
+  "admin.customization.enableSVGsDesc": "SVGファイル添付のプレビューを有効にし、メッセージ内に表示するようにします。",
+  "admin.customization.enableSVGsTitle": "SVGを有効にする:",
   "admin.customization.gfycatApiKey": "Gfycat APIキー:",
   "admin.customization.gfycatApiKeyDescription": "[https://developers.gfycat.com/signup/#](!https://developers.gfycat.com/signup/#)でAPIキーをリクエストしてください。この項目には電子メールで受け取ったクライアントIDを入力してください。空欄の場合、Gfycatから提供されたデフォルトのAPIキーが使用されます。",
   "admin.customization.gfycatApiSecret": "Gfycat APIシークレット:",
@@ -3463,6 +3463,5 @@
   "widgets.users_emails_input.loading": "読み込み中です",
   "widgets.users_emails_input.no_user_found_matching": "**{text}**に一致するユーザーが見つかりませんでした。電子メールアドレスを入力してください。",
   "widgets.users_emails_input.valid_email": "**{email}**を追加してください",
-  "yourcomputer": "あなたのコンピューター",
-  "youtube_video.notFound": "動画が見つかりません"
+  "yourcomputer": "あなたのコンピューター"
 }

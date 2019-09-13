@@ -85,7 +85,8 @@
         .markdown__paragraph-inline {
             overflow: hidden;
             text-overflow: ellipsis;
-            width: calc(100% - 50px);
+            display: inline-block;
+            width: 100%;
         }
     }
 
@@ -332,12 +333,12 @@
 
     .channel-header__description {
         font-size: 12px;
-        margin-bottom: 3px;
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
-        width: calc(100% - 18px);
-        height: 20px;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
 
         span[data-emoticon] {
             .emoticon {
@@ -360,6 +361,11 @@
             }
         }
 
+        .header-description__text {
+            flex: 1 1 0;
+            overflow: hidden;
+        }
+
         .status {
             margin-right: 3px;
         }
@@ -375,11 +381,13 @@
         }
 
         &.light {
-            @include opacity(.6);
+            opacity: 1;
             color: inherit;
             overflow: visible;
 
             button {
+                @include opacity(.6);
+
                 &:hover
                 &:focus {
                     text-decoration: underline;
