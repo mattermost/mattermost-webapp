@@ -57,6 +57,12 @@ describe('Teams Suite', () => {
     });
 
     it('TS13548 Team or System Admin searches and adds new team member', () => {
+        cy.apiUpdateConfig({
+            GuestAccountsSettings: {
+                Enable: false,
+            },
+        });
+
         const user = users['user-1'];
         const letterCount = 3;
         const nameStartsWith = user.firstName.slice(0, letterCount);

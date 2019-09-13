@@ -52,7 +52,9 @@ describe('actions/global_actions', () => {
                     },
                     users: {
                         currentUserId: 'user1',
-                        profiles: {},
+                        profiles: {
+                            user1: {id: 'user1'},
+                        },
                     },
                 },
             });
@@ -108,7 +110,9 @@ describe('actions/global_actions', () => {
                     },
                     users: {
                         currentUserId: userId,
-                        profiles: {},
+                        profiles: {
+                            [userId]: {id: userId},
+                        },
                     },
                 },
             });

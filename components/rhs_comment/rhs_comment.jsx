@@ -23,9 +23,9 @@ import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import Badge from 'components/widgets/badges/badge.jsx';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import Badge from 'components/widgets/badges/badge';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
@@ -345,7 +345,7 @@ export default class RhsComment extends React.PureComponent {
             );
         } else if (isPostDeleted) {
             options = null;
-        } else if (!isSystemMessage && (this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
+        } else if (!isSystemMessage && (isMobile() || this.state.hover || this.state.a11yActive || this.state.dropdownOpened || this.state.showEmojiPicker)) {
             const dotMenu = (
                 <DotMenu
                     post={this.props.post}

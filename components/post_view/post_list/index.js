@@ -46,6 +46,7 @@ function makeMapStateToProps() {
         let postIds;
         let chunk;
         let atLatestPost = false;
+        let atOldestPost = false;
         let formattedPostIds;
         let latestAriaLabelFunc;
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
@@ -61,6 +62,7 @@ function makeMapStateToProps() {
         if (chunk) {
             postIds = chunk.order;
             atLatestPost = chunk.recent;
+            atOldestPost = chunk.oldest;
         }
 
         if (postIds) {
@@ -78,6 +80,7 @@ function makeMapStateToProps() {
             isFirstLoad: isFirstLoad(state, ownProps.channelId),
             formattedPostIds,
             atLatestPost,
+            atOldestPost,
             focusedPostId: ownProps.match.params.postid,
             latestPostTimeStamp,
             postListIds: postIds,

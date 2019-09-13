@@ -15,9 +15,19 @@ export default class ExternalImage extends React.PureComponent {
         src: PropTypes.string.isRequired,
     };
 
+    isSVGImage = () => {
+        if (!this.props.imageMetadata) {
+            // Just check if the string contains an svg extension instead of if it ends with one because it avoids
+            // having to deal with query strings and proxied image URLs
+            return this.props.src.indexOf('.svg') !== -1;
+        }
+
+        return this.props.imageMetadata.format === 'svg';
+    }
+
     shouldRenderImage = () => {
         // Return true unless the image is an SVG and we have SVG rendering disabled
-        return this.props.enableSVGs || !(this.props.imageMetadata && this.props.imageMetadata.format === 'svg');
+        return this.props.enableSVGs || !this.isSVGImage();
     }
 
     render() {

@@ -7,7 +7,7 @@ import React from 'react';
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
-import AutocompleteSelector from 'components/widgets/settings/autocomplete_selector';
+import AutocompleteSelector from 'components/autocomplete_selector';
 
 export default class ActionMenu extends React.PureComponent {
     static propTypes = {

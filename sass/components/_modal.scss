@@ -25,6 +25,9 @@
         height: auto;
         max-height: 60vh;
         min-height: 8em;
+        -ms-overflow-style: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: auto;
 
         &.custom-textarea--preview {
             display: none;
@@ -97,6 +100,11 @@
             .close {
                 top: 10px;
             }
+        }
+        .suggestion-list__content {
+            box-shadow: none;
+            border: none;
+            overflow: auto;
         }
     }
 

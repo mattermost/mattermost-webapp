@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {shallow} from 'enzyme';
+import configureStore from 'redux-mock-store';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import UserSettingsDisplay from 'components/user_settings/display/user_settings_display.jsx';
@@ -48,6 +50,14 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             savePreferences: jest.fn(),
         },
     };
+    const mockStore = configureStore();
+    const state = {
+        views: {
+            settings: {},
+        },
+    };
+
+    const store = mockStore(state);
 
     test('should match snapshot, no active section', () => {
         const wrapper = shallow(<UserSettingsDisplay {...requiredProps}/>);
@@ -140,7 +150,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const updateSection = jest.fn();
 
         const props = {...requiredProps, updateSection};
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...props}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...props}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         await wrapper.instance().handleSubmit();
         expect(updateSection).toHaveBeenCalledWith('');
@@ -149,7 +165,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should have called updateSection', () => {
         const updateSection = jest.fn();
         const props = {...requiredProps, updateSection};
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...props}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...props}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().updateSection('');
         expect(updateSection).toHaveBeenCalledWith('');
@@ -161,7 +183,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should have called closeModal', () => {
         const closeModal = jest.fn();
         const props = {...requiredProps, closeModal};
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...props}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...props}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.find('#closeButton').simulate('click');
         expect(closeModal).toHaveBeenCalled();
@@ -170,14 +198,26 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     test('should have called collapseModal', () => {
         const collapseModal = jest.fn();
         const props = {...requiredProps, collapseModal};
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...props}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...props}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.find('.fa-angle-left').simulate('click');
         expect(collapseModal).toHaveBeenCalled();
     });
 
     test('should update militaryTime state', () => {
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().handleClockRadio('false');
         expect(wrapper.state('militaryTime')).toBe('false');
@@ -187,7 +227,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('should update teammateNameDisplay state', () => {
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().handleTeammateNameDisplayRadio('username');
         expect(wrapper.state('teammateNameDisplay')).toBe('username');
@@ -200,7 +246,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('should update channelDisplayMode state', () => {
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().handleChannelDisplayModeRadio('full');
         expect(wrapper.state('channelDisplayMode')).toBe('full');
@@ -210,7 +262,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('should update messageDisplay state', () => {
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().handlemessageDisplayRadio('clean');
         expect(wrapper.state('messageDisplay')).toBe('clean');
@@ -220,7 +278,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('should update collapseDisplay state', () => {
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().handleCollapseRadio('false');
         expect(wrapper.state('collapseDisplay')).toBe('false');
@@ -230,7 +294,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('should update linkPreviewDisplay state', () => {
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().handleLinkPreviewRadio('false');
         expect(wrapper.state('linkPreviewDisplay')).toBe('false');
@@ -240,7 +310,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
     });
 
     test('should update display state', () => {
-        const wrapper = mountWithIntl(<UserSettingsDisplay {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <UserSettingsDisplay {...requiredProps}/>,
+            {
+                context: {store},
+                childContextTypes: {store: PropTypes.object},
+            },
+        );
 
         wrapper.instance().handleOnChange({display: 'linkPreviewDisplay'});
         expect(wrapper.state('display')).toBe('linkPreviewDisplay');
