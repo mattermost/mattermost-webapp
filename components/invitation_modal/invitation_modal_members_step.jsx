@@ -133,8 +133,10 @@ export default class InvitationModalMembersStep extends React.Component {
                         defaultMessage='Invite **Members**'
                     />
                 </h1>
-                <div className='share-link'
-                     data-testid='shareLink'>
+                <div
+                    className='share-link'
+                    data-testid='shareLink'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.title'
@@ -185,9 +187,12 @@ export default class InvitationModalMembersStep extends React.Component {
                             defaultMessage='OR'
                         />
                     </div>
+
                 </div>
-                <div className='search-and-add'
-                     data-testid='searchAdd'>
+                <div
+                    className='search-and-add'
+                    data-testid='searchAdd'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
