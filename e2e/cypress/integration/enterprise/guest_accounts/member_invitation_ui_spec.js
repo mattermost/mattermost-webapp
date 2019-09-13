@@ -43,7 +43,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             cy.wrap($el).find('h1').should('have.text', `Invite people to ${teamName}`);
         });
         cy.getByTestId('inviteMembersLink').should('be.visible').within(($el) => {
-            cy.wrap($el).getByTestId('inviteMembersSection').find('h2 > span').should('have.text', 'Invite Members');;
+            cy.wrap($el).getByTestId('inviteMembersSection').find('h2 > span').should('have.text', 'Invite Members');
             cy.wrap($el).getByTestId('inviteMembersSection').find('span').last().should('have.text', 'Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.');
             cy.wrap($el).find('.arrow').click();
         });
@@ -58,6 +58,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             cy.wrap($el).find('h2 > span').should('have.text', 'Share This Link');
             cy.wrap($el).find('.help-text > span').should('have.text', 'Share this link to grant member access to this team.');
         });
+
         // * Verify Share Link Input field
         const baseUrl = Cypress.config('baseUrl');
         cy.getCurrentTeamId().then((teamId) => {
@@ -66,6 +67,7 @@ describe('Guest Account - Member Invitation Flow', () => {
                 cy.getByTestId('shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${inviteId}`);
             });
         });
+
         // * Verify Copy Link button text
         cy.getByTestId('shareLinkInputButton').should('be.visible').and('have.text', 'Copy Link');
 
@@ -76,8 +78,9 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('be.disabled');
         cy.getByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+
             // * Verify the input placeholder text
-            cy.wrap($el).get('.users-emails-input__placeholder').should('have.text','Add members or email addresses');
+            cy.wrap($el).get('.users-emails-input__placeholder').should('have.text', 'Add members or email addresses');
 
             // # Type the email of the new user
             cy.wrap($el).get('input').type(email, {force: true});
