@@ -12,61 +12,78 @@ export default function dragster(query, options) {
     };
 
     const settings = Object.assign(defaults, options);
-    const nodes = document.querySelectorAll(query);
+    const node = document.querySelector(query);
 
-    nodes.forEach((node) => {
-        let first = false;
-        let second = false;
+    let first = false;
+    let second = false;
 
-        node.addEventListener('dragenter', (event) => {
-            if (first) {
-                second = true;
-                return;
-            }
+    const dragenter = (event) => {
+        if (first) {
+            second = true;
+            return;
+        }
 
-            first = true;
-            const enterEvent = new CustomEvent('dragster:enter', {detail: event});
-            node.dispatchEvent(enterEvent);
+        first = true;
+        const enterEvent = new CustomEvent('dragster:enter', {detail: event});
+        node.dispatchEvent(enterEvent);
 
-            event.preventDefault();
-        });
+        event.preventDefault();
+    };
 
-        node.addEventListener('dragleave', (event) => {
-            if (second) {
-                second = false;
-            } else if (first) {
-                first = false;
-            }
-            if (!first && !second) {
-                const leaveEvent = new CustomEvent('dragster:leave', {detail: event});
-                node.dispatchEvent(leaveEvent);
-            }
-            event.preventDefault();
-        });
+    const dragleave = (event) => {
+        if (second) {
+            second = false;
+        } else if (first) {
+            first = false;
+        }
+        if (!first && !second) {
+            const leaveEvent = new CustomEvent('dragster:leave', {detail: event});
+            node.dispatchEvent(leaveEvent);
+        }
+        event.preventDefault();
+    };
 
-        node.addEventListener('dragover', (event) => {
-            const overEvent = new CustomEvent('dragster:over', {detail: event});
-            node.dispatchEvent(overEvent);
-            event.preventDefault();
-        });
+    const dragover = (event) => {
+        const overEvent = new CustomEvent('dragster:over', {detail: event});
+        node.dispatchEvent(overEvent);
+        event.preventDefault();
+    };
 
-        node.addEventListener('drop', (event) => {
-            if (second) {
-                second = false;
-            } else if (first) {
-                first = false;
-            }
-            if (!first && !second) {
-                const dropEvent = new CustomEvent('dragster:drop', {detail: event});
-                node.dispatchEvent(dropEvent);
-            }
-            event.preventDefault();
-        });
+    const drop = (event) => {
+        if (second) {
+            second = false;
+        } else if (first) {
+            first = false;
+        }
+        if (!first && !second) {
+            const dropEvent = new CustomEvent('dragster:drop', {detail: event});
+            node.dispatchEvent(dropEvent);
+        }
+        event.preventDefault();
+    };
 
-        node.addEventListener('dragster:enter', settings.enter);
-        node.addEventListener('dragster:leave', settings.leave);
-        node.addEventListener('dragster:over', settings.over);
-        node.addEventListener('dragster:drop', settings.drop);
-    });
+    node.addEventListener('dragenter', dragenter);
+    node.addEventListener('dragleave', dragleave);
+    node.addEventListener('dragover', dragover);
+    node.addEventListener('drop', drop);
+
+    node.addEventListener('dragster:enter', settings.enter);
+    node.addEventListener('dragster:leave', settings.leave);
+    node.addEventListener('dragster:over', settings.over);
+    node.addEventListener('dragster:drop', settings.drop);
+
+    const unbindEvents = () => {
+        node.removeEventListener('dragenter', dragenter);
+        node.removeEventListener('dragleave', dragleave);
+        node.removeEventListener('dragover', dragover);
+        node.removeEventListener('drop', drop);
+
+        node.removeEventListener('dragster:enter', settings.enter);
+        node.removeEventListener('dragster:leave', settings.leave);
+        node.removeEventListener('dragster:over', settings.over);
+        node.removeEventListener('dragster:drop', settings.drop);
+    };
+
+    return unbindEvents;
 }
 

@@ -188,18 +188,10 @@ export default class FileUpload extends PureComponent {
     }
 
     componentWillUnmount() {
-        let target;
-        if (this.props.postType === 'post') {
-            target = document.querySelector('.row.main');
-        } else {
-            target = document.querySelector('.post-right__container');
-        }
-
         document.removeEventListener('paste', this.pasteUpload);
         document.removeEventListener('keydown', this.keyUpload);
 
-        // dragster doesn't provide a function to unregister itself so do it manually
-        target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
+        this.unbindDragsterEvents();
     }
 
     fileUploadSuccess = (data, channelId, currentRootId) => {
@@ -399,9 +391,7 @@ export default class FileUpload extends PureComponent {
         const overlay = document.querySelector(overlaySelector);
 
         const dragTimeout = new DelayedAction(() => {
-            if (!overlay.classList.contains('hidden')) {
-                overlay.classList.add('hidden');
-            }
+            overlay.classList.add('hidden');
         });
 
         let dragsterActions = {};
@@ -417,7 +407,7 @@ export default class FileUpload extends PureComponent {
                 leave(e) {
                     var files = e.detail.dataTransfer;
 
-                    if (isFileTransfer(files) && !overlay.classList.contains('hidden')) {
+                    if (isFileTransfer(files)) {
                         overlay.classList.add('hidden');
                     }
 
@@ -427,9 +417,7 @@ export default class FileUpload extends PureComponent {
                     dragTimeout.fireAfter(OVERLAY_TIMEOUT);
                 },
                 drop(e) {
-                    if (!overlay.classList.contains('hidden')) {
-                        overlay.classList.add('hidden');
-                    }
+                    overlay.classList.add('hidden');
 
                     dragTimeout.cancel();
 
@@ -444,7 +432,7 @@ export default class FileUpload extends PureComponent {
             };
         }
 
-        dragster(containerSelector, dragsterActions);
+        this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);
     }
 
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
