@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -10,7 +10,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {getRandomInt} from '../../utils';
+import {getRandomInt} from '../../../utils';
 
 describe('Guest Account - Member Invitation Flow', () => {
     before(() => {
@@ -34,26 +34,51 @@ describe('Guest Account - Member Invitation Flow', () => {
             teamName = text.trim();
         }));
 
-        // #Open Invite People
+        // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         cy.get('#invitePeople').should('be.visible').click();
 
-        // *Verify UI Elements in initial step
+        // * Verify UI Elements in initial step
         cy.getByTestId('invitationModal').within(($el) => {
             cy.wrap($el).find('h1').should('have.text', `Invite people to ${teamName}`);
         });
         cy.getByTestId('inviteMembersLink').should('be.visible').within(($el) => {
-            cy.wrap($el).getByTestId('inviteMembersSection').should('have.text', 'Invite MembersInvite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.');
+            cy.wrap($el).getByTestId('inviteMembersSection').find('h2 > span').should('have.text', 'Invite Members');;
+            cy.wrap($el).getByTestId('inviteMembersSection').find('span').last().should('have.text', 'Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.');
             cy.wrap($el).find('.arrow').click();
         });
 
-        // *Verify Share Link field
-        cy.getByTestId('shareLinkInput').should('be.visible').and('not.have.value', '');
+        // * Verify the header has changed in the modal
+        cy.getByTestId('invitationModal').within(($el) => {
+            cy.wrap($el).find('h1').should('have.text', 'Invite Members');
+        });
+
+        // * Verify Share Link Header and helper text
+        cy.getByTestId('shareLink').should('be.visible').within(($el) => {
+            cy.wrap($el).find('h2 > span').should('have.text', 'Share This Link');
+            cy.wrap($el).find('.help-text > span').should('have.text', 'Share this link to grant member access to this team.');
+        });
+        // * Verify Share Link Input field
+        const baseUrl = Cypress.config('baseUrl');
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.apiGetTeam(teamId).then((response) => {
+                const inviteId = response.body.invite_id;
+                cy.getByTestId('shareLinkInput').should('be.visible').and('have.value', `${baseUrl}/signup_user_complete/?id=${inviteId}`);
+            });
+        });
+        // * Verify Copy Link button text
         cy.getByTestId('shareLinkInputButton').should('be.visible').and('have.text', 'Copy Link');
 
-        // *Verify Invite People field
+        // * Verify Invite People field
+        cy.getByTestId('searchAdd').should('be.visible').within(($el) => {
+            cy.wrap($el).find('h2 > span').should('have.text', 'Invite People');
+            cy.wrap($el).find('.help-text > span').should('have.text', 'Search and add members from other teams or email invite new users.');
+        });
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('be.disabled');
         cy.getByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+            // * Verify the input placeholder text
+            cy.wrap($el).get('.users-emails-input__placeholder').should('have.text','Add members or email addresses');
+
             // # Type the email of the new user
             cy.wrap($el).get('input').type(email, {force: true});
             cy.wrap($el).get('.users-emails-input__menu').
@@ -61,7 +86,7 @@ describe('Guest Account - Member Invitation Flow', () => {
                 eq(0).should('contain', `Invite ${email} as a team member`).click();
         });
 
-        // *Verify if invite members button is not disabled when an email is added
+        // * Verify if invite members button is not disabled when an email is added
         cy.get('#inviteMembersButton').scrollIntoView().should('be.visible').and('not.be.disabled');
 
         // * Verify the confirmation message when users clicks on the Close button

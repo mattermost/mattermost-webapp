@@ -21,6 +21,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   </h1>
   <div
     className="share-link"
+    data-testid="shareLink"
   >
     <h2>
       <FormattedMessage
@@ -76,6 +77,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   </div>
   <div
     className="search-and-add"
+    data-testid="searchAdd"
   >
     <h2>
       <FormattedMessage
