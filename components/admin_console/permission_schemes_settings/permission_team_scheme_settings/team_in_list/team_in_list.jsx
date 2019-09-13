@@ -5,7 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import TeamInfo from 'components/team_info';
+import TeamIcon from 'components/widgets/team_icon/team_icon';
+
+import {imageURLForTeam} from 'utils/utils';
 
 export default class TeamInList extends React.Component {
     static propTypes = {
@@ -20,7 +22,10 @@ export default class TeamInList extends React.Component {
                 className='team'
                 key={team.id}
             >
-                <TeamInfo team={team}/>
+                <TeamIcon
+                    name={team.display_name}
+                    url={imageURLForTeam(team)}
+                />
                 <a
                     className='remove'
                     onClick={() => this.props.onRemoveTeam(team.id)}
