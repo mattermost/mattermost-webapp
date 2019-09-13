@@ -24,7 +24,7 @@ export default class RadioSetting extends React.Component {
     static defaultProps = {
         labelClassName: '',
         inputClassName: '',
-        options: []
+        options: [],
     };
 
     handleChange = (e) => {
