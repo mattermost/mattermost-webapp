@@ -145,6 +145,7 @@ export default class SuggestionBox extends React.Component {
 
     constructor(props) {
         super(props);
+        this.suggestionReadOut = React.createRef();
 
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
@@ -650,6 +651,12 @@ export default class SuggestionBox extends React.Component {
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
             >
+                <div
+                    ref={this.suggestionReadOut}
+                    aria-live='polite'
+                    role={UserAgent.isFirefox() ? '' : 'alert'}
+                    className='sr-only'
+                />
                 <QuickInput
                     ref='input'
                     autoComplete='off'
@@ -663,6 +670,7 @@ export default class SuggestionBox extends React.Component {
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <SuggestionListComponent
                         ref='list'
+                        ariaLiveRef={this.suggestionReadOut}
                         open={this.state.focused}
                         pretext={this.pretext}
                         location={listStyle}

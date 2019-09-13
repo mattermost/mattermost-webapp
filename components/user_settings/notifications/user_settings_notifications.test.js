@@ -17,7 +17,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         activeSection: '',
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
-        prevActiveSection: '',
         actions: {
             updateMe: jest.fn(() => Promise.resolve({})),
         },
@@ -40,5 +39,19 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         await wrapper.instance().handleSubmit();
         expect(requiredProps.updateSection).toHaveBeenCalled();
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
+    });
+
+    test('should reset state when handleUpdateSection is called', () => {
+        const newUpdateSection = jest.fn();
+        const updateArg = 'unreadChannels';
+        const props = {...requiredProps, updateSection: newUpdateSection, user: {...user, notify_props: {desktop: 'on'}}};
+        const wrapper = shallow(<UserSettingsNotifications {...props}/>);
+
+        wrapper.setState({isSaving: true, desktopActivity: 'off'});
+        wrapper.instance().handleUpdateSection(updateArg);
+
+        expect(wrapper.state('isSaving')).toEqual(false);
+        expect(wrapper.state('desktopActivity')).toEqual('on');
+        expect(newUpdateSection).toHaveBeenCalledTimes(1);
     });
 });

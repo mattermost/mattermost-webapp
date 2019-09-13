@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 function verifyFocusInAddChannelMemberModal() {
     // # Click to access the Channel menu
     cy.get('#channelHeaderTitle').click();
@@ -72,6 +74,58 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.focused');
     });
 
+    it('M17449 - Focus will move to main input box after a new channel has been opened', () => {
+        //# Click on Town-Square channel
+        cy.get('#sidebarItem_town-square').click({force: true});
+
+        // # Post a new message
+        cy.postMessage('new post');
+
+        //# Open the reply thread on the most recent post on Town-Square channel
+        cy.clickPostCommentIcon();
+
+        //# Place the focus inside the RHS input box
+        cy.get('#reply_textbox').focus().should('be.focused');
+
+        //# Use CTRL+K or CMD+K to open the channel switcher depending on OS
+        cy.typeCmdOrCtrl().type('K', {release: true});
+
+        //* Verify channel switcher is visible
+        cy.get('#quickSwitchHint').should('be.visible');
+
+        //# Type channel name 'Off-Topic' and select it
+        cy.get('#quickSwitchInput').type('Off-Topic').wait(TIMEOUTS.TINY).type('{enter}');
+
+        //* Verify that it redirected into selected channel 'Off-Topic'
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Off-Topic');
+
+        //* Verify focus is moved to main input box when the channel is opened
+        cy.get('#post_textbox').should('be.focused');
+    });
+
+    it('M17450 - Focus to remain in RHS textbox each time Reply arrow is clicked', () => {
+        //# Click on Town-Square channel
+        cy.get('#sidebarItem_town-square').click({force: true});
+
+        // # Post a new message
+        cy.postMessage('new post');
+
+        //# Open the reply thread on the most recent post on Town-Square channel
+        cy.clickPostCommentIcon();
+
+        //* Verify RHS textbox is focused the first time Reply arrow is clicked
+        cy.get('#reply_textbox').should('be.focused');
+
+        //# Focus away from RHS textbox
+        cy.get('#rhsContent').click();
+
+        //# Click reply arrow on post in same thread
+        cy.clickPostCommentIcon();
+
+        //* Verify RHS textbox is again focused the second time, when already open
+        cy.get('#reply_textbox').should('be.focused');
+    });
+
     it('M17452 Focus does not move when it has already been set elsewhere', () => {
         let channel;
 
@@ -81,7 +135,7 @@ describe('Messaging', () => {
                 channel = res.body;
 
                 // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).click();
+                cy.get(`#sidebarItem_${channel.name}`).click({force: true});
 
                 // * Channel's display name should be visible at the top of the center pane
                 cy.get('#channelHeaderTitle').should('contain', channel.display_name);

@@ -73,7 +73,6 @@ describe('components/dot_menu/DotMenu', () => {
         const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );
-
         expect(wrapper.find('#divider_post_post_id_1').exists()).toBe(false);
 
         wrapper.setProps({pluginMenuItems: [{id: 'test_plugin_menu_item_1', text: 'woof'}]});

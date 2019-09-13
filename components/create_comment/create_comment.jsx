@@ -22,7 +22,7 @@ import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal.jsx';
-import EmojiIcon from 'components/svg/emoji_icon';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -635,12 +635,6 @@ export default class CreateComment extends React.PureComponent {
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
         }
-
-        // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
-        // the preview will be undefined and the switch will fail
-        if (typeof this.refs.preview != 'undefined' && this.refs.preview) {
-            this.refs.preview.refs.container.scrollIntoView();
-        }
     }
 
     handleUploadError = (err, clientId = -1, rootId = -1) => {
@@ -925,6 +919,7 @@ export default class CreateComment extends React.PureComponent {
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
+                    role='application'
                     id='rhsFooter'
                     aria-label={ariaLabelReplyInput}
                     tabIndex='-1'
@@ -986,6 +981,7 @@ export default class CreateComment extends React.PureComponent {
                         <div>
                             <input
                                 type='button'
+                                disabled={!enableAddButton}
                                 className={addButtonClass}
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}

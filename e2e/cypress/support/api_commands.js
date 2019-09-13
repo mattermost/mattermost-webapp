@@ -458,6 +458,18 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
     });
 });
 
+Cypress.Commands.add('apiPatchMe', (data) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/me/patch',
+        method: 'PUT',
+        body: data,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 /**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user

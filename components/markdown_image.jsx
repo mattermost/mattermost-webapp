@@ -32,6 +32,7 @@ export default function MarkdownImage({imageMetadata, src, ...props}) {
                     <SizeAwareImage
                         {...props}
                         src={safeSrc}
+                        dimensions={imageMetadata}
                     />
                 );
             }}

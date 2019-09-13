@@ -7,8 +7,10 @@ import {FormattedMessage} from 'react-intl';
 
 import GroupUsersRow from 'components/admin_console/group_settings/group_details/group_users_row';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import NextIcon from 'components/icon/next_icon';
-import PreviousIcon from 'components/icon/previous_icon';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+
+import {getSiteURL} from 'utils/url.jsx';
 
 const GROUP_MEMBERS_PAGE_SIZE = 20;
 
@@ -124,7 +126,8 @@ export default class GroupUsers extends React.PureComponent {
                 <div className='group-users--header'>
                     <FormattedMarkdownMessage
                         id='admin.group_settings.group_profile.group_users.ldapConnector'
-                        defaultMessage={'AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view](/admin_console/authentication/ldap)'}
+                        defaultMessage={'AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)'}
+                        values={{siteURL: getSiteURL()}}
                     />
                 </div>
                 <div className='group-users--body'>
