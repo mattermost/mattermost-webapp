@@ -35,8 +35,9 @@ export default class InvitationModalInitialStep extends React.Component {
                 <div
                     className='invitation-modal-option'
                     onClick={this.props.goToMembers}
+                    data-testid='inviteMembersLink'
                 >
-                    <div>
+                    <div data-testid='inviteMembersSection'>
                         <h2>
                             <FormattedMarkdownMessage
                                 id='invitation_modal.invite_members.title'
@@ -46,6 +47,7 @@ export default class InvitationModalInitialStep extends React.Component {
                         <FormattedMessage
                             id='invitation_modal.invite_members.description'
                             defaultMessage='Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels.'
+                            data-testid='inviteMembersHelper'
                         />
                     </div>
                     <ArrowRightIcon className='arrow'/>
@@ -53,6 +55,7 @@ export default class InvitationModalInitialStep extends React.Component {
                 <div
                     className='invitation-modal-option'
                     onClick={this.props.goToGuests}
+                    data-testid='inviteGuestLink'
                 >
                     <div>
                         <h2>
@@ -64,6 +67,7 @@ export default class InvitationModalInitialStep extends React.Component {
                         <FormattedMessage
                             id='invitation_modal.invite_guests.description'
                             defaultMessage='Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of.'
+                            data-testid='inviteGuestHelper'
                         />
                     </div>
                     <ArrowRightIcon className='arrow'/>

@@ -147,10 +147,12 @@ export default class InvitationModalMembersStep extends React.Component {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
+                            data-testid='shareLinkInput'
                         />
                         <button
                             className='share-link-input-button'
                             onClick={this.copyLink}
+                            data-testid='shareLinkInputButton'
                         >
                             <LinkIcon/>
                             {!this.state.copiedLink &&
@@ -223,6 +225,7 @@ export default class InvitationModalMembersStep extends React.Component {
                         className={'btn ' + (this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
                         onClick={this.submit}
                         disabled={this.state.usersAndEmails.length === 0}
+                        id='inviteMembersButton'
                     >
                         <FormattedMessage
                             id='invitation_modal.members.invite_button'
