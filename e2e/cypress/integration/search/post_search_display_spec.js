@@ -42,7 +42,8 @@ describe('Post search display', () => {
             cy.get('span ul li').eq(1).should('have.text', 'Use from: to find posts from specific users and in: to find posts in specific channels');
             cy.get('span ul li').eq(2).should('have.text', 'Use on: to find posts on a specific date');
             cy.get('span ul li').eq(3).should('have.text', 'Use before: to find posts before a specific date');
-            cy.get('span ul li').last().should('have.text', 'Use after: to find posts after a specific date');
+            cy.get('span ul li').eq(4).should('have.text', 'Use after: to find posts after a specific date');
+            cy.get('span ul li').last().should('have.text', 'Use dash "-" to exclude search terms and modifiers');
         });
     });
 });

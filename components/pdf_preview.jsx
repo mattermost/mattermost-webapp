@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PDFJS from 'pdfjs-dist';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import FileInfoPreview from 'components/file_info_preview';
 
 const MAX_PDF_PAGES = 5;

@@ -18,6 +18,9 @@ import {
     showPinnedPosts,
     showMentions,
     closeRightHandSide,
+    showRHSPlugin,
+    hideRHSPlugin,
+    toggleRHSPlugin,
     toggleMenu,
     openMenu,
     closeMenu,
@@ -31,6 +34,7 @@ const mockStore = configureStore([thunk]);
 const currentChannelId = '123';
 const currentTeamId = '321';
 const currentUserId = 'user123';
+const pluginId = 'pluginId';
 
 const UserSelectors = require('mattermost-redux/selectors/entities/users');
 UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [{key: '@here'}, {key: '@mattermost'}, {key: '@channel'}, {key: '@all'}]);
@@ -459,5 +463,98 @@ describe('rhs view actions', () => {
         });
 
         expect(store.getActions()).toEqual(compareStore.getActions());
+    });
+
+    describe('Plugin actions', () => {
+        const stateWithPluginRhs = {
+            ...initialState,
+            views: {
+                rhs: {
+                    state: RHSStates.PLUGIN,
+                    pluginId,
+                },
+            },
+        };
+
+        const stateWithoutPluginRhs = {
+            ...initialState,
+            views: {
+                rhs: {
+                    state: RHSStates.PIN,
+                },
+            },
+        };
+
+        describe('showRHSPlugin', () => {
+            it('dispatches the right action', () => {
+                store.dispatch(showRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+                compareStore.dispatch({
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.PLUGIN,
+                    pluginId,
+                });
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+        });
+
+        describe('hideRHSPlugin', () => {
+            it('it dispatches the right action when plugin rhs is opened', () => {
+                store = mockStore(stateWithPluginRhs);
+
+                store.dispatch(hideRHSPlugin(pluginId));
+
+                const compareStore = mockStore(stateWithPluginRhs);
+                compareStore.dispatch(closeRightHandSide());
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+
+            it('it doesn\'t dispatch the action when plugin rhs is closed', () => {
+                store = mockStore(stateWithoutPluginRhs);
+
+                store.dispatch(hideRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+
+            it('it doesn\'t dispatch the action when other plugin rhs is opened', () => {
+                store = mockStore(stateWithPluginRhs);
+
+                store.dispatch(hideRHSPlugin('pluginId2'));
+
+                const compareStore = mockStore(initialState);
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+        });
+
+        describe('toggleRHSPlugin', () => {
+            it('it dispatches hide action when rhs is open', () => {
+                store = mockStore(stateWithPluginRhs);
+
+                store.dispatch(toggleRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+                compareStore.dispatch(closeRightHandSide());
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+
+            it('it dispatches hide action when rhs is closed', () => {
+                store = mockStore(stateWithoutPluginRhs);
+
+                store.dispatch(toggleRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+                compareStore.dispatch(showRHSPlugin(pluginId));
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+        });
     });
 });

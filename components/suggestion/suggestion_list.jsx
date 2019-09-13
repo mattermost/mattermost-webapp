@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isEmptyObject} from 'utils/utils.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 export default class SuggestionList extends React.PureComponent {
     static propTypes = {
@@ -86,7 +86,9 @@ export default class SuggestionList extends React.PureComponent {
             this.currentLabel = item.channel.display_name;
         }
 
-        this.currentLabel = this.currentLabel.toLowerCase();
+        if (this.currentLabel) {
+            this.currentLabel = this.currentLabel.toLowerCase();
+        }
         this.announceLabel();
     }
 

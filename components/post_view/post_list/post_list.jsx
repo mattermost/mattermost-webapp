@@ -44,6 +44,11 @@ export default class PostList extends React.PureComponent {
         atLatestPost: PropTypes.bool,
 
         /*
+         * Used for determining if we are at the channels oldest post
+         */
+        atOldestPost: PropTypes.bool,
+
+        /*
          * Used for loading posts using unread API
          */
         isFirstLoad: PropTypes.bool,
@@ -97,14 +102,8 @@ export default class PostList extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            newerPosts: {
-                loading: false,
-                allLoaded: props.atLatestPost,
-            },
-            olderPosts: {
-                loading: false,
-                allLoaded: false,
-            },
+            loadingNewerPosts: false,
+            loadingOlderPosts: false,
             autoRetryEnable: true,
         };
 
@@ -137,74 +136,34 @@ export default class PostList extends React.PureComponent {
     }
 
     postsOnLoad = async (channelId) => {
-        let error;
-        let atOldestmessage;
-        let atLatestMessage;
         if (this.props.focusedPostId) {
-            ({atLatestMessage, atOldestmessage, error} = await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId));
+            await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId);
         } else if (this.props.isFirstLoad) {
-            ({atLatestMessage, atOldestmessage, error} = await this.props.actions.loadUnreads(channelId));
+            await this.props.actions.loadUnreads(channelId);
         } else if (this.props.latestPostTimeStamp) {
-            ({error} = await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp));
+            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp);
         } else {
-            ({atLatestMessage, atOldestmessage, error} = await this.props.actions.loadLatestPosts(channelId));
+            await this.props.actions.loadLatestPosts(channelId);
         }
 
-        if (error) {
-            // leave the loader if it exists as it is
-            return;
-        }
-
-        // atLatestMessage does not exist for syncPostsInChannel call
-        // We dont need to setState on syncPostsInChannel call as the loader does not exist and atLatestMessage state will be taken care by the prop
-        if (typeof atLatestMessage !== 'undefined') {
-            this.setState({
-                olderPosts: {
-                    loading: false,
-                    allLoaded: atOldestmessage,
-                },
-                newerPosts: {
-                    loading: false,
-                    allLoaded: atLatestMessage,
-                },
-            });
-        }
-    }
-
-    setLoadingPosts = (type) => {
         this.setState({
-            [type]: {
-                ...this.state[type],
-                loading: true,
-            },
+            loadingOlderPosts: false,
+            loadingNewerPosts: false,
         });
     }
 
     callLoadPosts = async (channelId, postId, type) => {
-        let newState = {};
-        const {moreToLoad, error} = await this.props.actions.loadPosts({
+        const {error} = await this.props.actions.loadPosts({
             channelId,
             postId,
             type,
         });
 
         if (type === PostRequestTypes.BEFORE_ID) {
-            newState = {
-                olderPosts: {
-                    loading: false,
-                    allLoaded: !moreToLoad,
-                },
-            };
+            this.setState({loadingOlderPosts: false});
         } else {
-            newState = {
-                newerPosts: {
-                    loading: false,
-                    allLoaded: !moreToLoad,
-                },
-            };
+            this.setState({loadingNewerPosts: false});
         }
-
-        this.setState(newState);
 
         if (error) {
             if (this.autoRetriesCount < MAX_NUMBER_OF_AUTO_RETRIES) {
@@ -223,7 +182,7 @@ export default class PostList extends React.PureComponent {
             }
         }
 
-        return {moreToLoad, error};
+        return {error};
     }
 
     getOldestVisiblePostId = () => {
@@ -239,7 +198,7 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (this.state.olderPosts.loading || this.state.newerPosts.loading) {
+        if (this.state.loadingOlderPosts || this.state.loadingNewerPosts) {
             return;
         }
 
@@ -252,10 +211,10 @@ export default class PostList extends React.PureComponent {
             return;
         }
 
-        if (!this.state.olderPosts.allLoaded && type === PostRequestTypes.BEFORE_ID) {
+        if (!this.props.atOldestPost && type === PostRequestTypes.BEFORE_ID) {
             const oldestPostId = this.getOldestVisiblePostId();
             await this.getPostsBefore(oldestPostId);
-        } else if (!this.state.newerPosts.allLoaded) {
+        } else if (!this.props.atLatestPost) {
             // if all olderPosts are loaded load new ones
             const latestPostId = this.getLatestVisiblePostId();
             await this.getPostsAfter(latestPostId);
@@ -265,20 +224,20 @@ export default class PostList extends React.PureComponent {
     }
 
     getPostsBefore = async () => {
-        if (this.state.olderPosts.loading) {
+        if (this.state.loadingOlderPosts) {
             return;
         }
         const oldestPostId = this.getOldestVisiblePostId();
-        this.setLoadingPosts('olderPosts');
+        this.setState({loadingOlderPosts: true});
         await this.callLoadPosts(this.props.channelId, oldestPostId, PostRequestTypes.BEFORE_ID);
     }
 
     getPostsAfter = async () => {
-        if (this.state.newerPosts.loading) {
+        if (this.state.loadingNewerPosts) {
             return;
         }
         const latestPostId = this.getLatestVisiblePostId();
-        this.setLoadingPosts('newerPosts');
+        this.setState({loadingNewerPosts: true});
         await this.callLoadPosts(this.props.channelId, latestPostId, PostRequestTypes.AFTER_ID);
     }
 
@@ -308,8 +267,10 @@ export default class PostList extends React.PureComponent {
                             className='post-list__content'
                         >
                             <VirtPostList
-                                newerPosts={this.state.newerPosts}
-                                olderPosts={this.state.olderPosts}
+                                loadingNewerPosts={this.state.loadingNewerPosts}
+                                loadingOlderPosts={this.state.loadingOlderPosts}
+                                atOldestPost={this.props.atOldestPost}
+                                atLatestPost={this.props.atLatestPost}
                                 focusedPostId={this.props.focusedPostId}
                                 channelId={this.props.channelId}
                                 autoRetryEnable={this.state.autoRetryEnable}

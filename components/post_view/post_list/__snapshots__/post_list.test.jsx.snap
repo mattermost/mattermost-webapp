@@ -25,20 +25,11 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
               "loadOlderPosts": [Function],
             }
           }
+          atLatestPost={false}
           autoRetryEnable={true}
           channelId="fake-id"
-          newerPosts={
-            Object {
-              "allLoaded": false,
-              "loading": false,
-            }
-          }
-          olderPosts={
-            Object {
-              "allLoaded": false,
-              "loading": false,
-            }
-          }
+          loadingNewerPosts={false}
+          loadingOlderPosts={false}
           postListIds={Array []}
         />
       </div>
@@ -72,20 +63,11 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
               "loadOlderPosts": [Function],
             }
           }
+          atLatestPost={false}
           autoRetryEnable={true}
           channelId="fake-id"
-          newerPosts={
-            Object {
-              "allLoaded": false,
-              "loading": false,
-            }
-          }
-          olderPosts={
-            Object {
-              "allLoaded": false,
-              "loading": false,
-            }
-          }
+          loadingNewerPosts={false}
+          loadingOlderPosts={false}
           postListIds={Array []}
         />
       </div>

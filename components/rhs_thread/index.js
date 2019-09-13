@@ -6,10 +6,11 @@ import {bindActionCreators} from 'redux';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {get, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {removePost} from 'mattermost-redux/actions/posts';
+import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 
 import {Preferences} from 'utils/constants.jsx';
 import {getSelectedPost} from 'selectors/rhs.jsx';
+import {getSocketStatus} from 'selectors/views/websocket';
 import {selectPostCard} from 'actions/views/rhs';
 
 import RhsThread from './rhs_thread.jsx';
@@ -19,6 +20,7 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state) {
         const selected = getSelectedPost(state);
+        const socketStatus = getSocketStatus(state);
 
         let channel = null;
         let posts = [];
@@ -33,6 +35,7 @@ function makeMapStateToProps() {
             selected,
             channel,
             posts,
+            socketConnectionStatus: socketStatus.connected,
             previewCollapsed,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
         };
@@ -44,6 +47,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             removePost,
             selectPostCard,
+            getPostThread,
         }, dispatch),
     };
 }

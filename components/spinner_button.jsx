@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 export default class SpinnerButton extends PureComponent {
     static defaultProps = {
