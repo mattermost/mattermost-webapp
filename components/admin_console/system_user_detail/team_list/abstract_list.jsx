@@ -8,15 +8,17 @@ import {FormattedMessage} from 'react-intl';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 
+import './abstract_list.scss';
+
 const PAGE_SIZE = 10;
 
 export default class AbstractList extends React.PureComponent {
     static propTypes = {
         userId: PropTypes.string.isRequired,
+        headerLabels: PropTypes.array.isRequired,
         data: PropTypes.arrayOf(PropTypes.object),
         onPageChangedCallback: PropTypes.func,
         total: PropTypes.number.isRequired,
-        header: PropTypes.node.isRequired,
         renderRow: PropTypes.func.isRequired,
         emptyListTextId: PropTypes.string.isRequired,
         emptyListTextDefaultMessage: PropTypes.string.isRequired,
@@ -56,30 +58,6 @@ export default class AbstractList extends React.PureComponent {
         this.performSearch(page);
     }
 
-    renderRows = () => {
-        if (this.state.loading) {
-            return (
-                <div className='groups-list-loading'>
-                    <i className='fa fa-spinner fa-pulse fa-2x'/>
-                </div>
-            );
-        }
-        if (this.props.data.length === 0) {
-            return (
-                <div className='groups-list-empty'>
-                    <FormattedMessage
-                        id={this.props.emptyListTextId}
-                        defaultMessage={this.props.emptyListTextDefaultMessage}
-                    />
-                </div>
-            );
-        }
-        const pageStart = this.state.page < 1 ? 0 : (this.state.page * PAGE_SIZE); // ie 0, 10, 20, etc.
-        const pageEnd = this.state.page < 1 ? PAGE_SIZE : (this.state.page + 1) * PAGE_SIZE; // ie 10, 20, 30, etc.
-        const pageData = this.props.data.slice(pageStart, pageEnd).map(this.props.renderRow); // ie 0-10, 10-20, etc.
-        return pageData;
-    }
-
     performSearch = () => {
         const newState = {...this.state};
         const userId = this.props.userId;
@@ -106,17 +84,57 @@ export default class AbstractList extends React.PureComponent {
         return {startCount, endCount, total};
     }
 
+    renderHeaderLabels = () => {
+        return (
+            <React.Fragment>
+                {this.props.headerLabels.map((headerLabel, id) => (
+                    <div
+                        key={id}
+                        className='AbstractList__header-label'
+                        style={headerLabel.style}
+                    >{headerLabel.default}</div>
+                ))}
+            </React.Fragment>
+        );
+    }
+
+    renderRows = () => {
+        if (this.state.loading) {
+            return (
+                <div className='AbstractList__loading'>
+                    <i className='fa fa-spinner fa-pulse fa-2x'/>
+                </div>
+            );
+        }
+        if (this.props.data.length === 0) {
+            return (
+                <div className='AbstractList__empty'>
+                    <FormattedMessage
+                        id={this.props.emptyListTextId}
+                        defaultMessage={this.props.emptyListTextDefaultMessage}
+                    />
+                </div>
+            );
+        }
+        const pageStart = this.state.page < 1 ? 0 : (this.state.page * PAGE_SIZE); // ie 0, 10, 20, etc.
+        const pageEnd = this.state.page < 1 ? PAGE_SIZE : (this.state.page + 1) * PAGE_SIZE; // ie 10, 20, 30, etc.
+        const pageData = this.props.data.slice(pageStart, pageEnd).map(this.props.renderRow); // ie 0-10, 10-20, etc.
+        return pageData;
+    }
+
     render = () => {
         const {startCount, endCount, total} = this.getPaging();
         const lastPage = endCount === total;
         const firstPage = this.state.page === 0;
         return (
-            <div className='groups-list'>
-                {this.props.header}
-                <div className='groups-list--body'>
+            <div className='AbstractList'>
+                <div className='AbstractList__header'>
+                    {this.renderHeaderLabels()}
+                </div>
+                <div className='AbstractList__body'>
                     {this.renderRows()}
                 </div>
-                <div className='groups-list--footer'>
+                <div className='AbstractList__footer'>
                     <div className='counter'>
                         <FormattedMessage
                             id='admin.team_channel_settings.list.paginatorCount'

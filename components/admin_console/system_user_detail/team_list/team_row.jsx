@@ -9,16 +9,13 @@ import * as Utils from 'utils/utils';
 
 import TeamImage from './team_image.jsx';
 
+import './team_row.scss';
+
 export default class TeamRow extends React.Component {
     static propTypes = {
         team: PropTypes.object.isRequired,
-        onRowClick: PropTypes.func.isRequired,
     };
-
-    handleRowClick = () => {
-        const {team, onRowClick} = this.props;
-        onRowClick(team.id);
-    }
+T
     renderTeamType = (team) => {
         if (team.group_constrained) {
             return (
@@ -63,12 +60,9 @@ export default class TeamRow extends React.Component {
         const {team} = this.props;
         const teamIconUrl = Utils.imageURLForTeam(team);
         return (
-            <div
-                className={'group '}
-                onClick={this.handleRowClick}
-            >
-                <div className='group-row group-row-large'>
-                    <div className='group-name'>
+            <div className={'TeamRow'}>
+                <div className='TeamRow__row'>
+                    <div className='TeamRow__name'>
                         <div className='col-sm-auto'>
                             <TeamImage
                                 small={true}
@@ -80,18 +74,18 @@ export default class TeamRow extends React.Component {
                         <div className='col-sm-auto'>
                             <b>{team.display_name}</b>
                             {team.description && (
-                                <div className='overflow--ellipsis text-nowrap TeamRow__col-description'>
+                                <div className='overflow--ellipsis text-nowrap TeamRow__description'>
                                     {team.description}
                                 </div>)}
                         </div>
 
                     </div>
 
-                    <span className='group-description'>
+                    <span className='TeamRow__description'>
                         {this.renderTeamType(team)}
                     </span>
 
-                    <span className='group-description'>
+                    <span className='TeamRow__description'>
                         {this.renderTeamRole(team)}
                     </span>
                 </div>

@@ -3,37 +3,38 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
-import {browserHistory} from 'utils/browser_history';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {t} from 'utils/i18n';
 
 import AbstractList from './abstract_list.jsx';
 import TeamRow from './team_row.jsx';
 
-const Header = () => (
-    <div className='groups-list--header'>
-        <div className='group-name'>
-            <FormattedMessage
-                id='admin.team_settings.team_list.nameHeader'
-                defaultMessage='Name'
-            />
-        </div>
-        <div className='group-description'>
-            <FormattedMessage
-                id='admin.systemUserDetail.teamList.header.type'
-                defaultMessage='Type'
-            />
-        </div>
-        <div className='group-description'>
-            <FormattedMessage
-                id='admin.systemUserDetail.teamList.header.role'
-                defaultMessage='Role'
-            />
-        </div>
-    </div>
-);
+const headerLabels = [
+    {
+        id: 'admin.team_settings.team_list.header.name',
+        default: 'Name',
+        style: {
+            flexGrow: 1,
+            minWidth: '284px',
+            marginLeft: '16px',
+        },
+    },
+    {
+        id: 'admin.systemUserDetail.teamList.header.type',
+        default: 'Type',
+        style: {
+            width: '150px',
+        },
+    },
+    {
+        id: 'admin.systemUserDetail.teamList.header.role',
+        default: 'Role',
+        style: {
+            width: '150px',
+        },
+    },
+];
 
 export default class TeamList extends React.Component {
     static propTypes = {
@@ -98,7 +99,7 @@ export default class TeamList extends React.Component {
     render() {
         return (
             <AbstractList
-                header={<Header/>}
+                headerLabels={headerLabels}
                 renderRow={this.renderRow}
                 total={this.state.teamsWithMemberships.length}
                 data={this.state.teamsWithMemberships}
@@ -118,9 +119,5 @@ export default class TeamList extends React.Component {
                 onRowClick={this.onTeamClick}
             />
         );
-    }
-
-    onTeamClick = (id) => {
-        browserHistory.push(`/admin_console/user_management/teams/${id}`);
     }
 }
