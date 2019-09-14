@@ -47,8 +47,6 @@ export default class SignupController extends React.Component {
     constructor(props) {
         super(props);
 
-        this.renderSignupControls = this.renderSignupControls.bind(this);
-
         let loading = false;
         let serverError = '';
         let noOpenServerError = false;
@@ -148,7 +146,7 @@ export default class SignupController extends React.Component {
         });
     }
 
-    renderSignupControls() {
+    renderSignupControls = () => {
         const {formatMessage} = this.context.intl;
         let signupControls = [];
 
