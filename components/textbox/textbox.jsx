@@ -26,6 +26,7 @@ export default class Textbox extends React.Component {
         onHeightChange: PropTypes.func,
         createMessage: PropTypes.string.isRequired,
         onKeyDown: PropTypes.func,
+        onMouseUp: PropTypes.func,
         onBlur: PropTypes.func,
         supportsCommands: PropTypes.bool.isRequired,
         handlePostError: PropTypes.func,
