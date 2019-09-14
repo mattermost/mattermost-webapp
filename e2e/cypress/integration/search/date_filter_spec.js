@@ -42,12 +42,7 @@ function getMsAndQueryForDate(date) {
 }
 
 function changeTimezone(timezone) {
-    cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/patch',
-        method: 'PUT',
-        body: {timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}},
-    });
+    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}});
 }
 
 describe('SF15699 Search Date Filter', () => {

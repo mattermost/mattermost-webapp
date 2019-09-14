@@ -75,6 +75,7 @@ export default class MarkdownImage extends React.PureComponent {
                     return (
                         <>
                             <SizeAwareImage
+                                alt={this.props.alt}
                                 className={className}
                                 src={safeSrc}
                                 dimensions={imageMetadata}

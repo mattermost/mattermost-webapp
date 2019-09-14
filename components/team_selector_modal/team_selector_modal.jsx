@@ -10,10 +10,11 @@ import Constants, {ModalIdentifiers} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import TeamInfo from 'components/team_info.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
+import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import {imageURLForTeam} from 'utils/utils';
 
 const TEAMS_PER_PAGE = 50;
 
@@ -154,7 +155,10 @@ export default class TeamSelectorModal extends React.Component {
                 <div
                     className='more-modal__details'
                 >
-                    <TeamInfo team={option}/>
+                    <TeamIcon
+                        name={option.display_name}
+                        url={imageURLForTeam(option)}
+                    />
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
