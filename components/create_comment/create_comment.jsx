@@ -13,8 +13,8 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -350,20 +350,12 @@ export default class CreateComment extends React.PureComponent {
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
         } else {
-            const {firstPiece, lastPiece} = this.splitMessageBasedOnCaretPosition();
-            console.log('FIRST', firstPiece);
-            console.log('LAST', lastPiece);
-            newMessage = `${firstPiece} :${emojiAlias}: ${lastPiece} `;
+            const {draft: {message}} = this.state;
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition.call(this, message);
 
-            // this.setState({message: newMessage});
+            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
         }
-        // } else if ((/\s+$/).test(draft.message)) {
-            // Check whether there is already a blank at the end of the current message
-            // newMessage = `${draft.message}:${emojiAlias}: `;
-        // } 
-        // else {
-        //     newMessage = `${draft.message} :${emojiAlias}: `;
-        // }
 
         const modifiedDraft = {
             ...draft,
@@ -556,13 +548,6 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         });
         this.draftsForPost[this.props.rootId] = updatedDraft;
-    }
-
-    splitMessageBasedOnCaretPosition = () => {
-        const {draft: {message}, caretPosition} = this.state;
-        const firstPiece = message.substring(0, caretPosition);
-        const lastPiece = message.substring(caretPosition, message.length);
-        return {firstPiece, lastPiece};
     }
 
     handleMouseUp = (e) => {

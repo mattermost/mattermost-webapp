@@ -151,23 +151,27 @@ describe('components/CreateComment', () => {
         );
         expect(wrapper.state().draft.message).toBe(':smile: ');
 
-        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test'.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test :smile:  ');
 
-        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test '.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test  :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test  :smile:  ');
 
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
@@ -845,6 +849,7 @@ describe('components/CreateComment', () => {
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
+            persist: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
@@ -854,6 +859,7 @@ describe('components/CreateComment', () => {
 
         const upKey = {
             preventDefault: jest.fn(),
+            persist: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
@@ -864,6 +870,7 @@ describe('components/CreateComment', () => {
 
         const downKey = {
             preventDefault: jest.fn(),
+            persist: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
@@ -875,6 +882,7 @@ describe('components/CreateComment', () => {
         wrapper.setState({draft: {message: '', fileInfos: [], uploadsInProgress: []}});
         const upKeyForEdit = {
             preventDefault: jest.fn(),
+            persist: jest.fn(),
             ctrlKey: false,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],

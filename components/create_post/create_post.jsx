@@ -15,6 +15,7 @@ import {
     postMessageOnKeyPress,
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
+    splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -909,13 +910,6 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    splitMessageBasedOnCaretPosition = () => {
-        const {message, caretPosition} = this.state;
-        const firstPiece = message.substring(0, caretPosition);
-        const lastPiece = message.substring(caretPosition, message.length);
-        return {firstPiece, lastPiece};
-    }
-
     handleMouseUp = (e) => {
         const caretPosition = e.target.selectionStart;
         this.setState({
@@ -1027,13 +1021,11 @@ export default class CreatePost extends React.Component {
         if (this.state.message === '') {
             this.setState({message: ':' + emojiAlias + ': '});
         } else {
-            //check whether there is already a blank at the end of the current message
-            // const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
+            const {message} = this.state;
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition.call(this, message);
 
-            const {firstPiece, lastPiece} = this.splitMessageBasedOnCaretPosition();
-            console.log('FIRST', firstPiece);
-            console.log('LAST', lastPiece);
-            const newMessage = `${firstPiece} :${emojiAlias}: ${lastPiece} `;
+            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
 
             this.setState({message: newMessage});
         }

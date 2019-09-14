@@ -206,6 +206,7 @@ describe('components/create_post', () => {
 
         wrapper.setState({
             message: 'test',
+            caretPosition: 'test'.length, // cursor is at the end
         });
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
@@ -216,7 +217,7 @@ describe('components/create_post', () => {
         });
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
-        expect(wrapper.state('message')).toBe('test :smile: ');
+        expect(wrapper.state('message')).toBe('test :smile:  ');
     });
 
     it('onChange textbox should call setDraft and change message state', () => {
@@ -647,7 +648,7 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
         const type = Utils.localizeMessage('create_post.comment', Posts.MESSAGE_TYPES.COMMENT);
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn(), persist: jest.fn()});
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
@@ -666,7 +667,7 @@ describe('components/create_post', () => {
         });
 
         const type = Utils.localizeMessage('create_post.post', Posts.MESSAGE_TYPES.POST);
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], preventDefault: jest.fn(), persist: jest.fn()});
         expect(setEditingPost).toHaveBeenCalledWith(currentUsersLatestPostProp.id, commentCountForPostProp, 'post_textbox', type);
     });
 
@@ -686,7 +687,7 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({key: Constants.KeyCodes.DOWN[0], ctrlKey: true, preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.DOWN[0], ctrlKey: true, preventDefault: jest.fn(), persist: jest.fn()});
         expect(moveHistoryIndexForward).toHaveBeenCalled();
     });
 
@@ -706,7 +707,7 @@ describe('components/create_post', () => {
         }));
         const instance = wrapper.instance();
 
-        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], ctrlKey: true, preventDefault: jest.fn()});
+        instance.handleKeyDown({key: Constants.KeyCodes.UP[0], ctrlKey: true, preventDefault: jest.fn(), persist: jest.fn()});
         expect(moveHistoryIndexBack).toHaveBeenCalled();
     });
 

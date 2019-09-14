@@ -449,3 +449,15 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
 
     return ariaLabel;
 }
+
+// Splits text message based on the current caret position
+export function splitMessageBasedOnCaretPosition(message) {
+    if (this.state) {
+        const {caretPosition} = this.state;
+        const firstPiece = message.substring(0, caretPosition);
+        const lastPiece = message.substring(caretPosition, message.length);
+        return {firstPiece, lastPiece};
+    }
+
+    return {};
+}
