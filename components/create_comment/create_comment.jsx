@@ -349,12 +349,21 @@ export default class CreateComment extends React.PureComponent {
         let newMessage = '';
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
-        } else if ((/\s+$/).test(draft.message)) {
-            // Check whether there is already a blank at the end of the current message
-            newMessage = `${draft.message}:${emojiAlias}: `;
         } else {
-            newMessage = `${draft.message} :${emojiAlias}: `;
+            const {firstPiece, lastPiece} = this.splitMessageBasedOnCaretPosition();
+            console.log('FIRST', firstPiece);
+            console.log('LAST', lastPiece);
+            newMessage = `${firstPiece} :${emojiAlias}: ${lastPiece} `;
+
+            // this.setState({message: newMessage});
         }
+        // } else if ((/\s+$/).test(draft.message)) {
+            // Check whether there is already a blank at the end of the current message
+            // newMessage = `${draft.message}:${emojiAlias}: `;
+        // } 
+        // else {
+        //     newMessage = `${draft.message} :${emojiAlias}: `;
+        // }
 
         const modifiedDraft = {
             ...draft,
@@ -549,7 +558,30 @@ export default class CreateComment extends React.PureComponent {
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
+    splitMessageBasedOnCaretPosition = () => {
+        const {draft: {message}, caretPosition} = this.state;
+        const firstPiece = message.substring(0, caretPosition);
+        const lastPiece = message.substring(caretPosition, message.length);
+        return {firstPiece, lastPiece};
+    }
+
+    handleMouseUp = (e) => {
+        const caretPosition = e.target.selectionStart;
+        this.setState({
+            caretPosition,
+        });
+    }
+
     handleKeyDown = (e) => {
+        e.persist();
+
+        // A bit of a hack. Better to use keyup instead
+
+        setTimeout(() => {
+            const pos = e.target.selectionStart;
+            this.setState({caretPosition: pos});
+        }, 0);
+
         if (
             (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
@@ -936,6 +968,7 @@ export default class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onMouseUp={this.handleMouseUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}

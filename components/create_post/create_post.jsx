@@ -909,8 +909,18 @@ export default class CreatePost extends React.Component {
         }
     }
 
+    splitMessageBasedOnCaretPosition = () => {
+        const {message, caretPosition} = this.state;
+        const firstPiece = message.substring(0, caretPosition);
+        const lastPiece = message.substring(caretPosition, message.length);
+        return {firstPiece, lastPiece};
+    }
+
     handleMouseUp = (e) => {
-        console.log('Caret at: ', e.target.selectionStart);
+        const caretPosition = e.target.selectionStart;
+        this.setState({
+            caretPosition,
+        });
     }
 
     handleKeyDown = (e) => {
@@ -1018,7 +1028,12 @@ export default class CreatePost extends React.Component {
             this.setState({message: ':' + emojiAlias + ': '});
         } else {
             //check whether there is already a blank at the end of the current message
-            const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
+            // const newMessage = ((/\s+$/).test(this.state.message)) ? this.state.message + ':' + emojiAlias + ': ' : this.state.message + ' :' + emojiAlias + ': ';
+
+            const {firstPiece, lastPiece} = this.splitMessageBasedOnCaretPosition();
+            console.log('FIRST', firstPiece);
+            console.log('LAST', lastPiece);
+            const newMessage = `${firstPiece} :${emojiAlias}: ${lastPiece} `;
 
             this.setState({message: newMessage});
         }
@@ -1092,8 +1107,7 @@ export default class CreatePost extends React.Component {
         } = this.props;
         const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
-        const {renderScrollbar, caretPosition} = this.state;
-        console.log('KEYPRESS', caretPosition);
+        const {renderScrollbar} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
 
         const notifyAllTitle = (
