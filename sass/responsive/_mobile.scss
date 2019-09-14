@@ -308,9 +308,6 @@
 
     .video-div {
         &.embed-responsive-item {
-            height: 0;
-            padding-bottom: 75%;
-
             iframe {
                 height: 100%;
                 left: 0;
@@ -1419,11 +1416,6 @@
                     margin: .5em 0;
                     top: 0;
                 }
-
-                .post-error {
-                    left: 0;
-                    top: 0;
-                }
             }
         }
 
@@ -1555,10 +1547,6 @@
 
             &.move--right {
                 left: 65px;
-            }
-
-            .nav-pills__unread-indicator {
-                left: 15px;
             }
         }
 

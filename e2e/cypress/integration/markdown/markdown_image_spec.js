@@ -22,24 +22,37 @@ describe('Markdown', () => {
 
     const baseUrl = Cypress.config('baseUrl');
 
-    const inlineImage1 = `<h3 class="markdown__heading">In-line Images</h3><p>Mattermost/platform build status:  <a class="theme markdown__link" href="https://travis-ci.org/mattermost/platform" rel="noreferrer" target="_blank"><div class="style--none file-preview__button"><img class="markdown-inline-img" alt="Build Status" aria-label="file thumbnail" tabindex="0" src="${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster"></div></a></p>`;
-    const inlineImage2 = `<h3 class="markdown__heading">In-line Images</h3><p>GitHub favicon:  <div class="style--none file-preview__button"><img class="markdown-inline-img" alt="Github" aria-label="file thumbnail" tabindex="0" src="${baseUrl}/api/v4/image?url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico"></div></p>`;
+    it('with in-line images 1', () => {
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_1.md').wait(TIMEOUTS.SMALL);
 
-    const tests = [
-        {name: 'with in-line images 1', fileKey: 'markdown_inline_images_1', expected: inlineImage1},
-        {name: 'with in-line images 2', fileKey: 'markdown_inline_images_2', expected: inlineImage2},
-    ];
+        // * Verify that HTML Content is correct.
+        // Note we use the Gigantic timeout to ensure that the large images will load
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).find('p').
+                should('have.text', 'Mattermost/platform build status:  ');
 
-    tests.forEach((test) => {
-        it(test.name, () => {
-            // #  Post markdown message
-            cy.postMessageFromFile(`markdown/${test.fileKey}.md`);
+            cy.get(`#postMessageText_${postId}`).find('img').
+                should('have.class', 'markdown-inline-img').
+                and('have.attr', 'alt', 'Build Status').
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`);
+        });
+    });
 
-            // * Verify that HTML Content is correct.
-            // Note we use the Gigantic timeout to ensure that the large images will load
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.GIGANTIC}).should('have.html', test.expected);
-            });
+    it('with in-line images 2', () => {
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_2.md').wait(TIMEOUTS.SMALL);
+
+        // * Verify that HTML Content is correct.
+        // Note we use the Gigantic timeout to ensure that the large images will load
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).find('p').
+                should('have.text', 'GitHub favicon:  ');
+
+            cy.get(`#postMessageText_${postId}`).find('img').
+                should('have.class', 'markdown-inline-img').
+                and('have.attr', 'alt', 'Github').
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico`);
         });
     });
 });

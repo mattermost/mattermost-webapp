@@ -635,12 +635,6 @@ export default class CreateComment extends React.PureComponent {
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
         }
-
-        // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
-        // the preview will be undefined and the switch will fail
-        if (typeof this.refs.preview != 'undefined' && this.refs.preview) {
-            this.refs.preview.refs.container.scrollIntoView();
-        }
     }
 
     handleUploadError = (err, clientId = -1, rootId = -1) => {
@@ -987,6 +981,7 @@ export default class CreateComment extends React.PureComponent {
                         <div>
                             <input
                                 type='button'
+                                disabled={!enableAddButton}
                                 className={addButtonClass}
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}

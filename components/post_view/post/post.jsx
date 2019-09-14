@@ -299,6 +299,7 @@ export default class Post extends React.PureComponent {
             <div
                 ref={this.postRef}
                 id={'post_' + post.id}
+                data-testid='postView'
                 role='listitem'
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
                 tabIndex='0'
@@ -313,6 +314,7 @@ export default class Post extends React.PureComponent {
                 <div
                     role='application'
                     id='postContent'
+                    data-testid='postContent'
                     className={'post__content ' + centerClass}
                     aria-hidden={this.state.ariaHidden}
                 >

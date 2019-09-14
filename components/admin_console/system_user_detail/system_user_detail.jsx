@@ -26,6 +26,9 @@ import FormError from 'components/form_error.jsx';
 import TeamSelectorModal from 'components/team_selector_modal';
 
 import TeamList from 'components/admin_console/system_user_detail/team_list';
+import EmailIcon from 'components/widgets/icons/email_icon.jsx';
+import AtIcon from 'components/widgets/icons/at_icon.jsx';
+import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon.jsx';
 
 import './system_user_detail.scss';
 
@@ -346,16 +349,26 @@ export default class SystemUserDetail extends React.PureComponent {
                                 <React.Fragment>
                                     <span className='SystemUserDetail__position'>{user.position}</span>
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.email', 'Email')}</span>
-                                    <input
-                                        className='SystemUserDetail__input form-control'
-                                        type='text'
-                                        value={this.state.user.email}
-                                        onChange={this.handleEmailChange}
-                                    />
+                                    <div>
+                                        <EmailIcon className='SystemUserDetail__field-icon'/>
+                                        <input
+                                            className='SystemUserDetail__input form-control'
+                                            type='text'
+                                            value={this.state.user.email}
+                                            onChange={this.handleEmailChange}
+                                        />
+                                    </div>
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.username', 'Username')}</span>
-                                    <p>{user.username}</p>
+                                    <div>
+                                        <AtIcon className='SystemUserDetail__field-icon'/>
+                                        <span className='SystemUserDetail__field-text'>{user.username}</span>
+                                    </div>
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.authenticationMethod', 'Authentication Method')}</span>
-                                    <p>{user.mfa_active ? 'MFA' : 'Email'}</p>
+                                    <div className='SystemUserDetail__field-text'>
+                                        <SheidOutlineIcon className='SystemUserDetail__field-icon'/>
+                                        <span className='SystemUserDetail__field-text'>{user.mfa_active ? 'MFA' : 'Email'}</span>
+                                    </div>
+
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.role', 'Role')}</span>
                                     <p>{currentRoles}</p>
                                 </React.Fragment>

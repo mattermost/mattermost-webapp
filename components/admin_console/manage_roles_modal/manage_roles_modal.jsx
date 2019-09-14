@@ -12,7 +12,7 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
 function getStateFromProps(props) {
