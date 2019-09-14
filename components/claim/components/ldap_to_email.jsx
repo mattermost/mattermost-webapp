@@ -20,9 +20,6 @@ export default class LDAPToEmail extends React.Component {
     constructor(props) {
         super(props);
 
-        this.submit = this.submit.bind(this);
-        this.preSubmit = this.preSubmit.bind(this);
-
         this.state = {
             passwordError: '',
             confirmError: '',
@@ -31,7 +28,7 @@ export default class LDAPToEmail extends React.Component {
         };
     }
 
-    preSubmit(e) {
+    preSubmit = (e) => {
         e.preventDefault();
 
         var state = {
@@ -77,7 +74,7 @@ export default class LDAPToEmail extends React.Component {
         this.submit(this.props.email, password, '', ldapPassword);
     }
 
-    submit(loginId, password, token, ldapPassword) {
+    submit = (loginId, password, token, ldapPassword) => {
         this.props.switchLdapToEmail(ldapPassword || this.state.ldapPassword, this.props.email, password, token).then(({data, error: err}) => {
             if (data && data.follow_link) {
                 window.location.href = data.follow_link;
