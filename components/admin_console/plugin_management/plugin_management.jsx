@@ -608,40 +608,28 @@ export default class PluginManagement extends AdminSettings {
         return this.installFromUrl(true);
     }
 
+    showRemovePluginModal = (e) => {
+        e.preventDefault();
+        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
+        this.setState({showRemoveModal: true, removing: pluginId});
+    }
+
     handleRemovePluginCancel = () => {
-        this.setState({
-            showRemoveModal: false,
-        });
-        this.resolveRemoveModal(false);
+        this.setState({showRemoveModal: false});
     }
 
     handleRemovePlugin = () => {
         this.setState({showRemoveModal: false});
-        this.resolveRemoveModal(true);
+        this.handleRemove();
     }
 
-    showRemovePluginModal = () => {
-        this.setState({showRemoveModal: true});
-        return new Promise((res) => {
-            this.resolveRemoveModal = res;
-        });
-    }
-
-    handleRemove = async (e) => {
+    handleRemove = async () => {
         this.setState({lastMessage: null, serverError: null});
-        e.preventDefault();
-        const pluginId = e.currentTarget.getAttribute('data-plugin-id');
+        const {error} = await this.props.actions.removePlugin(this.state.removing);
+        this.setState({removing: null});
 
-        const result = await this.showRemovePluginModal();
-        if (result) {
-            this.setState({removing: pluginId});
-
-            const {error} = await this.props.actions.removePlugin(pluginId);
-            this.setState({removing: null});
-
-            if (error) {
-                this.setState({serverError: error.message});
-            }
+        if (error) {
+            this.setState({serverError: error.message});
         }
     }
 
@@ -850,7 +838,7 @@ export default class PluginManagement extends AdminSettings {
                         removing={this.state.removing === pluginStatus.id}
                         handleEnable={this.handleEnable}
                         handleDisable={this.handleDisable}
-                        handleRemove={this.handleRemove}
+                        handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
                     />
