@@ -30,13 +30,7 @@ export default class UserList extends React.Component {
         rowComponentType: UserListRow,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.scrollToTop = this.scrollToTop.bind(this);
-    }
-
-    scrollToTop() {
+    scrollToTop = () => {
         if (this.refs.container) {
             this.refs.container.scrollTop = 0;
         }
