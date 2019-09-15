@@ -61,7 +61,7 @@ T
         return (
             <div className={'TeamRow'}>
                 <div className='TeamRow__row'>
-                    <div className='TeamRow__name'>
+                    <div className='TeamRow__team-name'>
                         <div className='col-sm-auto'>
                             <TeamIcon
                                 size='sm'
@@ -72,7 +72,7 @@ T
                         <div className='col-sm-auto'>
                             <b>{team.display_name}</b>
                             {team.description && (
-                                <div className='overflow--ellipsis text-nowrap TeamRow__description'>
+                                <div className='overflow--ellipsis text-nowrap TeamRow__team-description'>
                                     {team.description}
                                 </div>)}
                         </div>
