@@ -4,6 +4,8 @@
 import React from 'react';
 import {ChromePicker, ColorResult} from 'react-color';
 
+const hexRegex: RegExp = /^#[0-9a-fA-F]*$/i;
+
 type Props = {
     id: string;
     color: string;
@@ -12,6 +14,7 @@ type Props = {
 
 type State = {
     isOpened: boolean;
+    hex: string;
 }
 
 class ColorInput extends React.PureComponent<Props, State> {
@@ -22,12 +25,21 @@ class ColorInput extends React.PureComponent<Props, State> {
         this.colorPicker = React.createRef();
         this.state = {
             isOpened: false,
+            hex: '#FFFFFF',
         };
+    }
+
+    public componentDidMount() {
+        this.setState({hex: this.props.color.toUpperCase()});
     }
 
     public componentDidUpdate(prevProps: Props, prevState: State) {
         const {isOpened: prevIsOpened} = prevState;
         const {isOpened} = this.state;
+
+        if (this.props.color !== prevProps.color) {
+            this.setState({hex: this.props.color.toUpperCase()});
+        }
 
         if (isOpened !== prevIsOpened) {
             if (isOpened) {
@@ -57,9 +69,42 @@ class ColorInput extends React.PureComponent<Props, State> {
         }
     };
 
+    private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {value} = event.target;
+        if (!hexRegex.test(value)) {
+            return;
+        }
+        if (value.length > 7) {
+            return;
+        }
+        this.setState({hex: value.toUpperCase()});
+        const {onChange: handleChange} = this.props;
+        if (handleChange && value.length === 7) {
+            handleChange(value.toUpperCase());
+        }
+    };
+
+    private onBlur = () => {
+        const {hex} = this.state
+        if (hex.length === 4) {
+            const value = hex.split('').map((ch, index) => {
+                if (index === 0) {
+                    return ch;
+                }
+                return `${ch}${ch}`
+            }).join('')
+            const {onChange: handleChange} = this.props;
+            if (handleChange && value.length === 7) {
+                handleChange(value.toUpperCase());
+            }
+        } else {
+            this.setState({hex: this.props.color.toUpperCase()});
+        }
+    };
+
     public render() {
         const {color, id} = this.props;
-        const {isOpened} = this.state;
+        const {isOpened, hex} = this.state;
 
         return (
             <div className='color-input input-group'>
@@ -67,12 +112,13 @@ class ColorInput extends React.PureComponent<Props, State> {
                     id={`${id}-inputColorValue`}
                     className='form-control'
                     type='text'
-                    value={color}
-                    readOnly={true}
+                    value={hex}
+                    onChange={this.onChange}
+                    onBlur={this.onBlur}
                 />
                 <span
                     id={`${id}-squareColorIcon`}
-                    className='input-group-addon'
+                    className='input-group-addon color-pad'
                     onClick={this.togglePicker}
                 >
                     <i
@@ -92,6 +138,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                         <ChromePicker
                             color={color}
                             onChange={this.handleChange}
+                            disableAlpha={true}
                         />
                     </div>
                 )}

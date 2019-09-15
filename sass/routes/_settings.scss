@@ -308,7 +308,7 @@
                     }
 
                     .theme-elements {
-                        padding-left: 15px;
+                        padding-left: 16px;
 
                         .element {
                             margin-right: 10px;
@@ -353,7 +353,7 @@
                         @include alpha-property(background-color, $white, .05);
                         display: none;
                         margin: 0 20px 0 0;
-                        padding: 20px 0 0 20px;
+                        padding: 24px 0 0 24px;
 
                         &.open {
                             display: block;
@@ -377,6 +377,19 @@
                         label {
                             font-weight: 600;
                         }
+                    }
+
+                    .copy-theme-button {
+                        background-color: #ffffff;
+                        padding: 5px 8px;
+                        border: 1px solid $primary-color;
+                        text-decoration: none;
+                    }
+
+                    .copy-theme-success {
+                        height: 30px;
+                        padding: 5px 12px;
+                        margin-left: 10px;
                     }
                 }
 

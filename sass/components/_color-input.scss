@@ -6,8 +6,13 @@
 
 .color-icon {
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+}
+
+.color-pad {
+    padding: 5px;
 }
 
 .color-popover {
@@ -16,4 +21,9 @@
     right: 0;
     padding-top: 8px;
     z-index: 12;
+}
+
+/* hiding hex input from color picker */
+.chrome-picker .flexbox-fix:nth-child(2) {
+    display: none !important;
 }

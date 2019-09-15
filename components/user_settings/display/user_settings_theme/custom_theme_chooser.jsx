@@ -15,6 +15,8 @@ import * as UserAgent from 'utils/user_agent.jsx';
 
 import ColorChooser from './color_chooser.jsx';
 
+const COPY_SUCCESS_INTERVAL = 3000;
+
 const messages = defineMessages({
     sidebarBg: {
         id: t('user.settings.custom_theme.sidebarBg'),
@@ -247,6 +249,21 @@ export default class CustomThemeChooser extends React.Component {
         this.props.updateTheme(theme);
     }
 
+    copyTheme = () => {
+        this.selectTheme();
+        document.execCommand('copy');
+        this.showCopySuccess();
+    }
+
+    showCopySuccess = () => {
+        const copySuccess = $('.copy-theme-success');
+        copySuccess.show();
+
+        setTimeout(() => {
+            copySuccess.hide();
+        }, COPY_SUCCESS_INTERVAL);
+    }
+
     render() {
         const {formatMessage} = this.context.intl;
         const theme = this.props.theme;
@@ -384,10 +401,26 @@ export default class CustomThemeChooser extends React.Component {
                     className='form-control'
                     id='pasteBox'
                     value={this.state.copyTheme}
+                    onCopy={this.showCopySuccess}
                     onPaste={this.pasteBoxChange}
                     onChange={this.onChangeHandle}
                     onClick={this.selectTheme}
                 />
+                <div className='margin-top x2'>
+                    <button
+                        className='btn btn-link copy-theme-button'
+                        onClick={this.copyTheme}
+                    >
+                        {'Copy Theme Colors'}
+                    </button>
+                    <span
+                        className='alert alert-success copy-theme-success'
+                        role='alert'
+                        style={{display: 'none'}}
+                    >
+                        {'✔ Copied'}
+                    </span>
+                </div>
             </div>
         );
 
