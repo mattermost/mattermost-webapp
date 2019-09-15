@@ -55,6 +55,7 @@
     "react-day-picker": "7.3.0",
     "react-dom": "16.8.6",
     "react-hot-loader": "4.12.8",
+    "react-inlinesvg": "1.0.0",
     "react-intl": "2.9.0",
     "react-overlays": "1.2.0",
     "react-redux": "5.1.1",
