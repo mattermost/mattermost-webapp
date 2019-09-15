@@ -14,6 +14,10 @@ export default function dragster(query, options) {
     const settings = Object.assign(defaults, options);
     const node = document.querySelector(query);
 
+    if (!node) {
+        return noop;
+    }
+
     let first = false;
     let second = false;
 
