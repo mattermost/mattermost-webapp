@@ -104,16 +104,15 @@ describe('components/post_view/Reaction', () => {
     test('should sort users by recency', () => {
         const baseDate = Date.now();
         const newReactions = [
-            {user_id: 'user_id_2', create_at: baseDate},
-            {user_id: 'user_id_1', create_at: baseDate + 8000},
-            {user_id: 'user_id_3', create_at: baseDate + 5000},
+            {user_id: 'user_id_2', create_at: baseDate}, // First to react, will be sorted last
+            {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 3rd user reacted last
+            {user_id: 'user_id_3', create_at: baseDate + 8000}, // Will be sorted 2nd, after the logged-in user
         ];
         const newProfiles = [{id: 'user_id_1'}, {id: 'user_id_2'}, {id: 'user_id_3'}];
         const props = {
             ...baseProps,
             reactions: newReactions,
             profiles: newProfiles,
-            otherUsersCount: 1,
         };
         const getDisplayNameMock = (user) => {
             switch (user.id) {
