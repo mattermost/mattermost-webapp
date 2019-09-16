@@ -133,20 +133,21 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     cy.wait(TIMEOUTS.TINY);
 });
 
+function waitUntilPermanentPost() {
+    cy.waitUntil(() => cy.getAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
+}
+
 Cypress.Commands.add('getLastPost', () => {
-    cy.get('#post-list', {timeout: TIMEOUTS.HUGE}).should('be.visible');
-    return cy.getAllByTestId('postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
+    waitUntilPermanentPost();
+
+    cy.getAllByTestId('postView').last();
 });
 
-Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
-    cy.getLastPost().parent().as('parent');
+Cypress.Commands.add('getLastPostId', () => {
+    waitUntilPermanentPost();
 
-    if (opts.force) {
-        cy.get('@parent').should('have.attr', 'id').invoke('replace', 'post_', '');
-    } else {
-        cy.get('@parent').should('have.attr', 'id').and('not.include', ':').
-            invoke('replace', 'post_', '');
-    }
+    cy.getAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'post_', '');
 });
 
 /**

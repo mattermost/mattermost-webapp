@@ -27,22 +27,38 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             display_name: 'test',
         };
 
-        const wrapper = shallow(
+        const actions = {
+            getChannel: jest.fn().mockResolvedValue([]),
+            getTeam: jest.fn().mockResolvedValue([]),
+            convertChannelToPrivate: jest.fn(),
+            linkGroupSyncable: jest.fn(),
+            conver: jest.fn(),
+            patchChannel: jest.fn(),
+            setNavigationBlocked: jest.fn(),
+            unlinkGroupSyncable: jest.fn(),
+            getGroups: jest.fn().mockResolvedValue([]),
+            membersMinusGroupMembers: jest.fn(),
+        };
+
+        let wrapper = shallow(
             <ChannelDetails
                 groups={groups}
                 team={team}
                 totalGroups={groups.length}
-                actions={{
-                    getChannel: jest.fn().mockResolvedValue([]),
-                    convertChannelToPrivate: jest.fn(),
-                    linkGroupSyncable: jest.fn(),
-                    conver: jest.fn(),
-                    patchChannel: jest.fn(),
-                    setNavigationBlocked: jest.fn(),
-                    unlinkGroupSyncable: jest.fn(),
-                    getGroups: jest.fn().mockResolvedValue([]),
-                    membersMinusGroupMembers: jest.fn(),
-                }}
+                actions={actions}
+                channel={testChannel}
+                channelID={testChannel.id}
+                allGroups={allGroups}
+            />
+        );
+        expect(wrapper).toMatchSnapshot();
+
+        wrapper = shallow(
+            <ChannelDetails
+                groups={groups}
+                team={{}}
+                totalGroups={groups.length}
+                actions={actions}
                 channel={testChannel}
                 channelID={testChannel.id}
                 allGroups={allGroups}
