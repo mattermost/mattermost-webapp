@@ -4,7 +4,7 @@
 import React from 'react';
 import {ChromePicker, ColorResult} from 'react-color';
 
-const hexRegex: RegExp = /^#[0-9a-fA-F]*$/i;
+const hexRegex = /^#[0-9a-fA-F]*$/i;
 
 type Props = {
     id: string;
@@ -29,8 +29,8 @@ class ColorInput extends React.PureComponent<Props, State> {
         };
     }
 
-    public componentDidMount() {
-        this.setState({hex: this.props.color.toUpperCase()});
+    public componentWillMount() {
+        this.setHex();
     }
 
     public componentDidUpdate(prevProps: Props, prevState: State) {
@@ -38,7 +38,7 @@ class ColorInput extends React.PureComponent<Props, State> {
         const {isOpened} = this.state;
 
         if (this.props.color !== prevProps.color) {
-            this.setState({hex: this.props.color.toUpperCase()});
+            this.setHex();
         }
 
         if (isOpened !== prevIsOpened) {
@@ -48,6 +48,10 @@ class ColorInput extends React.PureComponent<Props, State> {
                 document.removeEventListener('click', this.checkClick);
             }
         }
+    }
+
+    private setHex() {
+        this.setState({hex: this.props.color.toUpperCase()});
     }
 
     private checkClick = (e: MouseEvent): void => {
@@ -98,7 +102,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                 handleChange(value.toUpperCase());
             }
         } else {
-            this.setState({hex: this.props.color.toUpperCase()});
+            this.setHex();
         }
     };
 
