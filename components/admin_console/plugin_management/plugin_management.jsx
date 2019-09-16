@@ -410,9 +410,6 @@ export default class PluginManagement extends AdminSettings {
     constructor(props) {
         super(props);
 
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.renderSettings = this.renderSettings.bind(this);
-
         this.state = Object.assign(this.state, {
             loading: true,
             fileSelected: false,
@@ -429,7 +426,7 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.PluginSettings.Enable = this.state.enable;
         config.PluginSettings.EnableUploads = this.state.enableUploads;
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
@@ -715,7 +712,7 @@ export default class PluginManagement extends AdminSettings {
         return null;
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const {enableUploads} = this.state;
         const enable = this.props.config.PluginSettings.Enable;
         let serverError = '';

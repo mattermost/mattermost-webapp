@@ -145,15 +145,7 @@ export default class EmojiPicker extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleCategoryClick = this.handleCategoryClick.bind(this);
-        this.handleFilterChange = this.handleFilterChange.bind(this);
-        this.handleItemOver = this.handleItemOver.bind(this);
-        this.handleItemClick = this.handleItemClick.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleCategoryKeyDown = this.handleCategoryKeyDown.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
         this.handleScrollThrottle = throttle(this.handleScroll, EMOJI_LAZY_LOAD_SCROLL_THROTTLE, {leading: false, trailing: true});
-        this.updateCategoryOffset = this.updateCategoryOffset.bind(this);
 
         this.divHeight = 0;
         this.missingPages = true;
@@ -257,7 +249,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.searchInput = input;
     };
 
-    handleCategoryClick(categoryName) {
+    handleCategoryClick = (categoryName) => {
         this.setState({
             cursor: [Object.keys(this.state.categories).indexOf(categoryName), 0],
             divTopOffset: this.state.categories[categoryName].offset,
@@ -266,7 +258,7 @@ export default class EmojiPicker extends React.PureComponent {
         this.searchInput.focus();
     }
 
-    handleFilterChange(e) {
+    handleFilterChange = (e) => {
         e.preventDefault();
         const filter = filterEmojiSearchInput(e.target.value);
 
@@ -280,17 +272,17 @@ export default class EmojiPicker extends React.PureComponent {
         }));
     }
 
-    handleItemOver(categoryIndex, emojiIndex) {
+    handleItemOver = (categoryIndex, emojiIndex) => {
         this.setState({
             cursor: [categoryIndex, emojiIndex],
         });
     }
 
-    handleItemClick(emoji) {
+    handleItemClick = (emoji) => {
         this.props.onEmojiClick(emoji);
     }
 
-    handleCategoryKeyDown(e) {
+    handleCategoryKeyDown = (e) => {
         switch (e.key) {
         case 'ArrowRight':
             e.preventDefault();
@@ -315,7 +307,7 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
-    handleKeyDown(e) {
+    handleKeyDown = (e) => {
         switch (e.key) {
         case 'ArrowRight':
             e.preventDefault();
@@ -342,7 +334,7 @@ export default class EmojiPicker extends React.PureComponent {
         }
     }
 
-    handleScroll() {
+    handleScroll = () => {
         if (this.emojiPickerContainer) {
             this.setState({divTopOffset: this.emojiPickerContainer.scrollTop});
         }
@@ -674,7 +666,7 @@ export default class EmojiPicker extends React.PureComponent {
         });
     };
 
-    updateCategoryOffset(categoryName, offset) {
+    updateCategoryOffset = (categoryName, offset) => {
         if (categoryName !== CATEGORY_SEARCH_RESULTS) {
             this.setState((state) => ({
                 categories: {
