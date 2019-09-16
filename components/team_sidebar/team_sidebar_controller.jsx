@@ -93,6 +93,7 @@ export default class TeamSidebar extends React.PureComponent {
 
         for (const idx in digits) {
             if (e.ctrlKey && e.altKey && Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
+                e.preventDefault();
                 const team = teams[idx];
                 this.props.actions.switchTeam(`/${team.name}`);
                 return;
