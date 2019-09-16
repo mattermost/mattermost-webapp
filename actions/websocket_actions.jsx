@@ -542,8 +542,8 @@ function handlePostDeleteEvent(msg) {
     dispatch(postDeleted(post));
 }
 
-async function handlePostUnreadEvent(msg) {
-    await dispatch(
+export function handlePostUnreadEvent(msg) {
+    dispatch(
         {
             type: ActionTypes.POST_UNREAD_SUCCESS,
             data: {
