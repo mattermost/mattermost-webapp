@@ -107,7 +107,7 @@ class ColorInput extends React.PureComponent<Props, State> {
     };
 
     private onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter' || event.key === ' '){
+        if (event.key === 'Enter' || event.key === ' ') {
             this.togglePicker();
         }
     };
