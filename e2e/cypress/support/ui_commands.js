@@ -134,6 +134,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 function waitUntilPermanentPost() {
+    cy.get('#postListContent').should('be.visible');
     cy.waitUntil(() => cy.getAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 

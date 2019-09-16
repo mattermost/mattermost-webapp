@@ -21,33 +21,17 @@ describe('Header', () => {
     });
 
     it('M13564 Ellipsis indicates the channel header is too long', () => {
-        // # Update channel header text
-        cy.updateChannelHeader('> newheader');
+        // * Verify with short channel header
+        updateAndVerifyChannelHeader('>', 'newheader');
 
-        // * Check if channel header description has no ellipsis
-        cy.get('#channelHeaderDescription').should('have.text', ' newheader');
-        cy.get('#channelHeaderDescription').then(($header) => {
-            expect($header.outerWidth()).to.be.closeTo($header[0].scrollWidth, 1);
-        });
-
-        // # Update channel header text to a long string
-        cy.updateChannelHeader('>' + ' newheader'.repeat(20));
-
-        // * Check if channel header description has ellipsis
-        cy.get('#channelHeaderDescription').find('p').
-            should('have.text', ' newheader'.repeat(20).trim()).
-            and('have.css', 'overflow', 'hidden').
-            and('have.css', 'text-overflow', 'ellipsis');
+        // * Verify with long channel header
+        updateAndVerifyChannelHeader('>', 'newheader'.repeat(20));
     });
 
     it('CS14730 - Channel Header: Markdown quote', () => {
         // # Update channel header text
         const header = 'This is a quote in the header';
-        cy.updateChannelHeader('>' + header);
-
-        // * Make sure that description contains a blockquote sign
-        cy.get('#channelHeaderDescription > span > blockquote').should('be.visible');
-        cy.get('#channelHeaderDescription').should('have.html', `<span><blockquote> <p class="markdown__paragraph-inline">${header}</p></blockquote></span>`);
+        updateAndVerifyChannelHeader('>', header);
     });
 
     it('M14784 - An ellipsis indicates the channel header is too long - DM', () => {
@@ -61,12 +45,8 @@ describe('Header', () => {
 
         // # Update DM channel header
         const header = 'quote newheader newheader newheader newheader newheader newheader newheader newheader newheader newheader';
-        cy.updateChannelHeader('>' + header);
 
-        // * Check if channel header description has ellipsis
-        cy.get('#channelHeaderDescription').then(($header) => {
-            expect($header.outerWidth()).lt($header[0].scrollWidth);
-        });
+        updateAndVerifyChannelHeader('>', header);
 
         // # Click the header to see the whole text
         cy.get('#channelHeaderDescription').click();
@@ -102,3 +82,19 @@ describe('Header', () => {
         cy.get('#searchBox').should('be.visible').and('be.empty');
     });
 });
+
+function updateAndVerifyChannelHeader(prefix, header) {
+    // # Update channel header
+    cy.updateChannelHeader(prefix + header);
+
+    // * Should render blockquote if it starts with ">"
+    if (prefix === '>') {
+        cy.get('#channelHeaderDescription > span > blockquote');
+    }
+
+    // * Check if channel header description has ellipsis
+    cy.get('#channelHeaderDescription').find('p').
+        should('have.text', header).
+        and('have.css', 'overflow', 'hidden').
+        and('have.css', 'text-overflow', 'ellipsis');
+}
