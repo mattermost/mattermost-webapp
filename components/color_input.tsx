@@ -106,6 +106,12 @@ class ColorInput extends React.PureComponent<Props, State> {
         }
     };
 
+    private onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter' || event.key === ' '){
+            this.togglePicker();
+        }
+    };
+
     public render() {
         const {color, id} = this.props;
         const {isOpened, hex} = this.state;
@@ -119,6 +125,8 @@ class ColorInput extends React.PureComponent<Props, State> {
                     value={hex}
                     onChange={this.onChange}
                     onBlur={this.onBlur}
+                    onKeyDown={this.onKeyDown}
+                    onClick={this.togglePicker}
                 />
                 <span
                     id={`${id}-squareColorIcon`}

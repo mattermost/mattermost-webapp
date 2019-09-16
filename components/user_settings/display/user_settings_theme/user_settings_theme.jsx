@@ -298,6 +298,7 @@ export default class ThemeSetting extends React.Component {
                     inputs={inputs}
                     submitExtra={allTeamsCheckbox}
                     submit={this.submitTheme}
+                    disableEnterSubmit={true}
                     saving={this.state.isSaving}
                     server_error={serverError}
                     width='full'
