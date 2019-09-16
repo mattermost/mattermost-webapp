@@ -8,8 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
 
+import {Constants} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
-
 import * as Utils from 'utils/utils.jsx';
 
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
@@ -56,8 +56,57 @@ export default class TeamSidebar extends React.PureComponent {
         }).isRequired,
     }
 
+    handleKeyDown = (e) => {
+        const {currentTeamId} = this.props;
+        const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
+
+        if (e.ctrlKey && e.altKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+            e.preventDefault();
+            const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
+            const pos = teams.findIndex((team) => team.id === currentTeamId);
+
+            let team;
+            if (pos + delta === -1) {
+                team = teams[teams.length - 1];
+            } else if (pos + delta === teams.length) {
+                team = teams[0];
+            } else {
+                team = teams[pos + delta];
+            }
+
+            this.props.actions.switchTeam(`/${team.name}`);
+            return;
+        }
+
+        const digits = [
+            Constants.KeyCodes.ONE,
+            Constants.KeyCodes.TWO,
+            Constants.KeyCodes.THREE,
+            Constants.KeyCodes.FOUR,
+            Constants.KeyCodes.FIVE,
+            Constants.KeyCodes.SIX,
+            Constants.KeyCodes.SEVEN,
+            Constants.KeyCodes.EIGHT,
+            Constants.KeyCodes.NINE,
+            Constants.KeyCodes.ZERO,
+        ];
+
+        for (const idx in digits) {
+            if (e.ctrlKey && e.altKey && Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
+                const team = teams[idx];
+                this.props.actions.switchTeam(`/${team.name}`);
+                return;
+            }
+        }
+    }
+
     componentDidMount() {
         this.props.actions.getTeams(0, 200);
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.changeTeam);
     }
 
     render() {
