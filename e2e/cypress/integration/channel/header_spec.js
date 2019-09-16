@@ -89,7 +89,7 @@ function updateAndVerifyChannelHeader(prefix, header) {
 
     // * Should render blockquote if it starts with ">"
     if (prefix === '>') {
-        cy.get('#channelHeaderDescription > span > blockquote');
+        cy.get('#channelHeaderDescription > span > blockquote').should('be.visible');
     }
 
     // * Check if channel header description has ellipsis
