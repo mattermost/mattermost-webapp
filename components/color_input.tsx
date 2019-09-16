@@ -81,10 +81,10 @@ class ColorInput extends React.PureComponent<Props, State> {
         if (value.length > 7) {
             return;
         }
-        this.setState({hex: value.toUpperCase()});
+        this.setState({hex: value});
         const {onChange: handleChange} = this.props;
         if (handleChange && value.length === 7) {
-            handleChange(value.toUpperCase());
+            handleChange(value);
         }
     };
 
@@ -99,7 +99,7 @@ class ColorInput extends React.PureComponent<Props, State> {
             }).join('');
             const {onChange: handleChange} = this.props;
             if (handleChange && value.length === 7) {
-                handleChange(value.toUpperCase());
+                handleChange(value);
             }
         } else {
             this.setHex();
