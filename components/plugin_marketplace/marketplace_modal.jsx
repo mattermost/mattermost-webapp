@@ -47,18 +47,14 @@ export default class MarketplaceModal extends React.Component {
 
         this.state = {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
-            loading: false,
+            loading: true,
         };
-    }
-
-    componentWillMount() {
-        this.setState({loading: true});
-
-        this.getMarketplacePlugins();
     }
 
     componentDidMount() {
         trackEvent('plugins', 'ui_marketplace_opened');
+
+        this.getMarketplacePlugins();
     }
 
     getMarketplacePlugins = async () => {
@@ -106,6 +102,18 @@ export default class MarketplaceModal extends React.Component {
                     />);
             }
 
+            let installLink = null;
+            if (installedList) {
+                installLink = (
+                    <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
+                        <FormattedMessage
+                            id='marketplace_modal.install_plugins'
+                            defaultMessage='Install Plugins'
+                        />
+                    </a>
+                );
+            }
+
             return (<div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
@@ -114,15 +122,7 @@ export default class MarketplaceModal extends React.Component {
                 {noPluginsMessage}
                 <br/>
                 <br/>
-                {installedList ? (
-                    <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
-                        <FormattedMessage
-                            id='marketplace_modal.install_plugins'
-                            defaultMessage='Install Plugins'
-                        />
-                    </a>
-                ) : null
-                }
+                {installLink}
             </div>);
         }
 

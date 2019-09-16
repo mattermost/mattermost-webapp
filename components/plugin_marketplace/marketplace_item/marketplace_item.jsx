@@ -36,19 +36,18 @@ export default class MarketplaceItem extends React.Component {
             super(props);
 
             this.state = {
-                installed: this.props.installed,
                 installing: false,
                 confirmOverwriteInstallModal: false,
                 serverError: null,
             };
         }
 
-        onClickOvewriteModal = () => {
+        onClickOverwriteModal = () => {
             this.setState({confirmOverwriteInstallModal: false});
             return this.installPlugin(true);
         }
 
-        onCancelOvewriteModal = () => {
+        onCancelOverwriteModal = () => {
             this.setState({
                 confirmOverwriteInstallModal: false,
                 installing: false,
@@ -69,8 +68,6 @@ export default class MarketplaceItem extends React.Component {
                     installing: false,
                 });
 
-                //WIP: Error handling
-
                 if (error.server_error_id === 'app.plugin.extract.app_error') {
                     this.setState({serverError: localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin.')});
                 } else {
@@ -80,7 +77,6 @@ export default class MarketplaceItem extends React.Component {
             }
 
             this.setState({
-                installed: true,
                 serverError: null,
             });
 
@@ -123,9 +119,10 @@ export default class MarketplaceItem extends React.Component {
                         }
                     </LoadingWrapper>
 
-                </button>);
+                </button>
+            );
 
-            if (this.state.installed) {
+            if (this.props.installed) {
                 button = (
                     <Link
                         to={'/admin_console/plugins/plugin_' + this.props.id}
@@ -202,8 +199,8 @@ export default class MarketplaceItem extends React.Component {
                                 id='admin.plugin.upload.overwrite_modal.overwrite'
                                 defaultMessage='Overwrite'
                             />}
-                        onConfirm={this.onClickOvewriteModal}
-                        onCancel={this.onCancelOvewriteModal}
+                        onConfirm={this.onClickOverwriteModal}
+                        onCancel={this.onCancelOverwriteModal}
                     />
                 </div>
             );
