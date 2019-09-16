@@ -3,6 +3,7 @@
 .tooltip {
     word-wrap: break-word;
     max-width: 220px;
+    pointer-events: none;
 
     .tooltip-inner {
         max-width: 100%;
