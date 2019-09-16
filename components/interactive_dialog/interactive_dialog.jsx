@@ -12,6 +12,7 @@ import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import DialogElement from './dialog_element';
+import DialogIntroductionText from './dialog_introduction_text';
 
 export default class InteractiveDialog extends React.Component {
     static propTypes = {
@@ -19,6 +20,7 @@ export default class InteractiveDialog extends React.Component {
         callbackId: PropTypes.string,
         elements: PropTypes.arrayOf(PropTypes.object),
         title: PropTypes.string.isRequired,
+        introductionText: PropTypes.string,
         iconUrl: PropTypes.string,
         submitLabel: PropTypes.string,
         notifyOnCancel: PropTypes.bool,
@@ -129,7 +131,7 @@ export default class InteractiveDialog extends React.Component {
     }
 
     render() {
-        const {title, iconUrl, submitLabel, elements} = this.props;
+        const {title, introductionText, iconUrl, submitLabel, elements} = this.props;
 
         let submitText = (
             <FormattedMessage
@@ -177,8 +179,14 @@ export default class InteractiveDialog extends React.Component {
                         {icon}{title}
                     </Modal.Title>
                 </Modal.Header>
-                {elements && <Modal.Body>
-                    {elements.map((e) => {
+                {(elements || introductionText) && <Modal.Body>
+                    {introductionText &&
+                        <DialogIntroductionText
+                            id='interactiveDialogModalIntroductionText'
+                            value={introductionText}
+                        />
+                    }
+                    {elements && elements.map((e) => {
                         return (
                             <DialogElement
                                 key={'dialogelement' + e.name}
