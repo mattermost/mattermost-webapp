@@ -41,6 +41,11 @@ export default class SidebarChannel extends React.PureComponent {
         botIconUrl: PropTypes.string,
 
         /**
+         * Last bot icon update time
+         */
+        botLastIconUpdate: PropTypes.number,
+
+        /**
          * Channel is muted
          */
         channelMuted: PropTypes.bool,
@@ -300,6 +305,7 @@ export default class SidebarChannel extends React.PureComponent {
                     channelId={this.props.channelId}
                     channelName={this.props.channelName}
                     botIconUrl={this.props.botIconUrl}
+                    botLastIconUpdate={this.props.botLastIconUpdate}
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     displayName={displayName}

@@ -25,6 +25,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelName: PropTypes.string.isRequired,
         displayName: PropTypes.string.isRequired,
         botIconUrl: PropTypes.string,
+        botLastIconUpdate: PropTypes.number,
         channelStatus: PropTypes.string,
         handleClose: PropTypes.func,
         hasDraft: PropTypes.bool.isRequired,
@@ -78,6 +79,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     channelStatus={this.props.channelStatus}
                     channelType={this.props.channelType}
                     botIconUrl={this.props.botIconUrl}
+                    botLastIconUpdate={this.props.botLastIconUpdate}
                     channelIsArchived={this.props.channelIsArchived}
                     hasDraft={this.props.hasDraft}
                     membersCount={this.props.membersCount}

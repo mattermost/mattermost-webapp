@@ -78,6 +78,7 @@ function makeMapStateToProps() {
         let channelTeammateDeletedAt = 0;
         let channelTeammateUsername = '';
         let channelTeammateIsBot = false;
+        let botLastIconUpdate = 0;
         let channelDisplayName = channel.display_name;
         let botIconUrl = null;
         if (channel.type === Constants.DM_CHANNEL) {
@@ -87,6 +88,7 @@ function makeMapStateToProps() {
                 channelTeammateDeletedAt = teammate.delete_at;
                 channelTeammateUsername = teammate.username;
                 channelTeammateIsBot = teammate.is_bot;
+                botLastIconUpdate = teammate.bot_last_icon_update;
             }
             if (channelTeammateIsBot) {
                 botIconUrl = botIconImageUrl(teammate);
@@ -110,6 +112,7 @@ function makeMapStateToProps() {
             channelName: channel.name,
             channelDisplayName,
             botIconUrl,
+            botLastIconUpdate,
             channelType: channel.type,
             channelStatus: channel.status,
             channelFake: channel.fake,
