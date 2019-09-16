@@ -415,7 +415,10 @@ export default class ChannelHeader extends React.PureComponent {
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
                         {hasGuestsText}
-                        <span onClick={Utils.handleFormattedTextClick}>
+                        <span
+                            className='header-description__text'
+                            onClick={Utils.handleFormattedTextClick}
+                        >
                             <Markdown
                                 message={headerText}
                                 options={this.getHeaderMarkdownOptions(channelNamesMap)}
