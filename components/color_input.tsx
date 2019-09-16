@@ -85,14 +85,14 @@ class ColorInput extends React.PureComponent<Props, State> {
     };
 
     private onBlur = () => {
-        const {hex} = this.state
+        const {hex} = this.state;
         if (hex.length === 4) {
             const value = hex.split('').map((ch, index) => {
                 if (index === 0) {
                     return ch;
                 }
-                return `${ch}${ch}`
-            }).join('')
+                return `${ch}${ch}`;
+            }).join('');
             const {onChange: handleChange} = this.props;
             if (handleChange && value.length === 7) {
                 handleChange(value.toUpperCase());
