@@ -131,7 +131,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -341,7 +341,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -585,7 +585,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -834,7 +834,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -1078,7 +1078,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -1295,7 +1295,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -1539,7 +1539,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -1783,7 +1783,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -2090,7 +2090,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -2365,7 +2365,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -2640,7 +2640,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
@@ -2915,7 +2915,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="Enables system admins to install plugins from Mattermost marketplace."
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
