@@ -60,7 +60,7 @@ export default class TeamSidebar extends React.PureComponent {
         const {currentTeamId} = this.props;
         const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
 
-        if (e.metaKey && e.altKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+        if ((e.ctrlKey || e.metaKey) && e.altKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
             const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
             const pos = teams.findIndex((team) => team.id === currentTeamId);
@@ -92,7 +92,7 @@ export default class TeamSidebar extends React.PureComponent {
         ];
 
         for (const idx in digits) {
-            if (e.metaKey && e.altKey && Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
+            if ((e.ctrlKey || e.metaKey) && e.altKey && Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
                 e.preventDefault();
                 const team = teams[idx];
                 this.props.actions.switchTeam(`/${team.name}`);
