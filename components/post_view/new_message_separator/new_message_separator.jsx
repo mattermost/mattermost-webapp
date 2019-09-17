@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Separator from 'components/widgets/separator/separator';
+
 export default class NewMessageSeparator extends React.PureComponent {
     static propTypes = {
         separatorId: PropTypes.string.isRequired,
@@ -12,18 +14,16 @@ export default class NewMessageSeparator extends React.PureComponent {
 
     render() {
         return (
-            <div
+            <Separator
                 id={this.props.separatorId}
                 className='new-separator'
             >
-                <hr className='separator__hr'/>
-                <div className='separator__text'>
-                    <FormattedMessage
-                        id='posts_view.newMsg'
-                        defaultMessage='New Messages'
-                    />
-                </div>
-            </div>
+                <FormattedMessage
+                    id='posts_view.newMsg'
+                    defaultMessage='New Messages'
+                />
+
+            </Separator>
         );
     }
 }

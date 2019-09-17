@@ -26,6 +26,7 @@ import CombinedUserActivityPost from 'components/post_view/combined_user_activit
 import Post from 'components/post_view/post';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows.jsx';
 import CreateChannelIntroMessage from 'components/post_view/channel_intro_message';
+import Separator from 'components/widgets/separator/separator';
 
 const CLOSE_TO_BOTTOM_SCROLL_MARGIN = 10;
 const POSTS_PER_PAGE = Constants.POST_CHUNK_SIZE / 2;
@@ -569,22 +570,18 @@ export default class PostList extends React.PureComponent {
                     newSeparatorId = 'new_message_' + post.id;
                 }
                 postCtls.push(
-                    <div
+                    <Separator
                         id={newSeparatorId}
                         key='unviewed'
                         ref='newMessageSeparator'
                         className='new-separator'
                     >
-                        <hr
-                            className='separator__hr'
+                        <FormattedMessage
+                            id='posts_view.newMsg'
+                            defaultMessage='New Messages'
                         />
-                        <div className='separator__text'>
-                            <FormattedMessage
-                                id='posts_view.newMsg'
-                                defaultMessage='New Messages'
-                            />
-                        </div>
-                    </div>
+
+                    </Separator>
                 );
             }
 

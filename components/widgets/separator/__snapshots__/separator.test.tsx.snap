@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/separator with text 1`] = `
+<div
+  className="test"
+>
+  <hr
+    className="separator__hr"
+  />
+  <div
+    className="separator__text"
+  >
+    Some text
+  </div>
+</div>
+`;
+
+exports[`components/widgets/separator without text 1`] = `
+<div
+  className="test"
+>
+  <hr
+    className="separator__hr"
+  />
+</div>
+`;

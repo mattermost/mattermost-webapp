@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate} from 'react-intl';
 
+import Separator from 'components/widgets/separator/separator';
+
 export default class DateSeparator extends React.PureComponent {
     static propTypes = {
         date: PropTypes.oneOfType([
@@ -24,21 +26,16 @@ export default class DateSeparator extends React.PureComponent {
         const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
 
         return (
-            <div
-                className='date-separator'
-            >
-                <hr className='separator__hr'/>
-                <div className='separator__text'>
-                    <FormattedDate
-                        {...timezoneProps}
-                        value={date}
-                        weekday='short'
-                        month='short'
-                        day='2-digit'
-                        year='numeric'
-                    />
-                </div>
-            </div>
+            <Separator className='date-separator'>
+                <FormattedDate
+                    {...timezoneProps}
+                    value={date}
+                    weekday='short'
+                    month='short'
+                    day='2-digit'
+                    year='numeric'
+                />
+            </Separator>
         );
     }
 }
