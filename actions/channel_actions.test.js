@@ -101,6 +101,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
             }],
         };
     },
+    addChannelMember: (...args) => ({type: 'MOCK_ADD_USER_TO_CHANNEL', args}),
 }));
 
 jest.mock('actions/user_actions.jsx', () => ({
@@ -138,6 +139,23 @@ describe('Actions.Channel', () => {
         }];
 
         await testStore.dispatch(Actions.searchMoreChannels());
+        expect(testStore.getActions()).toEqual(expectedActions);
+    });
+
+    test('addUsersToChannel', async () => {
+        const testStore = await mockStore(initialState);
+
+        const expectedActions = [{
+            type: 'MOCK_ADD_USER_TO_CHANNEL',
+            args: ['testid', 'testuserid'],
+        }];
+
+        const fakeData = {
+            channel: 'testid',
+            userIds: ['testuserid'],
+        };
+
+        await testStore.dispatch(Actions.addUsersToChannel(fakeData.channel, fakeData.userIds));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 });
