@@ -3,6 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {connect} from 'react-redux';
+
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import LoadingSVG from 'utils/loading_svg.js';
@@ -10,7 +13,7 @@ import LoadingImagePreview from 'components/loading_image_preview';
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
-export default class SizeAwareImage extends React.PureComponent {
+export class SizeAwareImage extends React.PureComponent {
     static propTypes = {
 
         /*
@@ -48,6 +51,11 @@ export default class SizeAwareImage extends React.PureComponent {
          * css classes that can added to the img as well as parent div on svg for placeholder
          */
         className: PropTypes.string,
+
+        /*
+         * User prefrerence theme
+         */
+        theme: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -114,6 +122,7 @@ export default class SizeAwareImage extends React.PureComponent {
             dimensions,
             fileInfo,
             src,
+            theme,
             ...props
         } = this.props;
 
@@ -133,7 +142,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     <LoadingSVG
                         width={dimensions.width}
                         height={dimensions.height}
-                        fill={'#333'}
+                        fill={theme.centerChannelColor}
                     />
                 </div>
             );
@@ -179,3 +188,11 @@ export default class SizeAwareImage extends React.PureComponent {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        theme: getTheme(state),
+    };
+}
+
+export default connect(mapStateToProps)(SizeAwareImage);
