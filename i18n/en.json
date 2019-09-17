@@ -2332,7 +2332,7 @@
   "help.formatting.headingsExample": "## Large Heading\n### Smaller Heading\n#### Even Smaller Heading",
   "help.formatting.images.description": "Create in-line images using an `!` followed by the alt text in square brackets and the link in normal brackets. Add hover text by placing it in quotes after the link.",
   "help.formatting.images.title": "In-line Images",
-  "help.formatting.imagesExample": "![alt text](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontalPreview.png \"Mattermost horizontal logo\")\n\nand\n\n[![Atlassian](https://wac-cdn.atlassian.com/assets/img/favicons/atlassian/favicon.png)](https://travis-ci.org/mattermost/mattermost-server) [![Github](https://github.githubassets.com/favicon.ico)](https://github.com/mattermost/mattermost-server)",
+  "help.formatting.imagesExample": "![alt text]({siteURL}/static/images/logo-email.png \"Mattermost horizontal logo\")\n\nand\n\n[![Atlassian](https://wac-cdn.atlassian.com/assets/img/favicons/atlassian/favicon.png)](https://travis-ci.org/mattermost/mattermost-server) [![Github](https://github.githubassets.com/favicon.ico)](https://github.com/mattermost/mattermost-server)",
   "help.formatting.inline.description": "Create in-line monospaced font by surrounding it with backticks.",
   "help.formatting.inline.title": "In-line Code",
   "help.formatting.intro": "Markdown makes it easy to format messages. Type a message as you normally would, and use these rules to render it with special formatting.",
