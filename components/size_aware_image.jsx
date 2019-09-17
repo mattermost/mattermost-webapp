@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {localizeMessage} from 'utils/utils.jsx';
+import LoadingSVG from 'utils/loading_svg.js';
 import LoadingImagePreview from 'components/loading_image_preview';
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
@@ -129,10 +130,10 @@ export default class SizeAwareImage extends React.PureComponent {
                     className={`image-loading__container ${this.props.className}`}
                     style={{maxWidth: dimensions.width}}
                 >
-                    <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                        style={{verticalAlign: 'middle', maxHeight: dimensions.height, maxWidth: dimensions.width}}
+                    <LoadingSVG
+                        width={dimensions.width}
+                        height={dimensions.height}
+                        fill={'#333'}
                     />
                 </div>
             );
