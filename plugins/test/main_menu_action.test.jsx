@@ -23,6 +23,7 @@ describe('plugins/MainMenuActions', () => {
             enableOAuthServiceProvider: true,
             enableUserCreation: true,
             enableEmailInvitations: false,
+            enablePluginMarketplace: true,
             showDropdown: true,
             onToggleDropdown: () => {}, //eslint-disable-line no-empty-function
             pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
