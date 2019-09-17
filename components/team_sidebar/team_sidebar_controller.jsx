@@ -57,46 +57,49 @@ export default class TeamSidebar extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        const {currentTeamId} = this.props;
-        const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
+        if ((e.ctrlKey || e.metaKey) && e.altKey) {
+            const {currentTeamId} = this.props;
+            const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
 
-        if ((e.ctrlKey || e.metaKey) && e.altKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
-            e.preventDefault();
-            const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
-            const pos = teams.findIndex((team) => team.id === currentTeamId);
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+                e.preventDefault()
+                const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
+                const pos = teams.findIndex((team) => team.id === currentTeamId);
+                const newPos = pos + delta;
 
-            let team;
-            if (pos + delta === -1) {
-                team = teams[teams.length - 1];
-            } else if (pos + delta === teams.length) {
-                team = teams[0];
-            } else {
-                team = teams[pos + delta];
-            }
+                let team;
+                if (newPos === -1) {
+                    team = teams[teams.length - 1];
+                } else if (newPos === teams.length) {
+                    team = teams[0];
+                } else {
+                    team = teams[newPos];
+                }
 
-            this.props.actions.switchTeam(`/${team.name}`);
-            return;
-        }
-
-        const digits = [
-            Constants.KeyCodes.ONE,
-            Constants.KeyCodes.TWO,
-            Constants.KeyCodes.THREE,
-            Constants.KeyCodes.FOUR,
-            Constants.KeyCodes.FIVE,
-            Constants.KeyCodes.SIX,
-            Constants.KeyCodes.SEVEN,
-            Constants.KeyCodes.EIGHT,
-            Constants.KeyCodes.NINE,
-            Constants.KeyCodes.ZERO,
-        ];
-
-        for (const idx in digits) {
-            if ((e.ctrlKey || e.metaKey) && e.altKey && Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
-                e.preventDefault();
-                const team = teams[idx];
                 this.props.actions.switchTeam(`/${team.name}`);
                 return;
+            }
+
+            const digits = [
+                Constants.KeyCodes.ONE,
+                Constants.KeyCodes.TWO,
+                Constants.KeyCodes.THREE,
+                Constants.KeyCodes.FOUR,
+                Constants.KeyCodes.FIVE,
+                Constants.KeyCodes.SIX,
+                Constants.KeyCodes.SEVEN,
+                Constants.KeyCodes.EIGHT,
+                Constants.KeyCodes.NINE,
+                Constants.KeyCodes.ZERO,
+            ];
+
+            for (const idx in digits) {
+                if (Utils.isKeyPressed(e, digits[idx]) && idx < teams.length && teams[idx].id !== currentTeamId) {
+                    e.preventDefault();
+                    const team = teams[idx];
+                    this.props.actions.switchTeam(`/${team.name}`);
+                    return;
+                }
             }
         }
     }
