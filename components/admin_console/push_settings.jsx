@@ -20,27 +20,17 @@ const PUSH_NOTIFICATIONS_MTPNS = 'mtpns';
 const PUSH_NOTIFICATIONS_CUSTOM = 'custom';
 
 export default class PushSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.canSave = this.canSave.bind(this);
-        this.handleAgreeChange = this.handleAgreeChange.bind(this);
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.renderSettings = this.renderSettings.bind(this);
-        this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    }
-
-    canSave() {
+    canSave = () => {
         return this.state.pushNotificationServerType !== PUSH_NOTIFICATIONS_MHPNS || this.state.agree;
     }
 
-    handleAgreeChange(e) {
+    handleAgreeChange = (e) => {
         this.setState({
             agree: e.target.checked,
         });
     }
 
-    handleDropdownChange(id, value) {
+    handleDropdownChange = (id, value) => {
         if (id === 'pushNotificationServerType') {
             this.setState({
                 agree: false,
@@ -66,7 +56,7 @@ export default class PushSettings extends AdminSettings {
         this.handleChange(id, value);
     }
 
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.EmailSettings.SendPushNotifications = this.state.pushNotificationServerType !== PUSH_NOTIFICATIONS_OFF;
         config.EmailSettings.PushNotificationServer = this.state.pushNotificationServer.trim();
         config.TeamSettings.MaxNotificationsPerChannel = this.state.maxNotificationsPerChannel;
@@ -120,7 +110,7 @@ export default class PushSettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const pushNotificationServerTypes = [];
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_OFF, text: Utils.localizeMessage('admin.email.pushOff', 'Do not send push notifications')});
         if (this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {

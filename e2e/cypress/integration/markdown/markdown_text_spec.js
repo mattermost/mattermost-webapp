@@ -49,7 +49,7 @@ describe('Markdown message', () => {
     testCases.forEach((testCase) => {
         it(testCase.name, () => {
             // #  Post markdown message
-            cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`);
+            cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.SMALL);
 
             // * Verify that HTML Content is correct
             cy.compareLastPostHTMLContentFromFile(`markdown/${testCase.fileKey}.html`);
@@ -65,7 +65,7 @@ describe('Markdown message', () => {
 </blockquote>`;
 
         // #  Post markdown message
-        cy.postMessageFromFile('markdown/markdown_block_quotes_2.md');
+        cy.postMessageFromFile('markdown/markdown_block_quotes_2.md').wait(TIMEOUTS.SMALL);
 
         // * Verify that HTML Content is correct
         cy.getLastPostId().then((postId) => {

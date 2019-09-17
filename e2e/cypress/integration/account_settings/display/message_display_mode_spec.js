@@ -22,6 +22,7 @@ describe('Account Settings > Display > Message Display', () => {
     it('M14283 Compact view: Line breaks remain intact after editing', () => {
         // # Enter in text
         cy.get('#post_textbox').
+            clear().
             type('First line').
             type('{shift}{enter}{enter}').
             type('Text after{enter}');
