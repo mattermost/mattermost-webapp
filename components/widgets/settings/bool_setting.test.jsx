@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 
 import BoolSetting from './bool_setting.jsx';
 
-describe('components/widgets/settings/TextSetting', () => {
+describe('components/widgets/settings/BoolSetting', () => {
     test('render component with required props', () => {
         const wrapper = shallow(
             <BoolSetting
