@@ -146,8 +146,7 @@
       "<rootDir>/node_modules/enzyme-to-json/serializer"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/non_npm_dependencies/"
+      "/node_modules/"
     ],
     "clearMocks": true,
     "collectCoverageFrom": [
@@ -173,8 +172,7 @@
     },
     "moduleDirectories": [
       "",
-      "node_modules",
-      "non_npm_dependencies"
+      "node_modules"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -202,8 +200,8 @@
     "output": "build/test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
-    "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
+    "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
+    "fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",
