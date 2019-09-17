@@ -71,7 +71,7 @@
     "reselect": "4.0.0",
     "superagent": "5.1.0",
     "typescript": "3.5.3",
-    "uplink": "git+https://git@github.com/grundleborg/uplink-js.git#v0.0.1",
+    "uplink": "git+https://git@github.com/grundleborg/uplink-js.git#v0.0.3",
     "xregexp": "4.2.4",
     "zen-observable": "0.8.14"
   },
