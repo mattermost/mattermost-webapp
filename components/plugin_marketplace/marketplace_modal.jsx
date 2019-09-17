@@ -170,6 +170,7 @@ export default class MarketplaceModal extends React.Component {
             errorBanner = (
                 <div
                     className='error-bar'
+                    id='error_bar'
                     dangerouslySetInnerHTML={{__html: Markdown.format(localizeMessage('app.plugin.marketplace_plugins.app_error',
                         'Error connecting to the marketplace server. Please check your settings in the [System Console](/admin_console/plugins/plugin_management).'))}}
                 />
@@ -183,7 +184,10 @@ export default class MarketplaceModal extends React.Component {
                     onClose={this.close}
                 >
                     {errorBanner}
-                    <div className='modal-marketplace'>
+                    <div
+                        className='modal-marketplace'
+                        id='modal_marketplace'
+                    >
                         <h1>
                             <strong>
                                 <FormattedMessage
