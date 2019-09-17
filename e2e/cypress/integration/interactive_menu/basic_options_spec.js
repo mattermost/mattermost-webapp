@@ -200,7 +200,7 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
         } else {
             // # Select an option (long) in center view
             cy.get('.select-suggestion-container > input').should('be.visible').click();
-            cy.get('#suggestionList').should('be.visible').children().first().click();
+            cy.get('#suggestionList').should('be.visible').children().first().click({force: true});
         }
 
         // * Verify exact height, width and padding of suggestion container and its input

@@ -262,6 +262,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 restoreFocus={false}
                 role='dialog'
                 aria-labelledby='quickSwitchModalLabel'
+                animation={false}
             >
                 <Modal.Header
                     id='quickSwitchModalLabel'

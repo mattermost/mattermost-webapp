@@ -76,8 +76,6 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.outgoingWebhookCompare = this.outgoingWebhookCompare.bind(this);
-
         this.state = {
             loading: true,
         };
@@ -103,7 +101,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
         this.props.actions.removeOutgoingHook(outgoingWebhook.id);
     }
 
-    outgoingWebhookCompare(a, b) {
+    outgoingWebhookCompare = (a, b) => {
         let displayNameA = a.display_name;
         if (!displayNameA) {
             const channelA = this.props.channels[a.channel_id];

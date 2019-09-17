@@ -6,16 +6,17 @@
     "cypress": "3.4.1",
     "cypress-file-upload": "3.1.2",
     "cypress-multi-reporters": "1.1.23",
+    "cypress-wait-until": "1.4.1",
     "express": "4.17.1",
+    "lodash": "4.17.15",
     "merge-deep": "3.0.2",
-    "start-server-and-test": "1.9.1",
     "mocha": "6.1.4",
     "mocha-junit-reporters": "1.23.6",
     "mocha-multi-reporters": "1.1.7",
     "mochawesome": "4.0.1",
     "mochawesome-merge": "2.0.1",
     "mochawesome-report-generator": "4.0.1",
-    "lodash": ">=4.17.13"
+    "start-server-and-test": "1.9.1"
   },
   "scripts": {
     "cypress:run": "cypress run --config ignoreTestFiles='**/enterprise/**/*.js'",

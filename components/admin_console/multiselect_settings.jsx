@@ -32,11 +32,10 @@ export default class MultiSelectSetting extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
         this.state = {error: false};
     }
 
-    handleChange(newValue) {
+    handleChange = (newValue) => {
         const values = newValue.map((n) => {
             return n.value;
         });

@@ -36,6 +36,7 @@ export default class ChannelDetails extends React.Component {
             membersMinusGroupMembers: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
             getChannel: PropTypes.func.isRequired,
+            getTeam: PropTypes.func.isRequired,
             patchChannel: PropTypes.func.isRequired,
             updateChannelPrivacy: PropTypes.func.isRequired,
         }).isRequired,
@@ -64,21 +65,31 @@ export default class ChannelDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.channel.id !== prevProps.channel.id) {
+        const {channel, totalGroups} = this.props;
+        if (channel.id !== prevProps.channel.id) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                totalGroups: this.props.totalGroups,
-                isSynced: Boolean(this.props.channel.group_constrained),
-                isPublic: this.props.channel.type === Constants.OPEN_CHANNEL,
+                totalGroups,
+                isSynced: Boolean(channel.group_constrained),
+                isPublic: channel.type === Constants.OPEN_CHANNEL,
             });
+        }
+
+        // If we don't have the team and channel on mount, we need to request the team after we load the channel
+        if (!prevProps.team.id && !prevProps.channel.team_id && channel.team_id) {
+            this.props.actions.getTeam(channel.team_id);
         }
     }
 
     async componentDidMount() {
-        const {channelID, actions} = this.props;
+        const {channelID, channel, team, actions} = this.props;
         actions.getGroups(channelID).
             then(() => actions.getChannel(channelID)).
             then(() => this.setState({groups: this.props.groups}));
+
+        if (!team.id && channel.team_id) {
+            actions.getTeam(channel.team_id);
+        }
     }
 
     setToggles = (isSynced, isPublic) => {
