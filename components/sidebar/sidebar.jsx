@@ -403,7 +403,7 @@ export default class Sidebar extends React.PureComponent {
     }
 
     navigateChannelShortcut = (e) => {
-        if (e.altKey && !e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+        if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             if (this.isSwitchingChannel) {
@@ -436,7 +436,7 @@ export default class Sidebar extends React.PureComponent {
     };
 
     navigateUnreadChannelShortcut = (e) => {
-        if (e.altKey && e.shiftKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
+        if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey && (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
             if (this.isSwitchingChannel) {
