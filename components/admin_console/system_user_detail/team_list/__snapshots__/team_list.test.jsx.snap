@@ -23,7 +23,33 @@ exports[`admin_console/system_user_detail/team_list/TeamList should match snapsh
   data={Array []}
   emptyListTextDefaultMessage="No teams found"
   emptyListTextId="emptyListTextId"
-  header={<Header />}
+  headerLabels={
+    Array [
+      Object {
+        "default": "Name",
+        "id": "admin.team_settings.team_list.header.name",
+        "style": Object {
+          "flexGrow": 1,
+          "marginLeft": "16px",
+          "minWidth": "284px",
+        },
+      },
+      Object {
+        "default": "Type",
+        "id": "admin.systemUserDetail.teamList.header.type",
+        "style": Object {
+          "width": "150px",
+        },
+      },
+      Object {
+        "default": "Role",
+        "id": "admin.systemUserDetail.teamList.header.role",
+        "style": Object {
+          "width": "150px",
+        },
+      },
+    ]
+  }
   renderRow={[Function]}
   total={0}
   userId="1234"
@@ -66,7 +92,33 @@ exports[`admin_console/system_user_detail/team_list/TeamList should match snapsh
   }
   emptyListTextDefaultMessage="No teams found"
   emptyListTextId="emptyListTextId"
-  header={<Header />}
+  headerLabels={
+    Array [
+      Object {
+        "default": "Name",
+        "id": "admin.team_settings.team_list.header.name",
+        "style": Object {
+          "flexGrow": 1,
+          "marginLeft": "16px",
+          "minWidth": "284px",
+        },
+      },
+      Object {
+        "default": "Type",
+        "id": "admin.systemUserDetail.teamList.header.type",
+        "style": Object {
+          "width": "150px",
+        },
+      },
+      Object {
+        "default": "Role",
+        "id": "admin.systemUserDetail.teamList.header.role",
+        "style": Object {
+          "width": "150px",
+        },
+      },
+    ]
+  }
   renderRow={[Function]}
   total={2}
   userId="1234"
