@@ -64,7 +64,7 @@ class ColorInput extends React.PureComponent<Props, State> {
 
     private togglePicker = () => {
         if (!this.state.isOpened && this.colorInput.current) {
-            this.colorInput.current.focus()
+            this.colorInput.current.focus();
         }
         this.setState({isOpened: !this.state.isOpened});
     };
