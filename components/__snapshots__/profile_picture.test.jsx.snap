@@ -57,8 +57,9 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
   rootClose={true}
   trigger="click"
 >
-  <span
-    className="status-wrapper "
+  <button
+    className="status-wrapper style--none "
+    tabIndex="-1"
   >
     <span
       className="profile-icon "
@@ -73,7 +74,7 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
       className=""
       status="away"
     />
-  </span>
+  </button>
 </OverlayTrigger>
 `;
 

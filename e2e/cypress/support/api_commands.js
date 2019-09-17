@@ -649,3 +649,20 @@ Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
         return {...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''};
     });
 });
+
+/**
+ * Gets a team on the system
+ * * @param {String} teamId - The team ID to get
+ * All parameter required
+ */
+
+Cypress.Commands.add('apiGetTeam', (teamId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `api/v4/teams/${teamId}`,
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
