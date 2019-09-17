@@ -49,39 +49,6 @@ const resolveReactElement = (element) => {
     return element;
 };
 
-class SubMenuGroup {
-    constructor(pluginId, parentId, depth) {
-        this.pluginId = pluginId;
-        this.parentId = parentId;
-        this.depth = depth;
-        this.registerMenuItem = this.registerMenuItem.bind(this);
-        this.subMenuGroup = [];
-    }
-    registerMenuItem(item, action, filter) {
-        this.id = generateId();
-
-        store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_MENUITEM,
-            name: 'PostDropdownMenu',
-            data: {
-                id: this.id,
-                parentId: this.parentId,
-                pluginId: this.pluginId,
-                text: resolveReactElement(item),
-                action,
-                filter,
-            },
-        });
-
-        this.subMenuGroup.push(
-            new SubMenuGroup(this.pluginId, this.id, this.depth + 1)
-        );
-
-        return (...args) =>
-            this.subMenuGroup[this.subMenuGroup.length - 1].registerMenuItem(...args);
-    }
-}
-
 export default class PluginRegistry {
     constructor(id) {
         this.id = id;
@@ -288,26 +255,31 @@ export default class PluginRegistry {
     // - filter - A function whether to apply the plugin into the post' dropdown menu
     // Returns a function to register submenu items.
     registerPostDropdownSubMenuItem(text, action, filter) {
-        const id = generateId();
+        function registerMenuItem(pluginId, parentId, innerText, innerAction, innerFilter) {
+            const id = generateId();
 
-        store.dispatch({
-            type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
-            name: 'PostDropdownMenu',
-            data: {
-                id,
-                pluginId: this.id,
-                text: {
+            store.dispatch({
+                type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+                name: 'PostDropdownMenu',
+                data: {
                     id,
-                    text: resolveReactElement(text),
-                    subMenu: [],
+                    parentId,
+                    pluginId,
+                    text: {
+                        id,
+                        text: resolveReactElement(innerText),
+                        subMenu: [],
+                    },
+                    action: innerAction,
+                    filter: innerFilter,
                 },
-                action,
-                filter,
-            },
-        });
+            });
+            return function registerSubMenuItem(t, a, f) {
+                return registerMenuItem(pluginId, id, t, a, f);
+            };
+        }
 
-        const subMenuGroup = new SubMenuGroup(this.id, id, 1);
-        return subMenuGroup.registerMenuItem;
+        return registerMenuItem(this.id, null, text, action, filter);
     }
 
     // Register a component at the bottom of the post dropdown menu.

@@ -145,42 +145,36 @@ function addMenuItem(menu, data) {
 
 function components(state = {}, action) {
     switch (action.type) {
-    case ActionTypes.RECEIVED_PLUGIN_MENUITEM: {
-        if (!action.name || !action.data) {
-            return state;
-        }
-        if (action.data.parentId) {
-            const nextState = {...state};
-            const currentArray = nextState[action.name];
-            if (!currentArray) {
-                return state;
-            }
-            const root = currentArray.find((c) => c.text.subMenu);
-            let menu = Object.assign({}, root.text);
-            menu = addMenuItem(menu, {
-                id: action.data.id,
-                parentId: action.data.parentId,
-                text: action.data.text,
-                subMenu: [],
-                action: action.data.action,
-                filter: action.data.filter,
-            });
-            const menuAction = {
-                id: root.id,
-                pluginId: root.pluginId,
-                text: menu,
-                action: root.action,
-                filter: root.filter,
-            };
-            const nextArray = [...currentArray.filter((c) => !c.text.subMenu)];
-            nextArray.sort(sortComponents);
-            nextState[action.name] = [...nextArray, menuAction];
-            return nextState;
-        }
-        return state;
-    }
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
+            if (action.data.parentId) {
+                const nextState = {...state};
+                const currentArray = nextState[action.name];
+                if (!currentArray) {
+                    return state;
+                }
+                const root = currentArray.find((c) => c.text.subMenu);
+                let menu = Object.assign({}, root.text);
+                menu = addMenuItem(menu, {
+                    id: action.data.id,
+                    parentId: action.data.parentId,
+                    text: action.data.text.text,
+                    subMenu: [],
+                    action: action.data.action,
+                    filter: action.data.filter,
+                });
+                const menuAction = {
+                    id: root.id,
+                    pluginId: root.pluginId,
+                    text: menu,
+                    action: root.action,
+                    filter: root.filter,
+                };
+                const nextArray = [...currentArray.filter((c) => !c.text.subMenu)];
+                nextArray.sort(sortComponents);
+                nextState[action.name] = [...nextArray, menuAction];
+                return nextState;
+            }
             const nextState = {...state};
             const currentArray = nextState[action.name] || [];
             const nextArray = [...currentArray];
