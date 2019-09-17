@@ -8,7 +8,7 @@ export default function LoadingSVG({width, height, fill}) {
     const rectangles = [
         {x: -10, begin: '0s'},
         {x: 0, begin: '0.15s'},
-        {x: 10,begin: '0.3s'},
+        {x: 10, begin: '0.3s'},
     ];
     return (
         <svg
