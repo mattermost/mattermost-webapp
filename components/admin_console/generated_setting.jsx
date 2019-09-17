@@ -38,13 +38,7 @@ export default class GeneratedSetting extends React.Component {
         };
     }
 
-    constructor(props) {
-        super(props);
-
-        this.regenerate = this.regenerate.bind(this);
-    }
-
-    regenerate(e) {
+    regenerate = (e) => {
         e.preventDefault();
 
         this.props.onChange(this.props.id, crypto.randomBytes(256).toString('base64').substring(0, 32));

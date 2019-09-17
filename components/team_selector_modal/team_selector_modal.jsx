@@ -155,10 +155,15 @@ export default class TeamSelectorModal extends React.Component {
                 <div
                     className='more-modal__details'
                 >
-                    <TeamIcon
-                        name={option.display_name}
-                        url={imageURLForTeam(option)}
-                    />
+                    <div className='team-info-block'>
+                        <TeamIcon
+                            name={option.display_name}
+                            url={imageURLForTeam(option)}
+                        />
+                        <div className='team-data'>
+                            <div className='title'>{option.display_name}</div>
+                        </div>
+                    </div>
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>
