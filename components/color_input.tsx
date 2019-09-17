@@ -88,7 +88,14 @@ class ColorInput extends React.PureComponent<Props, State> {
     }
 
     private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {value} = event.target;
+        let {value} = event.target;
+        if (value === '') {
+            this.setState({hex: value});
+            return;
+        }
+        if (!value.startsWith('#')) {
+            value = '#' + value;
+        }
         if (!hexRegex.test(value)) {
             return;
         }
