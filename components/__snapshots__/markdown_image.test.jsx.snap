@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/MarkdownImage should match snapsnot for SizeAwareImage dimensions 1`] = `
-<SizeAwareImage
+<Connect(SizeAwareImage)
   dimensions={
     Object {
       "format": "jpg",

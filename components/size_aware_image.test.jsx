@@ -4,7 +4,7 @@
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 
-import SizeAwareImage from 'components/size_aware_image';
+import {SizeAwareImage} from 'components/size_aware_image';
 import LoadingImagePreview from 'components/loading_image_preview';
 
 jest.mock('utils/image_utils');
@@ -16,6 +16,9 @@ describe('components/SizeAwareImage', () => {
         dimensions: {
             height: 200,
             width: 300,
+        },
+        theme: {
+            centerChannelColor: '#333',
         },
         onImageLoaded: jest.fn(),
         onImageLoadFail: jest.fn(),

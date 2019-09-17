@@ -32,7 +32,7 @@ exports[`components/SingleImageView should match snapshot 1`] = `
         className="image-loaded  "
         style={Object {}}
       >
-        <SizeAwareImage
+        <Connect(SizeAwareImage)
           className=""
           dimensions={
             Object {
@@ -94,7 +94,7 @@ exports[`components/SingleImageView should match snapshot 2`] = `
         className="image-loaded image-fade-in "
         style={Object {}}
       >
-        <SizeAwareImage
+        <Connect(SizeAwareImage)
           className=""
           dimensions={
             Object {
@@ -179,7 +179,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
         className="image-loaded  svg"
         style={Object {}}
       >
-        <SizeAwareImage
+        <Connect(SizeAwareImage)
           className=""
           dimensions={
             Object {
@@ -243,7 +243,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
         className="image-loaded image-fade-in svg"
         style={Object {}}
       >
-        <SizeAwareImage
+        <Connect(SizeAwareImage)
           className=""
           dimensions={
             Object {
@@ -317,7 +317,7 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
         className="image-loaded image-fade-in "
         style={Object {}}
       >
-        <SizeAwareImage
+        <Connect(SizeAwareImage)
           className=""
           dimensions={
             Object {
