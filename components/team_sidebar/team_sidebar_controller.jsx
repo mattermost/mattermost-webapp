@@ -62,7 +62,7 @@ export default class TeamSidebar extends React.PureComponent {
             const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale);
 
             if (Utils.isKeyPressed(e, Constants.KeyCodes.UP) || Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
-                e.preventDefault()
+                e.preventDefault();
                 const delta = Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) ? 1 : -1;
                 const pos = teams.findIndex((team) => team.id === currentTeamId);
                 const newPos = pos + delta;
