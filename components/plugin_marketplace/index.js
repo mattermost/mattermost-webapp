@@ -18,8 +18,7 @@ function mapStateToProps(state) {
     return {
         show: isModalOpen(state, ModalIdentifiers.PLUGIN_MARKETPLACE),
         installedPlugins: getMarketplaceInstalledPlugins(state),
-        marketplacePlugins: state.entities.plugins.marketplacePlugins.data,
-        serverError: state.entities.plugins.marketplacePlugins.serverError,
+        marketplacePlugins: state.entities.plugins.marketplacePlugins,
     };
 }
 

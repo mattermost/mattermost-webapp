@@ -35,7 +35,6 @@ export default class MarketplaceModal extends React.Component {
         show: PropTypes.bool,
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
-        serverError: PropTypes.object,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             getMarketplacePlugins: PropTypes.func.isRequired,
@@ -48,6 +47,7 @@ export default class MarketplaceModal extends React.Component {
         this.state = {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
             loading: true,
+            serverError: null,
         };
     }
 
@@ -59,9 +59,9 @@ export default class MarketplaceModal extends React.Component {
 
     getMarketplacePlugins = async () => {
         const filter = this.refs.filter ? this.refs.filter.value : null;
-        await this.props.actions.getMarketplacePlugins(filter);
+        const {error} = await this.props.actions.getMarketplacePlugins(filter);
 
-        this.setState({loading: false});
+        this.setState({loading: false, serverError: error});
     }
 
     handleSelect = (key) => {
@@ -166,7 +166,7 @@ export default class MarketplaceModal extends React.Component {
         );
 
         let errorBanner = null;
-        if (this.props.serverError) {
+        if (this.state.serverError) {
             errorBanner = (
                 <div
                     className='error-bar'

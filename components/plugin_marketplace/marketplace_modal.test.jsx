@@ -26,7 +26,6 @@ describe('components/MarketplaceModal', () => {
         show: true,
         installedPlugins,
         marketplacePlugins: marketplacePluginsSample,
-        serverError: null,
         actions: {
             closeModal: jest.fn(),
             getMarketplacePlugins: jest.fn(),
@@ -65,10 +64,11 @@ describe('components/MarketplaceModal', () => {
     });
 
     test('should match the snapshot, error banner is shown', () => {
-        defaultProps.serverError = {message: 'Error test'};
         const wrapper = shallow(
             <MarketplaceModal {...defaultProps}/>
         );
+
+        wrapper.setState({serverError: {message: 'Error test'}});
 
         expect(wrapper).toMatchSnapshot();
     });
