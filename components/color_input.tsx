@@ -19,10 +19,12 @@ type State = {
 
 class ColorInput extends React.PureComponent<Props, State> {
     private colorPicker: React.RefObject<HTMLDivElement>;
+    private colorInput: React.RefObject<HTMLInputElement>;
 
     public constructor(props: Props) {
         super(props);
         this.colorPicker = React.createRef();
+        this.colorInput = React.createRef();
         this.state = {
             isOpened: false,
             hex: '#FFFFFF',
@@ -37,7 +39,7 @@ class ColorInput extends React.PureComponent<Props, State> {
         const {isOpened: prevIsOpened} = prevState;
         const {isOpened} = this.state;
 
-        if (this.props.color !== prevProps.color) {
+        if (this.props.color !== prevProps.color && this.getShortHand(this.state.hex) !== this.props.color) {
             this.setHex();
         }
 
@@ -61,6 +63,9 @@ class ColorInput extends React.PureComponent<Props, State> {
     };
 
     private togglePicker = () => {
+        if (!this.state.isOpened && this.colorInput.current) {
+            this.colorInput.current.focus()
+        }
         this.setState({isOpened: !this.state.isOpened});
     };
 
@@ -73,6 +78,15 @@ class ColorInput extends React.PureComponent<Props, State> {
         }
     };
 
+    private getShortHand = (value: string) => {
+        return value.split('').map((ch, index) => {
+            if (index === 0) {
+                return ch;
+            }
+            return `${ch}${ch}`;
+        }).join('');
+    }
+
     private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {value} = event.target;
         if (!hexRegex.test(value)) {
@@ -83,20 +97,20 @@ class ColorInput extends React.PureComponent<Props, State> {
         }
         this.setState({hex: value});
         const {onChange: handleChange} = this.props;
-        if (handleChange && value.length === 7) {
-            handleChange(value);
+        if (handleChange) {
+            if (value.length === 7) {
+                handleChange(value);
+            }
+            if (value.length === 4) {
+                handleChange(this.getShortHand(value));
+            }
         }
     };
 
     private onBlur = () => {
         const {hex} = this.state;
         if (hex.length === 4) {
-            const value = hex.split('').map((ch, index) => {
-                if (index === 0) {
-                    return ch;
-                }
-                return `${ch}${ch}`;
-            }).join('');
+            const value = this.getShortHand(hex);
             const {onChange: handleChange} = this.props;
             if (handleChange && value.length === 7) {
                 handleChange(value);
@@ -120,13 +134,13 @@ class ColorInput extends React.PureComponent<Props, State> {
             <div className='color-input input-group'>
                 <input
                     id={`${id}-inputColorValue`}
+                    ref={this.colorInput}
                     className='form-control'
                     type='text'
                     value={hex}
                     onChange={this.onChange}
                     onBlur={this.onBlur}
                     onKeyDown={this.onKeyDown}
-                    onClick={this.togglePicker}
                 />
                 <span
                     id={`${id}-squareColorIcon`}
