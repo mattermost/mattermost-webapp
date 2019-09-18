@@ -55,7 +55,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#member-list-popover').should('be.visible').within(($el) => {
             cy.wrap($el).find('.more-modal__body > div').
                 children().should('have.length', 2);
-            cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
+            cy.wrap($el).find('.more-modal__row').last().find('.Badge').should('be.visible').and('have.text', 'GUEST');
         });
 
         // #Close the Channel Members Popover
