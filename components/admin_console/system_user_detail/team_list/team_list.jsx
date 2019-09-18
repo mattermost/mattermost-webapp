@@ -12,7 +12,7 @@ import TeamRow from './team_row.jsx';
 
 const headerLabels = [
     {
-        id: 'admin.team_settings.team_list.header.name',
+        id: t('admin.systemUserDetail.teamList.header.name'),
         default: 'Name',
         style: {
             flexGrow: 1,
@@ -21,14 +21,14 @@ const headerLabels = [
         },
     },
     {
-        id: 'admin.systemUserDetail.teamList.header.type',
+        id: t('admin.systemUserDetail.teamList.header.type'),
         default: 'Type',
         style: {
             width: '150px',
         },
     },
     {
-        id: 'admin.systemUserDetail.teamList.header.role',
+        id: t('admin.systemUserDetail.teamList.header.role'),
         default: 'Role',
         style: {
             width: '150px',
