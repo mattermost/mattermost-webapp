@@ -23,12 +23,10 @@ export default class OAuthToEmail extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.submit = this.submit.bind(this);
-
         this.state = {};
     }
 
-    submit(e) {
+    submit = (e) => {
         e.preventDefault();
         const state = {};
 

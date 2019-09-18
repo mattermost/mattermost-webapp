@@ -254,7 +254,7 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='a11y__modal channel-switch-modal modal--overflow'
+                dialogClassName='a11y__modal channel-switch__modal'
                 ref='modal'
                 show={true}
                 onHide={this.onHide}
@@ -276,24 +276,26 @@ export default class QuickSwitchModal extends React.PureComponent {
                     >
                         {help}
                     </div>
-                    <SuggestionBox
-                        id='quickSwitchInput'
-                        ref={this.setSwitchBoxRef}
-                        className='form-control focused'
-                        onChange={this.onChange}
-                        value={this.state.text}
-                        onKeyDown={this.handleKeyDown}
-                        onItemSelected={this.handleSubmit}
-                        listComponent={SuggestionList}
-                        maxLength='64'
-                        providers={providers}
-                        listStyle='bottom'
-                        completeOnTab={false}
-                        spellCheck='false'
-                        renderDividers={renderDividers}
-                        delayInputUpdate={true}
-                        openWhenEmpty={true}
-                    />
+                    <div className='channel-switch__suggestion-box'>
+                        <SuggestionBox
+                            id='quickSwitchInput'
+                            ref={this.setSwitchBoxRef}
+                            className='form-control focused'
+                            onChange={this.onChange}
+                            value={this.state.text}
+                            onKeyDown={this.handleKeyDown}
+                            onItemSelected={this.handleSubmit}
+                            listComponent={SuggestionList}
+                            maxLength='64'
+                            providers={providers}
+                            listStyle='bottom'
+                            completeOnTab={false}
+                            spellCheck='false'
+                            renderDividers={renderDividers}
+                            delayInputUpdate={true}
+                            openWhenEmpty={true}
+                        />
+                    </div>
                 </Modal.Body>
             </Modal>
         );
