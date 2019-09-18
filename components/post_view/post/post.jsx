@@ -79,6 +79,7 @@ export default class Post extends React.PureComponent {
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
+            unreadPost: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -98,6 +99,7 @@ export default class Post extends React.PureComponent {
         this.state = {
             dropdownOpened: false,
             hover: false,
+            alt: false,
             a11yActive: false,
             sameRoot: this.hasSameRoot(props),
             currentAriaLabel: '',
@@ -111,10 +113,14 @@ export default class Post extends React.PureComponent {
 
     componentDidMount() {
         this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
         this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
     componentWillUnmount() {
         this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
         this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
@@ -131,7 +137,6 @@ export default class Post extends React.PureComponent {
         if (!post) {
             return;
         }
-
         this.props.actions.selectPost(post);
     }
 
@@ -139,8 +144,17 @@ export default class Post extends React.PureComponent {
         if (!post) {
             return;
         }
-
         this.props.actions.selectPostCard(post);
+    }
+
+    handlePostClick = (e) => {
+        const post = this.props.post;
+        if (!post) {
+            return;
+        }
+        if (e.altKey) {
+            this.props.actions.unreadPost(post);
+        }
     }
 
     handleDropdownOpened = (opened) => {
@@ -229,6 +243,10 @@ export default class Post extends React.PureComponent {
             className += ' post--pinned';
         }
 
+        if (this.state.alt && this.state.hover) {
+            className += ' cursor--pointer';
+        }
+
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
@@ -238,6 +256,10 @@ export default class Post extends React.PureComponent {
 
     unsetHover = () => {
         this.setState({hover: false});
+    }
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
     }
 
     handleA11yActivateEvent = () => {
@@ -308,6 +330,7 @@ export default class Post extends React.PureComponent {
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 onTouchStart={this.setHover}
+                onClick={this.handlePostClick}
                 aria-label={this.state.currentAriaLabel}
                 aria-atomic={true}
             >
