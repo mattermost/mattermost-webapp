@@ -15,15 +15,6 @@ import {ActionTypes} from 'utils/constants.jsx';
 const dispatch = store.dispatch;
 const getState = store.getState;
 
-export async function saveConfig(config, success, error) {
-    const {data, error: err} = await AdminActions.updateConfig(config)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
 export async function reloadConfig(success, error) {
     const {data, error: err} = await dispatch(AdminActions.reloadConfig());
     if (data && success) {
