@@ -67,21 +67,21 @@ const allShortcuts = defineMessages({
     },
     teamNavPrev: {
         default: {
-            id: t('shortcuts.team_nav.unread_prev'),
+            id: t('shortcuts.team_nav.prev'),
             defaultMessage: 'Previous team:\tCtrl|Alt|Up',
         },
         mac: {
-            id: t('shortcuts.team_nav.unread_prev.mac'),
+            id: t('shortcuts.team_nav.prev.mac'),
             defaultMessage: 'Previous team:\t⌘|⌥|Up',
         },
     },
     teamNavNext: {
         default: {
-            id: t('shortcuts.team_nav.unread_next'),
+            id: t('shortcuts.team_nav.next'),
             defaultMessage: 'Next team:\tCtrl|Alt|Down',
         },
         mac: {
-            id: t('shortcuts.team_nav.unread_next.mac'),
+            id: t('shortcuts.team_nav.next.mac'),
             defaultMessage: 'Next team:\t⌘|⌥|Down',
         },
     },
