@@ -4,7 +4,7 @@
 import {getRandomInt} from '../../../utils';
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -42,7 +42,7 @@ describe('Email Address', () => {
         cy.apiUpdateConfig(newSettings);
     });
 
-    it('M14634 Should not create account with an existing email address', () => {
+    it('On14634 Email address already exists', () => {
         // # Signup a new user with an email address and user generated in signupWithEmail
         signupWithEmail('unique.' + uniqueUserId, 'unique1pw');
 
