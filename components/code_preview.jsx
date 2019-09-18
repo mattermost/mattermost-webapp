@@ -15,6 +15,10 @@ export default class CodePreview extends React.Component {
     constructor(props) {
         super(props);
 
+        this.updateStateFromProps = this.updateStateFromProps.bind(this);
+        this.handleReceivedError = this.handleReceivedError.bind(this);
+        this.handleReceivedCode = this.handleReceivedCode.bind(this);
+
         this.state = {
             code: '',
             lang: '',
@@ -33,7 +37,7 @@ export default class CodePreview extends React.Component {
         }
     }
 
-    updateStateFromProps = (props) => {
+    updateStateFromProps(props) {
         const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(props.fileInfo.extension);
 
         if (!usedLanguage || props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
@@ -53,7 +57,7 @@ export default class CodePreview extends React.Component {
         });
     }
 
-    handleReceivedCode = (data) => {
+    handleReceivedCode(data) {
         let code = data;
         if (data.nodeName === '#document') {
             code = new XMLSerializer().serializeToString(data);
@@ -65,7 +69,7 @@ export default class CodePreview extends React.Component {
         });
     }
 
-    handleReceivedError = () => {
+    handleReceivedError() {
         this.setState({loading: false, success: false});
     }
 

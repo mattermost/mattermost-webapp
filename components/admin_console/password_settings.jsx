@@ -17,6 +17,15 @@ export default class PasswordSettings extends AdminSettings {
     constructor(props) {
         super(props);
 
+        this.getConfigFromState = this.getConfigFromState.bind(this);
+
+        this.renderSettings = this.renderSettings.bind(this);
+
+        this.getSampleErrorMsg = this.getSampleErrorMsg.bind(this);
+
+        this.handlePasswordLengthChange = this.handlePasswordLengthChange.bind(this);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+
         this.state = Object.assign(this.state, {
             passwordMinimumLength: props.config.PasswordSettings.MinimumLength,
             passwordLowercase: props.config.PasswordSettings.Lowercase,
@@ -68,7 +77,7 @@ export default class PasswordSettings extends AdminSettings {
         );
     }
 
-    getConfigFromState = (config) => {
+    getConfigFromState(config) {
         config.PasswordSettings.MinimumLength = this.parseIntNonZero(this.state.passwordMinimumLength, Constants.MIN_PASSWORD_LENGTH);
         config.PasswordSettings.Lowercase = this.refs.lowercase.checked;
         config.PasswordSettings.Uppercase = this.refs.uppercase.checked;
@@ -91,7 +100,7 @@ export default class PasswordSettings extends AdminSettings {
         };
     }
 
-    getSampleErrorMsg = (minLength) => {
+    getSampleErrorMsg(minLength) {
         if (this.props.config.PasswordSettings.MinimumLength > Constants.MAX_PASSWORD_LENGTH || this.props.config.PasswordSettings.MinimumLength < Constants.MIN_PASSWORD_LENGTH) {
             return (
                 <FormattedMessage
@@ -125,12 +134,12 @@ export default class PasswordSettings extends AdminSettings {
         );
     }
 
-    handlePasswordLengthChange = (id, value) => {
+    handlePasswordLengthChange(id, value) {
         this.sampleErrorMsg = this.getSampleErrorMsg(value);
         this.handleChange(id, value);
     }
 
-    handleCheckboxChange = (id, value) => {
+    handleCheckboxChange(id, value) {
         this.sampleErrorMsg = this.getSampleErrorMsg(this.state.passwordMinimumLength);
         this.handleChange(id, value);
     }
@@ -144,7 +153,7 @@ export default class PasswordSettings extends AdminSettings {
         );
     }
 
-    renderSettings = () => {
+    renderSettings() {
         return (
             <SettingsGroup>
                 <div>

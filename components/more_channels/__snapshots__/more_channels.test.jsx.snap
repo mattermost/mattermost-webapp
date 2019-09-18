@@ -50,6 +50,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
       permissions={
         Array [
           "create_public_channel",
+          "create_private_channel",
         ]
       }
       teamId="team_id"

@@ -47,7 +47,7 @@ export default class NewMessagesBelow extends React.PureComponent {
         return (
             <div
                 className={className}
-                onTransitionEnd={this.setRendered}
+                onTransitionEnd={this.setRendered.bind(this)}
                 ref='indicator'
             >
                 <div onClick={this.props.onClick}>
@@ -64,7 +64,7 @@ export default class NewMessagesBelow extends React.PureComponent {
 
     // Sync 'rendered' state with visibility param, only after transitions
     // have ended
-    setRendered = () => {
+    setRendered() {
         this.setState({rendered: this.state.visible});
     }
 }

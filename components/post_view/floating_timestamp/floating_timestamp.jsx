@@ -3,8 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import RecentDate from 'components/recent_date';
+import {FormattedDate} from 'react-intl';
 
 export default class FloatingTimestamp extends React.PureComponent {
     static propTypes = {
@@ -19,15 +18,15 @@ export default class FloatingTimestamp extends React.PureComponent {
 
     render() {
         if (!this.props.isMobile) {
-            return null;
+            return <noscript/>;
         }
 
         if (this.props.createAt === 0) {
-            return null;
+            return <noscript/>;
         }
 
         const dateString = (
-            <RecentDate
+            <FormattedDate
                 value={this.props.createAt}
                 weekday='short'
                 day='2-digit'

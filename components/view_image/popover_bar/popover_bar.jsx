@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 export default class PopoverBar extends React.PureComponent {
     static propTypes = {
+        show: PropTypes.bool.isRequired,
         fileIndex: PropTypes.number.isRequired,
         totalFiles: PropTypes.number.isRequired,
         filename: PropTypes.string.isRequired,
@@ -20,6 +21,7 @@ export default class PopoverBar extends React.PureComponent {
     };
 
     static defaultProps = {
+        show: false,
         fileIndex: 0,
         totalFiles: 0,
         filename: '',
@@ -46,6 +48,11 @@ export default class PopoverBar extends React.PureComponent {
                     <span className='text'>{' | '}</span>
                 </div>
             );
+        }
+
+        var footerClass = 'modal-button-bar';
+        if (this.props.show) {
+            footerClass += ' footer--show';
         }
 
         let downloadLinks = null;
@@ -91,7 +98,7 @@ export default class PopoverBar extends React.PureComponent {
         return (
             <div
                 ref='imageFooter'
-                className='modal-button-bar'
+                className={footerClass}
             >
                 <span className='pull-left text'>
                     <FormattedMessage

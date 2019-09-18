@@ -40,10 +40,12 @@ export default class FileAttachmentList extends React.Component {
     constructor(props) {
         super(props);
 
+        this.handleImageClick = this.handleImageClick.bind(this);
+
         this.state = {showPreviewModal: false, startImgIndex: 0};
     }
 
-    handleImageClick = (indexClicked) => {
+    handleImageClick(indexClicked) {
         this.setState({showPreviewModal: true, startImgIndex: indexClicked});
     }
 

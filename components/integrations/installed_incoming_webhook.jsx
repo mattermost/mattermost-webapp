@@ -71,7 +71,13 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         channel: PropTypes.object,
     }
 
-    handleDelete = () => {
+    constructor(props) {
+        super(props);
+
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    handleDelete() {
         this.props.onDelete(this.props.incomingWebhook);
     }
 

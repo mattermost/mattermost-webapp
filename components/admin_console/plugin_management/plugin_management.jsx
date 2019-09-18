@@ -15,7 +15,6 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import AdminSettings from '../admin_settings.jsx';
 import BooleanSetting from '../boolean_setting.jsx';
 import SettingsGroup from '../settings_group.jsx';
-import TextSetting from '../text_setting.jsx';
 
 const PluginItemState = ({state}) => {
     switch (state) {
@@ -411,6 +410,9 @@ export default class PluginManagement extends AdminSettings {
     constructor(props) {
         super(props);
 
+        this.getConfigFromState = this.getConfigFromState.bind(this);
+        this.renderSettings = this.renderSettings.bind(this);
+
         this.state = Object.assign(this.state, {
             loading: true,
             fileSelected: false,
@@ -427,12 +429,10 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
-    getConfigFromState = (config) => {
+    getConfigFromState(config) {
         config.PluginSettings.Enable = this.state.enable;
         config.PluginSettings.EnableUploads = this.state.enableUploads;
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
-        config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
-        config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
 
         return config;
     }
@@ -442,8 +442,6 @@ export default class PluginManagement extends AdminSettings {
             enable: config.PluginSettings.Enable,
             enableUploads: config.PluginSettings.EnableUploads,
             allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
-            enableMarketplace: config.PluginSettings.EnableMarketplace,
-            marketplaceUrl: config.PluginSettings.MarketplaceUrl,
         };
 
         return state;
@@ -717,7 +715,7 @@ export default class PluginManagement extends AdminSettings {
         return null;
     }
 
-    renderSettings = () => {
+    renderSettings() {
         const {enableUploads} = this.state;
         const enable = this.props.config.PluginSettings.Enable;
         let serverError = '';
@@ -918,46 +916,6 @@ export default class PluginManagement extends AdminSettings {
                                 </p>
                             </div>
                         </div>
-                        <BooleanSetting
-                            id='enableMarketplace'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.enableMarketplace'
-                                    defaultMessage='Enable Marketplace:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.enableMarketplaceDesc'
-                                    defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html).'
-                                />
-                            }
-                            value={this.state.enableMarketplace}
-                            disabled={!this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
-                        />
-
-                        <TextSetting
-                            id={'marketplaceUrl'}
-                            type={'input'}
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.marketplaceUrl'
-                                    defaultMessage='Marketplace URL:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.marketplaceUrlDesc'
-                                    defaultMessage='URL of the marketplace server.'
-                                />
-                            }
-                            value={this.state.marketplaceUrl}
-                            disabled={!this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
-                        />
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}

@@ -28,6 +28,12 @@ export default class PDFPreview extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.updateStateFromProps = this.updateStateFromProps.bind(this);
+        this.onDocumentLoad = this.onDocumentLoad.bind(this);
+        this.onDocumentLoadError = this.onDocumentLoadError.bind(this);
+        this.onPageLoad = this.onPageLoad.bind(this);
+        this.renderPDFPage = this.renderPDFPage.bind(this);
+
         this.pdfPagesRendered = {};
 
         this.state = {
@@ -59,7 +65,7 @@ export default class PDFPreview extends React.PureComponent {
         }
     }
 
-    renderPDFPage = (pageIndex) => {
+    renderPDFPage(pageIndex) {
         if (this.pdfPagesRendered[pageIndex] || !this.state.pdfPagesLoaded[pageIndex]) {
             return;
         }
@@ -80,7 +86,7 @@ export default class PDFPreview extends React.PureComponent {
         this.pdfPagesRendered[pageIndex] = true;
     }
 
-    updateStateFromProps = (props) => {
+    updateStateFromProps(props) {
         this.setState({
             pdf: null,
             pdfPages: {},
@@ -93,7 +99,7 @@ export default class PDFPreview extends React.PureComponent {
         PDFJS.getDocument(props.fileUrl).then(this.onDocumentLoad, this.onDocumentLoadError);
     }
 
-    onDocumentLoad = (pdf) => {
+    onDocumentLoad(pdf) {
         const numPages = pdf.numPages <= MAX_PDF_PAGES ? pdf.numPages : MAX_PDF_PAGES;
         this.setState({pdf, numPages});
         for (let i = 1; i <= pdf.numPages; i++) {
@@ -101,12 +107,12 @@ export default class PDFPreview extends React.PureComponent {
         }
     }
 
-    onDocumentLoadError = (reason) => {
+    onDocumentLoadError(reason) {
         console.log('Unable to load PDF preview: ' + reason); //eslint-disable-line no-console
         this.setState({loading: false, success: false});
     }
 
-    onPageLoad = (page) => {
+    onPageLoad(page) {
         const pdfPages = Object.assign({}, this.state.pdfPages);
         pdfPages[page.pageIndex] = page;
 

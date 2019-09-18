@@ -23,7 +23,13 @@ export default class Suggestion extends React.Component {
         tabIndex: -1,
     };
 
-    handleClick = (e) => {
+    constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e) {
         e.preventDefault();
 
         this.props.onClick(this.props.term, this.props.matchedPretext);

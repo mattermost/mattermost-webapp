@@ -10,6 +10,7 @@ const path = require('path');
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, '..', 'node_modules'),
+    path.join(__dirname, '..', 'non_npm_dependencies'),
     path.join(__dirname, '..', 'dist'),
 ];
 

@@ -23,27 +23,33 @@ export default class SearchableUserListContainer extends React.Component {
     constructor(props) {
         super(props);
 
+        this.handleTermChange = this.handleTermChange.bind(this);
+
+        this.nextPage = this.nextPage.bind(this);
+        this.previousPage = this.previousPage.bind(this);
+        this.search = this.search.bind(this);
+
         this.state = {
             term: '',
             page: 0,
         };
     }
 
-    handleTermChange = (term) => {
+    handleTermChange(term) {
         this.setState({term});
     }
 
-    nextPage = () => {
+    nextPage() {
         this.setState({page: this.state.page + 1});
 
         this.props.nextPage(this.state.page + 1);
     }
 
-    previousPage = () => {
+    previousPage() {
         this.setState({page: this.state.page - 1});
     }
 
-    search = (term) => {
+    search(term) {
         this.props.search(term);
 
         if (term !== '') {

@@ -16,18 +16,25 @@ import TeamIcon from '../../widgets/team_icon/team_icon';
 
 // eslint-disable-next-line react/require-optimization
 export default class TeamButton extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.handleSwitch = this.handleSwitch.bind(this);
+        this.handleDisabled = this.handleDisabled.bind(this);
+    }
+
     static contextTypes = {
         intl: intlShape.isRequired,
     };
 
-    handleSwitch = (e) => {
+    handleSwitch(e) {
         e.preventDefault();
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         this.props.switchTeam(this.props.url);
     }
 
-    handleDisabled = (e) => {
+    handleDisabled(e) {
         e.preventDefault();
     }
 

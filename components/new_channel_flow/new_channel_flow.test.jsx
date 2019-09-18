@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import assert from 'assert';
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
@@ -11,7 +10,6 @@ import NewChannelFlow, {
     SHOW_NEW_CHANNEL,
     SHOW_EDIT_URL,
     SHOW_EDIT_URL_THEN_COMPLETE,
-    getChannelTypeFromProps,
 } from 'components/new_channel_flow/new_channel_flow.jsx';
 
 describe('components/NewChannelFlow', () => {
@@ -228,34 +226,5 @@ describe('components/NewChannelFlow', () => {
             expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
             done();
         });
-    });
-
-    test('getChannelTypeFromProps', () => {
-        const props = {
-            channelType: Constants.OPEN_CHANNEL,
-            canCreatePublicChannel: true,
-            canCreatePrivateChannel: true,
-        };
-
-        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
-
-        props.canCreatePublicChannel = false;
-        assert.equal(getChannelTypeFromProps(props), Constants.PRIVATE_CHANNEL);
-
-        props.canCreatePrivateChannel = false;
-        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
-
-        props.canCreatePublicChannel = true;
-        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
-
-        props.channelType = Constants.PRIVATE_CHANNEL;
-        props.canCreatePrivateChannel = true;
-        assert.equal(getChannelTypeFromProps(props), Constants.PRIVATE_CHANNEL);
-
-        props.canCreatePrivateChannel = false;
-        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
-
-        props.canCreatePublicChannel = true;
-        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
     });
 });

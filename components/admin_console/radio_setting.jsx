@@ -22,7 +22,13 @@ export default class RadioSetting extends React.Component {
         disabled: false,
     };
 
-    handleChange = (e) => {
+    constructor(props) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
         this.props.onChange(this.props.id, e.target.value);
     }
 

@@ -26,21 +26,25 @@ class TeamImportTab extends React.Component {
     constructor(props) {
         super(props);
 
+        this.onImportFailure = this.onImportFailure.bind(this);
+        this.onImportSuccess = this.onImportSuccess.bind(this);
+        this.doImportSlack = this.doImportSlack.bind(this);
+
         this.state = {
             status: 'ready',
             link: '',
         };
     }
 
-    onImportFailure = () => {
+    onImportFailure() {
         this.setState({status: 'fail'});
     }
 
-    onImportSuccess = (data) => {
+    onImportSuccess(data) {
         this.setState({status: 'done', link: 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(atob(data.results))});
     }
 
-    doImportSlack = (file) => {
+    doImportSlack(file) {
         this.setState({status: 'in-progress', link: ''});
         utils.importSlack(file, this.onImportSuccess, this.onImportFailure);
     }

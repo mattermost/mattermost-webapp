@@ -11,7 +11,12 @@ import Suggestion from './suggestion.jsx';
 import 'react-day-picker/lib/style.css';
 
 class SearchDateSuggestion extends Suggestion {
-    handleDayClick = (day) => {
+    constructor(props) {
+        super(props);
+        this.handleDayClick = this.handleDayClick.bind(this);
+    }
+
+    handleDayClick(day) {
         const dayString = day.toISOString().split('T')[0];
         this.props.onClick(dayString, this.props.matchedPretext);
     }

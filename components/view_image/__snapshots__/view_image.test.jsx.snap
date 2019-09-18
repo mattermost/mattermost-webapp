@@ -69,6 +69,7 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -147,6 +148,7 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
           fileURL="/api/v4/files/undefined?download=1"
           isExternalFile={true}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -229,6 +231,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           fileURL="/api/v4/files/file_id_1?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -331,6 +334,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           fileURL="/api/v4/files/file_id_2?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -433,6 +437,7 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -515,6 +520,7 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -574,7 +580,7 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
+          className="modal-close modal-close--show"
           onClick={[MockFunction]}
         />
         <div
@@ -597,6 +603,7 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={true}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -679,6 +686,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -761,6 +769,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -843,6 +852,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -902,7 +912,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           id="viewImageModalLabel"
         />
         <div
-          className="modal-close"
+          className="modal-close modal-close--show"
           onClick={[MockFunction]}
         />
         <div
@@ -925,6 +935,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           fileURL="/api/v4/files/file_id_1?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={true}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -1027,6 +1038,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -1109,6 +1121,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           fileURL="/api/v4/files/file_id_1?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -1211,6 +1224,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           fileURL="/api/v4/files/file_id_2?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -1313,6 +1327,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           fileURL="/api/v4/files/file_id_2?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -1415,6 +1430,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -1493,6 +1509,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -1571,6 +1588,7 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
+          show={false}
           showPublicLink={true}
           totalFiles={1}
         />

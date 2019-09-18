@@ -17,7 +17,15 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
 export default class ClusterSettings extends AdminSettings {
-    getConfigFromState = (config) => {
+    constructor(props) {
+        super(props);
+
+        this.getConfigFromState = this.getConfigFromState.bind(this);
+        this.renderSettings = this.renderSettings.bind(this);
+        this.overrideHandleChange = this.overrideHandleChange.bind(this);
+    }
+
+    getConfigFromState(config) {
         config.ClusterSettings.Enable = this.state.Enable;
         config.ClusterSettings.ClusterName = this.state.ClusterName;
         config.ClusterSettings.OverrideHostname = this.state.OverrideHostname;
@@ -52,7 +60,7 @@ export default class ClusterSettings extends AdminSettings {
         );
     }
 
-    overrideHandleChange = (id, value) => {
+    overrideHandleChange(id, value) {
         this.setState({
             showWarning: true,
         });
@@ -60,7 +68,7 @@ export default class ClusterSettings extends AdminSettings {
         this.handleChange(id, value);
     }
 
-    renderSettings = () => {
+    renderSettings() {
         const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Cluster === 'true';
         if (!licenseEnabled) {
             return null;

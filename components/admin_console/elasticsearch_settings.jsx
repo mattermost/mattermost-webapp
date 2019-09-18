@@ -17,7 +17,19 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
 export default class ElasticsearchSettings extends AdminSettings {
-    getConfigFromState = (config) => {
+    constructor(props) {
+        super(props);
+
+        this.getConfigFromState = this.getConfigFromState.bind(this);
+
+        this.doTestConfig = this.doTestConfig.bind(this);
+        this.handleSettingChanged = this.handleSettingChanged.bind(this);
+        this.handleSaved = this.handleSaved.bind(this);
+
+        this.renderSettings = this.renderSettings.bind(this);
+    }
+
+    getConfigFromState(config) {
         config.ElasticsearchSettings.ConnectionUrl = this.state.connectionUrl;
         config.ElasticsearchSettings.SkipTLSVerification = this.state.skipTLSVerification;
         config.ElasticsearchSettings.Username = this.state.username;
@@ -46,7 +58,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         };
     }
 
-    handleSettingChanged = (id, value) => {
+    handleSettingChanged(id, value) {
         if (id === 'enableIndexing') {
             if (value === false) {
                 this.setState({
@@ -77,7 +89,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         this.handleChange(id, value);
     }
 
-    handleSaved = () => {
+    handleSaved() {
         this.setState({
             canPurgeAndIndex: this.state.enableIndexing,
         });
@@ -87,7 +99,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         return this.state.canSave;
     }
 
-    doTestConfig = (success, error) => {
+    doTestConfig(success, error) {
         const config = JSON.parse(JSON.stringify(this.props.config));
         this.getConfigFromState(config);
 
@@ -134,7 +146,7 @@ export default class ElasticsearchSettings extends AdminSettings {
         );
     }
 
-    renderSettings = () => {
+    renderSettings() {
         return (
             <SettingsGroup>
                 <BooleanSetting

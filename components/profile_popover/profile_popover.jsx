@@ -122,6 +122,9 @@ class ProfilePopover extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.handleShowDirectChannel = this.handleShowDirectChannel.bind(this);
+        this.handleMentionKeyClick = this.handleMentionKeyClick.bind(this);
+        this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
             loadingDMChannel: -1,
         };
@@ -131,7 +134,7 @@ class ProfilePopover extends React.PureComponent {
         this.props.actions.getMembershipForCurrentEntities(this.props.userId);
     }
 
-    handleShowDirectChannel = (e) => {
+    handleShowDirectChannel(e) {
         const {actions} = this.props;
         e.preventDefault();
 
@@ -161,7 +164,7 @@ class ProfilePopover extends React.PureComponent {
         });
     }
 
-    handleMentionKeyClick = (e) => {
+    handleMentionKeyClick(e) {
         e.preventDefault();
 
         if (!this.props.user) {
@@ -173,7 +176,7 @@ class ProfilePopover extends React.PureComponent {
         EventEmitter.emit('mention_key_click', this.props.user.username, this.props.isRHS);
     }
 
-    handleEditAccountSettings = (e) => {
+    handleEditAccountSettings(e) {
         e.preventDefault();
 
         if (!this.props.user) {

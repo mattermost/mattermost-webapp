@@ -289,7 +289,7 @@ describe('components/FileUpload', () => {
             <FileUpload {...baseProps}/>
         );
 
-        const e = {dataTransfer: {files: [{name: 'file1.pdf'}]}};
+        const e = {originalEvent: {dataTransfer: {files: [{name: 'file1.pdf'}]}}};
         const instance = wrapper.instance();
         instance.uploadFiles = jest.fn();
         instance.handleDrop(e);
@@ -298,7 +298,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadError).toHaveBeenCalledWith(null);
 
         expect(instance.uploadFiles).toBeCalled();
-        expect(instance.uploadFiles).toHaveBeenCalledWith(e.dataTransfer.files);
+        expect(instance.uploadFiles).toHaveBeenCalledWith(e.originalEvent.dataTransfer.files);
 
         expect(baseProps.onFileUploadChange).toBeCalled();
         expect(baseProps.onFileUploadChange).toHaveBeenCalledWith();

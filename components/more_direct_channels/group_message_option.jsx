@@ -12,6 +12,11 @@ export default class GroupMessageOption extends React.Component {
         onAdd: PropTypes.func.isRequired,
     };
 
+    constructor(props) {
+        super(props);
+        this.addValue = this.addValue.bind(this);
+    }
+
     getStyle() {
         let className = 'mentions__name';
         if (this.props.isSelected) {
@@ -24,7 +29,7 @@ export default class GroupMessageOption extends React.Component {
         return this.props.channel.profiles.map((profile) => '@' + profile.username).join(', ');
     }
 
-    addValue = () => {
+    addValue() {
         this.props.onAdd(this.props.channel.profiles);
     }
 

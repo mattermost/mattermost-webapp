@@ -15,17 +15,6 @@ export const SHOW_NEW_CHANNEL = 1;
 export const SHOW_EDIT_URL = 2;
 export const SHOW_EDIT_URL_THEN_COMPLETE = 3;
 
-export function getChannelTypeFromProps(props) {
-    let channelType = props.channelType || Constants.OPEN_CHANNEL;
-    if (!props.canCreatePublicChannel && channelType === Constants.OPEN_CHANNEL) {
-        channelType = Constants.PRIVATE_CHANNEL;
-    }
-    if (!props.canCreatePrivateChannel && channelType === Constants.PRIVATE_CHANNEL) {
-        channelType = Constants.OPEN_CHANNEL;
-    }
-    return channelType;
-}
-
 export default class NewChannelFlow extends React.Component {
     static propTypes = {
 
@@ -72,10 +61,9 @@ export default class NewChannelFlow extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             serverError: '',
-            channelType: getChannelTypeFromProps(props),
+            channelType: props.channelType || Constants.OPEN_CHANNEL,
             flowState: SHOW_NEW_CHANNEL,
             channelDisplayName: '',
             channelName: '',
@@ -90,7 +78,7 @@ export default class NewChannelFlow extends React.Component {
         if (nextProps.show === true && this.props.show === false) {
             this.setState({
                 serverError: '',
-                channelType: getChannelTypeFromProps(nextProps),
+                channelType: nextProps.channelType,
                 flowState: SHOW_NEW_CHANNEL,
                 channelDisplayName: '',
                 channelName: '',

@@ -2,13 +2,13 @@
     @include border-radius(4px);
     border: 1px solid transparent;
     font-weight: bold;
-    height: 47px;
+    overflow: hidden;
     letter-spacing: -.5px;
     position: relative;
     text-align: center;
     text-transform: capitalize;
     vertical-align: top;
-    width: 47px;
+    width: 46px;
 
 
     &.team-btn__add {

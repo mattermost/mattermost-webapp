@@ -41,6 +41,9 @@ export default class BrandImageSetting extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.handleImageChange = this.handleImageChange.bind(this);
+        this.handleDeleteButtonPressed = this.handleDeleteButtonPressed.bind(this);
+
         this.state = {
             deleteBrandImage: false,
             brandImage: null,
@@ -83,7 +86,7 @@ export default class BrandImageSetting extends React.PureComponent {
         }
     }
 
-    handleImageChange = () => {
+    handleImageChange() {
         const element = $(this.refs.fileInput);
         if (element.prop('files').length > 0) {
             this.props.setSaveNeeded();
@@ -94,7 +97,7 @@ export default class BrandImageSetting extends React.PureComponent {
         }
     }
 
-    handleDeleteButtonPressed = () => {
+    handleDeleteButtonPressed() {
         this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
         this.props.setSaveNeeded();
     }

@@ -161,7 +161,7 @@ export default class MoreChannels extends React.Component {
         const createNewChannelButton = (
             <TeamPermissionGate
                 teamId={teamId}
-                permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
+                permissions={[Permissions.CREATE_PUBLIC_CHANNEL, Permissions.CREATE_PRIVATE_CHANNEL]}
             >
                 <button
                     id='createNewChannel'

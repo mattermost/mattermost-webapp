@@ -11,6 +11,9 @@ export default class SettingsUpload extends React.Component {
     constructor(props) {
         super(props);
 
+        this.doFileSelect = this.doFileSelect.bind(this);
+        this.doSubmit = this.doSubmit.bind(this);
+
         this.state = {
             clientError: this.props.clientError,
             serverError: this.props.serverError,
@@ -25,7 +28,7 @@ export default class SettingsUpload extends React.Component {
         });
     }
 
-    doFileSelect = (e) => {
+    doFileSelect(e) {
         e.preventDefault();
         var filename = $(e.target).val();
         if (filename.substring(3, 11) === 'fakepath') {
@@ -38,7 +41,7 @@ export default class SettingsUpload extends React.Component {
         });
     }
 
-    doSubmit = (e) => {
+    doSubmit(e) {
         e.preventDefault();
         var inputnode = ReactDOM.findDOMNode(this.refs.uploadinput);
         if (inputnode.files && inputnode.files[0]) {

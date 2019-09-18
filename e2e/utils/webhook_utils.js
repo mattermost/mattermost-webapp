@@ -139,23 +139,6 @@ function getFullDialog(triggerId, webhookBaseUrl) {
                         },
                     ],
                 },
-                {
-                    display_name: 'Radio Option Selector',
-                    name: 'someradiooptions',
-                    type: 'radio',
-                    help_text: '',
-                    optional: false,
-                    options: [
-                        {
-                            text: 'Engineering',
-                            value: 'engineering',
-                        },
-                        {
-                            text: 'Sales',
-                            value: 'sales',
-                        },
-                    ],
-                },
             ],
             submit_label: 'Submit',
             notify_on_cancel: true,

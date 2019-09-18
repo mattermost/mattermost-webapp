@@ -23,10 +23,13 @@ export default class EmailToOAuth extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.submit = this.submit.bind(this);
+        this.preSubmit = this.preSubmit.bind(this);
+
         this.state = {showMfa: false, password: ''};
     }
 
-    preSubmit = (e) => {
+    preSubmit(e) {
         e.preventDefault();
         var state = {};
 
@@ -45,7 +48,7 @@ export default class EmailToOAuth extends React.PureComponent {
         this.submit(this.props.email, password, '');
     }
 
-    submit = (loginId, password, token) => {
+    submit(loginId, password, token) {
         emailToOAuth(
             loginId,
             password,

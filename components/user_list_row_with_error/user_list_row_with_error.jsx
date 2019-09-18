@@ -35,9 +35,11 @@ export default class UserListRowWithError extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+
+        this.onError = this.onError.bind(this);
     }
 
-    onError = (errorObj) => {
+    onError(errorObj) {
         this.setState({
             error: errorObj,
         });

@@ -259,7 +259,7 @@ export default class SchemaAdminSettings extends React.Component {
             return <span>{''}</span>;
         }
 
-        if (setting.label.translate === false) {
+        if (this.props.schema.translate === false) {
             return <span>{setting.label}</span>;
         }
 
@@ -312,7 +312,7 @@ export default class SchemaAdminSettings extends React.Component {
         return (
             <SchemaText
                 isMarkdown={isMarkdown}
-                isTranslated={setting.translate}
+                isTranslated={this.props.schema.translate}
                 text={helpText}
                 textDefault={helpTextDefault}
                 textValues={helpTextValues}
@@ -325,7 +325,7 @@ export default class SchemaAdminSettings extends React.Component {
             return '';
         }
 
-        if (setting.translate === false) {
+        if (this.props.schema.translate === false) {
             return setting.label;
         }
         return Utils.localizeMessage(setting.label, setting.label_default);
@@ -753,7 +753,12 @@ export default class SchemaAdminSettings extends React.Component {
         if (schema.settings) {
             schema.settings.forEach((setting) => {
                 if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
-                    settingsList.push(this.buildSettingFunctions[setting.type](setting));
+                    // This is a hack required as plugin settings are case insensitive
+                    let s = setting;
+                    if (this.isPlugin) {
+                        s = {...setting, key: setting.key.toLowerCase()};
+                    }
+                    settingsList.push(this.buildSettingFunctions[setting.type](s));
                 }
             });
         }
@@ -765,7 +770,6 @@ export default class SchemaAdminSettings extends React.Component {
                     <SchemaText
                         text={schema.header}
                         isMarkdown={true}
-                        isTranslated={this.props.schema.translate}
                     />
                 </div>
             );
@@ -778,7 +782,6 @@ export default class SchemaAdminSettings extends React.Component {
                     <SchemaText
                         text={schema.footer}
                         isMarkdown={true}
-                        isTranslated={this.props.schema.translate}
                     />
                 </div>
             );
@@ -858,18 +861,6 @@ export default class SchemaAdminSettings extends React.Component {
         }
     };
 
-    // Some path parts may contain periods (e.g. plugin ids), but path walking the configuration
-    // relies on splitting by periods. Use this pair of functions to allow such path parts.
-    //
-    // It is assumed that no path contains the symbol '+'.
-    static escapePathPart(pathPart) {
-        return pathPart.replace(/\./g, '+');
-    }
-
-    static unescapePathPart(pathPart) {
-        return pathPart.replace(/\+/g, '.');
-    }
-
     static getConfigValue(config, path) {
         const pathParts = path.split('.');
 
@@ -878,13 +869,13 @@ export default class SchemaAdminSettings extends React.Component {
                 return null;
             }
 
-            return obj[SchemaAdminSettings.unescapePathPart(pathPart)];
+            return obj[pathPart];
         }, config);
     }
 
     setConfigValue(config, path, value) {
         function setValue(obj, pathParts) {
-            const part = SchemaAdminSettings.unescapePathPart(pathParts[0]);
+            const part = pathParts[0];
 
             if (pathParts.length === 1) {
                 obj[part] = value;

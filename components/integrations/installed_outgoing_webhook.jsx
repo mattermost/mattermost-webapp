@@ -90,13 +90,20 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         channel: PropTypes.object,
     }
 
-    handleRegenToken = (e) => {
+    constructor(props) {
+        super(props);
+
+        this.handleRegenToken = this.handleRegenToken.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
+    handleRegenToken(e) {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.outgoingWebhook);
     }
 
-    handleDelete = () => {
+    handleDelete() {
         this.props.onDelete(this.props.outgoingWebhook);
     }
 
