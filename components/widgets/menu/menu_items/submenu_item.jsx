@@ -18,6 +18,7 @@ import {showMobileSubMenuModal} from 'actions/global_actions';
 //             "id": "B",
 //             "parentId": "A",
 //             "text": "B text"
+//             "subMenu": [],
 //             "action": () => {},
 //             "filter": () => {},
 //         }
