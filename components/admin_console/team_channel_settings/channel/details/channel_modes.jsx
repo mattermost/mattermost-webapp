@@ -15,7 +15,9 @@ const SyncGroupsToggle = ({isSynced, isPublic, onToggle}) => (
     <LineSwitch
         toggled={isSynced}
         last={isSynced}
-        onToggle={() => onToggle(!isSynced, isPublic)}
+        onToggle={() => {
+            onToggle(!isSynced, isPublic);
+        }}
         title={(
             <FormattedMessage
                 id='admin.channel_settings.channel_details.syncGroupMembers'
@@ -36,16 +38,13 @@ SyncGroupsToggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
 };
 
-const AllowAllToggle = ({isSynced, isOriginallyPrivate, isPublic, onToggle}) =>
+const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
     !isSynced && (
         <LineSwitch
             toggled={isPublic}
-            last={true}
-            disabled={isOriginallyPrivate}
+            last={isPublic}
             onToggle={() => {
-                if (!isOriginallyPrivate) {
-                    onToggle(isSynced, !isPublic);
-                }
+                onToggle(isSynced, !isPublic);
             }}
             title={(
                 <FormattedMessage
@@ -74,13 +73,12 @@ const AllowAllToggle = ({isSynced, isOriginallyPrivate, isPublic, onToggle}) =>
         />);
 
 AllowAllToggle.propTypes = {
-    isOriginallyPrivate: PropTypes.bool.isRequired,
     isPublic: PropTypes.bool.isRequired,
     isSynced: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
 };
 
-export const ChannelModes = ({isOriginallyPrivate, isPublic, isSynced, onToggle}) => (
+export const ChannelModes = ({isPublic, isSynced, onToggle}) => (
     <AdminPanel
         id='channel_manage'
         titleId={t('admin.channel_settings.channel_detail.manageTitle')}
@@ -96,7 +94,6 @@ export const ChannelModes = ({isOriginallyPrivate, isPublic, isSynced, onToggle}
                     onToggle={onToggle}
                 />
                 <AllowAllToggle
-                    isOriginallyPrivate={isOriginallyPrivate}
                     isPublic={isPublic}
                     isSynced={isSynced}
                     onToggle={onToggle}
@@ -106,7 +103,6 @@ export const ChannelModes = ({isOriginallyPrivate, isPublic, isSynced, onToggle}
     </AdminPanel>);
 
 ChannelModes.propTypes = {
-    isOriginallyPrivate: PropTypes.bool.isRequired,
     isPublic: PropTypes.bool.isRequired,
     isSynced: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
