@@ -220,14 +220,14 @@ export default class DotMenu extends Component {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
             map((item) => {
-                if (item.text.subMenu) {
+                if (item.subMenu) {
                     return (
                         <Menu.ItemSubMenu
                             key={item.id + '_pluginmenuitem'}
                             id={item.text.id}
                             postId={this.props.post.id}
-                            text={item.text.text}
-                            subMenu={item.text.subMenu}
+                            text={item.text}
+                            subMenu={item.subMenu}
                             action={item.action}
                             xOffset={this.state.width}
                             root={true}

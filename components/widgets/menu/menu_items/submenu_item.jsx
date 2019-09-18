@@ -5,12 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as Utils from 'utils/utils.jsx';
-import {ModalIdentifiers} from 'utils/constants';
-import SubMenuModal from '../menu_modals/submenu_modal/submenu_modal.jsx';
-import {openModal} from 'actions/views/modals';
-import store from 'stores/redux_store';
+import {showMobileSubMenuModal} from 'actions/global_actions';
 
-// Requires an object conforming to a submenu structure passed to registerPostDropdownMenuAction
+// Requires an object conforming to a submenu structure passed to registerPostDropdownSubMenuAction
 // of the form:
 // {
 //     "id": "A",
@@ -61,18 +58,6 @@ export default class SubMenuItem extends React.PureComponent {
         this.setState({show: false});
     }
 
-    handleShowMobileSubMenuItem = (elements) => {
-        const submenuModalData = {
-            ModalId: ModalIdentifiers.MOBILE_SUBMENU,
-            dialogType: SubMenuModal,
-            dialogProps: {
-                elements,
-            },
-        };
-
-        store.dispatch(openModal(submenuModalData));
-    }
-
     onClick = (event) => {
         const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
@@ -81,7 +66,7 @@ export default class SubMenuItem extends React.PureComponent {
                 if (!root) { //required to close only the original menu
                     event.stopPropagation();
                 }
-                this.handleShowMobileSubMenuItem(subMenu);
+                showMobileSubMenuModal(subMenu);
             } else if (action) { // leaf node in the tree handles action only
                 action(postId);
             }

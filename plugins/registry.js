@@ -254,7 +254,7 @@ export default class PluginRegistry {
     // - action - A function to trigger when component is clicked on
     // - filter - A function whether to apply the plugin into the post' dropdown menu
     // Returns a function to register submenu items.
-    registerPostDropdownSubMenuItem(text, action, filter) {
+    registerPostDropdownSubMenuAction(text, action, filter) {
         function registerMenuItem(pluginId, parentId, innerText, innerAction, innerFilter) {
             const id = generateId();
 
@@ -265,11 +265,8 @@ export default class PluginRegistry {
                     id,
                     parentId,
                     pluginId,
-                    text: {
-                        id,
-                        text: resolveReactElement(innerText),
-                        subMenu: [],
-                    },
+                    text: resolveReactElement(innerText),
+                    subMenu: [],
                     action: innerAction,
                     filter: innerFilter,
                 },

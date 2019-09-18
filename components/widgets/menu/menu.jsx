@@ -6,7 +6,7 @@ import React from 'react';
 
 import {isMobile} from 'utils/utils';
 
-import SubMenuItem from 'components/widgets/menu/menu_items/submenu_item.jsx';
+import SubMenuItem from './menu_items/submenu_item.jsx';
 
 import MenuGroup from './menu_group';
 import MenuItemAction from './menu_items/menu_item_action';

@@ -5,6 +5,44 @@ import {combineReducers} from 'redux';
 
 import {ActionTypes} from 'utils/constants.jsx';
 
+function addMenuItem(menu, data) {
+    if (menu.id === data.parentId) {
+        menu.subMenu = [...menu.subMenu, data];
+    } else if (menu.subMenu) {
+        menu.subMenu = menu.subMenu.map((item) => {
+            const subMenu = {...item};
+            return addMenuItem(subMenu, data);
+        });
+    }
+    return menu;
+}
+
+function buildSubMenu(state, action) {
+    const nextState = {...state};
+    const currentArray = nextState[action.name];
+    if (!currentArray) {
+        return action;
+    }
+    const root = currentArray.find((c) => c.subMenu);
+    let menu = {...root};
+    menu = addMenuItem(menu, {
+        id: action.data.id,
+        parentId: action.data.parentId,
+        text: action.data.text,
+        subMenu: [],
+        action: action.data.action,
+        filter: action.data.filter,
+    });
+    return {
+        id: root.id,
+        pluginId: root.pluginId,
+        text: root.text,
+        subMenu: menu.subMenu,
+        action: root.action,
+        filter: root.filter,
+    };
+}
+
 function sortComponents(a, b) {
     if (a.pluginId < b.pluginId) {
         return -1;
@@ -131,53 +169,16 @@ function plugins(state = {}, action) {
     }
 }
 
-function addMenuItem(menu, data) {
-    if (menu.id === data.parentId) {
-        menu.subMenu = [...menu.subMenu, data];
-    } else if (menu.subMenu) {
-        menu.subMenu = menu.subMenu.map((item) => {
-            const subMenu = Object.assign({}, item);
-            return addMenuItem(subMenu, data);
-        });
-    }
-    return menu;
-}
-
 function components(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
             if (action.data.parentId) {
-                const nextState = {...state};
-                const currentArray = nextState[action.name];
-                if (!currentArray) {
-                    return state;
-                }
-                const root = currentArray.find((c) => c.text.subMenu);
-                let menu = Object.assign({}, root.text);
-                menu = addMenuItem(menu, {
-                    id: action.data.id,
-                    parentId: action.data.parentId,
-                    text: action.data.text.text,
-                    subMenu: [],
-                    action: action.data.action,
-                    filter: action.data.filter,
-                });
-                const menuAction = {
-                    id: root.id,
-                    pluginId: root.pluginId,
-                    text: menu,
-                    action: root.action,
-                    filter: root.filter,
-                };
-                const nextArray = [...currentArray.filter((c) => !c.text.subMenu)];
-                nextArray.sort(sortComponents);
-                nextState[action.name] = [...nextArray, menuAction];
-                return nextState;
+                action.data = buildSubMenu(state, action);
             }
             const nextState = {...state};
             const currentArray = nextState[action.name] || [];
-            const nextArray = [...currentArray];
+            const nextArray = [...currentArray.filter((c) => !c.subMenu)];
             nextArray.sort(sortComponents);
             nextState[action.name] = [...nextArray, action.data];
             return nextState;
