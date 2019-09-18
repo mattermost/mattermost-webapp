@@ -23,7 +23,7 @@ describe('I18456 Built-in slash commands: user status via post', () => {
     });
 
     after(() => {
-        // # Set user status to offline
+        // # Set user status to online
         cy.apiUpdateUserStatus('online');
     });
 
@@ -51,7 +51,7 @@ describe('I18456 Built-in slash commands: user status via suggestion list', () =
     });
 
     after(() => {
-        // # Set user status to offline
+        // # Set user status to online
         cy.apiUpdateUserStatus('online');
     });
 
