@@ -37,9 +37,7 @@ export default class SuggestionList extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.getContent = this.getContent.bind(this);
         this.suggestionReadOut = React.createRef();
-        this.scrollToItem = this.scrollToItem.bind(this);
         this.currentLabel = '';
         this.currentItem = {};
     }
@@ -92,11 +90,11 @@ export default class SuggestionList extends React.PureComponent {
         this.announceLabel();
     }
 
-    getContent() {
+    getContent = () => {
         return $(ReactDOM.findDOMNode(this.refs.content));
     }
 
-    scrollToItem(term) {
+    scrollToItem = (term) => {
         const content = this.getContent();
         if (!content || content.length === 0) {
             return;

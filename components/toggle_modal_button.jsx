@@ -8,22 +8,19 @@ export default class ModalToggleButton extends React.Component {
     constructor(props) {
         super(props);
 
-        this.show = this.show.bind(this);
-        this.hide = this.hide.bind(this);
-
         this.state = {
             show: false,
         };
     }
 
-    show(e) {
+    show = (e) => {
         if (e) {
             e.preventDefault();
         }
         this.setState({show: true});
     }
 
-    hide() {
+    hide = () => {
         this.setState({show: false});
     }
 

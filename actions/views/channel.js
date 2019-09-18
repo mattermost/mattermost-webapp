@@ -147,7 +147,7 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 export function loadUnreads(channelId) {
     return async (dispatch) => {
         const time = Date.now();
-        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
+        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId, false));
         if (error) {
             return {
                 error,
@@ -179,7 +179,7 @@ export function loadUnreads(channelId) {
 
 export function loadPostsAround(channelId, focusedPostId) {
     return async (dispatch) => {
-        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
+        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2, false));
         if (error) {
             return {
                 error,
@@ -203,7 +203,7 @@ export function loadPostsAround(channelId, focusedPostId) {
 export function loadLatestPosts(channelId) {
     return async (dispatch) => {
         const time = Date.now();
-        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
+        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2, false));
 
         if (error) {
             return {
@@ -241,9 +241,9 @@ export function loadPosts({channelId, postId, type}) {
         const page = 0;
         let result;
         if (type === PostRequestTypes.BEFORE_ID) {
-            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT));
+            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT, false));
         } else {
-            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT));
+            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT, false));
         }
 
         const {data} = result;
@@ -286,7 +286,7 @@ export function syncPostsInChannel(channelId, since) {
             sinceTimeToGetPosts = lastPostsApiCallForChannel;
         }
 
-        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts, false));
         if (data) {
             dispatch({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
