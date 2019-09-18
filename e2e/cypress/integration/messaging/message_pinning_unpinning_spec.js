@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -13,8 +13,8 @@ const pinnedPosts = [];
 * Pin post by cliking on [...] then 'Pin to channel', and add the pinned post to pinnedPosts
 * @param {String} postId - post ID of the post to pin
 */
-function pinPost(nthPost) {
-    cy.getNthPostId(nthPost).then((postId) => {
+function pinPost(index) {
+    cy.getNthPostId(index).then((postId) => {
         cy.clickPostDotMenu(postId);
         cy.get(`#pin_post_${postId}`).click();
         pinnedPosts.push(postId);
@@ -23,9 +23,13 @@ function pinPost(nthPost) {
 
 describe('Messaging', () => {
     before(() => {
-        // Login and go to /
+        // # Login as user-1
         cy.apiLogin('user-1');
-        cy.visit('/');
+
+        // # Create a new team and visit default town-square channel
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            cy.visit(`/${response.body.name}`);
+        });
     });
 
     // Unpin all posts at the end of the test
@@ -36,30 +40,33 @@ describe('Messaging', () => {
     });
 
     it('M15010 Pinning or un-pinning older post does not cause it to display at bottom of channel', () => {
-        cy.get('#sidebarItem_saepe-5').click({force: true});
+        // # Post messages
+        const olderPost = 7;
+        for (let i = olderPost; i > 0; --i) {
+            cy.postMessage(i);
+        }
 
         // # Ensure there are a couple of pinned posts in the channel already:
-        // 1a. Pin 10th and 15th newest posts
-        pinPost(10);
-        pinPost(15);
+        // # Pin 4th and 6th posts from latest
+        pinPost(-4);
+        pinPost(-6);
 
-        // 1b. Click on Pinned Posts channel header button
+        // # Click on Pinned Posts channel header button
         cy.get('#channelHeaderPinButton').click();
 
-        // 1c. Verify the pinned posts (10 & 15) are added to the Pinned Posts list on the right hand side
+        // * Verify the pinned posts (4 & 6) are added to the Pinned Posts list on the right hand side
         cy.get('#search-items-container').children().should('have.length', 2);
 
-        // 1d. Close out of the Pinned Post side bar
+        // # Close out of the Pinned Post side bar
         cy.get('#searchResultsCloseButton').click();
 
-        // # Get postId for the 20th (from the last) post
-        const olderPost = 20;
-        cy.getNthPostId(olderPost).then((postId) => {
-            // # Scroll up to the 20th last post
+        // # Get last post (7th)
+        cy.getNthPostId(-olderPost).then((postId) => {
+            // # Scroll into view
             cy.get(`#post_${postId}`).scrollIntoView();
 
             // # Click [...] > Pin to channel
-            pinPost(olderPost);
+            pinPost(-olderPost);
 
             // # Store the post message of the 20th post as pinnedPostText
             cy.get(`#postMessageText_${postId}`).invoke('text').then((pinnedPostText) => {
@@ -81,7 +88,7 @@ describe('Messaging', () => {
                     cy.get('#search-items-container').children().eq(0).get(`#postMessageText_${lastPostId}`);
                     cy.get('#search-items-container').children().eq(2).get(`#postMessageText_${postId}`).and('contain', pinnedPostText);
 
-                    // # Scroll back up to the post pinned in step 4.
+                    // # Scroll back up to the last pinned post.
                     cy.get(`#post_${postId}`).scrollIntoView();
 
                     // * When un-pinned in center, post disappears from pinned posts list in right-hand-side:
@@ -92,7 +99,7 @@ describe('Messaging', () => {
                     // * Right-hand-side only has 2 initially pinned posts
                     cy.get('#search-items-container').children().should('have.length', 2);
 
-                    // * Right-hand-side does not have the post pinned in step 4.
+                    // * Right-hand-side does not have the last pinned post.
                     cy.get('#search-items-container').children().should('not.contain', `#postMessageText_${postId}`);
                 });
             });
