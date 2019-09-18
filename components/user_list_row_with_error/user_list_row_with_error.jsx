@@ -16,7 +16,7 @@ export default class UserListRowWithError extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
         status: PropTypes.string,
-        extraInfo: PropTypes.arrayOf(PropTypes.object),
+        extraInfo: PropTypes.array,
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
