@@ -30,6 +30,7 @@ import Menu from 'components/widgets/menu/menu.jsx';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
+import MenuItemDirectLevelChannel from './menu_items/close_direct_channel';
 import MenuItemToggleMuteChannel from './menu_items/toggle_mute_channel';
 import MenuItemToggleFavoriteChannel from './menu_items/toggle_favorite_channel';
 import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
@@ -203,6 +204,13 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         dialogProps={{channel}}
                         text={localizeMessage('channel_header.setHeader', 'Edit Channel Header')}
                     />
+                    <Menu.Group divider={divider}>
+                        <MenuItemDirectLevelChannel
+                            id='channelDirectLevel'
+                            channel={channel}
+                            currentUser={user}
+                        />
+                    </Menu.Group>
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}
