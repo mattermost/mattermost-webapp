@@ -181,6 +181,16 @@ Cypress.Commands.add('apiGetChannelByName', (channelName) => {
     });
 });
 
+Cypress.Commands.add('apiGetChannel', (channelId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/channels/${channelId}`,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -647,5 +657,22 @@ Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
     return cy.request(options).then((response) => {
         const data = response.body;
         return {...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''};
+    });
+});
+
+/**
+ * Gets a team on the system
+ * * @param {String} teamId - The team ID to get
+ * All parameter required
+ */
+
+Cypress.Commands.add('apiGetTeam', (teamId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `api/v4/teams/${teamId}`,
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
     });
 });

@@ -6,6 +6,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
 >
   <BackIcon
     className="back"
+    id="backIcon"
     onClick={[MockFunction]}
   />
   <div
@@ -21,6 +22,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   </h1>
   <div
     className="add-people"
+    data-testid="addPeople"
   >
     <h2>
       <FormattedMessage
@@ -29,7 +31,9 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
         values={Object {}}
       />
     </h2>
-    <div>
+    <div
+      data-testid="emailPlaceholder"
+    >
       <FormattedMessage
         defaultMessage="Add guests or email addresses"
         id="invitation_modal.guests.search-and-add.placeholder"
@@ -50,6 +54,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   </div>
   <div
     className="add-channels"
+    data-testid="channelPlaceholder"
   >
     <h2>
       <FormattedMessage
@@ -79,6 +84,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   </div>
   <div
     className="custom-message"
+    data-testid="customMessage"
   >
     <a
       href="#"
@@ -106,6 +112,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     <button
       className="btn btn-inactive"
       disabled={true}
+      id="inviteGuestButton"
       onClick={[Function]}
     >
       <FormattedMessage
