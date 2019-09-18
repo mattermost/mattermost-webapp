@@ -11,10 +11,12 @@ import {showMobileSubMenuModal} from 'actions/global_actions';
 // of the form:
 // {
 //     "id": "A",
+//     "parentId": null,
 //     "text": "A text",
 //     "subMenu": [
 //         {
 //             "id": "B",
+//             "parentId": "A",
 //             "text": "B text"
 //             "action": () => {},
 //             "filter": () => {},
