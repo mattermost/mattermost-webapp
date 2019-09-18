@@ -54,19 +54,21 @@ export default class CloseDirectChannel extends React.PureComponent {
     handleClose = (e) => {
         e.preventDefault();
 
-        if (!this.isLeaving) {
-            const id = this.props.channel.teammate_id;
-            const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
+        const {
+            channel,
+            currentUser,
+            currentTeam,
+            redirectChannel,
+            actions: {
+                savePreferences,
+            },
+        } = this.props;
 
-            const currentUserId = this.props.currentUser.id;
-            this.props.actions.savePreferences(currentUserId, [{user_id: currentUserId, category, name: id, value: 'false'}]).then(
-                () => {
-                    this.isLeaving = false;
-                }
-            );
+        const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
 
-            browserHistory.push(`/${this.props.currentTeam.name}/channels/${this.props.redirectChannel}`);
-        }
+        savePreferences(currentUser.id, [{user_id: currentUser.id, category, name: channel.teammate_id, value: 'false'}]);
+
+        browserHistory.push(`/${currentTeam.name}/channels/${redirectChannel}`);
     }
 
     render() {
