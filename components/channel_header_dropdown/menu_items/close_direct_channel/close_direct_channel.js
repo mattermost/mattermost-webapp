@@ -51,7 +51,9 @@ export default class CloseDirectChannel extends React.PureComponent {
 
     isLeaving = false;
 
-    handleClose = () => {
+    handleClose = (e) => {
+        e.preventDefault();
+
         if (!this.isLeaving) {
             const id = this.props.channel.teammate_id;
             const category = Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW;
