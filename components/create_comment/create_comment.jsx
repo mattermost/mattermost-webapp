@@ -13,7 +13,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition, repositionCaret} from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -218,7 +218,10 @@ export default class CreateComment extends React.PureComponent {
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
-        this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
+        this.setState({
+            draft: {...this.props.draft, uploadsInProgress: []},
+            caretPosition: this.props.draft.message.length,
+        });
     }
 
     componentDidMount() {
@@ -336,6 +339,10 @@ export default class CreateComment extends React.PureComponent {
         this.setState({showEmojiPicker: false});
     }
 
+    getTextbox = (tb) => {
+        this.setState({tb});
+    }
+
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
 
@@ -344,7 +351,7 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const {draft} = this.state;
+        const {draft, target} = this.state;
 
         let newMessage = '';
         if (draft.message === '') {
@@ -355,6 +362,13 @@ export default class CreateComment extends React.PureComponent {
 
             // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
             newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
+
+            const newCaretPosition = `${firstPiece} :${emojiAlias}: `.length;
+            repositionCaret(target, newCaretPosition);
+
+            this.setState({
+                caretPosition: newCaretPosition,
+            });
         }
 
         const modifiedDraft = {
@@ -551,20 +565,26 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleMouseUp = (e) => {
-        const caretPosition = e.target.selectionStart;
+        e.persist();
+        const caretPosition = Utils.getCaretPosition(e.target);
+        const target = e;
         this.setState({
             caretPosition,
+            target,
         });
     }
 
     handleKeyDown = (e) => {
         e.persist();
 
-        // A bit of a hack. Better to use keyup instead
+        // A bit of a hack. Better to use keyup instead.
+        // We therefore use setTimeout to wait for the right value of caretPosition
+        // and then update state.
 
         setTimeout(() => {
-            const pos = e.target.selectionStart;
-            this.setState({caretPosition: pos});
+            const caretPosition = Utils.getCaretPosition(e.target);
+            const target = e;
+            this.setState({caretPosition, target});
         }, 0);
 
         if (

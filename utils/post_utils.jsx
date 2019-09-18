@@ -461,3 +461,12 @@ export function splitMessageBasedOnCaretPosition(message) {
 
     return {};
 }
+
+// Reposition caret in the input area to appear imediately after added text
+export function repositionCaret(event, position) {
+    if (event) {
+        window.requestAnimationFrame(() => {
+            Utils.setCaretPosition(event.target, position);
+        });
+    }
+}

@@ -16,6 +16,7 @@ import {
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
+    repositionCaret,
 } from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -263,6 +264,7 @@ export default class CreatePost extends React.Component {
         super(props);
         this.state = {
             message: this.props.draft.message,
+            caretPosition: this.props.draft.message.length,
             submitting: false,
             showPostDeletedModal: false,
             enableSendButton: false,
@@ -911,20 +913,26 @@ export default class CreatePost extends React.Component {
     }
 
     handleMouseUp = (e) => {
-        const caretPosition = e.target.selectionStart;
+        e.persist();
+        const caretPosition = Utils.getCaretPosition(e.target);
+        const target = e;
         this.setState({
             caretPosition,
+            target,
         });
     }
 
     handleKeyDown = (e) => {
         e.persist();
 
-        // A bit of a hack. Better to use keyup instead
+        // A bit of a hack. Better to use keyup instead.
+        // We therefore use setTimeout to wait for the right value of caretPosition
+        // and then update state.
 
         setTimeout(() => {
-            const pos = e.target.selectionStart;
-            this.setState({caretPosition: pos});
+            const caretPosition = Utils.getCaretPosition(e.target);
+            const target = e;
+            this.setState({caretPosition, target});
         }, 0);
 
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
@@ -1021,13 +1029,20 @@ export default class CreatePost extends React.Component {
         if (this.state.message === '') {
             this.setState({message: ':' + emojiAlias + ': '});
         } else {
-            const {message} = this.state;
+            const {message, target} = this.state;
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition.call(this, message);
 
             // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
             const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
 
-            this.setState({message: newMessage});
+            // const newCaretPosition = `${firstPiece} :${emojiAlias}: `.length;
+            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
+            repositionCaret(target, newCaretPosition);
+
+            this.setState({
+                message: newMessage,
+                caretPosition: newCaretPosition,
+            });
         }
 
         this.handleEmojiClose();

@@ -217,7 +217,7 @@ describe('components/create_post', () => {
         });
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
-        expect(wrapper.state('message')).toBe('test :smile:  ');
+        expect(wrapper.state('message')).toBe('test  :smile: ');
     });
 
     it('onChange textbox should call setDraft and change message state', () => {
