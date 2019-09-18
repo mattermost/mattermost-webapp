@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
-import {convertChannelToPrivate, getChannel as fetchChannel, membersMinusGroupMembers, patchChannel} from 'mattermost-redux/actions/channels';
+import {getChannel as fetchChannel, membersMinusGroupMembers, patchChannel, updateChannelPrivacy} from 'mattermost-redux/actions/channels';
 import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
 
 import {
@@ -46,12 +46,12 @@ function mapDispatchToProps(dispatch) {
             getChannel: fetchChannel,
             getTeam: fetchTeam,
             getGroups: fetchAssociatedGroups,
-            convertChannelToPrivate,
             linkGroupSyncable,
             unlinkGroupSyncable,
             membersMinusGroupMembers,
             patchChannel,
             setNavigationBlocked,
+            updateChannelPrivacy,
         }, dispatch),
     };
 }

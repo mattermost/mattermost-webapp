@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate} from 'react-intl';
+
+import RecentDate from 'components/recent_date';
 
 export default class DateSeparator extends React.PureComponent {
     static propTypes = {
@@ -29,7 +30,7 @@ export default class DateSeparator extends React.PureComponent {
             >
                 <hr className='separator__hr'/>
                 <div className='separator__text'>
-                    <FormattedDate
+                    <RecentDate
                         {...timezoneProps}
                         value={date}
                         weekday='short'

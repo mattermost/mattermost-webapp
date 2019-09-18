@@ -48,6 +48,9 @@ function verifyFocusInAddChannelMemberModal() {
 describe('Messaging', () => {
     before(() => {
         cy.apiLogin('user-1');
+    });
+
+    beforeEach(() => {
         cy.visit('/');
     });
 
@@ -143,6 +146,38 @@ describe('Messaging', () => {
                 // # Verify Focus in add channel member modal
                 verifyFocusInAddChannelMemberModal();
             });
+        });
+    });
+    it('M17455 - Focus does not move for non-character keys', () => {
+        //# Make sure main input is visible and focused
+        cy.get('#post_textbox').should('be.visible').and('be.focused');
+
+        //#Click anywhere in the body to move the focus out of the main input box
+        cy.get('body').click();
+
+        //# Make sure main input is not focused
+        cy.get('#post_textbox').should('not.be.focused');
+
+        // Keycodes for keys that don't have a special character sequence for cypress.type()
+        const numLockKeycode = 144;
+        const f7Keycode = 118;
+        const windowsKeycode = 91;
+
+        [numLockKeycode, f7Keycode, windowsKeycode].forEach((keycode) => {
+            //# Trigger keydown event using keycode
+            cy.get('body').trigger('keydown', {keyCode: keycode, which: keycode});
+
+            //# Make sure main input is not focused
+            cy.get('#post_textbox').should('not.be.focused');
+        });
+
+        // For other keys we can use cypress.type() with a special character sequence.
+        ['{downarrow}', '{pagedown}', '{shift}', '{pageup}', '{enter}'].forEach((key) => {
+            //# Type special character key using Cypress special character sequence
+            cy.get('body').type(key);
+
+            //# Make sure main input is not focused
+            cy.get('#post_textbox').should('not.be.focused');
         });
     });
 });

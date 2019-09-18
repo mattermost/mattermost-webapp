@@ -27,7 +27,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           >
             <SchemaText
               isMarkdown={true}
-              isTranslated={true}
+              isTranslated={false}
               text="# Header
 *This* is the **header**"
             />
@@ -36,7 +36,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the text field."
               />
             }
@@ -60,7 +60,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             }
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the bool field."
               />
             }
@@ -82,7 +82,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the dropdown field."
               />
             }
@@ -114,7 +114,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the radio field."
               />
             }
@@ -145,7 +145,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the generated field."
               />
             }
@@ -169,7 +169,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the user autocomplete field."
               />
             }
@@ -185,7 +185,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           >
             <SchemaText
               isMarkdown={true}
-              isTranslated={true}
+              isTranslated={false}
               text="# Footer
 *This* is the **footer**"
             />
@@ -322,7 +322,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           >
             <SchemaText
               isMarkdown={true}
-              isTranslated={true}
+              isTranslated={false}
               text="# Header
 *This* is the **header**"
             />
@@ -331,12 +331,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the text field."
               />
             }
-            id="settinga"
-            key="testplugin_text_settinga"
+            id="PluginSettings.Plugins.testplugin.settinga"
+            key="testplugin_text_PluginSettings.Plugins.testplugin.settinga"
             label="Setting One"
             onChange={[Function]}
             placeholder="e.g. some setting"
@@ -355,12 +355,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             }
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the bool field."
               />
             }
-            id="settingb"
-            key="testplugin_bool_settingb"
+            id="PluginSettings.Plugins.testplugin.settingb"
+            key="testplugin_bool_PluginSettings.Plugins.testplugin.settingb"
             label="Setting Two"
             onChange={[Function]}
             setByEnv={false}
@@ -377,13 +377,13 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the dropdown field."
               />
             }
-            id="settingc"
+            id="PluginSettings.Plugins.testplugin.settingc"
             isDisabled={false}
-            key="testplugin_dropdown_settingc"
+            key="testplugin_dropdown_PluginSettings.Plugins.testplugin.settingc"
             label="Setting Three"
             onChange={[Function]}
             setByEnv={false}
@@ -409,12 +409,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the radio field."
               />
             }
-            id="settingd"
-            key="testplugin_radio_settingd"
+            id="PluginSettings.Plugins.testplugin.settingd"
+            key="testplugin_radio_PluginSettings.Plugins.testplugin.settingd"
             label="Setting Four"
             onChange={[Function]}
             setByEnv={false}
@@ -440,12 +440,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the generated field."
               />
             }
-            id="settinge"
-            key="testplugin_generated_settinge"
+            id="PluginSettings.Plugins.testplugin.settinge"
+            key="testplugin_generated_PluginSettings.Plugins.testplugin.settinge"
             label="Setting Five"
             onChange={[Function]}
             placeholder="e.g. 47KyfOxtk5+ovi1MDHFyzMDHIA6esMWb"
@@ -464,12 +464,12 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             disabled={false}
             helpText={
               <SchemaText
-                isTranslated={false}
+                isTranslated={true}
                 text="This is some help text for the user autocomplete field."
               />
             }
-            id="settingf"
-            key="testplugin_userautocomplete_settingf"
+            id="PluginSettings.Plugins.testplugin.settingf"
+            key="testplugin_userautocomplete_PluginSettings.Plugins.testplugin.settingf"
             label="Setting Six"
             onChange={[Function]}
             placeholder="Type a username here"
@@ -480,7 +480,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
           >
             <SchemaText
               isMarkdown={true}
-              isTranslated={true}
+              isTranslated={false}
               text="# Footer
 *This* is the **footer**"
             />
