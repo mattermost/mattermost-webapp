@@ -163,7 +163,7 @@ export default class Root extends React.Component {
 
         /*eslint-disable */
         if (this.props.diagnosticsEnabled) {
-            global.window.uplink = new Client("http://uplink-test.dev.spinmint.com:8000/v0/log", diagnosticId);
+            global.window.uplink = new Client("https://uplink-test.dev.spinmint.com/v0/log", diagnosticId);
         }
 
         if (segmentKey != null && segmentKey !== '' && !segmentKey.startsWith('placeholder') && this.props.diagnosticsEnabled) {
