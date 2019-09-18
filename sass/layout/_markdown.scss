@@ -51,21 +51,24 @@ h6 {
     }
 }
 
-#post-list {
+#post-list,
+#rhsContent {
     .markdown-inline-img {
         -moz-force-broken-image-icon: 1;
         margin: 5px 2px;
         max-height: 500px;
         border: 1px solid transparent;
     }
+    
     div .markdown-inline-img {
         display: inline-block;
         width: 100%;
-        max-width: 960px;
         vertical-align: middle;
     }
-
+    
     .markdown-inline-img--hover {
+        max-width: calc(100% - 5px);
+        
         &:hover {
             @include border-radius(4px);
             @include single-transition(all, .1s, linear);

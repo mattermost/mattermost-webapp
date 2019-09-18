@@ -32,6 +32,15 @@ describe('components/MarkdownImage', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot for broken link', () => {
+        const props = {...baseProps, imageMetadata: {}, src: 'brokenLink'};
+        const wrapper = shallow(
+            <MarkdownImage {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
     it('should match snapshot for SizeAwareImage dimensions', () => {
         const props = {...baseProps,
             imageMetadata: {format: 'jpg', frame_count: 0, width: 100, height: 100},

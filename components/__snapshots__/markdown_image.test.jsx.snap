@@ -20,7 +20,7 @@ exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimen
 <React.Fragment>
   <SizeAwareImage
     alt="test image"
-    className="markdown-inline-img markdown-inline-img--hover cursor--pointer a11y--active"
+    className="markdown-inline-img"
     dimensions={
       Object {
         "format": "jpg",
@@ -33,23 +33,16 @@ exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimen
     showLoader={true}
     src="safeSrc"
   />
-  <Connect(ViewImageModal)
-    fileInfos={
-      Array [
-        Object {
-          "extension": "jpg",
-          "has_preview_image": false,
-          "link": "safeSrc",
-          "name": "test image",
-        },
-      ]
-    }
-    onModalDismissed={[Function]}
-    postId="post_id"
-    show={false}
-    startIndex={0}
-  />
 </React.Fragment>
+`;
+
+exports[`components/MarkdownImage should match snapshot for broken link 1`] = `
+<Connect(ExternalImage)
+  imageMetadata={Object {}}
+  src="brokenLink"
+>
+  <Component />
+</Connect(ExternalImage)>
 `;
 
 exports[`components/MarkdownImage should render a link if the source is unsafe 1`] = `
