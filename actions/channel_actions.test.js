@@ -101,7 +101,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
             }],
         };
     },
-    addChannelMember: (...args) => ({type: 'MOCK_ADD_USER_TO_CHANNEL', args}),
+    addChannelMember: (...args) => ({type: 'MOCK_ADD_CHANNEL_MEMBER', args}),
 }));
 
 jest.mock('actions/user_actions.jsx', () => ({
