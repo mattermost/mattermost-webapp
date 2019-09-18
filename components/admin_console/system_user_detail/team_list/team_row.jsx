@@ -14,7 +14,6 @@ export default class TeamRow extends React.Component {
     static propTypes = {
         team: PropTypes.object.isRequired,
     };
-T
     renderTeamType = (team) => {
         if (team.group_constrained) {
             return (
