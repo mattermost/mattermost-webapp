@@ -23,6 +23,7 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error.jsx';
+import TeamSelectorModal from 'components/team_selector_modal';
 
 import TeamList from 'components/admin_console/system_user_detail/team_list';
 import EmailIcon from 'components/widgets/icons/email_icon.jsx';
@@ -31,13 +32,13 @@ import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon.jsx';
 
 import './system_user_detail.scss';
 
-export default class SystemUserDetail extends React.Component {
+export default class SystemUserDetail extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
-        teams: PropTypes.object,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
+            addUserToTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -50,6 +51,8 @@ export default class SystemUserDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            teams: null,
+            teamIds: null,
             loading: false,
             searching: false,
             showPasswordModal: false,
@@ -62,7 +65,32 @@ export default class SystemUserDetail extends React.Component {
             user: {
                 email: this.props.user.email,
             },
+            addTeamOpen: false,
+            refreshTeams: true,
         };
+    }
+
+    setTeamsData = (teams) => {
+        const teamIds = teams.map((team) => team.team_id);
+        this.setState({teams});
+        this.setState({teamIds});
+        this.setState({refreshTeams: false});
+    }
+
+    openAddTeam = () => {
+        this.setState({addTeamOpen: true});
+    }
+
+    addTeams = (teams) => {
+        const promises = [];
+        for (const team of teams) {
+            promises.push(this.props.actions.addUserToTeam(team.id, this.props.user.id));
+        }
+        Promise.all(promises).finally(this.setState({refreshTeams: true}));
+    }
+
+    closeAddTeam = () => {
+        this.setState({addTeamOpen: false});
     }
 
     doPasswordReset = (user) => {
@@ -363,8 +391,25 @@ export default class SystemUserDetail extends React.Component {
                             subtitleDefault={'Teams to which this user belongs'}
                             titleId={t('admin.userManagement.userDetail.teamsTitle')}
                             titleDefault={'Team Membership'}
+                            button={(
+                                <div className='add-team-button'>
+                                    <button
+                                        className='btn btn-primary'
+                                        onClick={this.openAddTeam}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.userManagement.userDetail.addTeam'
+                                            defaultMessage='Add Team'
+                                        />
+                                    </button>
+                                </div>
+                            )}
                         >
-                            <TeamList userId={this.props.user.id}/>
+                            <TeamList
+                                userId={this.props.user.id}
+                                userDetailCallback={this.setTeamsData}
+                                refreshTeams={this.state.refreshTeams}
+                            />
                         </AdminPanel>
                     </div>
                 </div>
@@ -401,6 +446,13 @@ export default class SystemUserDetail extends React.Component {
                     onModalDismissed={this.doPasswordResetDismiss}
                 />
                 {deactivateMemberModal}
+                {this.state.addTeamOpen &&
+                    <TeamSelectorModal
+                        onModalDismissed={this.closeAddTeam}
+                        onTeamsSelected={this.addTeams}
+                        alreadySelected={this.state.teamIds}
+                    />
+                }
             </div>
         );
     }

@@ -16,6 +16,8 @@ describe('admin_console/system_user_detail/team_list/TeamList', () => {
             getTeamsData: jest.fn(),
             getTeamMembersForUser: jest.fn(),
         },
+        userDetailCallback: jest.fn(),
+        refreshTeams: false,
     };
 
     const teamsWithMemberships = [

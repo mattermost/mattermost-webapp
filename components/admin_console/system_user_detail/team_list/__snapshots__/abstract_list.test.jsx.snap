@@ -2,45 +2,52 @@
 
 exports[`admin_console/system_user_detail/team_list/AbstractList should match snapshot if loading 1`] = `
 <div
-  className="groups-list"
+  className="AbstractList"
 >
   <div
-    className="groups-list--header"
-    key="0"
+    className="AbstractList__header"
   >
     <div
-      className="group-name"
+      className="AbstractList__header-label"
+      key="0"
+      style={
+        Object {
+          "flexGrow": 1,
+          "marginLeft": "16px",
+          "minWidth": "284px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.team_settings.team_list.nameHeader"
-        values={Object {}}
-      />
+      Name
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="1"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Type"
-        id="admin.systemUserDetail.teamList.header.type"
-        values={Object {}}
-      />
+      Type
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="2"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Role"
-        id="admin.systemUserDetail.teamList.header.role"
-        values={Object {}}
-      />
+      Role
     </div>
   </div>
   <div
-    className="groups-list--body"
+    className="AbstractList__body"
   >
     <div
-      className="groups-list-loading"
+      className="AbstractList__loading"
     >
       <i
         className="fa fa-spinner fa-pulse fa-2x"
@@ -48,7 +55,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     </div>
   </div>
   <div
-    className="groups-list--footer"
+    className="AbstractList__footer"
   >
     <div
       className="counter"
@@ -89,45 +96,52 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
 
 exports[`admin_console/system_user_detail/team_list/AbstractList should match snapshot no data 1`] = `
 <div
-  className="groups-list"
+  className="AbstractList"
 >
   <div
-    className="groups-list--header"
-    key="0"
+    className="AbstractList__header"
   >
     <div
-      className="group-name"
+      className="AbstractList__header-label"
+      key="0"
+      style={
+        Object {
+          "flexGrow": 1,
+          "marginLeft": "16px",
+          "minWidth": "284px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.team_settings.team_list.nameHeader"
-        values={Object {}}
-      />
+      Name
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="1"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Type"
-        id="admin.systemUserDetail.teamList.header.type"
-        values={Object {}}
-      />
+      Type
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="2"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Role"
-        id="admin.systemUserDetail.teamList.header.role"
-        values={Object {}}
-      />
+      Role
     </div>
   </div>
   <div
-    className="groups-list--body"
+    className="AbstractList__body"
   >
     <div
-      className="groups-list-empty"
+      className="AbstractList__empty"
     >
       <FormattedMessage
         defaultMessage="No teams found"
@@ -137,7 +151,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     </div>
   </div>
   <div
-    className="groups-list--footer"
+    className="AbstractList__footer"
   >
     <div
       className="counter"
@@ -178,42 +192,49 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
 
 exports[`admin_console/system_user_detail/team_list/AbstractList should match snapshot when on second page of pagination 1`] = `
 <div
-  className="groups-list"
+  className="AbstractList"
 >
   <div
-    className="groups-list--header"
-    key="0"
+    className="AbstractList__header"
   >
     <div
-      className="group-name"
+      className="AbstractList__header-label"
+      key="0"
+      style={
+        Object {
+          "flexGrow": 1,
+          "marginLeft": "16px",
+          "minWidth": "284px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.team_settings.team_list.nameHeader"
-        values={Object {}}
-      />
+      Name
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="1"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Type"
-        id="admin.systemUserDetail.teamList.header.type"
-        values={Object {}}
-      />
+      Type
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="2"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Role"
-        id="admin.systemUserDetail.teamList.header.role"
-        values={Object {}}
-      />
+      Role
     </div>
   </div>
   <div
-    className="groups-list--body"
+    className="AbstractList__body"
   >
     <TeamRow
       key="id11"
@@ -327,7 +348,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     />
   </div>
   <div
-    className="groups-list--footer"
+    className="AbstractList__footer"
   >
     <div
       className="counter"
@@ -368,42 +389,49 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
 
 exports[`admin_console/system_user_detail/team_list/AbstractList should match snapshot with enough teams data to require paging 1`] = `
 <div
-  className="groups-list"
+  className="AbstractList"
 >
   <div
-    className="groups-list--header"
-    key="0"
+    className="AbstractList__header"
   >
     <div
-      className="group-name"
+      className="AbstractList__header-label"
+      key="0"
+      style={
+        Object {
+          "flexGrow": 1,
+          "marginLeft": "16px",
+          "minWidth": "284px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.team_settings.team_list.nameHeader"
-        values={Object {}}
-      />
+      Name
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="1"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Type"
-        id="admin.systemUserDetail.teamList.header.type"
-        values={Object {}}
-      />
+      Type
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="2"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Role"
-        id="admin.systemUserDetail.teamList.header.role"
-        values={Object {}}
-      />
+      Role
     </div>
   </div>
   <div
-    className="groups-list--body"
+    className="AbstractList__body"
   >
     <TeamRow
       key="id1"
@@ -517,7 +545,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     />
   </div>
   <div
-    className="groups-list--footer"
+    className="AbstractList__footer"
   >
     <div
       className="counter"
@@ -558,42 +586,49 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
 
 exports[`admin_console/system_user_detail/team_list/AbstractList should match snapshot with teams data populated 1`] = `
 <div
-  className="groups-list"
+  className="AbstractList"
 >
   <div
-    className="groups-list--header"
-    key="0"
+    className="AbstractList__header"
   >
     <div
-      className="group-name"
+      className="AbstractList__header-label"
+      key="0"
+      style={
+        Object {
+          "flexGrow": 1,
+          "marginLeft": "16px",
+          "minWidth": "284px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.team_settings.team_list.nameHeader"
-        values={Object {}}
-      />
+      Name
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="1"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Type"
-        id="admin.systemUserDetail.teamList.header.type"
-        values={Object {}}
-      />
+      Type
     </div>
     <div
-      className="group-description"
+      className="AbstractList__header-label"
+      key="2"
+      style={
+        Object {
+          "width": "150px",
+        }
+      }
     >
-      <FormattedMessage
-        defaultMessage="Role"
-        id="admin.systemUserDetail.teamList.header.role"
-        values={Object {}}
-      />
+      Role
     </div>
   </div>
   <div
-    className="groups-list--body"
+    className="AbstractList__body"
   >
     <TeamRow
       key="id1"
@@ -619,7 +654,7 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     />
   </div>
   <div
-    className="groups-list--footer"
+    className="AbstractList__footer"
   >
     <div
       className="counter"

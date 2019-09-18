@@ -120,6 +120,22 @@ exports[`components/admin_console/system_user_detail should match default snapsh
         }
       />
       <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
         className=""
         subtitleDefault="Teams to which this user belongs"
         subtitleId="admin.userManagement.userDetail.teamsSubtitle"
@@ -127,6 +143,8 @@ exports[`components/admin_console/system_user_detail should match default snapsh
         titleId="admin.userManagement.userDetail.teamsTitle"
       >
         <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
           userId="1234"
         />
       </AdminPanel>
@@ -357,6 +375,22 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
         }
       />
       <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
         className=""
         subtitleDefault="Teams to which this user belongs"
         subtitleId="admin.userManagement.userDetail.teamsSubtitle"
@@ -364,6 +398,8 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
         titleId="admin.userManagement.userDetail.teamsTitle"
       >
         <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
           userId="1234"
         />
       </AdminPanel>
@@ -588,6 +624,22 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
         }
       />
       <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
         className=""
         subtitleDefault="Teams to which this user belongs"
         subtitleId="admin.userManagement.userDetail.teamsSubtitle"
@@ -595,6 +647,8 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
         titleId="admin.userManagement.userDetail.teamsTitle"
       >
         <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
           userId="1234"
         />
       </AdminPanel>
@@ -819,6 +873,22 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
         }
       />
       <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
         className=""
         subtitleDefault="Teams to which this user belongs"
         subtitleId="admin.userManagement.userDetail.teamsSubtitle"
@@ -826,6 +896,8 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
         titleId="admin.userManagement.userDetail.teamsTitle"
       >
         <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
           userId="1234"
         />
       </AdminPanel>
