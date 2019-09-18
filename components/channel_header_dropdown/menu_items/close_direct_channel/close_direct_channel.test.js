@@ -39,8 +39,16 @@ describe('components/ChannelHeaderDropdown/MenuItem.CloseDirectChannel', () => {
     });
 
     it('shoud be hidden if the channel is not a DM', () => {
-        const wrapper = shallow(<CloseDirectChannel {...baseProps}/>);
-        baseProps.channel.type = Constants.GM_CHANNEL;
+        const props = {
+            ...baseProps,
+            channel: {
+                id: 'channel_id',
+                type: Constants.GM_CHANNEL,
+                teammate_id: 'teammate-id',
+            },
+        };
+
+        const wrapper = shallow(<CloseDirectChannel {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
