@@ -339,10 +339,6 @@ export default class CreateComment extends React.PureComponent {
         this.setState({showEmojiPicker: false});
     }
 
-    getTextbox = (tb) => {
-        this.setState({tb});
-    }
-
     handleEmojiClick = (emoji) => {
         const emojiAlias = emoji.name || emoji.aliases[0];
 
