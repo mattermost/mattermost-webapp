@@ -42,12 +42,7 @@ export default class AboutBuildModal extends React.PureComponent {
         webappBuildHash: PropTypes.string,
     };
 
-    constructor(props) {
-        super(props);
-        this.doHide = this.doHide.bind(this);
-    }
-
-    doHide() {
+    doHide = () => {
         this.props.onHide();
     }
 
