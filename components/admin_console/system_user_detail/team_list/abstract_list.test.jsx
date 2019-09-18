@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {FormattedMessage} from 'react-intl';
 
 import AbstractList from './abstract_list.jsx';
 import TeamRow from './team_row.jsx';
