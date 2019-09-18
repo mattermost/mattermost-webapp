@@ -27,7 +27,7 @@ exports[`admin_console/system_user_detail/team_list/TeamList should match snapsh
     Array [
       Object {
         "default": "Name",
-        "id": "admin.team_settings.team_list.header.name",
+        "id": "admin.systemUserDetail.teamList.header.name",
         "style": Object {
           "flexGrow": 1,
           "marginLeft": "16px",
@@ -96,7 +96,7 @@ exports[`admin_console/system_user_detail/team_list/TeamList should match snapsh
     Array [
       Object {
         "default": "Name",
-        "id": "admin.team_settings.team_list.header.name",
+        "id": "admin.systemUserDetail.teamList.header.name",
         "style": Object {
           "flexGrow": 1,
           "marginLeft": "16px",
