@@ -266,6 +266,7 @@ var config = {
             {from: 'images/favicon', to: 'images/favicon'},
             {from: 'images/appIcons.png', to: 'images'},
             {from: 'images/warning.png', to: 'images'},
+            {from: 'images/logo-email.png', to: 'images'},
             {from: 'images/browser-icons', to: 'images/browser-icons'},
         ]),
 
