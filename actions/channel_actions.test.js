@@ -146,7 +146,7 @@ describe('Actions.Channel', () => {
         const testStore = await mockStore(initialState);
 
         const expectedActions = [{
-            type: 'MOCK_ADD_USER_TO_CHANNEL',
+            type: 'MOCK_ADD_CHANNEL_MEMBER',
             args: ['testid', 'testuserid'],
         }];
 
