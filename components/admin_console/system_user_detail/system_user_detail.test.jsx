@@ -21,6 +21,7 @@ describe('components/admin_console/system_user_detail', () => {
         actions: {
             updateUserActive: jest.fn(),
             setNavigationBlocked: jest.fn(),
+            addUserToTeam: jest.fn(),
         },
     };
 

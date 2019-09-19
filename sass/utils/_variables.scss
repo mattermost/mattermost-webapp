@@ -22,3 +22,6 @@ $announcement-bar-height: 32px;
 // Random variables
 $border-rad: 2px;
 $emoji-per-row: 9; // needs to match variable `EMOJI_PER_ROW` in emoji_picker.jsx
+
+// Transition timing defaults
+$transition-quick: 0.12s;

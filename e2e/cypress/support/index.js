@@ -12,6 +12,7 @@ import './api_commands';
 import './task_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
+import 'cypress-wait-until';
 import addContext from 'mochawesome/addContext';
 
 Cypress.on('test:after:run', (test, runnable) => {

@@ -11,7 +11,7 @@ export default class TeamButton extends React.PureComponent {
         let content;
         if (teamIconUrl) {
             content = (
-                <div className='team-btn__content no-hover'>
+                <div className='team-btn__content'>
                     <div
                         className={`team-btn__image team-btn-${classModifier}__image`}
                         style={{backgroundImage: `url('${teamIconUrl}')`}}
@@ -23,7 +23,7 @@ export default class TeamButton extends React.PureComponent {
             initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
 
             content = (
-                <div className='team-btn__content no-hover'>
+                <div className='team-btn__content'>
                     <div className={`team-btn__initials team-btn-${classModifier}__initials`}>
                         {initials}
                     </div>
