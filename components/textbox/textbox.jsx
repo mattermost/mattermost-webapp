@@ -42,7 +42,6 @@ export default class Textbox extends React.Component {
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
-            scrollPostList: PropTypes.func.isRequired,
         }),
     };
 
@@ -117,9 +116,6 @@ export default class Textbox extends React.Component {
     handleHeightChange = (height, maxHeight) => {
         if (this.props.onHeightChange) {
             this.props.onHeightChange(height, maxHeight);
-        }
-        if (Utils.disableVirtList()) {
-            this.props.actions.scrollPostList();
         }
     }
 
