@@ -33,6 +33,7 @@ import {
     handlePluginEnabled,
     handlePluginDisabled,
     handlePostEditEvent,
+    handlePostUnreadEvent,
     handleUserRemovedEvent,
     handleUserTypingEvent,
     reconnect,
@@ -165,6 +166,23 @@ describe('handlePostEditEvent', () => {
         };
 
         handlePostEditEvent(msg);
+        expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+});
+
+describe('handlePostUnreadEvent', () => {
+    test('post marked as unred', async () => {
+        const msgData = {last_viewed_at: 123, msg_count: 40, mention_count: 1};
+        const expectedData = {lastViewedAt: 123, msgCount: 40, mentionCount: 1, channelId: 'channel1'};
+        const expectedAction = {type: 'POST_UNREAD_SUCCESS', data: expectedData};
+        const msg = {
+            data: msgData,
+            broadcast: {
+                channel_id: 'channel1',
+            },
+        };
+
+        handlePostUnreadEvent(msg);
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 });
