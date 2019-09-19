@@ -25,9 +25,6 @@ export default class Authorize extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleAllow = this.handleAllow.bind(this);
-        this.handleDeny = this.handleDeny.bind(this);
-
         this.state = {};
     }
 
@@ -53,7 +50,7 @@ export default class Authorize extends React.Component {
         }
     }
 
-    handleAllow() {
+    handleAllow = () => {
         const searchParams = new URLSearchParams(this.props.location.search);
         const params = {
             responseType: searchParams.get('response_type'),
@@ -74,7 +71,7 @@ export default class Authorize extends React.Component {
         );
     }
 
-    handleDeny() {
+    handleDeny = () => {
         const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
         if (redirectUri.startsWith('https://') || redirectUri.startsWith('http://')) {
             window.location.href = redirectUri + '?error=access_denied';

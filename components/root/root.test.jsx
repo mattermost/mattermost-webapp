@@ -24,7 +24,6 @@ jest.mock('utils/utils', () => ({
     localizeMessage: () => {},
     isDevMode: jest.fn(),
     enableDevModeFeatures: jest.fn(),
-    disableVirtList: jest.fn(),
 }));
 
 describe('components/Root', () => {
