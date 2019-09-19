@@ -615,7 +615,7 @@ export default class PluginManagement extends AdminSettings {
     }
 
     handleRemovePluginCancel = () => {
-        this.setState({showRemoveModal: false});
+        this.setState({showRemoveModal: false, removing: null});
     }
 
     handleRemovePlugin = () => {
