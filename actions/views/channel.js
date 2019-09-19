@@ -300,12 +300,6 @@ export function syncPostsInChannel(channelId, since) {
 
 export function scrollPostListToBottom() {
     return () => {
-        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, true);
-    };
-}
-
-export function scrollPostList() {
-    return () => {
-        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, false);
+        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_TO_BOTTOM);
     };
 }
