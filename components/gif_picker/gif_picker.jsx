@@ -37,35 +37,30 @@ export default class GifPicker extends React.Component {
         // All props are primitives or treated as immutable
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
-        this.handleTrending = this.handleTrending.bind(this);
-        this.handleCategories = this.handleCategories.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
-        this.handleItemClick = this.handleItemClick.bind(this);
-
         this.state = {
             action: 'trending',
         };
     }
 
-    handleTrending() {
+    handleTrending = () => {
         this.setState({
             action: 'trending',
         });
     }
 
-    handleCategories() {
+    handleCategories = () => {
         this.setState({
             action: 'reactions',
         });
     }
 
-    handleSearch() {
+    handleSearch = () => {
         this.setState({
             action: 'search',
         });
     }
 
-    handleItemClick(gif) {
+    handleItemClick = (gif) => {
         this.props.onGifClick(gif.max5mbGif);
     }
 
