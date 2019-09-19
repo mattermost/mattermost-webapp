@@ -57,11 +57,10 @@ describe('Guest Account - Guest User Experience', () => {
         // * Verify list of Users and Guest Badge in Channel Members List
         cy.get('#member_popover').click();
         cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).find('.more-modal__body > div').children().should('have.length', 2);
-            cy.wrap($el).get('.more-modal__body > div').children().each(($elChild, index) => {
+            cy.wrap($el).getAllByTestId('popoverListMembersItem').should('have.length', 2).each(($elChild) => {
                 cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
                     if (username === guest.username) {
-                        cy.wrap($el).find('.more-modal__row').children().eq(index).find('.Badge').should('be.visible').and('have.text', 'GUEST');
+                        cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
                     }
                 });
             });
