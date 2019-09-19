@@ -148,7 +148,6 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostClick = (e) => {
-        e.preventDefault();
         const post = this.props.post;
         if (!post) {
             return;
@@ -263,6 +262,10 @@ export default class Post extends React.PureComponent {
         this.setState({alt: e.altKey});
     }
 
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
+
     handleA11yActivateEvent = () => {
         this.setState({
             a11yActive: true,
@@ -322,6 +325,7 @@ export default class Post extends React.PureComponent {
             <div
                 ref={this.postRef}
                 id={'post_' + post.id}
+                data-testid='postView'
                 role='listitem'
                 className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
                 tabIndex='0'
@@ -337,6 +341,7 @@ export default class Post extends React.PureComponent {
                 <div
                     role='application'
                     id='postContent'
+                    data-testid='postContent'
                     className={'post__content ' + centerClass}
                     aria-hidden={this.state.ariaHidden}
                 >

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import UnreadBelowIcon from 'components/svg/unread_below_icon';
+import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 
 export default class NewMessagesBelow extends React.PureComponent {
     static propTypes = {
@@ -47,7 +47,7 @@ export default class NewMessagesBelow extends React.PureComponent {
         return (
             <div
                 className={className}
-                onTransitionEnd={this.setRendered.bind(this)}
+                onTransitionEnd={this.setRendered}
                 ref='indicator'
             >
                 <div onClick={this.props.onClick}>
@@ -64,7 +64,7 @@ export default class NewMessagesBelow extends React.PureComponent {
 
     // Sync 'rendered' state with visibility param, only after transitions
     // have ended
-    setRendered() {
+    setRendered = () => {
         this.setState({rendered: this.state.visible});
     }
 }

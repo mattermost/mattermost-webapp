@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
@@ -21,11 +21,6 @@ const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 export default class SearchableChannelList extends React.Component {
     constructor(props) {
         super(props);
-
-        this.createChannelRow = this.createChannelRow.bind(this);
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
-        this.doSearch = this.doSearch.bind(this);
 
         this.nextTimeoutId = 0;
 
@@ -65,7 +60,7 @@ export default class SearchableChannelList extends React.Component {
         );
     }
 
-    createChannelRow(channel) {
+    createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
 
         return (
@@ -104,7 +99,7 @@ export default class SearchableChannelList extends React.Component {
         );
     }
 
-    nextPage(e) {
+    nextPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page + 1, nextDisabled: true});
         this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
@@ -112,13 +107,13 @@ export default class SearchableChannelList extends React.Component {
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
-    previousPage(e) {
+    previousPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page - 1});
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
-    doSearch() {
+    doSearch = () => {
         const term = this.refs.filter.value;
         this.props.search(term);
         if (term === '') {

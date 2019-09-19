@@ -89,7 +89,8 @@
         .markdown__paragraph-inline {
             overflow: hidden;
             text-overflow: ellipsis;
-            width: calc(100% - 50px);
+            display: inline-block;
+            width: 100%;
         }
     }
 
@@ -141,6 +142,22 @@
         text-align: center;
         width: 30px;
         z-index: 5;
+
+        body.enable-animations & {
+            @include transition-property(color, border-color);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in-out);
+        }
+
+        svg {
+            body.enable-animations & {
+                @include transition-property(fill);
+                @include transition-duration($transition-quick);
+                @include transition-delay(0s);
+                @include transition-timing-function(ease-in-out);
+            }
+        }
 
         &.wide {
             @include border-radius(37px);
@@ -315,7 +332,7 @@
 
         > div {
             display: flex;
-            flex: 1;
+            flex: 0 1 auto;
             min-width: 0;
         }
 
@@ -336,12 +353,13 @@
 
     .channel-header__description {
         font-size: 12px;
-        margin-bottom: 3px;
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
-        width: calc(100% - 18px);
-        height: 20px;
+        height: 22px;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
 
         span[data-emoticon] {
             .emoticon {
@@ -364,6 +382,11 @@
             }
         }
 
+        .header-description__text {
+            flex: 1 1 0;
+            overflow: hidden;
+        }
+
         .status {
             margin-right: 3px;
         }
@@ -379,11 +402,13 @@
         }
 
         &.light {
-            @include opacity(.6);
+            opacity: 1;
             color: inherit;
             overflow: visible;
 
             button {
+                @include opacity(.6);
+
                 &:hover
                 &:focus {
                     text-decoration: underline;
@@ -511,7 +536,7 @@
         padding: 10px;
 
         &:before {
-            @include single-transition(all, .05s, linear);
+            @include single-transition(all, $transition-quick, ease-in-out);
             background: none;
             content: '';
             height: 100%;
@@ -637,11 +662,8 @@
             }
         }
 
-        .user__picture {
-            @include border-radius(36px);
+        .Avatar {
             float: left;
-            height: 36px;
-            width: 36px;
         }
 
         .header__info {
@@ -652,6 +674,7 @@
             width: 100%;
 
             .sidebar-header-dropdown__icon {
+                @include single-transition(opacity, $transition-quick, ease-in-out);
                 @include opacity(.8);
                 border-radius: 36px;
                 fill: $white;
@@ -684,7 +707,7 @@
         }
 
         .user__name {
-            @include single-transition(all, .1s, linear);
+            @include single-transition(all, $transition-quick, ease-in-out);
             @include alpha-property(color, $white, .8);
             font-size: 14px;
             font-weight: 400;

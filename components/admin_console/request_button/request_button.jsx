@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
-import SuccessIcon from 'components/icon/success_icon';
-import WarningIcon from 'components/icon/warning_icon';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import SuccessIcon from 'components/widgets/icons/fa_success_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 /**
  * A button which, when clicked, performs an action and displays
@@ -149,8 +149,6 @@ export default class RequestButton extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleRequest = this.handleRequest.bind(this);
-
         this.state = {
             busy: false,
             fail: null,
@@ -158,7 +156,7 @@ export default class RequestButton extends React.Component {
         };
     }
 
-    handleRequest(e) {
+    handleRequest = (e) => {
         e.preventDefault();
 
         this.setState({

@@ -6,8 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import InviteIcon from 'components/svg/invite_icon';
-import ArrowRightIcon from 'components/svg/arrow_right_icon';
+import InviteIcon from 'components/widgets/icons/invite_icon';
+import ArrowRightIcon from 'components/widgets/icons/arrow_right_icon';
 
 import './invitation_modal_initial_step.scss';
 
@@ -35,8 +35,9 @@ export default class InvitationModalInitialStep extends React.Component {
                 <div
                     className='invitation-modal-option'
                     onClick={this.props.goToMembers}
+                    data-testid='inviteMembersLink'
                 >
-                    <div>
+                    <div data-testid='inviteMembersSection'>
                         <h2>
                             <FormattedMarkdownMessage
                                 id='invitation_modal.invite_members.title'
@@ -53,6 +54,7 @@ export default class InvitationModalInitialStep extends React.Component {
                 <div
                     className='invitation-modal-option'
                     onClick={this.props.goToGuests}
+                    data-testid='inviteGuestLink'
                 >
                     <div>
                         <h2>

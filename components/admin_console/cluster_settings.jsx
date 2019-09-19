@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -17,15 +17,7 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
 export default class ClusterSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.renderSettings = this.renderSettings.bind(this);
-        this.overrideHandleChange = this.overrideHandleChange.bind(this);
-    }
-
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.ClusterSettings.Enable = this.state.Enable;
         config.ClusterSettings.ClusterName = this.state.ClusterName;
         config.ClusterSettings.OverrideHostname = this.state.OverrideHostname;
@@ -60,7 +52,7 @@ export default class ClusterSettings extends AdminSettings {
         );
     }
 
-    overrideHandleChange(id, value) {
+    overrideHandleChange = (id, value) => {
         this.setState({
             showWarning: true,
         });
@@ -68,7 +60,7 @@ export default class ClusterSettings extends AdminSettings {
         this.handleChange(id, value);
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Cluster === 'true';
         if (!licenseEnabled) {
             return null;

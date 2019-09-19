@@ -12,7 +12,6 @@ describe('admin_console/team_channel_settings/channel/ChannelModes', () => {
             <ChannelModes
                 onToggle={jest.fn()}
                 isPublic={true}
-                isOriginallyPrivate={false}
                 isSynced={false}
             />
         );

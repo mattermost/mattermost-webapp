@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import UnreadBelowIcon from 'components/svg/unread_below_icon';
+import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 
 export default class UnreadChannelIndicator extends React.PureComponent {
     static propTypes = {
@@ -42,16 +42,15 @@ export default class UnreadChannelIndicator extends React.PureComponent {
     };
 
     render() {
-        let displayValue = 'none';
+        let classes = 'nav-pills__unread-indicator ';
         if (this.props.show) {
-            displayValue = 'block';
+            classes += 'nav-pills__unread-indicator--visible ';
         }
 
         return (
             <div
                 id={'unreadIndicator' + this.props.name}
-                className={'nav-pills__unread-indicator ' + this.props.extraClass}
-                style={{display: displayValue}}
+                className={classes + this.props.extraClass}
                 onClick={this.props.onClick}
             >
                 {this.props.content}

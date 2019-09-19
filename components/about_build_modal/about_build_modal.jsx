@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import MattermostLogo from 'components/svg/mattermost_logo';
+import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
@@ -42,12 +42,7 @@ export default class AboutBuildModal extends React.PureComponent {
         webappBuildHash: PropTypes.string,
     };
 
-    constructor(props) {
-        super(props);
-        this.doHide = this.doHide.bind(this);
-    }
-
-    doHide() {
+    doHide = () => {
         this.props.onHide();
     }
 

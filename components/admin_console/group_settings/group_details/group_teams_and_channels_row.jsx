@@ -7,8 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
 
 export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     static propTypes = {

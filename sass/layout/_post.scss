@@ -6,7 +6,7 @@
     height: 100%;
     line-height: 20px;
     min-height: 36px;
-    overflow-x: hidden;
+    overflow: hidden;
     resize: none;
     white-space: pre-wrap;
     word-wrap: break-word;
@@ -69,7 +69,7 @@
 
 .help__format-text {
     @include opacity(0);
-    @include single-transition(all, .5s, ease, .5s);
+    @include single-transition(all, .3s, ease-in, .3s);
     display: inline-block;
     font-size: .85em;
     vertical-align: bottom;
@@ -110,6 +110,7 @@
     position: relative;
     text-align: center;
     z-index: 0;
+    pointer-events: none;
 
     &:before,
     &:after {
@@ -329,22 +330,38 @@
         }
 
         .icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
             margin-left: 5px;
         }
 
         div {
             @include border-radius(50px);
             cursor: pointer;
-            display: inline-block;
             padding: 0 20px;
             height: 28px;
             display: flex;
             align-items: center;
         }
 
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in, step-end);
+        }
+
         &.visible {
             @include opacity(1);
             visibility: visible;
+
+            body.enable-animations & {
+                @include transition-property(opacity, visibility);
+                @include transition-duration($transition-quick);
+                @include transition-delay(0s);
+                @include transition-timing-function(ease-out, step-start);
+            }
         }
 
         &.disabled {
@@ -440,12 +457,8 @@
     .custom-textarea {
         bottom: 0;
         max-height: calc(50vh - 40px);
-        overflow: hidden;
         padding: 12px 0 12px 15px;
         resize: none;
-        -ms-overflow-style: auto;
-        -webkit-overflow-scrolling: touch;
-        overflow-y: auto;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
@@ -569,6 +582,12 @@
         textarea {
             box-shadow: none;
         }
+
+        .form-control {
+            &:hover, &:focus {
+                border-color: var(--link-color);
+            }
+        }
     }
 
     .msg-typing {
@@ -637,14 +656,14 @@
         top: 1px;
         position: relative;
 
-        &:hover {
-            @include opacity(.7);
-        }
-
         svg {
             position: relative;
             top: 1px;
         }
+    }
+
+    .post-action:hover .icon--emoji {
+        @include opacity(.7);
     }
 
     .icon--attachment {
@@ -665,17 +684,17 @@
         }
 
         & + input {
+            @include opacity(0);
             cursor: pointer;
             direction: ltr;
-            filter: alpha(opacity=0);
             font-size: 23px;
             height: 100%;
             margin: 0;
-            opacity: 0;
             position: absolute;
             right: 0;
             top: 0;
             width: 100%;
+            pointer-events: none;
         }
 
         svg {
@@ -736,11 +755,18 @@
 }
 
 .post {
-    @include legacy-pie-clearfix;
+    overflow: hidden;
     max-width: 100%;
     padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
     word-wrap: break-word;
+
+    body.enable-animations & {
+        @include transition-property(background-color);
+        @include transition-duration($transition-quick);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in-out);
+    }
 
     .browser--ie & {
         .post__header {
@@ -772,6 +798,9 @@
 
     &:hover,
     &.a11y--active {
+        @include legacy-pie-clearfix;
+        overflow: visible;
+
         .dropdown,
         .comment-icon__container,
         .card-icon__container,
@@ -799,6 +828,9 @@
 
     &.post--hovered,
     &.a11y--active {
+        @include legacy-pie-clearfix;
+        overflow: visible;
+
         .dropdown,
         .comment-icon__container,
         .card-icon__container,
@@ -890,10 +922,6 @@
                     height: 0;
                 }
             }
-        }
-
-        .Badge {
-            margin: 0;
         }
 
         .card-icon__container {
@@ -1116,7 +1144,7 @@
         }
     }
 
-    .post__img:hover {
+    .post__img > :hover {
         cursor: pointer;
     }
 
@@ -1420,6 +1448,8 @@
         width: 53px;
 
         .icon {
+            fill: v(center-channel-color);
+
             svg {
                 height: 32px;
                 width: 32px;
@@ -1546,6 +1576,13 @@
         padding: .2em .5em;
         width: 100%;
         word-wrap: break-word;
+
+        body.enable-animations & {
+            @include transition-property(background);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in-out);
+        }
 
         &.post--ephemeral {
             padding-right: 20px !important;
@@ -2121,17 +2158,17 @@
 }
 
 .file-attachment-menu-item-input {
+    @include opacity(0);
     cursor: pointer;
     direction: ltr;
-    filter: alpha(opacity=0);
     font-size: 23px;
     height: 35px;
     margin: 0;
-    opacity: 0;
     position: absolute;
     right: 0;
     top: 0;
     width: 0;
+    pointer-events: none;
 }
 
 .post-row__padding {

@@ -20,7 +20,7 @@ import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
-import LogoutIcon from 'components/icon/logout_icon';
+import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

@@ -3,7 +3,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AddIcon from 'components/icon/add_icon';
+import AddIcon from 'components/widgets/icons/fa_add_icon';
 
 export default class GroupMessageOption extends React.Component {
     static propTypes = {
@@ -11,11 +11,6 @@ export default class GroupMessageOption extends React.Component {
         isSelected: PropTypes.bool.isRequired,
         onAdd: PropTypes.func.isRequired,
     };
-
-    constructor(props) {
-        super(props);
-        this.addValue = this.addValue.bind(this);
-    }
 
     getStyle() {
         let className = 'mentions__name';
@@ -29,7 +24,7 @@ export default class GroupMessageOption extends React.Component {
         return this.props.channel.profiles.map((profile) => '@' + profile.username).join(', ');
     }
 
-    addValue() {
+    addValue = () => {
         this.props.onAdd(this.props.channel.profiles);
     }
 

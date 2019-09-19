@@ -8,13 +8,13 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import InviteIcon from 'components/svg/invite_icon';
-import CloseCircleIcon from 'components/svg/close_circle_icon';
+import InviteIcon from 'components/widgets/icons/invite_icon';
+import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/svg/back_icon';
+import BackIcon from 'components/widgets/icons/back_icon';
 
 import './invitation_modal_guests_step.scss';
 
@@ -136,6 +136,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 {this.props.goBack &&
                     <BackIcon
                         className='back'
+                        id='backIcon'
                         onClick={this.props.goBack}
                     />}
                 <div className='modal-icon'>
@@ -147,14 +148,17 @@ export default class InvitationModalGuestsStep extends React.Component {
                         defaultMessage='Invite **Guests**'
                     />
                 </h1>
-                <div className='add-people'>
+                <div
+                    className='add-people'
+                    data-testid='addPeople'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.guests.add_people.title'
                             defaultMessage='Invite People'
                         />
                     </h2>
-                    <div>
+                    <div data-testid='emailPlaceholder'>
                         <FormattedMessage
                             id='invitation_modal.guests.search-and-add.placeholder'
                             defaultMessage='Add guests or email addresses'
@@ -182,7 +186,10 @@ export default class InvitationModalGuestsStep extends React.Component {
                         />
                     </div>
                 </div>
-                <div className='add-channels'>
+                <div
+                    className='add-channels'
+                    data-testid='channelPlaceholder'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.guests.add_channels.title'
@@ -213,9 +220,15 @@ export default class InvitationModalGuestsStep extends React.Component {
                         />
                     </div>
                 </div>
-                <div className='custom-message'>
+                <div
+                    className='custom-message'
+                    data-testid='customMessage'
+                >
                     {!this.state.customMessageOpen &&
-                        <a onClick={this.openCustomMessage}>
+                        <a
+                            onClick={this.openCustomMessage}
+                            href='#'
+                        >
                             <FormattedMessage
                                 id='invitation_modal.guests.custom-message.link'
                                 defaultMessage='Set a custom message'
@@ -250,6 +263,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         className={'btn ' + (this.state.channels.length === 0 || this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
                         disabled={this.state.channels.length === 0 || this.state.usersAndEmails.length === 0}
                         onClick={this.sendInvites}
+                        id='inviteGuestButton'
                     >
                         <FormattedMessage
                             id='invitation_modal.guests.invite_button'

@@ -121,6 +121,10 @@
 #user-profile-popover .user-popover__username:only-child > a{
     max-width: 100%;
 }
+#user-profile-popover .Avatar {
+    margin: 5px auto;
+    display: block;
+}
 
 .user-popover__role {
     padding: 3px 5px;
@@ -132,11 +136,6 @@
     color: $white;
 }
 
-.user-popover__image {
-    @include border-radius(128px);
-    margin: 5px auto;
-    display: block;
-}
 
 .user-popover__email {
     display: block;
@@ -146,12 +145,14 @@
 }
 
 .search-help-popover {
-    @include single-transition(opacity, .3s, ease-in);
     font-size: em(13px);
     max-width: 350px;
     top: 36px;
+    @include opacity(0);
     visibility: hidden;
-    width: 100%;
+    width: 298px;
+    left: auto;
+    right: 0;
 
     &.autocomplete {
         display: block;
@@ -229,11 +230,9 @@
             position: relative;
         }
 
-        .profile-img {
-            height: 16px;
+        .Avatar {
             margin-right: 6px;
             margin-top: -1px;
-            width: 16px;
         }
     }
 
@@ -271,9 +270,30 @@
         max-width: 100%;
     }
 
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration(0.1s);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in, step-end);
+}
+
     &.visible {
         @include opacity(1);
         visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration(0.3s);
+            @include transition-delay(0.2s);
+            @include transition-timing-function(ease-out, step-start);
+        }
+
+        body.enable-animations .sidebar--right & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration(0.3s);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
     }
 }
 

@@ -8,10 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 
 import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
-import NextIcon from 'components/icon/next_icon';
-import PreviousIcon from 'components/icon/previous_icon';
-import SearchIcon from 'components/svg/search_icon';
-import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
 
 import {Constants} from 'utils/constants';
 

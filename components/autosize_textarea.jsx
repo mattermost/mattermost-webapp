@@ -128,10 +128,8 @@ export default class AutosizeTextarea extends React.Component {
         }
 
         let textareaPlaceholder = null;
-        let textareaRole = 'application';
         const placeholderAriaLabel = placeholder.toLowerCase();
         if (!this.props.value && !this.props.defaultValue) {
-            textareaRole = 'textbox';
             textareaPlaceholder = (
                 <div
                     {...otherProps}
@@ -150,7 +148,7 @@ export default class AutosizeTextarea extends React.Component {
                     id={id}
                     {...heightProps}
                     {...otherProps}
-                    role={textareaRole}
+                    role='textbox'
                     aria-label={placeholderAriaLabel}
                     disabled={disabled}
                     onChange={this.handleChange}
@@ -177,5 +175,5 @@ export default class AutosizeTextarea extends React.Component {
 const style = {
     container: {height: 0, overflow: 'hidden'},
     reference: {height: 'auto', width: '100%'},
-    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap'},
+    placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none'},
 };

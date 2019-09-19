@@ -32,8 +32,8 @@ import FormError from 'components/form_error.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import AdminHeader from 'components/widgets/admin_console/admin_header.jsx';
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import AdminHeader from 'components/widgets/admin_console/admin_header';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 export default class SchemaAdminSettings extends React.Component {
     static propTypes = {
@@ -49,6 +49,8 @@ export default class SchemaAdminSettings extends React.Component {
     constructor(props) {
         super(props);
         this.isPlugin = false;
+
+        this.saveActions = [];
 
         this.buildSettingFunctions = {
             [Constants.SettingsTypes.TYPE_TEXT]: this.buildTextSetting,
@@ -257,7 +259,7 @@ export default class SchemaAdminSettings extends React.Component {
             return <span>{''}</span>;
         }
 
-        if (this.props.schema.translate === false) {
+        if (setting.label.translate === false) {
             return <span>{setting.label}</span>;
         }
 
@@ -310,7 +312,7 @@ export default class SchemaAdminSettings extends React.Component {
         return (
             <SchemaText
                 isMarkdown={isMarkdown}
-                isTranslated={this.props.schema.translate}
+                isTranslated={setting.translate}
                 text={helpText}
                 textDefault={helpTextDefault}
                 textValues={helpTextValues}
@@ -323,7 +325,7 @@ export default class SchemaAdminSettings extends React.Component {
             return '';
         }
 
-        if (this.props.schema.translate === false) {
+        if (setting.translate === false) {
             return setting.label;
         }
         return Utils.localizeMessage(setting.label, setting.label_default);
@@ -719,8 +721,25 @@ export default class SchemaAdminSettings extends React.Component {
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
+                registerSaveAction={this.registerSaveAction}
+                setSaveNeeded={this.setSaveNeeded}
+                unRegisterSaveAction={this.unRegisterSaveAction}
             />
         );
+    }
+
+    unRegisterSaveAction = (saveAction) => {
+        const indexOfSaveAction = this.saveActions.indexOf(saveAction);
+        this.saveActions.splice(indexOfSaveAction, 1);
+    }
+
+    registerSaveAction = (saveAction) => {
+        this.saveActions.push(saveAction);
+    }
+
+    setSaveNeeded = () => {
+        this.setState({saveNeeded: 'config'});
+        this.props.setNavigationBlocked(true);
     }
 
     renderSettings = () => {
@@ -734,12 +753,7 @@ export default class SchemaAdminSettings extends React.Component {
         if (schema.settings) {
             schema.settings.forEach((setting) => {
                 if (this.buildSettingFunctions[setting.type] && !this.isHidden(setting)) {
-                    // This is a hack required as plugin settings are case insensitive
-                    let s = setting;
-                    if (this.isPlugin) {
-                        s = {...setting, key: setting.key.toLowerCase()};
-                    }
-                    settingsList.push(this.buildSettingFunctions[setting.type](s));
+                    settingsList.push(this.buildSettingFunctions[setting.type](setting));
                 }
             });
         }
@@ -751,6 +765,7 @@ export default class SchemaAdminSettings extends React.Component {
                     <SchemaText
                         text={schema.header}
                         isMarkdown={true}
+                        isTranslated={this.props.schema.translate}
                     />
                 </div>
             );
@@ -763,6 +778,7 @@ export default class SchemaAdminSettings extends React.Component {
                     <SchemaText
                         text={schema.footer}
                         isMarkdown={true}
+                        isTranslated={this.props.schema.translate}
                     />
                 </div>
             );
@@ -787,7 +803,7 @@ export default class SchemaAdminSettings extends React.Component {
         this.setState({errorTooltip: isElipsis});
     }
 
-    doSubmit = (callback, getStateFromConfig) => {
+    doSubmit = async (callback, getStateFromConfig) => {
         this.setState({
             saving: true,
             serverError: null,
@@ -797,17 +813,10 @@ export default class SchemaAdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        saveConfig(
+        await saveConfig(
             config,
             (savedConfig) => {
                 this.setState(getStateFromConfig(savedConfig));
-
-                this.setState({
-                    saveNeeded: false,
-                    saving: false,
-                });
-
-                this.props.setNavigationBlocked(false);
 
                 if (callback) {
                     callback();
@@ -819,7 +828,6 @@ export default class SchemaAdminSettings extends React.Component {
             },
             (err) => {
                 this.setState({
-                    saving: false,
                     serverError: err.message,
                     serverErrorId: err.id,
                 });
@@ -833,7 +841,34 @@ export default class SchemaAdminSettings extends React.Component {
                 }
             }
         );
+
+        const results = [];
+        for (const saveAction of this.saveActions) {
+            results.push(saveAction());
+        }
+
+        const hasSaveActionError = await Promise.all(results).then((values) => values.some(((value) => value.error && value.error.message)));
+
+        const hasError = this.state.serverError || hasSaveActionError;
+        if (hasError) {
+            this.setState({saving: false});
+        } else {
+            this.setState({saving: false, saveNeeded: false});
+            this.props.setNavigationBlocked(false);
+        }
     };
+
+    // Some path parts may contain periods (e.g. plugin ids), but path walking the configuration
+    // relies on splitting by periods. Use this pair of functions to allow such path parts.
+    //
+    // It is assumed that no path contains the symbol '+'.
+    static escapePathPart(pathPart) {
+        return pathPart.replace(/\./g, '+');
+    }
+
+    static unescapePathPart(pathPart) {
+        return pathPart.replace(/\+/g, '.');
+    }
 
     static getConfigValue(config, path) {
         const pathParts = path.split('.');
@@ -843,13 +878,13 @@ export default class SchemaAdminSettings extends React.Component {
                 return null;
             }
 
-            return obj[pathPart];
+            return obj[SchemaAdminSettings.unescapePathPart(pathPart)];
         }, config);
     }
 
     setConfigValue(config, path, value) {
         function setValue(obj, pathParts) {
-            const part = pathParts[0];
+            const part = SchemaAdminSettings.unescapePathPart(pathParts[0]);
 
             if (pathParts.length === 1) {
                 obj[part] = value;

@@ -38,16 +38,6 @@ describe('Message', () => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
-
-        // # Change settings to allow @channel messages
-        cy.getCookie('MMUSERID').then((cookie) => {
-            cy.request({
-                headers: {'X-Requested-With': 'XMLHttpRequest'},
-                url: '/api/v4/users/me/patch',
-                method: 'PUT',
-                body: {user_id: cookie.value, notify_props: {channel: 'true'}},
-            });
-        });
     });
 
     it('M13701 Consecutive message does not repeat profile info', () => {
@@ -56,7 +46,7 @@ describe('Message', () => {
 
         // # Post a message to force next user message to display a message
         cy.getCurrentChannelId().then((channelId) => {
-            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId, baseUrl: Cypress.config('baseUrl')});
+            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId});
         });
 
         // # Post message "One"
@@ -104,6 +94,9 @@ describe('Message', () => {
     });
 
     it('M14320 @here, @all and @channel (ending in a period) still highlight', () => {
+        // # Change settings to allow @channel messages
+        cy.apiPatchMe({notify_props: {channel: 'true'}});
+
         // # Login as new user
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL
