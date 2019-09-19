@@ -1,0 +1,79 @@
+@charset 'UTF-8';
+
+@import 'compass/utilities';
+@import 'compass/css3';
+@import 'utils/module';
+
+.TeamIcon__content {
+    @include single-transition(all, .25s, ease);
+    @include opacity(.5);
+    @include border-radius(3px);
+    background-color: alpha-color($black, .3);
+    overflow: hidden;
+    height: 100%;
+    &.no-hover {
+        transition:none;
+    }
+}
+
+.TeamIcon__initials {
+    &.TeamIcon__initials__lg {
+        font-size: 3em;
+    }
+    &.TeamIcon__initials__sm {
+        font-size: 14px;
+    }
+}
+.TeamIcon {
+    @include border-radius(4px);
+    font-weight: bold;
+    height: 45px;
+    letter-spacing: -.5px;
+    line-height: 42px;
+    position: relative;
+    text-align: center;
+    text-transform: capitalize;
+    vertical-align: top;
+    width: 45px;
+    margin-right: 20px;
+
+    &.TeamIcon__lg {
+        width: 94px;
+        height: 94px;
+        line-height: 92px;
+    }
+
+    &.TeamIcon__sm {
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+    }
+
+
+    &:hover {
+        .TeamIcon__content {
+            @include opacity(.8);
+
+            &.no-hover {
+                @include opacity(.5);
+            }
+        }
+    }
+
+    .TeamIcon__image {
+        @include clearfix;
+        @include background-size(100% 100%);
+        background-color: $white;
+        background-repeat: no-repeat;
+        width: 45px;
+        height: 100%;
+        &.TeamIcon__lg {
+            width: 94px;
+        }
+
+        &.TeamIcon__sm {
+            width: 40px;
+        }
+
+    }
+}

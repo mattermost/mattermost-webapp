@@ -30,14 +30,12 @@ export default class BackstageList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateFilter = this.updateFilter.bind(this);
-
         this.state = {
             filter: '',
         };
     }
 
-    updateFilter(e) {
+    updateFilter = (e) => {
         this.setState({
             filter: e.target.value,
         });

@@ -5,11 +5,6 @@ exports[`components/UnreadChannelIndicator should match snapshot 1`] = `
   className="nav-pills__unread-indicator "
   id="unreadIndicatorundefined"
   onClick={[Function]}
-  style={
-    Object {
-      "display": "none",
-    }
-  }
 >
   <UnreadBelowIcon
     className="icon icon__unread"
@@ -19,14 +14,9 @@ exports[`components/UnreadChannelIndicator should match snapshot 1`] = `
 
 exports[`components/UnreadChannelIndicator should match snapshot when content is an element 1`] = `
 <div
-  className="nav-pills__unread-indicator "
+  className="nav-pills__unread-indicator nav-pills__unread-indicator--visible "
   id="unreadIndicatorundefined"
   onClick={[Function]}
-  style={
-    Object {
-      "display": "block",
-    }
-  }
 >
   <div>
     foo
@@ -39,14 +29,9 @@ exports[`components/UnreadChannelIndicator should match snapshot when content is
 
 exports[`components/UnreadChannelIndicator should match snapshot when content is text 1`] = `
 <div
-  className="nav-pills__unread-indicator "
+  className="nav-pills__unread-indicator nav-pills__unread-indicator--visible "
   id="unreadIndicatorundefined"
   onClick={[Function]}
-  style={
-    Object {
-      "display": "block",
-    }
-  }
 >
   foo
   <UnreadBelowIcon
@@ -57,14 +42,9 @@ exports[`components/UnreadChannelIndicator should match snapshot when content is
 
 exports[`components/UnreadChannelIndicator should match snapshot when show is set 1`] = `
 <div
-  className="nav-pills__unread-indicator "
+  className="nav-pills__unread-indicator nav-pills__unread-indicator--visible "
   id="unreadIndicatorundefined"
   onClick={[Function]}
-  style={
-    Object {
-      "display": "block",
-    }
-  }
 >
   <UnreadBelowIcon
     className="icon icon__unread"

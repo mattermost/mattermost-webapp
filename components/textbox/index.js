@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import {getCurrentUserId, makeGetProfilesInChannel, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
 
-import {autocompleteUsersInChannel, scrollPostList} from 'actions/views/channel';
+import {autocompleteUsersInChannel} from 'actions/views/channel';
 
 import Textbox from './textbox.jsx';
 
@@ -24,7 +24,6 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
         autocompleteUsersInChannel,
-        scrollPostList,
     }, dispatch),
 });
 

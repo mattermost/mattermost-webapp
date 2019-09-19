@@ -1,7 +1,6 @@
 @charset 'UTF-8';
 
 .suggestion-list {
-    @extend %popover-box-shadow;
     width: 100%;
     z-index: 100;
 
@@ -30,7 +29,6 @@
 }
 
 .suggestion-list--bottom {
-    height: 0;
     position: relative;
 }
 
