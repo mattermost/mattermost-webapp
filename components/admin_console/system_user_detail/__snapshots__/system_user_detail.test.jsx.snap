@@ -29,34 +29,55 @@ exports[`components/admin_console/system_user_detail should match default snapsh
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
             >
               Email
             </span>
-            <input
-              className="SystemUserDetail__input form-control"
-              onChange={[Function]}
-              type="text"
-            />
+            <div>
+              <EmailIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <input
+                className="SystemUserDetail__input form-control"
+                onChange={[Function]}
+                type="text"
+              />
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Username
             </span>
-            <p>
-              jim.halpert
-            </p>
+            <div>
+              <AtIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                jim.halpert
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Authentication Method
             </span>
-            <p>
-              Email
-            </p>
+            <div
+              className="SystemUserDetail__field-text"
+            >
+              <ShieldOutlineIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                Email
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
@@ -98,6 +119,35 @@ exports[`components/admin_console/system_user_detail should match default snapsh
           }
         }
       />
+      <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div
@@ -227,34 +277,55 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
             >
               Email
             </span>
-            <input
-              className="SystemUserDetail__input form-control"
-              onChange={[Function]}
-              type="text"
-            />
+            <div>
+              <EmailIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <input
+                className="SystemUserDetail__input form-control"
+                onChange={[Function]}
+                type="text"
+              />
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Username
             </span>
-            <p>
-              jim.halpert
-            </p>
+            <div>
+              <AtIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                jim.halpert
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Authentication Method
             </span>
-            <p>
-              MFA
-            </p>
+            <div
+              className="SystemUserDetail__field-text"
+            >
+              <ShieldOutlineIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                MFA
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
@@ -303,6 +374,35 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
           }
         }
       />
+      <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div
@@ -433,34 +533,55 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
             >
               Email
             </span>
-            <input
-              className="SystemUserDetail__input form-control"
-              onChange={[Function]}
-              type="text"
-            />
+            <div>
+              <EmailIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <input
+                className="SystemUserDetail__input form-control"
+                onChange={[Function]}
+                type="text"
+              />
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Username
             </span>
-            <p>
-              jim.halpert
-            </p>
+            <div>
+              <AtIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                jim.halpert
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Authentication Method
             </span>
-            <p>
-              Email
-            </p>
+            <div
+              className="SystemUserDetail__field-text"
+            >
+              <ShieldOutlineIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                Email
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
@@ -502,6 +623,35 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
           }
         }
       />
+      <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div
@@ -631,34 +781,55 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
         body={
           <React.Fragment>
             <span
-              className="SystemUserDetail__field-label"
+              className="SystemUserDetail__position"
             />
             <span
               className="SystemUserDetail__field-label"
             >
               Email
             </span>
-            <input
-              className="SystemUserDetail__input form-control"
-              onChange={[Function]}
-              type="text"
-            />
+            <div>
+              <EmailIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <input
+                className="SystemUserDetail__input form-control"
+                onChange={[Function]}
+                type="text"
+              />
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Username
             </span>
-            <p>
-              jim.halpert
-            </p>
+            <div>
+              <AtIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                jim.halpert
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
               Authentication Method
             </span>
-            <p>
-              Email
-            </p>
+            <div
+              className="SystemUserDetail__field-text"
+            >
+              <ShieldOutlineIcon
+                className="SystemUserDetail__field-icon"
+              />
+              <span
+                className="SystemUserDetail__field-text"
+              >
+                Email
+              </span>
+            </div>
             <span
               className="SystemUserDetail__field-label"
             >
@@ -701,6 +872,35 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
           }
         }
       />
+      <AdminPanel
+        button={
+          <div
+            className="add-team-button"
+          >
+            <button
+              className="btn btn-primary"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Add Team"
+                id="admin.userManagement.userDetail.addTeam"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        }
+        className=""
+        subtitleDefault="Teams to which this user belongs"
+        subtitleId="admin.userManagement.userDetail.teamsSubtitle"
+        titleDefault="Team Membership"
+        titleId="admin.userManagement.userDetail.teamsTitle"
+      >
+        <Connect(TeamList)
+          refreshTeams={true}
+          userDetailCallback={[Function]}
+          userId="1234"
+        />
+      </AdminPanel>
     </div>
   </div>
   <div

@@ -2,37 +2,30 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import ReactDom from 'react-dom';
-import PropTypes from 'prop-types';
-import {ChromePicker} from 'react-color';
+import {ChromePicker, ColorResult} from 'react-color';
 
-class ColorInput extends React.Component {
-    static propTypes = {
+type Props = {
+    id: string;
+    color: string;
+    onChange?: (hex: string) => void;
+}
 
-        /*
-        * The id of setting that we will change
-        */
-        id: PropTypes.string.isRequired,
+type State = {
+    isOpened: boolean;
+}
 
-        /*
-         * Selected color
-         */
-        color: PropTypes.string.isRequired,
+class ColorInput extends React.PureComponent<Props, State> {
+    private colorPicker: React.RefObject<HTMLDivElement>;
 
-        /*
-         * Function called when color changed. Takes hex format of color Ex: #ffeec0
-         */
-        onChange: PropTypes.func,
-    };
-
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
+        this.colorPicker = React.createRef();
         this.state = {
-            idOpened: false,
+            isOpened: false,
         };
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    public componentDidUpdate(prevProps: Props, prevState: State) {
         const {isOpened: prevIsOpened} = prevState;
         const {isOpened} = this.state;
 
@@ -45,18 +38,17 @@ class ColorInput extends React.Component {
         }
     }
 
-    checkClick = (e) => {
-        const colorPickerDOMNode = ReactDom.findDOMNode(this.colorPicker);
-        if (!colorPickerDOMNode || !colorPickerDOMNode.contains(e.target)) {
+    private checkClick = (e: MouseEvent): void => {
+        if (!this.colorPicker.current || !this.colorPicker.current.contains(e.target as Element)) {
             this.setState({isOpened: false});
         }
     };
 
-    togglePicker = () => {
+    private togglePicker = () => {
         this.setState({isOpened: !this.state.isOpened});
     };
 
-    handleChange = (newColorData) => {
+    private handleChange = (newColorData: ColorResult) => {
         const {hex} = newColorData;
         const {onChange: handleChange} = this.props;
 
@@ -65,11 +57,7 @@ class ColorInput extends React.Component {
         }
     };
 
-    getColorPicker = (node) => {
-        this.colorPicker = node;
-    };
-
-    render() {
+    public render() {
         const {color, id} = this.props;
         const {isOpened} = this.state;
 
@@ -97,7 +85,7 @@ class ColorInput extends React.Component {
                 </span>
                 {isOpened && (
                     <div
-                        ref={this.getColorPicker}
+                        ref={this.colorPicker}
                         className='color-popover'
                         id={`${id}-ChromePickerModal`}
                     >

@@ -133,7 +133,10 @@ export default class InvitationModalMembersStep extends React.Component {
                         defaultMessage='Invite **Members**'
                     />
                 </h1>
-                <div className='share-link'>
+                <div
+                    className='share-link'
+                    data-testid='shareLink'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.title'
@@ -147,10 +150,12 @@ export default class InvitationModalMembersStep extends React.Component {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
+                            data-testid='shareLinkInput'
                         />
                         <button
                             className='share-link-input-button'
                             onClick={this.copyLink}
+                            data-testid='shareLinkInputButton'
                         >
                             <LinkIcon/>
                             {!this.state.copiedLink &&
@@ -182,8 +187,12 @@ export default class InvitationModalMembersStep extends React.Component {
                             defaultMessage='OR'
                         />
                     </div>
+
                 </div>
-                <div className='search-and-add'>
+                <div
+                    className='search-and-add'
+                    data-testid='searchAdd'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
@@ -223,6 +232,7 @@ export default class InvitationModalMembersStep extends React.Component {
                         className={'btn ' + (this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
                         onClick={this.submit}
                         disabled={this.state.usersAndEmails.length === 0}
+                        id='inviteMembersButton'
                     >
                         <FormattedMessage
                             id='invitation_modal.members.invite_button'

@@ -14,10 +14,6 @@ export default class MultiSelectList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.defaultOptionRenderer = this.defaultOptionRenderer.bind(this);
-        this.handleArrowPress = this.handleArrowPress.bind(this);
-        this.setSelected = this.setSelected.bind(this);
-
         this.toSelect = -1;
 
         this.state = {
@@ -61,11 +57,11 @@ export default class MultiSelectList extends React.Component {
         }
     }
 
-    setSelected(selected) {
+    setSelected = (selected) => {
         this.toSelect = selected;
     }
 
-    handleArrowPress(e) {
+    handleArrowPress = (e) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey) {
             return;
         }
@@ -101,7 +97,7 @@ export default class MultiSelectList extends React.Component {
         this.props.onSelect(options[selected]);
     }
 
-    defaultOptionRenderer(option, isSelected, onAdd) {
+    defaultOptionRenderer = (option, isSelected, onAdd) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
