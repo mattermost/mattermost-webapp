@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {saveConfig} from 'actions/admin_actions.jsx';
 import AdminSettings from 'components/admin_console/admin_settings.jsx';
 
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
@@ -78,30 +77,28 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        saveConfig(
-            config,
-            (savedConfig) => {
-                this.setState(this.getStateFromConfig(savedConfig));
+        const {data, error} = await this.props.updateConfig(config);
 
-                this.setState({
-                    saveNeeded: false,
-                    saving: false,
-                });
+        if (data) {
+            this.setState(this.getStateFromConfig(data));
 
-                this.props.setNavigationBlocked(false);
+            this.setState({
+                saveNeeded: false,
+                saving: false,
+            });
 
-                if (callback) {
-                    callback();
-                }
+            this.props.setNavigationBlocked(false);
 
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
-            },
-            (err) => {
-                this.handleAPIError(err, callback, config);
+            if (callback) {
+                callback();
             }
-        );
+
+            if (this.handleSaved) {
+                this.handleSaved(config);
+            }
+        } else if (error) {
+            this.handleAPIError({id: error.server_error_id, ...error}, callback, config);
+        }
     };
 
     handleAPIError = (err, callback, config) => {
