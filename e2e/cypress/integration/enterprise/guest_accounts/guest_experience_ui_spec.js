@@ -20,13 +20,13 @@ describe('Guest Account - Guest User Experience', () => {
                 Enable: true,
             },
         });
-
-        // # Login as a guest user and go to /
-        cy.loginAsNewGuestUser();
-        cy.visit('/');
     });
 
     it('MM-18043 Verify Guest User Restrictions', () => {
+        // # Login as a guest user and go to /
+        const guest = cy.loginAsNewGuestUser();
+        cy.visit('/');
+
         // *Verify Reduced Options in Main Menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
         const missingMainOptions = ['#invitePeople', '#teamSettings', '#manageMembers', '#createTeam', '#joinTeam', '#integrations', '#systemConsole'];
@@ -55,7 +55,13 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#member-list-popover').should('be.visible').within(($el) => {
             cy.wrap($el).find('.more-modal__body > div').
                 children().should('have.length', 2);
-            cy.wrap($el).find('.more-modal__row').last().find('.Badge').should('be.visible').and('have.text', 'GUEST');
+            cy.wrap($el).get('.more-modal__body > div').children().each(($elChild, index) => {
+               const username = cy.wrap($elChild).invoke('attr', 'aria-label');
+               if(username===guest.username){
+                   cy.wrap($el).find('.more-modal__row').children().eq(index).find('.Badge').should('be.visible').and('have.text', 'GUEST');
+               }
+            });
+
         });
 
         // #Close the Channel Members Popover
