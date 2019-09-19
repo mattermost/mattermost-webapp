@@ -255,9 +255,7 @@ export default class PluginRegistry {
     // - filter - A function whether to apply the plugin into the post' dropdown menu
     // Returns a function to register submenu items.
     registerPostDropdownSubMenuAction(text, action, filter) {
-        function registerMenuItem(pluginId, parentId, innerText, innerAction, innerFilter) {
-            const id = generateId();
-
+        function registerMenuItem(id, pluginId, parentId, innerText, innerAction, innerFilter) {
             store.dispatch({
                 type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
                 name: 'PostDropdownMenu',
@@ -272,11 +270,11 @@ export default class PluginRegistry {
                 },
             });
             return function registerSubMenuItem(t, a, f) {
-                return registerMenuItem(pluginId, id, t, a, f);
+                return registerMenuItem(generateId(), pluginId, id, t, a, f);
             };
         }
-
-        return registerMenuItem(this.id, null, text, action, filter);
+        const id = generateId();
+        return {id, rootRegisterMenuItem: registerMenuItem(id, this.id, null, text, action, filter)};
     }
 
     // Register a component at the bottom of the post dropdown menu.
