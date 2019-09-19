@@ -127,8 +127,8 @@ export default class ChannelMembersDropdown extends React.Component {
             const role = this.renderRole(isChannelAdmin, isGuest);
 
             const canRemoveFromChannel = this.props.canRemoveMember && (this.props.channel.name !== Constants.DEFAULT_CHANNEL || isGuest) && !this.props.channel.group_constrained;
-            const canMakeChannelMember = isChannelAdmin && !isGuest;
-            const canMakeChannelAdmin = supportsChannelAdmin && !isChannelAdmin && !isGuest;
+            const canMakeChannelMember = Boolean(isChannelAdmin && !isGuest);
+            const canMakeChannelAdmin = Boolean(supportsChannelAdmin && !isChannelAdmin && !isGuest);
 
             if ((canMakeChannelMember || canMakeChannelAdmin || canRemoveFromChannel)) {
                 const {index, totalUsers} = this.props;
@@ -182,7 +182,7 @@ export default class ChannelMembersDropdown extends React.Component {
 
         return (
             <div>
-                {this.renderRole(isChannelAdmin)}
+                {this.renderRole(isChannelAdmin, isGuest)}
             </div>
         );
     }
