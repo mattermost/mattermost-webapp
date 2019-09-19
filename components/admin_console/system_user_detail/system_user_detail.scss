@@ -1,11 +1,37 @@
+@import 'utils/variables';
+
 .SystemUserDetail__field-label {
     font-size: 12px;
     display: block;
     font-weight: bold;
     margin-top: 12px;
+    margin-bottom: 4px;
 }
 
 .SystemUserDetail__input {
+    display: inline-block;
     height: 40px;
     max-width: 320px;
+}
+
+.SystemUserDetail .add-team-button {
+    position: relative;
+    margin-left: 10px;
+}
+
+.SystemUserDetail .team-btn__content {
+    opacity: 1;
+}
+
+.SystemUserDetail__field-text {
+    vertical-align: middle;
+}
+
+.SystemUserDetail__field-icon {
+    width: 16px;
+    height: 16px;
+    fill: var(--center-channel-color-40);
+    margin: 0 6px 0 0;
+    display: inline-block;
+    vertical-align: middle;
 }

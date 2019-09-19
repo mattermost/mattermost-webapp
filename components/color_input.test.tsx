@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ColorInput from 'components/color_input.jsx';
+import ColorInput from 'components/color_input';
 
 describe('components/ColorInput', () => {
     test('should match snapshot, init', () => {

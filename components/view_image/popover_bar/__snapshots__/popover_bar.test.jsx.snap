@@ -2,7 +2,7 @@
 
 exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when externally hosted 1`] = `
 <div
-  className="modal-button-bar footer--show"
+  className="modal-button-bar"
 >
   <span
     className="pull-left text"
@@ -39,7 +39,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot for 
 
 exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when externally hosted and on the desktop app 1`] = `
 <div
-  className="modal-button-bar footer--show"
+  className="modal-button-bar"
 >
   <span
     className="pull-left text"
@@ -77,7 +77,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot for 
 
 exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when internally hosted 1`] = `
 <div
-  className="modal-button-bar footer--show"
+  className="modal-button-bar"
 >
   <span
     className="pull-left text"
@@ -115,7 +115,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot for 
 
 exports[`components/view_image/popover_bar/PopoverBar should match snapshot for downloadable file when internally hosted and on the desktop app 1`] = `
 <div
-  className="modal-button-bar footer--show"
+  className="modal-button-bar"
 >
   <span
     className="pull-left text"
@@ -153,7 +153,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot for 
 
 exports[`components/view_image/popover_bar/PopoverBar should match snapshot with public links disabled 1`] = `
 <div
-  className="modal-button-bar footer--show"
+  className="modal-button-bar"
 >
   <span
     className="pull-left text"
@@ -191,7 +191,7 @@ exports[`components/view_image/popover_bar/PopoverBar should match snapshot with
 
 exports[`components/view_image/popover_bar/PopoverBar should match snapshot with public links enabled 1`] = `
 <div
-  className="modal-button-bar footer--show"
+  className="modal-button-bar"
 >
   <span
     className="pull-left text"

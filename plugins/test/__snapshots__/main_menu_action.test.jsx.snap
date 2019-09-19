@@ -207,6 +207,22 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         to="/somename/integrations"
       />
     </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={true}
+        text="Plugin Marketplace"
+      />
+    </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={true}

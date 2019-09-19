@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -91,7 +91,7 @@ describe('Channel', () => {
         cy.visit('/');
     });
 
-    it('M14635 Should not create new channel with existing public channel name', () => {
+    it('Mult14635 Should not create new channel with existing public channel name', () => {
         // # Create a new private channel
         createNewChannel(`unique-public-${Date.now()}`, true).as('channel');
         cy.reload();
@@ -102,7 +102,7 @@ describe('Channel', () => {
         });
     });
 
-    it('M14635 Should not create new channel with existing private channel name', () => {
+    it('Mult14635 Should not create new channel with existing private channel name', () => {
         // # Create a new private channel
         createNewChannel(`unique-private-${Date.now()}`, true).as('channel');
         cy.reload();

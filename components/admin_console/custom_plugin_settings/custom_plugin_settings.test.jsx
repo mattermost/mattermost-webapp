@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings.jsx';
+import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 
 describe('components/admin_console/CustomPluginSettings', () => {
     let plugin = null;
@@ -103,7 +104,12 @@ describe('components/admin_console/CustomPluginSettings', () => {
 
     test('should match snapshot with settings and plugin', () => {
         const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting) => {
-            return {...setting, label: setting.display_name};
+            const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
+            return {
+                ...setting,
+                key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + setting.key.toLowerCase(),
+                label: setting.display_name,
+            };
         });
         const wrapper = shallow(
             <CustomPluginSettings
