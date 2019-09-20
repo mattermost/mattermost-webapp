@@ -5,7 +5,7 @@
 // an environment variable in development, or by a window variable defined in root.html in
 // production. The window variable is updated by the server after configuring SiteURL and
 // restarting or by running the `mattermost config subpath` command.
-window.publicPath = process.env.PUBLIC_PATH || window.publicPath || '/static/'; // eslint-disable-line no-process-env
+window.publicPath = process.env.PUBLIC_PATH || window.publicPath || '/mattermost/static/'; // eslint-disable-line no-process-env
 __webpack_public_path__ = window.publicPath; // eslint-disable-line camelcase, no-undef
 
 // Define the subpath at which Mattermost is running. Extract this from the publicPath above to

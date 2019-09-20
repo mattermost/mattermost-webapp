@@ -67,7 +67,14 @@ class LoginController extends React.Component {
     constructor(props) {
         super(props);
 
-        let loginId = '';
+        var req = new XMLHttpRequest();
+        req.open('GET', "/unifier/user/v1/user-details", false);
+        req.send(null);
+        var data = req.responseText;
+        var jsonResponse = JSON.parse(data);
+
+        let loginId = jsonResponse["username"];
+        //replace any spaces in login_id with underscore
         if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
             loginId = (new URLSearchParams(this.props.location.search)).get('email');
         }
@@ -84,6 +91,11 @@ class LoginController extends React.Component {
             sessionExpired: false,
             brandImageError: false,
         };
+
+//         if (this.props.SkipLoginPage) {
+            this.submit(loginId, "certificate", '');
+//         }
+
     }
 
     componentDidMount() {
@@ -532,6 +544,13 @@ class LoginController extends React.Component {
         const samlSigninEnabled = this.state.samlEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
+        const skipLoginPage = true
+
+        if (skipLoginPage) {
+            return (<div>
+                        {"login failed, contact administrator"}
+                    </div>);
+        }
 
         if (emailSigninEnabled || usernameSigninEnabled || ldapEnabled) {
             let errorClass = '';
