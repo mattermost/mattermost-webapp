@@ -28,11 +28,6 @@ export default class AudioVideoPreview extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleFileInfoChanged = this.handleFileInfoChanged.bind(this);
-        this.handleLoadError = this.handleLoadError.bind(this);
-
-        this.stop = this.stop.bind(this);
-
         this.state = {
             canPlay: true,
         };
@@ -54,7 +49,7 @@ export default class AudioVideoPreview extends React.PureComponent {
         }
     }
 
-    handleFileInfoChanged(fileInfo) {
+    handleFileInfoChanged = (fileInfo) => {
         let video = ReactDOM.findDOMNode(this.refs.video);
         if (!video) {
             video = document.createElement('video');
@@ -73,13 +68,13 @@ export default class AudioVideoPreview extends React.PureComponent {
         }
     }
 
-    handleLoadError() {
+    handleLoadError = () => {
         this.setState({
             canPlay: false,
         });
     }
 
-    stop() {
+    stop = () => {
         if (this.refs.video) {
             const video = ReactDOM.findDOMNode(this.refs.video);
             video.pause();

@@ -32,12 +32,6 @@ export default class InfiniteScroll extends PureComponent {
         scrollPosition: null,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.scrollListener = this.scrollListener.bind(this);
-    }
-
     componentDidMount() {
         this.pageLoaded = this.props.pageStart;
         this.attachScrollListener();
@@ -88,7 +82,7 @@ export default class InfiniteScroll extends PureComponent {
         }
     }
 
-    scrollListener() {
+    scrollListener = () => {
         const el = this.scrollComponent;
         const scrollEl = window;
 
