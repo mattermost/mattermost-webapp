@@ -30,7 +30,6 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
         const actions = {
             getChannel: jest.fn().mockResolvedValue([]),
             getTeam: jest.fn().mockResolvedValue([]),
-            convertChannelToPrivate: jest.fn(),
             linkGroupSyncable: jest.fn(),
             conver: jest.fn(),
             patchChannel: jest.fn(),
@@ -38,6 +37,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             unlinkGroupSyncable: jest.fn(),
             getGroups: jest.fn().mockResolvedValue([]),
             membersMinusGroupMembers: jest.fn(),
+            updateChannelPrivacy: jest.fn(),
         };
 
         let wrapper = shallow(
