@@ -19,7 +19,8 @@ describe('Message', () => {
         cy.get('a.mention-link').contains(longLink).click();
 
         // * verify that the url is the same as what was just clicked on
-        cy.location('pathname').should('contain', 'saepe-5');
+        const URLRegularEx = /\/ad-[0-9]+\/channels\/saepe-5/;
+        cy.location('pathname').should('match', URLRegularEx);
 
         // * verify that the channel title represents the same channel that was clicked on
         cy.get('#channelHeaderTitle').should('contain', 'doloremque');
