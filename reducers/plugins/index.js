@@ -173,7 +173,7 @@ function components(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
-            if (action.data.parentId) {
+            if (action.name === 'PostDropdownMenu' && action.data.parentId) {
                 action.data = buildSubMenu(state, action);
             }
             const nextState = {...state};
