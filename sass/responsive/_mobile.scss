@@ -1,6 +1,10 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .line-switch__toggle {
+        margin: 8px 0;
+    }
+
     .MenuWrapper {
         .Menu {
             &.dropdown-menu {
