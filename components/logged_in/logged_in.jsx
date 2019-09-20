@@ -73,6 +73,9 @@ export default class LoggedIn extends React.PureComponent {
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
 
+        // Listen for messages from the desktop app
+        window.addEventListener('message', this.onDesktopMessageListener);
+
         // Tell the desktop app the webapp is ready
         window.postMessage(
             {
@@ -80,9 +83,6 @@ export default class LoggedIn extends React.PureComponent {
             },
             window.location.origin
         );
-
-        // Listen for messages from the desktop app
-        window.addEventListener('message', this.onDesktopMessageListener);
 
         // Because current CSS requires the root tag to have specific stuff
 
