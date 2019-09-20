@@ -25,7 +25,7 @@ const searchProfiles = (term, options = {}) => {
     return reduxSearchProfiles(term, options);
 };
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
     const config = getConfig(state);
     const license = getLicense(state);
     const channels = getMyChannels(state);
