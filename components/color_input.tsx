@@ -89,10 +89,6 @@ class ColorInput extends React.PureComponent<Props, State> {
 
     private onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let {value} = event.target;
-        if (value === '') {
-            this.setState({hex: value});
-            return;
-        }
         if (!value.startsWith('#')) {
             value = '#' + value;
         }
@@ -121,6 +117,7 @@ class ColorInput extends React.PureComponent<Props, State> {
             const {onChange: handleChange} = this.props;
             if (handleChange && value.length === 7) {
                 handleChange(value);
+                this.setState({hex: value.toUpperCase()});
             }
         } else {
             this.setHex();
@@ -133,6 +130,12 @@ class ColorInput extends React.PureComponent<Props, State> {
             this.togglePicker();
         }
     };
+
+    private selectValue = (event: React.FocusEvent<HTMLInputElement>): void => {
+        if (event.target) {
+            event.target.setSelectionRange(1, event.target.value.length);
+        }
+    }
 
     public render() {
         const {color, id} = this.props;
@@ -149,6 +152,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                     onChange={this.onChange}
                     onBlur={this.onBlur}
                     onKeyDown={this.onKeyDown}
+                    onFocus={this.selectValue}
                 />
                 <span
                     id={`${id}-squareColorIcon`}
