@@ -7,12 +7,12 @@ jest.mock('mattermost-redux/selectors/entities/channels', () => ({
 }));
 
 jest.mock('mattermost-redux/selectors/entities/general', () => ({
-    getConfig: () => ({EnableGuestAccounts:  "true"}),
-    getLicense: () => ({IsLicensed: "true"}),
+    getConfig: () => ({EnableGuestAccounts: 'true'}),
+    getLicense: () => ({IsLicensed: 'true'}),
 }));
 
 jest.mock('mattermost-redux/selectors/entities/teams', () => ({
-    getCurrentTeam: jest.fn().mockReturnValueOnce({group_constrained:  true}).mockReturnValueOnce({group_constrained:  false}),
+    getCurrentTeam: jest.fn().mockReturnValueOnce({group_constrained: true}).mockReturnValueOnce({group_constrained: false}),
 }));
 
 jest.mock('mattermost-redux/selectors/entities/roles', () => ({
@@ -57,5 +57,4 @@ describe('mapStateToProps', () => {
         const props = mapStateToProps(baseState);
         expect(props.canInviteGuests).toBe(true);
     });
-
 });
