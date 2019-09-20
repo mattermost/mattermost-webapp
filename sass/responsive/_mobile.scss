@@ -1,6 +1,10 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .line-switch__toggle {
+        margin: 8px 0;
+    }
+
     .MenuWrapper {
         .Menu {
             &.dropdown-menu {
@@ -2003,7 +2007,6 @@
         display: flex;
         flex-direction: column;
         height: calc(100vh - 100px);
-
         >* {
             flex-grow: 0;
         }

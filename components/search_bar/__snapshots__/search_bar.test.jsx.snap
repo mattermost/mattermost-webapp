@@ -65,6 +65,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -199,6 +200,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -306,6 +308,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -413,6 +416,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
