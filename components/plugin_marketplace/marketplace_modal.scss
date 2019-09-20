@@ -110,6 +110,7 @@
         height: 42px;
         flex: 0 0 42px;
         margin-right: 4px;
+        border-radius: 50%;
 
         img, svg {
             width: 32px;
@@ -119,6 +120,10 @@
         svg {
             fill: var(--button-bg-60);
         }
+    }
+
+    .icon_background {
+        background-color: $white;
     }
 
     .no_plugins_div{
