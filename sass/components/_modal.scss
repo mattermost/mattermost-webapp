@@ -106,6 +106,13 @@
             padding: 0;
             overflow: hidden;
         }
+
+        .error-text {
+            float: left;
+            text-align: left;
+            margin: 10px;
+            font-weight: bold;
+        }
     }
 
     &.modal-image {
