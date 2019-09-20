@@ -239,7 +239,7 @@ export const EventTypes = Object.assign(
         MOUSE_UP: 'mouseup',
     },
     keyMirror({
-        POST_LIST_SCROLL_CHANGE: null,
+        POST_LIST_SCROLL_TO_BOTTOM: null,
     })
 );
 
