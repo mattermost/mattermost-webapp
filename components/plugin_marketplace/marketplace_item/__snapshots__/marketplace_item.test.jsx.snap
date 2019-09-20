@@ -89,7 +89,7 @@ exports[`components/MarketplaceItem should match snapshot, with plugin icon 1`] 
   key="id"
 >
   <img
-    className="icon__plugin"
+    className="icon__plugin icon_background"
     src="icon"
   />
   <div
