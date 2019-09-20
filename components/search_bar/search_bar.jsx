@@ -185,6 +185,7 @@ export default class SearchBar extends React.Component {
                             aria-hidden='true'
                         />
                     }
+                    ariaLabel={true}
                     buttonClass={'channel-header__icon style--none ' + mentionBtnClass}
                     buttonId={'channelHeaderMentionButton'}
                     onClick={this.searchMentions}
@@ -199,6 +200,7 @@ export default class SearchBar extends React.Component {
                     iconComponent={
                         <FlagIcon className='icon icon__flag'/>
                     }
+                    ariaLabel={true}
                     buttonClass={'channel-header__icon style--none ' + flagBtnClass}
                     buttonId={'channelHeaderFlagButton'}
                     onClick={this.getFlagged}
