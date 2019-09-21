@@ -30,6 +30,9 @@ export default class AdminSettings extends React.Component {
          */
         setNavigationBlocked: PropTypes.func,
 
+        /*
+         * Action to save config file
+         */
         updateConfig: PropTypes.func,
 
     };
