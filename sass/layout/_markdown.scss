@@ -57,7 +57,6 @@ h6 {
         -moz-force-broken-image-icon: 1;
         margin: 5px 2px;
         max-height: 500px;
-        border: 1px solid transparent;
     }
     
     div .markdown-inline-img {
@@ -68,6 +67,7 @@ h6 {
     
     .markdown-inline-img--hover {
         max-width: calc(100% - 5px);
+        border: 1px solid transparent;
         
         &:hover {
             @include border-radius(4px);

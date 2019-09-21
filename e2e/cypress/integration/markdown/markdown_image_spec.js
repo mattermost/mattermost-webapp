@@ -35,8 +35,8 @@ describe('Markdown', () => {
                 should('have.class', 'markdown-inline-img').
                 and('have.attr', 'alt', 'Build Status').
                 and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
-                and('have.css', 'height', '22px').
-                and('have.css', 'width', '104px');
+                and('have.css', 'height', '21px').
+                and('have.css', 'width', '102px');
         });
     });
 
