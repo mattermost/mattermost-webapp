@@ -101,12 +101,12 @@ describe('components/post_view/Reaction', () => {
         expect(newActions.getMissingProfilesByIds).toHaveBeenCalledWith([reactions[0].user_id, reactions[1].user_id]);
     });
 
-    test('should sort users by recency', () => {
+    test('should sort users by who reacted first', () => {
         const baseDate = Date.now();
         const newReactions = [
-            {user_id: 'user_id_2', create_at: baseDate}, // First to react, will be sorted last
-            {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 3rd user reacted last
-            {user_id: 'user_id_3', create_at: baseDate + 8000}, // Will be sorted 2nd, after the logged-in user
+            {user_id: 'user_id_2', create_at: baseDate}, // Will be sorted 2nd, after the logged-in user
+            {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 2nd user reacted first
+            {user_id: 'user_id_3', create_at: baseDate + 8000}, // Last to react, will be sorted last
         ];
         const newProfiles = [{id: 'user_id_1'}, {id: 'user_id_2'}, {id: 'user_id_3'}];
         const props = {
@@ -133,7 +133,7 @@ describe('components/post_view/Reaction', () => {
         expect(currentUserReacted).toEqual(true);
         assert.deepEqual(
             users,
-            ['You', 'username_3', 'username_2']
+            ['You', 'username_2', 'username_3']
         );
     });
 });

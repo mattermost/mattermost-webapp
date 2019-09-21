@@ -97,9 +97,9 @@ export default class Reaction extends React.PureComponent {
     }
 
     getSortedUsers = (getDisplayName) => {
-        // Sort users by recency order with "you" being first if the current user reacted
+        // Sort users by who reacted first with "you" being first if the current user reacted
         let currentUserReacted = false;
-        const sortedReactions = this.props.reactions.sort((a, b) => b.create_at - a.create_at);
+        const sortedReactions = this.props.reactions.sort((a, b) => a.create_at - b.create_at);
         const users = sortedReactions.reduce((accumulator, current) => {
             if (current.user_id === this.props.currentUserId) {
                 currentUserReacted = true;
