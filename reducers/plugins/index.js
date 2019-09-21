@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {ActionTypes} from 'utils/constants.jsx';
 
 function addMenuItem(menu, data) {
-    if (menu.id === data.parentId) {
+    if (menu.id === data.parentMenuId) {
         menu.subMenu = [...menu.subMenu, data];
     } else if (menu.subMenu) {
         menu.subMenu = menu.subMenu.map((item) => {
@@ -17,21 +17,16 @@ function addMenuItem(menu, data) {
     return menu;
 }
 
-function buildSubMenu(state, action) {
-    const nextState = {...state};
-    const currentArray = nextState[action.name];
-    if (!currentArray) {
-        return action;
-    }
-    const root = currentArray.find((c) => c.subMenu);
+function buildSubMenu(currentArray, data) {
+    const root = currentArray.find((c) => c.subMenu && c.pluginId === data.pluginId);
     let menu = {...root};
     menu = addMenuItem(menu, {
-        id: action.data.id,
-        parentId: action.data.parentId,
-        text: action.data.text,
+        id: data.id,
+        parentMenuId: data.parentMenuId,
+        text: data.text,
         subMenu: [],
-        action: action.data.action,
-        filter: action.data.filter,
+        action: data.action,
+        filter: data.filter,
     });
     return {
         id: root.id,
@@ -173,14 +168,18 @@ function components(state = {}, action) {
     switch (action.type) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
-            if (action.name === 'PostDropdownMenu' && action.data.parentId) {
-                action.data = buildSubMenu(state, action);
-            }
             const nextState = {...state};
             const currentArray = nextState[action.name] || [];
-            const nextArray = [...currentArray.filter((c) => !c.subMenu)];
+            if (action.name === 'PostDropdownMenu' && action.data.parentMenuId) {
+                const subMenuData = buildSubMenu(currentArray, action.data);
+                if (!subMenuData) {
+                    return state;
+                }
+                action.data = subMenuData;
+            }
+            const nextArray = [...currentArray.filter((c) => !c.subMenu || c.pluginId !== action.data.pluginId), action.data];
             nextArray.sort(sortComponents);
-            nextState[action.name] = [...nextArray, action.data];
+            nextState[action.name] = nextArray;
             return nextState;
         }
         return state;
