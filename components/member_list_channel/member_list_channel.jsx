@@ -9,7 +9,7 @@ import * as UserAgent from 'utils/user_agent.jsx';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
-
+import LoadingScreen from 'components/loading_screen.jsx';
 const USERS_PER_PAGE = 50;
 
 export default class MemberListChannel extends React.PureComponent {
@@ -109,6 +109,11 @@ export default class MemberListChannel extends React.PureComponent {
     }
 
     render() {
+        if (this.state.loading) {
+            return (<div >
+                <LoadingScreen/>
+            </div>);
+        }
         const channelIsArchived = this.props.channel.delete_at !== 0;
         return (
             <SearchableUserList
