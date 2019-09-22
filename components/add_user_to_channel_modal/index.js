@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {addChannelMember, getChannelMember} from 'mattermost-redux/actions/channels';
+import {addChannelMember, getChannelMember, autocompleteChannelsForSearch} from 'mattermost-redux/actions/channels';
 import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import AddUserToChannelModal from './add_user_to_channel_modal.jsx';
@@ -20,6 +20,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addChannelMember,
             getChannelMember,
+            autocompleteChannelsForSearch,
         }, dispatch),
     };
 }

@@ -146,13 +146,9 @@ workflows:
       - i18n-check:
           requires:
             - install
-      - test:
-          requires:
-            - i18n-check
-            - lint
       - build:
           requires:
-            - test
+            - install
       - upload-s3:
           context: mattermost-ci-s3
           requires:
@@ -165,3 +161,7 @@ workflows:
           context: matterbuild-docker
           requires:
             - prepare-docker-build
+      - test:
+          requires:
+            - i18n-check
+            - lint

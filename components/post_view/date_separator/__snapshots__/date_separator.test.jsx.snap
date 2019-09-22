@@ -42,7 +42,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
     <div
       className="separator__text"
     >
-      <FormattedDate
+      <RecentDate
         day="2-digit"
         month="short"
         timeZone="Australia/Sydney"
@@ -50,10 +50,19 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
         weekday="short"
         year="numeric"
       >
-        <span>
-          Sat, Jan 13, 2018
-        </span>
-      </FormattedDate>
+        <FormattedDate
+          day="2-digit"
+          month="short"
+          timeZone="Australia/Sydney"
+          value={2018-01-12T20:15:13.000Z}
+          weekday="short"
+          year="numeric"
+        >
+          <span>
+            Sat, Jan 13, 2018
+          </span>
+        </FormattedDate>
+      </RecentDate>
     </div>
   </div>
 </DateSeparator>
@@ -100,6 +109,13 @@ exports[`components/post_view/DateSeparator should render date without timezone 
       <div
         className="separator__text"
       >
+        <RecentDate
+        day="2-digit"
+        month="short"
+        value={2018-01-12T12:15:13.000Z}
+        weekday="short"
+        year="numeric"
+      >
         <FormattedDate
           day="2-digit"
           month="short"
@@ -111,6 +127,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
             Fri, Jan 12, 2018
           </span>
         </FormattedDate>
+      </RecentDate>
       </div>
     </div>
   </Separator>
@@ -159,17 +176,25 @@ exports[`components/post_view/DateSeparator should render date without timezone 
     <div
       className="separator__text"
     >
-      <FormattedDate
+      <RecentDate
         day="2-digit"
         month="short"
         value={2018-01-12T12:15:13.000Z}
         weekday="short"
         year="numeric"
       >
-        <span>
-          Fri, Jan 12, 2018
-        </span>
-      </FormattedDate>
+        <FormattedDate
+          day="2-digit"
+          month="short"
+          value={2018-01-12T12:15:13.000Z}
+          weekday="short"
+          year="numeric"
+        >
+          <span>
+            Fri, Jan 12, 2018
+          </span>
+        </FormattedDate>
+      </RecentDate>
     </div>
   </div>
 </DateSeparator>

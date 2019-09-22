@@ -44,6 +44,13 @@ export default class AddUserToChannelModal extends React.Component {
              * Function to fetch the user's channel membership
              */
             getChannelMember: PropTypes.func.isRequired,
+
+            /**
+             * Function passed on to the constructor of the
+             * SearchChannelWithPermissionsProvider class to fetch channels
+             * based on a search term
+             */
+            autocompleteChannelsForSearch: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -83,7 +90,7 @@ export default class AddUserToChannelModal extends React.Component {
              */
             submitError: '',
         };
-        this.suggestionProviders = [new SearchChannelWithPermissionsProvider()];
+        this.suggestionProviders = [new SearchChannelWithPermissionsProvider(props.actions.autocompleteChannelsForSearch)];
         this.enableChannelProvider();
     }
 
