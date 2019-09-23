@@ -699,9 +699,8 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
 
         // #Create New User
         return cy.createNewUser(user, [teamId], bypassTutorial).then((newUser) => {
-            //Demote Regular Member to Guest User
-            const baseUrl = Cypress.config('baseUrl');
-            cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${newUser.id}/demote`});
+            // # Demote Regular Member to Guest User
+            cy.demoteUser(newUser.id);
             cy.request({
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 url: '/api/v4/users/login',

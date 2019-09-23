@@ -122,6 +122,11 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
     });
 
+    afterEach(() => {
+        // # Reload current page after each test to close any popup/modals left open
+        cy.reload();
+    });
+
     after(() => {
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
