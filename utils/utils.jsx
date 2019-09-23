@@ -18,6 +18,7 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
@@ -186,8 +187,8 @@ export function notifyMe(title, body, channel, teamId, silent) {
                 window.focus();
                 browserHistory.push(getChannelURL(channel, teamId));
             },
-        }).catch(() => {
-            // Ignore the failure to display the notification.
+        }).catch((error) => {
+            store.dispatch(logError(error));
         });
     }
 }
