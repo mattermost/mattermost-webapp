@@ -110,9 +110,7 @@ export default class MemberListChannel extends React.PureComponent {
 
     render() {
         if (this.state.loading) {
-            return (<div >
-                <LoadingScreen/>
-            </div>);
+            return (<LoadingScreen/>);
         }
         const channelIsArchived = this.props.channel.delete_at !== 0;
         return (
