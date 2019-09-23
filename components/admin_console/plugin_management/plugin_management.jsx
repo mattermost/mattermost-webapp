@@ -424,6 +424,8 @@ export default class PluginManagement extends AdminSettings {
             confirmOverwriteUploadModal: false,
             overwritingInstall: false,
             confirmOverwriteInstallModal: false,
+            showRemoveModal: false,
+            resolveRemoveModal: null,
         });
     }
 
@@ -608,13 +610,24 @@ export default class PluginManagement extends AdminSettings {
         return this.installFromUrl(true);
     }
 
-    handleRemove = async (e) => {
-        this.setState({lastMessage: null, serverError: null});
+    showRemovePluginModal = (e) => {
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
-        this.setState({removing: pluginId});
+        this.setState({showRemoveModal: true, removing: pluginId});
+    }
 
-        const {error} = await this.props.actions.removePlugin(pluginId);
+    handleRemovePluginCancel = () => {
+        this.setState({showRemoveModal: false, removing: null});
+    }
+
+    handleRemovePlugin = () => {
+        this.setState({showRemoveModal: false});
+        this.handleRemove();
+    }
+
+    handleRemove = async () => {
+        this.setState({lastMessage: null, serverError: null});
+        const {error} = await this.props.actions.removePlugin(this.state.removing);
         this.setState({removing: null});
 
         if (error) {
@@ -684,6 +697,41 @@ export default class PluginManagement extends AdminSettings {
                 message={message}
                 confirmButtonClass='btn btn-danger'
                 confirmButtonText={overwriteButton}
+                onConfirm={onConfirm}
+                onCancel={onCancel}
+            />
+        );
+    }
+
+    renderRemovePluginModal = ({show, onConfirm, onCancel}) => {
+        const title = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.title'
+                defaultMessage='Remove plugin?'
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.desc'
+                defaultMessage='Are you sure you would like to remove the plugin?'
+            />
+        );
+
+        const removeButton = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.overwrite'
+                defaultMessage='Remove'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={show}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                confirmButtonText={removeButton}
                 onConfirm={onConfirm}
                 onCancel={onCancel}
             />
@@ -792,7 +840,7 @@ export default class PluginManagement extends AdminSettings {
                         removing={this.state.removing === pluginStatus.id}
                         handleEnable={this.handleEnable}
                         handleDisable={this.handleDisable}
-                        handleRemove={this.handleRemove}
+                        handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
                     />
@@ -862,6 +910,12 @@ export default class PluginManagement extends AdminSettings {
             show: this.state.confirmOverwriteUploadModal,
             onConfirm: this.handleOverwriteUploadPlugin,
             onCancel: this.handleOverwriteUploadPluginCancel,
+        });
+
+        const removePluginModal = this.state.showRemoveModal && this.renderRemovePluginModal({
+            show: this.state.showRemoveModal,
+            onConfirm: this.handleRemovePlugin,
+            onCancel: this.handleRemovePluginCancel,
         });
 
         return (
@@ -961,6 +1015,7 @@ export default class PluginManagement extends AdminSettings {
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
+                    {removePluginModal}
                 </div>
             </div>
         );
