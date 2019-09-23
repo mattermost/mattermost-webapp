@@ -1301,13 +1301,11 @@
         .team__header {
             @include clearfix;
             pointer-events: none;
+            padding: 15px;
 
+            .team__name,
             .user__name {
-                display: none;
-            }
-
-            .team__name {
-                margin: 10px 0;
+                max-width: 100%;
             }
 
             .sidebar-header-dropdown {
