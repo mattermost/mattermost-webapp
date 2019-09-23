@@ -41,7 +41,7 @@ export function mapStateToProps(state) {
     });
     const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
     const isLicensed = license && license.IsLicensed === 'true';
-    const isGroupConstrained = Boolean(currentTeam.group_constrained);
+    const isGroupConstrained = currentTeam.group_constrained === 'true';
     const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.INVITE_GUEST});
 
     const canAddUsers = haveITeamPermission(state, {team: currentTeam.id, permission: Permissions.ADD_USER_TO_TEAM});
