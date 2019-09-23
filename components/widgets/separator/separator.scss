@@ -4,8 +4,8 @@
 @import 'compass/css3';
 @import 'utils/module';
 
-.date-separator,
-.new-separator {
+.Separator,
+.Separator {
     height: 2em;
     margin: 0;
     position: relative;
@@ -67,21 +67,8 @@
     }
 }
 
-.new-separator {
-    .separator__hr {
-        border-color: #ffaf53;
-    }
-
-    .separator__text {
-        color: #ff8800;
-        font-weight: normal;
-    }
-}
-
-
 @media screen and (max-width: 1440px) {
-    .date-separator,
-    .new-separator {
+    .Separator {
         &.hovered--comment {
             &:before,
             &:after {
@@ -93,8 +80,7 @@
 
 
 @media screen and (max-width: 768px) {
-    .date-separator,
-    .new-separator {
+    .Separator {
         &.hovered--after {
             &:before {
                 background: none;
@@ -110,8 +96,7 @@
 }
 
 @media print {
-    .date-separator .separator__hr,
-    .new-separator .separator__hr {
+    .Separator .separator__hr {
         top: 1.7em;
     }
 }

@@ -4,26 +4,30 @@
 import React from 'react';
 
 import {storiesOf} from '@storybook/react';
-import {select, text, withKnobs} from '@storybook/addon-knobs';
+import {text, withKnobs} from '@storybook/addon-knobs';
 
-import Separator from './separator';
-
-const styleKnob = () => select('Style', ['date-separator', 'new-separator'], 'date-separator');
+import BasicSeparator from './basic-separator';
+import NotificationSeparator from './notification-separator';
 
 storiesOf('Separator', module).
     addDecorator(withKnobs).
     add(
-        'plain',
+        'basic separator without text',
         () => {
-            return (<Separator className={styleKnob()}/>);
+            return (<BasicSeparator/>);
         }
     ).add(
-        'with text',
+        'basic separator with text',
+        () => {
+            return (<BasicSeparator>{text('Text', 'Some text')}</BasicSeparator>);
+        }
+    ).add(
+        'notification separator with text',
         () => {
             return (
-                <Separator className={styleKnob()}>
+                <NotificationSeparator>
                     {text('Text', 'Some text')}
-                </Separator>
+                </NotificationSeparator>
             );
         }
     );

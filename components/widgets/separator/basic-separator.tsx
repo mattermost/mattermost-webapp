@@ -1,19 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React from 'react';
 import './separator.scss';
 
-type Props = {
-    className: string;
-    children?: ReactNode;
-};
-
-export default class Separator extends React.PureComponent<Props> {
+export default class BasicSeparator extends React.PureComponent<React.PropsWithChildren<{}>> {
     public render() {
-        const {children, className} = this.props;
+        const {children} = this.props;
         return (
-            <div className={className}>
+            <div className='Separator'>
                 <hr className='separator__hr'/>
                 {children && (
                     <div className='separator__text'>

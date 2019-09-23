@@ -4,19 +4,24 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Separator from './separator';
+import BasicSeparator from './basic-separator';
+import NotificationSeparator from './notification-separator';
 
 describe('components/widgets/separator', () => {
-    test('with text', () => {
+    test('date separator with text', () => {
         const wrapper = shallow(
-            <Separator className='test'>
+            <BasicSeparator>
                 {'Some text'}
-            </Separator>
+            </BasicSeparator>
         );
         expect(wrapper).toMatchSnapshot();
     });
-    test('without text', () => {
-        const wrapper = shallow(<Separator className={'test'}/>);
+    test('notification message separator without text', () => {
+        const wrapper = shallow(<NotificationSeparator/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+    test('notification message separator with text', () => {
+        const wrapper = shallow(<NotificationSeparator>{'Some text'}</NotificationSeparator>);
         expect(wrapper).toMatchSnapshot();
     });
 });
