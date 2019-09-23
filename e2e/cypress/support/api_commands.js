@@ -678,12 +678,39 @@ Cypress.Commands.add('apiGetTeam', (teamId) => {
 });
 
 /**
- * Demote a Member to Guest directly via API
- * @param {String} userId - The user ID
- * All parameter required
+ * Creates a new guest user via the API , adds them to 1 team with sysadmin user, and sets preference to bypass tutorial.
+ * Then logs in as the user
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Boolean} bypassTutorial - Whether to set user preferences to bypass the tutorial (true) or to show it (false)
+ * Otherwise use default values
+ @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('demoteUser', (userId) => {
-    //Demote Regular Member to Guest User
-    const baseUrl = Cypress.config('baseUrl');
-    cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/demote`});
+Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) => {
+    // # Login as sysadmin to make admin requests
+    cy.apiLogin('sysadmin');
+
+    // # Create a New Team for Guest User
+    return cy.apiCreateTeam('guest-team', 'Guest Team').then((createResponse) => {
+        const teamId = createResponse.body.id;
+        cy.getCookie('MMUSERID').then((cookie) => {
+            // #Assign Sysadmin user to the newly created team
+            cy.apiAddUserToTeam(teamId, cookie.value);
+        });
+
+        // #Create New User
+        return cy.createNewUser(user, [teamId], bypassTutorial).then((newUser) => {
+            //Demote Regular Member to Guest User
+            const baseUrl = Cypress.config('baseUrl');
+            cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${newUser.id}/demote`});
+            cy.request({
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                url: '/api/v4/users/login',
+                method: 'POST',
+                body: {login_id: newUser.username, password: newUser.password},
+            }).then(() => {
+                cy.visit('/');
+                return cy.wrap(newUser);
+            });
+        });
+    });
 });
