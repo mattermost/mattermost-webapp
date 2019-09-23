@@ -34,7 +34,6 @@ export default class SidebarRight extends React.PureComponent {
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
-            scrollPostList: PropTypes.func.isRequired,
         }),
     };
 
@@ -65,9 +64,6 @@ export default class SidebarRight extends React.PureComponent {
 
         if (!wasOpen && isOpen) {
             trackEvent('ui', 'ui_rhs_opened');
-            if (Utils.disableVirtList()) {
-                setTimeout(this.props.actions.scrollPostList, 0);
-            }
         }
 
         const {actions, isPinnedPosts, channel} = this.props;
