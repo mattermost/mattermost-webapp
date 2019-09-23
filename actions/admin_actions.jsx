@@ -348,8 +348,7 @@ export function unregisterAdminConsolePlugin(pluginId) {
     };
 }
 
-export async function testSiteURL(success, error, config) {
-    const siteURL = config['ServiceSettings.SiteURL'];
+export async function testSiteURL(success, error, siteURL) {
     const {data, error: err} = await dispatch(AdminActions.testSiteURL(siteURL));
     if (data && success) {
         success(data);

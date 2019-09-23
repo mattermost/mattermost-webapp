@@ -347,7 +347,7 @@ export default class SchemaAdminSettings extends React.Component {
 
     buildButtonSetting = (setting) => {
         const handleRequestAction = (success, error) => {
-            setting.action(success, error, this.state);
+            setting.action(success, error, this.state['ServiceSettings.SiteURL']);
         };
 
         return (
