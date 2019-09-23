@@ -714,3 +714,14 @@ Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) =
         });
     });
 });
+
+/**
+ * Demote a Member to Guest directly via API
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('demoteUser', (userId) => {
+    //Demote Regular Member to Guest User
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/demote`});
+});
