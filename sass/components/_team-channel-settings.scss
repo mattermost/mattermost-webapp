@@ -30,10 +30,6 @@ span.greyed-out {
     }
 
 }
-.btn-toggle.btn-lg {
-    margin-left: 68px;
-    margin-bottom: -5px;
-}
 
 .help-text-small.help-text-no-padding {
     margin-top: 0;
@@ -66,13 +62,9 @@ span.greyed-out {
     }
 }
 
-
 .help-text-small {
-    height: 34px;
-    width: 668px;
-    opacity: 0.5;
-    color: #000000;
-    font-family: "Open Sans";
+    max-width: 668px;
+    opacity: 0.6;
     font-size: 12px;
     line-height: 17px;
 }
