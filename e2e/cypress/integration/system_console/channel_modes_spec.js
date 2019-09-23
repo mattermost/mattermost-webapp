@@ -56,4 +56,18 @@ describe('Test channel public/private toggle', () => {
             cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(1).contains('Private');
         });
     });
+
+    it('Verify that toggles are disabled for default channel', () => {
+        cy.apiLogin('sysadmin');
+        cy.visit('/');
+        cy.get('#sidebarItem_town-square').scrollIntoView().click({force: true});
+        cy.getCurrentChannelId().then((id) => {
+            cy.visit(`/admin_console/user_management/channels/${id}`);
+            cy.get('#channel_profile').contains('town-square');
+            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(0).should('have.class', 'false');
+            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(1).contains('Public');
+            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(0).should('have.class', 'disabled');
+            cy.get('#channel_manage .group-teams-and-channels--body').find('button').eq(1).should('have.class', 'disabled');
+        });
+    });
 });

@@ -13,6 +13,7 @@ describe('admin_console/team_channel_settings/channel/ChannelModes', () => {
                 onToggle={jest.fn()}
                 isPublic={true}
                 isSynced={false}
+                isDefault={false}
             />
         );
         expect(wrapper).toMatchSnapshot();
