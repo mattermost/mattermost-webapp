@@ -59,12 +59,12 @@ describe('components/channel_members_dropdown', () => {
             ...baseProps,
             user: {
                 ...baseProps.user,
-                roles: "system_guest"
+                roles: 'system_guest',
             },
             channelMember: {
                 roles: 'channel_guest',
             },
-            canChangeMemberRoles: true
+            canChangeMemberRoles: true,
         };
         const wrapper = shallow(
             <ChannelMembersDropdown {...props}/>
@@ -77,12 +77,12 @@ describe('components/channel_members_dropdown', () => {
             ...baseProps,
             user: {
                 ...baseProps.user,
-                roles: "system_guest"
+                roles: 'system_guest',
             },
             channelMember: {
                 roles: 'channel_guest',
             },
-            canChangeMemberRoles: false
+            canChangeMemberRoles: false,
         };
         const wrapper = shallow(
             <ChannelMembersDropdown {...props}/>
