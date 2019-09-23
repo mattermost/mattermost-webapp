@@ -156,7 +156,7 @@ export const it = {
     licensedForFeature: (feature) => (config, state, license) => license.IsLicensed && license[feature] === 'true',
 };
 
-export default {
+const AdminDefinition = {
     about: {
         icon: 'fa-info-circle',
         sectionTitle: t('admin.sidebar.about'),
@@ -2378,7 +2378,8 @@ export default {
                         label_default: 'Group Filter:',
                         help_text: t('admin.ldap.groupFilterFilterDesc'),
                         help_text_markdown: true,
-                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [User Management > Groups](/admin_console/user_management/groups), select which AD/LDAP groups should be linked and configured.',
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for group objects. Only the groups selected by the query will be available to Mattermost. From [User Management > Groups]({siteURL}/admin_console/user_management/groups), select which AD/LDAP groups should be linked and configured.',
+                        help_text_values: {siteURL: getSiteURL()},
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
@@ -3304,7 +3305,7 @@ export default {
                         key: 'GoogleSettings.UserApiEndpoint',
                         label: t('admin.google.userTitle'),
                         label_default: 'User API Endpoint:',
-                        dynamic_value: () => 'https://www.googleapis.com/plus/v1/people/me',
+                        dynamic_value: () => 'https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,nicknames,metadata',
                         isDisabled: true,
                         isHidden: it.isnt(it.stateEquals('oauthType', 'google')),
                     },
@@ -3468,6 +3469,10 @@ export default {
                 'admin.plugin.installedDesc',
                 'admin.plugin.uploadDesc',
                 'admin.plugin.uploadDisabledDesc',
+                'admin.plugins.settings.enableMarketplace',
+                'admin.plugins.settings.enableMarketplaceDesc',
+                'admin.plugins.settings.marketplaceUrl',
+                'admin.plugins.settings.marketplaceUrlDesc',
             ],
             schema: {
                 id: 'PluginManagementSettings',
@@ -3587,8 +3592,9 @@ export default {
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
                         help_text: t('admin.service.enableBotAccountCreation'),
-                        help_text_default: 'When true, users can create bot accounts for integrations in **Integrations > Bot Accounts**. Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
+                        help_text_default: 'When true, users can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
                         help_text_markdown: true,
+                        help_text_values: {siteURL: getSiteURL()},
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3596,8 +3602,9 @@ export default {
                         label: t('admin.service.disableBotOwnerDeactivatedTitle'),
                         label_default: 'Disable bot accounts when owner is deactivated:',
                         help_text: t('admin.service.disableBotWhenOwnerIsDeactivated'),
-                        help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to **Integrations > Bot Accounts**.',
+                        help_text_default: 'When a user is deactivated, disables all bot accounts managed by the user. To re-enable bot accounts, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots).',
                         help_text_markdown: true,
+                        help_text_values: {siteURL: getSiteURL()},
                     },
                 ],
             },
@@ -4307,3 +4314,5 @@ t('admin.field_names.postEditTimeLimit');
 t('admin.field_names.restrictCreationToDomains');
 t('admin.field_names.restrictDirectMessage');
 t('admin.field_names.teammateNameDisplay');
+
+export default AdminDefinition;

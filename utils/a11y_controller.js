@@ -682,7 +682,9 @@ export default class A11yController {
             if (!this.regions || !this.regions.length) {
                 return;
             }
-            if (modifierKeys.ctrlIsPressed) {
+
+            // Check to make sure both aren't pressed because some older webkit browsers set CTRL and ALT when AltGr is pressed
+            if (modifierKeys.ctrlIsPressed && !modifierKeys.altIsPressed) {
                 this.tildeKeyIsPressed = true;
                 event.preventDefault();
                 if (modifierKeys.shiftIsPressed) {
@@ -737,6 +739,13 @@ export default class A11yController {
             break;
         case isKeyPressed(event, Constants.KeyCodes.ENTER):
             this.enterKeyIsPressed = true;
+            break;
+        case isKeyPressed(event, Constants.KeyCodes.SPACE):
+            if (event.target.nodeName === 'BUTTON') {
+                event.preventDefault();
+                event.stopPropagation();
+                event.target.click();
+            }
             break;
         }
     }

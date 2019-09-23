@@ -1,6 +1,10 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .line-switch__toggle {
+        margin: 8px 0;
+    }
+
     .MenuWrapper {
         .Menu {
             &.dropdown-menu {
@@ -308,9 +312,6 @@
 
     .video-div {
         &.embed-responsive-item {
-            height: 0;
-            padding-bottom: 75%;
-
             iframe {
                 height: 100%;
                 left: 0;
@@ -1300,13 +1301,11 @@
         .team__header {
             @include clearfix;
             pointer-events: none;
+            padding: 15px;
 
+            .team__name,
             .user__name {
-                display: none;
-            }
-
-            .team__name {
-                margin: 10px 0;
+                max-width: 100%;
             }
 
             .sidebar-header-dropdown {
@@ -1417,11 +1416,6 @@
 
                 .control-label {
                     margin: .5em 0;
-                    top: 0;
-                }
-
-                .post-error {
-                    left: 0;
                     top: 0;
                 }
             }
@@ -1555,10 +1549,6 @@
 
             &.move--right {
                 left: 65px;
-            }
-
-            .nav-pills__unread-indicator {
-                left: 15px;
             }
         }
 
@@ -2007,7 +1997,6 @@
         display: flex;
         flex-direction: column;
         height: calc(100vh - 100px);
-
         >* {
             flex-grow: 0;
         }

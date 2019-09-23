@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [number] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -14,15 +14,8 @@ function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().type(query).type('{enter}');
 
-    // # Wait for search request to complete
-    cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
-
     cy.get('#loadingSpinner').should('not.be.visible');
-
-    if (expectedResults.length > 0) {
-        // * Verify that there's search item before querying by test ID
-        cy.get('.search-item__container').should('be.visible');
-    }
+    cy.get('#search-items-container', {timeout: TIMEOUTS.LARGE}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
     cy.queryAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
@@ -36,6 +29,9 @@ function searchAndValidate(query, expectedResults = []) {
             cy.get('#noResultsMessage').should('be.visible').and('have.text', 'No results found. Try again?');
         }
     });
+
+    cy.get('#searchResultsCloseButton').click();
+    cy.get('.search-item__container').should('not.exist');
 }
 
 function getMsAndQueryForDate(date) {
@@ -46,12 +42,7 @@ function getMsAndQueryForDate(date) {
 }
 
 function changeTimezone(timezone) {
-    cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/patch',
-        method: 'PUT',
-        body: {timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}},
-    });
+    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}});
 }
 
 describe('SF15699 Search Date Filter', () => {
@@ -84,11 +75,6 @@ describe('SF15699 Search Date Filter', () => {
     let newAdmin;
 
     before(() => {
-        // # Make fetch null so we falback to XHR requests to be able to listen in on them
-        Cypress.on('window:before:load', (win) => {
-            win.fetch = null;
-        });
-
         // # Login as the sysadmin.
         cy.apiLogin('sysadmin');
 
@@ -104,7 +90,7 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         // # Create a post from today
-        cy.get('#postListContent').should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
         cy.postMessage(todayMessage);
 
         // # Create another admin user so we can create posts from another user
@@ -143,12 +129,6 @@ describe('SF15699 Search Date Filter', () => {
                 cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms});
             });
         });
-    });
-
-    beforeEach(() => {
-        // # Setup server and listen for search request
-        cy.server();
-        cy.route({method: 'POST', url: '**/posts/search'}).as('searchRequest');
     });
 
     describe('input date filter', () => {
@@ -210,17 +190,16 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         describe('works without leading 0 in', () => {
-            before(() => {
-                // # Close the search side bar
-                cy.get('#searchResultsCloseButton').should('be.visible').click();
-            });
-
             // These must match the date of the firstMessage, only altering leading zeroes
             const tests = [
                 {name: 'day', date: '2018-06-5'},
                 {name: 'month', date: '2018-6-05'},
                 {name: 'month and date', date: '2018-6-5'},
             ];
+
+            before(() => {
+                cy.reload();
+            });
 
             tests.forEach((test) => {
                 it(test.name, () => {
@@ -392,9 +371,6 @@ describe('SF15699 Search Date Filter', () => {
                 focus().
                 type(`${targetMessage}{enter}`);
 
-            // # Wait for search request to complete
-            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
-
             cy.get('#loadingSpinner').should('not.be.visible');
 
             // * Verify we see our single result
@@ -422,9 +398,6 @@ describe('SF15699 Search Date Filter', () => {
             cy.get('#searchBox').
                 should('have.value', `on:2019-01-16  ${targetMessage}`).
                 type('{enter}');
-
-            // # Wait for search request to complete
-            cy.wait('@searchRequest', {requestTimeout: TIMEOUTS.MEDIUM}).its('status').should('equal', 200);
 
             cy.get('#loadingSpinner').should('not.be.visible');
 

@@ -16,15 +16,7 @@ import SettingsGroup from './settings_group.jsx';
 import TextSetting from './text_setting.jsx';
 
 export default class DatabaseSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-
-        this.renderSettings = this.renderSettings.bind(this);
-    }
-
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         // driverName and dataSource are read-only from the UI
 
         config.SqlSettings.MaxIdleConns = this.parseIntNonZero(this.state.maxIdleConns);
@@ -59,7 +51,7 @@ export default class DatabaseSettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const dataSource = '**********' + this.state.dataSource.substring(this.state.dataSource.indexOf('@'));
 
         let recycleDbButton = <div/>;

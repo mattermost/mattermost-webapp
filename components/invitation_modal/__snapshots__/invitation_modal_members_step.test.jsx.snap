@@ -21,6 +21,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   </h1>
   <div
     className="share-link"
+    data-testid="shareLink"
   >
     <h2>
       <FormattedMessage
@@ -34,12 +35,14 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
     >
       <input
         className="share-link-input"
+        data-testid="shareLinkInput"
         readOnly={true}
         type="text"
         value="http://localhost:8065/signup_user_complete/?id=123"
       />
       <button
         className="share-link-input-button"
+        data-testid="shareLinkInputButton"
         onClick={[Function]}
       >
         <LinkIcon />
@@ -74,6 +77,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
   </div>
   <div
     className="search-and-add"
+    data-testid="searchAdd"
   >
     <h2>
       <FormattedMessage
@@ -109,6 +113,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
     <button
       className="btn btn-inactive"
       disabled={true}
+      id="inviteMembersButton"
       onClick={[Function]}
     >
       <FormattedMessage
