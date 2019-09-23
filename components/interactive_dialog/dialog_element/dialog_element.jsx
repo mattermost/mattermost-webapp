@@ -33,6 +33,9 @@ export default class DialogElement extends React.PureComponent {
         options: PropTypes.arrayOf(PropTypes.object),
         value: PropTypes.any,
         onChange: PropTypes.func,
+        actions: PropTypes.shape({
+            autocompleteChannels: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     constructor(props) {
@@ -43,7 +46,7 @@ export default class DialogElement extends React.PureComponent {
             if (props.dataSource === 'users') {
                 this.providers = [new GenericUserProvider()];
             } else if (props.dataSource === 'channels') {
-                this.providers = [new GenericChannelProvider()];
+                this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (props.options) {
                 this.providers = [new MenuActionProvider(props.options)];
             }
