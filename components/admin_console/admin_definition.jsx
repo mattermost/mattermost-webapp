@@ -3482,6 +3482,10 @@ const AdminDefinition = {
                 'admin.plugin.installedDesc',
                 'admin.plugin.uploadDesc',
                 'admin.plugin.uploadDisabledDesc',
+                'admin.plugins.settings.enableMarketplace',
+                'admin.plugins.settings.enableMarketplaceDesc',
+                'admin.plugins.settings.marketplaceUrl',
+                'admin.plugins.settings.marketplaceUrlDesc',
             ],
             schema: {
                 id: 'PluginManagementSettings',
