@@ -18,10 +18,11 @@
 }
 
 .color-pad {
-    padding: 5px 5px 4px;
     border-radius: 0 2px 2px 0;
     background: v(center-channel-bg) !important;
     border-color: v(center-channel-color-30) !important;
+    padding: 5px;
+    line-height: 0;
 }
 
 .color-popover {
