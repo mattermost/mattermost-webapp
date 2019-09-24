@@ -404,7 +404,6 @@ export default class PluginManagement extends AdminSettings {
             getPluginStatuses: PropTypes.func.isRequired,
             enablePlugin: PropTypes.func.isRequired,
             disablePlugin: PropTypes.func.isRequired,
-            installPluginFromUrl: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -415,15 +414,11 @@ export default class PluginManagement extends AdminSettings {
             loading: true,
             fileSelected: false,
             file: null,
-            pluginDownloadUrl: '',
             serverError: null,
             lastMessage: null,
             uploading: false,
-            installing: false,
             overwritingUpload: false,
             confirmOverwriteUploadModal: false,
-            overwritingInstall: false,
-            confirmOverwriteInstallModal: false,
             showRemoveModal: false,
             resolveRemoveModal: null,
         });
@@ -432,7 +427,6 @@ export default class PluginManagement extends AdminSettings {
     getConfigFromState = (config) => {
         config.PluginSettings.Enable = this.state.enable;
         config.PluginSettings.EnableUploads = this.state.enableUploads;
-        config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
         config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
         config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
 
@@ -443,7 +437,6 @@ export default class PluginManagement extends AdminSettings {
         const state = {
             enable: config.PluginSettings.Enable,
             enableUploads: config.PluginSettings.EnableUploads,
-            allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
             enableMarketplace: config.PluginSettings.EnableMarketplace,
             marketplaceUrl: config.PluginSettings.MarketplaceUrl,
         };
@@ -538,76 +531,6 @@ export default class PluginManagement extends AdminSettings {
     handleOverwriteUploadPlugin = () => {
         this.setState({confirmOverwriteUploadModal: false});
         this.helpSubmitUpload(this.state.file, true);
-    }
-
-    onPluginDownloadUrlChange = (e) => {
-        this.setState({
-            pluginDownloadUrl: e.target.value,
-        });
-    }
-
-    installFromUrl = async (force) => {
-        const {pluginDownloadUrl} = this.state;
-
-        this.setState({
-            installing: true,
-            serverError: null,
-            lastMessage: null,
-        });
-        const {error} = await this.props.actions.installPluginFromUrl(pluginDownloadUrl, force);
-
-        if (error) {
-            if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
-                this.setState({confirmOverwriteInstallModal: true, overwritingInstall: true});
-                return;
-            }
-
-            this.setState({
-                installing: false,
-            });
-
-            if (error.server_error_id === 'app.plugin.extract.app_error') {
-                this.setState({serverError: Utils.localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin. Review your plugin file content and try again.')});
-            } else {
-                this.setState({serverError: error.message});
-            }
-            return;
-        }
-
-        this.setState({loading: true});
-        await this.props.actions.getPlugins();
-
-        let msg = `Successfully installed plugin from ${pluginDownloadUrl}`;
-        if (this.state.overwritingInstall) {
-            msg = `Successfully updated plugin from ${pluginDownloadUrl}`;
-        }
-
-        this.setState({
-            serverError: null,
-            lastMessage: msg,
-            overwritingInstall: false,
-            installing: false,
-            loading: false,
-        });
-    }
-
-    handleSubmitInstall = (e) => {
-        e.preventDefault();
-        return this.installFromUrl(false);
-    }
-
-    handleOverwriteInstallPluginCancel = () => {
-        this.setState({
-            confirmOverwriteInstallModal: false,
-            installing: false,
-            serverError: null,
-            lastMessage: null,
-        });
-    }
-
-    handleOverwriteInstallPlugin = () => {
-        this.setState({confirmOverwriteInstallModal: false});
-        return this.installFromUrl(true);
     }
 
     showRemovePluginModal = (e) => {
