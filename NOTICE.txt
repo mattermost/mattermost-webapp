@@ -10,12 +10,12 @@ This document includes a list of open source components used in Mattermost Web A
 
 ## @types/enzyme
 
-This product contains 'regenerator-runtime' by XuCat.
+This product contains '@types/enzyme' by .
 
-For WeChat using async/await
+For
 
 * HOMEPAGE:
-  * https://github.com/xubaifuCode/regeneratorRuntime
+  * 
 
 * LICENSE: 
 
