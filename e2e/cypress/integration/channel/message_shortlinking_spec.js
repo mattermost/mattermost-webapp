@@ -14,15 +14,19 @@ describe('Message', () => {
         const longLink = '~doloremque';
 
         cy.postMessage(shortLink);
+        cy.postMessage(shortLink + ' some more other message');
+        cy.postMessage('some more other message ' + shortLink);
 
-        // # Grab element with the long link url and go to the link
-        cy.get('a.mention-link').contains(longLink).click();
+        cy.getLastPostId().then((postId) => {
+            // # Grab last message with the long link url and go to the link
+            const divPostId = `#postMessageText_${postId}`;
+            cy.get(divPostId).contains(longLink).click();
 
-        // * verify that the url is the same as what was just clicked on
-        const URLRegularEx = /\/ad-[0-9]+\/channels\/saepe-5/;
-        cy.location('pathname').should('match', URLRegularEx);
+            // * verify that the url is the same as what was just clicked on
+            cy.location('pathname').should('contain', 'ad-1/channels/saepe-5');
 
-        // * verify that the channel title represents the same channel that was clicked on
-        cy.get('#channelHeaderTitle').should('contain', 'doloremque');
+            // * verify that the channel title represents the same channel that was clicked on
+            cy.get('#channelHeaderTitle').should('contain', 'doloremque');
+        });
     });
 });
