@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Markdown', () => {
     before(() => {
         // # Login as new user
@@ -24,35 +22,83 @@ describe('Markdown', () => {
 
     it('with in-line images 1', () => {
         // #  Post markdown message
-        cy.postMessageFromFile('markdown/markdown_inline_images_1.md').wait(TIMEOUTS.SMALL);
+        cy.postMessageFromFile('markdown/markdown_inline_images_1.md');
 
         // * Verify that HTML Content is correct.
-        // Note we use the Gigantic timeout to ensure that the large images will load
+        // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).find('p').
-                should('have.text', 'Mattermost/platform build status:  ');
+            cy.get(`#postMessageText_${postId}`).find('div').
+                should('have.text', 'Mattermost/platform build status:  ').
+                and('have.class', 'style--none');
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
                 and('have.attr', 'alt', 'Build Status').
-                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`);
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
+                and('have.css', 'height', '21px').
+                and('have.css', 'width', '102px');
         });
     });
 
     it('with in-line images 2', () => {
         // #  Post markdown message
-        cy.postMessageFromFile('markdown/markdown_inline_images_2.md').wait(TIMEOUTS.SMALL);
+        cy.postMessageFromFile('markdown/markdown_inline_images_2.md');
 
         // * Verify that HTML Content is correct.
-        // Note we use the Gigantic timeout to ensure that the large images will load
+        // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).find('p').
-                should('have.text', 'GitHub favicon:  ');
+            cy.get(`#postMessageText_${postId}`).find('div').
+                should('have.text', 'GitHub favicon:  ').
+                and('have.class', 'style--none');
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
+                and('have.class', 'markdown-inline-img--hover').
+                and('have.class', 'cursor--pointer').
+                and('have.class', 'a11y--active').
                 and('have.attr', 'alt', 'Github').
-                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico`);
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico`).
+                and('have.css', 'height', '33px').
+                and('have.css', 'width', '33px');
+        });
+    });
+
+    it('opens image preview window when image is clicked', () => {
+        // For example a png image
+
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_6.md');
+
+        cy.getLastPostId().then((postId) => {
+            // # Get the image and simulate a click.
+            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
+                should('have.css', 'height', '143px').
+                and('have.css', 'width', '894px').
+                click();
+
+            // * Verify that the preview modal opens
+            cy.get('div.modal-image__content').should('be.visible');
+
+            // # Close the modal
+            cy.get('div.modal-close').should('exist').click({force: true});
+        });
+    });
+
+    it('opens file preview window when icon image is clicked', () => {
+        // Icon (.ico) files are opened in a file preview window
+
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_2.md');
+
+        cy.getLastPostId().then((postId) => {
+            // # Get the image and simulate a click.
+            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
+                should('have.css', 'height', '33px').
+                and('have.css', 'width', '33px').
+                click();
+
+            // * Verify that the preview modal opens
+            cy.get('div.file-details__container').should('be.visible');
         });
     });
 });

@@ -64,6 +64,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModes
+        isDefault={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}
@@ -165,6 +166,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelDetails should match
         toPublic={true}
       />
       <ChannelModes
+        isDefault={false}
         isPublic={true}
         isSynced={false}
         onToggle={[Function]}

@@ -175,7 +175,7 @@ export default class RequestButton extends React.Component {
                 },
                 (err) => {
                     let errMsg = err.message;
-                    if (this.props.includeDetailedError) {
+                    if (this.props.includeDetailedError && err.detailed_error) {
                         errMsg += ' - ' + err.detailed_error;
                     }
 
