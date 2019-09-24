@@ -123,7 +123,8 @@
 
     .channel-header__icon {
         @include border-radius(50%);
-        border: 1px solid;
+        color: v(center-channel-color-40);
+        border: 1px solid v(center-channel-color-15);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -144,7 +145,21 @@
             @include transition-timing-function(ease-in-out);
         }
 
+        .icon--stroke {
+            svg {
+                stroke: v(center-channel-color-40);
+            }
+
+            &.icon__search {
+                svg {
+                    stroke: v(center-channel-color-50);
+                }
+            }
+        }
+
         svg {
+            fill: v(center-channel-color-40);
+
             body.enable-animations & {
                 @include transition-property(fill);
                 @include transition-duration($transition-quick);

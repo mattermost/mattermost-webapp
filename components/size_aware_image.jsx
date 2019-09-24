@@ -143,7 +143,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
         //The css hack here for loading images in the background can be removed after IE11 is dropped in 5.16v
         //We can go back to https://github.com/mattermost/mattermost-webapp/pull/2924/files
-        if (!this.state.loaded && dimensions) {
+        if (!this.state.loaded && dimensions && dimensions.width) {
             imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden', overflow: 'hidden'};
         }
 
