@@ -8,6 +8,14 @@
 // ***************************************************************
 
 describe('Test channel public/private toggle', () => {
+    before(() => {
+        // Enable LDAP and LDAP group sync
+        cy.apiUpdateConfig({
+            LdapSettings: {Enable: true},
+            ServiceSettings: {ExperimentalLdapGroupSync: true},
+        });
+    });
+
     it('Verify that System Admin can change channel privacy using toggle', () => {
         cy.apiLogin('sysadmin');
         cy.visit('/');
