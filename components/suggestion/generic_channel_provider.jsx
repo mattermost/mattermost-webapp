@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import {autocompleteChannels} from 'actions/channel_actions.jsx';
-
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
@@ -47,11 +45,17 @@ class ChannelSuggestion extends Suggestion {
 }
 
 export default class ChannelProvider extends Provider {
+    constructor(channelSearchFunc) {
+        super();
+
+        this.autocompleteChannels = channelSearchFunc;
+    }
+
     handlePretextChanged(pretext, resultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
-        autocompleteChannels(
+        this.autocompleteChannels(
             normalizedPretext,
             (data) => {
                 if (this.shouldCancelDispatch(normalizedPretext)) {
