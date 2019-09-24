@@ -2,7 +2,7 @@
 
 exports[`components/widgets/separator date separator with text 1`] = `
 <div
-  className="Separator"
+  className="Separator BasicSeparator"
 >
   <hr
     className="separator__hr"

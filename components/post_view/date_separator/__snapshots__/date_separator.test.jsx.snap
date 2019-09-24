@@ -33,11 +33,9 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
   }
   timeZone="Australia/Sydney"
 >
-  <BasicSeparator
-    className="date-separator"
-  >
+  <BasicSeparator>
     <div
-      className="Separator"
+      className="Separator BasicSeparator"
     >
       <hr
         className="separator__hr"
@@ -103,11 +101,9 @@ exports[`components/post_view/DateSeparator should render date without timezone 
     }
   }
 >
-  <BasicSeparator
-    className="date-separator"
-  >
+  <BasicSeparator>
     <div
-      className="Separator"
+      className="Separator BasicSeparator"
     >
       <hr
         className="separator__hr"
@@ -173,11 +169,9 @@ exports[`components/post_view/DateSeparator should render date without timezone 
   }
   timeZone="Australia/Sydney"
 >
-  <BasicSeparator
-    className="date-separator"
-  >
+  <BasicSeparator>
     <div
-      className="Separator"
+      className="Separator BasicSeparator"
     >
       <hr
         className="separator__hr"
