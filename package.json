@@ -69,6 +69,7 @@
     "redux-persist": "4.10.2",
     "regenerator-runtime": "0.13.3",
     "reselect": "4.0.0",
+    "semver": "^6.3.0",
     "superagent": "5.1.0",
     "typescript": "3.5.3",
     "xregexp": "4.2.4",
