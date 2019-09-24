@@ -4,6 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import semver from 'semver';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
@@ -17,6 +18,7 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
@@ -138,32 +140,57 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
+export function getChannelURL(channel, teamId) {
+    const state = store.getState();
+    let notificationURL;
+    if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
+        notificationURL = getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name;
+    } else if (channel) {
+        const team = getTeam(state, teamId);
+        notificationURL = getTeamRelativeUrl(team) + '/channels/' + channel.name;
+    } else if (teamId) {
+        const team = getTeam(state, teamId);
+        const redirectChannel = getRedirectChannelNameForTeam(state, teamId);
+        notificationURL = getTeamRelativeUrl(team) + `/channels/${redirectChannel}`;
+    } else {
+        const currentTeamId = getCurrentTeamId(state);
+        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+        notificationURL = getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`;
+    }
+    return notificationURL;
+}
+
 export function notifyMe(title, body, channel, teamId, silent) {
-    showNotification({title,
-        body,
-        requireInteraction: false,
-        silent,
-        onClick: () => {
-            const state = store.getState();
-            window.focus();
-            if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
-                browserHistory.push(getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name);
-            } else if (channel) {
-                const team = getTeam(state, teamId);
-                browserHistory.push(getTeamRelativeUrl(team) + '/channels/' + channel.name);
-            } else if (teamId) {
-                const team = getTeam(state, teamId);
-                const redirectChannel = getRedirectChannelNameForTeam(state, teamId);
-                browserHistory.push(getTeamRelativeUrl(team) + `/channels/${redirectChannel}`);
-            } else {
-                const currentTeamId = getCurrentTeamId(state);
-                const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
-                browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`);
-            }
-        },
-    }).catch(() => {
-        // Ignore the failure to display the notification.
-    });
+    // handle notifications in desktop app >= 4.3.0
+    if (UserAgent.isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
+        // get the desktop app to trigger the notification
+        window.postMessage(
+            {
+                type: 'dispatch-notification',
+                message: {
+                    title,
+                    body,
+                    channel,
+                    teamId,
+                    silent,
+                },
+            },
+            window.location.origin
+        );
+    } else {
+        showNotification({
+            title,
+            body,
+            requireInteraction: false,
+            silent,
+            onClick: () => {
+                window.focus();
+                browserHistory.push(getChannelURL(channel, teamId));
+            },
+        }).catch((error) => {
+            store.dispatch(logError(error));
+        });
+    }
 }
 
 var canDing = true;
