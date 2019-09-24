@@ -27,7 +27,7 @@ export default class DateSeparator extends React.PureComponent {
         const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
 
         return (
-            <BasicSeparator className='date-separator'>
+            <BasicSeparator>
                 <RecentDate
                     {...timezoneProps}
                     value={date}

@@ -14,10 +14,7 @@ export default class NewMessageSeparator extends React.PureComponent {
 
     render() {
         return (
-            <NotificationSeparator
-                id={this.props.separatorId}
-                className='new-separator'
-            >
+            <NotificationSeparator id={this.props.separatorId}>
                 <FormattedMessage
                     id='posts_view.newMsg'
                     defaultMessage='New Messages'

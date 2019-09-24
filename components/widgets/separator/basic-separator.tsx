@@ -8,7 +8,7 @@ export default class BasicSeparator extends React.PureComponent<React.PropsWithC
     public render() {
         const {children} = this.props;
         return (
-            <div className='Separator'>
+            <div className='Separator BasicSeparator'>
                 <hr className='separator__hr'/>
                 {children && (
                     <div className='separator__text'>
