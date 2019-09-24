@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {mapStateToProps} from './index.js';
+
 import {Permissions} from 'mattermost-redux/constants';
 
-describe('mapStateToProps', () => {
+import {mapStateToProps} from './index.js';
 
+describe('mapStateToProps', () => {
     const currentTeamId = 'team-id';
     const currentUserId = 'user-id';
 
@@ -14,15 +15,15 @@ describe('mapStateToProps', () => {
                 config: {
                     EnableGuestAccounts: 'true',
                 },
-                license:{
+                license: {
                     IsLicensed: 'true',
-                }
+                },
             },
             teams: {
                 currentTeamId,
             },
-            preferences:{
-                myPreferences:{},
+            preferences: {
+                myPreferences: {},
             },
             channels: {
                 channels: {},
@@ -37,9 +38,9 @@ describe('mapStateToProps', () => {
                 },
             },
             roles: {
-                roles:{
-                    test_user_role: { permissions: [Permissions.INVITE_GUEST]}
-                }
+                roles: {
+                    test_user_role: {permissions: [Permissions.INVITE_GUEST]},
+                },
             },
         },
         views: {
@@ -71,7 +72,6 @@ describe('mapStateToProps', () => {
     });
 
     test('canInviteGuests is true when group_constrained is false', () => {
-
         const testState = {
             ...initialState,
             entities: {
@@ -94,4 +94,4 @@ describe('mapStateToProps', () => {
         const props = mapStateToProps(testState);
         expect(props.canInviteGuests).toBe(true);
     });
-}); 
+});
