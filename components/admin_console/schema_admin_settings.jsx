@@ -451,7 +451,7 @@ export default class SchemaAdminSettings extends React.Component {
             }
         });
 
-        const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name)}));
+        const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name, o.display_name_default)}));
         const selectedValue = this.state[setting.key] || values[0].value;
 
         let selectedOptionForHelpText = null;

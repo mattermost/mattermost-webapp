@@ -2910,6 +2910,98 @@ const AdminDefinition = {
                         ),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'SamlSettings.DigestAlgorithm',
+                        label: t('admin.saml.digestAlgorithmTitle'),
+                        label_default: 'Digest Algorithm',
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.SignRequest'),
+                        ),
+                        options: [
+                            {
+                                value: 'http://www.w3.org/2000/09/xmldsig#sha1',
+                                display_name: 'http://www.w3.org/2000/09/xmldsig#sha1',
+                                display_name_default: 'http://www.w3.org/2000/09/xmldsig#sha1',
+                                help_text: t('admin.saml.digestAlgorithmDescription.sha1'),
+                                help_text_default: 'Specify the SAML Message Digest algorithm (RSAwithSHA1).  Please see more information provided at http://www.w3.org/2000/09/xmldsig#rsa-sha1.',
+                            },
+                            {
+                                value: 'http://www.w3.org/2001/04/xmlenc#sha256',
+                                display_name: 'http://www.w3.org/2001/04/xmlenc#sha256',
+                                display_name_default: 'http://www.w3.org/2001/04/xmlenc#sha256',
+                                help_text: t('admin.saml.digestAlgorithmDescription.sha256'),
+                                help_text_default: 'Specify the SAML Message Digest algorithm (SHA256).  Please see more information provided at http://www.w3.org/2001/04/xmlenc#sha256',
+                            },
+                        ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'SamlSettings.SignatureAlgorithm',
+                        label: t('admin.saml.signatureAlgorithmTitle'),
+                        label_default: 'Signature Algorithm',
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.SignRequest'),
+                        ),
+                        options: [
+                            {
+                                value: 'http://www.w3.org/2000/09/xmldsig#rsa-sha1',
+                                display_name: 'http://www.w3.org/2000/09/xmldsig#rsa-sha1',
+                                display_name_default: 'http://www.w3.org/2000/09/xmldsig#rsa-sha1',
+                                help_text: t('admin.saml.signatureAlgorithmDescription.sha1'),
+                                help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA1). Please see more information provided at http://www.w3.org/2000/09/xmldsig#rsa-sha1',
+                            },
+                            {
+                                value: 'http://www.w3.org/2001/04/xmlenc#sha256',
+                                display_name: 'http://www.w3.org/2001/04/xmlenc#sha256',
+                                display_name_default: 'http://www.w3.org/2001/04/xmlenc#sha256',
+                                help_text: t('admin.saml.signatureAlgorithmDescription.sha256'),
+                                help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA256). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha256 [section 6.4.2 RSA (PKCS#1 v1.5)]',
+                            },
+                            {
+                                value: 'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256',
+                                display_name: 'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256',
+                                display_name_default: 'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256',
+                                help_text: t('admin.saml.signatureAlgorithmDescription.ecdsa-sha256'),
+                                help_text_default: 'Specify the Signature algorithm used to sign the request (ECDSAwithSHA256). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256 [section 6.4.3 ECDSA]',
+                            },
+                            {
+                                value: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
+                                display_name: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
+                                display_name_default: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
+                                help_text: t('admin.saml.signatureAlgorithmDescription.sha512'),
+                                help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA512). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
+                            },
+                        ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'SamlSettings.CanonicalAlgorithm',
+                        label: t('admin.saml.canonicalAlgorithmTitle'),
+                        label_default: 'Canonicalization Algorithm',
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateIsFalse('SamlSettings.SignRequest'),
+                        ),
+                        options: [
+                            {
+                                value: 'http://www.w3.org/2001/10/xml-exc-c14n#',
+                                display_name: 'http://www.w3.org/2001/10/xml-exc-c14n#',
+                                display_name_default: 'http://www.w3.org/2001/10/xml-exc-c14n#',
+                                help_text: t('admin.saml.canonicalAlgorithmDescription.exc'),
+                                help_text_default: 'Specify the Canonicalization algorithm (Exclusive XML Canonicalization 1.0).  Please see more information provided at http://www.w3.org/2001/10/xml-exc-c14n#',
+                            },
+                            {
+                                value: 'http://www.w3.org/2006/12/xml-c14n11',
+                                display_name: 'http://www.w3.org/2006/12/xml-c14n11',
+                                display_name_default: 'http://www.w3.org/2006/12/xml-c14n11',
+                                help_text: t('admin.saml.canonicalAlgorithmDescription.c14'),
+                                help_text_default: 'Specify the Canonicalization algorithm (Canonical XML 1.1).  Please see more information provided at http://www.w3.org/2006/12/xml-c14n11',
+                            },
+                        ],
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.EmailAttribute',
                         label: t('admin.saml.emailAttrTitle'),
