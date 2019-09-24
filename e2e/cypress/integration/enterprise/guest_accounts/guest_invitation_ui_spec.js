@@ -20,6 +20,9 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             GuestAccountsSettings: {
                 Enable: true,
             },
+            ServiceSettings: {
+                EnableEmailInvitations: true,
+            },
         });
 
         // # Login as "sysadmin" and go to /
