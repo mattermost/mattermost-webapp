@@ -157,7 +157,7 @@ export default class PostList extends React.PureComponent {
 
         window.addEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
+        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
     getSnapshotBeforeUpdate(prevProps) {
@@ -199,7 +199,7 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
+        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
     static getDerivedStateFromProps(props) {
@@ -231,12 +231,6 @@ export default class PostList extends React.PureComponent {
         return postListIds.findIndex(
             (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
         );
-    }
-
-    scrollChange = (toBottom) => {
-        if (toBottom) {
-            this.scrollToLatestMessages();
-        }
     }
 
     handleWindowResize = () => {
