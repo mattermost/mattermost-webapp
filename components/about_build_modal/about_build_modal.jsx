@@ -12,7 +12,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
-        show: false,
+        show: false
     };
 
     static propTypes = {
