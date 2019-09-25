@@ -8,6 +8,14 @@ import TeamList from './team_list.jsx';
 
 describe('admin_console/system_user_detail/team_list/TeamList', () => {
     const defaultProps = {
+        user: {
+            username: 'jim.halpert',
+            first_name: 'Jim',
+            last_name: 'Halpert',
+            nickname: 'Big Tuna',
+            id: '1234',
+            roles: 'system_user',
+        },
         userId: '1234',
         locale: 'en',
         emptyListTextId: 'emptyListTextId',
@@ -15,6 +23,8 @@ describe('admin_console/system_user_detail/team_list/TeamList', () => {
         actions: {
             getTeamsData: jest.fn(),
             getTeamMembersForUser: jest.fn(),
+            removeUserFromTeam: jest.fn(),
+            updateTeamMemberSchemeRoles: jest.fn(),
         },
         userDetailCallback: jest.fn(),
         refreshTeams: false,

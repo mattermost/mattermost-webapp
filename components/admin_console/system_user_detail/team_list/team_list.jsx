@@ -34,10 +34,16 @@ const headerLabels = [
             width: '150px',
         },
     },
+    {
+        style: {
+            width: '150px',
+        },
+    },
 ];
 
 export default class TeamList extends React.Component {
     static propTypes = {
+        user: PropTypes.object.isRequired,
         userId: PropTypes.string.isRequired,
         locale: PropTypes.string.isRequired,
         emptyListTextId: PropTypes.string.isRequired,
@@ -45,6 +51,8 @@ export default class TeamList extends React.Component {
         actions: PropTypes.shape({
             getTeamsData: PropTypes.func.isRequired,
             getTeamMembersForUser: PropTypes.func.isRequired,
+            removeUserFromTeam: PropTypes.func.isRequired,
+            updateTeamMemberSchemeRoles: PropTypes.func.isRequired,
         }).isRequired,
         userDetailCallback: PropTypes.func.isRequired,
         refreshTeams: PropTypes.bool.isRequired,
@@ -60,6 +68,7 @@ export default class TeamList extends React.Component {
         super(props);
         this.state = {
             teamsWithMemberships: [],
+            serverError: null,
         };
     }
 
@@ -96,18 +105,56 @@ export default class TeamList extends React.Component {
         return teamsWithMemberships;
     }
 
+    doRemoveUserFromTeam = async (teamId) => {
+        const {error} = await this.props.actions.removeUserFromTeam(teamId, this.props.userId);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            this.getTeamsAndMemberships();
+        }
+    }
+
+    doMakeUserTeamAdmin = async (teamId) => {
+        const {error} = await this.props.actions.updateTeamMemberSchemeRoles(teamId, this.props.userId, true, true);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            this.getTeamsAndMemberships();
+        }
+    }
+
+    doMakeUserTeamMember = async (teamId) => {
+        const {error} = await this.props.actions.updateTeamMemberSchemeRoles(teamId, this.props.userId, true, false);
+        if (error) {
+            this.setState({serverError: error.message});
+        } else {
+            this.getTeamsAndMemberships();
+        }
+    }
+
     render() {
+        let serverError = null;
+        if (this.state.serverError) {
+            serverError = (
+                <div className='SystemUserDetail__error has-error'>
+                    <label className='has-error control-label'>{this.state.serverError}</label>
+                </div>
+            );
+        }
         return (
-            <AbstractList
-                headerLabels={headerLabels}
-                renderRow={this.renderRow}
-                total={this.state.teamsWithMemberships.length}
-                data={this.state.teamsWithMemberships}
-                actions={this.props.actions}
-                emptyListTextId={this.props.emptyListTextId}
-                emptyListTextDefaultMessage={this.props.emptyListTextDefaultMessage}
-                userId={this.props.userId}
-            />
+            <React.Fragment>
+                <div>{serverError}</div>
+                <AbstractList
+                    headerLabels={headerLabels}
+                    renderRow={this.renderRow}
+                    total={this.state.teamsWithMemberships.length}
+                    data={this.state.teamsWithMemberships}
+                    actions={this.props.actions}
+                    emptyListTextId={this.props.emptyListTextId}
+                    emptyListTextDefaultMessage={this.props.emptyListTextDefaultMessage}
+                    userId={this.props.userId}
+                />
+            </React.Fragment>
         );
     }
 
@@ -116,7 +163,9 @@ export default class TeamList extends React.Component {
             <TeamRow
                 key={item.id}
                 team={item}
-                onRowClick={this.onTeamClick}
+                doRemoveUserFromTeam={this.doRemoveUserFromTeam}
+                doMakeUserTeamAdmin={this.doMakeUserTeamAdmin}
+                doMakeUserTeamMember={this.doMakeUserTeamMember}
             />
         );
     }
