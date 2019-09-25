@@ -8,18 +8,19 @@
 // ***************************************************************
 
 const testCases = [
-    {command: '/away', ariaLabel: 'Away Icon', message: 'You are now away (Only visible to you)'},
-    {command: '/dnd', ariaLabel: 'Do Not Disturb Icon', message: 'Do Not Disturb is enabled. You will not receive desktop or mobile push notifications until Do Not Disturb is turned off. (Only visible to you)'},
-    {command: '/offline', ariaLabel: 'Offline Icon', message: 'You are now offline (Only visible to you)'},
-    {command: '/online', ariaLabel: 'Online Icon', message: 'You are now online (Only visible to you)'},
+    {command: '/away', ariaLabel: 'Away Icon', message: 'You are now away'},
+    {command: '/dnd', ariaLabel: 'Do Not Disturb Icon', message: 'Do Not Disturb is enabled. You will not receive desktop or mobile push notifications until Do Not Disturb is turned off.'},
+    {command: '/offline', ariaLabel: 'Offline Icon', message: 'You are now offline'},
+    {command: '/online', ariaLabel: 'Online Icon', message: 'You are now online'},
 ];
 
 describe('I18456 Built-in slash commands: user status via post', () => {
     before(() => {
         // # Login as user-1, go to "/" and set user status to online
         cy.apiLogin('user-1');
-        cy.visit('/');
         cy.apiUpdateUserStatus('online');
+        cy.apiSaveMessageDisplayPreference('compact');
+        cy.visit('/');
     });
 
     after(() => {
@@ -32,7 +33,7 @@ describe('I18456 Built-in slash commands: user status via post', () => {
             // # Post slash command
             cy.postMessage(testCase.command + ' ');
 
-            verifyUserStatus(testCase);
+            verifyUserStatus(testCase, true);
         });
     });
 });
@@ -41,8 +42,9 @@ describe('I18456 Built-in slash commands: user status via suggestion list', () =
     before(() => {
         // # Login as user-1, go to "/" and set user status to online
         cy.apiLogin('user-1');
-        cy.visit('/');
         cy.apiUpdateUserStatus('online');
+        cy.apiSaveMessageDisplayPreference('clean');
+        cy.visit('/');
     });
 
     beforeEach(() => {
@@ -66,7 +68,7 @@ describe('I18456 Built-in slash commands: user status via suggestion list', () =
 
         cy.get('#post_textbox').type(' {enter}');
 
-        verifyUserStatus(testCase);
+        verifyUserStatus(testCase, false);
     });
 
     it('/dnd', () => {
@@ -80,7 +82,7 @@ describe('I18456 Built-in slash commands: user status via suggestion list', () =
 
         // # Hit enter and verify user status
         cy.get('#post_textbox').type(' {enter}');
-        verifyUserStatus(testCase);
+        verifyUserStatus(testCase, false);
     });
 
     it('/offline', () => {
@@ -94,7 +96,7 @@ describe('I18456 Built-in slash commands: user status via suggestion list', () =
 
         // # Hit enter and verify user status
         cy.get('#post_textbox').type(' {enter}');
-        verifyUserStatus(testCase);
+        verifyUserStatus(testCase, false);
     });
 
     it('/online', () => {
@@ -108,17 +110,23 @@ describe('I18456 Built-in slash commands: user status via suggestion list', () =
 
         // # Hit enter and verify user status
         cy.get('#post_textbox').type(' {enter}');
-        verifyUserStatus(testCase);
+        verifyUserStatus(testCase, false);
     });
 });
 
-function verifyUserStatus(testCase) {
+function verifyUserStatus(testCase, isCompactMode) {
     // * Verify that the user status is as indicated
     cy.get('#lhsHeader').find('svg').should('be.visible').and('have.attr', 'aria-label', testCase.ariaLabel);
 
     // * Verify that ephemeral message is posted as expected
     cy.getLastPostId().then((postId) => {
         cy.get(`#post_${postId}`).find('.user-popover').should('have.text', 'System');
-        cy.get(`#postMessageText_${postId}`).should('have.text', testCase.message);
+
+        if (isCompactMode) {
+            cy.get(`#postMessageText_${postId}`).should('have.text', testCase.message + ' (Only visible to you)');
+        } else {
+            cy.get(`#postMessageText_${postId}`).should('have.text', testCase.message);
+            cy.get('.post__visibility').last().should('be.visible').and('have.text', '(Only visible to you)');
+        }
     });
 }

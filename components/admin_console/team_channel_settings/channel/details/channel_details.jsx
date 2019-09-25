@@ -51,6 +51,7 @@ export default class ChannelDetails extends React.Component {
         this.state = {
             isSynced: Boolean(props.channel.group_constrained),
             isPublic: props.channel.type === Constants.OPEN_CHANNEL,
+            isDefault: props.channel.name === Constants.DEFAULT_CHANNEL,
             isPrivacyChanging: false,
             saving: false,
             totalGroups: props.totalGroups,
@@ -72,6 +73,7 @@ export default class ChannelDetails extends React.Component {
                 totalGroups,
                 isSynced: Boolean(channel.group_constrained),
                 isPublic: channel.type === Constants.OPEN_CHANNEL,
+                isDefault: channel.name === Constants.DEFAULT_CHANNEL,
             });
         }
 
@@ -243,7 +245,7 @@ export default class ChannelDetails extends React.Component {
     }
 
     render = () => {
-        const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, groups, showConvertConfirmModal, showRemoveConfirmModal, showConvertAndRemoveConfirmModal, usersToRemove} = this.state;
+        const {totalGroups, saving, saveNeeded, serverError, isSynced, isPublic, isDefault, groups, showConvertConfirmModal, showRemoveConfirmModal, showConvertAndRemoveConfirmModal, usersToRemove} = this.state;
         const {channel, team} = this.props;
         const missingGroup = (og) => !groups.find((g) => g.id === og.id);
         const removedGroups = this.props.groups.filter(missingGroup);
@@ -297,6 +299,7 @@ export default class ChannelDetails extends React.Component {
                         <ChannelModes
                             isPublic={isPublic}
                             isSynced={isSynced}
+                            isDefault={isDefault}
                             onToggle={this.setToggles}
                         />
 
