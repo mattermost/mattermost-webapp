@@ -42,7 +42,6 @@ export default class Textbox extends React.Component {
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
-            scrollPostList: PropTypes.func.isRequired,
             autocompleteChannels: PropTypes.func.isRequired,
         }),
     };
