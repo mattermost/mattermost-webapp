@@ -43,6 +43,7 @@ export default class Textbox extends React.Component {
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
             scrollPostList: PropTypes.func.isRequired,
+            autocompleteChannels: PropTypes.func.isRequired,
         }),
     };
 
@@ -62,7 +63,7 @@ export default class Textbox extends React.Component {
                 profilesNotInChannel: this.props.profilesNotInChannel,
                 autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
             }),
-            new ChannelMentionProvider(),
+            new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
         ];
 
@@ -117,9 +118,6 @@ export default class Textbox extends React.Component {
     handleHeightChange = (height, maxHeight) => {
         if (this.props.onHeightChange) {
             this.props.onHeightChange(height, maxHeight);
-        }
-        if (Utils.disableVirtList()) {
-            this.props.actions.scrollPostList();
         }
     }
 

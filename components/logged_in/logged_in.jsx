@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
+import semver from 'semver';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
@@ -14,6 +15,8 @@ import LoadingScreen from 'components/loading_screen.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
+import {browserHistory} from 'utils/browser_history';
+import {getChannelURL} from 'utils/utils';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -72,6 +75,14 @@ export default class LoggedIn extends React.PureComponent {
 
         // Listen for messages from the desktop app
         window.addEventListener('message', this.onDesktopMessageListener);
+
+        // Tell the desktop app the webapp is ready
+        window.postMessage(
+            {
+                type: 'webapp-ready',
+            },
+            window.location.origin
+        );
 
         // Because current CSS requires the root tag to have specific stuff
 
@@ -169,7 +180,8 @@ export default class LoggedIn extends React.PureComponent {
         GlobalActions.emitBrowserFocus(false);
     }
 
-    onDesktopMessageListener = ({origin, data: {type, message: {userIsActive, manual} = {}} = {}} = {}) => {
+    // listen for messages from the desktop app
+    onDesktopMessageListener = ({origin, data: {type, message = {}} = {}} = {}) => {
         if (!this.props.currentUser) {
             return;
         }
@@ -178,12 +190,31 @@ export default class LoggedIn extends React.PureComponent {
         }
 
         switch (type) {
-        case 'user-activity-update':
+        case 'register-desktop': {
+            const {version} = message;
+            if (!window.desktop) {
+                window.desktop = {};
+            }
+            window.desktop.version = semver.valid(semver.coerce(version));
+            break;
+        }
+        case 'user-activity-update': {
+            const {userIsActive, manual} = message;
+
             // update the server with the users current away status
             if (userIsActive === true || userIsActive === false) {
                 WebSocketClient.userUpdateActiveStatus(userIsActive, manual);
             }
             break;
+        }
+        case 'notification-clicked': {
+            const {channel, teamId} = message;
+            window.focus();
+
+            // navigate to the appropriate channel
+            browserHistory.push(getChannelURL(channel, teamId));
+            break;
+        }
         }
     }
 }

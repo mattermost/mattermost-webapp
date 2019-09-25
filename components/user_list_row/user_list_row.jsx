@@ -94,6 +94,7 @@ export default class UserListRow extends React.Component {
                 />
                 <div
                     className='more-modal__details'
+                    data-testid='userListItemDetails'
                 >
                     <div
                         id={userCountID}

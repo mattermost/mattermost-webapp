@@ -134,6 +134,7 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 function waitUntilPermanentPost() {
+    cy.get('#postListContent').should('be.visible');
     cy.waitUntil(() => cy.getAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
@@ -151,14 +152,17 @@ Cypress.Commands.add('getLastPostId', () => {
 });
 
 /**
-* Get post ID for nth newest post
-* .eq() is 0-based index, hence nthPost-2 to get the nth post
-@param {Integer} nthPost - nth newest post
+* Get post ID based on index of post list
+* @param {Integer} index
+* zero (0)         : oldest post
+* positive number  : from old to latest post
+* negative number  : from new to oldest post
 */
-Cypress.Commands.add('getNthPostId', (nthPost) => {
-    return cy.get('#postListContent [id^=post]:first').parent().parent().siblings().eq(nthPost - 2).find('[id^=post]:first').invoke('attr', 'id').then((nthPostId) => {
-        return nthPostId.replace('post_', '');
-    });
+Cypress.Commands.add('getNthPostId', (index = 0) => {
+    waitUntilPermanentPost();
+
+    cy.getAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'post_', '');
 });
 
 /**
@@ -348,7 +352,7 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 // ************************************************************
 
 Cypress.Commands.add('getCurrentChannelId', () => {
-    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+    return cy.get('#channel-header', {timeout: TIMEOUTS.LARGE}).invoke('attr', 'data-channelid');
 });
 
 /**

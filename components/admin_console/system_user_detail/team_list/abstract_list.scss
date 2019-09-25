@@ -1,0 +1,64 @@
+@import 'compass/css3';
+@import 'sass/utils/variables';
+@import 'sass/utils/functions';
+
+.AbstractList {
+    @include single-transition(all, .4s, ease-in-out, 0s);
+    padding: 1rem 2rem 2rem 2rem;
+
+    .AbstractList__header {
+        border-bottom: solid 1px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: row;
+        font-size: 1.1em;
+        font-weight: bold;
+        padding: .5em 0;
+        .AbstractList__header-label {
+            display: inline-block;
+        }
+    }
+
+    .AbstractList__body {
+        background: $bg--gray;
+        .AbstractList__loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .AbstractList__empty {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.6rem;
+            background: alpha-color($white, .5);
+            color: $gray;
+
+            span {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+        }
+    }
+
+    .AbstractList__footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        background: $white;
+        padding: 5px;
+        height: auto;
+        .btn-link {
+            color: $dark-gray;
+            &.disabled {
+                opacity: .5;
+            }
+        }
+        .counter{
+            color: $dark-gray;
+            font-size: 1.1em;
+            margin-bottom: 2px;
+        }
+        border-top: solid 1px rgba(0, 0, 0, 0.1);
+    }
+}

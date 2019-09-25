@@ -291,6 +291,7 @@
 
             .sidebar-item {
                 @include single-transition(none);
+                color: v(sidebar-text-60);
                 align-items: center;
                 border-radius: 0;
                 display: flex;
@@ -386,6 +387,8 @@
             }
 
             &.active {
+                color: v(sidebar-text);
+
                 .muted {
                     opacity: 1;
                 }

@@ -5,12 +5,22 @@
     display: block;
     font-weight: bold;
     margin-top: 12px;
+    margin-bottom: 4px;
 }
 
 .SystemUserDetail__input {
     display: inline-block;
     height: 40px;
     max-width: 320px;
+}
+
+.SystemUserDetail .add-team-button {
+    position: relative;
+    margin-left: 10px;
+}
+
+.SystemUserDetail .team-btn__content {
+    opacity: 1;
 }
 
 .SystemUserDetail__field-text {
