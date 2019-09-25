@@ -21,9 +21,6 @@ export default class GetPostLinkModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleToggle = this.handleToggle.bind(this);
-        this.hide = this.hide.bind(this);
-
         this.state = {
             show: false,
             post: {},
@@ -38,14 +35,14 @@ export default class GetPostLinkModal extends React.PureComponent {
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_GET_POST_LINK_MODAL, this.handleToggle);
     }
 
-    handleToggle(value, args) {
+    handleToggle = (value, args) => {
         this.setState({
             show: value,
             post: args.post,
         });
     }
 
-    hide() {
+    hide = () => {
         this.setState({
             show: false,
         });
