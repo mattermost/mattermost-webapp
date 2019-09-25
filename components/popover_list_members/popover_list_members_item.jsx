@@ -52,6 +52,7 @@ export default class PopoverListMembersItem extends React.PureComponent {
 
         return (
             <div
+                data-testid='popoverListMembersItem'
                 tabIndex='0'
                 aria-label={name.toLowerCase()}
                 className={'more-modal__row' + botClass}

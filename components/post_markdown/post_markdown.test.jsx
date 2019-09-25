@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
 import PostMarkdown from 'components/post_markdown/post_markdown';
+import Markdown from 'components/markdown';
 
 describe('components/PostMarkdown', () => {
     const baseProps = {
@@ -46,6 +47,20 @@ describe('components/PostMarkdown', () => {
         const wrapper = shallow(
             <PostMarkdown {...props}/>
         );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should correctly pass postId down', () => {
+        const props = {
+            ...baseProps,
+            post: {
+                id: 'post_id',
+            },
+        };
+        const wrapper = shallow(
+            <PostMarkdown {...props}/>
+        );
+        expect(wrapper.find(Markdown).prop('postId')).toEqual(props.post.id);
         expect(wrapper).toMatchSnapshot();
     });
 
