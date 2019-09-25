@@ -140,12 +140,6 @@ workflows:
   untagged-build:
     jobs:
       - install
-      - lint:
-          requires:
-            - install
-      - i18n-check:
-          requires:
-            - install
       - build:
           requires:
             - install
@@ -161,6 +155,12 @@ workflows:
           context: matterbuild-docker
           requires:
             - prepare-docker-build
+      - lint:
+          requires:
+            - install
+      - i18n-check:
+          requires:
+            - install
       - test:
           requires:
             - i18n-check
