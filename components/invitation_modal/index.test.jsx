@@ -1,60 +1,97 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {Permissions} from 'mattermost-redux/constants';
+
 import {mapStateToProps} from './index.js';
 
-jest.mock('mattermost-redux/selectors/entities/channels', () => ({
-    getMyChannels: () => [],
-}));
-
-jest.mock('mattermost-redux/selectors/entities/general', () => ({
-    getConfig: () => ({EnableGuestAccounts: 'true'}),
-    getLicense: () => ({IsLicensed: 'true'}),
-}));
-
-jest.mock('mattermost-redux/selectors/entities/teams', () => ({
-    getCurrentTeam: jest.fn().mockReturnValueOnce({group_constrained: true}).mockReturnValueOnce({group_constrained: false}),
-}));
-
-jest.mock('mattermost-redux/selectors/entities/roles', () => ({
-    haveIChannelPermission: () => true,
-    haveITeamPermission: () => true,
-}));
-
-jest.mock('mattermost-redux/actions/users', () => ({
-    getProfiles: () => [],
-    searchProfiles: () => [],
-}));
-
-jest.mock('actions/views/modals', () => ({
-    closeModal: jest.fn(),
-}));
-
-jest.mock('selectors/views/modals', () => ({
-    isModalOpen: jest.fn(),
-}));
-
-jest.mock('utils/constants', () => ({
-    ModalIdentifiers: jest.fn(),
-    Constants: jest.fn(),
-}));
-
-jest.mock('actions/invite_actions', () => ({
-    sendMembersInvites: jest.fn(),
-    sendGuestsInvites: jest.fn(),
-}));
-
-jest.mock('./invitation_modal.jsx', () => jest.fn());
-
 describe('mapStateToProps', () => {
-    const baseState = {};
+    const currentTeamId = 'team-id';
+    const currentUserId = 'user-id';
+
+    const initialState = {
+        entities: {
+            general: {
+                config: {
+                    EnableGuestAccounts: 'true',
+                },
+                license: {
+                    IsLicensed: 'true',
+                },
+            },
+            teams: {
+                currentTeamId,
+            },
+            preferences: {
+                myPreferences: {},
+            },
+            channels: {
+                channels: {},
+            },
+            users: {
+                currentUserId,
+                profiles: {
+                    [currentUserId]: {
+                        id: currentUserId,
+                        roles: 'test_user_role',
+                    },
+                },
+            },
+            roles: {
+                roles: {
+                    test_user_role: {permissions: [Permissions.INVITE_GUEST]},
+                },
+            },
+        },
+        views: {
+            modals: {
+                modalState: {},
+            },
+        },
+    };
 
     test('canInviteGuests is false when group_constrained is true', () => {
-        const props = mapStateToProps(baseState);
+        const testState = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                teams: {
+                    ...initialState.entities.teams,
+                    teams: {
+                        [currentTeamId]: {
+                            id: currentTeamId,
+                            group_constrained: true,
+                        },
+                    },
+                },
+            },
+        };
+
+        const props = mapStateToProps(testState);
         expect(props.canInviteGuests).toBe(false);
     });
 
     test('canInviteGuests is true when group_constrained is false', () => {
-        const props = mapStateToProps(baseState);
+        const testState = {
+            ...initialState,
+            entities: {
+                ...initialState.entities,
+                teams: {
+                    ...initialState.entities.teams,
+                    myMembers: {
+                        ...initialState.entities.teams.myMembers,
+                    },
+                    teams: {
+                        [currentTeamId]: {
+                            id: currentTeamId,
+                            group_constrained: false,
+                        },
+                    },
+                },
+            },
+        };
+
+        const props = mapStateToProps(testState);
         expect(props.canInviteGuests).toBe(true);
     });
 });

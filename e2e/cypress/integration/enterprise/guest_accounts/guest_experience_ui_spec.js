@@ -21,6 +21,9 @@ describe('Guest Account - Guest User Experience', () => {
             GuestAccountsSettings: {
                 Enable: true,
             },
+            ServiceSettings: {
+                EnableEmailInvitations: true,
+            },
         });
 
         // # Login as a guest user and go to /
