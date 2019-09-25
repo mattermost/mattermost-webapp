@@ -31,7 +31,7 @@ describe('components/ChannelView', () => {
         expect(document.body.classList.contains('channel-view')).toBe(true);
     });
 
-    test('Should have os--windows classes for windows 32', () => {
+    test('Should have os--windows class on body for windows 32', () => {
         Object.defineProperty(window.navigator, 'platform', {
             value: 'Win32',
             writable: true,
@@ -41,7 +41,7 @@ describe('components/ChannelView', () => {
         expect(document.body.classList.contains('os--windows')).toBe(true);
     });
 
-    test('Should have os--windows classes for windows 64', () => {
+    test('Should have os--windows class on body for windows 64', () => {
         Object.defineProperty(window.navigator, 'platform', {
             value: 'Win32',
             writable: true,
@@ -51,7 +51,7 @@ describe('components/ChannelView', () => {
         expect(document.body.classList.contains('os--windows')).toBe(true);
     });
 
-    test('Should have os--mac classes for MacIntel', () => {
+    test('Should have os--mac class on body for MacIntel', () => {
         Object.defineProperty(window.navigator, 'platform', {
             value: 'MacIntel',
             writable: true,
@@ -61,7 +61,7 @@ describe('components/ChannelView', () => {
         expect(document.body.classList.contains('os--mac')).toBe(true);
     });
 
-    test('Should have os--mac classes for MacPPC', () => {
+    test('Should have os--mac class on body for MacPPC', () => {
         Object.defineProperty(window.navigator, 'platform', {
             value: 'MacPPC',
             writable: true,
@@ -71,7 +71,7 @@ describe('components/ChannelView', () => {
         expect(document.body.classList.contains('os--mac')).toBe(true);
     });
 
-    test('Should remove classes on body on unmount', () => {
+    test('Should remove app__body and channel-view classes on body on unmount', () => {
         Object.defineProperty(window.navigator, 'platform', {
             value: 'MacPPC',
             writable: true,
