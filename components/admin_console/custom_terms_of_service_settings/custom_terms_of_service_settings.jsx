@@ -24,6 +24,11 @@ export default class CustomTermsOfServiceSettings extends AdminSettings {
         config: PropTypes.object,
         license: PropTypes.object,
         setNavigationBlocked: PropTypes.func,
+
+        /*
+        * Action to save config file
+        */
+        updateConfig: PropTypes.func,
     };
 
     constructor(props) {
