@@ -405,6 +405,7 @@ export default class CreateComment extends React.PureComponent {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.updatePreview(false);
 
         const membersCount = this.props.channelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;

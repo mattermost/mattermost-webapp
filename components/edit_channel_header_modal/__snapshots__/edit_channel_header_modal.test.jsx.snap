@@ -10,7 +10,7 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -26,6 +26,7 @@ exports[`components/EditChannelHeaderModal edit dirrect message channel 1`] = `
   onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
+  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -131,7 +132,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -147,6 +148,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
   onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
+  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -266,7 +268,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -282,6 +284,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
   onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
+  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -401,7 +404,7 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -417,6 +420,7 @@ exports[`components/EditChannelHeaderModal hide error message on new request 1`]
   onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
+  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -526,7 +530,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -542,6 +546,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
   onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
+  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
@@ -651,7 +656,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  keyboard={true}
+  keyboard={false}
   manager={
     ModalManager {
       "add": [Function],
@@ -667,6 +672,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
   onEntering={[Function]}
   onExited={[Function]}
   onHide={[Function]}
+  onKeyDown={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
