@@ -105,23 +105,21 @@ export default class MarketplaceModal extends React.Component {
             let installLink = null;
             if (installedList) {
                 installLink = (
-                    <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
+                    <button className='margin-top x3 style--none color--link' onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
                         <FormattedMessage
                             id='marketplace_modal.install_plugins'
                             defaultMessage='Install Plugins'
                         />
-                    </a>
+                    </button>
                 );
             }
 
             return (<div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <br/>
-                <br/>
-                {noPluginsMessage}
-                <br/>
-                <br/>
+                <div className='margin-top x2 light'>
+                    {noPluginsMessage}
+                </div>
                 {installLink}
             </div>);
         }

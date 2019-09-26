@@ -13,12 +13,15 @@
         top: 48px;
         right: 48px;
         cursor: pointer;
+
         svg {
+            display: block;
             fill: var(--center-channel-color-90);
             padding: 4px;
             width: 40px;
             height: 40px;
             border-radius: 4px;
+
             &:hover {
                 background: var(--button-bg-10);
             }
