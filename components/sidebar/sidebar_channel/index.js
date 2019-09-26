@@ -91,7 +91,10 @@ function makeMapStateToProps() {
                 botLastIconUpdate = teammate.bot_last_icon_update;
             }
             if (channelTeammateIsBot) {
-                botIconUrl = botIconImageUrl(teammate);
+                if (typeof botLastIconUpdate !== 'undefined' &&
+                    botLastIconUpdate !== 0) {
+                    botIconUrl = botIconImageUrl(teammate);
+                }
             }
             channelDisplayName = displayUsername(teammate, teammateNameDisplay, false);
         }
@@ -112,7 +115,6 @@ function makeMapStateToProps() {
             channelName: channel.name,
             channelDisplayName,
             botIconUrl,
-            botLastIconUpdate,
             channelType: channel.type,
             channelStatus: channel.status,
             channelFake: channel.fake,
@@ -151,7 +153,7 @@ function mapDispatchToProps(dispatch) {
  * Gets the LHS bot icon url for a given botUser.
  */
 function botIconImageUrl(botUser) {
-    return `${Client4.getBotRoute(botUser.id)}/icon?_=${(botUser.last_picture_update || 0)}`;
+    return `${Client4.getBotRoute(botUser.id)}/icon?_=${(botUser.bot_last_icon_update || 0)}`;
 }
 
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(SidebarChannel);
