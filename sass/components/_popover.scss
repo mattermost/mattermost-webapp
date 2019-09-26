@@ -7,6 +7,10 @@
     font-family: inherit;
     padding: 0;
 
+    &.channel-header__popover {
+        z-index: 999;
+    }
+
     &.bottom,
     &.right,
     &.top,

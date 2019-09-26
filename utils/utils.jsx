@@ -4,6 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import semver from 'semver';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
@@ -17,6 +18,7 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
+import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
@@ -138,32 +140,57 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
+export function getChannelURL(channel, teamId) {
+    const state = store.getState();
+    let notificationURL;
+    if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
+        notificationURL = getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name;
+    } else if (channel) {
+        const team = getTeam(state, teamId);
+        notificationURL = getTeamRelativeUrl(team) + '/channels/' + channel.name;
+    } else if (teamId) {
+        const team = getTeam(state, teamId);
+        const redirectChannel = getRedirectChannelNameForTeam(state, teamId);
+        notificationURL = getTeamRelativeUrl(team) + `/channels/${redirectChannel}`;
+    } else {
+        const currentTeamId = getCurrentTeamId(state);
+        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+        notificationURL = getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`;
+    }
+    return notificationURL;
+}
+
 export function notifyMe(title, body, channel, teamId, silent) {
-    showNotification({title,
-        body,
-        requireInteraction: false,
-        silent,
-        onClick: () => {
-            const state = store.getState();
-            window.focus();
-            if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
-                browserHistory.push(getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name);
-            } else if (channel) {
-                const team = getTeam(state, teamId);
-                browserHistory.push(getTeamRelativeUrl(team) + '/channels/' + channel.name);
-            } else if (teamId) {
-                const team = getTeam(state, teamId);
-                const redirectChannel = getRedirectChannelNameForTeam(state, teamId);
-                browserHistory.push(getTeamRelativeUrl(team) + `/channels/${redirectChannel}`);
-            } else {
-                const currentTeamId = getCurrentTeamId(state);
-                const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
-                browserHistory.push(getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`);
-            }
-        },
-    }).catch(() => {
-        // Ignore the failure to display the notification.
-    });
+    // handle notifications in desktop app >= 4.3.0
+    if (UserAgent.isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
+        // get the desktop app to trigger the notification
+        window.postMessage(
+            {
+                type: 'dispatch-notification',
+                message: {
+                    title,
+                    body,
+                    channel,
+                    teamId,
+                    silent,
+                },
+            },
+            window.location.origin
+        );
+    } else {
+        showNotification({
+            title,
+            body,
+            requireInteraction: false,
+            silent,
+            onClick: () => {
+                window.focus();
+                browserHistory.push(getChannelURL(channel, teamId));
+            },
+        }).catch((error) => {
+            store.dispatch(logError(error));
+        });
+    }
 }
 
 var canDing = true;
@@ -497,7 +524,7 @@ export function applyTheme(theme) {
         changeCss('.multi-select__focused > div', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.sidebarText, 0.5) + ', inset 0 0 0 1px ' + theme.sidebarText);
         changeCss('.app__body .ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y', 'background:' + theme.sidebarText);
         changeCss('.app__body .ps-container:hover .ps-scrollbar-y-rail:hover, .app__body .sidebar__switcher button:hover', 'background:' + changeOpacity(theme.sidebarText, 0.15));
-        changeCss('.app__body .sidebar--left .nav-pills__container li > h4, .app__body .sidebar--left .nav-pills__container li .sidebar-item, .app__body .sidebar--left .nav-pills__container li > .nav-more, .app__body .sidebar--right, .app__body .modal .settings-modal .nav-pills>li button', 'color:' + changeOpacity(theme.sidebarText, 0.6));
+        changeCss('.app__body .sidebar--left .nav-pills__container li > h4, .app__body .sidebar--left .nav-pills__container li > .nav-more, .app__body .sidebar--right, .app__body .modal .settings-modal .nav-pills>li button', 'color:' + changeOpacity(theme.sidebarText, 0.6));
         changeCss('@media(max-width: 768px){.app__body .modal .settings-modal .settings-table .nav>li>a, .app__body .sidebar--menu', 'color:' + changeOpacity(theme.sidebarText, 0.8));
         changeCss('.app__body .sidebar--left .add-channel-btn', 'color:' + changeOpacity(theme.sidebarText, 0.8));
         changeCss('.sidebar--left .add-channel-btn:hover, .sidebar--left .add-channel-btn:focus', 'color:' + theme.sidebarText);
@@ -672,15 +699,12 @@ export function applyTheme(theme) {
         changeCss('.app__body .user-popover__role', 'background:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .svg-text-color', 'fill:' + theme.centerChannelColor);
         changeCss('.app__body .mentions__name .status.status--group, .app__body .multi-select__note', 'background:' + changeOpacity(theme.centerChannelColor, 0.12));
-        changeCss('.app__body .modal-tabs .nav-tabs > li, .app__body .system-notice, .app__body .file-view--single .file__image .image-loaded, .app__body .post .MenuWrapper .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .channel-header .channel-header__icon, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
+        changeCss('.app__body .modal-tabs .nav-tabs > li, .app__body .system-notice, .app__body .file-view--single .file__image .image-loaded, .app__body .post .MenuWrapper .dropdown-menu button, .app__body .member-list__popover .more-modal__body, .app__body .alert.alert-transparent, .app__body .search-bar__container .search__form, .app__body .table > thead > tr > th, .app__body .table > tbody > tr > td', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.12));
         changeCss('.app__body .post-list__arrows, .app__body .post .flag-icon__container', 'fill:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .post .card-icon__container', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('@media(min-width: 768px){.app__body .search__icon svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .post-image__details .post-image__download svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .post-image__details .post-image__download svg', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.35));
-        changeCss('.app__body .channel-header__icon svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.4));
-        changeCss('.app__body .channel-header__icon .icon--stroke svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.4));
-        changeCss('.app__body .channel-header__icon .icon--stroke.icon__search svg', 'stroke:' + changeOpacity(theme.centerChannelColor, 0.55));
         changeCss('.app__body .modal .status .offline--icon, .app__body .channel-header__links .icon, .app__body .sidebar--right .sidebar--right__subheader .usage__icon, .app__body .more-modal__header svg, .app__body .icon--body', 'fill:' + theme.centerChannelColor);
         changeCss('@media(min-width: 768px){.app__body .post:hover .post__header .col__reply, .app__body .post.post--hovered .post__header .col__reply, .app__body .post.a11y--active .post__header .col__reply', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
         changeCss('.app__body .MenuWrapper .MenuItem__divider, .app__body .modal .about-modal .modal-content .modal-header, .post .attachment .attachment__image.attachment__image--opengraph, .app__body .DayPicker .DayPicker-Caption, .app__body .modal .settings-modal .team-img-preview div, .app__body .modal .settings-modal .team-img__container div, .app__body .system-notice__footer, .app__body .system-notice__footer .btn:last-child, .app__body .modal .shortcuts-modal .subsection, .app__body .sidebar--right .sidebar--right__header, .app__body .channel-header, .app__body .nav-tabs > li > a:hover, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:focus, .app__body .nav-tabs, .app__body .nav-tabs > li.active > a:hover, .app__body .post .dropdown-menu a, .sidebar--left, .app__body .suggestion-list__content .command, .app__body .channel-archived__message, .app__body .post-card--info', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -702,7 +726,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .channel-header .heading', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .col__reply > button:hover, .app__body .col__reply > a:hover, .app__body .col__reply > div:hover, .app__body .markdown__table tbody tr:nth-child(2n)', 'background:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .channel-header__info .header-dropdown__icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .post-create__container .post-create-body .send-button.disabled i, .app__body .channel-header .channel-header__icon', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
+        changeCss('.app__body .post-create__container .post-create-body .send-button.disabled i', 'color:' + changeOpacity(theme.centerChannelColor, 0.4));
         changeCss('.app__body .channel-header .pinned-posts-button svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .channel-header .channel-header_plugin-dropdown svg', 'fill:' + changeOpacity(theme.centerChannelColor, 0.6));
         changeCss('.app__body .file-preview, .app__body .post-image__details, .app__body .sidebar--right .sidebar-right__body, .app__body .markdown__table th, .app__body .markdown__table td, .app__body .suggestion-list__content, .app__body .modal .modal-content, .app__body .modal .settings-modal .settings-table .settings-content .divider-light, .app__body .webhooks__container, .app__body .dropdown-menu, .app__body .modal .modal-header', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.2));
@@ -974,6 +998,7 @@ export function applyTheme(theme) {
         variables: {
             'sidebar-bg': theme.sidebarBg,
             'sidebar-text': theme.sidebarText,
+            'sidebar-text-60': changeOpacity(theme.sidebarText, 0.6),
             'sidebar-unread-text': theme.sidebarUnreadText,
             'sidebar-text-hover-bg': theme.sidebarTextHoverBg,
             'sidebar-text-active-border': theme.sidebarTextActiveBorder,
