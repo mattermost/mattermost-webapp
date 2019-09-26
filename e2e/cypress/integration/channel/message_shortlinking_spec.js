@@ -14,8 +14,6 @@ describe('Message', () => {
         const longLink = '~doloremque';
 
         cy.postMessage(shortLink);
-        cy.postMessage(shortLink + ' some more other message');
-        cy.postMessage('some more other message ' + shortLink);
 
         cy.getLastPostId().then((postId) => {
             // # Grab last message with the long link url and go to the link
