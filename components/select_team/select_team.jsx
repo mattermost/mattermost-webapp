@@ -303,7 +303,6 @@ export default class SelectTeam extends React.Component {
                             siteName={siteName}
                         />
                         {openContent}
-                        {teamSignUp}
                         {adminConsoleLink}
                     </div>
                 </div>

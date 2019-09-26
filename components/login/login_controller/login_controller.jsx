@@ -548,7 +548,7 @@ class LoginController extends React.Component {
 
         if (skipLoginPage) {
             return (<div>
-                        {"login failed, contact administrator"}
+                        {"Login failed, please try refreshing the page. If the problem persists, pleace contact administrator"}
                     </div>);
         }
 
