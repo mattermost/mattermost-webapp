@@ -18,6 +18,7 @@ describe('Email notification', () => {
     let mentionedUser;
 
     before(() => {
+        cy.apiUpdateConfig({EmailSettings: {SendEmailNotifications: true}});
         cy.apiGetConfig().then((response) => {
             config = response.body;
         });
