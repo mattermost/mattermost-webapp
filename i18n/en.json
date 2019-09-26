@@ -1265,7 +1265,7 @@
   "admin.saml.signatureAlgorithmDisplay.sha256": "RSAwithSHA256",
   "admin.saml.signatureAlgorithmDisplay.sha384": "RSAwithSHA384",
   "admin.saml.signatureAlgorithmDisplay.sha512": "RSAwithSHA512",
-  "admin.saml.signatureAlgorithmTitle": "Signature Algorithm", 
+  "admin.saml.signatureAlgorithmTitle": "Signature Algorithm",
   "admin.saml.signRequestDescription": "When true, Mattermost will sign the SAML request using your private key. When false, Mattermost will not sign the SAML request.",
   "admin.saml.signRequestTitle": "Sign Request:",
   "admin.saml.uploading.certificate": "Uploading Certificate...",
