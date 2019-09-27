@@ -82,14 +82,17 @@ export default class SelectTeam extends React.Component {
         const {currentPage} = this.state;
         const {actions} = this.props;
 
-        await actions.getTeams(currentPage, TEAMS_PER_PAGE);
+        const response = await actions.getTeams(currentPage, TEAMS_PER_PAGE, true);
 
-        this.setState((prevState) => (
-            {
-                currentPage: prevState.currentPage + 1,
-            }
-        ),
-        );
+        // We don't want to increase the page number if no data came back previously
+        if (!response.error && !(response.error instanceof Error)) {
+            this.setState((prevState) => (
+                {
+                    currentPage: prevState.currentPage + 1,
+                }
+            ),
+            );
+        }
     }
 
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
@@ -257,6 +260,7 @@ export default class SelectTeam extends React.Component {
                         totalItems={totalTeamsCount}
                         itemsPerPage={TEAMS_PER_PAGE}
                         pageNumber={currentPage}
+                        loaderStyle={{padding: '0px'}}
                     >
                         {joinableTeamContents}
                     </InfiniteScroll>

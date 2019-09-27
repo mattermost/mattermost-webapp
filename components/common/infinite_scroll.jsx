@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingScreen from 'components/loading_screen.jsx';
 
 const SCROLL_BUFFER = 100;
 const DEBOUNCE_WAIT_TIME = 200;
@@ -49,12 +49,20 @@ export default class InfiniteScroll extends React.PureComponent {
          * The current page that has been scrolled to
          */
         pageNumber: PropTypes.number.isRequired,
+
+        /**
+         * Optional style object that's passed on to the underlying loader
+         * component
+         */
+
+        loaderStyle: PropTypes.object,
     };
 
     static defaultProps = {
         bufferValue: SCROLL_BUFFER,
         endOfDataMessage: '',
         styleClass: '',
+        loaderStyle: {},
     };
 
     constructor(props) {
@@ -122,20 +130,21 @@ export default class InfiniteScroll extends React.PureComponent {
     debounceHandleScroll = debounce(this.handleScroll, DEBOUNCE_WAIT_TIME);
 
     render() {
-        const {children, endOfDataMessage, styleClass} = this.props;
+        const {children, endOfDataMessage, styleClass, loaderStyle} = this.props;
         const {isFetching, isEndofData} = this.state;
         return (
+            // eslint-disable-next-line react/jsx-filename-extension
             <>
                 <div
                     className={`infinite-scroll ${styleClass}`}
                     ref={this.node}
                 >
                     {children}
+                    {(isFetching) && (
+                        <LoadingScreen style={loaderStyle}/>
+                    )}
+                    {isEndofData && endOfDataMessage}
                 </div>
-                {isFetching && (
-                    <LoadingSpinner text='Loading'/>
-                )}
-                {isEndofData && endOfDataMessage}
             </>
         );
     }
