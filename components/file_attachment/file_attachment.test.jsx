@@ -120,4 +120,15 @@ describe('FileAttachment', () => {
         wrapper.setState({loaded: false});
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should blur file attachment link after click', () => {
+        const wrapper = shallow(createComponent({compactDisplay: true}));
+        const e = {
+            preventDefault: jest.fn(),
+            target: {blur: jest.fn()},
+        };
+
+        wrapper.instance().onAttachmentClick(e);
+        expect(e.target.blur).toHaveBeenCalled();
+    });
 });
