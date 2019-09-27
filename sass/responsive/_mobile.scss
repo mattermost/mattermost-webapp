@@ -34,6 +34,11 @@
         display: flex;
         flex-direction: column;
         height: calc(100vh - 100px);
+
+        .emoji-picker--single & {
+            height: calc(100vh - 55px);
+        }
+
         >* {
             flex-grow: 0;
         }
