@@ -6,19 +6,30 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+import * as TIMEOUTS from '../../fixtures/timeouts';
 
 // Username of a test user that you want to start a DM with
-const username = 'aaron.ward';
+let username = '';
 const baseUrl = Cypress.config('baseUrl');
 
 describe('Remove Last Post', () => {
     beforeEach(() => {
         // # Login as user-1
         cy.apiLogin('user-1');
-        cy.visit(`/ad-1/messages//@${username}`);
+
+        // # Use the API to create a new user
+        cy.createNewUser().then((res) => {
+            username = res.username;
+
+            // # Start DM with new user
+            cy.visit(`/ad-1/messages/@${username}`);
+        });
     });
 
     it('M18716 Remove last post in channel', () => {
+        // # Wait a few ms for the user to be created before sending the test message
+        cy.wait(TIMEOUTS.SMALL);
+
         // # Post test message
         cy.postMessage('Test');
 
