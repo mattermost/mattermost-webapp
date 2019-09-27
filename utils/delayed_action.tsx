@@ -2,7 +2,10 @@
 // See LICENSE.txt for license information.
 
 export default class DelayedAction {
-    constructor(action) {
+    private action: Function;
+    private timer: number;
+
+    constructor(action: Function) {
         this.action = action;
 
         this.timer = -1;
@@ -17,7 +20,7 @@ export default class DelayedAction {
         this.timer = -1;
     }
 
-    fireAfter(timeout) {
+    fireAfter(timeout: number) {
         if (this.timer >= 0) {
             window.clearTimeout(this.timer);
         }
