@@ -70,6 +70,13 @@
     position: absolute;
     width: 315px;
     z-index: 999;
+
+    &.emoji-picker--single {
+        .emoji-picker__header {
+            position: relative;
+        }
+    }
+
     .browser--ie & {
         width: 325px;
     }
