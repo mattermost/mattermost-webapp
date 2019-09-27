@@ -58,6 +58,10 @@ export async function showNotification({title, body, requireInteraction, silent,
         notification.onclick = onClick;
     }
 
+    notification.onerror = () => {
+        throw new Error('Notification failed to show.');
+    };
+
     if (!requireInteraction) {
         setTimeout(() => {
             notification.close();
