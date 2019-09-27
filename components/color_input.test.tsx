@@ -86,6 +86,7 @@ describe('components/ColorInput', () => {
         );
 
         const newColorData: any = {hex: '#ccc'};
+
         // Ignoring for now since this test won't matter after TS conversion
         // @ts-ignore
         wrapper.instance().handleChange(newColorData);
