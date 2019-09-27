@@ -9,7 +9,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.tsx';
+import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';

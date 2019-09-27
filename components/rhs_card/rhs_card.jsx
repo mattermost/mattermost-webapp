@@ -7,7 +7,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import DelayedAction from 'utils/delayed_action.tsx';
+import DelayedAction from 'utils/delayed_action';
 import Constants, {RHSStates} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import RhsCardHeader from 'components/rhs_card_header';
