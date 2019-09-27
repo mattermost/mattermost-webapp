@@ -278,7 +278,6 @@ const AdminDefinition = {
             url: 'user_management/groups/:group_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'GroupDetail',
@@ -291,7 +290,6 @@ const AdminDefinition = {
             title_default: 'Groups',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'Groups',
@@ -302,7 +300,6 @@ const AdminDefinition = {
             url: 'user_management/teams/:team_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'TeamDetail',
@@ -315,7 +312,6 @@ const AdminDefinition = {
             title_default: 'Teams',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'Teams',
@@ -326,7 +322,6 @@ const AdminDefinition = {
             url: 'user_management/channels/:channel_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'ChannelDetail',
@@ -339,7 +334,6 @@ const AdminDefinition = {
             title_default: 'Channels',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'Channels',
@@ -2396,7 +2390,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2408,7 +2402,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2421,7 +2415,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupIdAttributeEx'),
                         placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
+                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -4044,16 +4038,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
                         help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
                         help_text_markdown: true,
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ExperimentalLdapGroupSync',
-                        label: t('admin.experimental.experimentalLdapGroupSync.title'),
-                        label_default: 'Enable AD/LDAP Group Sync:',
-                        help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
-                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
-                        help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
