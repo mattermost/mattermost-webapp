@@ -724,3 +724,14 @@ Cypress.Commands.add('demoteUser', (userId) => {
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/demote`});
 });
+
+/**
+ * Promote a Guest to a Member directly via API
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('promoteUser', (userId) => {
+    //Demote Regular Member to Guest User
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/promote`});
+});
