@@ -83,7 +83,7 @@ export function unflagPost(postId) {
 export function createPost(post, files) {
     return async (dispatch) => {
         // parse message and emit emoji event
-        const emojis = matchEmoticons(post.message)
+        const emojis = matchEmoticons(post.message);
         if (emojis) {
             for (const emoji of emojis) {
                 const trimmed = emoji.substring(1, emoji.length - 1);
