@@ -274,7 +274,7 @@ export function loadPosts({channelId, postId, type}) {
     };
 }
 
-export function syncPostsInChannel(channelId, since, fetchThreads = true) {
+export function syncPostsInChannel(channelId, since) {
     return async (dispatch, getState) => {
         const time = Date.now();
         const state = getState();
@@ -286,7 +286,7 @@ export function syncPostsInChannel(channelId, since, fetchThreads = true) {
             sinceTimeToGetPosts = lastPostsApiCallForChannel;
         }
 
-        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts, fetchThreads));
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts, false));
         if (data) {
             dispatch({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
