@@ -18,6 +18,18 @@ let testTeam;
 let newUser;
 const user1 = users['user-1'];
 
+function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true) {
+    // # Update Guest Account Settings
+    cy.apiUpdateConfig({
+        GuestAccountsSettings: {
+            Enable: featureFlag,
+        },
+        ServiceSettings: {
+            EnableEmailInvitations: emailInvitation,
+        },
+    });
+}
+
 function invitePeople(typeText, resultsCount, verifyText) {
     const channelName = 'Town Square';
 
@@ -96,14 +108,7 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 describe('Guest Account - Guest User Invitation Flow', () => {
     before(() => {
         // # Enable Guest Account Settings
-        cy.apiUpdateConfig({
-            GuestAccountsSettings: {
-                Enable: true,
-            },
-            ServiceSettings: {
-                EnableEmailInvitations: true,
-            },
-        });
+        changeGuestFeatureSettings();
 
         // # Login as "sysadmin" and go to /
         cy.apiLogin('sysadmin');
@@ -271,5 +276,45 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the content and message in next screen
         verifyInvitationSuccess(email, 'An invitation email has been sent.');
+    });
+
+    it('MM-18042 Verify when different feature settings are disabled', () => {
+        // # Disable Guest Account Feature
+        changeGuestFeatureSettings(false, true);
+
+        // # Login again after changing feature flag and reload current page
+        cy.apiLogin('sysadmin');
+        cy.visit(`/${testTeam.name}`);
+
+        // # Open Invite People
+        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+        cy.get('#invitePeople').should('be.visible').click();
+
+        // * Verify if Invite Members modal is displayed when guest account feature is disabled
+        cy.getByTestId('invitationModal').within(($el) => {
+            cy.wrap($el).find('h1').should('have.text', 'Invite Members');
+        });
+
+        // * Verify Share Link Header and helper text
+        cy.getByTestId('shareLink').should('be.visible').within(($el) => {
+            cy.wrap($el).find('h2 > span').should('have.text', 'Share This Link');
+            cy.wrap($el).find('.help-text > span').should('have.text', 'Share this link to grant member access to this team.');
+        });
+
+        // # Close the Modal
+        cy.get('#closeIcon').should('be.visible').click();
+
+        // # Enable Guest Account Feature and disable Email Invitation
+        changeGuestFeatureSettings(true, false);
+
+        // # Login again after changing feature flag and reload current page
+        cy.apiLogin('sysadmin');
+        cy.visit(`/${testTeam.name}`);
+
+        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationError(email, 'Error: Email invitations are disabled.');
     });
 });
