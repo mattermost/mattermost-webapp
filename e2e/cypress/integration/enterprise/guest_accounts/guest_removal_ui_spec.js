@@ -26,7 +26,7 @@ function removeUserFromAllChannels(verifyAlert) {
         });
 
         // * Verify if guest user gets a message when the channel is removed. Does not appears when removed from last channel of the last team
-        if (channel === 'Town Square'  || verifyAlert) {
+        if (channel === 'Town Square' || verifyAlert) {
             cy.get('#removeFromChannelModalLabel').should('be.visible').and('have.text', `Removed from ${channel}`);
             cy.get('.modal-body').should('be.visible').and('have.text', `Someone removed you from ${channel}`);
             cy.get('#removedChannelBtn').should('be.visible').and('have.text', 'Okay').click().wait(TIMEOUTS.TINY);
