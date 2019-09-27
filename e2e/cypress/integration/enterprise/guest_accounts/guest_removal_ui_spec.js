@@ -19,14 +19,14 @@ let team2;
 function removeUserFromAllChannels(verifyAlert) {
     // # Remove the Guest user from all channels of a team as a sysadmin
     const channels = ['Town Square', 'Off-Topic'];
-    channels.forEach((channel, index) => {
+    channels.forEach((channel) => {
         // # Remove the Guest User from channel
         cy.getCurrentChannelId().then((channelId) => {
             cy.removeUserFromChannel(channelId, guest.id);
         });
 
-        // * Verify if guest user gets a message when the channel is removed
-        if (index < channels.length - 1 || verifyAlert) {
+        // * Verify if guest user gets a message when the channel is removed. Does not appears when removed from last channel of the last team
+        if (channel === 'Town Square'  || verifyAlert) {
             cy.get('#removeFromChannelModalLabel').should('be.visible').and('have.text', `Removed from ${channel}`);
             cy.get('.modal-body').should('be.visible').and('have.text', `Someone removed you from ${channel}`);
             cy.get('#removedChannelBtn').should('be.visible').and('have.text', 'Okay').click().wait(TIMEOUTS.TINY);
