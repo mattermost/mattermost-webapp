@@ -451,22 +451,8 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
 }
 
 // Splits text message based on the current caret position
-export function splitMessageBasedOnCaretPosition(message) {
-    if (this.state) {
-        const {caretPosition} = this.state;
-        const firstPiece = message.substring(0, caretPosition);
-        const lastPiece = message.substring(caretPosition, message.length);
-        return {firstPiece, lastPiece};
-    }
-
-    return {};
-}
-
-// Reposition caret in the input area to appear imediately after added text
-export function repositionCaret(event, position) {
-    if (event) {
-        window.requestAnimationFrame(() => {
-            Utils.setCaretPosition(event.target, position);
-        });
-    }
+export function splitMessageBasedOnCaretPosition(caretPosition, message) {
+    const firstPiece = message.substring(0, caretPosition);
+    const lastPiece = message.substring(caretPosition, message.length);
+    return {firstPiece, lastPiece};
 }

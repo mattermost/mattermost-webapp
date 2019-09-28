@@ -16,7 +16,6 @@ import {
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
-    repositionCaret,
 } from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -913,28 +912,20 @@ export default class CreatePost extends React.Component {
     }
 
     handleMouseUp = (e) => {
-        e.persist();
         const caretPosition = Utils.getCaretPosition(e.target);
-        const target = e;
         this.setState({
             caretPosition,
-            target,
+        });
+    }
+
+    handleKeyUp = (e) => {
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.setState({
+            caretPosition,
         });
     }
 
     handleKeyDown = (e) => {
-        e.persist();
-
-        // A bit of a hack. Better to use keyup instead.
-        // We therefore use setTimeout to wait for the right value of caretPosition
-        // and then update state.
-
-        setTimeout(() => {
-            const caretPosition = Utils.getCaretPosition(e.target);
-            const target = e;
-            this.setState({caretPosition, target});
-        }, 0);
-
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
@@ -1029,19 +1020,21 @@ export default class CreatePost extends React.Component {
         if (this.state.message === '') {
             this.setState({message: ':' + emojiAlias + ': '});
         } else {
-            const {message, target} = this.state;
-            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition.call(this, message);
+            const {message} = this.state;
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
 
             // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
             const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
 
-            // const newCaretPosition = `${firstPiece} :${emojiAlias}: `.length;
             const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-            repositionCaret(target, newCaretPosition);
+
+            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
 
             this.setState({
                 message: newMessage,
                 caretPosition: newCaretPosition,
+            }, () => {
+                Utils.setCaretPosition(textbox, newCaretPosition);
             });
         }
 
@@ -1295,6 +1288,7 @@ export default class CreatePost extends React.Component {
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 onMouseUp={this.handleMouseUp}
+                                onKeyUp={this.handleKeyUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}

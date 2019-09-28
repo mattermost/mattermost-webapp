@@ -13,7 +13,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition, repositionCaret} from 'utils/post_utils.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -347,23 +347,26 @@ export default class CreateComment extends React.PureComponent {
             return;
         }
 
-        const {draft, target} = this.state;
+        const {draft} = this.state;
 
         let newMessage = '';
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
         } else {
             const {draft: {message}} = this.state;
-            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition.call(this, message);
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
 
             // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
             newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
 
-            const newCaretPosition = `${firstPiece} :${emojiAlias}: `.length;
-            repositionCaret(target, newCaretPosition);
+            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
+
+            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
 
             this.setState({
                 caretPosition: newCaretPosition,
+            }, () => {
+                Utils.setCaretPosition(textbox, newCaretPosition);
             });
         }
 
@@ -561,28 +564,20 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleMouseUp = (e) => {
-        e.persist();
         const caretPosition = Utils.getCaretPosition(e.target);
-        const target = e;
         this.setState({
             caretPosition,
-            target,
+        });
+    }
+
+    handleKeyUp = (e) => {
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.setState({
+            caretPosition,
         });
     }
 
     handleKeyDown = (e) => {
-        e.persist();
-
-        // A bit of a hack. Better to use keyup instead.
-        // We therefore use setTimeout to wait for the right value of caretPosition
-        // and then update state.
-
-        setTimeout(() => {
-            const caretPosition = Utils.getCaretPosition(e.target);
-            const target = e;
-            this.setState({caretPosition, target});
-        }, 0);
-
         if (
             (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
@@ -970,6 +965,7 @@ export default class CreateComment extends React.PureComponent {
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
                                 onMouseUp={this.handleMouseUp}
+                                onKeyUp={this.handleKeyUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}

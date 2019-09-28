@@ -142,6 +142,14 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>
         );
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
@@ -849,7 +857,6 @@ describe('components/CreateComment', () => {
 
         const commentMsgKey = {
             preventDefault: jest.fn(),
-            persist: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
@@ -859,7 +866,6 @@ describe('components/CreateComment', () => {
 
         const upKey = {
             preventDefault: jest.fn(),
-            persist: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
@@ -870,7 +876,6 @@ describe('components/CreateComment', () => {
 
         const downKey = {
             preventDefault: jest.fn(),
-            persist: jest.fn(),
             ctrlKey: true,
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
@@ -882,7 +887,6 @@ describe('components/CreateComment', () => {
         wrapper.setState({draft: {message: '', fileInfos: [], uploadsInProgress: []}});
         const upKeyForEdit = {
             preventDefault: jest.fn(),
-            persist: jest.fn(),
             ctrlKey: false,
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],

@@ -27,6 +27,7 @@ export default class Textbox extends React.Component {
         createMessage: PropTypes.string.isRequired,
         onKeyDown: PropTypes.func,
         onMouseUp: PropTypes.func,
+        onKeyUp: PropTypes.func,
         onBlur: PropTypes.func,
         supportsCommands: PropTypes.bool.isRequired,
         handlePostError: PropTypes.func,
@@ -115,6 +116,12 @@ export default class Textbox extends React.Component {
         }
     }
 
+    handleKeyUp = (e) => {
+        if (this.props.onKeyUp) {
+            this.props.onKeyUp(e);
+        }
+    }
+
     handleBlur = (e) => {
         if (this.props.onBlur) {
             this.props.onBlur(e);
@@ -125,6 +132,11 @@ export default class Textbox extends React.Component {
         if (this.props.onHeightChange) {
             this.props.onHeightChange(height, maxHeight);
         }
+    }
+
+    getInputBox = () => {
+        const textbox = this.refs.message.getTextbox();
+        return textbox;
     }
 
     focus = () => {
@@ -216,6 +228,7 @@ export default class Textbox extends React.Component {
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onMouseUp={this.handleMouseUp}
+                    onKeyUp={this.handleKeyUp}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
