@@ -676,7 +676,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
 
 describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
     const state = {
-            caretPosition: 2,
+        caretPosition: 2,
     };
 
     const message = 'Test Message';
