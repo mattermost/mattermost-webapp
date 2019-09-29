@@ -60,12 +60,24 @@ export default class EditPostModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.editingPost.show && nextProps.editingPost.show) {
+    // UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
+    //     if (!this.props.editingPost.show && nextProps.editingPost.show) {
+    //         this.setState({
+    //             editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
+    //         });
+    //     }
+    // }
+
+    updateComponentWithEditText = (prevProps) => {
+        if (!prevProps.editingPost.show && this.props.editingPost.show) {
             this.setState({
-                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
+                editText: this.props.editingPost.post.message_source || this.props.editingPost.post.message,
             });
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        this.updateComponentWithEditText(prevProps);
     }
 
     updatePreview = (newState) => {
