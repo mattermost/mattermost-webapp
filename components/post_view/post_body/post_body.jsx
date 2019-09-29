@@ -108,12 +108,23 @@ export default class PostBody extends React.PureComponent {
         this.sendingAction.cancel();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    // UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    //     const post = nextProps.post;
+    //     if (post && post.id !== post.pending_post_id) {
+    //         this.sendingAction.cancel();
+    //         this.setState({sending: false});
+    //     }
+    // }
+
+    static getDerivedStateFromProps(nextProps) {
         const post = nextProps.post;
         if (post && post.id !== post.pending_post_id) {
-            this.sendingAction.cancel();
-            this.setState({sending: false});
+            // this.sendingAction.cancel();
+            return {
+                sending: false,
+            };
         }
+        return null;
     }
 
     render() {

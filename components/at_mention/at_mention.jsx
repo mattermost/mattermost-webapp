@@ -12,6 +12,26 @@ import ProfilePopover from 'components/profile_popover';
 import {popOverOverlayPosition} from 'utils/position_utils.tsx';
 const spaceRequiredForPopOver = 300;
 
+function getUserFromMentionName(props) {
+    const usersByUsername = props.usersByUsername;
+    let mentionName = props.mentionName.toLowerCase();
+
+    while (mentionName.length > 0) {
+        if (usersByUsername.hasOwnProperty(mentionName)) {
+            return usersByUsername[mentionName];
+        }
+
+        // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
+        if ((/[._-]$/).test(mentionName)) {
+            mentionName = mentionName.substring(0, mentionName.length - 1);
+        } else {
+            break;
+        }
+    }
+
+    return '';
+}
+
 export default class AtMention extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
@@ -32,19 +52,31 @@ export default class AtMention extends React.PureComponent {
         super(props);
 
         this.state = {
-            user: this.getUserFromMentionName(props),
+            user: getUserFromMentionName(props),
             show: false,
+            mentionName: '',
+            usersByUsername: '',
         };
 
         this.overlayRef = React.createRef();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.mentionName !== this.props.mentionName || nextProps.usersByUsername !== this.props.usersByUsername) {
-            this.setState({
-                user: this.getUserFromMentionName(nextProps),
-            });
+    // UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    //     if (nextProps.mentionName !== this.props.mentionName || nextProps.usersByUsername !== this.props.usersByUsername) {
+    //         this.setState({
+    //             user: this.getUserFromMentionName(nextProps),
+    //         });
+    //     }
+    // }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.mentionName !== prevState.mentionName || nextProps.usersByUsername !== prevState.usersByUsername) {
+            return {
+                user: getUserFromMentionName(nextProps),
+            };
         }
+
+        return null;
     }
 
     handleClick = (e) => {
@@ -58,25 +90,25 @@ export default class AtMention extends React.PureComponent {
         this.setState({show: false});
     }
 
-    getUserFromMentionName(props) {
-        const usersByUsername = props.usersByUsername;
-        let mentionName = props.mentionName.toLowerCase();
+    // getUserFromMentionName(props) {
+    //     const usersByUsername = props.usersByUsername;
+    //     let mentionName = props.mentionName.toLowerCase();
 
-        while (mentionName.length > 0) {
-            if (usersByUsername.hasOwnProperty(mentionName)) {
-                return usersByUsername[mentionName];
-            }
+    //     while (mentionName.length > 0) {
+    //         if (usersByUsername.hasOwnProperty(mentionName)) {
+    //             return usersByUsername[mentionName];
+    //         }
 
-            // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
-            if ((/[._-]$/).test(mentionName)) {
-                mentionName = mentionName.substring(0, mentionName.length - 1);
-            } else {
-                break;
-            }
-        }
+    //         // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
+    //         if ((/[._-]$/).test(mentionName)) {
+    //             mentionName = mentionName.substring(0, mentionName.length - 1);
+    //         } else {
+    //             break;
+    //         }
+    //     }
 
-        return '';
-    }
+    //     return '';
+    // }
 
     render() {
         if (!this.state.user) {

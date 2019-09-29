@@ -15,38 +15,57 @@ export default class YoutubeVideo extends React.PureComponent {
         metadata: PropTypes.object,
     }
 
+    static defaultProps = {
+        metadata: {
+            title: 'Something',
+            images: ['fdd'],
+        },
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
             playing: false,
+            ...this.updateStateFromProps(props),
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        this.updateStateFromProps(this.props);
-    }
+    // UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    //     this.updateStateFromProps(this.props);
+    // }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.updateStateFromProps(nextProps);
-    }
+    // UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    //     this.updateStateFromProps(nextProps);
+    // }
 
     updateStateFromProps = (props) => {
         const link = props.link;
+        let stateObject = {};
 
         const match = link.trim().match(ytRegex);
         if (!match || match[1].length !== 11) {
-            return;
+            return null;
         }
 
         if (props.show === false) {
-            this.stop();
+            // this.stop();
+            stateObject = {playing: false};
         }
 
-        this.setState({
+        const upSt = {
             videoId: match[1],
             time: this.handleYoutubeTime(link),
-        });
+        };
+
+        stateObject = {stateObject, ...upSt};
+
+        return stateObject;
+
+        // this.setState({
+        //     videoId: match[1],
+        //     time: this.handleYoutubeTime(link),
+        // });
     }
 
     handleYoutubeTime(link) {
