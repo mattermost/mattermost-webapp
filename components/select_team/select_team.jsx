@@ -28,7 +28,7 @@ import InfiniteScroll from '../common/infinite_scroll.jsx';
 
 import SelectTeamItem from './components/select_team_item.jsx';
 
-export const TEAMS_PER_PAGE = 10;
+export const TEAMS_PER_PAGE = 30;
 const TEAM_MEMBERSHIP_DENIAL_ERROR_ID = 'api.team.add_members.user_denied';
 
 export default class SelectTeam extends React.Component {

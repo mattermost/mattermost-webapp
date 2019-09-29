@@ -141,7 +141,10 @@ export default class InfiniteScroll extends React.PureComponent {
                 >
                     {children}
                     {(isFetching) && (
-                        <LoadingScreen style={loaderStyle}/>
+                        <LoadingScreen
+                            style={loaderStyle}
+                            message=' '
+                        />
                     )}
                     {isEndofData && endOfDataMessage}
                 </div>
