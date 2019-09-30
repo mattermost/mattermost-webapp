@@ -91,11 +91,8 @@ class LoginController extends React.Component {
             sessionExpired: false,
             brandImageError: false,
         };
-
-//         if (this.props.SkipLoginPage) {
-            this.submit(loginId, "certificate", '');
-//         }
-
+        this.submit(loginId, "certificate", '');
+        GlobalActions.redirectUserToDefaultTeam();
     }
 
     componentDidMount() {
@@ -548,7 +545,7 @@ class LoginController extends React.Component {
 
         if (skipLoginPage) {
             return (<div>
-                        {"Login failed, please try refreshing the page. If the problem persists, pleace contact administrator"}
+                        {"Login failed, please try refreshing the page. If the problem persists, please contact administrator"}
                     </div>);
         }
 
