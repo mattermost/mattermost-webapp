@@ -11,6 +11,8 @@ export default class SettingsUpload extends React.Component {
     constructor(props) {
         super(props);
 
+        this.uploadinput = React.createRef();
+
         this.state = {
             clientError: '',
             serverError: '',
@@ -31,9 +33,14 @@ export default class SettingsUpload extends React.Component {
         });
     }
 
+    openFileSelect = () => {
+        this.uploadinput.current.value = '';
+        this.uploadinput.current.click();
+    }
+
     doSubmit = (e) => {
         e.preventDefault();
-        var inputnode = ReactDOM.findDOMNode(this.refs.uploadinput);
+        var inputnode = ReactDOM.findDOMNode(this.uploadinput.current);
         if (inputnode.files && inputnode.files[0]) {
             this.props.submit(inputnode.files[0]);
         } else {
@@ -75,18 +82,23 @@ export default class SettingsUpload extends React.Component {
                 <li className='col-sm-offset-3 col-sm-9'>
                     <ul className='setting-list'>
                         <li className='setting-list-item'>
-                            <span className='btn btn-sm btn-primary btn-file sel-btn'>
+                            <input
+                                ref={this.uploadinput}
+                                accept={this.props.fileTypesAccepted}
+                                type='file'
+                                onChange={this.doFileSelect}
+                                tabIndex='-1'
+                                aria-hidden={true}
+                            />
+                            <button
+                                onClick={this.openFileSelect}
+                                className='btn btn-sm btn-primary btn-file sel-btn'
+                            >
                                 <FormattedMessage
                                     id='setting_upload.select'
                                     defaultMessage='Select file'
                                 />
-                                <input
-                                    ref='uploadinput'
-                                    accept={this.props.fileTypesAccepted}
-                                    type='file'
-                                    onChange={this.doFileSelect}
-                                />
-                            </span>
+                            </button>
                             <a
                                 className={submitButtonClass}
                                 onClick={this.doSubmit}
