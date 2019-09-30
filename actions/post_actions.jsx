@@ -21,7 +21,7 @@ import {
     RHSStates,
     StoragePrefixes,
 } from 'utils/constants';
-import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
+import {matchEmoticons} from 'utils/emoticons.jsx';
 import * as UserAgent from 'utils/user_agent';
 
 import {completePostReceive} from './post_utils';
@@ -83,7 +83,7 @@ export function unflagPost(postId) {
 export function createPost(post, files) {
     return async (dispatch) => {
         // parse message and emit emoji event
-        const emojis = post.message.match(EMOJI_PATTERN);
+        const emojis = matchEmoticons(post.message);
         if (emojis) {
             for (const emoji of emojis) {
                 const trimmed = emoji.substring(1, emoji.length - 1);

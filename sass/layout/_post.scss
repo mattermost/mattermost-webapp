@@ -35,7 +35,9 @@
     }
 
     .textbox-preview-area {
-        white-space: normal;
+        ul {
+            white-space: normal;
+        }
         box-shadow: none;
         left: 0;
         position: relative;
@@ -760,13 +762,6 @@
     padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
     word-wrap: break-word;
-
-    body.enable-animations & {
-        @include transition-property(background-color);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in-out);
-    }
 
     .browser--ie & {
         .post__header {
@@ -1569,13 +1564,6 @@
         padding: .2em .5em;
         width: 100%;
         word-wrap: break-word;
-
-        body.enable-animations & {
-            @include transition-property(background);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in-out);
-        }
 
         &.post--ephemeral {
             padding-right: 20px !important;
