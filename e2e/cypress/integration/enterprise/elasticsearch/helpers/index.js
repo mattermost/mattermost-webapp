@@ -36,9 +36,19 @@ module.exports = {
         // Small wait to ensure new row is added
         cy.wait(TIMEOUTS.TINY);
 
-        // Newest row should eventuall result in Success
-        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow').find('.status-icon-warning', {timeout: TIMEOUTS.LARGE}).should('be.visible');
-        cy.get('@firstRow').find('.status-icon-success', {timeout: TIMEOUTS.GIGANTIC}).should('be.visible');
+        cy.get('.job-table__table').find('tbody > tr').eq(0).as('firstRow').find('.status-icon-warning', {timeout: TIMEOUTS.GIGANTIC}).should('be.visible');
+
+        // Newest row should eventually result in Success
+        cy.waitUntil(() => {
+            return cy.get('@firstRow').then((el) => {
+                return el.find('.status-icon-success').length > 0;
+            });
+        }
+        , {
+            timeout: TIMEOUTS.FOUR_MINS,
+            interval: 2000,
+            errorMsg: 'Reindex did not succeed in time',
+        });
     },
     disableElasticSearch: () => {
         // Disable elastic search via API
