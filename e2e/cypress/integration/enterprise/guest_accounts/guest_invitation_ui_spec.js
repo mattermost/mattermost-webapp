@@ -278,7 +278,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationSuccess(email, 'An invitation email has been sent.');
     });
 
-    it('MM-18042 Verify when different feature settings are disabled', () => {
+    it('MM-18050 Verify when different feature settings are disabled', () => {
         // # Disable Guest Account Feature
         changeGuestFeatureSettings(false, true);
 
