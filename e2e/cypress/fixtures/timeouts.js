@@ -8,4 +8,5 @@ module.exports = {
     LARGE: 30000,
     HUGE: 60000,
     GIGANTIC: 120000,
+    FOUR_MINS: 240000,
 };
