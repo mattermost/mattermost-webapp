@@ -35,7 +35,9 @@
     }
 
     .textbox-preview-area {
-        white-space: normal;
+        ul {
+            white-space: normal;
+        }
         box-shadow: none;
         left: 0;
         position: relative;
