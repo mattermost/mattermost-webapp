@@ -226,36 +226,101 @@ describe('Actions.Posts', () => {
         ]);
     });
 
-    test('createPost', async () => {
-        const testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message'};
-        const newReply = {id: 'reply_post_id', channel_id: 'current_channel_id', message: 'new message', root_id: 'new_post_id'};
-        const files = [];
+    describe('createPost', () => {
+        test('no emojis', async () => {
+            const testStore = await mockStore(initialState);
+            const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message'};
+            const newReply = {id: 'reply_post_id', channel_id: 'current_channel_id', message: 'new message', root_id: 'new_post_id'};
+            const files = [];
 
-        const immediateExpectedState = [{
-            args: [newPost, files],
-            type: 'MOCK_CREATE_POST_IMMEDIATELY',
-        }, {
-            args: ['draft_current_channel_id', null],
-            type: 'MOCK_SET_GLOBAL_ITEM',
-        }];
+            const immediateExpectedState = [{
+                args: [newPost, files],
+                type: 'MOCK_CREATE_POST_IMMEDIATELY',
+            }, {
+                args: ['draft_current_channel_id', null],
+                type: 'MOCK_SET_GLOBAL_ITEM',
+            }];
 
-        await testStore.dispatch(Actions.createPost(newPost, files));
-        expect(testStore.getActions()).toEqual(immediateExpectedState);
+            await testStore.dispatch(Actions.createPost(newPost, files));
+            expect(testStore.getActions()).toEqual(immediateExpectedState);
 
-        const finalExpectedState = [
-            ...immediateExpectedState,
-            {
-                args: [newReply, files],
+            const finalExpectedState = [
+                ...immediateExpectedState,
+                {
+                    args: [newReply, files],
+                    type: 'MOCK_CREATE_POST',
+                }, {
+                    args: ['comment_draft_new_post_id', null],
+                    type: 'MOCK_SET_GLOBAL_ITEM',
+                },
+            ];
+
+            await testStore.dispatch(Actions.createPost(newReply, files));
+            expect(testStore.getActions()).toEqual(finalExpectedState);
+        });
+
+        test('with single shorthand emoji', async () => {
+            const testStore = await mockStore(initialState);
+            const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :+1:'};
+            const files = [];
+
+            const immediateExpectedState = [{
+                args: ['+1'],
+                type: 'MOCK_ADD_RECENT_EMOJI',
+            }, {
+                args: [newPost, files],
                 type: 'MOCK_CREATE_POST',
             }, {
-                args: ['comment_draft_new_post_id', null],
+                args: ['draft_current_channel_id', null],
                 type: 'MOCK_SET_GLOBAL_ITEM',
-            },
-        ];
+            }];
 
-        await testStore.dispatch(Actions.createPost(newReply, files));
-        expect(testStore.getActions()).toEqual(finalExpectedState);
+            await testStore.dispatch(Actions.createPost(newPost, files));
+            expect(testStore.getActions()).toEqual(immediateExpectedState);
+        });
+
+        test('with single named emoji', async () => {
+            const testStore = await mockStore(initialState);
+            const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :cake:'};
+            const files = [];
+
+            const immediateExpectedState = [{
+                args: ['cake'],
+                type: 'MOCK_ADD_RECENT_EMOJI',
+            }, {
+                args: [newPost, files],
+                type: 'MOCK_CREATE_POST',
+            }, {
+                args: ['draft_current_channel_id', null],
+                type: 'MOCK_SET_GLOBAL_ITEM',
+            }];
+
+            await testStore.dispatch(Actions.createPost(newPost, files));
+            expect(testStore.getActions()).toEqual(immediateExpectedState);
+        });
+
+        test('with multiple emoji', async () => {
+            const testStore = await mockStore(initialState);
+            const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :cake: :+1:'};
+            const files = [];
+
+            const immediateExpectedState = [{
+                args: ['cake'],
+                type: 'MOCK_ADD_RECENT_EMOJI',
+            }, {
+                args: ['+1'],
+                type: 'MOCK_ADD_RECENT_EMOJI',
+            }, {
+                args: [newPost, files],
+                type: 'MOCK_CREATE_POST',
+            }, {
+                args: ['draft_current_channel_id', null],
+                type: 'MOCK_SET_GLOBAL_ITEM',
+            }];
+
+            await testStore.dispatch(Actions.createPost(newPost, files));
+            expect(testStore.getActions()).toEqual(immediateExpectedState);
+        });
     });
 
     test('addReaction', async () => {
