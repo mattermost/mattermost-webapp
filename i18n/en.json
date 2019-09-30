@@ -3091,7 +3091,7 @@
   "status_dropdown.menuAriaLabel": "set status",
   "status_dropdown.set_away": "Away",
   "status_dropdown.set_dnd": "Do Not Disturb",
-  "status_dropdown.set_dnd.extra": "Disables Desktop and Push Notifications",
+  "status_dropdown.set_dnd.extra": "Disables desktop, email and push notifications",
   "status_dropdown.set_offline": "Offline",
   "status_dropdown.set_online": "Online",
   "status_dropdown.set_ooo": "Out of Office",
