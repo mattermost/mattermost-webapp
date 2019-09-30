@@ -5,7 +5,7 @@ import React from 'react';
 import {mount} from 'enzyme';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug.jsx';
-import {mountWithIntl} from "../../tests/helpers/intl-test-helper";
+import {mountWithIntl} from '../../tests/helpers/intl-test-helper';
 
 describe('plugins/ChannelHeaderPlug', () => {
     const testPlug = {
