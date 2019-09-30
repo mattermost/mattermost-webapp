@@ -5,6 +5,7 @@ import React from 'react';
 import {mount} from 'enzyme';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug/channel_header_plug.jsx';
+import {mountWithIntl} from "../../tests/helpers/intl-test-helper";
 
 describe('plugins/ChannelHeaderPlug', () => {
     const testPlug = {
@@ -41,7 +42,7 @@ describe('plugins/ChannelHeaderPlug', () => {
     });
 
     test('should match snapshot with two extended components', () => {
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <ChannelHeaderPlug
                 components={[testPlug, {...testPlug, id: 'someid2'}]}
                 channel={{}}
