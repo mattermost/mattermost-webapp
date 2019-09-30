@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {parseTable, getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {parseTable, getTable, formatMarkdownTableMessage} from './paste';
 
-const validClipboardData = {
+const validClipboardData: any = {
     items: [1],
     types: ['text/html'],
     getData: () => {
@@ -11,12 +11,12 @@ const validClipboardData = {
     },
 };
 
-const validTable = parseTable(validClipboardData.getData());
+const validTable: any = parseTable(validClipboardData.getData());
 
 describe('Paste', () => {
     describe('Paste.getTable', () => {
         test('returns false without html in the clipboard', () => {
-            const badClipboardData = {
+            const badClipboardData: any = {
                 items: [1],
                 types: ['text/plain'],
             };
@@ -25,7 +25,7 @@ describe('Paste', () => {
         });
 
         test('returns false without table in the clipboard', () => {
-            const badClipboardData = {
+            const badClipboardData: any = {
                 items: [1],
                 types: ['text/html'],
                 getData: () => '<p>There is no table here</p>',

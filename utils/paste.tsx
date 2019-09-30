@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export function parseTable(html) {
+export function parseTable(html: string): HTMLTableElement | null {
     const el = document.createElement('div');
     el.innerHTML = html;
     return el.querySelector('table');
 }
 
-export function getTable(clipboardData) {
+export function getTable(clipboardData: DataTransfer): HTMLTableElement | boolean {
     if (Array.from(clipboardData.types).indexOf('text/html') === -1) {
         return false;
     }
@@ -26,20 +26,20 @@ export function getTable(clipboardData) {
     return table;
 }
 
-function columnText(column) {
+function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
-    const text = column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+    const text = column.textContent!.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
     return text || noBreakSpace;
 }
 
-function tableHeaders(row) {
+function tableHeaders(row: HTMLTableRowElement): string[] {
     return Array.from(row.querySelectorAll('td, th')).map(columnText);
 }
 
-export function formatMarkdownTableMessage(table, message) {
+export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string): string {
     const rows = Array.from(table.querySelectorAll('tr'));
 
-    const headers = tableHeaders(rows.shift());
+    const headers = tableHeaders(rows.shift()!);
     const spacers = headers.map(() => '---');
     const header = `|${headers.join(' | ')}|\n|${spacers.join(' | ')}|\n`;
 
