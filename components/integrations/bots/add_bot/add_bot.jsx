@@ -243,7 +243,7 @@ export default class AddBot extends React.Component {
         });
 
         const bot = {
-            username: this.state.username.toLowerCase(),
+            username: this.state.username.toLowerCase().trim(),
             display_name: this.state.displayName,
             description: this.state.description,
         };

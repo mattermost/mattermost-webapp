@@ -67,6 +67,6 @@ describe('components/RhsThread', () => {
         wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
 
-        expect(actions.getPostThread).toHaveBeenCalledWith(post.id);
+        expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
     });
 });

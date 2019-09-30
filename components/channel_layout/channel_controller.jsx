@@ -39,34 +39,24 @@ export default class ChannelController extends React.Component {
 
     componentDidMount() {
         const platform = window.navigator.platform;
-        const elements = document.getElementsByTagName('body');
-        if (elements.length !== 1) {
-            return;
-        }
-        const body = elements[0];
 
-        body.classList.add('app__body');
+        document.body.classList.add('app__body', 'channel-view');
 
         // IE Detection
         if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            body.classList.add('browser--ie');
+            document.body.classList.add('browser--ie');
         }
 
         // OS Detection
         if (platform === 'Win32' || platform === 'Win64') {
-            body.classList.add('os--windows');
+            document.body.classList.add('os--windows');
         } else if (platform === 'MacIntel' || platform === 'MacPPC') {
-            body.classList.add('os--mac');
+            document.body.classList.add('os--mac');
         }
     }
 
     componentWillUnmount() {
-        const elements = document.getElementsByTagName('body');
-        if (elements.length !== 1) {
-            return;
-        }
-        const body = elements[0];
-        body.classList.remove('app__body');
+        document.body.classList.remove('app__body', 'channel-view');
     }
 
     render() {
