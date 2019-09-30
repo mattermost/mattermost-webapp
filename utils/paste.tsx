@@ -28,8 +28,9 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | boolea
 
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
-    const text = column.textContent!.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
-    return text || noBreakSpace;
+    const text = column.textContent == null ?
+        noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
+    return text;
 }
 
 function tableHeaders(row: HTMLTableRowElement): string[] {
@@ -39,7 +40,8 @@ function tableHeaders(row: HTMLTableRowElement): string[] {
 export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string): string {
     const rows = Array.from(table.querySelectorAll('tr'));
 
-    const headers = tableHeaders(rows.shift()!);
+    const headerRow = rows.shift();
+    const headers = headerRow ? tableHeaders(headerRow) : [];
     const spacers = headers.map(() => '---');
     const header = `|${headers.join(' | ')}|\n|${spacers.join(' | ')}|\n`;
 
