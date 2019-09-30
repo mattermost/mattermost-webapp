@@ -761,13 +761,6 @@
     position: relative;
     word-wrap: break-word;
 
-    body.enable-animations & {
-        @include transition-property(background-color);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in-out);
-    }
-
     .browser--ie & {
         .post__header {
             .col__reply {
@@ -1569,13 +1562,6 @@
         padding: .2em .5em;
         width: 100%;
         word-wrap: break-word;
-
-        body.enable-animations & {
-            @include transition-property(background);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in-out);
-        }
 
         &.post--ephemeral {
             padding-right: 20px !important;
