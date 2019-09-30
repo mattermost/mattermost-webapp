@@ -291,14 +291,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
-        cy.getByTestId('invitationModal').within(($el) => {
-            cy.wrap($el).find('h1').should('have.text', 'Invite Members');
-        });
+        cy.getByTestId('invitationModal').find('h1').should('have.text', 'Invite Members');
 
         // * Verify Share Link Header and helper text
-        cy.getByTestId('shareLink').should('be.visible').within(($el) => {
-            cy.wrap($el).find('h2 > span').should('have.text', 'Share This Link');
-            cy.wrap($el).find('.help-text > span').should('have.text', 'Share this link to grant member access to this team.');
+        cy.getByTestId('shareLink').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Share This Link');
+            cy.get('.help-text > span').should('have.text', 'Share this link to grant member access to this team.');
         });
 
         // # Close the Modal
