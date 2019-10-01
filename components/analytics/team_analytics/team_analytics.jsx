@@ -19,7 +19,7 @@ import LoadingScreen from 'components/loading_screen.jsx';
 
 import {getMonthLong} from 'utils/i18n';
 
-import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';
+import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
