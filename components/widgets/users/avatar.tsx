@@ -6,9 +6,9 @@ import React from 'react';
 
 import './avatar.scss';
 
-const Avatar = ({url, username, size}) => (
+const Avatar = ({url, username, size = 'md'}: {url: string; username?: string; size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'}) => (
     <img
-        className={'Avatar Avatar-' + size}
+        className={`Avatar Avatar-${size}`}
         alt={`${username || 'user'} profile image`}
         src={url}
     />
