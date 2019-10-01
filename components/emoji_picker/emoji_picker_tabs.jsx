@@ -88,7 +88,7 @@ export default class EmojiPickerTabs extends PureComponent {
                     className={pickerClass}
                     justified={true}
                 >
-                    <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
+                    <EmojiPickerHeader onClickClose={this.handleEmojiPickerClose}/>
                     <Tab
                         eventKey={1}
                         onEnter={this.handleEnterEmojiTab}
@@ -122,7 +122,7 @@ export default class EmojiPickerTabs extends PureComponent {
                 style={pickerStyle}
                 className={`a11y__popup ${pickerClass} emoji-picker--single`}
             >
-                <EmojiPickerHeader handleEmojiPickerClose={this.handleEmojiPickerClose}/>
+                <EmojiPickerHeader onClickClose={this.handleEmojiPickerClose}/>
                 <EmojiPicker
                     style={this.props.style}
                     onEmojiClose={this.props.onEmojiClose}

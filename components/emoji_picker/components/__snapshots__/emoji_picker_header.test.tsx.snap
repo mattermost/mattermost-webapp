@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/emoji_picker/components/EmojiPickerHeader handleEmojiPickerClose, should have called props.handleEmojiPickerClose 1`] = `
+exports[`components/emoji_picker/components/EmojiPickerHeader onClickClose, should have called props.onClickClose 1`] = `
 <div
   className="emoji-picker__header modal-header"
 >
