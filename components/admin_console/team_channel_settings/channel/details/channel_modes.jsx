@@ -11,11 +11,15 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LineSwitch from '../../line_switch';
 
-const SyncGroupsToggle = ({isSynced, isPublic, onToggle}) => (
+const SyncGroupsToggle = ({isSynced, isPublic, isDefault, onToggle}) => (
     <LineSwitch
+        disabled={isDefault}
         toggled={isSynced}
         last={isSynced}
         onToggle={() => {
+            if (isDefault) {
+                return;
+            }
             onToggle(!isSynced, isPublic);
         }}
         title={(
@@ -35,15 +39,20 @@ const SyncGroupsToggle = ({isSynced, isPublic, onToggle}) => (
 SyncGroupsToggle.propTypes = {
     isPublic: PropTypes.bool.isRequired,
     isSynced: PropTypes.bool.isRequired,
+    isDefault: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
 };
 
-const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
+const AllowAllToggle = ({isSynced, isPublic, isDefault, onToggle}) =>
     !isSynced && (
         <LineSwitch
+            disabled={isDefault}
             toggled={isPublic}
             last={isPublic}
             onToggle={() => {
+                if (isDefault) {
+                    return;
+                }
                 onToggle(isSynced, !isPublic);
             }}
             title={(
@@ -52,12 +61,19 @@ const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
                     defaultMessage='Public channel or private channel'
                 />
             )}
-            subTitle={(
+            subTitle={isDefault ? (
                 <FormattedMessage
-                    id='admin.channel_settings.channel_details.isPublicDescr'
-                    defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private.  Converting private channels to public will be available in a future release.'
+                    id='admin.channel_settings.channel_details.isDefaultDescr'
+                    defaultMessage='This default channel cannot be converted into a private channel.'
                 />
-            )}
+            ) :
+                (
+                    <FormattedMessage
+                        id='admin.channel_settings.channel_details.isPublicDescr'
+                        defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private.  Converting private channels to public will be available in a future release.'
+                    />
+                )
+            }
             onText={(
                 <FormattedMessage
                     id='channel_toggle_button.public'
@@ -75,10 +91,11 @@ const AllowAllToggle = ({isSynced, isPublic, onToggle}) =>
 AllowAllToggle.propTypes = {
     isPublic: PropTypes.bool.isRequired,
     isSynced: PropTypes.bool.isRequired,
+    isDefault: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
 };
 
-export const ChannelModes = ({isPublic, isSynced, onToggle}) => (
+export const ChannelModes = ({isPublic, isSynced, isDefault, onToggle}) => (
     <AdminPanel
         id='channel_manage'
         titleId={t('admin.channel_settings.channel_detail.manageTitle')}
@@ -91,11 +108,13 @@ export const ChannelModes = ({isPublic, isSynced, onToggle}) => (
                 <SyncGroupsToggle
                     isPublic={isPublic}
                     isSynced={isSynced}
+                    isDefault={isDefault}
                     onToggle={onToggle}
                 />
                 <AllowAllToggle
                     isPublic={isPublic}
                     isSynced={isSynced}
+                    isDefault={isDefault}
                     onToggle={onToggle}
                 />
             </div>
@@ -105,5 +124,6 @@ export const ChannelModes = ({isPublic, isSynced, onToggle}) => (
 ChannelModes.propTypes = {
     isPublic: PropTypes.bool.isRequired,
     isSynced: PropTypes.bool.isRequired,
+    isDefault: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
 };

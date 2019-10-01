@@ -40,6 +40,7 @@ export default class TeamMembersModal extends React.PureComponent {
                 onExited={this.props.onHide}
                 role='dialog'
                 aria-labelledby='teamMemberModalLabel'
+                id='teamMembersModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title

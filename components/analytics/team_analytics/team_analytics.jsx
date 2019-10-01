@@ -74,9 +74,9 @@ export default class TeamAnalytics extends React.Component {
         this.props.actions.getTeams(0, 1000);
     }
 
-    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
-        if (nextState.team && nextState.team !== this.state.team) {
-            this.getData(nextState.team.id);
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.team && prevState.team !== this.state.team) {
+            this.getData(this.state.team.id);
         }
     }
 

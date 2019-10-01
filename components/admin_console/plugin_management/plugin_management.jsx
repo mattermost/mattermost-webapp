@@ -983,7 +983,7 @@ export default class PluginManagement extends AdminSettings {
                             helpText={
                                 <FormattedMarkdownMessage
                                     id='admin.plugins.settings.enableMarketplaceDesc'
-                                    defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                    defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
                                 />
                             }
                             value={this.state.enableMarketplace}
@@ -1008,7 +1008,7 @@ export default class PluginManagement extends AdminSettings {
                                 />
                             }
                             value={this.state.marketplaceUrl}
-                            disabled={!this.state.enable}
+                            disabled={!this.state.enable || !this.state.enableMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                         />
