@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {latinise} from 'utils/latinise.jsx';
+import {latinise} from 'utils/latinise';
 
 describe('Latinise', () => {
     describe('handleNames', () => {
