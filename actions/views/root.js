@@ -57,11 +57,11 @@ export function loadTranslations(locale, url) {
         // No need to go to the server for EN
         if (locale === 'en') {
             copyAndDispatchTranslations(dispatch, translations, en, locale);
-            return;
         }
         Client4.getTranslations(url).then((serverTranslations) => {
             copyAndDispatchTranslations(dispatch, translations, serverTranslations, locale);
         }).catch(() => {}); // eslint-disable-line no-empty-function
+	copyAndDispatchTranslations(dispatch, translations, en, locale);
     };
 }
 
