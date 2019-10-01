@@ -336,7 +336,7 @@ export default class Root extends React.Component {
                         component={Mfa}
                     />
                     <LoggedInRoute
-                        path={['/_redirect/integrations', '/_redirect/pl/:postid']}
+                        path={['/_redirect/integrations*', '/_redirect/pl/:postid']}
                         component={PermalinkRedirector}
                     />
                     <LoggedInRoute

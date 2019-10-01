@@ -105,7 +105,7 @@ export default class PostProfilePicture extends React.PureComponent {
                 hasMention={hasMention}
                 isBusy={isBusy}
                 isRHS={isRHS}
-                size='lg'
+                size='md'
                 src={src}
                 profileSrc={profileSrc}
                 isEmoji={isEmoji}

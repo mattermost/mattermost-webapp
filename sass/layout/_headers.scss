@@ -87,6 +87,7 @@
         }
 
         .markdown__paragraph-inline {
+            margin: 0;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
@@ -99,17 +100,11 @@
         max-width: 300px;
         padding: 0;
 
+        svg,
         .fa {
             text-align: center;
             width: 20px;
-            margin-left: -5px;
-        }
-
-        svg {
-            text-align: center;
-            width: 20px;
-            margin-left: -5px;
-            margin-right: 5px;
+            margin-right: 4px;
         }
 
         a {
@@ -129,7 +124,8 @@
 
     .channel-header__icon {
         @include border-radius(50%);
-        border: 1px solid;
+        color: v(center-channel-color-40);
+        border: 1px solid v(center-channel-color-15);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -150,7 +146,21 @@
             @include transition-timing-function(ease-in-out);
         }
 
+        .icon--stroke {
+            svg {
+                stroke: v(center-channel-color-40);
+            }
+
+            &.icon__search {
+                svg {
+                    stroke: v(center-channel-color-50);
+                }
+            }
+        }
+
         svg {
+            fill: v(center-channel-color-40);
+
             body.enable-animations & {
                 @include transition-property(fill);
                 @include transition-duration($transition-quick);
@@ -356,6 +366,7 @@
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
+        margin: 2px 0 0;
         height: 22px;
         width: 100%;
         display: flex;
@@ -370,10 +381,9 @@
 
         blockquote {
             font-size: 13px;
-            padding: 1px 0 0 19px;
+            padding: 0 0 0 20px;
             overflow: hidden;
             text-overflow: ellipsis;
-            display: inline;
 
             &:before {
                 font-size: 15px;
@@ -744,7 +754,6 @@
 }
 
 .app__body {
-
     .channel-header__links {
         display: inline-block;
         font-family: 'Open Sans', sans-serif;

@@ -71,6 +71,19 @@ describe('components/PermalinkRedirector', () => {
         expect(baseProps.actions.redirect).toHaveBeenCalledTimes(1);
     });
 
+    test('calls redirect for integrations/bots', async () => {
+        const props = {
+            ...baseProps,
+            url: '/_redirect/integrations/bots',
+        };
+        shallowWithIntl(
+            <PermalinkRedirector {...props}/>
+        );
+
+        expect(baseProps.actions.redirect).toHaveBeenCalledWith(props.url, props.params);
+        expect(baseProps.actions.redirect).toHaveBeenCalledTimes(1);
+    });
+
     describe('actions', () => {
         const initialState = {
             entities: {

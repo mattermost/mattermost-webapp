@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites, testSmtp,
+    invalidateAllEmailInvites, testSmtp, testSiteURL,
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -429,6 +429,19 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.service.siteURLExample'),
                         placeholder_default: 'E.g.: "http://example.com:8065"',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BUTTON,
+                        key: 'TestSiteURL',
+                        action: testSiteURL,
+                        label: t('admin.service.testSiteURL'),
+                        label_default: 'Test Live URL',
+                        loading: t('admin.service.testSiteURLTesting'),
+                        loading_default: 'Testing...',
+                        error_message: t('admin.service.testSiteURLFail'),
+                        error_message_default: 'Test unsuccessful: {error}',
+                        success_message: t('admin.service.testSiteURLSuccess'),
+                        success_message_default: 'Test successful. This is a valid URL.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -1403,7 +1416,7 @@ const AdminDefinition = {
                         placeholder: t('admin.service.internalConnectionsEx'),
                         placeholder_default: 'webhooks.internal.example.com 127.0.0.1 10.0.16.0/28',
                         help_text: t('admin.service.internalConnectionsDesc'),
-                        help_text_default: 'A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See [documentation](https://mattermost.com/pl/default-allow-untrusted-internal-connections) to learn more.',
+                        help_text_default: 'A whitelist of local network addresses that can be requested by the Mattermost server on behalf of a client. Care should be used when configuring this setting to prevent unintended access to your local network. See [documentation](!https://mattermost.com/pl/default-allow-untrusted-internal-connections) to learn more.',
                         help_text_markdown: true,
                     },
                 ],
@@ -3592,7 +3605,7 @@ const AdminDefinition = {
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
                         help_text: t('admin.service.enableBotAccountCreation'),
-                        help_text_default: 'When true, users can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
+                        help_text_default: 'When true, users can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](!https://mattermost.com/pl/default-bot-accounts) to learn more.',
                         help_text_markdown: true,
                         help_text_values: {siteURL: getSiteURL()},
                     },
