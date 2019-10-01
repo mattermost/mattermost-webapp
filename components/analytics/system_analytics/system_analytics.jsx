@@ -14,7 +14,7 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 
 import DoughnutChart from '../doughnut_chart.jsx';
 import LineChart from '../line_chart.jsx';
-import StatisticCount from '../statistic_count.jsx';
+import StatisticCount from '../statistic_count';
 
 import {
     formatPostsPerDayData,
