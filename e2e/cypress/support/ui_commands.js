@@ -18,11 +18,6 @@ Cypress.Commands.add('toMainChannelView', (username, password) => {
     cy.get('#post_textbox').should('be.visible');
 });
 
-Cypress.Commands.add('toTopPublicChannelView', () => {
-    cy.visit('/');
-    cy.get('#publicChannelList > li').eq('2').click();
-});
-
 Cypress.Commands.add('getSubpath', () => {
     cy.visit('/');
     cy.url().then((url) => {
