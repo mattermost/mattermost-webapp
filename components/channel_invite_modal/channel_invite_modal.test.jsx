@@ -38,6 +38,7 @@ describe('components/channel_invite_modal', () => {
     const baseProps = {
         channel,
         profilesNotInCurrentChannel: [],
+        userStatuses: {},
         actions: {
             addUsersToChannel: jest.fn().mockImplementation(() => {
                 const error = {
@@ -47,8 +48,10 @@ describe('components/channel_invite_modal', () => {
                 return Promise.resolve({error});
             }),
             getProfilesNotInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
+            getUserStatuses: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn(),
             searchProfiles: jest.fn(),
+            getStatus: jest.fn(),
         },
         onHide: jest.fn(),
     };

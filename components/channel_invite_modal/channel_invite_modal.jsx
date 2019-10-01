@@ -24,6 +24,7 @@ const MAX_SELECTABLE_VALUES = 20;
 export default class ChannelInviteModal extends React.Component {
     static propTypes = {
         profilesNotInCurrentChannel: PropTypes.array.isRequired,
+        userStatuses: PropTypes.object.isRequired,
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -31,6 +32,7 @@ export default class ChannelInviteModal extends React.Component {
             getProfilesNotInChannel: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            getStatus: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -157,6 +159,8 @@ export default class ChannelInviteModal extends React.Component {
             rowSelected = 'more-modal__row--selected';
         }
 
+        this.props.actions.getStatus(option.id);
+
         return (
             <div
                 key={option.id}
@@ -166,6 +170,7 @@ export default class ChannelInviteModal extends React.Component {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
+                    status={this.props.userStatuses[option.id]}
                     size='md'
                 />
                 <div className='more-modal__details'>
