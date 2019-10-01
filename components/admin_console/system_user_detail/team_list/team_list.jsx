@@ -43,7 +43,6 @@ const headerLabels = [
 
 export default class TeamList extends React.Component {
     static propTypes = {
-        user: PropTypes.object.isRequired,
         userId: PropTypes.string.isRequired,
         locale: PropTypes.string.isRequired,
         emptyListTextId: PropTypes.string.isRequired,

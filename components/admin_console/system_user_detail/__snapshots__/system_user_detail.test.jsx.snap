@@ -144,16 +144,6 @@ exports[`components/admin_console/system_user_detail should match default snapsh
       >
         <Connect(TeamList)
           refreshTeams={true}
-          user={
-            Object {
-              "first_name": "Jim",
-              "id": "1234",
-              "last_name": "Halpert",
-              "nickname": "Big Tuna",
-              "roles": "system_user",
-              "username": "jim.halpert",
-            }
-          }
           userDetailCallback={[Function]}
           userId="1234"
         />
@@ -409,17 +399,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
       >
         <Connect(TeamList)
           refreshTeams={true}
-          user={
-            Object {
-              "first_name": "Jim",
-              "id": "1234",
-              "last_name": "Halpert",
-              "mfa_active": "MFA",
-              "nickname": "Big Tuna",
-              "roles": "system_user",
-              "username": "jim.halpert",
-            }
-          }
           userDetailCallback={[Function]}
           userId="1234"
         />
@@ -669,16 +648,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
       >
         <Connect(TeamList)
           refreshTeams={true}
-          user={
-            Object {
-              "first_name": "Jim",
-              "id": "1234",
-              "last_name": "Halpert",
-              "nickname": null,
-              "roles": "system_user",
-              "username": "jim.halpert",
-            }
-          }
           userDetailCallback={[Function]}
           userId="1234"
         />
@@ -928,17 +897,6 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
       >
         <Connect(TeamList)
           refreshTeams={true}
-          user={
-            Object {
-              "delete_at": 1561683854166,
-              "first_name": "Jim",
-              "id": "1234",
-              "last_name": "Halpert",
-              "nickname": "Big Tuna",
-              "roles": "system_user",
-              "username": "jim.halpert",
-            }
-          }
           userDetailCallback={[Function]}
           userId="1234"
         />
