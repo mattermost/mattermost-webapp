@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default class LoadingWrapper extends React.Component<Props> {
-    public static defaultProps = {
+    public static defaultProps: Props = {
         loading: true,
         text: null,
         children: null,
