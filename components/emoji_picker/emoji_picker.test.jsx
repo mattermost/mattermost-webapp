@@ -79,10 +79,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
 
         // Nine categories as there is no recent caterogry
         expect(wrapper.find(EmojiPickerCategory).length).toBe(9);
-        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
-
-        // People EmojiPickerCategory should have prop selected true
-        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).find({category: 'people'}).length).toBe(1);
+        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(0);
 
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(1);
         expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'people'}).length).toBe(1);
@@ -104,10 +101,10 @@ describe('components/emoji_picker/EmojiPicker', () => {
             offsetHeight: 200,
         };
 
-        // 10 categories as there is recent caterogry and prop selected should be true on EmojiPickerCategory for recent category
+        // 10 categories as there is recent caterogry
         expect(wrapper.find(EmojiPickerCategory).length).toBe(10);
-        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(1);
-        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).find({category: 'recent'}).length).toBe(1);
+        expect(wrapper.find(EmojiPickerCategory).find({selected: true}).length).toBe(0);
+        expect(wrapper.find(EmojiPickerCategory).find({category: 'recent'}).length).toBe(1);
 
         expect(wrapper.find(EmojiPickerCategorySection).length).toBe(2);
         expect(wrapper.find(EmojiPickerCategorySection).find({categoryName: 'recent'}).length).toBe(1);
