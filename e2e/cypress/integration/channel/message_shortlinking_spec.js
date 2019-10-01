@@ -9,7 +9,7 @@ describe('Message', () => {
     });
 
     it('M17451 Channel shortlinking still works when placed in brackets', () => {
-        // # Post shortlink of channel
+        // # Post a shortlink of channel
         const shortLink = '(~saepe-5)';
         const longLink = '~doloremque';
 
