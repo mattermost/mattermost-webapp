@@ -14,7 +14,6 @@ export default class StatusOnlineAvatarIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            id='Layer_1'
                             x='0px'
                             y='0px'
                             width='13px'

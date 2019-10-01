@@ -14,7 +14,6 @@ export default class ScrollToBottomIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            id='Layer_1'
                             x='0px'
                             y='0px'
                             viewBox='-239 239 21 23'

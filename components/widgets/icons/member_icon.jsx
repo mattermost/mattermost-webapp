@@ -21,7 +21,6 @@ export default class MemberIcon extends React.PureComponent {
                             aria-label={ariaLabel}
                         >
                             <g
-                                id='Symbols'
                                 stroke='none'
                                 strokeWidth='1'
                                 fill='inherit'
