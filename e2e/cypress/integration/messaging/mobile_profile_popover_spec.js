@@ -12,21 +12,15 @@ describe('Profile popover', () => {
     before(() => {
         // # Login and navigate to town-square
         cy.toMainChannelView('user-1');
+        cy.viewport('iphone-6');
 
         // # Post a new message to ensure there will be a post to click on
         cy.postMessage('Test message');
     });
 
-    afterEach(() => {
-        // Set viewport back to desktop view to make sure changeMessageDisplaySetting works between tests
-        cy.viewport('macbook-13');
-    });
-
     it('M18715 Profile popover should render (standard mode)', () => {
         // # Setting posts to standard mode
-        cy.changeMessageDisplaySetting('STANDARD');
-        cy.viewport('iphone-6');
-
+        cy.apiSaveMessageDisplayPreference();
         cy.getLastPostId().then((postId) => {
             // add wait time to ensure image is rendered and can be clicked
             cy.wait(TIMEOUTS.TINY);
@@ -41,9 +35,7 @@ describe('Profile popover', () => {
 
     it('M18715 Profile popover should render (compact mode)', () => {
         // # Setting posts to compact mode
-        cy.changeMessageDisplaySetting('COMPACT');
-        cy.viewport('iphone-6');
-
+        cy.apiSaveMessageDisplayPreference('compact');
         cy.getLastPostId().then((postId) => {
             // # Click on username
             cy.get(`#post_${postId}`).find('.user-popover').click();
