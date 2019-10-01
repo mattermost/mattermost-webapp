@@ -136,7 +136,10 @@ export default class TeamSidebar extends React.PureComponent {
 
         return (
             <div className={classNames('team-sidebar', {'move--right': this.props.isOpen})}>
-                <div className='team-wrapper'>
+                <div
+                    className='team-wrapper'
+                    id='teamSidebarWrapper'
+                >
                     <Scrollbars
                         autoHide={true}
                         autoHideTimeout={500}

@@ -296,6 +296,12 @@ export default class A11yController {
      * @param {array or boolean} elementPath - array of element's dom branch or boolean to find section/region of element
      */
     nextElement(element, elementPath = false) {
+        if (
+            this.modalIsOpen ||
+            this.popupIsOpen
+        ) {
+            return;
+        }
         let region;
         let section;
         if (elementPath && elementPath.length) {
