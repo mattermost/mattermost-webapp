@@ -50,7 +50,7 @@ export default class BrandImageSetting extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(
             (resp) => {
                 if (resp.status === HTTP_STATUS_OK) {
@@ -60,9 +60,7 @@ export default class BrandImageSetting extends React.PureComponent {
                 }
             }
         );
-    }
 
-    componentDidMount() {
         this.props.registerSaveAction(this.handleSave);
     }
 

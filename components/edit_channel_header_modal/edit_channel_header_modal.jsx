@@ -92,6 +92,12 @@ class EditChannelHeaderModal extends React.PureComponent {
         }
     }
 
+    handleModalKeyDown = (e) => {
+        if (isKeyPressed(e, KeyCodes.ESCAPE)) {
+            this.onHide();
+        }
+    }
+
     updatePreview = (newState) => {
         this.setState({preview: newState});
     }
@@ -190,6 +196,8 @@ class EditChannelHeaderModal extends React.PureComponent {
             <Modal
                 dialogClassName='a11y__modal'
                 show={this.state.show}
+                keyboard={false}
+                onKeyDown={this.handleModalKeyDown}
                 onHide={this.onHide}
                 onEntering={this.handleEntering}
                 onExited={this.props.onHide}

@@ -459,6 +459,7 @@ export default class MoreDirectChannels extends React.Component {
                 onExited={this.handleExit}
                 role='dialog'
                 aria-labelledby='moreDmModalLabel'
+                id='moreDmModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
