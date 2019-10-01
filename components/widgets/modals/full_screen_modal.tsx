@@ -48,6 +48,7 @@ export default class FullScreenModal extends React.Component<Props> {
             >
                 <div className='FullScreenModal'>
                     <CloseIcon
+                        className='close-x'
                         onClick={this.close}
                         id='closeIcon'
                     />
