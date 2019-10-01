@@ -732,7 +732,18 @@ Cypress.Commands.add('demoteUser', (userId) => {
  * All parameter required
  */
 Cypress.Commands.add('removeUserFromChannel', (channelId, userId) => {
-    //Demote Regular Member to Guest User
+    //Remove a User from a Channel
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'delete', baseUrl, path: `channels/${channelId}/members/${userId}`});
+});
+
+/**
+ * Promote a Guest to a Member directly via API
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('promoteUser', (userId) => {
+    //Promote Regular Member to Guest User
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
