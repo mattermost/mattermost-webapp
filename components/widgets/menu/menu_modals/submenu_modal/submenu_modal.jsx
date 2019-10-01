@@ -9,6 +9,8 @@ import MenuWrapper from '../../menu_wrapper';
 import Menu from '../../menu';
 import * as Utils from 'utils/utils.jsx';
 
+import './submenu_modal.scss';
+
 export default class SubMenuModal extends React.PureComponent {
     static propTypes = {
         elements: PropTypes.array,

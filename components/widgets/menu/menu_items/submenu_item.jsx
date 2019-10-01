@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
 
+import './menu_item.scss';
+
 // Requires an object conforming to a submenu structure passed to registerPostDropdownSubMenuAction
 // of the form:
 // {
