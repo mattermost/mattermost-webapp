@@ -23,6 +23,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getUser,
+    makeGetProfilesInChannel,
 } from 'mattermost-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 
@@ -41,31 +42,39 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import ChannelHeader from './channel_header';
 
-const mapStateToProps = (state) => {
-    const channel = getCurrentChannel(state) || {};
-    const user = getCurrentUser(state);
+function makeMapStateToProps() {
+    const doGetProfilesInChannel = makeGetProfilesInChannel();
 
-    let dmUser;
-    if (channel && channel.type === General.DM_CHANNEL) {
-        const dmUserId = getUserIdFromChannelName(user.id, channel.name);
-        dmUser = getUser(state, dmUserId);
-    }
-    const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0};
+    return function mapStateToProps(state) {
+        const channel = getCurrentChannel(state) || {};
+        const user = getCurrentUser(state);
 
-    return {
-        teamId: getCurrentTeamId(state),
-        channel,
-        channelMember: getMyCurrentChannelMembership(state),
-        currentUser: user,
-        dmUser,
-        rhsState: getRhsState(state),
-        isFavorite: isCurrentChannelFavorite(state),
-        isReadOnly: isCurrentChannelReadOnly(state),
-        isMuted: isCurrentChannelMuted(state),
-        isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
-        hasGuests: stats.guest_count > 0,
+        let dmUser;
+        let gmMembers;
+        if (channel && channel.type === General.DM_CHANNEL) {
+            const dmUserId = getUserIdFromChannelName(user.id, channel.name);
+            dmUser = getUser(state, dmUserId);
+        } else if (channel && channel.type === General.GM_CHANNEL) {
+            gmMembers = doGetProfilesInChannel(state, channel.id, true);
+        }
+        const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0};
+
+        return {
+            teamId: getCurrentTeamId(state),
+            channel,
+            channelMember: getMyCurrentChannelMembership(state),
+            currentUser: user,
+            dmUser,
+            gmMembers,
+            rhsState: getRhsState(state),
+            isFavorite: isCurrentChannelFavorite(state),
+            isReadOnly: isCurrentChannelReadOnly(state),
+            isMuted: isCurrentChannelMuted(state),
+            isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
+            hasGuests: stats.guest_count > 0,
+        };
     };
-};
+}
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
@@ -84,4 +93,4 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChannelHeader));
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(ChannelHeader));
