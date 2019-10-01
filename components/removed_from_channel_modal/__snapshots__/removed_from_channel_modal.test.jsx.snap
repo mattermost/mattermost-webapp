@@ -75,6 +75,7 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
   >
     <button
       className="btn btn-primary"
+      id="removedChannelBtn"
       onClick={[Function]}
       type="button"
     >

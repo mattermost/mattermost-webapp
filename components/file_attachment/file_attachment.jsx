@@ -104,6 +104,7 @@ export default class FileAttachment extends React.PureComponent {
 
     onAttachmentClick = (e) => {
         e.preventDefault();
+        e.target.blur();
         if (this.props.handleImageClick) {
             this.props.handleImageClick(this.props.index);
         }
