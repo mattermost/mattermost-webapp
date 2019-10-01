@@ -9,7 +9,7 @@ import {formatWithRenderer} from 'utils/markdown';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
-import * as Emoticons from './emoticons.jsx';
+import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
