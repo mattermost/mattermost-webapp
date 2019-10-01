@@ -317,7 +317,7 @@ export default class SearchResults extends React.Component {
                 >
                     <div
                         id='search-items-container'
-                        className='search-items-container'
+                        className='search-items-container post-list__table'
                     >
                         {ctls}
                         {loadingMorePostsComponent}
