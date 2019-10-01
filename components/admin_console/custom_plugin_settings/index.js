@@ -24,7 +24,7 @@ function makeGetPluginSchema() {
             const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
             const pluginEnabledConfigKey = 'PluginSettings.PluginStates.' + escapedPluginId + '.Enable';
 
-            let settings;
+            let settings = [];
             if (plugin.settings_schema && plugin.settings_schema.settings) {
                 settings = plugin.settings_schema.settings.map((setting) => {
                     return {
