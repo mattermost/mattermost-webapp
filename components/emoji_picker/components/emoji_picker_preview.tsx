@@ -9,39 +9,10 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import imgTrans from 'images/img_trans.gif';
 
-export type SystemEmojiCategory = (
-    | 'people'
-    | 'nature'
-    | 'foods'
-    | 'activity'
-    | 'places'
-    | 'objects'
-    | 'symbols'
-    | 'flags'
-    | 'custom'
-);
-
-export interface SystemEmoji {
-    aliases: string[];
-    batch: string;
-    category: SystemEmojiCategory;
-    filename: string;
-    offset: null;
-    visible: boolean;
-}
-
-export interface CustomEmoji {
-    id: string;
-    aliases: string[];
-    category: 'custom';
-    filename: string;
-    name: string;
-    offset: null;
-    visible: boolean;
-}
+import { Emoji, isSystemEmoji, isCustomEmoji } from '../types';
 
 interface EmojiPickerPreviewProps {
-    emoji?: SystemEmoji | CustomEmoji;
+    emoji?: Emoji;
 }
 
 const EmojiPickerPreview: React.FC<EmojiPickerPreviewProps> = ({ emoji }) => (
@@ -52,7 +23,7 @@ const EmojiPickerPreview: React.FC<EmojiPickerPreviewProps> = ({ emoji }) => (
         {emoji ? (
         <>
             <div className='emoji-picker__preview-image-box'>
-                {'batch' in emoji ? (
+                {isSystemEmoji(emoji) ? (
                     <span className='sprite-preview'>
                         <img
                             id='emojiPickerSpritePreview'
@@ -76,7 +47,7 @@ const EmojiPickerPreview: React.FC<EmojiPickerPreviewProps> = ({ emoji }) => (
             </div>
             <div className='emoji-picker__preview-image-label-box'>
                 <span className='emoji-picker__preview-name'>
-                    {'name' in emoji ? emoji.name : emoji.aliases[0]}
+                    {isCustomEmoji(emoji) ? emoji.name : emoji.aliases[0]}
                 </span>
                 <span
                     id='emojiPickerAliasesPreview'
