@@ -7,7 +7,10 @@ import {FormattedMessage} from 'react-intl';
 export default class CloseIcon extends React.PureComponent {
     render() {
         return (
-            <span {...this.props}>
+            <button
+             className='style--none close-x'
+             {...this.props}
+            >
                 <FormattedMessage
                     id='generic_icons.close'
                     defaultMessage='Close Icon'
@@ -24,7 +27,7 @@ export default class CloseIcon extends React.PureComponent {
                         </svg>
                     )}
                 </FormattedMessage>
-            </span>
+            </button>
         );
     }
 }
