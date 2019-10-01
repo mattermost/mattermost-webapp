@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent.tsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 

@@ -11,7 +11,7 @@ import {Posts} from 'mattermost-redux/constants';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent.tsx';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';

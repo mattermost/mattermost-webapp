@@ -13,7 +13,7 @@ import {t} from 'utils/i18n';
 import {
     isIosChrome,
     isMobileApp,
-} from 'utils/user_agent.jsx';
+} from 'utils/user_agent.tsx';
 import {getTable} from 'utils/paste.jsx';
 import {
     clearFileInput,

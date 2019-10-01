@@ -11,7 +11,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent.tsx';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';

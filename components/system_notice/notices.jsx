@@ -6,7 +6,7 @@ import React from 'react';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import * as ServerVersion from 'utils/server_version.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent.tsx';
 
 import mattermostIcon from 'images/icon50x50.png';
 

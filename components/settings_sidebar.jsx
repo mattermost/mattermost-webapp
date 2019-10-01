@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent.tsx';
 
 export default class SettingsSidebar extends React.Component {
     handleClick = (tab, e) => {

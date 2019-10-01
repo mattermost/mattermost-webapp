@@ -22,7 +22,7 @@ import Constants, {PostListRowListIds, Preferences} from 'utils/constants.jsx';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
-import {isMobile} from 'utils/user_agent.jsx';
+import {isMobile} from 'utils/user_agent.tsx';
 
 import * as Emoticons from './emoticons.jsx';
 

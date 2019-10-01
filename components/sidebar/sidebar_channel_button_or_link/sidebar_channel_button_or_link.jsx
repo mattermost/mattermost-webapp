@@ -9,7 +9,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {localizeMessage} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
-import {isDesktopApp} from 'utils/user_agent.jsx';
+import {isDesktopApp} from 'utils/user_agent.tsx';
 import Constants from 'utils/constants.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
