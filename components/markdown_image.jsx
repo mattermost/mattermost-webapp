@@ -8,6 +8,8 @@ import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import ViewImageModal from 'components/view_image';
 
+import brokenImageIcon from 'images/icons/brokenimage.png';
+
 export default class MarkdownImage extends React.PureComponent {
     static defaultProps = {
         imageMetadata: {},
@@ -29,6 +31,7 @@ export default class MarkdownImage extends React.PureComponent {
 
         this.state = {
             showModal: false,
+            loadFailed: false,
         };
     }
 
@@ -43,9 +46,19 @@ export default class MarkdownImage extends React.PureComponent {
         this.setState({showModal: false});
     }
 
+    handleLoadFail = () => {
+        this.setState({loadFailed: true});
+    }
+
     render() {
         const {imageMetadata, src, imageIsLink} = this.props;
-
+        if (src === '' || this.state.loadFailed) {
+            return (
+                <img
+                    alt='Broken link'
+                    src={brokenImageIcon}
+                />);
+        }
         return (
             <ExternalImage
                 src={src}
@@ -85,6 +98,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 dimensions={imageMetadata}
                                 showLoader={true}
                                 onClick={this.showModal}
+                                onImageLoadFail={this.handleLoadFail}
                                 onImageLoaded={this.props.onImageLoaded}
                             />
                             {!imageIsLink && extension &&
