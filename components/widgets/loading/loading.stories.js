@@ -11,20 +11,11 @@ import LoadingWrapper from './loading_wrapper';
 
 storiesOf('Loading', module).
     addDecorator(withKnobs).
-    add('loadingSpinner',
-        () => {
-            return (
-                <div>
-                    <h2>{'Loading spinner without text'}</h2>
-                    <LoadingSpinner/>
-                    <h2>{'Loading spinner without text'}</h2>
-                    <LoadingSpinner text={text('Text', 'Loading')}/>
-                </div>
-            );
-        },
-        {
-            notes: {markdown: 'Loading spinner'},
-        }
+    add('LoadingSpinner without text',
+        () => (<LoadingSpinner/>),
+    ).
+    add('LoadingSpinner with text',
+        () => <LoadingSpinner text={text('Text', 'Loading')}/>
     ).
     add('loadingWrapper', () => {
         const LoadingExample = () => {
@@ -51,15 +42,5 @@ storiesOf('Loading', module).
             );
         };
 
-        const content = text('Content', 'Content');
-        return (
-            <div>
-                <h2>{'Wrapped contend not loading'}</h2>
-                <LoadingWrapper loading={false}>{content}</LoadingWrapper>
-                <h2>{'Wrapped contend loading'}</h2>
-                <LoadingWrapper loading={true}>{content}</LoadingWrapper>
-                <h2>{'Sample'}</h2>
-                <LoadingExample/>
-            </div>
-        );
+        return (<LoadingExample/>);
     });
