@@ -14,17 +14,10 @@ export default class SettingsUpload extends React.Component {
         this.uploadinput = React.createRef();
 
         this.state = {
-            clientError: this.props.clientError,
-            serverError: this.props.serverError,
+            clientError: '',
+            serverError: '',
             filename: '',
         };
-    }
-
-    UNSAFE_componentWillReceiveProps() { // eslint-disable-line camelcase
-        this.setState({
-            clientError: this.props.clientError,
-            serverError: this.props.serverError,
-        });
     }
 
     doFileSelect = (e) => {
@@ -130,7 +123,5 @@ SettingsUpload.propTypes = {
     title: PropTypes.string.isRequired,
     submit: PropTypes.func.isRequired,
     fileTypesAccepted: PropTypes.string.isRequired,
-    clientError: PropTypes.string,
-    serverError: PropTypes.string,
     helpText: PropTypes.object,
 };

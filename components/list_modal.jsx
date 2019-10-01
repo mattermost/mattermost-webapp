@@ -96,9 +96,9 @@ export default class ListModal extends React.PureComponent {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         const {totalCount, items} = await this.props.loadItems(0, '');
-        this.setState({totalCount, items, loading: false});
+        this.setState({totalCount, items, loading: false}); // eslint-disable-line react/no-did-mount-set-state
     }
 
     handleHide = () => {
