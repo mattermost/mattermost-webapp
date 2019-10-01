@@ -1,3 +1,7 @@
+@import 'compass/css3';
+
+@import 'utils/variables';
+
 .MenuGroup {
     &.menu-divider {
         @include opacity(.15);

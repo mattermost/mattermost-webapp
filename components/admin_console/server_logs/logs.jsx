@@ -44,9 +44,9 @@ export default class Logs extends React.Component {
         );
     }
 
-    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
-        if (this.state.page !== nextState.page) {
-            this.props.actions.getLogs(nextState.page, nextState.perPage).then(
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.page !== prevState.page) {
+            this.props.actions.getLogs(this.state.page, this.state.perPage).then(
                 () => this.setState({loadingLogs: false})
             );
         }
