@@ -9,10 +9,10 @@ import Chart from 'chart.js';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
-    title: React.ReactNode,
-    width: number,
-    height: number,
-    data?: object
+    title: React.ReactNode;
+    width: number;
+    height: number;
+    data?: object;
 }
 
 export default class DoughnutChart extends React.PureComponent<Props> {
