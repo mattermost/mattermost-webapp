@@ -101,14 +101,9 @@ export default class Post extends React.PureComponent {
             hover: false,
             alt: false,
             a11yActive: false,
-            sameRoot: this.hasSameRoot(props),
             currentAriaLabel: '',
             ariaHidden: true,
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.setState({sameRoot: this.hasSameRoot(nextProps)});
     }
 
     componentDidMount() {
@@ -193,7 +188,7 @@ export default class Post extends React.PureComponent {
         }
 
         let rootUser = '';
-        if (this.state.sameRoot && !fromBot) {
+        if (this.hasSameRoot(this.props) && !fromBot) {
             rootUser = 'same--root';
         } else {
             rootUser = 'other--root';
