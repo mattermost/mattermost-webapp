@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
@@ -9,62 +8,46 @@ import Chart from 'chart.js';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class DoughnutChart extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    title: React.ReactNode,
+    width: number,
+    height: number,
+    data?: object
+}
 
-        /*
-         * Chart title
-         */
-        title: PropTypes.node,
+export default class DoughnutChart extends React.PureComponent<Props> {
+    public chart: Chart | null = null;
 
-        /*
-         * Chart width
-         */
-        width: PropTypes.number,
-
-        /*
-         * Chart height
-         */
-        height: PropTypes.number,
-
-        /*
-         * Chart data
-         */
-        data: PropTypes.object,
-    };
-
-    chart = null;
-
-    componentDidMount() {
+    public componentDidMount(): void {
         this.initChart();
     }
 
-    componentDidUpdate(prevProps) {
+    public componentDidUpdate(prevProps: Props): void {
         if (!Utils.areObjectsEqual(prevProps.data, this.props.data)) {
             this.initChart(true);
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         if (this.chart && this.refs.canvas) {
             this.chart.destroy();
         }
     }
 
-    initChart = (update) => {
+    public initChart = (update?: boolean): void => {
         if (!this.refs.canvas) {
             return;
         }
-        var el = ReactDOM.findDOMNode(this.refs.canvas);
-        var ctx = el.getContext('2d');
+        var el = ReactDOM.findDOMNode(this.refs.canvas) as HTMLCanvasElement;
+        var ctx = el.getContext('2d') as CanvasRenderingContext2D;
         const dataCopy = JSON.parse(JSON.stringify(this.props.data));
         this.chart = new Chart(ctx, {type: 'doughnut', data: dataCopy, options: {}});
-        if (update) {
+        if (update && this.chart) {
             this.chart.update();
         }
     }
 
-    render() {
+    public render(): JSX.Element {
         let content;
         if (this.props.data == null) {
             content = (
