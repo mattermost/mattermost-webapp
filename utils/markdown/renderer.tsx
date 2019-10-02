@@ -19,7 +19,7 @@ export default class Renderer extends marked.Renderer {
         this.formattingOptions = formattingOptions;
     }
 
-    code(code, language) {
+    code(code: string, language: string) {
         let usedLanguage = language || '';
         usedLanguage = usedLanguage.toLowerCase();
 
