@@ -217,4 +217,21 @@ describe('Post Header', () => {
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
         });
     });
+
+    it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+        // # Go to Town-Square channel
+        cy.visit('/ad-1/channels/town-square');
+
+        // # Click on the "Pinned Posts" icon to the left of the "Search" box
+        cy.get('#channelHeaderPinButton').click();
+
+        // * Check before pinned posts are loaded, a "Searching..." animation appears on the top of the RHS
+        cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+
+        // # Click on the "Flagged Posts" icon to the right of the "Search" box
+        cy.get('#channelHeaderFlagButton').click();
+
+        // * Check before flagged posts are loaded, a "Searching..." animation appears on the top of the RHS
+        cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+    });
 });
