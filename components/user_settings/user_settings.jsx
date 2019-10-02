@@ -40,7 +40,7 @@ export default class UserSettings extends React.PureComponent {
                     />
                 </div>
             );
-        } else if (this.props.activeTab === 'security') {
+        }   else if (this.props.activeTab === 'security') {
             return (
                 <div>
                     <SecurityTab
@@ -54,7 +54,7 @@ export default class UserSettings extends React.PureComponent {
                     />
                 </div>
             );
-        } else if (this.props.activeTab === 'notifications') {
+        }   else if (this.props.activeTab === 'notifications') {
             return (
                 <div>
                     <NotificationsTab

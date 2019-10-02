@@ -288,9 +288,9 @@ export default class ManageRolesModal extends React.PureComponent {
                                 className='badge-admin'
                             />
                         </div>
-                        <div className='manage-teams__email'>
-                            {email}
-                        </div>
+{/*                         <div className='manage-teams__email'> */}
+{/*                             {email} */}
+{/*                         </div> */}
                     </div>
                 </div>
                 <div>

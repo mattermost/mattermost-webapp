@@ -1292,14 +1292,14 @@ class UserSettingsGeneralTab extends React.Component {
                     </h3>
                     <div className='divider-dark first'/>
                     {nameSection}
-                    <div className='divider-light'/>
-                    {usernameSection}
+{/*                     <div className='divider-light'/> */}
+{/*                     {usernameSection} */}
                     <div className='divider-light'/>
                     {nicknameSection}
                     <div className='divider-light'/>
                     {positionSection}
-                    <div className='divider-light'/>
-                    {emailSection}
+{/*                     <div className='divider-light'/> */}
+{/*                     {emailSection} */}
                     <div className='divider-light'/>
                     {pictureSection}
                     <div className='divider-dark'/>

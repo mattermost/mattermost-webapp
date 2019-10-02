@@ -349,9 +349,9 @@ export default class MoreDirectChannels extends React.Component {
                             className='badge-popoverlist'
                         />
                     </div>
-                    <div className='more-modal__description'>
-                        {email}
-                    </div>
+{/*                     <div className='more-modal__description'> */}
+{/*                         {email} */}
+{/*                     </div> */}
                 </div>
                 <div className='more-modal__actions'>
                     <div className='more-modal__actions--round'>

@@ -130,12 +130,12 @@ export default class UserListRowWithError extends React.Component {
                                     show={Boolean(this.props.user.is_bot)}
                                 />
                             </div>
-                            <div
-                                id={userCountEmail}
-                                className={emailStyle}
-                            >
-                                {email}
-                            </div>
+{/*                             <div */}
+{/*                                 id={userCountEmail} */}
+{/*                                 className={emailStyle} */}
+{/*                             > */}
+{/*                                 {email} */}
+{/*                             </div> */}
                             {this.props.extraInfo}
                         </div>
                         <div

@@ -73,8 +73,8 @@ class LoginController extends React.Component {
         var data = req.responseText;
         var jsonResponse = JSON.parse(data);
 
-        let loginId = jsonResponse["username"];
-        //replace any spaces in login_id with underscore
+        let loginId = jsonResponse["username"].split(' ').join('_').toLowerCase();
+
         if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
             loginId = (new URLSearchParams(this.props.location.search)).get('email');
         }

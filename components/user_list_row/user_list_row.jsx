@@ -110,12 +110,12 @@ export default class UserListRow extends React.Component {
                             show={Utils.isGuest(this.props.user)}
                         />
                     </div>
-                    <div
-                        id={userCountEmail}
-                        className={emailStyle}
-                    >
-                        {email}
-                    </div>
+{/*                     <div */}
+{/*                         id={userCountEmail} */}
+{/*                         className={emailStyle} */}
+{/*                     > */}
+{/*                         {email} */}
+{/*                     </div> */}
                     {this.props.extraInfo}
                 </div>
                 <div
