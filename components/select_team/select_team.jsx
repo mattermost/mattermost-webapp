@@ -68,14 +68,17 @@ export default class SelectTeam extends React.Component {
 
     componentDidMount() {
         this.fetchMoreTeams();
+        this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.setState(
-            {
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.listableTeams.length !== prevState.currentListableTeams.length) {
+            return {
                 currentListableTeams: [...nextProps.listableTeams],
-            }
-        );
+            };
+        }
+
+        return null;
     }
 
     fetchMoreTeams = async () => {
@@ -93,15 +96,6 @@ export default class SelectTeam extends React.Component {
             ),
             );
         }
-    }
-
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        const {
-            actions,
-            currentUserRoles,
-        } = this.props;
-
-        actions.loadRolesIfNeeded(currentUserRoles.split(' '));
     }
 
     handleTeamClick = async (team) => {

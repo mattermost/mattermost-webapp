@@ -40,7 +40,12 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
           bufferValue={100}
           callBack={[Function]}
           endOfDataMessage=""
-          itemsPerPage={10}
+          itemsPerPage={30}
+          loaderStyle={
+            Object {
+              "padding": "0px",
+            }
+          }
           pageNumber={0}
           styleClass="signup-team-all"
           totalItems={15}
@@ -316,7 +321,12 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           bufferValue={100}
           callBack={[Function]}
           endOfDataMessage=""
-          itemsPerPage={10}
+          itemsPerPage={30}
+          loaderStyle={
+            Object {
+              "padding": "0px",
+            }
+          }
           pageNumber={0}
           styleClass="signup-team-all"
           totalItems={15}
@@ -538,7 +548,12 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           bufferValue={100}
           callBack={[Function]}
           endOfDataMessage=""
-          itemsPerPage={10}
+          itemsPerPage={30}
+          loaderStyle={
+            Object {
+              "padding": "0px",
+            }
+          }
           pageNumber={0}
           styleClass="signup-team-all"
           totalItems={15}

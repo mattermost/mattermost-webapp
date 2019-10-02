@@ -515,7 +515,7 @@ body {
     border: 1px solid #dddddd;
     margin: 0 0 20px;
     border-radius: 4px;
-    max-height: calc(70vh - (175px + 33px));
+    max-height: calc(60vh - (133px + 89px));
 
     .signup-team-dir {
         @include legacy-pie-clearfix;
