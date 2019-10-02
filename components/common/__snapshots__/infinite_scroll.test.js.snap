@@ -34,6 +34,7 @@ exports[`/components/common/InfiniteScroll should match snapshot 1`] = `
     }
   }
   itemsPerPage={10}
+  loaderStyle={Object {}}
   pageNumber={1}
   styleClass="signup-team-all"
   totalItems={20}
