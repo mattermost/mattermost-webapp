@@ -442,7 +442,7 @@ function autolinkChannelMentions(
   return output;
 }
 
-export function escapeRegex(text: string) {
+export function escapeRegex(text?: string) {
   if (text == null) {
     return '';
   }
