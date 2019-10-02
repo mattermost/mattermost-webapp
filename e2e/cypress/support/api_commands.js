@@ -181,6 +181,16 @@ Cypress.Commands.add('apiGetChannelByName', (channelName) => {
     });
 });
 
+Cypress.Commands.add('apiGetChannel', (channelId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/channels/${channelId}`,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
 Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -458,6 +468,18 @@ Cypress.Commands.add('apiPatchUser', (userId, userData) => {
     });
 });
 
+Cypress.Commands.add('apiPatchMe', (data) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/me/patch',
+        method: 'PUT',
+        body: data,
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 /**
  * Creates a new user via the API, adds them to 3 teams, and sets preference to bypass tutorial.
  * Then logs in as the user
@@ -636,4 +658,92 @@ Cypress.Commands.add('apiCreateWebhook', (hook = {}, isIncoming = true) => {
         const data = response.body;
         return {...data, url: isIncoming ? `${Cypress.config().baseUrl}/hooks/${data.id}` : ''};
     });
+});
+
+/**
+ * Gets a team on the system
+ * * @param {String} teamId - The team ID to get
+ * All parameter required
+ */
+
+Cypress.Commands.add('apiGetTeam', (teamId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `api/v4/teams/${teamId}`,
+        method: 'GET',
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Creates a new guest user via the API , adds them to 1 team with sysadmin user, and sets preference to bypass tutorial.
+ * Then logs in as the user
+ * @param {Object} user - Object of user email, username, and password that you can optionally set.
+ * @param {Boolean} bypassTutorial - Whether to set user preferences to bypass the tutorial (true) or to show it (false)
+ * Otherwise use default values
+ @returns {Object} Returns object containing email, username, id and password if you need it further in the test
+ */
+Cypress.Commands.add('loginAsNewGuestUser', (user = {}, bypassTutorial = true) => {
+    // # Login as sysadmin to make admin requests
+    cy.apiLogin('sysadmin');
+
+    // # Create a New Team for Guest User
+    return cy.apiCreateTeam('guest-team', 'Guest Team').then((createResponse) => {
+        const teamId = createResponse.body.id;
+        cy.getCookie('MMUSERID').then((cookie) => {
+            // #Assign Sysadmin user to the newly created team
+            cy.apiAddUserToTeam(teamId, cookie.value);
+        });
+
+        // #Create New User
+        return cy.createNewUser(user, [teamId], bypassTutorial).then((newUser) => {
+            // # Demote Regular Member to Guest User
+            cy.demoteUser(newUser.id);
+            cy.request({
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                url: '/api/v4/users/login',
+                method: 'POST',
+                body: {login_id: newUser.username, password: newUser.password},
+            }).then(() => {
+                cy.visit('/');
+                return cy.wrap(newUser);
+            });
+        });
+    });
+});
+
+/**
+ * Demote a Member to Guest directly via API
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('demoteUser', (userId) => {
+    //Demote Regular Member to Guest User
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/demote`});
+});
+
+/**
+ * Remove a User from a Channel directly via API
+ * @param {String} channelId - The channel ID
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('removeUserFromChannel', (channelId, userId) => {
+    //Remove a User from a Channel
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'delete', baseUrl, path: `channels/${channelId}/members/${userId}`});
+});
+
+/**
+ * Promote a Guest to a Member directly via API
+ * @param {String} userId - The user ID
+ * All parameter required
+ */
+Cypress.Commands.add('promoteUser', (userId) => {
+    //Promote Regular Member to Guest User
+    const baseUrl = Cypress.config('baseUrl');
+    cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [number] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -42,12 +42,7 @@ function getMsAndQueryForDate(date) {
 }
 
 function changeTimezone(timezone) {
-    cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/patch',
-        method: 'PUT',
-        body: {timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}},
-    });
+    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}});
 }
 
 describe('SF15699 Search Date Filter', () => {

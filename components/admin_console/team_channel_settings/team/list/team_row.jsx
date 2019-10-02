@@ -7,8 +7,7 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils';
-
-import TeamImage from '../details/team_image.jsx';
+import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 export default class TeamRow extends React.Component {
     static propTypes = {
@@ -30,14 +29,11 @@ export default class TeamRow extends React.Component {
             >
                 <div className='group-row group-row-large'>
                     <div className='group-name adjusted center-row row-content'>
-                        <div>
-                            <TeamImage
-                                small={true}
-                                teamIconUrl={teamIconUrl}
-                                displayName={team.display_name}
-                            />
-
-                        </div>
+                        <TeamIcon
+                            size='sm'
+                            url={teamIconUrl}
+                            name={team.display_name}
+                        />
                         <div>
                             <b>{team.display_name}</b>
                             {team.description && (

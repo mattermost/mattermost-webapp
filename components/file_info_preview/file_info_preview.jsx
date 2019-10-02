@@ -24,7 +24,9 @@ export default class FileInfoPreview extends React.PureComponent {
             infoParts.push(Utils.localizeMessage('file_info_preview.type', 'File type ') + fileInfo.extension.toUpperCase());
         }
 
-        infoParts.push(Utils.localizeMessage('file_info_preview.size', 'Size ') + Utils.fileSizeToString(fileInfo.size));
+        if (fileInfo.size) {
+            infoParts.push(Utils.localizeMessage('file_info_preview.size', 'Size ') + Utils.fileSizeToString(fileInfo.size));
+        }
 
         const infoString = infoParts.join(', ');
 

@@ -35,8 +35,9 @@ export default class InvitationModalInitialStep extends React.Component {
                 <div
                     className='invitation-modal-option'
                     onClick={this.props.goToMembers}
+                    data-testid='inviteMembersLink'
                 >
-                    <div>
+                    <div data-testid='inviteMembersSection'>
                         <h2>
                             <FormattedMarkdownMessage
                                 id='invitation_modal.invite_members.title'
@@ -53,6 +54,7 @@ export default class InvitationModalInitialStep extends React.Component {
                 <div
                     className='invitation-modal-option'
                     onClick={this.props.goToGuests}
+                    data-testid='inviteGuestLink'
                 >
                     <div>
                         <h2>

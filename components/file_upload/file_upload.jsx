@@ -1,21 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
-import 'jquery-dragster/jquery.dragster.js';
 
+import dragster from 'utils/dragster.js';
 import Constants from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
+import DelayedAction from 'utils/delayed_action';
 import {t} from 'utils/i18n';
 import {
     isIosChrome,
     isMobileApp,
 } from 'utils/user_agent.jsx';
-import {getTable} from 'utils/paste.jsx';
+import {getTable} from 'utils/paste';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
@@ -189,18 +188,10 @@ export default class FileUpload extends PureComponent {
     }
 
     componentWillUnmount() {
-        let target;
-        if (this.props.postType === 'post') {
-            target = $('.row.main');
-        } else {
-            target = $('.post-right__container');
-        }
-
         document.removeEventListener('paste', this.pasteUpload);
         document.removeEventListener('keydown', this.keyUpload);
 
-        // jquery-dragster doesn't provide a function to unregister itself so do it manually
-        target.off('dragenter dragleave dragover drop dragster:enter dragster:leave dragster:over dragster:drop');
+        this.unbindDragsterEvents();
     }
 
     fileUploadSuccess = (data, channelId, currentRootId) => {
@@ -358,8 +349,8 @@ export default class FileUpload extends PureComponent {
 
         this.props.onUploadError(null);
 
-        const items = e.originalEvent.dataTransfer.items || [];
-        const droppedFiles = e.originalEvent.dataTransfer.files;
+        const items = e.dataTransfer.items || [];
+        const droppedFiles = e.dataTransfer.files;
         const files = [];
         Array.from(droppedFiles).forEach((file, index) => {
             const item = items[index];
@@ -369,7 +360,7 @@ export default class FileUpload extends PureComponent {
             files.push(file);
         });
 
-        const types = e.originalEvent.dataTransfer.types;
+        const types = e.dataTransfer.types;
         if (types) {
             // For non-IE browsers
             if (types.includes && !types.includes('Files')) {
@@ -397,29 +388,27 @@ export default class FileUpload extends PureComponent {
     registerDragEvents = (containerSelector, overlaySelector) => {
         const self = this;
 
-        const overlay = $(overlaySelector);
+        const overlay = document.querySelector(overlaySelector);
 
         const dragTimeout = new DelayedAction(() => {
-            if (!overlay.hasClass('hidden')) {
-                overlay.addClass('hidden');
-            }
+            overlay.classList.add('hidden');
         });
 
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
             dragsterActions = {
-                enter(dragsterEvent, e) {
-                    var files = e.originalEvent.dataTransfer;
+                enter(e) {
+                    var files = e.detail.dataTransfer;
 
                     if (isFileTransfer(files)) {
-                        $(overlaySelector).removeClass('hidden');
+                        overlay.classList.remove('hidden');
                     }
                 },
-                leave(dragsterEvent, e) {
-                    var files = e.originalEvent.dataTransfer;
+                leave(e) {
+                    var files = e.detail.dataTransfer;
 
-                    if (isFileTransfer(files) && !overlay.hasClass('hidden')) {
-                        overlay.addClass('hidden');
+                    if (isFileTransfer(files)) {
+                        overlay.classList.add('hidden');
                     }
 
                     dragTimeout.cancel();
@@ -427,25 +416,23 @@ export default class FileUpload extends PureComponent {
                 over() {
                     dragTimeout.fireAfter(OVERLAY_TIMEOUT);
                 },
-                drop(dragsterEvent, e) {
-                    if (!overlay.hasClass('hidden')) {
-                        overlay.addClass('hidden');
-                    }
+                drop(e) {
+                    overlay.classList.add('hidden');
 
                     dragTimeout.cancel();
 
-                    self.handleDrop(e);
+                    self.handleDrop(e.detail);
                 },
             };
         } else {
             dragsterActions = {
-                drop(dragsterEvent, e) {
-                    self.handleDrop(e);
+                drop(e) {
+                    self.handleDrop(e.detail);
                 },
             };
         }
 
-        $(containerSelector).dragster(dragsterActions);
+        this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);
     }
 
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);

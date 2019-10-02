@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -52,6 +52,9 @@ describe('SC17020 - Revoke All Sessions from System Console', () => {
         // # Issue a Request to Revoke All Sessions as SysAdmin
         const baseUrl = Cypress.config('baseUrl');
         cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: 'users/sessions/revoke/all'}).then(() => {
+            // # Initiate browser activity like visit on "/"
+            cy.visit('/');
+
             // * Verify if the regular member is logged out and redirected to login page
             cy.url({timeout: TIMEOUTS.LARGE}).should('include', '/login');
             cy.get('#login_section', {timeout: TIMEOUTS.LARGE}).should('be.visible');

@@ -62,15 +62,8 @@ export default class SelectTeam extends React.Component {
 
     componentDidMount() {
         this.props.actions.getTeams(0, TEAMS_PER_PAGE);
-    }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        const {
-            actions,
-            currentUserRoles,
-        } = this.props;
-
-        actions.loadRolesIfNeeded(currentUserRoles.split(' '));
+        this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
     }
 
     handleTeamClick = async (team) => {

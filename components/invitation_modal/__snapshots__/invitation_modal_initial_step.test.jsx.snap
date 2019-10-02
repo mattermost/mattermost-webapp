@@ -22,9 +22,12 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
   </h1>
   <div
     className="invitation-modal-option"
+    data-testid="inviteMembersLink"
     onClick={[MockFunction]}
   >
-    <div>
+    <div
+      data-testid="inviteMembersSection"
+    >
       <h2>
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Invite **Members**"
@@ -43,6 +46,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
   </div>
   <div
     className="invitation-modal-option"
+    data-testid="inviteGuestLink"
     onClick={[MockFunction]}
   >
     <div>
