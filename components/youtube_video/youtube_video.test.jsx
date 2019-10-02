@@ -4,6 +4,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {handleYoutubeTime} from 'utils/youtube_video_utils';
+
 import ExternalImage from 'components/external_image';
 
 import YoutubeVideo from './youtube_video';
@@ -39,9 +41,7 @@ describe('YoutubeVideo', () => {
                 time: '&start=490',
             },
         ]) {
-            const wrapper = shallow(<YoutubeVideo {...baseProps}/>);
-
-            expect(wrapper.instance().handleYoutubeTime(youtube.link)).toEqual(youtube.time);
+            expect(handleYoutubeTime(youtube.link)).toEqual(youtube.time);
         }
     });
 

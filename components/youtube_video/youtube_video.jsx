@@ -4,9 +4,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ExternalImage from 'components/external_image';
+import {updateStateFromProps, ytRegex} from 'utils/youtube_video_utils';
 
-const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;
+import ExternalImage from 'components/external_image';
 
 export default class YoutubeVideo extends React.PureComponent {
     static propTypes = {
@@ -15,86 +15,21 @@ export default class YoutubeVideo extends React.PureComponent {
         metadata: PropTypes.object,
     }
 
-    static defaultProps = {
-        metadata: {
-            title: 'Something',
-            images: ['fdd'],
-        },
-    }
-
     constructor(props) {
         super(props);
 
         this.state = {
             playing: false,
-            ...this.updateStateFromProps(props),
+            ...updateStateFromProps(props),
+            link: '',
         };
     }
 
-    // UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-    //     this.updateStateFromProps(this.props);
-    // }
-
-    // UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-    //     this.updateStateFromProps(nextProps);
-    // }
-
-    updateStateFromProps = (props) => {
-        const link = props.link;
-        let stateObject = {};
-
-        const match = link.trim().match(ytRegex);
-        if (!match || match[1].length !== 11) {
-            return null;
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.link !== prevState.link) {
+            return updateStateFromProps(nextProps);
         }
-
-        if (props.show === false) {
-            // this.stop();
-            stateObject = {playing: false};
-        }
-
-        const upSt = {
-            videoId: match[1],
-            time: this.handleYoutubeTime(link),
-        };
-
-        stateObject = {stateObject, ...upSt};
-
-        return stateObject;
-
-        // this.setState({
-        //     videoId: match[1],
-        //     time: this.handleYoutubeTime(link),
-        // });
-    }
-
-    handleYoutubeTime(link) {
-        const timeRegex = /[\\?&](t|start|time_continue)=([0-9]+h)?([0-9]+m)?([0-9]+s?)/;
-
-        const time = link.match(timeRegex);
-        if (!time || !time[0]) {
-            return '';
-        }
-
-        const hours = time[2] ? time[2].match(/([0-9]+)h/) : null;
-        const minutes = time[3] ? time[3].match(/([0-9]+)m/) : null;
-        const seconds = time[4] ? time[4].match(/([0-9]+)s?/) : null;
-
-        let ticks = 0;
-
-        if (hours && hours[1]) {
-            ticks += parseInt(hours[1], 10) * 3600;
-        }
-
-        if (minutes && minutes[1]) {
-            ticks += parseInt(minutes[1], 10) * 60;
-        }
-
-        if (seconds && seconds[1]) {
-            ticks += parseInt(seconds[1], 10);
-        }
-
-        return '&start=' + ticks.toString();
+        return null;
     }
 
     play = () => {
