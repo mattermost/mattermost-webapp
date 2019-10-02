@@ -1,30 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class StatisticCount extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    title: ReactNode;
+    icon: string;
+    count?: number;
+}
 
-        /*
-         * Statistic title
-         */
-        title: PropTypes.node.isRequired,
-
-        /*
-         * Statistic icon
-         */
-        icon: PropTypes.string.isRequired,
-
-        /*
-         * Data count
-         */
-        count: PropTypes.number,
-    }
-
-    render() {
+export default class StatisticCount extends React.PureComponent<Props> {
+    public render(): JSX.Element {
         const loading = (
             <FormattedMessage
                 id='analytics.chart.loading'
@@ -39,7 +26,7 @@ export default class StatisticCount extends React.PureComponent {
                         {this.props.title}
                         <i className={'fa ' + this.props.icon}/>
                     </div>
-                    <div className='content'>{isNaN(this.props.count) ? loading : this.props.count}</div>
+                    <div className='content'>{!this.props.count || isNaN(this.props.count) ? loading : this.props.count}</div>
                 </div>
             </div>
         );
