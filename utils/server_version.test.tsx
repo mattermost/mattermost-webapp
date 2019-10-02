@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {equalServerVersions, isServerVersionGreaterThanOrEqualTo} from 'utils/server_version.jsx';
+import {equalServerVersions, isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 
 describe('utils/server_version/equalServerVersions', () => {
     test('should handle undefined values', () => {
