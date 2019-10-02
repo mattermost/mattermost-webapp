@@ -11,6 +11,70 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 import {getRandomInt} from '../../../utils';
+import users from '../../../fixtures/users.json';
+
+let testTeam;
+const user1 = users['user-1'];
+const sysadmin = users.sysadmin;
+
+function invitePeople(typeText, resultsCount, verifyText) {
+    // # Open Invite People
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
+    cy.get('#invitePeople').should('be.visible').click();
+
+    // #Click on the next icon to invite new member
+    cy.getByTestId('inviteMembersLink').find('.arrow').click();
+
+    // # Search and add a member
+    cy.getByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+        cy.wrap($el).get('input').type(typeText, {force: true});
+        cy.wrap($el).get('.users-emails-input__menu').
+            children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
+    });
+
+    // # Click Invite Members
+    cy.get('#inviteMembersButton').scrollIntoView().click();
+}
+
+function verifyInvitationError(user, errorText) {
+    // * Verify the content and error message in the Invitation Modal
+    cy.getByTestId('invitationModal').within(($el) => {
+        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${testTeam.display_name}`);
+        cy.wrap($el).find('h2.subtitle > span').should('have.text', '1 invitation was not sent');
+        cy.wrap($el).find('div.invitation-modal-confirm-sent').should('not.exist');
+        cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('be.visible').within(($subel) => {
+            cy.wrap($subel).find('h2 > span').should('have.text', 'Invitations Not Sent');
+            cy.wrap($subel).find('.people-header').should('have.text', 'People');
+            cy.wrap($subel).find('.details-header').should('have.text', 'Details');
+            cy.wrap($subel).find('.username-or-icon').should('contain', user);
+            cy.wrap($subel).find('.reason').should('have.text', errorText);
+        });
+        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+    });
+
+    // * Verify if Invitation Modal was closed
+    cy.get('.InvitationModal').should('not.exist');
+}
+
+function verifyInvitationSuccess(user, successText) {
+    // * Verify the content and success message in the Invitation Modal
+    cy.getByTestId('invitationModal').within(($el) => {
+        cy.wrap($el).find('h1').should('have.text', `Members Invited to ${testTeam.display_name}`);
+        cy.wrap($el).find('h2.subtitle > span').should('have.text', '1 person has been invited');
+        cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('not.exist');
+        cy.wrap($el).find('div.invitation-modal-confirm-sent').should('be.visible').within(($subel) => {
+            cy.wrap($subel).find('h2 > span').should('have.text', 'Successful Invites');
+            cy.wrap($subel).find('.people-header').should('have.text', 'People');
+            cy.wrap($subel).find('.details-header').should('have.text', 'Details');
+            cy.wrap($subel).find('.username-or-icon').should('contain', user);
+            cy.wrap($subel).find('.reason').should('have.text', successText);
+        });
+        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+    });
+
+    // * Verify if Invitation Modal was closed
+    cy.get('.InvitationModal').should('not.exist');
+}
 
 describe('Guest Account - Member Invitation Flow', () => {
     before(() => {
@@ -19,20 +83,37 @@ describe('Guest Account - Member Invitation Flow', () => {
             GuestAccountsSettings: {
                 Enable: true,
             },
+            ServiceSettings: {
+                EnableEmailInvitations: true,
+            },
         });
 
         // # Login as "sysadmin" and go to /
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+
+        // # Create new team and visit its URL
+        cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+            testTeam = response.body;
+            cy.visit('/');
+            cy.visit(`/${testTeam.name}`);
+        });
+    });
+
+    afterEach(() => {
+        // # Reload current page after each test to close any popup/modals left open
+        cy.reload();
+    });
+
+    after(() => {
+        // # Delete the new team as sysadmin
+        if (testTeam && testTeam.id) {
+            cy.apiLogin('sysadmin');
+            cy.apiDeleteTeam(testTeam.id);
+        }
     });
 
     it('MM-18039 Verify UI Elements of Members Invitation Flow', () => {
-        // # Get Current Team Name
-        let teamName = '';
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
-        cy.get('#headerTeamName').should('be.visible').invoke('text').then(((text) => {
-            teamName = text.trim();
-        }));
 
         // # Open Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
@@ -40,7 +121,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify UI Elements in initial step
         cy.getByTestId('invitationModal').within(($el) => {
-            cy.wrap($el).find('h1').should('have.text', `Invite people to ${teamName}`);
+            cy.wrap($el).find('h1').should('have.text', `Invite people to ${testTeam.display_name}`);
         });
         cy.getByTestId('inviteMembersLink').should('be.visible').within(($el) => {
             cy.wrap($el).getByTestId('inviteMembersSection').find('h2 > span').should('have.text', 'Invite Members');
@@ -104,5 +185,34 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.get('#closeIcon').should('be.visible').click();
         cy.get('#confirmModalButton').should('be.visible').and('have.text', 'Yes, Discard').click();
         cy.get('.InvitationModal').should('not.exist');
+    });
+
+    it('MM-18040 Verify Invite New/Existing Users', () => {
+        // # Login as new user and get the user id
+        cy.createNewUser().then((newUser) => {
+            cy.apiAddUserToTeam(testTeam.id, newUser.id);
+            cy.apiLogin(newUser.username, newUser.password);
+            cy.visit('/');
+            cy.visit(`/${testTeam.name}`);
+        });
+
+        // # Search and add an existing member by username who is part of the team
+        invitePeople(sysadmin.username, 1, sysadmin.username);
+
+        // * Verify the content and message in next screen
+        verifyInvitationError(sysadmin.username, 'This person is already a team member.');
+
+        // # Search and add an existing member by email who is not part of the team
+        invitePeople(user1.email, 1, user1.username);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(user1.username, 'This member has been added to the team.');
+
+        // # Search and add a new member by email who is not part of the team
+        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        verifyInvitationSuccess(email, 'An invitation email has been sent.');
     });
 });

@@ -15,3 +15,11 @@ e2e/node_modules
 e2e/cypress/videos
 e2e/results
 storybook-static
+
+# Vim temporary files
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~

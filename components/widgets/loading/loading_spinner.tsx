@@ -9,7 +9,7 @@ type Props = {
 }
 
 export default class LoadingSpinner extends React.PureComponent<Props> {
-    public static defaultProps = {
+    public static defaultProps: Props = {
         text: null,
     }
 

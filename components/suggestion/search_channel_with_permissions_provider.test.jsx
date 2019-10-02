@@ -108,6 +108,13 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
         },
     };
 
+    let searchProvider;
+
+    beforeEach(() => {
+        const channelSearchFunc = jest.fn();
+        searchProvider = new SearchChannelWithPermissionsProvider(channelSearchFunc);
+    });
+
     it('should show public channels if user has public channel manage permission', () => {
         const mockStore = configureStore();
         const roles = 'public_channels_manager';
@@ -129,7 +136,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
         };
 
         const store = mockStore(state);
-        const searchProvider = new SearchChannelWithPermissionsProvider();
 
         getState.mockImplementation(store.getState);
 
@@ -162,7 +168,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
         };
 
         const store = mockStore(state);
-        const searchProvider = new SearchChannelWithPermissionsProvider();
 
         getState.mockImplementation(store.getState);
 
@@ -196,7 +201,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
         };
 
         const store = mockStore(state);
-        const searchProvider = new SearchChannelWithPermissionsProvider();
 
         getState.mockImplementation(store.getState);
 
@@ -231,7 +235,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
         };
 
         const store = mockStore(state);
-        const searchProvider = new SearchChannelWithPermissionsProvider();
 
         getState.mockImplementation(store.getState);
 
@@ -264,7 +267,6 @@ describe('components/SearchChannelWithPermissionsProvider', () => {
         };
 
         const store = mockStore(state);
-        const searchProvider = new SearchChannelWithPermissionsProvider();
 
         getState.mockImplementation(store.getState);
 

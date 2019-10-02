@@ -16,7 +16,7 @@ import {
     shouldFocusMainTextbox,
     isErrorInvalidSlashCommand,
 } from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 

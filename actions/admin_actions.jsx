@@ -338,3 +338,12 @@ export function unregisterAdminConsolePlugin(pluginId) {
         });
     };
 }
+
+export async function testSiteURL(success, error, siteURL) {
+    const {data, error: err} = await dispatch(AdminActions.testSiteURL(siteURL));
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}

@@ -33,29 +33,40 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
   }
   timeZone="Australia/Sydney"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
+  <BasicSeparator>
     <div
-      className="separator__text"
+      className="Separator BasicSeparator"
     >
-      <FormattedDate
-        day="2-digit"
-        month="short"
-        timeZone="Australia/Sydney"
-        value={2018-01-12T20:15:13.000Z}
-        weekday="short"
-        year="numeric"
+      <hr
+        className="separator__hr"
+      />
+      <div
+        className="separator__text"
       >
-        <span>
-          Sat, Jan 13, 2018
-        </span>
-      </FormattedDate>
+        <RecentDate
+          day="2-digit"
+          month="short"
+          timeZone="Australia/Sydney"
+          value={2018-01-12T20:15:13.000Z}
+          weekday="short"
+          year="numeric"
+        >
+          <FormattedDate
+            day="2-digit"
+            month="short"
+            timeZone="Australia/Sydney"
+            value={2018-01-12T20:15:13.000Z}
+            weekday="short"
+            year="numeric"
+          >
+            <span>
+              Sat, Jan 13, 2018
+            </span>
+          </FormattedDate>
+        </RecentDate>
+      </div>
     </div>
-  </div>
+  </BasicSeparator>
 </DateSeparator>
 `;
 
@@ -90,28 +101,38 @@ exports[`components/post_view/DateSeparator should render date without timezone 
     }
   }
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
+  <BasicSeparator>
     <div
-      className="separator__text"
+      className="Separator BasicSeparator"
     >
-      <FormattedDate
-        day="2-digit"
-        month="short"
-        value={2018-01-12T12:15:13.000Z}
-        weekday="short"
-        year="numeric"
+      <hr
+        className="separator__hr"
+      />
+      <div
+        className="separator__text"
       >
-        <span>
-          Fri, Jan 12, 2018
-        </span>
-      </FormattedDate>
+        <RecentDate
+          day="2-digit"
+          month="short"
+          value={2018-01-12T12:15:13.000Z}
+          weekday="short"
+          year="numeric"
+        >
+          <FormattedDate
+            day="2-digit"
+            month="short"
+            value={2018-01-12T12:15:13.000Z}
+            weekday="short"
+            year="numeric"
+          >
+            <span>
+              Fri, Jan 12, 2018
+            </span>
+          </FormattedDate>
+        </RecentDate>
+      </div>
     </div>
-  </div>
+  </BasicSeparator>
 </DateSeparator>
 `;
 
@@ -148,27 +169,37 @@ exports[`components/post_view/DateSeparator should render date without timezone 
   }
   timeZone="Australia/Sydney"
 >
-  <div
-    className="date-separator"
-  >
-    <hr
-      className="separator__hr"
-    />
+  <BasicSeparator>
     <div
-      className="separator__text"
+      className="Separator BasicSeparator"
     >
-      <FormattedDate
-        day="2-digit"
-        month="short"
-        value={2018-01-12T12:15:13.000Z}
-        weekday="short"
-        year="numeric"
+      <hr
+        className="separator__hr"
+      />
+      <div
+        className="separator__text"
       >
-        <span>
-          Fri, Jan 12, 2018
-        </span>
-      </FormattedDate>
+        <RecentDate
+          day="2-digit"
+          month="short"
+          value={2018-01-12T12:15:13.000Z}
+          weekday="short"
+          year="numeric"
+        >
+          <FormattedDate
+            day="2-digit"
+            month="short"
+            value={2018-01-12T12:15:13.000Z}
+            weekday="short"
+            year="numeric"
+          >
+            <span>
+              Fri, Jan 12, 2018
+            </span>
+          </FormattedDate>
+        </RecentDate>
+      </div>
     </div>
-  </div>
+  </BasicSeparator>
 </DateSeparator>
 `;
