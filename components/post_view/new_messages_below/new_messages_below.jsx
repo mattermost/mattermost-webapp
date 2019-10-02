@@ -26,13 +26,19 @@ export default class NewMessagesBelow extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.newMessages > 0 && !nextProps.atBottom) {
+    updateFromProps() {
+        if (this.props.newMessages > 0 && !this.props.atBottom) {
             this.setState({rendered: true}, () => {
                 this.setState({visible: true});
             });
         } else {
             this.setState({visible: false});
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+            this.updateFromProps();
         }
     }
 

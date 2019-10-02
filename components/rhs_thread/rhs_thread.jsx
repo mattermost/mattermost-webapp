@@ -86,12 +86,12 @@ export default class RhsThread extends React.Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.selected || !nextProps.selected) {
+    updateOpenTimeIfRequired(prevProps) {
+        if (!prevProps.selected || !this.props.selected) {
             return;
         }
 
-        if (this.props.selected.id !== nextProps.selected.id) {
+        if (prevProps.selected.id !== this.props.selected.id) {
             this.setState({
                 openTime: (new Date()).getTime(),
             });
@@ -99,6 +99,8 @@ export default class RhsThread extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        this.updateOpenTimeIfRequired(prevProps);
+
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 

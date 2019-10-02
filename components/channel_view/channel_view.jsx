@@ -48,12 +48,6 @@ export default class ChannelView extends React.PureComponent {
         );
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.url !== nextProps.match.url) {
-            this.createDeferredPostView();
-        }
-    }
-
     getChannelView = () => {
         return this.refs.channelView;
     }
@@ -63,6 +57,10 @@ export default class ChannelView extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
+        if (prevProps.match.url !== this.props.match.url) {
+            this.createDeferredPostView();
+        }
+
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
             mark('ChannelView#componentDidUpdate');
 

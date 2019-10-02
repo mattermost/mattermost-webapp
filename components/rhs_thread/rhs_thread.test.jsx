@@ -69,4 +69,15 @@ describe('components/RhsThread', () => {
 
         expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
     });
+
+    test('should update openTime state when selected prop updated', () => {
+        const wrapper = shallow(
+            <RhsThread {...defaultProps}/>
+        );
+
+        const originalOpenTimeState = wrapper.state('openTime');
+        wrapper.setProps({selected: {...post, id: `${post.id}_new`}});
+
+        expect(wrapper.state('openTime')).not.toEqual(originalOpenTimeState);
+    });
 });
