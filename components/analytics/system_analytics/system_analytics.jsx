@@ -21,7 +21,7 @@ import {
     formatUsersWithPostsPerDayData,
     formatChannelDoughtnutData,
     formatPostDoughtnutData,
-} from '../format.jsx';
+} from '../format';
 
 const StatTypes = Constants.StatTypes;
 
