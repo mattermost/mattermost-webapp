@@ -104,16 +104,20 @@ export default class PostBody extends React.PureComponent {
         }
     }
 
-    componentWillUnmount() {
-        this.sendingAction.cancel();
+    stopSend = () => {
+        this.setState({sending: false});
     }
 
     componentDidUpdate() {
         const post = this.props.post;
         if (post && post.id !== post.pending_post_id) {
             this.sendingAction.cancel();
-            this.setState({sending: true});
+            this.stopSend();
         }
+    }
+
+    componentWillUnmount() {
+        this.sendingAction.cancel();
     }
 
     render() {
