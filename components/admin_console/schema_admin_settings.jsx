@@ -28,7 +28,7 @@ import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx'
 import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
 import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button.jsx';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

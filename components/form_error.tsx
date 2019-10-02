@@ -1,39 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class FormError extends React.Component {
-    static get propTypes() {
-        // accepts either a single error or an array of errors
-        return {
-            type: PropTypes.node,
-            error: PropTypes.node,
-            textClassName: PropTypes.string,
-            iconClassName: PropTypes.string,
-            margin: PropTypes.bool,
-            errors: PropTypes.arrayOf(PropTypes.node),
-        };
-    }
+// accepts either a single error or an array of errors
+type Props = {
+    type?: React.ReactNode;
+    error?: React.ReactNode;
+    textClassName?: string;
+    iconClassName?: string;
+    margin?: boolean;
+    errors?: React.ReactNode[];
+}
 
-    static get defaultProps() {
-        return {
-            error: null,
-            errors: [],
-        };
+export default class FormError extends React.Component<Props> {
+    public static defaultProps = {
+        error: null,
+        errors: [],
     }
+    public render() {
+        const { error = null, errors = [], iconClassName, margin, textClassName, type } = this.props;
 
-    render() {
-        if (!this.props.error && this.props.errors.length === 0) {
+        if (!error && errors.length === 0) {
             return null;
         }
 
         // look for the first truthy error to display
-        let message = this.props.error;
+        let message = error;
 
         if (!message) {
-            for (const error of this.props.errors) {
+            for (const error of errors) {
                 if (error) {
                     message = error;
                 }
@@ -44,7 +40,7 @@ export default class FormError extends React.Component {
             return null;
         }
 
-        if (this.props.type === 'modal') {
+        if (type === 'modal') {
             return (
                 <div className='form-group'>
                     <label className='col-sm-12 has-error'>
@@ -54,7 +50,7 @@ export default class FormError extends React.Component {
             );
         }
 
-        if (this.props.type === 'backstage') {
+        if (type === 'backstage') {
             return (
                 <div className='pull-left has-error'>
                     <label className='control-label'>
@@ -64,7 +60,7 @@ export default class FormError extends React.Component {
             );
         }
 
-        if (this.props.margin) {
+        if (margin) {
             return (
                 <div className='form-group has-error'>
                     <label className='control-label'>
@@ -75,9 +71,9 @@ export default class FormError extends React.Component {
         }
 
         return (
-            <div className={`col-sm-12 ${this.props.textClassName || 'has-error'}`}>
+            <div className={`col-sm-12 ${textClassName || 'has-error'}`}>
                 <label className='control-label'>
-                    <i className={`fa ${this.props.iconClassName || 'fa-exclamation-circle'}`}/> {message}
+                    <i className={`fa ${iconClassName || 'fa-exclamation-circle'}`}/> {message}
                 </label>
             </div>
         );
