@@ -19,7 +19,7 @@ export default class FormError extends React.Component<Props> {
         errors: [],
     }
     public render() {
-        const { error = null, errors = [], iconClassName, margin, textClassName, type } = this.props;
+        const {error = null, errors = [], iconClassName, margin, textClassName, type} = this.props;
 
         if (!error && errors.length === 0) {
             return null;
@@ -29,9 +29,9 @@ export default class FormError extends React.Component<Props> {
         let message = error;
 
         if (!message) {
-            for (const error of errors) {
-                if (error) {
-                    message = error;
+            for (const err of errors) {
+                if (err) {
+                    message = err;
                 }
             }
         }
