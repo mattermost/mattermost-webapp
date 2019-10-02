@@ -10,7 +10,7 @@ import {RequestStatus} from 'mattermost-redux/constants';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import Constants from 'utils/constants.jsx';
-import {isMobile} from 'utils/user_agent.tsx';
+import {isMobile} from 'utils/user_agent';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 

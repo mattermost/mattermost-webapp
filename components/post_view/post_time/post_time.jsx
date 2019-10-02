@@ -6,7 +6,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {isMobile} from 'utils/user_agent.tsx';
+import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants.jsx';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
 import LocalDateTime from 'components/local_date_time';

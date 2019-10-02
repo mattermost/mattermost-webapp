@@ -10,7 +10,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
 import {cmdOrCtrlPressed, isKeyPressed, localizeMessage} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
-import * as UserAgent from 'utils/user_agent.tsx';
+import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';

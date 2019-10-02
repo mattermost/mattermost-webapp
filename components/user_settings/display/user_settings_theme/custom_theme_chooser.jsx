@@ -11,7 +11,7 @@ import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.tsx';
+import * as UserAgent from 'utils/user_agent';
 
 import ColorChooser from './color_chooser.jsx';
 

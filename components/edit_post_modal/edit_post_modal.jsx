@@ -7,7 +7,7 @@ import {FormattedMessage, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.tsx';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
