@@ -23,12 +23,14 @@ export function formatWithRenderer(text, renderer) {
         mangle: false,
     };
 
-    return (marked(text, markdownOptions)).trim();
+    return marked(text, markdownOptions).trim();
 }
 
 export function stripMarkdown(text) {
     if (typeof text === 'string' && text.length > 0) {
-        return convertEntityToCharacter(formatWithRenderer(text, removeMarkdown)).trim();
+        return convertEntityToCharacter(
+            formatWithRenderer(text, removeMarkdown)
+        ).trim();
     }
 
     return text;
