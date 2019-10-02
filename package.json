@@ -14,6 +14,7 @@
     "@types/react-dom": "16.8.5",
     "@types/react-router-dom": "4.3.4",
     "@types/react-transition-group": "4.2.2",
+    "@types/xregexp": "^3.0.30",
     "@typescript-eslint/parser": "1.13.0",
     "bootstrap": "3.4.1",
     "bootstrap-colorpicker": "2.5.2",
