@@ -291,6 +291,7 @@
 
             .sidebar-item {
                 @include single-transition(none);
+                color: v(sidebar-text-60);
                 align-items: center;
                 border-radius: 0;
                 display: flex;
@@ -303,22 +304,6 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 width: 100%;
-
-                body.enable-animations & {
-                    @include transition-property(color, background-color);
-                    @include transition-duration(0.1s);
-                    @include transition-delay(0s);
-                    @include transition-timing-function(ease-in);
-                }
-
-                &:hover {
-                    body.enable-animations & {
-                        @include transition-property(color, background-color);
-                        @include transition-duration(0.1s);
-                        @include transition-delay(0s);
-                        @include transition-timing-function(ease-out);
-                    }
-                }
 
                 .status {
                     flex: 0 0 auto;
@@ -339,13 +324,6 @@
                         .btn-close {
                             @include opacity(.8);
                             visibility: visible;
-
-                            body.enable-animations & {
-                                @include transition-property(opacity, visibility);
-                                @include transition-duration(0.1s);
-                                @include transition-delay(0s);
-                                @include transition-timing-function(ease-out, step-start);
-                            }
                         }
                     }
 
@@ -361,13 +339,6 @@
                         line-height: 20px;
                         margin-right: 7px;
                         text-align: center;
-
-                        body.enable-animations & {
-                            @include transition-property(opacity, visibility);
-                            @include transition-duration(0.1s);
-                            @include transition-delay(0s);
-                            @include transition-timing-function(ease-in, step-end);
-                        }
 
                         &:hover {
                             @include opacity(1);
@@ -386,6 +357,8 @@
             }
 
             &.active {
+                color: v(sidebar-text);
+
                 .muted {
                     opacity: 1;
                 }

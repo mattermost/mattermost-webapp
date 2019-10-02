@@ -71,6 +71,12 @@
     width: 315px;
     z-index: 999;
 
+    &.emoji-picker--single {
+        .emoji-picker__header {
+            position: relative;
+        }
+    }
+
     .browser--ie & {
         width: 325px;
     }
@@ -219,7 +225,7 @@
     position: relative;
     width: 100%;
     -webkit-overflow-scrolling: touch;
-
+    height: 290px;
     .emoji-picker__container {
         min-height: 100%;
         position: relative;
