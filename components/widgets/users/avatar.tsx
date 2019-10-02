@@ -6,7 +6,13 @@ import React from 'react';
 
 import './avatar.scss';
 
-const Avatar = ({url, username, size = 'md'}: {url: string; username?: string; size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'}) => (
+type Props = {
+    url: string;
+    username?: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+};
+
+const Avatar: React.FunctionComponent<Props> = ({url, username, size = 'md'}) => (
     <img
         className={`Avatar Avatar-${size}`}
         alt={`${username || 'user'} profile image`}
@@ -17,7 +23,7 @@ const Avatar = ({url, username, size = 'md'}: {url: string; username?: string; s
 Avatar.propTypes = {
     url: PropTypes.string.isRequired,
     username: PropTypes.string,
-    size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl', 'xxl']),
+    size: PropTypes.oneOf<'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'>(['xs', 'sm', 'md', 'lg', 'xl', 'xxl']),
 };
 
 Avatar.defaultProps = {
