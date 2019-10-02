@@ -1,36 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedTime} from 'react-intl';
 import moment from 'moment-timezone';
 
-export default class LocalDateTime extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /*
-         * The time to display
-         */
-        eventTime: PropTypes.number,
+    /*
+     * The time to display
+     */
+    eventTime?: number;
 
-        /*
-         * Set to display using 24 hour format
-         */
-        useMilitaryTime: PropTypes.bool,
+    /*
+     * Set to display using 24 hour format
+     */
+    useMilitaryTime?: boolean;
 
-        /*
-         * Current timezone of the user
-         */
-        timeZone: PropTypes.string,
+    /*
+     * Current timezone of the user
+     */
+    timeZone?: string;
 
-        /*
-         * Enable timezone feature
-         */
-        enableTimezone: PropTypes.bool,
-    };
+    /*
+     * Enable timezone feature
+     */
+    enableTimezone?: boolean;
+}
 
-    render() {
+export default class LocalDateTime extends React.PureComponent<Props> {
+    public render() {
         const {
             enableTimezone,
             eventTime,
@@ -40,23 +39,21 @@ export default class LocalDateTime extends React.PureComponent {
 
         const date = eventTime ? new Date(eventTime) : new Date();
 
-        let title = moment(date);
+        const titleMoment = moment(date);
+        let titleString = titleMoment.toString();
         if (enableTimezone && timeZone) {
-            title.tz(timeZone);
-
-            title = title.toString() + ' (' + title.tz() + ')';
-        } else {
-            title = title.toString();
+            titleMoment.tz(timeZone);
+            titleString = titleMoment.toString() + ' (' + titleMoment.tz() + ')';
         }
 
         const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
 
         return (
             <time
-                aria-label={date}
+                aria-label={date.toString()}
                 className='post__time'
                 dateTime={date.toISOString()}
-                title={title}
+                title={titleString}
                 id='localDateTime'
             >
                 <FormattedTime
