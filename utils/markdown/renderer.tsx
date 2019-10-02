@@ -9,10 +9,8 @@ import * as TextFormatting from 'utils/text_formatting.jsx';
 import { getScheme, isUrlSafe } from 'utils/url.jsx';
 
 export default class Renderer extends marked.Renderer {
-  constructor(
-    options: MarkedOptions,
-    formattingOptions = {}
-  ) {
+  formattingOptions: TextFormatting.TextFormattingOptions;
+  constructor(options: MarkedOptions, formattingOptions = {}) {
     super(options);
 
     this.heading = this.heading.bind(this);
@@ -81,7 +79,7 @@ export default class Renderer extends marked.Renderer {
             </div>`;
   }
 
-  codespan(text) {
+  codespan(text: string) {
     let output = text;
 
     if (this.formattingOptions.searchPatterns) {
@@ -109,14 +107,14 @@ export default class Renderer extends marked.Renderer {
     return super.br();
   }
 
-  image(href, title, text) {
+  image(href: string, title: string, text: string) {
     let src = href;
-    let dimensions = [];
+    let dimensions: string[] = [];
     const parts = href.split(' ');
     if (parts.length > 1) {
       const lastPart = parts.pop();
       src = parts.join(' ');
-      if (lastPart[0] === '=') {
+      if (lastPart && lastPart[0] === '=') {
         dimensions = lastPart.substr(1).split('x');
         if (dimensions.length === 2 && dimensions[1] === '') {
           dimensions[1] = 'auto';
@@ -139,11 +137,11 @@ export default class Renderer extends marked.Renderer {
     return out;
   }
 
-  heading(text, level) {
+  heading(text: string, level: number) {
     return `<h${level} class="markdown__heading">${text}</h${level}>`;
   }
 
-  link(href, title, text, isUrl) {
+  link(href: string, title: string, text: string, isUrl: boolean) {
     let outHref = href;
 
     if (!href.startsWith('/')) {
@@ -188,7 +186,7 @@ export default class Renderer extends marked.Renderer {
     );
     internalLink = pattern.test(outHref);
 
-    if (internalLink) {
+    if (internalLink && this.formattingOptions.siteURL) {
       output += ` data-link="${outHref.replace(
         this.formattingOptions.siteURL,
         ''
@@ -207,7 +205,7 @@ export default class Renderer extends marked.Renderer {
     return output;
   }
 
-  paragraph(text) {
+  paragraph(text: string) {
     if (this.formattingOptions.singleline) {
       return `<p class="markdown__paragraph-inline">${text}</p>`;
     }
@@ -215,19 +213,25 @@ export default class Renderer extends marked.Renderer {
     return super.paragraph(text);
   }
 
-  table(header, body) {
+  table(header: string, body: string) {
     return `<div class="table-responsive"><table class="markdown__table"><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
   }
 
-  tablerow(content) {
+  tablerow(content: string) {
     return `<tr>${content}</tr>`;
   }
 
-  tablecell(content, flags) {
+  tablecell(
+    content: string,
+    flags: {
+      header: boolean;
+      align: 'center' | 'left' | 'right' | null;
+    }
+  ) {
     return marked.Renderer.prototype.tablecell(content, flags).trim();
   }
 
-  listitem(text, bullet) {
+  listitem(text: string, bullet: string) {
     const taskListReg = /^\[([ |xX])] /;
     const isTaskList = taskListReg.exec(text);
 
@@ -245,14 +249,14 @@ export default class Renderer extends marked.Renderer {
     return `<li>${text}</li>`;
   }
 
-  text(txt) {
+  text(txt: string) {
     return TextFormatting.doFormatText(txt, this.formattingOptions);
   }
 }
 
 // Marked helper functions that should probably just be exported
 
-function unescapeHtmlEntities(html) {
+function unescapeHtmlEntities(html: string) {
   return html.replace(/&([#\w]+);/g, (_, m) => {
     const n = m.toLowerCase();
     if (n === 'colon') {
