@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import marked from 'marked';
+import marked, { MarkedOptions } from 'marked';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
@@ -9,7 +9,7 @@ import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getScheme, isUrlSafe} from 'utils/url.jsx';
 
 export default class Renderer extends marked.Renderer {
-    constructor(options, formattingOptions = {}) {
+    constructor(options: MarkedOptions, formattingOptions = {}) {
         super(options);
 
         this.heading = this.heading.bind(this);
