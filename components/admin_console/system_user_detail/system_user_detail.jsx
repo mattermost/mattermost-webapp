@@ -26,6 +26,7 @@ import FormError from 'components/form_error.jsx';
 import TeamSelectorModal from 'components/team_selector_modal';
 
 import TeamList from 'components/admin_console/system_user_detail/team_list';
+import ChannelList from 'components/admin_console/system_user_detail/channel_list';
 import EmailIcon from 'components/widgets/icons/email_icon.jsx';
 import AtIcon from 'components/widgets/icons/at_icon.jsx';
 import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon.jsx';
@@ -406,6 +407,31 @@ export default class SystemUserDetail extends React.PureComponent {
                             )}
                         >
                             <TeamList
+                                userId={this.props.user.id}
+                                userDetailCallback={this.setTeamsData}
+                                refreshTeams={this.state.refreshTeams}
+                            />
+                        </AdminPanel>
+                        <AdminPanel
+                            subtitleId={t('admin.userManagement.userDetail.teamsSubtitle')}
+                            subtitleDefault={'Teams to which this user belongs'}
+                            titleId={t('admin.userManagement.userDetail.teamsTitle')}
+                            titleDefault={'Team Membership'}
+                            button={(
+                                <div className='add-team-button'>
+                                    <button
+                                        className='btn btn-primary'
+                                        onClick={this.openAddTeam}
+                                    >
+                                        <FormattedMessage
+                                            id='admin.userManagement.userDetail.addTeam'
+                                            defaultMessage='Add Team'
+                                        />
+                                    </button>
+                                </div>
+                            )}
+                        >
+                            <ChannelList
                                 userId={this.props.user.id}
                                 userDetailCallback={this.setTeamsData}
                                 refreshTeams={this.state.refreshTeams}

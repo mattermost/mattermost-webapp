@@ -8,7 +8,7 @@ import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import {t} from 'utils/i18n';
 
 import AbstractList from 'components/admin_console/system_user_detail/abstract_list.jsx';
-import TeamRow from './team_row.jsx';
+import ChannelRow from './channel_row.jsx';
 
 const headerLabels = [
     {
@@ -41,7 +41,7 @@ const headerLabels = [
     },
 ];
 
-export default class TeamList extends React.Component {
+export default class ChannelList extends React.Component {
     static propTypes = {
         userId: PropTypes.string.isRequired,
         locale: PropTypes.string.isRequired,
@@ -58,8 +58,8 @@ export default class TeamList extends React.Component {
     }
 
     static defaultProps = {
-        emptyListTextId: t('admin.team_settings.team_list.no_teams_found'),
-        emptyListTextDefaultMessage: 'No teams found',
+        emptyListTextId: t('admin.team_settings.team_list.no_channels_found'),
+        emptyListTextDefaultMessage: 'No channels found',
         refreshTeams: false,
     }
 
@@ -159,7 +159,7 @@ export default class TeamList extends React.Component {
 
     renderRow = (item) => {
         return (
-            <TeamRow
+            <ChannelRow
                 key={item.id}
                 team={item}
                 doRemoveUserFromTeam={this.doRemoveUserFromTeam}
