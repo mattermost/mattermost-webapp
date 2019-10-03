@@ -91,7 +91,9 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
       id="channel_header.delete"
       values={Object {}}
     >
-      Delete Channel
+      <span>
+        Delete Channel
+      </span>
     </FormattedMessage>
   </button>
 </ModalToggleButtonRedux>

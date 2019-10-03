@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import PropTypes from 'prop-types';
 import React from 'react';
 import {createIntl, IntlProvider, IntlShape} from 'react-intl';
 import {mount, shallow, ShallowRendererProps, MountRendererProps} from 'enzyme';
@@ -41,6 +42,7 @@ export function shallowWithIntl<T extends React.ReactElement>(element: T, option
                 locale,
                 defaultLocale,
                 messages,
+                textComponent: 'span',
             },
 
             // For legacy
@@ -74,12 +76,17 @@ export function mountWithIntl<T extends React.ReactElement>(element: T, options?
                 locale,
                 defaultLocale,
                 messages,
+                textComponent: 'span',
             },
 
             // For legacy
             context: {
                 intl,
                 ...mountOptions.context,
+            },
+            childContextTypes: {
+                intl: PropTypes.any.isRequired,
+                ...mountOptions.childContextTypes,
             },
             ...mountOptions,
         },

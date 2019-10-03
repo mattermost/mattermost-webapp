@@ -61,7 +61,9 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
             weekday="short"
             year="numeric"
           >
-            Sat, Jan 13, 2018
+            <span>
+              Sat, Jan 13, 2018
+            </span>
           </FormattedDate>
         </RecentDate>
       </div>
@@ -127,7 +129,9 @@ exports[`components/post_view/DateSeparator should render date without timezone 
             weekday="short"
             year="numeric"
           >
-            Fri, Jan 12, 2018
+            <span>
+              Fri, Jan 12, 2018
+            </span>
           </FormattedDate>
         </RecentDate>
       </div>
@@ -195,7 +199,9 @@ exports[`components/post_view/DateSeparator should render date without timezone 
             weekday="short"
             year="numeric"
           >
-            Fri, Jan 12, 2018
+            <span>
+              Fri, Jan 12, 2018
+            </span>
           </FormattedDate>
         </RecentDate>
       </div>

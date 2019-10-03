@@ -140,7 +140,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              Button Text
+              <span>
+                Button Text
+              </span>
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -165,7 +167,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                 }
               }
             >
-              Error Message: __message__ - __detailed_error__
+              <span>
+                Error Message: __message__ - __detailed_error__
+              </span>
             </FormattedMessage>
           </div>
         </div>
@@ -178,7 +182,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          Help Text
+          <span>
+            Help Text
+          </span>
         </FormattedMessage>
       </div>
     </div>
@@ -295,7 +301,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              Button Text
+              <span>
+                Button Text
+              </span>
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -320,7 +328,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                 }
               }
             >
-              Error Message: __message__
+              <span>
+                Error Message: __message__
+              </span>
             </FormattedMessage>
           </div>
         </div>
@@ -333,7 +343,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          Help Text
+          <span>
+            Help Text
+          </span>
         </FormattedMessage>
       </div>
     </div>
@@ -442,7 +454,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              Button Text
+              <span>
+                Button Text
+              </span>
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -467,7 +481,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="success.message"
               values={Object {}}
             >
-              Success Message
+              <span>
+                Success Message
+              </span>
             </FormattedMessage>
           </div>
         </div>
@@ -480,7 +496,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          Help Text
+          <span>
+            Help Text
+          </span>
         </FormattedMessage>
       </div>
     </div>
@@ -597,7 +615,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              Button Text
+              <span>
+                Button Text
+              </span>
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -610,7 +630,9 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          Help Text
+          <span>
+            Help Text
+          </span>
         </FormattedMessage>
       </div>
     </div>
