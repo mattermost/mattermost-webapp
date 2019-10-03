@@ -17,8 +17,7 @@ function addMenuItem(menu, data) {
     return menu;
 }
 
-function buildSubMenu(currentArray, data) {
-    const root = currentArray.find((c) => c.subMenu && c.pluginId === data.pluginId);
+function buildSubMenu(root, data) {
     let menu = {...root};
     menu = addMenuItem(menu, {
         id: data.id,
@@ -169,15 +168,16 @@ function components(state = {}, action) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
             const nextState = {...state};
-            const currentArray = nextState[action.name] || [];
-            if (action.name === 'PostDropdownMenu' && action.data.parentMenuId) {
-                const subMenuData = buildSubMenu(currentArray, action.data);
-                if (!subMenuData) {
+            const currentArray = (nextState[action.name] || []).filter((c) => !c.subMenu);
+            let actionData = action.data;
+            if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
+                const subMenu = (nextState[action.name] || []).find((c) => c.subMenu && c.pluginId === actionData.pluginId);
+                actionData = buildSubMenu(subMenu, action.data);
+                if (!actionData) {
                     return state;
                 }
-                action.data = subMenuData;
             }
-            const nextArray = [...currentArray.filter((c) => !c.subMenu || c.pluginId !== action.data.pluginId), action.data];
+            const nextArray = [...currentArray, actionData];
             nextArray.sort(sortComponents);
             nextState[action.name] = nextArray;
             return nextState;
