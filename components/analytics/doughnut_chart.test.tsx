@@ -78,8 +78,7 @@ describe('components/analytics/doughnut_chart.tsx', () => {
         ) as ReactWrapper<{}, {}, DoughnutChart>;
 
         expect(Chart).toBeCalled();
-        const chartObject = wrapper.instance().chart;
-        const chartDestroy = chartObject && chartObject.destroy;
+        const chartDestroy = wrapper.instance().chart!.destroy;
         wrapper.unmount();
         expect(chartDestroy).toBeCalled();
     });
