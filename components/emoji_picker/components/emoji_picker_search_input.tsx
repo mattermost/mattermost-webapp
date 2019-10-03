@@ -1,15 +1,17 @@
-import React, {forwardRef} from "react";
+import React, {forwardRef, ChangeEventHandler, KeyboardEventHandler} from "react";
 import {FormattedMessage} from "react-intl";
 
 import {t} from "utils/i18n";
 import LocalizedInput from "components/localized_input/localized_input";
 
 interface EmojiPickerSearchInputProps {
-    onChange: (...args: any[]) => any,
-    onKeyDown: (...args: any[]) => any,
+    onChange: ChangeEventHandler<HTMLInputElement>;
+    onKeyDown: KeyboardEventHandler<HTMLInputElement>;
 }
 
-const EmojiPickerSearchInput = forwardRef<HTMLInputElement, EmojiPickerSearchInputProps>(({
+const placeholder = {id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'};
+
+const EmojiPickerSearchInput: React.RefForwardingComponent<HTMLInputElement, EmojiPickerSearchInputProps> = ({
     onChange,
     onKeyDown,
 }, forwardedRef) => (
@@ -30,11 +32,11 @@ const EmojiPickerSearchInput = forwardRef<HTMLInputElement, EmojiPickerSearchInp
                     type='text'
                     onChange={onChange}
                     onKeyDown={onKeyDown}
-                    placeholder={{id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'}}
+                    placeholder={placeholder}
                 />
             )}
         </FormattedMessage>
     </div>
-));
+);
 
-export default EmojiPickerSearchInput;
+export default forwardRef(EmojiPickerSearchInput);
