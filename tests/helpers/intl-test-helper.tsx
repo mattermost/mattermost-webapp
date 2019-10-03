@@ -11,8 +11,12 @@ jest.mock('react-intl', () => ({
     injectIntl: (comp: any) => comp,
 }));
 
-const messages = require('i18n/en.json');
-const defaultIntl = createIntl({locale: 'en', timeZone: 'Etc/UTC', messages});
+const defaultMessages = require('i18n/en.json');
+const defaultIntl = createIntl({
+    locale: 'en',
+    timeZone: 'Etc/UTC',
+    messages: defaultMessages,
+});
 
 interface ShallowWithIntlOptions extends ShallowRendererProps {
     intl?: IntlShape;
@@ -22,15 +26,14 @@ export function shallowWithIntl<T extends React.ReactElement>(element: T, option
     const {intl = defaultIntl, ...shallowOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
 
-    // For injectIntl in children
-
-
     return shallow(
+
         // For injectIntl
         React.cloneElement(element, {
             intl,
             ...element.props,
         }),
+
         // For useIntl, <Formatted.../>
         {
             wrappingComponent: IntlProvider,
@@ -39,6 +42,7 @@ export function shallowWithIntl<T extends React.ReactElement>(element: T, option
                 defaultLocale,
                 messages,
             },
+
             // For legacy
             context: {
                 intl,
@@ -56,11 +60,13 @@ export function mountWithIntl<T extends React.ReactElement>(element: T, options?
     const {intl = defaultIntl, ...mountOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
     return mount(
+
         // For injectIntl
         React.cloneElement(element, {
             intl,
             ...element.props,
         }),
+
         // For useIntl, <Formatted.../>
         {
             wrappingComponent: IntlProvider,
@@ -69,6 +75,7 @@ export function mountWithIntl<T extends React.ReactElement>(element: T, options?
                 defaultLocale,
                 messages,
             },
+
             // For legacy
             context: {
                 intl,

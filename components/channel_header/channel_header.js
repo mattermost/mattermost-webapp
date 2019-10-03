@@ -46,6 +46,7 @@ const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 class ChannelHeader extends React.PureComponent {
     static propTypes = {
+        intl: PropTypes.any,
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         channel: PropTypes.object,
