@@ -51,9 +51,12 @@ export default class CopyUrlContextMenu extends React.Component {
         );
 
         const contextMenuTrigger = (
-            <ContextMenuTrigger id={'copy-url-context-menu' + this.props.menuId}>
+            <ContextMenuTrigger
+                id={'copy-url-context-menu' + this.props.menuId}
+                holdToDisplay={-1}
+            >
                 {this.props.children}
-            </ContextMenuTrigger>
+            </ContextMenuTrigger >
         );
 
         return (
