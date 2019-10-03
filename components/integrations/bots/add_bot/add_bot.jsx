@@ -14,9 +14,9 @@ import BotDefaultIcon from 'images/bot_default_icon.png';
 
 import {browserHistory} from 'utils/browser_history';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import SpinnerButton from 'components/spinner_button.jsx';
+import SpinnerButton from 'components/spinner_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 import {AcceptedProfileImageTypes, OVERLAY_TIME_DELAY} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';

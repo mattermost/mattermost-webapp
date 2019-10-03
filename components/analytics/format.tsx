@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import * as Utils from 'utils/utils.jsx';
 
-export function formatChannelDoughtnutData(totalPublic, totalPrivate) {
+export function formatChannelDoughtnutData(totalPublic: any, totalPrivate: any) {
     const channelTypeData = {
         labels: [
             Utils.localizeMessage('analytics.system.publicChannels', 'Public Channels'),
@@ -18,7 +18,7 @@ export function formatChannelDoughtnutData(totalPublic, totalPrivate) {
     return channelTypeData;
 }
 
-export function formatPostDoughtnutData(filePosts, hashtagPosts, totalPosts) {
+export function formatPostDoughtnutData(filePosts: any, hashtagPosts: any, totalPosts: any) {
     const postTypeData = {
         labels: [
             Utils.localizeMessage('analytics.system.totalFilePosts', 'Posts with Files'),
@@ -35,9 +35,9 @@ export function formatPostDoughtnutData(filePosts, hashtagPosts, totalPosts) {
     return postTypeData;
 }
 
-export function formatPostsPerDayData(data) {
+export function formatPostsPerDayData(data: any) {
     var chartData = {
-        labels: [],
+        labels: [] as any,
         datasets: [{
             fillColor: 'rgba(151,187,205,0.2)',
             borderColor: 'rgba(151,187,205,1)',
@@ -45,7 +45,7 @@ export function formatPostsPerDayData(data) {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: [],
+            data: [] as any,
         }],
     };
 
@@ -60,9 +60,9 @@ export function formatPostsPerDayData(data) {
     return chartData;
 }
 
-export function formatUsersWithPostsPerDayData(data) {
+export function formatUsersWithPostsPerDayData(data: any) {
     var chartData = {
-        labels: [],
+        labels: [] as any,
         datasets: [{
             label: '',
             fillColor: 'rgba(151,187,205,0.2)',
@@ -71,7 +71,7 @@ export function formatUsersWithPostsPerDayData(data) {
             pointBorderColor: '#fff',
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: 'rgba(151,187,205,1)',
-            data: [],
+            data: [] as any,
         }],
     };
 

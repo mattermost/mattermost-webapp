@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSelect from 'react-select';
 
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 
 import Setting from './setting.jsx';
 

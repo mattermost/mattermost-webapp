@@ -1,40 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React, {PureComponent} from 'react';
+import React, {PureComponent, ReactNode} from 'react';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-export default class SpinnerButton extends PureComponent {
-    static defaultProps = {
+type Props = {
+    children?: ReactNode;
+    spinning: boolean;
+    spinningText: ReactNode;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+export default class SpinnerButton extends PureComponent<Props> {
+    public static defaultProps: Partial<Props> = {
         spinning: false,
     }
 
-    static propTypes = {
-
-        /**
-         * Children to show when not spinning
-         */
-        children: PropTypes.node,
-
-        /**
-         * Set to true to spin
-         */
-        spinning: PropTypes.bool.isRequired,
-
-        /**
-         * Set the text used while spinning
-         */
-        spinningText: PropTypes.node.isRequired,
-
-        /**
-         * Callback function when button is clicked
-         */
-        onClick: PropTypes.func,
-    }
-
-    render() {
+    public render(): JSX.Element {
         const {spinning, spinningText, children, ...props} = this.props; // eslint-disable-line no-use-before-define
 
         return (
