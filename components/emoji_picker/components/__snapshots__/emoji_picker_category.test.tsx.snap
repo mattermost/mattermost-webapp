@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot 1`] = `
+<a
+  aria-label="people"
+  className="emoji-picker__category emoji-picker__category--selected"
+  href="#"
+  onClick={[Function]}
+>
+  <span>
+    ICON TEST
+  </span>
+</a>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot when enable=false 1`] = `
+<a
+  aria-label="people"
+  className="emoji-picker__category emoji-picker__category--selected disable"
+  href="#"
+  onClick={[Function]}
+>
+  <span>
+    ICON TEST
+  </span>
+</a>
+`;
+
+exports[`components/EmojiPicker/components/EmojiPickerCategory should match snapshot when selected=false 1`] = `
+<a
+  aria-label="people"
+  className="emoji-picker__category"
+  href="#"
+  onClick={[Function]}
+>
+  <span>
+    ICON TEST
+  </span>
+</a>
+`;

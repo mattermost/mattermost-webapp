@@ -1,4 +1,4 @@
-export type SystemEmojiCategory = (
+export type EmojiCategory = (
     | 'people'
     | 'nature'
     | 'foods'
@@ -13,7 +13,7 @@ export type SystemEmojiCategory = (
 export interface SystemEmoji {
     aliases: string[];
     batch: string;
-    category: SystemEmojiCategory;
+    category: EmojiCategory;
     filename: string;
     offset: null;
     visible: boolean;
