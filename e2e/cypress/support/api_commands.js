@@ -105,21 +105,6 @@ Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O',
 });
 
 /**
- * Creates a new Direct channel directly via API
- * This API assume that the user is logged in and has cookie to access
- * @param {String} userids - array of userids
- * All parameters required
- */
-Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/channels/direct',
-        method: 'POST',
-        body: userids,
-    });
-});
-
-/**
  * Deletes a channel directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {String} channelId - The channel ID to be deleted
@@ -471,15 +456,6 @@ Cypress.Commands.add('apiGetUserByEmail', (email) => {
     });
 });
 
-Cypress.Commands.add('apiGetUsers', (usernames = []) => {
-    return cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/usernames',
-        method: 'POST',
-        body: usernames,
-    });
-});
-
 Cypress.Commands.add('apiPatchUser', (userId, userData) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -772,3 +748,26 @@ Cypress.Commands.add('promoteUser', (userId) => {
     cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
 
+/**
+ * Creates a new Direct channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} userids - array of userids
+ * All parameters required
+ */
+Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/direct',
+        method: 'POST',
+        body: userids,
+    });
+});
+
+Cypress.Commands.add('apiGetUsers', (usernames = []) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/usernames',
+        method: 'POST',
+        body: usernames,
+    });
+});
