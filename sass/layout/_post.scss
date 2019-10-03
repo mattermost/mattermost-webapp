@@ -2108,4 +2108,8 @@
         margin-bottom: 1em;
         margin-top: -1em;
     }
+
+    .emoji-picker--active & {
+        pointer-events: none;
+    }
 }
