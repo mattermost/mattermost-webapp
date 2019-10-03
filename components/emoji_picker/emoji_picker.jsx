@@ -162,7 +162,7 @@ export default class EmojiPicker extends React.PureComponent {
             allEmojis: {},
             categories,
             filter: '',
-            cursor: [0, 0], // categoryIndex, emojiIndex
+            cursor: [-1, -1], // categoryIndex, emojiIndex
             divTopOffset: 0,
             emojisToShow: SYSTEM_EMOJIS_COUNT,
             renderAllCategories: false,
