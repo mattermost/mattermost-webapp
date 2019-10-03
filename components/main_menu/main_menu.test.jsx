@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.tsx';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 

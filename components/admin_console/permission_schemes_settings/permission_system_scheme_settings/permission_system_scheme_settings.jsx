@@ -10,7 +10,7 @@ import GeneralConstants from 'mattermost-redux/constants/general';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.jsx';
+import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.tsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 

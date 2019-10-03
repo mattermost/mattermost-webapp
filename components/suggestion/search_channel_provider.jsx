@@ -5,7 +5,7 @@ import React from 'react';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants.tsx';
 import SelectIcon from 'components/widgets/icons/fa_select_icon';
 import BotBadge from 'components/widgets/badges/bot_badge';
 

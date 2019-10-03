@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.tsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 

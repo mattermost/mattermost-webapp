@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 
 import dragster from 'utils/dragster.js';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants.tsx';
 import DelayedAction from 'utils/delayed_action';
 import {t} from 'utils/i18n';
 import {

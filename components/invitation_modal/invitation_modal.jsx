@@ -9,7 +9,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import RootPortal from 'components/root_portal';
 
-import {InviteTypes} from 'utils/constants.jsx';
+import {InviteTypes} from 'utils/constants.tsx';
 
 import InvitationModalInitialStep from './invitation_modal_initial_step.jsx';
 import InvitationModalMembersStep from './invitation_modal_members_step.jsx';

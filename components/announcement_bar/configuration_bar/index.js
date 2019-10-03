@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {AnnouncementBarMessages} from 'utils/constants.jsx';
+import {AnnouncementBarMessages} from 'utils/constants.tsx';
 import {dismissNotice} from 'actions/views/notice';
 
 import ConfigurationBar from './configuration_bar.jsx';

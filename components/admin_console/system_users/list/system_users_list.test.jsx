@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants.tsx';
 
 import SystemUsersList from 'components/admin_console/system_users/list/system_users_list.jsx';
 

@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {makeGetGlobalItem} from 'selectors/storage';
-import {PostTypes} from 'utils/constants.jsx';
+import {PostTypes} from 'utils/constants.tsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
 export function getSelectedPostId(state) {

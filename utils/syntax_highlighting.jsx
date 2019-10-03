@@ -62,7 +62,7 @@ import hljsVhdl from 'highlight.js/lib/languages/vhdl.js';
 import hljsXml from 'highlight.js/lib/languages/xml.js';
 import hljsYaml from 'highlight.js/lib/languages/yaml.js';
 
-import Constants from './constants.jsx';
+import Constants from './constants.tsx';
 import * as TextFormatting from './text_formatting.jsx';
 
 hlJS.registerLanguage('actionscript', hljsActionscript);

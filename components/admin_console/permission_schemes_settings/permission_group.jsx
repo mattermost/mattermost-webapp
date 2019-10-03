@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import {PermissionsScope} from 'utils/constants.jsx';
+import {PermissionsScope} from 'utils/constants.tsx';
 
 import PermissionCheckbox from './permission_checkbox.jsx';
 import PermissionRow from './permission_row.jsx';

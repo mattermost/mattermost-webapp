@@ -7,7 +7,7 @@ import {Popover} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants.tsx';
 
 import SuggestionList from './suggestion_list.jsx';
 

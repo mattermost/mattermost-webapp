@@ -32,7 +32,7 @@ import {
 import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
 
-import Constants, { FileTypes, UserStatuses } from 'utils/constants.jsx';
+import Constants, { FileTypes, UserStatuses } from 'utils/constants.tsx';
 import { browserHistory } from 'utils/browser_history';
 import { searchForTerm } from 'actions/post_actions';
 import * as UserAgent from 'utils/user_agent.jsx';

@@ -10,7 +10,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
-import {StatTypes} from 'utils/constants.jsx';
+import {StatTypes} from 'utils/constants.tsx';
 import Banner from 'components/admin_console/banner.jsx';
 import LineChart from 'components/analytics/line_chart.jsx';
 import StatisticCount from 'components/analytics/statistic_count';

@@ -8,7 +8,7 @@ import store from 'stores/redux_store.jsx';
 import {setRecentEmojis} from 'actions/local_storage';
 import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants.tsx';
 
 export async function addEmoji(emoji, image, success, error) {
     const {data, error: err} = await EmojiActions.createCustomEmoji(emoji, image)(store.dispatch, store.getState);

@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants.tsx';
 
 function sortComponents(a, b) {
     if (a.pluginId < b.pluginId) {

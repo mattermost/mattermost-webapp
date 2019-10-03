@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as UserAgent from 'utils/user_agent.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants.tsx';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 

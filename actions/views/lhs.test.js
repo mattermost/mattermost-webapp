@@ -9,7 +9,7 @@ import {
     open,
     close,
 } from 'actions/views/lhs';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants.tsx';
 
 const mockStore = configureStore([thunk]);
 

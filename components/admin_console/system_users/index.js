@@ -21,7 +21,7 @@ import {Stats} from 'mattermost-redux/constants';
 import {loadProfilesAndTeamMembers, loadProfilesWithoutTeam} from 'actions/user_actions.jsx';
 
 import {setSystemUsersSearch} from 'actions/views/search';
-import {SearchUserTeamFilter} from 'utils/constants.jsx';
+import {SearchUserTeamFilter} from 'utils/constants.tsx';
 
 import SystemUsers from './system_users.jsx';
 

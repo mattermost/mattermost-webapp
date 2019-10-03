@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import SystemUsers from 'components/admin_console/system_users/system_users.jsx';
-import {Constants, SearchUserTeamFilter} from 'utils/constants.jsx';
+import {Constants, SearchUserTeamFilter} from 'utils/constants.tsx';
 
 jest.mock('actions/admin_actions.jsx');
 
