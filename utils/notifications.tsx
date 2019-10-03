@@ -20,7 +20,7 @@ export interface ShowNotificationParams {
   body: string;
   requireInteraction: boolean;
   silent: boolean;
-  onClick: (this: Notification, e: Event) => any | null;
+  onClick?: (this: Notification, e: Event) => any | null;
 }
 
 export async function showNotification(
@@ -35,7 +35,6 @@ export async function showNotification(
     body: '',
     requireInteraction: false,
     silent: false,
-    onClick: e => e,
   },
 ) {
   let icon = icon50;
