@@ -4,7 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import EmojiPickerPreview, {SystemEmoji, CustomEmoji} from './emoji_picker_preview';
+import EmojiPickerPreview from './emoji_picker_preview';
+import {SystemEmoji, CustomEmoji} from '../types';
 
 describe('components/EmojiPicker/components/EmojiPickerPreview', () => {
     it('should match snapshot with no emoji', () => {
