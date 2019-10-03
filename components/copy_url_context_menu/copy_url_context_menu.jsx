@@ -56,7 +56,7 @@ export default class CopyUrlContextMenu extends React.Component {
                 holdToDisplay={-1}
             >
                 {this.props.children}
-            </ContextMenuTrigger >
+            </ContextMenuTrigger>
         );
 
         return (
