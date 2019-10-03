@@ -8,7 +8,7 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 import {saveConfig} from 'actions/admin_actions.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button.jsx';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 import Constants from 'utils/constants.jsx';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header';

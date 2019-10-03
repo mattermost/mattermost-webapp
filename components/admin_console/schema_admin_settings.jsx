@@ -28,7 +28,7 @@ import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx'
 import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
 import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button.jsx';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -455,7 +455,7 @@ export default class SchemaAdminSettings extends React.Component {
             }
         });
 
-        const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name)}));
+        const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name, o.display_name_default)}));
         const selectedValue = this.state[setting.key] || values[0].value;
 
         let selectedOptionForHelpText = null;

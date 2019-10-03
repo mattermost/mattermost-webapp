@@ -164,16 +164,17 @@ exports[`components/MarketplaceModal should match the snapshot, no plugins insta
             <PluginIcon
               className="icon__plugin"
             />
-            <br />
-            <br />
-            <FormattedMessage
-              defaultMessage="You do not have any plugins installed."
-              id="marketplace_modal.no_plugins_installed"
-              values={Object {}}
-            />
-            <br />
-            <br />
-            <a
+            <div
+              className="margin-top x2 light"
+            >
+              <FormattedMessage
+                defaultMessage="You do not have any plugins installed."
+                id="marketplace_modal.no_plugins_installed"
+                values={Object {}}
+              />
+            </div>
+            <button
+              className="margin-top x3 style--none color--link"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -181,7 +182,7 @@ exports[`components/MarketplaceModal should match the snapshot, no plugins insta
                 id="marketplace_modal.install_plugins"
                 values={Object {}}
               />
-            </a>
+            </button>
           </div>
         </Tab>
       </Uncontrolled(Tabs)>

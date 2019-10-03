@@ -14,7 +14,7 @@ import {
     isIosChrome,
     isMobileApp,
 } from 'utils/user_agent.jsx';
-import {getTable} from 'utils/paste.jsx';
+import {getTable} from 'utils/paste';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
