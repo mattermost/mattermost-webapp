@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error.jsx';
-import SpinnerButton from 'components/spinner_button.jsx';
+import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
 
 export default class AbstractIncomingWebhook extends React.Component {

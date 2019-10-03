@@ -496,13 +496,6 @@
         display: none;
     }
 
-    .date-separator.hovered--before:after,
-    .date-separator.hovered--after:before,
-    .new-separator.hovered--after:before,
-    .new-separator.hovered--before:after {
-        background: none !important;
-    }
-
     .channel-intro {
         margin: 0 0 35px;
     }
@@ -854,21 +847,6 @@
         .overlay__files {
             margin: 60px auto 15px;
             width: 150px;
-        }
-    }
-
-    .date-separator,
-    .new-separator {
-        &.hovered--after {
-            &:before {
-                background: none;
-            }
-        }
-
-        &.hovered--before {
-            &:after {
-                background: none;
-            }
         }
     }
 

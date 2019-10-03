@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-var latinMap = {
+const latinMap: { [key: string]: string } = {
     Á: 'A', // LATIN CAPITAL LETTER A WITH ACUTE
     Ă: 'A', // LATIN CAPITAL LETTER A WITH BREVE
     Ắ: 'A', // LATIN CAPITAL LETTER A WITH BREVE AND ACUTE
@@ -993,10 +993,10 @@ var latinMap = {
     ₓ: 'x', // LATIN SUBSCRIPT SMALL LETTER X
 };
 
-export function map(x) {
+export function map(x: string) {
     return latinMap[x] || x;
 }
 
-export function latinise(input) {
+export function latinise(input: string) {
     return input.replace(/[^A-Za-z0-9]/g, map);
 }
