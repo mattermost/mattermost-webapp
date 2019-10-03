@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import EmojiPickerCategory, {EmojiPickerCategoryProps} from './emoji_picker_category';
 
