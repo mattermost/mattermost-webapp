@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 
 class SelectTeamItem extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         team: PropTypes.object.isRequired,
         onTeamClick: PropTypes.func.isRequired,
         loading: PropTypes.bool.isRequired,

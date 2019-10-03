@@ -51,7 +51,7 @@ class LeaveTeamModal extends React.PureComponent {
     };
 
     static contextType = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
     };
 
     componentDidMount() {

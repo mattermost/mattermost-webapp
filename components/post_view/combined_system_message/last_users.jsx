@@ -48,7 +48,7 @@ const typeMessage = {
 
 class LastUsers extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         actor: PropTypes.string,
         expandedLocale: PropTypes.object.isRequired,
         formatOptions: PropTypes.object.isRequired,

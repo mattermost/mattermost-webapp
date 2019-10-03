@@ -22,7 +22,7 @@ import './channels_input.scss';
 
 class ChannelsInput extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         placeholder: PropTypes.string,
         channelsLoader: PropTypes.func,
         onChange: PropTypes.func,

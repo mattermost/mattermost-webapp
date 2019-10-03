@@ -9,25 +9,27 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -59,9 +61,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
             weekday="short"
             year="numeric"
           >
-            <span>
-              Sat, Jan 13, 2018
-            </span>
+            Sat, Jan 13, 2018
           </FormattedDate>
         </RecentDate>
       </div>
@@ -78,25 +78,27 @@ exports[`components/post_view/DateSeparator should render date without timezone 
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -125,9 +127,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
             weekday="short"
             year="numeric"
           >
-            <span>
-              Fri, Jan 12, 2018
-            </span>
+            Fri, Jan 12, 2018
           </FormattedDate>
         </RecentDate>
       </div>
@@ -145,25 +145,27 @@ exports[`components/post_view/DateSeparator should render date without timezone 
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -193,9 +195,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
             weekday="short"
             year="numeric"
           >
-            <span>
-              Fri, Jan 12, 2018
-            </span>
+            Fri, Jan 12, 2018
           </FormattedDate>
         </RecentDate>
       </div>

@@ -20,7 +20,7 @@ class UserSettingsSidebar extends React.Component {
         /**
          * react-intl API
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         actions: PropTypes.shape({
 

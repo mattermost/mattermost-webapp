@@ -64,7 +64,7 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
       }
       to="/team_name/channels/channel_name"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="You are viewing an **archived channel**. "
         id="center_panel.permalink.archivedChannel"
       />

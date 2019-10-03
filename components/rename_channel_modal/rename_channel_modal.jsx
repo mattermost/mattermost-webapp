@@ -50,7 +50,7 @@ export class RenameChannelModal extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          * Function that is called when modal is hidden

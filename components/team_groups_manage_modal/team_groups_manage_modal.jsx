@@ -19,7 +19,7 @@ import groupsAvatar from 'images/groups-avatar.png';
 
 class TeamGroupsManageModal extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         team: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroupsAssociatedToTeam: PropTypes.func.isRequired,

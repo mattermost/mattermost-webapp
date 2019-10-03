@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PasswordResetForm from './password_reset_form';
 

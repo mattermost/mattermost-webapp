@@ -14,7 +14,7 @@ class JobTable extends React.PureComponent {
         /**
          * Used for formatting dates
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          * Array of jobs

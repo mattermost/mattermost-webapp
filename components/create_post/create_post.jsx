@@ -55,7 +55,7 @@ class CreatePost extends React.Component {
         /**
          * react-intl API
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          *  ref passed from channelView for EmojiPickerOverlay

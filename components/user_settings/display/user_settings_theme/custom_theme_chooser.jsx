@@ -112,7 +112,7 @@ const messages = defineMessages({
 
 class CustomThemeChooser extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         theme: PropTypes.object.isRequired,
         updateTheme: PropTypes.func.isRequired,
     };

@@ -17,7 +17,7 @@ import TeamIcon from '../../widgets/team_icon/team_icon';
 // eslint-disable-next-line react/require-optimization
 class TeamButton extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         btnClass: PropTypes.string,
         url: PropTypes.string.isRequired,
         displayName: PropTypes.string,

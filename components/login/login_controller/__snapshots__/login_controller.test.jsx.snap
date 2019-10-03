@@ -1,48 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/login/LoginController should match snapshot 1`] = `
-<div>
-  <Connect(AnnouncementBarController) />
-  <div
-    className="col-sm-12"
-    id="login_section"
-  >
-    <div
-      className="signup-team__container undefined"
-    >
-      <div
-        className="signup__markdown"
-      />
-      <img
-        alt="signup team logo"
-        className="signup-team-logo"
-        src={null}
-      />
-      <div
-        className="signup__content"
-      >
-        <SiteNameAndDescription
-          customDescriptionText=""
-          siteName=""
-        />
-        <div>
-          <FormError
-            error={
-              <FormattedMessage
-                defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
-                id="login.noMethods"
-                values={Object {}}
-              />
-            }
-            errors={Array []}
-            key="noMethods"
-            margin={true}
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<LoginController
+  actions={
+    Object {
+      "addUserToTeamFromInvite": [MockFunction],
+      "login": [MockFunction],
+    }
+  }
+  customBrandText=""
+  customDescriptionText=""
+  defaultChannel="default-channel"
+  enableCustomBrand={false}
+  enableLdap={false}
+  enableOpenServer={false}
+  enableSaml={false}
+  enableSignInWithEmail={false}
+  enableSignInWithUsername={false}
+  enableSignUpWithEmail={false}
+  enableSignUpWithGitLab={false}
+  enableSignUpWithGoogle={false}
+  enableSignUpWithOffice365={false}
+  experimentalPrimaryTeam=""
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": Symbol(react.fragment),
+      "timeZone": undefined,
+    }
+  }
+  isLicensed={false}
+  ldapLoginFieldName=""
+  location={
+    Object {
+      "search": "",
+    }
+  }
+  samlLoginButtonText=""
+  siteName=""
+/>
 `;
 
 exports[`components/login/LoginController should match snapshot when expired 1`] = `
@@ -114,131 +132,161 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
 `;
 
 exports[`components/login/LoginController should match snapshot when initializing 1`] = `
-<LoadingScreen
-  position="relative"
-  style={Object {}}
-/>
+<div
+  className="loading-screen"
+  style={
+    Object {
+      "position": "relative",
+    }
+  }
+>
+  <div
+    className="loading__content"
+  >
+    <h3>
+      <FormattedMessage
+        defaultMessage="Loading"
+        id="loading_screen.loading"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="round round-1"
+    />
+    <div
+      className="round round-2"
+    />
+    <div
+      className="round round-3"
+    />
+  </div>
+</div>
 `;
 
 exports[`components/login/LoginController should show session expiry notification 1`] = `
-<div>
-  <Connect(AnnouncementBarController) />
-  <div
-    className="col-sm-12"
-    id="login_section"
-  >
-    <div
-      className="signup-team__container undefined"
-    >
-      <div
-        className="signup__markdown"
-      />
-      <img
-        alt="signup team logo"
-        className="signup-team-logo"
-        src={null}
-      />
-      <div
-        className="signup__content"
-      >
-        <SiteNameAndDescription
-          customDescriptionText=""
-          siteName=""
-        />
-        <div>
-          <div
-            className="alert alert-warning"
-          >
-            <WarningIcon
-              additionalClassName={null}
-            />
-             
-            <FormattedMessage
-              defaultMessage="Your session has expired. Please log in again."
-              id="login.session_expired"
-              values={Object {}}
-            />
-             
-            <Link
-              className="btn-close"
-              onClick={[Function]}
-              to="/login"
-            >
-              <span>
-                ×
-              </span>
-            </Link>
-          </div>
-          <FormError
-            error={
-              <FormattedMessage
-                defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
-                id="login.noMethods"
-                values={Object {}}
-              />
-            }
-            errors={Array []}
-            key="noMethods"
-            margin={true}
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<LoginController
+  actions={
+    Object {
+      "addUserToTeamFromInvite": [MockFunction],
+      "login": [MockFunction],
+    }
+  }
+  customBrandText=""
+  customDescriptionText=""
+  defaultChannel="default-channel"
+  enableCustomBrand={false}
+  enableLdap={false}
+  enableOpenServer={false}
+  enableSaml={false}
+  enableSignInWithEmail={false}
+  enableSignInWithUsername={false}
+  enableSignUpWithEmail={false}
+  enableSignUpWithGitLab={false}
+  enableSignUpWithGoogle={false}
+  enableSignUpWithOffice365={false}
+  experimentalPrimaryTeam=""
+  initializing={false}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": Symbol(react.fragment),
+      "timeZone": undefined,
+    }
+  }
+  isLicensed={false}
+  ldapLoginFieldName=""
+  location={
+    Object {
+      "search": "",
+    }
+  }
+  samlLoginButtonText=""
+  siteName=""
+/>
 `;
 
 exports[`components/login/LoginController should suppress session expiry notification on sign in change 1`] = `
-<div>
-  <Connect(AnnouncementBarController) />
-  <div
-    className="col-sm-12"
-    id="login_section"
-  >
-    <div
-      className="signup-team__container undefined"
-    >
-      <div
-        className="signup__markdown"
-      />
-      <img
-        alt="signup team logo"
-        className="signup-team-logo"
-        src={null}
-      />
-      <div
-        className="signup__content"
-      >
-        <SiteNameAndDescription
-          customDescriptionText=""
-          siteName=""
-        />
-        <div>
-          <div
-            className="alert alert-success"
-          >
-            <SuccessIcon />
-            <FormattedMessage
-              defaultMessage=" Sign-in method changed successfully"
-              id="login.changed"
-              values={Object {}}
-            />
-          </div>
-          <FormError
-            error={
-              <FormattedMessage
-                defaultMessage="No sign-in methods are enabled. Please contact your System Administrator."
-                id="login.noMethods"
-                values={Object {}}
-              />
-            }
-            errors={Array []}
-            key="noMethods"
-            margin={true}
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<LoginController
+  actions={
+    Object {
+      "addUserToTeamFromInvite": [MockFunction],
+      "login": [MockFunction],
+    }
+  }
+  customBrandText=""
+  customDescriptionText=""
+  defaultChannel="default-channel"
+  enableCustomBrand={false}
+  enableLdap={false}
+  enableOpenServer={false}
+  enableSaml={false}
+  enableSignInWithEmail={false}
+  enableSignInWithUsername={false}
+  enableSignUpWithEmail={false}
+  enableSignUpWithGitLab={false}
+  enableSignUpWithGoogle={false}
+  enableSignUpWithOffice365={false}
+  experimentalPrimaryTeam=""
+  initializing={false}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatDateToParts": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatNumberToParts": [Function],
+      "formatPlural": [Function],
+      "formatRelativeTime": [Function],
+      "formatTime": [Function],
+      "formatTimeToParts": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "onError": [Function],
+      "textComponent": Symbol(react.fragment),
+      "timeZone": undefined,
+    }
+  }
+  isLicensed={false}
+  ldapLoginFieldName=""
+  location={
+    Object {
+      "search": "?extra=signin_change",
+    }
+  }
+  samlLoginButtonText=""
+  siteName=""
+/>
 `;

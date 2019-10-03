@@ -26,7 +26,7 @@ import UserProfile from 'components/user_profile';
 
 class RhsRootPost extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,

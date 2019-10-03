@@ -63,7 +63,7 @@ class UserSettingsModal extends React.Component {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         onHide: PropTypes.func.isRequired,
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         actions: PropTypes.shape({
             sendVerificationEmail: PropTypes.func.isRequred,
         }).isRequired,

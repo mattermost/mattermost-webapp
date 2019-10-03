@@ -20,7 +20,7 @@ exports[`components/login/LoginMfa should match snapshot 1`] = `
     <div
       className="form-group"
     >
-      <LocalizedInput
+      <injectIntl(LocalizedInput)
         autoComplete="off"
         autoFocus={true}
         className="form-control"
@@ -39,11 +39,9 @@ exports[`components/login/LoginMfa should match snapshot 1`] = `
     <div
       className="form-group"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <injectIntl(SaveButton)
         defaultMessage="Submit"
         disabled={false}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Submitting..."

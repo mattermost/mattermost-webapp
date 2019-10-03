@@ -14,7 +14,7 @@ const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
 class EmojiPickerItem extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,

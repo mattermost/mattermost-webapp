@@ -10,7 +10,7 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 class ChannelMore extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         currentTeamId: PropTypes.string.isRequired,
         sectionType: PropTypes.string.isRequired,
         moreChannels: PropTypes.func.isRequired,

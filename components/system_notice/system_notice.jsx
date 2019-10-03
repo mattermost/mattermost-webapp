@@ -10,7 +10,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 class SystemNotice extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         currentUserId: PropTypes.string.isRequired,
         notices: PropTypes.arrayOf(PropTypes.object).isRequired,
         preferences: PropTypes.object.isRequired,

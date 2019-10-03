@@ -75,7 +75,7 @@ class FileUpload extends PureComponent {
         /**
          * react-intl API
         */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          * Current channel's ID

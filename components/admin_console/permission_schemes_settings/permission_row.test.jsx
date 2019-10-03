@@ -2,27 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PermissionRow from 'components/admin_console/permission_schemes_settings/permission_row.jsx';
 
 describe('components/admin_console/permission_schemes_settings/permission_row', () => {
     const defaultProps = {
-        intl: {
-            now: jest.fn(),
-            locale: '',
-            formats: {},
-            messages: {},
-            defaultLocale: 'en',
-            defaultFormats: {},
-            formatDate: jest.fn(),
-            formatTime: jest.fn(),
-            formatRelative: jest.fn(),
-            formatNumber: jest.fn(),
-            formatPlural: jest.fn(),
-            formatMessage: jest.fn(),
-            formatHTMLMessage: jest.fn(),
-        },
         id: 'id',
         uniqId: 'uniqId',
         inherited: null,
@@ -33,14 +19,14 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
     };
 
     test('should match snapshot on editable and not inherited', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PermissionRow {...defaultProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot on editable and inherited', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PermissionRow
                 {...defaultProps}
                 inherited={{name: 'test', displayName: 'Test'}}
@@ -50,7 +36,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
     });
 
     test('should match snapshot on read only and not inherited', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}
@@ -60,7 +46,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
     });
 
     test('should match snapshot on read only and not inherited', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}
@@ -71,7 +57,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
 
     test('should call onChange function on click', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PermissionRow
                 {...defaultProps}
                 onChange={onChange}
@@ -83,7 +69,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
 
     test('shouldn\'t call onChange function on click when is read-only', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}

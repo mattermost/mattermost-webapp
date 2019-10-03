@@ -3,18 +3,18 @@
 
 import React from 'react';
 
-import {intlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 type Props = {
+    intl: IntlShape;
+} & Partial<DefaultProps>
+
+type DefaultProps = {
     additionalClassName: string | null;
 }
 
-export default class PreviousIcon extends React.PureComponent<Props> {
-    public static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
-    public static defaultProps: Props = {
+class PreviousIcon extends React.PureComponent<Props> {
+    public static defaultProps: DefaultProps = {
         additionalClassName: null,
     };
 
@@ -29,3 +29,5 @@ export default class PreviousIcon extends React.PureComponent<Props> {
         );
     }
 }
+
+export default injectIntl(PreviousIcon);

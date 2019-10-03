@@ -17,25 +17,27 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -159,9 +161,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   id="user.settings.notifications.email.send"
                   values={Object {}}
                 >
-                  <span>
-                    Send email notifications
-                  </span>
+                  Send email notifications
                 </FormattedMessage>
               </legend>
               <div
@@ -182,9 +182,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.immediately"
                     values={Object {}}
                   >
-                    <span>
-                      Immediately
-                    </span>
+                    Immediately
                   </FormattedMessage>
                 </label>
               </div>
@@ -206,9 +204,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.never"
                     values={Object {}}
                   >
-                    <span>
-                      Never
-                    </span>
+                    Never
                   </FormattedMessage>
                 </label>
               </div>
@@ -224,9 +220,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     }
                   }
                 >
-                  <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
-                  </span>
+                  Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
                 </FormattedMessage>
                  
               </div>
@@ -236,30 +230,94 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             className="setting-list-item"
           >
             <hr />
-            <SaveButton
-              btnClass="btn-primary"
+            <injectIntl(SaveButton)
               disabled={false}
-              extraClasses=""
               onClick={[Function]}
               saving={false}
             >
-              <button
-                className="save-button btn btn-primary"
+              <SaveButton
+                btnClass="btn-primary"
                 disabled={false}
-                id="saveSetting"
+                extraClasses=""
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatHTMLMessage": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": Symbol(react.fragment),
+                    "timeZone": undefined,
+                  }
+                }
                 onClick={[Function]}
-                type="submit"
+                saving={false}
               >
-                <LoadingWrapper
-                  loading={false}
-                  text="Saving"
+                <button
+                  className="save-button btn btn-primary"
+                  disabled={false}
+                  id="saveSetting"
+                  intl={
+                    Object {
+                      "defaultFormats": Object {},
+                      "defaultLocale": "en",
+                      "formatDate": [Function],
+                      "formatDateToParts": [Function],
+                      "formatHTMLMessage": [Function],
+                      "formatMessage": [Function],
+                      "formatNumber": [Function],
+                      "formatNumberToParts": [Function],
+                      "formatPlural": [Function],
+                      "formatRelativeTime": [Function],
+                      "formatTime": [Function],
+                      "formatTimeToParts": [Function],
+                      "formats": Object {},
+                      "formatters": Object {
+                        "getDateTimeFormat": [Function],
+                        "getMessageFormat": [Function],
+                        "getNumberFormat": [Function],
+                        "getPluralRules": [Function],
+                        "getRelativeTimeFormat": [Function],
+                      },
+                      "locale": "en",
+                      "messages": Object {},
+                      "onError": [Function],
+                      "textComponent": Symbol(react.fragment),
+                      "timeZone": undefined,
+                    }
+                  }
+                  onClick={[Function]}
+                  type="submit"
                 >
-                  <span>
-                    Save
-                  </span>
-                </LoadingWrapper>
-              </button>
-            </SaveButton>
+                  <LoadingWrapper
+                    loading={false}
+                    text="Saving"
+                  >
+                    <span>
+                      Save
+                    </span>
+                  </LoadingWrapper>
+                </button>
+              </SaveButton>
+            </injectIntl(SaveButton)>
             <button
               className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
@@ -270,9 +328,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                <span>
-                  Cancel
-                </span>
+                Cancel
               </FormattedMessage>
             </button>
           </li>
@@ -345,25 +401,27 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -538,9 +596,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   id="user.settings.notifications.email.send"
                   values={Object {}}
                 >
-                  <span>
-                    Send email notifications
-                  </span>
+                  Send email notifications
                 </FormattedMessage>
               </legend>
               <div
@@ -561,9 +617,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.immediately"
                     values={Object {}}
                   >
-                    <span>
-                      Immediately
-                    </span>
+                    Immediately
                   </FormattedMessage>
                 </label>
               </div>
@@ -590,9 +644,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                         }
                       }
                     >
-                      <span>
-                        Every 15 minutes
-                      </span>
+                      Every 15 minutes
                     </FormattedMessage>
                   </label>
                 </div>
@@ -614,9 +666,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       id="user.settings.notifications.email.everyHour"
                       values={Object {}}
                     >
-                      <span>
-                        Every hour
-                      </span>
+                      Every hour
                     </FormattedMessage>
                   </label>
                 </div>
@@ -639,9 +689,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.never"
                     values={Object {}}
                   >
-                    <span>
-                      Never
-                    </span>
+                    Never
                   </FormattedMessage>
                 </label>
               </div>
@@ -657,9 +705,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     }
                   }
                 >
-                  <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
-                  </span>
+                  Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
                 </FormattedMessage>
                  
                 <FormattedMessage
@@ -667,9 +713,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   id="user.settings.notifications.emailBatchingInfo"
                   values={Object {}}
                 >
-                  <span>
-                    Notifications received over the time period selected are combined and sent in a single email.
-                  </span>
+                  Notifications received over the time period selected are combined and sent in a single email.
                 </FormattedMessage>
               </div>
             </fieldset>
@@ -678,30 +722,94 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             className="setting-list-item"
           >
             <hr />
-            <SaveButton
-              btnClass="btn-primary"
+            <injectIntl(SaveButton)
               disabled={false}
-              extraClasses=""
               onClick={[Function]}
               saving={false}
             >
-              <button
-                className="save-button btn btn-primary"
+              <SaveButton
+                btnClass="btn-primary"
                 disabled={false}
-                id="saveSetting"
+                extraClasses=""
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatHTMLMessage": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": Symbol(react.fragment),
+                    "timeZone": undefined,
+                  }
+                }
                 onClick={[Function]}
-                type="submit"
+                saving={false}
               >
-                <LoadingWrapper
-                  loading={false}
-                  text="Saving"
+                <button
+                  className="save-button btn btn-primary"
+                  disabled={false}
+                  id="saveSetting"
+                  intl={
+                    Object {
+                      "defaultFormats": Object {},
+                      "defaultLocale": "en",
+                      "formatDate": [Function],
+                      "formatDateToParts": [Function],
+                      "formatHTMLMessage": [Function],
+                      "formatMessage": [Function],
+                      "formatNumber": [Function],
+                      "formatNumberToParts": [Function],
+                      "formatPlural": [Function],
+                      "formatRelativeTime": [Function],
+                      "formatTime": [Function],
+                      "formatTimeToParts": [Function],
+                      "formats": Object {},
+                      "formatters": Object {
+                        "getDateTimeFormat": [Function],
+                        "getMessageFormat": [Function],
+                        "getNumberFormat": [Function],
+                        "getPluralRules": [Function],
+                        "getRelativeTimeFormat": [Function],
+                      },
+                      "locale": "en",
+                      "messages": Object {},
+                      "onError": [Function],
+                      "textComponent": Symbol(react.fragment),
+                      "timeZone": undefined,
+                    }
+                  }
+                  onClick={[Function]}
+                  type="submit"
                 >
-                  <span>
-                    Save
-                  </span>
-                </LoadingWrapper>
-              </button>
-            </SaveButton>
+                  <LoadingWrapper
+                    loading={false}
+                    text="Saving"
+                  >
+                    <span>
+                      Save
+                    </span>
+                  </LoadingWrapper>
+                </button>
+              </SaveButton>
+            </injectIntl(SaveButton)>
             <button
               className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
@@ -712,9 +820,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                <span>
-                  Cancel
-                </span>
+                Cancel
               </FormattedMessage>
             </button>
           </li>

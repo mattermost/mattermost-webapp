@@ -245,7 +245,7 @@ class TeamImportTab extends React.Component {
 }
 
 TeamImportTab.propTypes = {
-    intl: PropTypes.any.isRequired,
+    intl: PropTypes.any,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
 };

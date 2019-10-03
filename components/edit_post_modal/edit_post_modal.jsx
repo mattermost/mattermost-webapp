@@ -22,7 +22,7 @@ const KeyCodes = Constants.KeyCodes;
 
 class EditPostModal extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         canEditPost: PropTypes.bool,
         canDeletePost: PropTypes.bool,
         ctrlSend: PropTypes.bool,

@@ -4,7 +4,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 <div
   className="backstage-content row"
 >
-  <BackstageHeader>
+  <injectIntl(BackstageHeader)>
     <Link
       to="/test/integrations/commands"
     >
@@ -19,7 +19,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
       id="Header"
       values={Object {}}
     />
-  </BackstageHeader>
+  </injectIntl(BackstageHeader)>
   <div
     className="backstage-form"
   >
@@ -113,7 +113,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="trigger"
             maxLength={128}
@@ -186,7 +186,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="url"
             maxLength="1024"
@@ -271,7 +271,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="username"
             maxLength="64"
@@ -312,7 +312,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="iconUrl"
             maxLength="1024"
@@ -386,7 +386,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="autocompleteHint"
             maxLength="1024"
@@ -427,7 +427,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="description"
             maxLength="128"
@@ -500,7 +500,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 <div
   className="backstage-content row"
 >
-  <BackstageHeader>
+  <injectIntl(BackstageHeader)>
     <Link
       to="/test/integrations/commands"
     >
@@ -515,7 +515,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
       id="Header"
       values={Object {}}
     />
-  </BackstageHeader>
+  </injectIntl(BackstageHeader)>
   <div
     className="backstage-form"
   >
@@ -609,7 +609,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="trigger"
             maxLength={128}
@@ -682,7 +682,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="url"
             maxLength="1024"
@@ -767,7 +767,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="username"
             maxLength="64"
@@ -808,7 +808,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="iconUrl"
             maxLength="1024"
@@ -882,7 +882,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="autocompleteHint"
             maxLength="1024"
@@ -923,7 +923,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         <div
           className="col-md-5 col-sm-8"
         >
-          <LocalizedInput
+          <injectIntl(LocalizedInput)
             className="form-control"
             id="description"
             maxLength="128"

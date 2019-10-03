@@ -34,7 +34,7 @@ class CreateComment extends React.PureComponent {
         /**
          * react-intl API
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          * The channel for which this comment is a part of

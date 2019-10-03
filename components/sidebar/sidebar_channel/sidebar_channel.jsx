@@ -18,7 +18,7 @@ class SidebarChannel extends React.PureComponent {
         /**
          * react-intl API
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          * Global config object

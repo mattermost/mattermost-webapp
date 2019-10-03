@@ -7,7 +7,7 @@ import {injectIntl} from 'react-intl';
 
 class BackstageHeader extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         children: PropTypes.node,
     };
 

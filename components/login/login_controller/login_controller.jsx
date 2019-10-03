@@ -36,7 +36,7 @@ import LoginMfa from '../login_mfa.jsx';
 
 class LoginController extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         location: PropTypes.object.isRequired,
         isLicensed: PropTypes.bool.isRequired,

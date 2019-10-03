@@ -69,25 +69,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -138,9 +140,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              <span>
-                Button Text
-              </span>
+              Button Text
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -165,9 +165,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                 }
               }
             >
-              <span>
-                Error Message: __message__ - __detailed_error__
-              </span>
+              Error Message: __message__ - __detailed_error__
             </FormattedMessage>
           </div>
         </div>
@@ -180,9 +178,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          <span>
-            Help Text
-          </span>
+          Help Text
         </FormattedMessage>
       </div>
     </div>
@@ -220,25 +216,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -297,9 +295,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              <span>
-                Button Text
-              </span>
+              Button Text
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -324,9 +320,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
                 }
               }
             >
-              <span>
-                Error Message: __message__
-              </span>
+              Error Message: __message__
             </FormattedMessage>
           </div>
         </div>
@@ -339,9 +333,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          <span>
-            Help Text
-          </span>
+          Help Text
         </FormattedMessage>
       </div>
     </div>
@@ -379,25 +371,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -448,9 +442,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              <span>
-                Button Text
-              </span>
+              Button Text
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -475,9 +467,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="success.message"
               values={Object {}}
             >
-              <span>
-                Success Message
-              </span>
+              Success Message
             </FormattedMessage>
           </div>
         </div>
@@ -490,9 +480,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          <span>
-            Help Text
-          </span>
+          Help Text
         </FormattedMessage>
       </div>
     </div>
@@ -530,25 +518,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -607,9 +597,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
               id="test"
               values={Object {}}
             >
-              <span>
-                Button Text
-              </span>
+              Button Text
             </FormattedMessage>
           </LoadingWrapper>
         </button>
@@ -622,9 +610,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
           id="test"
           values={Object {}}
         >
-          <span>
-            Help Text
-          </span>
+          Help Text
         </FormattedMessage>
       </div>
     </div>

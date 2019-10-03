@@ -10,25 +10,27 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -66,6 +68,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           <FormattedHTMLMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
             id="user.settings.notifications.autoResponderHint"
+            tagName="span"
             values={Object {}}
           />
         </div>,
@@ -97,9 +100,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           id="user.settings.notifications.autoResponder"
           values={Object {}}
         >
-          <span>
-            Automatic Direct Message Replies
-          </span>
+          Automatic Direct Message Replies
         </FormattedMessage>
       </li>
       <li
@@ -131,9 +132,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   id="user.settings.notifications.autoResponderEnabled"
                   values={Object {}}
                 >
-                  <span>
-                    Enabled
-                  </span>
+                  Enabled
                 </FormattedMessage>
               </label>
             </div>
@@ -144,6 +143,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               <FormattedHTMLMessage
                 defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
                 id="user.settings.notifications.autoResponderHint"
+                tagName="span"
                 values={Object {}}
               >
                 <span
@@ -160,30 +160,94 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             className="setting-list-item"
           >
             <hr />
-            <SaveButton
-              btnClass="btn-primary"
+            <injectIntl(SaveButton)
               disabled={false}
-              extraClasses=""
               onClick={[Function]}
               saving={false}
             >
-              <button
-                className="save-button btn btn-primary"
+              <SaveButton
+                btnClass="btn-primary"
                 disabled={false}
-                id="saveSetting"
+                extraClasses=""
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatHTMLMessage": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": Symbol(react.fragment),
+                    "timeZone": undefined,
+                  }
+                }
                 onClick={[Function]}
-                type="submit"
+                saving={false}
               >
-                <LoadingWrapper
-                  loading={false}
-                  text="Saving"
+                <button
+                  className="save-button btn btn-primary"
+                  disabled={false}
+                  id="saveSetting"
+                  intl={
+                    Object {
+                      "defaultFormats": Object {},
+                      "defaultLocale": "en",
+                      "formatDate": [Function],
+                      "formatDateToParts": [Function],
+                      "formatHTMLMessage": [Function],
+                      "formatMessage": [Function],
+                      "formatNumber": [Function],
+                      "formatNumberToParts": [Function],
+                      "formatPlural": [Function],
+                      "formatRelativeTime": [Function],
+                      "formatTime": [Function],
+                      "formatTimeToParts": [Function],
+                      "formats": Object {},
+                      "formatters": Object {
+                        "getDateTimeFormat": [Function],
+                        "getMessageFormat": [Function],
+                        "getNumberFormat": [Function],
+                        "getPluralRules": [Function],
+                        "getRelativeTimeFormat": [Function],
+                      },
+                      "locale": "en",
+                      "messages": Object {},
+                      "onError": [Function],
+                      "textComponent": Symbol(react.fragment),
+                      "timeZone": undefined,
+                    }
+                  }
+                  onClick={[Function]}
+                  type="submit"
                 >
-                  <span>
-                    Save
-                  </span>
-                </LoadingWrapper>
-              </button>
-            </SaveButton>
+                  <LoadingWrapper
+                    loading={false}
+                    text="Saving"
+                  >
+                    <span>
+                      Save
+                    </span>
+                  </LoadingWrapper>
+                </button>
+              </SaveButton>
+            </injectIntl(SaveButton)>
             <button
               className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
@@ -194,9 +258,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                <span>
-                  Cancel
-                </span>
+                Cancel
               </FormattedMessage>
             </button>
           </li>
@@ -217,25 +279,27 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
+      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
+      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelative": [Function],
+      "formatRelativeTime": [Function],
       "formatTime": [Function],
+      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
+        "getPluralRules": [Function],
+        "getRelativeTimeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
-      "now": [Function],
       "onError": [Function],
-      "textComponent": "span",
+      "textComponent": Symbol(react.fragment),
       "timeZone": "Etc/UTC",
     }
   }
@@ -295,6 +359,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           <FormattedHTMLMessage
             defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
             id="user.settings.notifications.autoResponderHint"
+            tagName="span"
             values={Object {}}
           />
         </div>,
@@ -326,9 +391,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           id="user.settings.notifications.autoResponder"
           values={Object {}}
         >
-          <span>
-            Automatic Direct Message Replies
-          </span>
+          Automatic Direct Message Replies
         </FormattedMessage>
       </li>
       <li
@@ -360,9 +423,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   id="user.settings.notifications.autoResponderEnabled"
                   values={Object {}}
                 >
-                  <span>
-                    Enabled
-                  </span>
+                  Enabled
                 </FormattedMessage>
               </label>
             </div>
@@ -438,6 +499,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               <FormattedHTMLMessage
                 defaultMessage="Set a custom message that will be automatically sent in response to Direct Messages. Mentions in Public and Private Channels will not trigger the automated reply. Enabling Automatic Replies sets your status to Out of Office and disables email and push notifications."
                 id="user.settings.notifications.autoResponderHint"
+                tagName="span"
                 values={Object {}}
               >
                 <span
@@ -454,30 +516,94 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             className="setting-list-item"
           >
             <hr />
-            <SaveButton
-              btnClass="btn-primary"
+            <injectIntl(SaveButton)
               disabled={false}
-              extraClasses=""
               onClick={[Function]}
               saving={false}
             >
-              <button
-                className="save-button btn btn-primary"
+              <SaveButton
+                btnClass="btn-primary"
                 disabled={false}
-                id="saveSetting"
+                extraClasses=""
+                intl={
+                  Object {
+                    "defaultFormats": Object {},
+                    "defaultLocale": "en",
+                    "formatDate": [Function],
+                    "formatDateToParts": [Function],
+                    "formatHTMLMessage": [Function],
+                    "formatMessage": [Function],
+                    "formatNumber": [Function],
+                    "formatNumberToParts": [Function],
+                    "formatPlural": [Function],
+                    "formatRelativeTime": [Function],
+                    "formatTime": [Function],
+                    "formatTimeToParts": [Function],
+                    "formats": Object {},
+                    "formatters": Object {
+                      "getDateTimeFormat": [Function],
+                      "getMessageFormat": [Function],
+                      "getNumberFormat": [Function],
+                      "getPluralRules": [Function],
+                      "getRelativeTimeFormat": [Function],
+                    },
+                    "locale": "en",
+                    "messages": Object {},
+                    "onError": [Function],
+                    "textComponent": Symbol(react.fragment),
+                    "timeZone": undefined,
+                  }
+                }
                 onClick={[Function]}
-                type="submit"
+                saving={false}
               >
-                <LoadingWrapper
-                  loading={false}
-                  text="Saving"
+                <button
+                  className="save-button btn btn-primary"
+                  disabled={false}
+                  id="saveSetting"
+                  intl={
+                    Object {
+                      "defaultFormats": Object {},
+                      "defaultLocale": "en",
+                      "formatDate": [Function],
+                      "formatDateToParts": [Function],
+                      "formatHTMLMessage": [Function],
+                      "formatMessage": [Function],
+                      "formatNumber": [Function],
+                      "formatNumberToParts": [Function],
+                      "formatPlural": [Function],
+                      "formatRelativeTime": [Function],
+                      "formatTime": [Function],
+                      "formatTimeToParts": [Function],
+                      "formats": Object {},
+                      "formatters": Object {
+                        "getDateTimeFormat": [Function],
+                        "getMessageFormat": [Function],
+                        "getNumberFormat": [Function],
+                        "getPluralRules": [Function],
+                        "getRelativeTimeFormat": [Function],
+                      },
+                      "locale": "en",
+                      "messages": Object {},
+                      "onError": [Function],
+                      "textComponent": Symbol(react.fragment),
+                      "timeZone": undefined,
+                    }
+                  }
+                  onClick={[Function]}
+                  type="submit"
                 >
-                  <span>
-                    Save
-                  </span>
-                </LoadingWrapper>
-              </button>
-            </SaveButton>
+                  <LoadingWrapper
+                    loading={false}
+                    text="Saving"
+                  >
+                    <span>
+                      Save
+                    </span>
+                  </LoadingWrapper>
+                </button>
+              </SaveButton>
+            </injectIntl(SaveButton)>
             <button
               className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
@@ -488,9 +614,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                <span>
-                  Cancel
-                </span>
+                Cancel
               </FormattedMessage>
             </button>
           </li>

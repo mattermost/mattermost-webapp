@@ -11,7 +11,7 @@ import Constants from 'utils/constants';
 
 export class PermissionDescription extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         id: PropTypes.string.isRequired,
         rowType: PropTypes.string.isRequired,
         inherited: PropTypes.object,

@@ -4,7 +4,7 @@
 import React from 'react';
 import {MemoryRouter} from 'react-router';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PasswordResetSendLink from './password_reset_send_link';
 

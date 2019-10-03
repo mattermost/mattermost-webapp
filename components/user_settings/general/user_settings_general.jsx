@@ -86,7 +86,7 @@ const holders = defineMessages({
 
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         user: PropTypes.object.isRequired,
         updateSection: PropTypes.func.isRequired,
         updateTab: PropTypes.func.isRequired,

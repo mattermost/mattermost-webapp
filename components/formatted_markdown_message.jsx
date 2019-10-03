@@ -38,7 +38,7 @@ export class CustomRenderer extends marked.Renderer {
 class FormattedMarkdownMessage extends React.PureComponent {
     static get propTypes() {
         return {
-            intl: PropTypes.any.isRequired,
+            intl: PropTypes.any,
             id: PropTypes.string.isRequired,
             defaultMessage: PropTypes.string.isRequired,
             values: PropTypes.object,

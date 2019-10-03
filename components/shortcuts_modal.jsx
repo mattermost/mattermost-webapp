@@ -249,7 +249,7 @@ const allShortcuts = defineMessages({
 
 class ShortcutsModal extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         isMac: PropTypes.bool.isRequired,
     }
 

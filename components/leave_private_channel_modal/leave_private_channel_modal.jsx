@@ -17,7 +17,7 @@ class LeavePrivateChannelModal extends React.Component {
     };
 
     static contextType = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
     };
 
     constructor(props) {

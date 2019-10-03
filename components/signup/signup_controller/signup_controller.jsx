@@ -19,7 +19,7 @@ import {Constants} from 'utils/constants';
 
 class SignupController extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         location: PropTypes.object,
         loggedIn: PropTypes.bool.isRequired,
         isLicensed: PropTypes.bool.isRequired,

@@ -15,7 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 
 class PermalinkView extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         channelId: PropTypes.string,
         channelName: PropTypes.string,
         channelIsArchived: PropTypes.bool,

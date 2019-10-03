@@ -213,7 +213,7 @@ const holders = defineMessages({
 
 export class AuditTable extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         audits: PropTypes.array.isRequired,
         showUserId: PropTypes.bool,
         showIp: PropTypes.bool,

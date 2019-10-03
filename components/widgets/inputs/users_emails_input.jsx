@@ -26,7 +26,7 @@ import './users_emails_input.scss';
 
 class UsersEmailsInput extends React.Component {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         placeholder: PropTypes.string,
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,

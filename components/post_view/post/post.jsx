@@ -19,7 +19,7 @@ class Post extends React.PureComponent {
         /**
          * react-intl API
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          * The post to render

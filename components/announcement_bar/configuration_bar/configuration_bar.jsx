@@ -20,7 +20,7 @@ const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
 
 class ConfigurationAnnouncementBar extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         config: PropTypes.object,
         license: PropTypes.object,
         user: PropTypes.object,

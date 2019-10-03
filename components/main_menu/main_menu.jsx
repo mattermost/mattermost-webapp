@@ -31,7 +31,7 @@ import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 class MainMenu extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         mobile: PropTypes.bool.isRequired,
         id: PropTypes.string,
         teamId: PropTypes.string,

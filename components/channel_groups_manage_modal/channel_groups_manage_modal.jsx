@@ -17,7 +17,7 @@ import groupsAvatar from 'images/groups-avatar.png';
 
 class ChannelGroupsManageModal extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroupsAssociatedToChannel: PropTypes.func.isRequired,

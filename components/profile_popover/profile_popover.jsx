@@ -108,7 +108,7 @@ class ProfilePopover extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         ...Popover.propTypes,
     }

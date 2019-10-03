@@ -167,7 +167,7 @@ const postTypeMessage = {
 
 class CombinedSystemMessage extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         allUserIds: PropTypes.array.isRequired,
         allUsernames: PropTypes.array.isRequired,
         currentUserId: PropTypes.string.isRequired,

@@ -5,7 +5,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import UserSettingsGeneral from './user_settings_general.jsx';
 
@@ -15,7 +15,6 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     };
 
     const requiredProps = {
-        intl: {},
         user,
         updateSection: jest.fn(),
         updateTab: jest.fn(),

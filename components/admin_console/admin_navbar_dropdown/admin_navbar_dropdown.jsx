@@ -20,7 +20,7 @@ import MenuItemBlockableLink from './menu_item_blockable_link';
 class AdminNavbarDropdown extends React.Component {
     static propTypes = {
         locale: PropTypes.string.isRequired,
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
         siteName: PropTypes.string,
         navigationBlocked: PropTypes.bool,
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -46,7 +46,7 @@ class PostList extends React.PureComponent {
         /**
          * react-intl API
          */
-        intl: PropTypes.any.isRequired,
+        intl: PropTypes.any,
 
         /**
          * Array of Ids in the channel including date separators, new message indicator, more messages loader,
