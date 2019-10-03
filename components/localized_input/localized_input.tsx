@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {intlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 type Props = {
     placeholder: {
@@ -10,12 +10,10 @@ type Props = {
         defaultMessage: string;
     };
     value?: string;
-}
+    intl: IntlShape;
+};
 
-export default class LocalizedInput extends React.Component<Props> {
-    public static contextTypes = {
-        intl: intlShape.isRequired,
-    };
+class LocalizedInput extends React.Component<Props> {
     public input: React.RefObject<HTMLInputElement> = React.createRef<HTMLInputElement>();
 
     public get value(): string {
@@ -41,7 +39,7 @@ export default class LocalizedInput extends React.Component<Props> {
     }
 
     public render(): JSX.Element {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const {placeholder, ...otherProps} = this.props;
         const placeholderString: string = formatMessage(placeholder);
 
@@ -54,3 +52,5 @@ export default class LocalizedInput extends React.Component<Props> {
         );
     }
 }
+
+export default injectIntl(LocalizedInput);

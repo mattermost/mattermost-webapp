@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
@@ -40,14 +40,9 @@ const renderScrollThumbVertical = (props) => (
     />
 );
 
-export default class AdminSidebar extends React.Component {
-    static get contextTypes() {
-        return {
-            intl: intlShape.isRequired,
-        };
-    }
-
+class AdminSidebar extends React.Component {
     static propTypes = {
+        intl: PropTypes.any.isRequired,
         license: PropTypes.object.isRequired,
         config: PropTypes.object,
         plugins: PropTypes.object,
@@ -108,7 +103,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -357,3 +352,5 @@ export default class AdminSidebar extends React.Component {
         );
     }
 }
+
+export default injectIntl(AdminSidebar);

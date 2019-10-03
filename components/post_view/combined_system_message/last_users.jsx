@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -46,17 +46,14 @@ const typeMessage = {
     },
 };
 
-export default class LastUsers extends React.PureComponent {
+class LastUsers extends React.PureComponent {
     static propTypes = {
+        intl: PropTypes.any.isRequired,
         actor: PropTypes.string,
         expandedLocale: PropTypes.object.isRequired,
         formatOptions: PropTypes.object.isRequired,
         postType: PropTypes.string.isRequired,
         usernames: PropTypes.array.isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape,
     };
 
     constructor(props) {
@@ -83,7 +80,7 @@ export default class LastUsers extends React.PureComponent {
     }
 
     render() {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const {expand} = this.state;
         const {
             actor,
@@ -132,3 +129,5 @@ export default class LastUsers extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(LastUsers);

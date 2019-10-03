@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants';
@@ -34,8 +34,6 @@ class LeaveTeamModal extends React.PureComponent {
 
         show: PropTypes.bool.isRequired,
 
-        intl: intlShape.isRequired,
-
         actions: PropTypes.shape({
 
             /**
@@ -50,6 +48,10 @@ class LeaveTeamModal extends React.PureComponent {
 
             toggleSideBarRightMenu: PropTypes.func.isRequired,
         }),
+    };
+
+    static contextType = {
+        intl: PropTypes.any.isRequired,
     };
 
     componentDidMount() {
@@ -131,4 +133,4 @@ class LeaveTeamModal extends React.PureComponent {
     }
 }
 
-export default injectIntl(LeaveTeamModal);
+export default LeaveTeamModal;

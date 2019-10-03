@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
@@ -44,7 +44,7 @@ const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMe
 
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
-export default class ChannelHeader extends React.PureComponent {
+class ChannelHeader extends React.PureComponent {
     static propTypes = {
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
@@ -74,10 +74,6 @@ export default class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -268,7 +264,7 @@ export default class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         let hasGuestsText = '';
@@ -714,3 +710,5 @@ export default class ChannelHeader extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(ChannelHeader);
