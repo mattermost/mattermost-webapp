@@ -8,23 +8,29 @@ describe('Notifications.showNotification', () => {
 
     beforeEach(() => {
         jest.resetModules();
-        Notifications = require('utils/notifications.jsx');
+        Notifications = require('utils/notifications.tsx');
     });
 
     it('should throw an exception if Notification is not defined on window', async () => {
-        await expect(Notifications.showNotification()).rejects.toThrow('Notification not supported');
+        await expect(Notifications.showNotification()).rejects.toThrow(
+            'Notification not supported',
+        );
     });
 
     it('should throw an exception if Notification.requestPermission is not defined', async () => {
         window.Notification = {};
-        await expect(Notifications.showNotification()).rejects.toThrow('Notification.requestPermission not supported');
+        await expect(Notifications.showNotification()).rejects.toThrow(
+            'Notification.requestPermission not supported',
+        );
     });
 
     it('should throw an exception if Notification.requestPermission is not a function', async () => {
         window.Notification = {
             requestPermission: true,
         };
-        await expect(Notifications.showNotification()).rejects.toThrow('Notification.requestPermission not supported');
+        await expect(Notifications.showNotification()).rejects.toThrow(
+            'Notification.requestPermission not supported',
+        );
     });
 
     it('should request permissions, promise style, if not previously requested, handling rejection', async () => {
@@ -32,7 +38,9 @@ describe('Notifications.showNotification', () => {
             requestPermission: () => Promise.resolve('denied'),
             permission: 'denied',
         };
-        await expect(Notifications.showNotification()).rejects.toThrow('Notifications not granted');
+        await expect(Notifications.showNotification()).rejects.toThrow(
+            'Notifications not granted',
+        );
     });
 
     it('should request permissions, callback style, if not previously requested, handling rejection', async () => {
@@ -44,22 +52,27 @@ describe('Notifications.showNotification', () => {
             },
             permission: 'denied',
         };
-        await expect(Notifications.showNotification()).rejects.toThrow('Notifications not granted');
+        await expect(Notifications.showNotification()).rejects.toThrow(
+            'Notifications not granted',
+        );
     });
 
     it('should request permissions, promise style, if not previously requested, handling success', async () => {
         window.Notification = jest.fn();
-        window.Notification.requestPermission = () => Promise.resolve('granted');
+        window.Notification.requestPermission = () =>
+            Promise.resolve('granted');
         window.Notification.permission = 'denied';
 
         const n = {};
         window.Notification.mockReturnValueOnce(n);
 
-        await expect(Notifications.showNotification({
-            body: 'body',
-            requireInteraction: true,
-            silent: false,
-        })).resolves.toBeTruthy();
+        await expect(
+            Notifications.showNotification({
+                body: 'body',
+                requireInteraction: true,
+                silent: false,
+            }),
+        ).resolves.toBeTruthy();
         await expect(window.Notification.mock.calls.length).toBe(1);
         const call = window.Notification.mock.calls[0];
         expect(call[1]).toEqual({
@@ -83,11 +96,13 @@ describe('Notifications.showNotification', () => {
         const n = {};
         window.Notification.mockReturnValueOnce(n);
 
-        await expect(Notifications.showNotification({
-            body: 'body',
-            requireInteraction: true,
-            silent: false,
-        })).resolves.toBeTruthy();
+        await expect(
+            Notifications.showNotification({
+                body: 'body',
+                requireInteraction: true,
+                silent: false,
+            }),
+        ).resolves.toBeTruthy();
         await expect(window.Notification.mock.calls.length).toBe(1);
         const call = window.Notification.mock.calls[0];
         expect(call[1]).toEqual({
@@ -106,9 +121,13 @@ describe('Notifications.showNotification', () => {
         };
 
         // Call one to deny and mark as already requested
-        await expect(Notifications.showNotification()).rejects.toThrow('Notifications not granted');
+        await expect(Notifications.showNotification()).rejects.toThrow(
+            'Notifications not granted',
+        );
 
         // Try again
-        await expect(Notifications.showNotification()).rejects.toThrow('Notifications already requested but not granted');
+        await expect(Notifications.showNotification()).rejects.toThrow(
+            'Notifications already requested but not granted',
+        );
     });
 });
