@@ -14,7 +14,7 @@ import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -563,14 +563,7 @@ export default class CreateComment extends React.PureComponent {
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
-    handleMouseUp = (e) => {
-        const caretPosition = Utils.getCaretPosition(e.target);
-        this.setState({
-            caretPosition,
-        });
-    }
-
-    handleKeyUp = (e) => {
+    handleMouseUpKeyUp = (e) => {
         const caretPosition = Utils.getCaretPosition(e.target);
         this.setState({
             caretPosition,
@@ -964,8 +957,8 @@ export default class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
-                                onMouseUp={this.handleMouseUp}
-                                onKeyUp={this.handleKeyUp}
+                                onMouseUp={this.handleMouseUpKeyUp}
+                                onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}

@@ -911,14 +911,7 @@ export default class CreatePost extends React.Component {
         }
     }
 
-    handleMouseUp = (e) => {
-        const caretPosition = Utils.getCaretPosition(e.target);
-        this.setState({
-            caretPosition,
-        });
-    }
-
-    handleKeyUp = (e) => {
+    handleMouseUpKeyUp = (e) => {
         const caretPosition = Utils.getCaretPosition(e.target);
         this.setState({
             caretPosition,
@@ -1287,8 +1280,8 @@ export default class CreatePost extends React.Component {
                                 onChange={this.handleChange}
                                 onKeyPress={this.postMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
-                                onMouseUp={this.handleMouseUp}
-                                onKeyUp={this.handleKeyUp}
+                                onMouseUp={this.handleMouseUpKeyUp}
+                                onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}

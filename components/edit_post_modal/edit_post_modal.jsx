@@ -221,14 +221,7 @@ export default class EditPostModal extends React.PureComponent {
         }
     }
 
-    handleMouseUp = (e) => {
-        const caretPosition = Utils.getCaretPosition(e.target);
-        this.setState({
-            caretPosition,
-        });
-    }
-
-    handleKeyUp = (e) => {
+    handleMouseUpKeyUp = (e) => {
         const caretPosition = Utils.getCaretPosition(e.target);
         this.setState({
             caretPosition,
@@ -377,8 +370,8 @@ export default class EditPostModal extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
-                                onMouseUp={this.handleMouseUp}
-                                onKeyUp={this.handleKeyUp}
+                                onMouseUp={this.handleMouseUpKeyUp}
+                                onKeyUp={this.handleMouseUpKeyUp}
                                 handlePostError={this.handlePostError}
                                 value={this.state.editText}
                                 channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}
