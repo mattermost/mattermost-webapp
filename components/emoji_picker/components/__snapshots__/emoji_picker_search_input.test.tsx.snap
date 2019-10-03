@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/EmojiPicker/components/EmojiPickerSearchInput should match snapshot 1`] = `
+<IntlProvider
+  defaultFormats={Object {}}
+  defaultLocale="en"
+  formats={Object {}}
+  locale="en"
+  messages={Object {}}
+  onError={[Function]}
+  textComponent={Symbol(react.fragment)}
+  timeZone="Etc/UTC"
+>
+  <ForwardRef(EmojiPickerSearchInput)>
+    <div
+      className="emoji-picker__search-container"
+    >
+      <span
+        className="fa fa-search emoji-picker__search-icon"
+      />
+      <FormattedMessage
+        defaultMessage="Search for an emoji"
+        id="emoji_picker.search_emoji"
+        values={Object {}}
+      >
+        <ForwardRef(LocalizedInput)
+          className="emoji-picker__search"
+          data-testid="emojiInputSearch"
+          id="emojiPickerSearch"
+          placeholder={
+            Object {
+              "defaultMessage": "Search Emoji",
+              "id": "emoji_picker.search",
+            }
+          }
+          type="text"
+        >
+          <input
+            className="emoji-picker__search"
+            data-testid="emojiInputSearch"
+            id="emojiPickerSearch"
+            placeholder="Search Emoji"
+            type="text"
+          />
+        </ForwardRef(LocalizedInput)>
+      </FormattedMessage>
+    </div>
+  </ForwardRef(EmojiPickerSearchInput)>
+</IntlProvider>
+`;

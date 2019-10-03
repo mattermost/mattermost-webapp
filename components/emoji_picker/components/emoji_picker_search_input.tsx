@@ -5,8 +5,8 @@ import {t} from "utils/i18n";
 import LocalizedInput from "components/localized_input/localized_input";
 
 interface EmojiPickerSearchInputProps {
-    onChange: ChangeEventHandler<HTMLInputElement>;
-    onKeyDown: KeyboardEventHandler<HTMLInputElement>;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
+    onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
 }
 
 const placeholder = {id: t('emoji_picker.search'), defaultMessage: 'Search Emoji'};
