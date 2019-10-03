@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
 import {Constants} from 'utils/constants.jsx';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 
 const HTTP_STATUS_OK = 200;
 

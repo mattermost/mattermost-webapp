@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import ChannelSelect from 'components/channel_select';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {localizeMessage} from 'utils/utils.jsx';
 
