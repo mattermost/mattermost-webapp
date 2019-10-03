@@ -192,7 +192,10 @@ export default class EmojiPicker extends React.PureComponent {
             this.divHeight = this.emojiPickerContainer.offsetHeight;
         }
 
-        document.getElementById('root').classList.add('emoji-picker--active');
+        const rootComponent = document.getElementById('root');
+        if (rootComponent) {
+            rootComponent.classList.add('emoji-picker--active');
+        }
     }
 
     UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
@@ -234,7 +237,10 @@ export default class EmojiPicker extends React.PureComponent {
             window.cancelAnimationFrame(this.renderAllCategoriesFrame);
         }
 
-        document.getElementById('root').classList.remove('emoji-picker--active');
+        const rootComponent = document.getElementById('root');
+        if (rootComponent) {
+            rootComponent.classList.add('emoji-picker--active');
+        }
     }
 
     renderAllCategories = () => {
