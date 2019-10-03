@@ -3060,6 +3060,17 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.GuestAttribute',
+                        label: t('admin.saml.guestAttrTitle'),
+                        label_default: 'Guest Attribute:',
+                        placeholder: t('admin.saml.guestAttrEx'),
+                        placeholder_default: 'E.g.: "usertype=Guest" or "isGuest=true"',
+                        help_text: t('admin.saml.guestAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. If this attribute is removed/changed from your user in SAML and the user is still active, the user will be promoted to a member in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.',
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.FirstNameAttribute',
                         label: t('admin.saml.firstnameAttrTitle'),
                         label_default: 'First Name Attribute:',
