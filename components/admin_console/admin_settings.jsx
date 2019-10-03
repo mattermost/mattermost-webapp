@@ -9,7 +9,7 @@ import {saveConfig} from 'actions/admin_actions.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error';
-import Constants from 'utils/constants.tsx';
+import Constants from 'utils/constants';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 

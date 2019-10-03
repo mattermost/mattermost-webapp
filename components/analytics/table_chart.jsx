@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import Constants from 'utils/constants.tsx';
+import Constants from 'utils/constants';
 
 export default class TableChart extends React.PureComponent {
     static propTypes = {

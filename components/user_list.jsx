@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.tsx';
+import Constants from 'utils/constants';
 import LoadingScreen from 'components/loading_screen.jsx';
 
 import UserListRow from './user_list_row';

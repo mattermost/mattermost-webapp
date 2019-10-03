@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants.tsx';
+import {Constants} from 'utils/constants';
 import Sidebar from 'components/sidebar/sidebar.jsx';
 
 jest.mock('utils/utils', () => {

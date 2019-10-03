@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.tsx';
+import Constants from 'utils/constants';
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';

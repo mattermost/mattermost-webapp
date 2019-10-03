@@ -11,7 +11,7 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import store from 'stores/redux_store.jsx';
 
-import {Constants} from 'utils/constants.tsx';
+import {Constants} from 'utils/constants';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';

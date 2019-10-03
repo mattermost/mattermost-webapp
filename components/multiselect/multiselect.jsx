@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {Constants, A11yCustomEventTypes} from 'utils/constants.tsx';
+import {Constants, A11yCustomEventTypes} from 'utils/constants';
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';

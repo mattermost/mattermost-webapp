@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ErrorPageTypes} from 'utils/constants.tsx';
+import {ErrorPageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 export default function ErrorTitle({type, title}) {

@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {ActionTypes} from 'utils/constants.tsx';
+import {ActionTypes} from 'utils/constants';
 
 const initialState = {
     blocked: false,

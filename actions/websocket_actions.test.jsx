@@ -13,7 +13,7 @@ import {
 } from 'mattermost-redux/actions/users';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
-import {ActionTypes} from 'utils/constants.tsx';
+import {ActionTypes} from 'utils/constants';
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';

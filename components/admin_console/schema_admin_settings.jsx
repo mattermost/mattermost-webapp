@@ -9,7 +9,7 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 import * as I18n from 'i18n/i18n.jsx';
 
 import {saveConfig} from 'actions/admin_actions.jsx';
-import Constants from 'utils/constants.tsx';
+import Constants from 'utils/constants';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';

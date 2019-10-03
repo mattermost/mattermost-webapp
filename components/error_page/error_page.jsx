@@ -8,7 +8,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {ErrorPageTypes, Constants} from 'utils/constants.tsx';
+import {ErrorPageTypes, Constants} from 'utils/constants';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import ErrorTitle from './error_title.jsx';

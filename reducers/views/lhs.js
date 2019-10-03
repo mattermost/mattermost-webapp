@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 import {TeamTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes} from 'utils/constants.tsx';
+import {ActionTypes} from 'utils/constants';
 
 function isOpen(state = false, action) {
     switch (action.type) {

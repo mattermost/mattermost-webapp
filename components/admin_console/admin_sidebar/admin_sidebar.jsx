@@ -8,7 +8,7 @@ import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.tsx';
+import Constants from 'utils/constants';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
 

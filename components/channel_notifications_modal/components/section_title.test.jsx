@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {NotificationSections} from 'utils/constants.tsx';
+import {NotificationSections} from 'utils/constants';
 
 import SectionTitle from 'components/channel_notifications_modal/components/section_title.jsx';
 

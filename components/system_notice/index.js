@@ -12,7 +12,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {dismissNotice} from 'actions/views/notice';
-import {Preferences} from 'utils/constants.tsx';
+import {Preferences} from 'utils/constants';
 
 import Notices from './notices.jsx';
 import SystemNotice from './system_notice.jsx';
