@@ -673,3 +673,16 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf(':not_an_emoji:'));
     });
 });
+
+describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
+    const state = {
+        caretPosition: 2,
+    };
+
+    const message = 'Test Message';
+    it('should return an object with two strings when given context and message', () => {
+        const stringPieces = PostUtils.splitMessageBasedOnCaretPosition(state.caretPosition, message);
+        assert.equal('Te', stringPieces.firstPiece);
+        assert.equal('st Message', stringPieces.lastPiece);
+    });
+});
