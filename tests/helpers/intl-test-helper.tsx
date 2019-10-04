@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {createIntl, IntlProvider, IntlShape, injectIntl} from 'react-intl';
 import {mount, shallow, ShallowRendererProps, MountRendererProps} from 'enzyme';
 
@@ -13,11 +13,17 @@ const defaultIntl = createIntl({
     messages: defaultMessages,
 });
 
+export type IntlInjectedElement = ReactElement<any, ReturnType<typeof injectIntl>>;
+export function isIntlInjectedElement(element: ReactElement): element is IntlInjectedElement {
+    const {type} = element;
+    return typeof type ==='object' && 'WrappedComponent' in type;
+}
+
 interface ShallowWithIntlOptions extends ShallowRendererProps {
     intl?: IntlShape;
 }
 
-export function shallowWithIntl<T extends React.ReactElement<any, ReturnType<typeof injectIntl>>>(element: T, options?: ShallowWithIntlOptions) {
+export function shallowWithIntl<T extends IntlInjectedElement>(element: T, options?: ShallowWithIntlOptions) {
     const {intl = defaultIntl, ...shallowOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
 
@@ -49,13 +55,17 @@ export function shallowWithIntl<T extends React.ReactElement<any, ReturnType<typ
 interface MountWithIntlOptions extends MountRendererProps {
     intl?: IntlShape;
 }
-export function mountWithIntl<T extends React.ReactElement<any, ReturnType<typeof injectIntl>>>(element: T, options?: MountWithIntlOptions) {
+export function mountWithIntl<T extends ReactElement | IntlInjectedElement>(element: T, options?: MountWithIntlOptions) {
     const {intl = defaultIntl, ...mountOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
-    return mount(
+    const newElement = isIntlInjectedElement(element) ? (
 
         // Using WrappedComponent for injectIntl
-        <element.type.WrappedComponent intl={intl} {...element.props} />,
+        <element.type.WrappedComponent intl={intl} {...element.props} />
+    ) : element;
+
+    return mount(
+        newElement,
 
         // For useIntl, <Formatted.../>
         {
