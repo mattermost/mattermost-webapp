@@ -38,15 +38,15 @@ export default class SearchableChannelList extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.page !== this.state.page) {
-            $(this.refs.channelList).scrollTop(0);
+    updatePageFromSearch(prevProps) {
+        if (this.props.isSearch && !prevProps.isSearch) {
+            this.setState({page: 0});
         }
     }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.isSearch && !this.props.isSearch) {
-            this.setState({page: 0});
+    componentDidUpdate(prevProps, prevState) {
+        this.updatePageFromSearch(prevProps);
+        if (prevState.page !== this.state.page) {
+            $(this.refs.channelList).scrollTop(0);
         }
     }
 

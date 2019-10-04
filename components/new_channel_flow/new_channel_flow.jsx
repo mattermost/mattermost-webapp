@@ -85,12 +85,12 @@ export default class NewChannelFlow extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    updateFromShow(prevProps) {
         // If we are being shown, grab channel type from props and clear
-        if (nextProps.show === true && this.props.show === false) {
+        if (this.props.show === true && prevProps.show === false) {
             this.setState({
                 serverError: '',
-                channelType: getChannelTypeFromProps(nextProps),
+                channelType: getChannelTypeFromProps(this.props),
                 flowState: SHOW_NEW_CHANNEL,
                 channelDisplayName: '',
                 channelName: '',
@@ -99,6 +99,10 @@ export default class NewChannelFlow extends React.Component {
                 nameModified: false,
             });
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        this.updateFromShow(prevProps);
     }
 
     onSubmit = () => {

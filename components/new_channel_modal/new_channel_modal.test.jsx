@@ -204,4 +204,18 @@ describe('components/NewChannelModal', () => {
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(2);
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledWith(evt);
     });
+
+    test('should clear the display name error when showing', () => {
+        const wrapper = shallow(
+            <NewChannelModal
+                {...baseProps}
+                show={false}
+            />
+        );
+
+        wrapper.setState({displayNameError: 'an error'});
+        wrapper.setProps({show: true});
+
+        expect(wrapper.state('displayNameError')).toEqual('');
+    });
 });

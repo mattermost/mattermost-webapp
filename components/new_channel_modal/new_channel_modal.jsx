@@ -99,12 +99,16 @@ export default class NewChannelModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.show === true && this.props.show === false) {
+    updateDisplayNameError(prevProps) {
+        if (this.props.show === true && prevProps.show === false) {
             this.setState({
                 displayNameError: '',
             });
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        this.updateDisplayNameError(prevProps);
     }
 
     componentDidMount() {

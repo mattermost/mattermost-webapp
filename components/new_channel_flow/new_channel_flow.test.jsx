@@ -258,4 +258,37 @@ describe('components/NewChannelFlow', () => {
         props.canCreatePublicChannel = true;
         assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
     });
+
+    test('should reset the state when being shown', () => {
+        const wrapper = shallow(
+            <NewChannelFlow
+                {...baseProps}
+                show={false}
+            />
+        );
+
+        wrapper.setState({
+            serverError: 'an error',
+            channelType: 'a type',
+            flowState: SHOW_EDIT_URL,
+            channelDisplayName: 'a display name',
+            channelName: 'a name',
+            channelPurpose: 'a purpose',
+            channelHeader: 'a header',
+            nameModified: true,
+        });
+
+        wrapper.setProps({show: true});
+
+        expect(wrapper.state()).toEqual({
+            serverError: '',
+            channelType: Constants.OPEN_CHANNEL,
+            flowState: SHOW_NEW_CHANNEL,
+            channelDisplayName: '',
+            channelName: '',
+            channelPurpose: '',
+            channelHeader: '',
+            nameModified: false,
+        });
+    });
 });

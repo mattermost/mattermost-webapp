@@ -79,16 +79,22 @@ class EditChannelHeaderModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const {requestStatus: nextRequestStatus} = nextProps;
+    updateFromRequestStatus(prevProps) {
+        const {requestStatus: prevRequestStatus} = prevProps;
         const {requestStatus} = this.props;
 
-        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
+        if (requestStatus !== prevRequestStatus && requestStatus === RequestStatus.FAILURE) {
             this.setState({showError: true});
-        } else if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
+        } else if (requestStatus !== prevRequestStatus && requestStatus === RequestStatus.SUCCESS) {
             this.onHide();
         } else {
             this.setState({showError: false});
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+            this.updateFromRequestStatus(prevProps);
         }
     }
 
@@ -153,6 +159,7 @@ class EditChannelHeaderModal extends React.PureComponent {
     }
 
     render() {
+        // console.log(this.state.showError);
         let serverError = null;
         if (this.props.serverError && this.state.showError) {
             let errorMsg;
