@@ -3,14 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {createIntl, IntlProvider, IntlShape} from 'react-intl';
+import {createIntl, IntlProvider, IntlShape, injectIntl} from 'react-intl';
 import {mount, shallow, ShallowRendererProps, MountRendererProps} from 'enzyme';
-
-// Unwrap injectIntl
-jest.mock('react-intl', () => ({
-    ...require.requireActual('react-intl'),
-    injectIntl: (comp: any) => comp,
-}));
 
 const defaultMessages = require('i18n/en.json');
 const defaultIntl = createIntl({
@@ -23,17 +17,14 @@ interface ShallowWithIntlOptions extends ShallowRendererProps {
     intl?: IntlShape;
 }
 
-export function shallowWithIntl<T extends React.ReactElement>(element: T, options?: ShallowWithIntlOptions) {
+export function shallowWithIntl<T extends React.ReactElement<any, ReturnType<typeof injectIntl>>>(element: T, options?: ShallowWithIntlOptions) {
     const {intl = defaultIntl, ...shallowOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
 
     return shallow(
 
-        // For injectIntl
-        React.cloneElement(element, {
-            intl,
-            ...element.props,
-        }),
+        // Using WrappedComponent for injectIntl
+        <element.type.WrappedComponent intl={intl} {...element.props} />,
 
         // For useIntl, <Formatted.../>
         {
@@ -58,16 +49,13 @@ export function shallowWithIntl<T extends React.ReactElement>(element: T, option
 interface MountWithIntlOptions extends MountRendererProps {
     intl?: IntlShape;
 }
-export function mountWithIntl<T extends React.ReactElement>(element: T, options?: MountWithIntlOptions) {
+export function mountWithIntl<T extends React.ReactElement<any, ReturnType<typeof injectIntl>>>(element: T, options?: MountWithIntlOptions) {
     const {intl = defaultIntl, ...mountOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
     return mount(
 
-        // For injectIntl
-        React.cloneElement(element, {
-            intl,
-            ...element.props,
-        }),
+        // Using WrappedComponent for injectIntl
+        <element.type.WrappedComponent intl={intl} {...element.props} />,
 
         // For useIntl, <Formatted.../>
         {
