@@ -3,13 +3,18 @@
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {bindActionCreators} from 'redux';
-
+import {bindActionCreators, Dispatch} from 'redux';
+// @ts-ignore
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+// @ts-ignore
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+// @ts-ignore
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+// @ts-ignore
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+// @ts-ignore
 import {Permissions} from 'mattermost-redux/constants';
+// @ts-ignore
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {dismissNotice} from 'actions/views/notice';
@@ -23,8 +28,8 @@ function makeMapStateToProps() {
 
     const getPreferenceNameMap = createSelector(
         getCategory,
-        (preferences) => {
-            const nameMap = {};
+        (preferences: any[]) => {
+            const nameMap:any = {};
             preferences.forEach((p) => {
                 nameMap[p.name] = p;
             });
@@ -32,7 +37,7 @@ function makeMapStateToProps() {
         }
     );
 
-    return function mapStateToProps(state) {
+    return function mapStateToProps(state: any) {
         const license = getLicense(state);
         const config = getConfig(state);
         const serverVersion = state.entities.general.serverVersion;
@@ -40,6 +45,7 @@ function makeMapStateToProps() {
 
         return {
             currentUserId: state.entities.users.currentUserId,
+            // @ts-ignore
             preferences: getPreferenceNameMap(state, Preferences.CATEGORY_SYSTEM_NOTICE),
             dismissedNotices: state.views.notice.hasBeenDismissed,
             isSystemAdmin: haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM}),
@@ -52,7 +58,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             savePreferences,
