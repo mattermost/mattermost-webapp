@@ -1,7 +1,294 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`plugins/MainMenuActions should match snapshot and click plugin item for main menu 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<Menu
+  ariaLabel="main menu"
+  mobile={false}
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="recentMentions"
+      onClick={[Function]}
+      show={false}
+      text="Recent Mentions"
+    />
+    <MenuItemAction
+      icon={false}
+      id="flaggedPosts"
+      onClick={[Function]}
+      show={false}
+      text="Flagged Posts"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="accountSettings"
+      modalId="user_settings"
+      show={true}
+      text="Account Settings"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={true}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
+        show={true}
+        text="Invite People"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="teamSettings"
+        modalId="team_settings"
+        show={true}
+        text="Team Settings"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "someteamid",
+          }
+        }
+        dialogType={[Function]}
+        icon={false}
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={true}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "create_team",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        id="createTeam"
+        show={true}
+        text="Create a New Team"
+        to="/create_team"
+      />
+    </Connect(SystemPermissionGate)>
+    <MenuItemLink
+      icon={false}
+      id="joinTeam"
+      show={true}
+      text="Join Another Team"
+      to="/select_team"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="leaveTeam"
+      modalId="leave_team"
+      show={false}
+      text="Leave Team"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="someplugin_pluginmenuitem"
+      key="someplugin_pluginmenuitem"
+      onClick={[Function]}
+      show={true}
+      text="some plugin text"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_slash_commands",
+          "manage_oauth",
+          "manage_incoming_webhooks",
+          "manage_outgoing_webhooks",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemLink
+        id="integrations"
+        show={true}
+        text="Integrations"
+        to="/somename/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={true}
+        text="Plugin Marketplace"
+      />
+    </Connect(TeamPermissionGate)>
+    <MenuItemLink
+      id="customEmojis"
+      show={true}
+      text="Custom Emoji"
+      to="/somename/emoji"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(SystemPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+    >
+      <MenuItemLink
+        icon={false}
+        id="systemConsole"
+        show={true}
+        text="System Console"
+        to="/admin_console"
+      />
+    </Connect(SystemPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemExternalLink
+      icon={false}
+      id="helpLink"
+      show={false}
+      text="Help"
+    />
+    <MenuItemAction
+      id="keyboardShortcuts"
+      onClick={[Function]}
+      show={true}
+      text="Keyboard Shortcuts"
+    />
+    <MenuItemExternalLink
+      icon={false}
+      id="reportLink"
+      show={false}
+      text="Report a Problem"
+    />
+    <MenuItemExternalLink
+      icon={false}
+      id="nativeAppLink"
+      show={true}
+      text="Download Apps"
+    />
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={false}
+      id="about"
+      modalId="about"
+      show={true}
+      text="About Mattermost"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={false}
+      id="logout"
+      onClick={[Function]}
+      show={true}
+      text="Logout"
+    />
+  </MenuGroup>
+</Menu>
 `;
