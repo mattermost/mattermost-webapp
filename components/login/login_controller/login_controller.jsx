@@ -12,11 +12,11 @@ import Constants from 'utils/constants';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
-import { browserHistory } from 'utils/browser_history';
+import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {showNotification} from 'utils/notifications.tsx';
+import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n.jsx';
 
 import logoImage from 'images/logo.png';
@@ -617,8 +617,10 @@ class LoginController extends React.Component {
             }
 
             loginControls.push(
-                <form key="loginBoxes"
-onSubmit={this.preSubmit}>
+                <form
+                    key='loginBoxes'
+                    onSubmit={this.preSubmit}
+                >
                     <div className='signup__email-container'>
                         <FormError
                             error={this.state.serverError}
@@ -682,8 +684,10 @@ onSubmit={this.preSubmit}>
 
         if (this.props.enableOpenServer && this.checkSignUpEnabled()) {
             loginControls.push(
-                <div className="form-group"
-key="signup">
+                <div
+                    className='form-group'
+                    key='signup'
+                >
                     <span>
                         <FormattedMessage
                             id='login.noAccount'
@@ -732,10 +736,14 @@ key="signup">
                 office365SigninEnabled)
         ) {
             loginControls.push(
-                <div key="divider"
-className="or__container">
-                    <FormattedMessage id="login.or"
-defaultMessage="or"/>
+                <div
+                    key='divider'
+                    className='or__container'
+                >
+                    <FormattedMessage
+                        id='login.or'
+                        defaultMessage='or'
+                    />
                 </div>,
             );
 
@@ -902,8 +910,10 @@ defaultMessage="or"/>
             <div>
                 <AnnouncementBar/>
                 {backButton}
-                <div id="login_section"
-className="col-sm-12">
+                <div
+                    id='login_section'
+                    className='col-sm-12'
+                >
                     <div className={'signup-team__container ' + customClass}>
                         <div className='signup__markdown'>{customContent}</div>
                         <img
