@@ -28,7 +28,7 @@ export default class MarketplaceItem extends React.Component {
             onConfigure: PropTypes.func.isRequired,
             onInstalled: PropTypes.func.isRequired,
             actions: PropTypes.shape({
-                installPluginFromUrl: PropTypes.func.isRequired,
+                installMarketplacePlugin: PropTypes.func.isRequired,
             }).isRequired,
         };
 
@@ -44,7 +44,7 @@ export default class MarketplaceItem extends React.Component {
 
         onClickOverwriteModal = () => {
             this.setState({confirmOverwriteInstallModal: false});
-            return this.installPlugin(true);
+            return this.installPlugin();
         }
 
         onCancelOverwriteModal = () => {
@@ -55,11 +55,11 @@ export default class MarketplaceItem extends React.Component {
             });
         }
 
-        installPlugin = async (force) => {
-            const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, force);
+        installPlugin = async () => {
+            const {error} = await this.props.actions.installMarketplacePlugin(this.props.id, this.props.version);
 
             if (error) {
-                if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
+                if (error.server_error_id === 'app.plugin.install_id.app_error') {
                     this.setState({confirmOverwriteInstallModal: true});
                     return;
                 }
@@ -87,7 +87,7 @@ export default class MarketplaceItem extends React.Component {
             this.setState({installing: true});
             trackEvent('plugins', 'ui_marketplace_download');
 
-            this.installPlugin(false);
+            this.installPlugin();
         }
 
         onConfigure = () => {
