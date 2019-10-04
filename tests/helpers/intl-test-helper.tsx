@@ -16,7 +16,7 @@ const defaultIntl = createIntl({
 export type IntlInjectedElement = ReactElement<any, ReturnType<typeof injectIntl>>;
 export function isIntlInjectedElement(element: ReactElement): element is IntlInjectedElement {
     const {type} = element;
-    return typeof type ==='object' && 'WrappedComponent' in type;
+    return typeof type === 'function' && 'WrappedComponent' in type;
 }
 
 interface ShallowWithIntlOptions extends ShallowRendererProps {
@@ -27,9 +27,13 @@ export function shallowWithIntl<T extends IntlInjectedElement>(element: T, optio
     const {intl = defaultIntl, ...shallowOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
 
+    if (!isIntlInjectedElement(element)) {
+        throw new Error('shallowWithIntl() allows only components wrapped by injectIntl() HOC. Use shallow() instead.');
+    }
+
     return shallow(
 
-        // Using WrappedComponent for injectIntl
+        // Unwrap injectIntl
         <element.type.WrappedComponent intl={intl} {...element.props} />,
 
         // For useIntl, <Formatted.../>
@@ -58,9 +62,9 @@ interface MountWithIntlOptions extends MountRendererProps {
 export function mountWithIntl<T extends ReactElement | IntlInjectedElement>(element: T, options?: MountWithIntlOptions) {
     const {intl = defaultIntl, ...mountOptions} = options || {};
     const {locale, defaultLocale, messages} = intl;
-    const newElement = isIntlInjectedElement(element) ? (
 
-        // Using WrappedComponent for injectIntl
+    // Unwrap injectIntl
+    const newElement = isIntlInjectedElement(element) ? (
         <element.type.WrappedComponent intl={intl} {...element.props} />
     ) : element;
 
