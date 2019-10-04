@@ -21,7 +21,7 @@ describe('components/GetLinkModal', () => {
         const helpText = 'help text';
         const props = {...requiredProps, helpText};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <GetLinkModal {...props}/>
         );
 
@@ -29,7 +29,7 @@ describe('components/GetLinkModal', () => {
     });
 
     test('should match snapshot when helpText is not set', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <GetLinkModal {...requiredProps}/>
         );
 
