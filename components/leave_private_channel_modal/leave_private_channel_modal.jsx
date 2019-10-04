@@ -9,15 +9,11 @@ import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-class LeavePrivateChannelModal extends React.Component {
+export default class LeavePrivateChannelModal extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextType = {
-        intl: PropTypes.any,
     };
 
     constructor(props) {
@@ -117,5 +113,3 @@ class LeavePrivateChannelModal extends React.Component {
         );
     }
 }
-
-export default LeavePrivateChannelModal;
