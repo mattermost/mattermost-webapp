@@ -2,14 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallow} from 'enzyme';
 
 import NewMessageSeparator from './new_message_separator.jsx';
 
 describe('components/post_view/new_message_separator', () => {
     test('should render new_message_separator', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <NewMessageSeparator separatorId='1234'/>
         );
         expect(wrapper).toMatchSnapshot();
