@@ -1,58 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/ToggleModalButtonRedux component should match snapshot 1`] = `
-<ModalToggleButtonRedux
+<injectIntl(ModalToggleButtonRedux)
   accessibilityLabel="Delete Channel"
   actions={
     Object {
       "openModal": [Function],
     }
   }
-  className=""
-  dialogProps={Object {}}
   dialogType={[Function]}
   id="channelDelete"
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": "Etc/UTC",
-    }
-  }
   modalId="delete_channel"
   role="menuitem"
 >
-  <button
+  <ModalToggleButtonRedux
+    accessibilityLabel="Delete Channel"
     actions={
       Object {
         "openModal": [Function],
       }
     }
-    aria-label="Delete Channel Dialog"
-    className="style--none "
-    data-toggle="modal toggle"
+    className=""
+    dialogProps={Object {}}
+    dialogType={[Function]}
     id="channelDelete"
     intl={
       Object {
@@ -79,22 +49,65 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
         "locale": "en",
         "messages": Object {},
         "onError": [Function],
-        "textComponent": Symbol(react.fragment),
-        "timeZone": "Etc/UTC",
+        "textComponent": "span",
+        "timeZone": undefined,
       }
     }
-    onClick={[Function]}
+    modalId="delete_channel"
     role="menuitem"
   >
-    <FormattedMessage
-      defaultMessage="Delete Channel"
-      id="channel_header.delete"
-      values={Object {}}
+    <button
+      actions={
+        Object {
+          "openModal": [Function],
+        }
+      }
+      aria-label="Delete Channel Dialog"
+      className="style--none "
+      data-toggle="modal toggle"
+      id="channelDelete"
+      intl={
+        Object {
+          "defaultFormats": Object {},
+          "defaultLocale": "en",
+          "formatDate": [Function],
+          "formatDateToParts": [Function],
+          "formatHTMLMessage": [Function],
+          "formatMessage": [Function],
+          "formatNumber": [Function],
+          "formatNumberToParts": [Function],
+          "formatPlural": [Function],
+          "formatRelativeTime": [Function],
+          "formatTime": [Function],
+          "formatTimeToParts": [Function],
+          "formats": Object {},
+          "formatters": Object {
+            "getDateTimeFormat": [Function],
+            "getMessageFormat": [Function],
+            "getNumberFormat": [Function],
+            "getPluralRules": [Function],
+            "getRelativeTimeFormat": [Function],
+          },
+          "locale": "en",
+          "messages": Object {},
+          "onError": [Function],
+          "textComponent": "span",
+          "timeZone": undefined,
+        }
+      }
+      onClick={[Function]}
+      role="menuitem"
     >
-      <span>
-        Delete Channel
-      </span>
-    </FormattedMessage>
-  </button>
-</ModalToggleButtonRedux>
+      <FormattedMessage
+        defaultMessage="Delete Channel"
+        id="channel_header.delete"
+        values={Object {}}
+      >
+        <span>
+          Delete Channel
+        </span>
+      </FormattedMessage>
+    </button>
+  </ModalToggleButtonRedux>
+</injectIntl(ModalToggleButtonRedux)>
 `;

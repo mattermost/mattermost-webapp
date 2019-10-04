@@ -12,35 +12,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": "Etc/UTC",
-    }
-  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -161,7 +132,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   id="user.settings.notifications.email.send"
                   values={Object {}}
                 >
-                  Send email notifications
+                  <span>
+                    Send email notifications
+                  </span>
                 </FormattedMessage>
               </legend>
               <div
@@ -182,7 +155,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.immediately"
                     values={Object {}}
                   >
-                    Immediately
+                    <span>
+                      Immediately
+                    </span>
                   </FormattedMessage>
                 </label>
               </div>
@@ -204,7 +179,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.never"
                     values={Object {}}
                   >
-                    Never
+                    <span>
+                      Never
+                    </span>
                   </FormattedMessage>
                 </label>
               </div>
@@ -220,7 +197,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     }
                   }
                 >
-                  Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                  <span>
+                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                  </span>
                 </FormattedMessage>
                  
               </div>
@@ -264,7 +243,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     "locale": "en",
                     "messages": Object {},
                     "onError": [Function],
-                    "textComponent": Symbol(react.fragment),
+                    "textComponent": "span",
                     "timeZone": undefined,
                   }
                 }
@@ -300,7 +279,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       "locale": "en",
                       "messages": Object {},
                       "onError": [Function],
-                      "textComponent": Symbol(react.fragment),
+                      "textComponent": "span",
                       "timeZone": undefined,
                     }
                   }
@@ -328,7 +307,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                Cancel
+                <span>
+                  Cancel
+                </span>
               </FormattedMessage>
             </button>
           </li>
@@ -396,35 +377,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": "Etc/UTC",
-    }
-  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -596,7 +548,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   id="user.settings.notifications.email.send"
                   values={Object {}}
                 >
-                  Send email notifications
+                  <span>
+                    Send email notifications
+                  </span>
                 </FormattedMessage>
               </legend>
               <div
@@ -617,7 +571,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.immediately"
                     values={Object {}}
                   >
-                    Immediately
+                    <span>
+                      Immediately
+                    </span>
                   </FormattedMessage>
                 </label>
               </div>
@@ -644,7 +600,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                         }
                       }
                     >
-                      Every 15 minutes
+                      <span>
+                        Every 15 minutes
+                      </span>
                     </FormattedMessage>
                   </label>
                 </div>
@@ -666,7 +624,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       id="user.settings.notifications.email.everyHour"
                       values={Object {}}
                     >
-                      Every hour
+                      <span>
+                        Every hour
+                      </span>
                     </FormattedMessage>
                   </label>
                 </div>
@@ -689,7 +649,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     id="user.settings.notifications.email.never"
                     values={Object {}}
                   >
-                    Never
+                    <span>
+                      Never
+                    </span>
                   </FormattedMessage>
                 </label>
               </div>
@@ -705,7 +667,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     }
                   }
                 >
-                  Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                  <span>
+                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                  </span>
                 </FormattedMessage>
                  
                 <FormattedMessage
@@ -713,7 +677,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   id="user.settings.notifications.emailBatchingInfo"
                   values={Object {}}
                 >
-                  Notifications received over the time period selected are combined and sent in a single email.
+                  <span>
+                    Notifications received over the time period selected are combined and sent in a single email.
+                  </span>
                 </FormattedMessage>
               </div>
             </fieldset>
@@ -756,7 +722,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     "locale": "en",
                     "messages": Object {},
                     "onError": [Function],
-                    "textComponent": Symbol(react.fragment),
+                    "textComponent": "span",
                     "timeZone": undefined,
                   }
                 }
@@ -792,7 +758,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       "locale": "en",
                       "messages": Object {},
                       "onError": [Function],
-                      "textComponent": Symbol(react.fragment),
+                      "textComponent": "span",
                       "timeZone": undefined,
                     }
                   }
@@ -820,7 +786,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                Cancel
+                <span>
+                  Cancel
+                </span>
               </FormattedMessage>
             </button>
           </li>

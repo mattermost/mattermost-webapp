@@ -5,35 +5,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
   autoResponderActive={false}
   autoResponderMessage="Hello World!"
   error=""
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": "Etc/UTC",
-    }
-  }
   saving={false}
   setParentState={[MockFunction]}
   submit={[MockFunction]}
@@ -100,7 +71,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           id="user.settings.notifications.autoResponder"
           values={Object {}}
         >
-          Automatic Direct Message Replies
+          <span>
+            Automatic Direct Message Replies
+          </span>
         </FormattedMessage>
       </li>
       <li
@@ -132,7 +105,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   id="user.settings.notifications.autoResponderEnabled"
                   values={Object {}}
                 >
-                  Enabled
+                  <span>
+                    Enabled
+                  </span>
                 </FormattedMessage>
               </label>
             </div>
@@ -194,7 +169,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     "locale": "en",
                     "messages": Object {},
                     "onError": [Function],
-                    "textComponent": Symbol(react.fragment),
+                    "textComponent": "span",
                     "timeZone": undefined,
                   }
                 }
@@ -230,7 +205,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                       "locale": "en",
                       "messages": Object {},
                       "onError": [Function],
-                      "textComponent": Symbol(react.fragment),
+                      "textComponent": "span",
                       "timeZone": undefined,
                     }
                   }
@@ -258,7 +233,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                Cancel
+                <span>
+                  Cancel
+                </span>
               </FormattedMessage>
             </button>
           </li>
@@ -274,35 +251,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
   autoResponderActive={true}
   autoResponderMessage="Hello World!"
   error=""
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": "Etc/UTC",
-    }
-  }
   saving={false}
   setParentState={[MockFunction]}
   submit={[MockFunction]}
@@ -391,7 +339,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           id="user.settings.notifications.autoResponder"
           values={Object {}}
         >
-          Automatic Direct Message Replies
+          <span>
+            Automatic Direct Message Replies
+          </span>
         </FormattedMessage>
       </li>
       <li
@@ -423,7 +373,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                   id="user.settings.notifications.autoResponderEnabled"
                   values={Object {}}
                 >
-                  Enabled
+                  <span>
+                    Enabled
+                  </span>
                 </FormattedMessage>
               </label>
             </div>
@@ -550,7 +502,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     "locale": "en",
                     "messages": Object {},
                     "onError": [Function],
-                    "textComponent": Symbol(react.fragment),
+                    "textComponent": "span",
                     "timeZone": undefined,
                   }
                 }
@@ -586,7 +538,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                       "locale": "en",
                       "messages": Object {},
                       "onError": [Function],
-                      "textComponent": Symbol(react.fragment),
+                      "textComponent": "span",
                       "timeZone": undefined,
                     }
                   }
@@ -614,7 +566,9 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                 id="setting_item_max.cancel"
                 values={Object {}}
               >
-                Cancel
+                <span>
+                  Cancel
+                </span>
               </FormattedMessage>
             </button>
           </li>
