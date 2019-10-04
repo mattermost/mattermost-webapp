@@ -159,7 +159,6 @@ class EditChannelHeaderModal extends React.PureComponent {
     }
 
     render() {
-        // console.log(this.state.showError);
         let serverError = null;
         if (this.props.serverError && this.state.showError) {
             let errorMsg;
