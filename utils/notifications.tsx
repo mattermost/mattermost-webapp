@@ -16,85 +16,85 @@ let requestedNotificationPermission = false;
 // choose different semantics for the notifications.
 
 export interface ShowNotificationParams {
-  title: string;
-  body: string;
-  requireInteraction: boolean;
-  silent: boolean;
-  onClick?: (this: Notification, e: Event) => any | null;
+    title: string;
+    body: string;
+    requireInteraction: boolean;
+    silent: boolean;
+    onClick?: (this: Notification, e: Event) => any | null;
 }
 
 export async function showNotification(
-  {
-    title,
-    body,
-    requireInteraction,
-    silent,
-    onClick,
-  }: ShowNotificationParams = {
-    title: '',
-    body: '',
-    requireInteraction: false,
-    silent: false,
-  },
+    {
+        title,
+        body,
+        requireInteraction,
+        silent,
+        onClick,
+    }: ShowNotificationParams = {
+        title: '',
+        body: '',
+        requireInteraction: false,
+        silent: false,
+    },
 ) {
-  let icon = icon50;
-  if (UserAgent.isEdge()) {
-    icon = iconWS;
-  }
+    let icon = icon50;
+    if (UserAgent.isEdge()) {
+        icon = iconWS;
+    }
 
-  if (!('Notification' in window)) {
-    throw new Error('Notification not supported');
-  }
+    if (!('Notification' in window)) {
+        throw new Error('Notification not supported');
+    }
 
-  if (typeof Notification.requestPermission !== 'function') {
-    throw new Error('Notification.requestPermission not supported');
-  }
+    if (typeof Notification.requestPermission !== 'function') {
+        throw new Error('Notification.requestPermission not supported');
+    }
 
-  if (
-    Notification.permission !== 'granted' &&
+    if (
+        Notification.permission !== 'granted' &&
     requestedNotificationPermission
-  ) {
-    throw new Error('Notifications already requested but not granted');
-  }
+    ) {
+        throw new Error('Notifications already requested but not granted');
+    }
 
-  requestedNotificationPermission = true;
+    requestedNotificationPermission = true;
 
-  let permission = await Notification.requestPermission();
-  if (typeof permission === 'undefined') {
+    let permission = await Notification.requestPermission();
+    if (typeof permission === 'undefined') {
     // Handle browsers that don't support the promise-based syntax.
-    permission = await new Promise(resolve => {
-      Notification.requestPermission(resolve);
+        permission = await new Promise((resolve) => {
+            Notification.requestPermission(resolve);
+        });
+    }
+
+    if (permission !== 'granted') {
+        throw new Error('Notifications not granted');
+    }
+
+    const notification = new Notification(title, {
+        body,
+        tag: body,
+        icon,
+        requireInteraction,
+        silent,
     });
-  }
 
-  if (permission !== 'granted') {
-    throw new Error('Notifications not granted');
-  }
+    if (onClick) {
+        notification.onclick = onClick;
+    }
 
-  const notification = new Notification(title, {
-    body,
-    tag: body,
-    icon,
-    requireInteraction,
-    silent,
-  });
+    notification.onerror = () => {
+        throw new Error('Notification failed to show.');
+    };
 
-  if (onClick) {
-    notification.onclick = onClick;
-  }
+    // Mac desktop app notification dismissal is handled by the OS
+    if (!requireInteraction && !UserAgent.isMacApp()) {
+        setTimeout(() => {
+            notification.close();
+        }, Constants.DEFAULT_NOTIFICATION_DURATION);
+    }
 
-  notification.onerror = () => {
-    throw new Error('Notification failed to show.');
-  };
-
-  // Mac desktop app notification dismissal is handled by the OS
-  if (!requireInteraction && !UserAgent.isMacApp()) {
-    setTimeout(() => {
-      notification.close();
-    }, Constants.DEFAULT_NOTIFICATION_DURATION);
-  }
-
-  return () => {
-    notification.close();
-  };
+    return () => {
+        notification.close();
+    };
 }

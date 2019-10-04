@@ -32,9 +32,9 @@ import {
 import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
 
-import Constants, { FileTypes, UserStatuses } from 'utils/constants';
-import { browserHistory } from 'utils/browser_history';
-import { searchForTerm } from 'actions/post_actions';
+import Constants, {FileTypes, UserStatuses} from 'utils/constants';
+import {browserHistory} from 'utils/browser_history';
+import {searchForTerm} from 'actions/post_actions';
 import * as UserAgent from 'utils/user_agent.jsx';
 import bing from 'images/bing.mp3';
 import {t} from 'utils/i18n';

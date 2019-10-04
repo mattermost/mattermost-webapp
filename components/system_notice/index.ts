@@ -4,16 +4,22 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {bindActionCreators, Dispatch} from 'redux';
+
 // @ts-ignore
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+
 // @ts-ignore
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+
 // @ts-ignore
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
+
 // @ts-ignore
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+
 // @ts-ignore
 import {Permissions} from 'mattermost-redux/constants';
+
 // @ts-ignore
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
@@ -29,7 +35,7 @@ function makeMapStateToProps() {
     const getPreferenceNameMap = createSelector(
         getCategory,
         (preferences: any[]) => {
-            const nameMap:any = {};
+            const nameMap: any = {};
             preferences.forEach((p) => {
                 nameMap[p.name] = p;
             });
@@ -45,6 +51,7 @@ function makeMapStateToProps() {
 
         return {
             currentUserId: state.entities.users.currentUserId,
+
             // @ts-ignore
             preferences: getPreferenceNameMap(state, Preferences.CATEGORY_SYSTEM_NOTICE),
             dismissedNotices: state.views.notice.hasBeenDismissed,
