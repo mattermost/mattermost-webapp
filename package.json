@@ -216,7 +216,6 @@
     "mmjstool": "mmjstool",
     "storybook": "start-storybook -p 6006 -s ./storybook/static",
     "build-storybook": "build-storybook -s ./storybook/static",
-    "check-types": "tsc",
-    "postinstall": "npx patch-package"
+    "check-types": "tsc"
   }
 }
