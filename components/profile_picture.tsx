@@ -18,7 +18,7 @@ type Props = {
     isEmoji?: boolean;
     isRHS?: boolean;
     profileSrc?: string;
-    size: 'lg' | 'md' | 'sm' | 'xl' | 'xxl' | 'xs';
+    size: string;
     src: string;
     status?: string;
     userId?: string;
