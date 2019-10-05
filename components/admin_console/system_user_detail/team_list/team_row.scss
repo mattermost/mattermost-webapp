@@ -35,7 +35,6 @@
     display: flex;
     height: 100%;
     overflow: hidden;
-    opacity: .65;
     width: 150px;
     max-width: 400px;
     &.adjusted {
@@ -56,4 +55,18 @@
             color: $red;
         }
     }
+}
+
+.TeamRow__row .TeamRow__actions {
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+    height: 100%;
+    width: 150px;
+    max-width: 400px;
+    padding-right: 15px;
+}
+
+.TeamRow__row .TeamIcon__content {
+    opacity: 1;
 }

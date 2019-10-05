@@ -28,7 +28,7 @@ const MarketplaceTabs = {
     INSTALLED_PLUGINS: 'installed',
 };
 
-const TRACK_SEARCH_WAIT = 1000;
+const SEARCH_TIMEOUT_MILLISECONDS = 200;
 
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
@@ -82,8 +82,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     doSearch = () => {
-        debounce(this.trackSearch, TRACK_SEARCH_WAIT);
-
+        this.trackSearch();
         this.getMarketplacePlugins();
     }
 
@@ -105,23 +104,24 @@ export default class MarketplaceModal extends React.Component {
             let installLink = null;
             if (installedList) {
                 installLink = (
-                    <a onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}>
+                    <button
+                        className='margin-top x3 style--none color--link'
+                        onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                    >
                         <FormattedMessage
                             id='marketplace_modal.install_plugins'
                             defaultMessage='Install Plugins'
                         />
-                    </a>
+                    </button>
                 );
             }
 
             return (<div className='no_plugins_div'>
                 <br/>
                 <PluginIcon className='icon__plugin'/>
-                <br/>
-                <br/>
-                {noPluginsMessage}
-                <br/>
-                <br/>
+                <div className='margin-top x2 light'>
+                    {noPluginsMessage}
+                </div>
                 {installLink}
             </div>);
         }
@@ -159,7 +159,7 @@ export default class MarketplaceModal extends React.Component {
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
                         inputComponent={LocalizedInput}
-                        onInput={this.doSearch}
+                        onInput={debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS)}
                     />
                 </div>
             </div>

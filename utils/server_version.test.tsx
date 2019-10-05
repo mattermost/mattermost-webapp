@@ -1,15 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {equalServerVersions, isServerVersionGreaterThanOrEqualTo} from 'utils/server_version.jsx';
+import {equalServerVersions, isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 
 describe('utils/server_version/equalServerVersions', () => {
-    test('should handle undefined values', () => {
-        const a = undefined; // eslint-disable-line no-undefined
-        const b = null;
-        expect(equalServerVersions(a, b)).toEqual(true);
-    });
-
     test('should consider two empty versions as equal', () => {
         const a = '';
         const b = '';
@@ -66,12 +60,6 @@ describe('utils/server_version/equalServerVersions', () => {
 });
 
 describe('utils/server_version/isServerVersionGreaterThanOrEqualTo', () => {
-    test('should handle undefined values', () => {
-        const a = undefined; // eslint-disable-line no-undefined
-        const b = null;
-        expect(isServerVersionGreaterThanOrEqualTo(a, b)).toEqual(true);
-    });
-
     test('should consider two empty versions as equal', () => {
         const a = '';
         const b = '';
