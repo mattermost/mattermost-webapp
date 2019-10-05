@@ -187,7 +187,7 @@ function components(state = {}, action) {
             let actionData = action.data;
             let currentArray = nextState[action.name] || [];
             if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
-                const subMenus = (nextState[action.name] || []).filter((c) => c.subMenu && c.pluginId === actionData.pluginId);
+                const subMenus = currentArray.filter((c) => c.subMenu && c.pluginId === actionData.pluginId);
                 const subMenu = subMenus.find((sm) => hasSubmenu(sm, actionData));
                 if (!subMenu) {
                     return state;
