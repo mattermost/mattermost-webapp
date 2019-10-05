@@ -4,13 +4,21 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
+import {History, Location} from 'history';
 
 import {useSafeUrl} from 'utils/url';
 import MattermostIcon from 'images/favicon/android-chrome-192x192.png';
 import Nexus6Mockup from 'images/nexus-6p-mockup.png';
 
-export default function GetAndroidApp({androidAppDownloadLink, history, location}) {
-    const onContinue = (e) => {
+type Props = {
+    androidAppDownloadLink: string;
+    history: History;
+    location: Location;
+}
+
+export default function GetAndroidApp(props: Props) {
+    const {androidAppDownloadLink, history, location} = props;
+    const onContinue = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
 
         const redirectTo = (new URLSearchParams(location.search)).get('redirect_to');
