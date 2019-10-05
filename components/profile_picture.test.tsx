@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ProfilePicture from 'components/profile_picture.jsx';
+import ProfilePicture from 'components/profile_picture';
 
 describe('components/ProfilePicture', () => {
     const baseProps = {
@@ -39,7 +39,7 @@ describe('components/ProfilePicture', () => {
     test('should match snapshot, no user specified, overridden props', () => {
         const props = {
             ...baseProps,
-            size: 'xl',
+            size: ImageSize.xl,
             isRHS: true,
             hasMention: true,
         };
@@ -70,7 +70,7 @@ describe('components/ProfilePicture', () => {
             user: {
                 username: 'username',
             },
-            size: 'xs',
+            size: ImageSize.xs,
             isRHS: true,
             hasMention: true,
         };
