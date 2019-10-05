@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Switch, Route } from 'react-router-dom';
+
+import {Switch, Route} from 'react-router-dom';
 import Messaging from './components/messaging';
 import Composing from './components/composing';
 import Mentioning from './components/mentioning';
@@ -12,18 +13,18 @@ import Commands from './components/commands';
 
 type HelpControllerProps = {
     match: {
-        url: string
-    }
+        url: string;
+    };
 };
 
 export default class HelpController extends React.Component<HelpControllerProps, {}> {
-    componentDidUpdate() {
+    public componentDidUpdate() {
         (ReactDOM.findDOMNode(this) as HTMLInputElement).scrollIntoView();
     }
-    render() {
+    public render() {
         return (
-            <div className="help-page">
-                <div className="container col-sm-10 col-sm-offset-1">
+            <div className='help-page'>
+                <div className='container col-sm-10 col-sm-offset-1'>
                     <Switch>
                         <Route
                             path={`${this.props.match.url}/messaging`}
