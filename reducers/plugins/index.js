@@ -184,14 +184,15 @@ function components(state = {}, action) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
             const nextState = {...state};
-            const currentArray = (nextState[action.name] || []).filter((c) => !c.subMenu);
             let actionData = action.data;
+            let currentArray = nextState[action.name] || [];
             if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
                 const subMenus = (nextState[action.name] || []).filter((c) => c.subMenu && c.pluginId === actionData.pluginId);
                 const subMenu = subMenus.find((sm) => hasSubmenu(sm, actionData));
                 if (!subMenu) {
                     return state;
                 }
+                currentArray = currentArray.filter((ca) => ca.id !== subMenu.id);
                 actionData = buildSubMenu(subMenu, actionData);
             }
             const nextArray = [...currentArray, actionData];
