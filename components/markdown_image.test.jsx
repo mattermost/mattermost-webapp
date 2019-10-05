@@ -59,7 +59,7 @@ describe('components/MarkdownImage', () => {
         const wrapper = shallow(
             <MarkdownImage {...props}/>
         );
-        expect(wrapper.props().alt).toBe('Broken link');
+        expect(wrapper.props().alt).toBe(props.alt);
         expect(wrapper).toMatchSnapshot();
     });
 

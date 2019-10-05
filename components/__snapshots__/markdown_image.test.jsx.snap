@@ -48,7 +48,7 @@ exports[`components/MarkdownImage should match snapshot for broken link 1`] = `
 
 exports[`components/MarkdownImage should render a link if the source is unsafe 1`] = `
 <img
-  alt="Broken link"
+  alt="test image"
   src={null}
 />
 `;
