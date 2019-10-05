@@ -1,11 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Switch, Route} from 'react-router-dom';
-import PropTypes from 'prop-types';
-
+import { Switch, Route } from 'react-router-dom';
 import Messaging from './components/messaging';
 import Composing from './components/composing';
 import Mentioning from './components/mentioning';
@@ -13,15 +10,20 @@ import Formatting from './components/formatting';
 import Attaching from './components/attaching';
 import Commands from './components/commands';
 
-export default class HelpController extends React.Component {
-    componentDidUpdate() {
-        ReactDOM.findDOMNode(this).scrollIntoView();
+type HelpControllerProps = {
+    match: {
+        url: string
     }
+};
 
+export default class HelpController extends React.Component<HelpControllerProps, {}> {
+    componentDidUpdate() {
+        (ReactDOM.findDOMNode(this) as HTMLInputElement).scrollIntoView();
+    }
     render() {
         return (
-            <div className='help-page'>
-                <div className='container col-sm-10 col-sm-offset-1'>
+            <div className="help-page">
+                <div className="container col-sm-10 col-sm-offset-1">
                     <Switch>
                         <Route
                             path={`${this.props.match.url}/messaging`}
@@ -53,13 +55,3 @@ export default class HelpController extends React.Component {
         );
     }
 }
-
-HelpController.propTypes = {
-
-    /*
-     * Object from react-router
-     */
-    match: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-    }).isRequired,
-};
