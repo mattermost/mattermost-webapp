@@ -11,7 +11,7 @@ import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 

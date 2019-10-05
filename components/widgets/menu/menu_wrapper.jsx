@@ -8,6 +8,8 @@ import Constants from 'utils/constants.jsx';
 
 import MenuWrapperAnimation from './menu_wrapper_animation.jsx';
 
+import './menu_wrapper.scss';
+
 export default class MenuWrapper extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,

@@ -96,6 +96,7 @@ export default class RemovedFromChannelModal extends React.PureComponent {
                         type='button'
                         className='btn btn-primary'
                         onClick={this.onHide}
+                        id='removedChannelBtn'
                     >
                         <FormattedMessage
                             id='removed_channel.okay'

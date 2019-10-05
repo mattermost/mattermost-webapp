@@ -44,6 +44,13 @@
         }
     }
 
+    .more-modal__list {
+        .more-modal__description {
+            margin: 2px 0 0;
+            font-size: .9em;
+        }
+    }
+
     .search_input {
         flex: 1;
         margin-left: 16px;
@@ -110,14 +117,25 @@
         height: 42px;
         flex: 0 0 42px;
         margin-right: 4px;
+        border-radius: 50%;
 
-        img, svg {
+        svg {
             width: 32px;
             height: 32px;
         }
 
         svg {
-            fill: var(--button-bg-60);
+            fill: var(--button-bg);
+        }
+    }
+
+    .icon__plugin--background {
+        background-color: $white;
+        padding: 6px;
+
+        svg {
+            width: 24px;
+            height: 24px;
         }
     }
 
