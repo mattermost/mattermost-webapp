@@ -17,6 +17,22 @@ function addMenuItem(menu, data) {
     return menu;
 }
 
+function hasSubmenu(menu, data) {
+    if (menu.id === data.parentMenuId) {
+        return true;
+    } else if (menu.subMenu) {
+        const subMenuCheck = menu.subMenu.map((item) => {
+            const subMenu = {...item};
+            return hasSubmenu(subMenu, data);
+        });
+        if (subMenuCheck.length === 0) {
+            return false;
+        }
+        return subMenuCheck.flat().some((t) => t);
+    }
+    return false;
+}
+
 function buildSubMenu(root, data) {
     let menu = {...root};
     menu = addMenuItem(menu, {
@@ -171,11 +187,12 @@ function components(state = {}, action) {
             const currentArray = (nextState[action.name] || []).filter((c) => !c.subMenu);
             let actionData = action.data;
             if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
-                const subMenu = (nextState[action.name] || []).find((c) => c.subMenu && c.pluginId === actionData.pluginId);
-                actionData = buildSubMenu(subMenu, action.data);
-                if (!actionData) {
+                const subMenus = (nextState[action.name] || []).filter((c) => c.subMenu && c.pluginId === actionData.pluginId);
+                const subMenu = subMenus.find((sm) => hasSubmenu(sm, actionData));
+                if (!subMenu) {
                     return state;
                 }
+                actionData = buildSubMenu(subMenu, actionData);
             }
             const nextArray = [...currentArray, actionData];
             nextArray.sort(sortComponents);
