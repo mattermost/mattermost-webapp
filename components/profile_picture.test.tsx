@@ -39,7 +39,7 @@ describe('components/ProfilePicture', () => {
     test('should match snapshot, no user specified, overridden props', () => {
         const props = {
             ...baseProps,
-            size: ImageSize.xl,
+            size: 'xl',
             isRHS: true,
             hasMention: true,
         };
@@ -70,7 +70,7 @@ describe('components/ProfilePicture', () => {
             user: {
                 username: 'username',
             },
-            size: ImageSize.xs,
+            size: 'xs',
             isRHS: true,
             hasMention: true,
         };
