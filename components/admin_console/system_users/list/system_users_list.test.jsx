@@ -80,7 +80,7 @@ describe('components/admin_console/system_users/list', () => {
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage()
+            wrapper.instance().nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, teamId: 'new'});
             expect(wrapper.state('page')).toBe(0);
@@ -92,7 +92,7 @@ describe('components/admin_console/system_users/list', () => {
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage()
+            wrapper.instance().nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, filter: 'new'});
             expect(wrapper.state('page')).toBe(0);
@@ -106,7 +106,7 @@ describe('components/admin_console/system_users/list', () => {
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage()
+            wrapper.instance().nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, term: 'new term'});
             expect(wrapper.state('page')).toBe(1);
