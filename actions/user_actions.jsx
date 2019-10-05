@@ -35,10 +35,10 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
     };
 }
 
-export function loadProfilesAndTeamMembers(page, perPage, teamId, sort = '', options) {
+export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, sort, options));
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, options));
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
