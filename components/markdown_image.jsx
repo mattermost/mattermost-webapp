@@ -51,13 +51,14 @@ export default class MarkdownImage extends React.PureComponent {
     }
 
     render() {
-        const {imageMetadata, src, imageIsLink} = this.props;
+        const {imageMetadata, src, alt, imageIsLink} = this.props;
         if (src === '' || this.state.loadFailed) {
             return (
                 <img
-                    alt='Broken link'
+                    alt={alt}
                     src={brokenImageIcon}
-                />);
+                />
+            );
         }
         return (
             <ExternalImage
@@ -74,7 +75,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 target='_blank'
                                 title={this.props.title}
                             >
-                                {this.props.alt}
+                                {alt}
                             </a>
                         );
                     }
@@ -92,7 +93,7 @@ export default class MarkdownImage extends React.PureComponent {
                     return (
                         <>
                             <SizeAwareImage
-                                alt={this.props.alt}
+                                alt={alt}
                                 className={className}
                                 src={safeSrc}
                                 dimensions={imageMetadata}
@@ -102,18 +103,18 @@ export default class MarkdownImage extends React.PureComponent {
                                 onImageLoaded={this.props.onImageLoaded}
                             />
                             {!imageIsLink && extension &&
-                                <ViewImageModal
-                                    show={this.state.showModal}
-                                    onModalDismissed={this.hideModal}
-                                    postId={this.props.postId}
-                                    startIndex={0}
-                                    fileInfos={[{
-                                        has_preview_image: false,
-                                        link: safeSrc,
-                                        extension: imageMetadata.format || extension,
-                                        name: this.props.alt,
-                                    }]}
-                                />
+                            <ViewImageModal
+                                show={this.state.showModal}
+                                onModalDismissed={this.hideModal}
+                                postId={this.props.postId}
+                                startIndex={0}
+                                fileInfos={[{
+                                    has_preview_image: false,
+                                    link: safeSrc,
+                                    extension: imageMetadata.format || extension,
+                                    name: alt,
+                                }]}
+                            />
                             }
                         </>
                     );
