@@ -76,7 +76,7 @@ describe('components/MarkdownImage', () => {
         const childrenWrapper = shallow(<div>{childrenNode}</div>);
 
         expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
-        expect(childrenWrapper.find(SizeAwareImage).first().prop('className')).
+        expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active`);
         expect(childrenWrapper.find(ViewImageModal)).toHaveLength(1);
         expect(childrenWrapper).toMatchSnapshot();
@@ -93,7 +93,7 @@ describe('components/MarkdownImage', () => {
         const childrenWrapper = shallow(<div>{childrenNode}</div>);
 
         expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
-        expect(childrenWrapper.find(SizeAwareImage).first().prop('className')).
+        expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(props.className);
         expect(childrenWrapper.find(ViewImageModal)).toHaveLength(0);
         expect(childrenWrapper).toMatchSnapshot();
@@ -115,5 +115,35 @@ describe('components/MarkdownImage', () => {
         );
         wrapper.instance().showModal();
         expect(wrapper.state('showModal')).toEqual(false);
+    });
+
+    test('should correctly pass prop down to surround small images with a container', () => {
+        const props = {...baseProps, src: '/images/logo.png'};
+        const wrapper = shallow(
+            <MarkdownImage {...props}/>
+        );
+        const childrenNode = wrapper.props().children(props.src);
+
+        // using a div as a workaround because shallow doesn't support react fragments
+        const childrenWrapper = shallow(<div>{childrenNode}</div>);
+
+        expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
+        expect(childrenWrapper.find(SizeAwareImage).prop('handleSmallImageContainer')).
+            toEqual(true);
+    });
+
+    test('should not enable surrounding small images with a container if image is a link', () => {
+        const props = {...baseProps, src: 'https://example.com/image.png', imageIsLink: true};
+        const wrapper = shallow(
+            <MarkdownImage {...props}/>
+        );
+        const childrenNode = wrapper.props().children(props.src);
+
+        // using a div as a workaround because shallow doesn't support react fragments
+        const childrenWrapper = shallow(<div>{childrenNode}</div>);
+
+        expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
+        expect(childrenWrapper.find(SizeAwareImage).prop('handleSmallImageContainer')).
+            toEqual(false);
     });
 });

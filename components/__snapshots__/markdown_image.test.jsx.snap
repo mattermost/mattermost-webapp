@@ -29,6 +29,7 @@ exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimen
         "width": 100,
       }
     }
+    handleSmallImageContainer={true}
     onClick={[Function]}
     showLoader={true}
     src="safeSrc"
@@ -69,6 +70,7 @@ exports[`components/MarkdownImage should render an image with no preview if the 
         "width": 1041,
       }
     }
+    handleSmallImageContainer={false}
     onClick={[Function]}
     showLoader={true}
     src="https://example.com/image.png"
@@ -89,6 +91,7 @@ exports[`components/MarkdownImage should render an image with preview modal if t
         "width": 1041,
       }
     }
+    handleSmallImageContainer={true}
     onClick={[Function]}
     showLoader={true}
     src="https://example.com/image.png"

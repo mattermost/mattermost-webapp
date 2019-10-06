@@ -86,6 +86,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 showLoader={true}
                                 onClick={this.showModal}
                                 onImageLoaded={this.props.onImageLoaded}
+                                handleSmallImageContainer={!imageIsLink}
                             />
                             {!imageIsLink && extension &&
                                 <ViewImageModal
