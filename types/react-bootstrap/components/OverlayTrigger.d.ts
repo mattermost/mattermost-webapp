@@ -1,3 +1,5 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 import * as React from 'react';
 
 import Overlay from './Overlay';
@@ -5,15 +7,15 @@ import Overlay from './Overlay';
 type TriggerType = 'hover' | 'click' | 'focus';
 
 export interface OverlayTriggerProps
-  extends React.ComponentPropsWithRef<typeof Overlay> {
-  children: React.ReactNode;
-  trigger?: TriggerType | TriggerType[];
-  delay?: number | { show: number; hide: number };
-  defaultShow?: boolean;
-  overlay: React.ReactNode | (() => React.ReactNode);
-  target?: never;
-  onHide?: never;
-  show?: never;
+    extends React.ComponentPropsWithRef<typeof Overlay> {
+    children: React.ReactNode;
+    trigger?: TriggerType | TriggerType[];
+    delay?: number | { show: number; hide: number };
+    defaultShow?: boolean;
+    overlay: React.ReactNode | (() => React.ReactNode);
+    target?: never;
+    onHide?: never;
+    show?: never;
 }
 
 declare class OverlayTrigger extends React.Component<OverlayTriggerProps> {}

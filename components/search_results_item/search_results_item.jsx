@@ -8,9 +8,10 @@ import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
+import CommentIcon from 'components/common/comment_icon.jsx';
+
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
-import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';

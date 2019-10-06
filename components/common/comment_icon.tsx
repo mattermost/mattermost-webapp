@@ -16,7 +16,7 @@ type Props = {
     postId: string;
     location: string;
     searchStyle: string;
-    commentCount: Number;
+    commentCount: number;
     handleCommentClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
