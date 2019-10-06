@@ -14,7 +14,12 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
         className="form-control filter-textbox"
         delayInputUpdate={false}
         id="searchChannelsTextbox"
-        inputComponent={[Function]}
+        inputComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "render": [Function],
+          }
+        }
         onInput={[Function]}
         placeholder={
           Object {

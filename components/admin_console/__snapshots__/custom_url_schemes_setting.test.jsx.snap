@@ -7,7 +7,7 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting initial state with multi
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <injectIntl(LocalizedInput)
+  <ForwardRef
     className="form-control"
     disabled={false}
     id="MySetting"
@@ -31,7 +31,7 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting initial state with no it
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <injectIntl(LocalizedInput)
+  <ForwardRef
     className="form-control"
     disabled={false}
     id="MySetting"
@@ -55,7 +55,7 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting initial state with one i
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <injectIntl(LocalizedInput)
+  <ForwardRef
     className="form-control"
     disabled={false}
     id="MySetting"
@@ -79,7 +79,7 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting renders properly when di
   label="Custom URL Schemes:"
   setByEnv={false}
 >
-  <injectIntl(LocalizedInput)
+  <ForwardRef
     className="form-control"
     disabled={true}
     id="MySetting"
@@ -103,7 +103,7 @@ exports[`components/AdminConsole/CustomUrlSchemeSetting renders properly when se
   label="Custom URL Schemes:"
   setByEnv={true}
 >
-  <injectIntl(LocalizedInput)
+  <ForwardRef
     className="form-control"
     disabled={true}
     id="MySetting"

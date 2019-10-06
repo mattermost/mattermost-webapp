@@ -28,9 +28,9 @@ describe('components/PasswordResetSendLink', () => {
             <MemoryRouter>
                 <PasswordResetSendLink {...props}/>
             </MemoryRouter>
-        ).children().children();
+        ).children().children(); // Unwrap router
 
-        wrapper.instance().emailInput.current.input.current.value = 'test@example.com';
+        wrapper.instance().emailInput.current.value = 'test@example.com';
         wrapper.find('form').simulate('submit', {preventDefault: () => {}});
 
         expect(props.actions.sendPasswordResetEmail).toHaveBeenCalledWith('test@example.com');

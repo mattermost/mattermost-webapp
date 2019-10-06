@@ -39,7 +39,7 @@ describe('components/PasswordResetForm', () => {
         };
 
         const wrapper = mountWithIntl(<PasswordResetForm {...props}/>);
-        wrapper.ref('password').value = 'PASSWORD';
+        wrapper.instance().passwordInput.current.value = 'PASSWORD';
         wrapper.find('form').simulate('submit', {preventDefault: () => {}});
 
         expect(props.actions.resetUserPassword).toHaveBeenCalledWith('TOKEN', 'PASSWORD');

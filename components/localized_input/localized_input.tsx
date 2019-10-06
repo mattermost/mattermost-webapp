@@ -11,27 +11,10 @@ type Props = {
     };
     value?: string;
     intl: IntlShape;
+    forwardedRef: React.RefObject<HTMLInputElement>;
 };
 
 class LocalizedInput extends React.Component<Props> {
-    public input: React.RefObject<HTMLInputElement> = React.createRef<HTMLInputElement>();
-
-    public get value(): string {
-        return this.input.current ? this.input.current.value : '';
-    }
-
-    public set value(value: string) {
-        if (this.input.current) {
-            this.input.current.value = value;
-        }
-    }
-
-    public focus = (): void => {
-        if (this.input.current) {
-            this.input.current.focus();
-        }
-    };
-
     public shouldComponentUpdate(nextProps: Props): boolean {
         return nextProps.value !== this.props.value ||
             nextProps.placeholder.id !== this.props.placeholder.id ||
@@ -40,17 +23,17 @@ class LocalizedInput extends React.Component<Props> {
 
     public render(): JSX.Element {
         const {formatMessage} = this.props.intl;
-        const {placeholder, ...otherProps} = this.props;
+        const {placeholder, forwardedRef, ...otherProps} = this.props;
         const placeholderString: string = formatMessage(placeholder);
 
         return (
             <input
-                ref={this.input}
                 {...otherProps}
+                ref={forwardedRef}
                 placeholder={placeholderString}
             />
         );
     }
 }
 
-export default injectIntl(LocalizedInput);
+export default injectIntl(LocalizedInput, {forwardRef: true});
