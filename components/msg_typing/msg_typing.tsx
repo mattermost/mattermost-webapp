@@ -5,11 +5,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
-        typingUsers: string[];
+    typingUsers: string[];
 }
 
 export default class MsgTyping extends React.Component<Props> {
-    getTypingText = () => {
+    private getTypingText = () => {
         let users: string[] = [];
         let numUsers = 0;
         if (this.props.typingUsers) {
@@ -44,7 +44,7 @@ export default class MsgTyping extends React.Component<Props> {
         );
     }
 
-    render() {
+    public render() {
         return (
             <span className='msg-typing'>{this.getTypingText()}</span>
         );
