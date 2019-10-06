@@ -2,19 +2,29 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactFragment} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
 
-class MessageSubmitError extends React.PureComponent {
-    static propTypes = {
+interface ErrorMessage {
+    message: string | ReactFragment;
+}
+
+interface MessageSubmitErrorProps {
+    error: ErrorMessage;
+    handleSubmit: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    submittedMessage: string;
+}
+
+class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps, {}> {
+    public static propTypes = {
         error: PropTypes.object.isRequired,
         handleSubmit: PropTypes.func.isRequired,
         submittedMessage: PropTypes.string,
     }
 
-    renderSlashCommandError = () => {
+    _renderSlashCommandError = () : string | ReactFragment => {
         if (!this.props.submittedMessage) {
             return this.props.error.message;
         }
@@ -42,7 +52,7 @@ class MessageSubmitError extends React.PureComponent {
         );
     }
 
-    render() {
+    public render(): JSX.Element | null {
         const error = this.props.error;
 
         if (!error) {
@@ -51,7 +61,7 @@ class MessageSubmitError extends React.PureComponent {
 
         let errorContent = error.message;
         if (isErrorInvalidSlashCommand(error)) {
-            errorContent = this.renderSlashCommandError();
+            errorContent = this._renderSlashCommandError();
         }
 
         return (
