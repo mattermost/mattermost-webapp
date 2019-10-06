@@ -1,26 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
-    customDescriptionText: string;
-    siteName: string;
+    customDescriptionText?: string;
+    siteName?: string;
 }
 
 export default class SiteNameAndDescription extends React.PureComponent<Props> {
-    static propTypes = {
-        customDescriptionText: PropTypes.string,
-        siteName: PropTypes.string,
-    };
-
-    static defaultProps = {
+    public static defaultProps: Partial<Props> = {
         siteName: 'Mattermost',
     };
 
-    render() {
+    public render() {
         const {
             customDescriptionText,
             siteName,
