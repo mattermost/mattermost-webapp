@@ -70,7 +70,7 @@ describe('components/EditChannelHeaderModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('error with intl message', async () => {
+    test('error with intl message', () => {
         const serverError = {
             server_error_id: 'model.channel.is_valid.header.app_error',
             message: 'some error',
@@ -84,9 +84,9 @@ describe('components/EditChannelHeaderModal', () => {
                 onHide={emptyFunction}
                 actions={{patchChannel: emptyFunction}}
             />
-        ).dive({disableLifecycleMethods: false});
+        ).dive({disableLifecycleMethods: true});
 
-        await wrapper.setProps({
+        wrapper.setProps({
             channel,
             serverError,
             ctrSend: false,
@@ -98,7 +98,7 @@ describe('components/EditChannelHeaderModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('error without intl message', async () => {
+    test('error without intl message', () => {
         const serverError = {
             server_error_id: 'fake-server-errror',
             message: 'some error',
@@ -112,9 +112,9 @@ describe('components/EditChannelHeaderModal', () => {
                 onHide={emptyFunction}
                 actions={{patchChannel: emptyFunction}}
             />
-        ).dive({disableLifecycleMethods: false});
+        ).dive({disableLifecycleMethods: true});
 
-        await wrapper.setProps({
+        wrapper.setProps({
             channel,
             serverError,
             ctrSend: false,

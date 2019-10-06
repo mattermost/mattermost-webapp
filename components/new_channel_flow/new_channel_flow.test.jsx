@@ -280,15 +280,13 @@ describe('components/NewChannelFlow', () => {
 
         wrapper.setProps({show: true});
 
-        expect(wrapper.state()).toEqual({
-            serverError: '',
-            channelType: Constants.OPEN_CHANNEL,
-            flowState: SHOW_NEW_CHANNEL,
-            channelDisplayName: '',
-            channelName: '',
-            channelPurpose: '',
-            channelHeader: '',
-            nameModified: false,
-        });
+        expect(wrapper.state('serverError')).toEqual('');
+        expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
+        expect(wrapper.state('flowState')).toEqual(SHOW_NEW_CHANNEL);
+        expect(wrapper.state('channelDisplayName')).toEqual('');
+        expect(wrapper.state('channelName')).toEqual('');
+        expect(wrapper.state('channelPurpose')).toEqual('');
+        expect(wrapper.state('channelHeader')).toEqual('');
+        expect(wrapper.state('nameModified')).toEqual(false);
     });
 });

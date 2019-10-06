@@ -68,6 +68,15 @@ class EditChannelHeaderModal extends React.PureComponent {
         }).isRequired,
     }
 
+    static getDerivedStateFromProps(props) {
+        const {requestStatus} = props;
+        if (requestStatus === RequestStatus.SUCCESS) {
+            return {show: false, showError: false};
+        }
+
+        return {showError: requestStatus === RequestStatus.FAILURE};
+    }
+
     constructor(props) {
         super(props);
 
@@ -77,25 +86,6 @@ class EditChannelHeaderModal extends React.PureComponent {
             show: true,
             showError: false,
         };
-    }
-
-    updateFromRequestStatus(prevProps) {
-        const {requestStatus: prevRequestStatus} = prevProps;
-        const {requestStatus} = this.props;
-
-        if (requestStatus !== prevRequestStatus && requestStatus === RequestStatus.FAILURE) {
-            this.setState({showError: true});
-        } else if (requestStatus !== prevRequestStatus && requestStatus === RequestStatus.SUCCESS) {
-            this.onHide();
-        } else {
-            this.setState({showError: false});
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps !== this.props) {
-            this.updateFromRequestStatus(prevProps);
-        }
     }
 
     handleModalKeyDown = (e) => {

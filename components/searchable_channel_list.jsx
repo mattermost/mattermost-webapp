@@ -19,6 +19,14 @@ import {t} from 'utils/i18n';
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 export default class SearchableChannelList extends React.Component {
+    static getDerivedStateFromProps(props) {
+        if (!props.isSearch) {
+            return {page: 0};
+        }
+
+        return null;
+    }
+
     constructor(props) {
         super(props);
 
@@ -35,18 +43,6 @@ export default class SearchableChannelList extends React.Component {
         // only focus the search box on desktop so that we don't cause the keyboard to open on mobile
         if (!UserAgent.isMobile() && this.refs.filter) {
             this.refs.filter.focus();
-        }
-    }
-
-    updatePageFromSearch(prevProps) {
-        if (this.props.isSearch && !prevProps.isSearch) {
-            this.setState({page: 0});
-        }
-    }
-    componentDidUpdate(prevProps, prevState) {
-        this.updatePageFromSearch(prevProps);
-        if (prevState.page !== this.state.page) {
-            $(this.refs.channelList).scrollTop(0);
         }
     }
 
