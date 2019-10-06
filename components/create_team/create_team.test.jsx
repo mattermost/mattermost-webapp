@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import CreateTeam from 'components/create_team/create_team.jsx';
 
 jest.mock('components/announcement_bar');
-jest.mock('components/common/back_button.jsx');
+jest.mock('components/common/back_button.tsx');
 jest.mock('react-router-dom');
 
 describe('/components/create_team', () => {

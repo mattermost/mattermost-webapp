@@ -11,7 +11,7 @@ import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button.tsx';
 import FormError from 'components/form_error';
 
 import LoadingScreen from 'components/loading_screen';

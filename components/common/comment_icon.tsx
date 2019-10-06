@@ -11,7 +11,16 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import ReplyIcon from 'components/widgets/icons/reply_icon';
 
-export default class CommentIcon extends React.PureComponent {
+type Props = {
+    extraClass: string;
+    postId: string;
+    location: string;
+    searchStyle: string;
+    commentCount: Number;
+    handleCommentClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+export default class CommentIcon extends React.PureComponent<Props> {
     static propTypes = {
         location: PropTypes.oneOf([Locations.CENTER, Locations.SEARCH]).isRequired,
         handleCommentClick: PropTypes.func.isRequired,
@@ -29,7 +38,7 @@ export default class CommentIcon extends React.PureComponent {
     };
 
     render() {
-        let commentCountSpan = '';
+        let commentCountSpan: JSX.Element = <></>;
         let iconStyle = 'comment-icon__container';
         if (this.props.commentCount > 0) {
             iconStyle += ' icon--show';

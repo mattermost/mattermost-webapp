@@ -6,7 +6,12 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-export default class BackButton extends React.PureComponent {
+type Props = {
+    url: string;
+    onClick?: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+}
+
+export default class BackButton extends React.PureComponent<Props> {
     static propTypes = {
 
         /**
@@ -38,7 +43,7 @@ export default class BackButton extends React.PureComponent {
                         id='generic_icons.back'
                         defaultMessage='Back Icon'
                     >
-                        {(title) => (
+                        {(title: any) => (
                             <span
                                 id='back_button_icon'
                                 className='fa fa-1x fa-angle-left'

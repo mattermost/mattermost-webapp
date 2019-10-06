@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class SiteNameAndDescription extends React.PureComponent {
+type Props = {
+    customDescriptionText: string;
+    siteName: string;
+}
+
+export default class SiteNameAndDescription extends React.PureComponent<Props> {
     static propTypes = {
         customDescriptionText: PropTypes.string,
         siteName: PropTypes.string,
