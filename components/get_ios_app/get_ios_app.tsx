@@ -18,7 +18,7 @@ type Props = {
 
 export default function GetIosApp(props: Props) {
     const {iosAppDownloadLink, history, location} = props;
-    const onContinue = (e) => {
+    const onContinue = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
 
         const redirectTo = (new URLSearchParams(location.search)).get('redirect_to');
