@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
-class LeaveTeamModal extends React.PureComponent {
+export default class LeaveTeamModal extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -132,5 +132,3 @@ class LeaveTeamModal extends React.PureComponent {
         );
     }
 }
-
-export default LeaveTeamModal;

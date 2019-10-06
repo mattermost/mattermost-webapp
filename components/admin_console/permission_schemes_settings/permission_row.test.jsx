@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallow} from 'enzyme';
 
 import PermissionRow from 'components/admin_console/permission_schemes_settings/permission_row.jsx';
 
@@ -19,14 +18,14 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
     };
 
     test('should match snapshot on editable and not inherited', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermissionRow {...defaultProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot on editable and inherited', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermissionRow
                 {...defaultProps}
                 inherited={{name: 'test', displayName: 'Test'}}
@@ -36,7 +35,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
     });
 
     test('should match snapshot on read only and not inherited', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}
@@ -46,7 +45,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
     });
 
     test('should match snapshot on read only and not inherited', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}
@@ -57,7 +56,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
 
     test('should call onChange function on click', () => {
         const onChange = jest.fn();
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermissionRow
                 {...defaultProps}
                 onChange={onChange}
@@ -69,7 +68,7 @@ describe('components/admin_console/permission_schemes_settings/permission_row', 
 
     test('shouldn\'t call onChange function on click when is read-only', () => {
         const onChange = jest.fn();
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <PermissionRow
                 {...defaultProps}
                 readOnly={true}

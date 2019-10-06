@@ -1,122 +1,184 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/audit_table/AuditTable should match snapshot with audits 1`] = `
-<AuditTable
-  actions={
-    Object {
-      "getMissingProfilesByIds": [Function],
-    }
-  }
-  audits={
-    Array [
-      Object {
-        "action": "/api/v4/channels",
-        "create_at": 50778112674,
-        "extra_info": "name=yeye",
-        "id": "id_2",
-        "ip_address": "::1",
-        "session_id": "hb8febm9ytdiz8zqaxj18efqhy",
-        "user_id": "user_id_1",
-      },
-      Object {
-        "action": "/api/v4/users/login",
-        "create_at": 51053522355,
-        "extra_info": "success",
-        "id": "id_1",
-        "ip_address": "::1",
-        "session_id": "",
-        "user_id": "user_id_1",
-      },
-    ]
-  }
-  currentUser={
-    Object {
-      "id": "test_user",
-    }
-  }
-  getByName={[MockFunction]}
-  getUser={[MockFunction]}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-    }
-  }
-  showIp={true}
-  showSession={true}
-  showUserId={true}
-/>
+<table
+  className="table"
+>
+  <thead>
+    <tr>
+      <th>
+        <FormattedMessage
+          defaultMessage="Timestamp"
+          id="audit_table.timestamp"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="User ID"
+          id="audit_table.userId"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="Action"
+          id="audit_table.action"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="IP Address"
+          id="audit_table.ip"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="Session ID"
+          id="audit_table.session"
+          values={Object {}}
+        />
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      key="id_2"
+    >
+      <td
+        className="whitespace--nowrap word-break--all"
+      >
+        <div>
+          <div>
+            <FormattedDate
+              day="2-digit"
+              month="short"
+              value={1971-08-11T17:01:52.674Z}
+              year="numeric"
+            />
+          </div>
+          <div>
+            <FormattedTime
+              hour="2-digit"
+              minute="2-digit"
+              value={1971-08-11T17:01:52.674Z}
+            />
+          </div>
+        </div>
+      </td>
+      <td
+        className="word-break--all"
+      >
+        user_id_1
+      </td>
+      <td
+        className="word-break--all"
+      >
+        Channels yeye
+      </td>
+      <td
+        className="whitespace--nowrap word-break--all"
+      >
+        ::1
+      </td>
+      <td
+        className="whitespace--nowrap word-break--all"
+      >
+        hb8febm9ytdiz8zqaxj18efqhy
+      </td>
+    </tr>
+    <tr
+      key="id_1"
+    >
+      <td
+        className="whitespace--nowrap word-break--all"
+      >
+        <div>
+          <div>
+            <FormattedDate
+              day="2-digit"
+              month="short"
+              value={1971-08-14T21:32:02.355Z}
+              year="numeric"
+            />
+          </div>
+          <div>
+            <FormattedTime
+              hour="2-digit"
+              minute="2-digit"
+              value={1971-08-14T21:32:02.355Z}
+            />
+          </div>
+        </div>
+      </td>
+      <td
+        className="word-break--all"
+      >
+        user_id_1
+      </td>
+      <td
+        className="word-break--all"
+      >
+        Successfully logged in
+      </td>
+      <td
+        className="whitespace--nowrap word-break--all"
+      >
+        ::1
+      </td>
+      <td
+        className="whitespace--nowrap word-break--all"
+      />
+    </tr>
+  </tbody>
+</table>
 `;
 
 exports[`components/audit_table/AuditTable should match snapshot with no audits 1`] = `
-<AuditTable
-  actions={
-    Object {
-      "getMissingProfilesByIds": [Function],
-    }
-  }
-  audits={Array []}
-  currentUser={
-    Object {
-      "id": "test_user",
-    }
-  }
-  getByName={[MockFunction]}
-  getUser={[MockFunction]}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatDateToParts": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatNumberToParts": [Function],
-      "formatPlural": [Function],
-      "formatRelativeTime": [Function],
-      "formatTime": [Function],
-      "formatTimeToParts": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "onError": [Function],
-      "textComponent": Symbol(react.fragment),
-      "timeZone": undefined,
-    }
-  }
-  showIp={true}
-  showSession={true}
-  showUserId={true}
-/>
+<table
+  className="table"
+>
+  <thead>
+    <tr>
+      <th>
+        <FormattedMessage
+          defaultMessage="Timestamp"
+          id="audit_table.timestamp"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="User ID"
+          id="audit_table.userId"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="Action"
+          id="audit_table.action"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="IP Address"
+          id="audit_table.ip"
+          values={Object {}}
+        />
+      </th>
+      <th>
+        <FormattedMessage
+          defaultMessage="Session ID"
+          id="audit_table.session"
+          values={Object {}}
+        />
+      </th>
+    </tr>
+  </thead>
+  <tbody />
+</table>
 `;
