@@ -16,7 +16,7 @@ import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
 
-import BackButton from 'components/common/back_button.tsx';
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen.jsx';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 

@@ -25,7 +25,7 @@ import SiteNameAndDescription from 'components/common/site_name_and_description'
 import AnnouncementBar from 'components/announcement_bar';
 import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import BackButton from 'components/common/back_button.tsx';
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';

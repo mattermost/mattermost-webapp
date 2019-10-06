@@ -9,7 +9,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import CommentIcon from 'components/common/comment_icon.jsx';
+import CommentIcon from 'components/common/comment_icon';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
