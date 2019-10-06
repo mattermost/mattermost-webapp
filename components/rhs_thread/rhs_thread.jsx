@@ -61,6 +61,15 @@ export default class RhsThread extends React.Component {
         }).isRequired,
     }
 
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {selected: props.selected};
+        if (state.selected && props.selected && state.selected.id !== props.selected.id) {
+            updatedState = {...updatedState, openTime: (new Date()).getTime()};
+        }
+
+        return updatedState;
+    }
+
     constructor(props) {
         super(props);
 
@@ -86,21 +95,7 @@ export default class RhsThread extends React.Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    updateOpenTimeIfRequired(prevProps) {
-        if (!prevProps.selected || !this.props.selected) {
-            return;
-        }
-
-        if (prevProps.selected.id !== this.props.selected.id) {
-            this.setState({
-                openTime: (new Date()).getTime(),
-            });
-        }
-    }
-
     componentDidUpdate(prevProps) {
-        this.updateOpenTimeIfRequired(prevProps);
-
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
 

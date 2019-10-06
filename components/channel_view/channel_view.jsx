@@ -29,14 +29,8 @@ export default class ChannelView extends React.PureComponent {
         }),
     };
 
-    constructor(props) {
-        super(props);
-
-        this.createDeferredPostView();
-    }
-
-    createDeferredPostView = () => {
-        this.deferredPostView = deferComponentRender(
+    static createDeferredPostView = () => {
+        return deferComponentRender(
             PostView,
             <div
                 id='post-list'
@@ -48,6 +42,21 @@ export default class ChannelView extends React.PureComponent {
         );
     }
 
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {url: props.match.url};
+        if (!state.url || props.match.url !== state.url) {
+            updatedState = {...updatedState, deferredPostView: ChannelView.createDeferredPostView()};
+        }
+
+        return updatedState;
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {url: ''};
+    }
+
     getChannelView = () => {
         return this.refs.channelView;
     }
@@ -57,10 +66,6 @@ export default class ChannelView extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.match.url !== this.props.match.url) {
-            this.createDeferredPostView();
-        }
-
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
             mark('ChannelView#componentDidUpdate');
 
@@ -139,7 +144,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        const DeferredPostView = this.deferredPostView;
+        const DeferredPostView = this.state.deferredPostView;
 
         return (
             <div
