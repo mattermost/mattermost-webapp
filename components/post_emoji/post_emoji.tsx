@@ -4,7 +4,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class PostEmoji extends React.PureComponent {
+interface PostEmojiProps {
+    name: string,
+    imageUrl: string,
+}
+
+export default class PostEmoji extends React.PureComponent<PostEmojiProps, {}> {
     static propTypes = {
 
         /*
