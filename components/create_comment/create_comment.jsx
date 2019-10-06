@@ -13,8 +13,8 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -218,7 +218,10 @@ export default class CreateComment extends React.PureComponent {
     UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
-        this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
+        this.setState({
+            draft: {...this.props.draft, uploadsInProgress: []},
+            caretPosition: this.props.draft.message.length,
+        });
     }
 
     componentDidMount() {
@@ -349,11 +352,22 @@ export default class CreateComment extends React.PureComponent {
         let newMessage = '';
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
-        } else if ((/\s+$/).test(draft.message)) {
-            // Check whether there is already a blank at the end of the current message
-            newMessage = `${draft.message}:${emojiAlias}: `;
         } else {
-            newMessage = `${draft.message} :${emojiAlias}: `;
+            const {draft: {message}} = this.state;
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
+
+            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
+
+            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
+
+            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+
+            this.setState({
+                caretPosition: newCaretPosition,
+            }, () => {
+                Utils.setCaretPosition(textbox, newCaretPosition);
+            });
         }
 
         const modifiedDraft = {
@@ -405,6 +419,7 @@ export default class CreateComment extends React.PureComponent {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.updatePreview(false);
 
         const membersCount = this.props.channelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
@@ -548,6 +563,13 @@ export default class CreateComment extends React.PureComponent {
         this.draftsForPost[this.props.rootId] = updatedDraft;
     }
 
+    handleMouseUpKeyUp = (e) => {
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.setState({
+            caretPosition,
+        });
+    }
+
     handleKeyDown = (e) => {
         if (
             (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
@@ -634,12 +656,6 @@ export default class CreateComment extends React.PureComponent {
         this.draftsForPost[rootId] = modifiedDraft;
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
-        }
-
-        // Focus on preview if needed/possible - if user has switched teams since starting the file upload,
-        // the preview will be undefined and the switch will fail
-        if (typeof this.refs.preview != 'undefined' && this.refs.preview) {
-            this.refs.preview.refs.container.scrollIntoView();
         }
     }
 
@@ -941,6 +957,8 @@ export default class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onMouseUp={this.handleMouseUpKeyUp}
+                                onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}

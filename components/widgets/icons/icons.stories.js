@@ -10,6 +10,7 @@ import AccordionToggleIcon from './accordion_toggle_icon';
 import AlertIcon from './alert_icon';
 import ArchiveIcon from './archive_icon';
 import ArrowRightIcon from './arrow_right_icon';
+import AtIcon from './at_icon';
 import AttachmentIcon from './attachment_icon';
 import BackIcon from './back_icon';
 import BotIcon from './bot_icon';
@@ -20,6 +21,7 @@ import CloseCircleSolidIcon from './close_circle_solid_icon';
 import CloseIcon from './close_icon';
 import DownloadIcon from './download_icon';
 import DraftIcon from './draft_icon';
+import EmailIcon from './email_icon';
 import EmojiIcon from './emoji_icon';
 import FaAddIcon from './fa_add_icon';
 import FaBackIcon from './fa_back_icon';
@@ -59,6 +61,7 @@ import PinIcon from './pin_icon';
 import ReplyIcon from './reply_icon';
 import ScrollToBottomIcon from './scroll_to_bottom_icon';
 import SearchIcon from './search_icon';
+import ShieldOutlineIcon from './shield_outline_icon';
 import StatusAwayAvatarIcon from './status_away_avatar_icon';
 import StatusAwayIcon from './status_away_icon';
 import StatusDndAvatarIcon from './status_dnd_avatar_icon';
@@ -71,17 +74,17 @@ import TeamInfoIcon from './team_info_icon';
 import UnreadBelowIcon from './unread_below_icon';
 
 const icons = [
-    AccordionToggleIcon, AlertIcon, ArchiveIcon, ArrowRightIcon,
+    AccordionToggleIcon, AlertIcon, ArchiveIcon, AtIcon, ArrowRightIcon,
     AttachmentIcon, BackIcon, BotIcon, CheckboxCheckedIcon,
     CheckboxPartialIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
-    DownloadIcon, DraftIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
+    DownloadIcon, DraftIcon, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
     FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon,
     FaRemoveIcon, FaSearchIcon, FaSelectIcon, FaSuccessIcon, FaWarningIcon,
     FlagIconFilled, FlagIcon, GfycatIcon, GifReactionsIcon,
     GifSearchClearIcon, GifSearchIcon, GifTrendingIcon, GlobeIcon, InfoIcon,
     InfoSmallIcon, InviteIcon, LeaveTeamIcon, LinkIcon, LockIcon, MailIcon,
     MailPlusIcon, MattermostLogo, MemberIcon, MentionsIcon, MenuIcon,
-    MessageIcon, PinIcon, ReplyIcon, ScrollToBottomIcon, SearchIcon,
+    MessageIcon, PinIcon, ReplyIcon, ScrollToBottomIcon, SearchIcon, ShieldOutlineIcon,
     StatusAwayAvatarIcon, StatusAwayIcon, StatusDndAvatarIcon, StatusDndIcon,
     StatusOfflineAvatarIcon, StatusOfflineIcon, StatusOnlineAvatarIcon,
     StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon,

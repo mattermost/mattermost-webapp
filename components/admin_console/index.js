@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getConfig, getEnvironmentConfig} from 'mattermost-redux/actions/admin';
+import {getConfig, getEnvironmentConfig, updateConfig} from 'mattermost-redux/actions/admin';
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
@@ -40,6 +40,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getConfig,
             getEnvironmentConfig,
+            updateConfig,
             setNavigationBlocked,
             deferNavigation,
             cancelNavigation,
