@@ -244,7 +244,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     "messages": Object {},
                     "onError": [Function],
                     "textComponent": "span",
-                    "timeZone": undefined,
+                    "timeZone": "Etc/UTC",
                   }
                 }
                 onClick={[Function]}
@@ -280,7 +280,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       "messages": Object {},
                       "onError": [Function],
                       "textComponent": "span",
-                      "timeZone": undefined,
+                      "timeZone": "Etc/UTC",
                     }
                   }
                   onClick={[Function]}
@@ -723,7 +723,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     "messages": Object {},
                     "onError": [Function],
                     "textComponent": "span",
-                    "timeZone": undefined,
+                    "timeZone": "Etc/UTC",
                   }
                 }
                 onClick={[Function]}
@@ -759,7 +759,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       "messages": Object {},
                       "onError": [Function],
                       "textComponent": "span",
-                      "timeZone": undefined,
+                      "timeZone": "Etc/UTC",
                     }
                   }
                   onClick={[Function]}

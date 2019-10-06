@@ -6,11 +6,14 @@ import React, {ReactElement} from 'react';
 import {createIntl, IntlProvider, IntlShape, injectIntl} from 'react-intl';
 import {mount, shallow, ShallowRendererProps, MountRendererProps} from 'enzyme';
 
-const defaultMessages = require('i18n/en.json');
+import defaultMessages from 'i18n/en.json';
+
 const defaultIntl = createIntl({
     locale: 'en',
+    defaultLocale: 'en',
     timeZone: 'Etc/UTC',
     messages: defaultMessages,
+    textComponent: 'span',
 });
 
 export type IntlInjectedElement = ReactElement<any, ReturnType<typeof injectIntl>>;
@@ -25,7 +28,6 @@ interface ShallowWithIntlOptions extends ShallowRendererProps {
 
 export function shallowWithIntl<T extends IntlInjectedElement>(element: T, options?: ShallowWithIntlOptions) {
     const {intl = defaultIntl, ...shallowOptions} = options || {};
-    const {locale, defaultLocale, messages} = intl;
 
     if (!isIntlInjectedElement(element)) {
         throw new Error('shallowWithIntl() allows only components wrapped by injectIntl() HOC. Use shallow() instead.');
@@ -36,23 +38,8 @@ export function shallowWithIntl<T extends IntlInjectedElement>(element: T, optio
         // Unwrap injectIntl
         <element.type.WrappedComponent intl={intl} {...element.props} />,
 
-        // For useIntl, <Formatted.../>
-        {
-            wrappingComponent: IntlProvider,
-            wrappingComponentProps: {
-                locale,
-                defaultLocale,
-                messages,
-                textComponent: 'span',
-            },
-
-            // For legacy
-            context: {
-                intl,
-                ...shallowOptions.context,
-            },
-            ...shallowOptions,
-        },
+        // Override options
+        shallowOptions,
     );
 }
 
@@ -61,7 +48,6 @@ interface MountWithIntlOptions extends MountRendererProps {
 }
 export function mountWithIntl<T extends ReactElement | IntlInjectedElement>(element: T, options?: MountWithIntlOptions) {
     const {intl = defaultIntl, ...mountOptions} = options || {};
-    const {locale, defaultLocale, messages} = intl;
 
     // Unwrap injectIntl
     const newElement = isIntlInjectedElement(element) ? (
@@ -74,12 +60,7 @@ export function mountWithIntl<T extends ReactElement | IntlInjectedElement>(elem
         // For useIntl, <Formatted.../>
         {
             wrappingComponent: IntlProvider,
-            wrappingComponentProps: {
-                locale,
-                defaultLocale,
-                messages,
-                textComponent: 'span',
-            },
+            wrappingComponentProps: { ...intl },
 
             // For legacy
             context: {
@@ -90,6 +71,8 @@ export function mountWithIntl<T extends ReactElement | IntlInjectedElement>(elem
                 intl: PropTypes.any.isRequired,
                 ...mountOptions.childContextTypes,
             },
+
+            // Override options
             ...mountOptions,
         },
     );

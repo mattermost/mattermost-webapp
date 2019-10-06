@@ -30,7 +30,7 @@ exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
       "locale": "en",
       "messages": Object {},
       "onError": [Function],
-      "textComponent": Symbol(react.fragment),
+      "textComponent": "span",
       "timeZone": "Etc/UTC",
     }
   }
@@ -77,7 +77,7 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
       "locale": "en",
       "messages": Object {},
       "onError": [Function],
-      "textComponent": Symbol(react.fragment),
+      "textComponent": "span",
       "timeZone": "Etc/UTC",
     }
   }
@@ -124,7 +124,7 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
       "locale": "en",
       "messages": Object {},
       "onError": [Function],
-      "textComponent": Symbol(react.fragment),
+      "textComponent": "span",
       "timeZone": "Etc/UTC",
     }
   }
@@ -171,7 +171,7 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
       "locale": "en",
       "messages": Object {},
       "onError": [Function],
-      "textComponent": Symbol(react.fragment),
+      "textComponent": "span",
       "timeZone": "Etc/UTC",
     }
   }
@@ -218,7 +218,7 @@ exports[`components/SaveButton should match snapshot, on savingMessage 2`] = `
       "locale": "en",
       "messages": Object {},
       "onError": [Function],
-      "textComponent": Symbol(react.fragment),
+      "textComponent": "span",
       "timeZone": "Etc/UTC",
     }
   }
