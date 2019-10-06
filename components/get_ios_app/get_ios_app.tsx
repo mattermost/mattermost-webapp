@@ -4,12 +4,20 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
+import {History, Location} from 'history';
 
 import {useSafeUrl} from 'utils/url';
 import AppStoreButton from 'images/app-store-button.png';
 import IPhone6Mockup from 'images/iphone-6-mockup.png';
 
-export default function GetIosApp({iosAppDownloadLink, history, location}) {
+type Props = {
+    iosAppDownloadLink: string,
+    history: History,
+    location: Location,
+}
+
+export default function GetIosApp(props: Props) {
+    const {iosAppDownloadLink, history, location} = props;
     const onContinue = (e) => {
         e.preventDefault();
 
