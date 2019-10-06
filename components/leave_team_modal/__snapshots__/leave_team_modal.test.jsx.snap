@@ -2,12 +2,16 @@
 
 exports[`components/LeaveTeamModal should render the leave team model 1`] = `
 <Modal
+  animation={true}
+  aria-labelledby="leaveTeamModalLabel"
   autoFocus={true}
   backdrop={true}
-  backdropClassName="modal-backdrop"
-  backdropTransition={[Function]}
-  containerClassName="modal-open"
+  bsClass="modal"
+  className="modal-confirm"
+  dialogClassName="a11y__modal"
+  dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="leaveTeamModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -21,81 +25,67 @@ exports[`components/LeaveTeamModal should render the leave team model 1`] = `
       "remove": [Function],
     }
   }
-  onEntering={[Function]}
-  onExited={[Function]}
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={false}
-  transition={[Function]}
 >
-  <ModalDialog
-    aria-labelledby="leaveTeamModalLabel"
-    bsClass="modal"
-    className="modal-confirm"
-    dialogClassName="a11y__modal"
-    handleDialogMouseDown={[Function]}
-    id="leaveTeamModal"
-    onClick={[Function]}
-    role="dialog"
-    style={Object {}}
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={false}
+    closeLabel="Close"
   >
-    <ModalHeader
-      bsClass="modal-header"
-      closeButton={false}
-      closeLabel="Close"
-    >
-      <ModalTitle
-        bsClass="modal-title"
-        componentClass="h1"
-        id="leaveTeamModalLabel"
-      >
-        <FormattedMessage
-          defaultMessage="Leave the team?"
-          id="leave_team_modal.title"
-          values={Object {}}
-        />
-      </ModalTitle>
-    </ModalHeader>
-    <ModalBody
-      bsClass="modal-body"
-      componentClass="div"
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="leaveTeamModalLabel"
     >
       <FormattedMessage
-        defaultMessage="You will be removed from all public and private channels.  If the team is private you will not be able to rejoin the team.  Are you sure?"
-        id="leave_team_modal.desc"
+        defaultMessage="Leave the team?"
+        id="leave_team_modal.title"
         values={Object {}}
       />
-    </ModalBody>
-    <ModalFooter
-      bsClass="modal-footer"
-      componentClass="div"
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <FormattedMessage
+      defaultMessage="You will be removed from all public and private channels.  If the team is private you will not be able to rejoin the team.  Are you sure?"
+      id="leave_team_modal.desc"
+      values={Object {}}
+    />
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="leaveTeamNo"
+      onClick={[MockFunction]}
+      type="button"
     >
-      <button
-        className="btn btn-link"
-        id="leaveTeamNo"
-        onClick={[MockFunction]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="No"
-          id="leave_team_modal.no"
-          values={Object {}}
-        />
-      </button>
-      <button
-        className="btn btn-danger"
-        id="leaveTeamYes"
-        onClick={[Function]}
-        type="button"
-      >
-        <FormattedMessage
-          defaultMessage="Yes"
-          id="leave_team_modal.yes"
-          values={Object {}}
-        />
-      </button>
-    </ModalFooter>
-  </ModalDialog>
+      <FormattedMessage
+        defaultMessage="No"
+        id="leave_team_modal.no"
+        values={Object {}}
+      />
+    </button>
+    <button
+      className="btn btn-danger"
+      id="leaveTeamYes"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Yes"
+        id="leave_team_modal.yes"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;

@@ -21,14 +21,12 @@ describe('components/LeaveTeamModal', () => {
     };
 
     it('should render the leave team model', () => {
-        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>).
-            dive({disableLifecycleMethods: true});
+        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should call onHide when cancel is clicked', () => {
-        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>).
-            dive({disableLifecycleMethods: true});
+        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>);
         const cancel = wrapper.find('.btn-link').first();
 
         cancel.simulate('click');
@@ -36,8 +34,7 @@ describe('components/LeaveTeamModal', () => {
     });
 
     it('should call leaveTeam and toggleSideBarRightMenu when ok is clicked', () => {
-        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>).
-            dive({disableLifecycleMethods: true});
+        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>);
         const ok = wrapper.find('.btn-danger').first();
 
         ok.simulate('click');
@@ -52,8 +49,7 @@ describe('components/LeaveTeamModal', () => {
         document.addEventListener = jest.fn();
         document.removeEventListener = jest.fn();
 
-        const wrapper = shallow(<LeaveTeamModal {...{...requiredProps, show: true}}/>).
-            dive({disableLifecycleMethods: false});
+        const wrapper = shallow(<LeaveTeamModal {...{...requiredProps, show: true}}/>);
         const instance = wrapper.instance();
 
         expect(document.addEventListener).toHaveBeenCalledTimes(1);
