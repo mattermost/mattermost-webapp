@@ -98,10 +98,30 @@ h6 {
     .hljs {
         position: relative;
         visibility: visible;
-    }
+        white-space: unset;
+        display: flex;
+        flex-direction: column;
 
-    .line-number {
-        user-select: none;
+        >div {
+          display: flex;
+        }
+
+        /* for block of numbers */
+        .hljs-ln-numbers {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          color: #ccc;
+          border-right: 1px solid #CCC;
+          vertical-align: top;
+          padding-right: 5px;
+          vertical-align: top;
+          padding-right: 4px;
+          margin-right: 12px;
+        }
     }
 }
 
