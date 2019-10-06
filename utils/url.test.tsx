@@ -42,7 +42,7 @@ describe('Utils.URL', () => {
             },
         ];
 
-        testCases.forEach((testCase) => it(testCase.description, () => { // eslint-disable-line max-nested-callbacks
+        testCases.forEach((testCase) => it(testCase.description, () => {
             const obj = {
                 location: testCase.location,
                 basename: testCase.basename,
