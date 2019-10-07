@@ -14,7 +14,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 import * as Utils from 'utils/utils.jsx';
 import {showNotification} from 'utils/notifications.jsx';
 import {t} from 'utils/i18n.jsx';

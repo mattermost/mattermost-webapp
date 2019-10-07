@@ -63,7 +63,7 @@ import hljsXml from 'highlight.js/lib/languages/xml.js';
 import hljsYaml from 'highlight.js/lib/languages/yaml.js';
 
 import Constants from './constants.jsx';
-import * as TextFormatting from './text_formatting.jsx';
+import * as TextFormatting from './text_formatting';
 
 hlJS.registerLanguage('actionscript', hljsActionscript);
 hlJS.registerLanguage('applescript', hljsApplescript);
