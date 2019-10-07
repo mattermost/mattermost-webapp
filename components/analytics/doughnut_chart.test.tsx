@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
-import {shallow, mount} from 'enzyme';
 
-import DoughnutChart from 'components/analytics/doughnut_chart.jsx';
+import React from 'react';
+import {shallow, mount, ReactWrapper} from 'enzyme';
+
+import DoughnutChart from 'components/analytics/doughnut_chart';
 
 jest.mock('chart.js');
 
-describe('components/analytics/doughnut_chart.jsx', () => {
+describe('components/analytics/doughnut_chart.tsx', () => {
     test('should match snapshot, on loading', () => {
         const wrapper = shallow(
             <DoughnutChart
@@ -74,10 +75,10 @@ describe('components/analytics/doughnut_chart.jsx', () => {
                 width={600}
                 data={data}
             />
-        );
+        ) as ReactWrapper<{}, {}, DoughnutChart>;
 
         expect(Chart).toBeCalled();
-        const chartDestroy = wrapper.instance().chart.destroy;
+        const chartDestroy = wrapper.instance().chart!.destroy;
         wrapper.unmount();
         expect(chartDestroy).toBeCalled();
     });
@@ -106,13 +107,13 @@ describe('components/analytics/doughnut_chart.jsx', () => {
                 width={600}
                 data={oldData}
             />
-        );
+        ) as ReactWrapper<{}, {}, DoughnutChart>;
 
         expect(Chart).toBeCalled();
-        expect(wrapper.instance().chart.update).not.toBeCalled();
+        expect((wrapper.instance().chart as Chart).update).not.toBeCalled();
         wrapper.setProps({title: 'new title'});
-        expect(wrapper.instance().chart.update).not.toBeCalled();
+        expect((wrapper.instance().chart as Chart).update).not.toBeCalled();
         wrapper.setProps({data: newData});
-        expect(wrapper.instance().chart.update).toBeCalled();
+        expect((wrapper.instance().chart as Chart).update).toBeCalled();
     });
 });

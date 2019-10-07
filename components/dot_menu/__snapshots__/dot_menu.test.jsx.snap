@@ -73,6 +73,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         text="Mark as Unread"
       />
       <MenuItemAction
+        id="permalink_post_id_1"
         onClick={[Function]}
         show={true}
         text="Permalink"
@@ -196,6 +197,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         text="Mark as Unread"
       />
       <MenuItemAction
+        id="permalink_post_id_1"
         onClick={[Function]}
         show={true}
         text="Permalink"
