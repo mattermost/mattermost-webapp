@@ -3,7 +3,8 @@
 
 import marked from 'marked';
 
-import {convertEntityToCharacter} from 'utils/text_formatting.jsx';
+import {convertEntityToCharacter} from 'utils/text_formatting';
+
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
 
 import Renderer from './renderer';
