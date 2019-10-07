@@ -239,7 +239,7 @@ export default class EmojiPicker extends React.PureComponent {
 
         const rootComponent = document.getElementById('root');
         if (rootComponent) {
-            rootComponent.classList.add('emoji-picker--active');
+            rootComponent.classList.remove('emoji-picker--active');
         }
     }
 
