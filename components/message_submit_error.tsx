@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {ReactFragment} from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -14,16 +13,10 @@ interface ErrorMessage {
 interface MessageSubmitErrorProps {
     error: ErrorMessage;
     handleSubmit: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-    submittedMessage: string;
+    submittedMessage?: string;
 }
 
 class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps, {}> {
-    public static propTypes = {
-        error: PropTypes.object.isRequired,
-        handleSubmit: PropTypes.func.isRequired,
-        submittedMessage: PropTypes.string,
-    }
-
     public renderSlashCommandError = (): string | ReactFragment => {
         if (!this.props.submittedMessage) {
             return this.props.error.message;
