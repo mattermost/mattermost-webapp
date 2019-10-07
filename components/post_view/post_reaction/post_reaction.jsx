@@ -76,12 +76,6 @@ export default class PostReaction extends React.PureComponent {
                         spaceRequiredAbove={spaceRequiredAbove}
                         spaceRequiredBelow={spaceRequiredBelow}
                     />
-                    <button
-                        id={`${location}_reaction_${postId}`}
-                        aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
-                        className='reacticon__container color--link style--none'
-                        onClick={this.props.toggleEmojiPicker}
-                    >
                         <OverlayTrigger
                             className='hidden-xs'
                             delayShow={500}
@@ -98,9 +92,15 @@ export default class PostReaction extends React.PureComponent {
                                 </Tooltip>
                             }
                         >
-                            <EmojiIcon className='icon icon--emoji'/>
+                            <button
+                                id={`${location}_reaction_${postId}`}
+                                aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
+                                className='reacticon__container color--link style--none'
+                                onClick={this.props.toggleEmojiPicker}
+                            >
+                                <EmojiIcon className='icon icon--emoji'/>
+                            </button>
                         </OverlayTrigger>
-                    </button>
                 </div>
             </ChannelPermissionGate>
         );
