@@ -47,21 +47,29 @@ export function unregisterPluginTranslationsSource(pluginId) {
     Reflect.deleteProperty(pluginTranslationSources, pluginId);
 }
 
-export function loadTranslations(locale, url) {
+export async function loadTranslations(locale, url) {
     return (dispatch) => {
         const translations = {};
+        var loc;
         Object.values(pluginTranslationSources).forEach((pluginFunc) => {
             Object.assign(translations, pluginFunc(locale));
         });
 
-        // No need to go to the server for EN
         if (locale === 'en') {
-            copyAndDispatchTranslations(dispatch, translations, en, locale);
+            loc = en;
+        } else {
+            Client4.getTranslations(url).then((serverTranslations) => {
+                loc = serverTranslations;
+            }).catch(() => {}); // eslint-disable-line no-empty-function
         }
-        Client4.getTranslations(url).then((serverTranslations) => {
-            copyAndDispatchTranslations(dispatch, translations, serverTranslations, locale);
-        }).catch(() => {}); // eslint-disable-line no-empty-function
-	copyAndDispatchTranslations(dispatch, translations, en, locale);
+        Object.assign(translations, loc);
+        dispatch({
+            type: ActionTypes.RECEIVED_TRANSLATIONS,
+            data: {
+                locale,
+                translations,
+            },
+        });
     };
 }
 
