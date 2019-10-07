@@ -1,271 +1,276 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import marked, { MarkedOptions } from 'marked';
+import marked, {MarkedOptions} from 'marked';
 
-import * as PostUtils from 'utils/post_utils.jsx';
-import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
-import * as TextFormatting from 'utils/text_formatting.jsx';
-import { getScheme, isUrlSafe } from 'utils/url.jsx';
+import * as PostUtils from 'utils/post_utils';
+import * as SyntaxHighlighting from 'utils/syntax_highlighting';
+
+import * as TextFormatting from 'utils/text_formatting';
+
+import {getScheme, isUrlSafe} from 'utils/url';
 
 export default class Renderer extends marked.Renderer {
-  formattingOptions: TextFormatting.TextFormattingOptions;
-  constructor(options: MarkedOptions, formattingOptions = {}) {
-    super(options);
+    private formattingOptions: TextFormatting.TextFormattingOptions;
+    public constructor(options: MarkedOptions, formattingOptions = {}) {
+        super(options);
 
-    this.heading = this.heading.bind(this);
-    this.paragraph = this.paragraph.bind(this);
-    this.text = this.text.bind(this);
+        this.heading = this.heading.bind(this);
+        this.paragraph = this.paragraph.bind(this);
+        this.text = this.text.bind(this);
 
-    this.formattingOptions = formattingOptions;
-  }
-
-  code(code: string, language: string) {
-    let usedLanguage = language || '';
-    usedLanguage = usedLanguage.toLowerCase();
-
-    if (usedLanguage === 'tex' || usedLanguage === 'latex') {
-      return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
+        this.formattingOptions = formattingOptions;
     }
 
-    // treat html as xml to prevent injection attacks
-    if (usedLanguage === 'html') {
-      usedLanguage = 'xml';
-    }
+    public code(code: string, language: string) {
+        let usedLanguage = language || '';
+        usedLanguage = usedLanguage.toLowerCase();
 
-    let className = 'post-code';
-    if (!usedLanguage) {
-      className += ' post-code--wrap';
-    }
+        if (usedLanguage === 'tex' || usedLanguage === 'latex') {
+            return `<div data-latex="${TextFormatting.escapeHtml(code)}"></div>`;
+        }
 
-    let header = '';
-    if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-      header = `<span class="post-code__language">
+        // treat html as xml to prevent injection attacks
+        if (usedLanguage === 'html') {
+            usedLanguage = 'xml';
+        }
+
+        let className = 'post-code';
+        if (!usedLanguage) {
+            className += ' post-code--wrap';
+        }
+
+        let header = '';
+        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
+            header = `<span class="post-code__language">
                     ${SyntaxHighlighting.getLanguageName(usedLanguage)}
                 </span>`;
-    }
+        }
 
-    // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
-    // of the code block, one with syntax highlighting applied and another with invisible text, but
-    // search term highlighting and overlap them
-    const content = SyntaxHighlighting.highlight(usedLanguage, code);
-    let searchedContent = '';
+        // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
+        // of the code block, one with syntax highlighting applied and another with invisible text, but
+        // search term highlighting and overlap them
+        const content = SyntaxHighlighting.highlight(usedLanguage, code);
+        let searchedContent = '';
 
-    if (this.formattingOptions.searchPatterns) {
-      const tokens = new Map();
+        if (this.formattingOptions.searchPatterns) {
+            const tokens = new Map();
 
-      let searched = TextFormatting.sanitizeHtml(code);
-      searched = TextFormatting.highlightSearchTerms(
-        searched,
-        tokens,
-        this.formattingOptions.searchPatterns
-      );
+            let searched = TextFormatting.sanitizeHtml(code);
+            searched = TextFormatting.highlightSearchTerms(
+                searched,
+                tokens,
+                this.formattingOptions.searchPatterns
+            );
 
-      if (tokens.size > 0) {
-        searched = TextFormatting.replaceTokens(searched, tokens);
+            if (tokens.size > 0) {
+                searched = TextFormatting.replaceTokens(searched, tokens);
 
-        searchedContent = `<div class="post-code__search-highlighting">
+                searchedContent = `<div class="post-code__search-highlighting">
                         ${searched} 
                     </div>`;
-      }
-    }
+            }
+        }
 
-    return `<div class="${className}">
+        return `<div class="${className}">
                 ${header}
                 <code class="hljs">
                     ${searchedContent}
                     ${content}
                 </code>
             </div>`;
-  }
-
-  codespan(text: string) {
-    let output = text;
-
-    if (this.formattingOptions.searchPatterns) {
-      const tokens = new Map();
-      output = TextFormatting.highlightSearchTerms(
-        output,
-        tokens,
-        this.formattingOptions.searchPatterns
-      );
-      output = TextFormatting.replaceTokens(output, tokens);
     }
 
-    return `<span class="codespan__pre-wrap">
+    public codespan(text: string) {
+        let output = text;
+
+        if (this.formattingOptions.searchPatterns) {
+            const tokens = new Map();
+            output = TextFormatting.highlightSearchTerms(
+                output,
+                tokens,
+                this.formattingOptions.searchPatterns
+            );
+            output = TextFormatting.replaceTokens(output, tokens);
+        }
+
+        return `<span class="codespan__pre-wrap">
                 <code>
                     ${output}
                 </code>
             </span>`;
-  }
-
-  br() {
-    if (this.formattingOptions.singleline) {
-      return ' ';
     }
 
-    return super.br();
-  }
-
-  image(href: string, title: string, text: string) {
-    let src = href;
-    let dimensions: string[] = [];
-    const parts = href.split(' ');
-    if (parts.length > 1) {
-      const lastPart = parts.pop();
-      src = parts.join(' ');
-      if (lastPart && lastPart[0] === '=') {
-        dimensions = lastPart.substr(1).split('x');
-        if (dimensions.length === 2 && dimensions[1] === '') {
-          dimensions[1] = 'auto';
+    public br() {
+        if (this.formattingOptions.singleline) {
+            return ' ';
         }
-      }
-    }
-    src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
-    let out = `<img src="${src}" alt="${text}"`;
-    if (title) {
-      out += ` title="${title}"`;
-    }
-    if (dimensions.length > 0) {
-      out += ` width="${dimensions[0]}"`;
-    }
-    if (dimensions.length > 1) {
-      out += ` height="${dimensions[1]}"`;
-    }
-    out += ' class="markdown-inline-img"';
-    out += this.options.xhtml ? '/>' : '>';
-    return out;
-  }
 
-  heading(text: string, level: number) {
-    return `<h${level} class="markdown__heading">${text}</h${level}>`;
-  }
+        return super.br();
+    }
 
-  link(href: string, title: string, text: string, isUrl: boolean) {
-    let outHref = href;
+    public image(href: string, title: string, text: string) {
+        let src = href;
+        let dimensions: string[] = [];
+        const parts = href.split(' ');
+        if (parts.length > 1) {
+            const lastPart = parts.pop();
+            src = parts.join(' ');
+            if (lastPart && lastPart[0] === '=') {
+                dimensions = lastPart.substr(1).split('x');
+                if (dimensions.length === 2 && dimensions[1] === '') {
+                    dimensions[1] = 'auto';
+                }
+            }
+        }
+        src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
+        let out = `<img src="${src}" alt="${text}"`;
+        if (title) {
+            out += ` title="${title}"`;
+        }
+        if (dimensions.length > 0) {
+            out += ` width="${dimensions[0]}"`;
+        }
+        if (dimensions.length > 1) {
+            out += ` height="${dimensions[1]}"`;
+        }
+        out += ' class="markdown-inline-img"';
+        out += this.options.xhtml ? '/>' : '>';
+        return out;
+    }
 
-    if (!href.startsWith('/')) {
-      const scheme = getScheme(href);
-      if (!scheme) {
-        outHref = `http://${outHref}`;
-      } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
-        const isValidUrl =
+    public heading(text: string, level: number) {
+        return `<h${level} class="markdown__heading">${text}</h${level}>`;
+    }
+
+    public link(href: string, title: string, text: string) {
+        let outHref = href;
+
+        if (!href.startsWith('/')) {
+            const scheme = getScheme(href);
+            if (!scheme) {
+                outHref = `http://${outHref}`;
+            // eslint-disable-next-line prefer-rest-params
+            } else if (arguments[3] && this.formattingOptions.autolinkedUrlSchemes) {
+                const isValidUrl =
           this.formattingOptions.autolinkedUrlSchemes.indexOf(
-            scheme.toLowerCase()
+              scheme.toLowerCase()
           ) !== -1;
 
-        if (!isValidUrl) {
-          return text;
+                if (!isValidUrl) {
+                    return text;
+                }
+            }
         }
-      }
-    }
 
-    if (!isUrlSafe(unescapeHtmlEntities(href))) {
-      return text;
-    }
-
-    let output = '<a class="theme markdown__link';
-
-    if (this.formattingOptions.searchPatterns) {
-      for (const pattern of this.formattingOptions.searchPatterns) {
-        if (pattern.pattern.test(href)) {
-          output += ' search-highlight';
-          break;
+        if (!isUrlSafe(unescapeHtmlEntities(href))) {
+            return text;
         }
-      }
-    }
 
-    output += `" href="${outHref}" rel="noreferrer"`;
+        let output = '<a class="theme markdown__link';
 
-    // special case for team invite links, channel links, and permalinks that are inside the app
-    let internalLink = false;
-    const pattern = new RegExp(
-      '^(' +
+        if (this.formattingOptions.searchPatterns) {
+            for (const pattern of this.formattingOptions.searchPatterns) {
+                if (pattern.pattern.test(href)) {
+                    output += ' search-highlight';
+                    break;
+                }
+            }
+        }
+
+        output += `" href="${outHref}" rel="noreferrer"`;
+
+        // special case for team invite links, channel links, and permalinks that are inside the app
+        let internalLink = false;
+        const pattern = new RegExp(
+            '^(' +
         TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
         ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/'
-    );
-    internalLink = pattern.test(outHref);
+        );
+        internalLink = pattern.test(outHref);
 
-    if (internalLink && this.formattingOptions.siteURL) {
-      output += ` data-link="${outHref.replace(
-        this.formattingOptions.siteURL,
-        ''
-      )}"`;
-    } else {
-      output += ' target="_blank"';
+        if (internalLink && this.formattingOptions.siteURL) {
+            output += ` data-link="${outHref.replace(
+                this.formattingOptions.siteURL,
+                ''
+            )}"`;
+        } else {
+            output += ' target="_blank"';
+        }
+
+        if (title) {
+            output += ` title="${title}"`;
+        }
+
+        // remove any links added to the text by hashtag or mention parsing since they'll break this link
+        output += '>' + text.replace(/<\/?a[^>]*>/g, '') + '</a>';
+
+        return output;
     }
 
-    if (title) {
-      output += ` title="${title}"`;
+    public paragraph(text: string) {
+        if (this.formattingOptions.singleline) {
+            return `<p class="markdown__paragraph-inline">${text}</p>`;
+        }
+
+        return super.paragraph(text);
     }
 
-    // remove any links added to the text by hashtag or mention parsing since they'll break this link
-    output += '>' + text.replace(/<\/?a[^>]*>/g, '') + '</a>';
-
-    return output;
-  }
-
-  paragraph(text: string) {
-    if (this.formattingOptions.singleline) {
-      return `<p class="markdown__paragraph-inline">${text}</p>`;
+    public table(header: string, body: string) {
+        return `<div class="table-responsive"><table class="markdown__table"><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
     }
 
-    return super.paragraph(text);
-  }
-
-  table(header: string, body: string) {
-    return `<div class="table-responsive"><table class="markdown__table"><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
-  }
-
-  tablerow(content: string) {
-    return `<tr>${content}</tr>`;
-  }
-
-  tablecell(
-    content: string,
-    flags: {
-      header: boolean;
-      align: 'center' | 'left' | 'right' | null;
+    public tablerow(content: string) {
+        return `<tr>${content}</tr>`;
     }
-  ) {
-    return marked.Renderer.prototype.tablecell(content, flags).trim();
-  }
 
-  listitem(text: string, bullet: string) {
-    const taskListReg = /^\[([ |xX])] /;
-    const isTaskList = taskListReg.exec(text);
+    public tablecell(
+        content: string,
+        flags: {
+            header: boolean;
+            align: 'center' | 'left' | 'right' | null;
+        }
+    ) {
+        return marked.Renderer.prototype.tablecell(content, flags).trim();
+    }
 
-    if (isTaskList) {
-      return `<li class="list-item--task-list">${'<input type="checkbox" disabled="disabled" ' +
+    public listitem(text: string) {
+        // eslint-disable-next-line prefer-rest-params
+        const bullet: string = arguments[1];
+        const taskListReg = /^\[([ |xX])] /;
+        const isTaskList = taskListReg.exec(text);
+
+        if (isTaskList) {
+            return `<li class="list-item--task-list">${'<input type="checkbox" disabled="disabled" ' +
         (isTaskList[1] === ' ' ? '' : 'checked="checked" ') +
         '/> '}${text.replace(taskListReg, '')}</li>`;
+        }
+
+        if ((/^\d+.$/).test(bullet)) {
+            // this is a numbered list item so override the numbering
+            return `<li value="${parseInt(bullet, 10)}">${text}</li>`;
+        }
+
+        return `<li>${text}</li>`;
     }
 
-    if (/^\d+.$/.test(bullet)) {
-      // this is a numbered list item so override the numbering
-      return `<li value="${parseInt(bullet, 10)}">${text}</li>`;
+    public text(txt: string) {
+        return TextFormatting.doFormatText(txt, this.formattingOptions);
     }
-
-    return `<li>${text}</li>`;
-  }
-
-  text(txt: string) {
-    return TextFormatting.doFormatText(txt, this.formattingOptions);
-  }
 }
 
 // Marked helper functions that should probably just be exported
 
 function unescapeHtmlEntities(html: string) {
-  return html.replace(/&([#\w]+);/g, (_, m) => {
-    const n = m.toLowerCase();
-    if (n === 'colon') {
-      return ':';
-    } else if (n.charAt(0) === '#') {
-      return n.charAt(1) === 'x'
-        ? String.fromCharCode(parseInt(n.substring(2), 16))
-        : String.fromCharCode(Number(n.substring(1)));
-    }
-    return '';
-  });
+    return html.replace(/&([#\w]+);/g, (_, m) => {
+        const n = m.toLowerCase();
+        if (n === 'colon') {
+            return ':';
+        } else if (n.charAt(0) === '#') {
+            return n.charAt(1) === 'x' ?
+                String.fromCharCode(parseInt(n.substring(2), 16)) :
+                String.fromCharCode(Number(n.substring(1)));
+        }
+        return '';
+    });
 }
