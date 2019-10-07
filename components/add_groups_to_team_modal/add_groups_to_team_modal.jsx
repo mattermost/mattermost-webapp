@@ -11,7 +11,7 @@ import {Groups} from 'mattermost-redux/constants';
 import Constants from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 

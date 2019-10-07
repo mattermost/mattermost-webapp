@@ -5,23 +5,33 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
+
+const element = (props: any) => <div/>;
+const noop = (props: any) => {};
 
 describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
     const optionsNumber = 8;
     const users = [];
     for (var i = 0; i < optionsNumber; i++) {
-        users.push({id: i, value: i});
+        users.push({id: `${i}`, label: `${i}`, value: `${i}`});
     }
 
     const baseProps = {
-        users,
-        totalCount,
-        values: [{id: 100, value: 100}],
-        saving: false,
+        ariaLabelRenderer: element as any,
+        handleAdd: noop,
+        handleDelete: noop,
+        handleInput: noop,
+        handleSubmit: noop,
+        optionRenderer: element,
         options: users,
         perPage: 5,
+        saving: false,
+        totalCount,
+        users,
+        valueRenderer: element as any,
+        values: [{id: 'id', label: 'label', value: 'value'}],
     };
 
     test('should match snapshot', () => {

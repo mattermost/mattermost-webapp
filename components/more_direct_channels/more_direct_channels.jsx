@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
