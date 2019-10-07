@@ -5,13 +5,14 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
+import {ActionMeta, GroupType} from 'react-select/src/types';
+import {getOptionValue} from 'react-select/src/builtins';
+import {StateManager} from 'react-select/src/stateManager';
+
 import {Constants, A11yCustomEventTypes} from 'utils/constants.jsx';
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list';
-import {ActionMeta, GroupType} from "react-select/src/types";
-import {getOptionValue} from "react-select/src/builtins";
-import {StateManager} from "react-select/src/stateManager";
 
 export type Value = {
     id: string;
@@ -61,11 +62,11 @@ export default class MultiSelect extends React.Component<Props, State> {
     public reactSelectRef = React.createRef<ReactSelect>()
     public selected: Value | null = null
 
-    static defaultProps = {
+    public static defaultProps = {
         ariaLabelRenderer: defaultAriaLabelRenderer,
     }
 
-    constructor(props: Props) {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -75,7 +76,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         const inputRef: unknown = this.reactSelectRef.current && this.reactSelectRef.current.select.inputRef;
 
         document.addEventListener<'keydown'>('keydown', this.handleEnterPress);
@@ -87,26 +88,26 @@ export default class MultiSelect extends React.Component<Props, State> {
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         const inputRef: unknown = this.reactSelectRef.current && this.reactSelectRef.current.select.inputRef;
 
         if (inputRef && typeof (inputRef as HTMLElement).addEventListener === 'function') {
             (inputRef as HTMLElement).removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            (inputRef as HTMLElement).removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yActivateEvent);
+            (inputRef as HTMLElement).removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
 
         document.removeEventListener('keydown', this.handleEnterPress);
     }
 
-    handleA11yActivateEvent = () => {
+    public handleA11yActivateEvent = () => {
         this.setState({a11yActive: true});
     }
 
-    handleA11yDeactivateEvent = () => {
+    public handleA11yDeactivateEvent = () => {
         this.setState({a11yActive: false});
     }
 
-    nextPage = () => {
+    public nextPage = () => {
         if (this.props.handlePageChange) {
             this.props.handlePageChange(this.state.page + 1, this.state.page);
         }
@@ -116,7 +117,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         this.setState({page: this.state.page + 1});
     }
 
-    prevPage = () => {
+    public prevPage = () => {
         if (this.state.page === 0) {
             return;
         }
@@ -124,19 +125,22 @@ export default class MultiSelect extends React.Component<Props, State> {
         if (this.props.handlePageChange) {
             this.props.handlePageChange(this.state.page - 1, this.state.page);
         }
-        this.listRef.current && this.listRef.current.setSelected(0);
+
+        if (this.listRef.current) {
+            this.listRef.current.setSelected(0);
+        }
         this.setState({page: this.state.page - 1});
     }
 
-    resetPaging = () => {
+    public resetPaging = () => {
         this.setState({page: 0});
     }
 
-    onSelect = (selected: Value | null) => {
+    public onSelect = (selected: Value | null) => {
         this.selected = selected;
     }
 
-    onAdd = (value: Value) => {
+    public onAdd = (value: Value) => {
         if (this.props.maxValues && this.props.values.length >= this.props.maxValues) {
             return;
         }
@@ -164,7 +168,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         }
     }
 
-    onInput = (input: string, change: ActionMeta | { action: string } = { action: '' }) => {
+    public onInput = (input: string, change: ActionMeta | { action: string } = {action: ''}) => {
         if (!change) {
             return;
         }
@@ -191,7 +195,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         this.props.handleInput(input, this);
     }
 
-    onInputKeyDown = (e: React.KeyboardEvent) => {
+    public onInputKeyDown = (e: React.KeyboardEvent) => {
         switch (e.key) {
         case KeyCodes.ENTER[0]:
             e.preventDefault();
@@ -199,7 +203,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         }
     }
 
-    handleEnterPress = (e: KeyboardEvent) => {
+    public handleEnterPress = (e: KeyboardEvent) => {
         switch (e.key) {
         case KeyCodes.ENTER[0]:
             if (this.selected == null) {
@@ -211,12 +215,12 @@ export default class MultiSelect extends React.Component<Props, State> {
         }
     }
 
-    handleOnClick = (e: Event) => {
+    public handleOnClick = (e: Event) => {
         e.preventDefault();
         this.props.handleSubmit();
     }
 
-    onChange: ReactSelect['onChange'] = (_, change) => {
+    public onChange: ReactSelect['onChange'] = (_, change) => {
         if (change.action !== 'remove-value' && change.action !== 'pop-value') {
             return;
         }
@@ -233,7 +237,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         this.props.handleDelete(values);
     }
 
-    render() {
+    public render() {
         const options = Object.assign([] as Value[], this.props.options);
         const {totalCount, users, values} = this.props;
 

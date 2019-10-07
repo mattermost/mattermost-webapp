@@ -30,7 +30,7 @@ type State = {
 const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelectList extends React.Component<Props, State> {
-    defaultProps = {
+    public static defaultProps = {
         options: [],
         perPage: 50,
         onAction: () => null,
@@ -40,7 +40,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
     public listRef = React.createRef<HTMLDivElement>()
     public selectedRef = React.createRef<HTMLDivElement>()
 
-    constructor(props: Props) {
+    public constructor(props: Props) {
         super(props);
 
         this.toSelect = -1;
@@ -50,15 +50,15 @@ export default class MultiSelectList extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         document.addEventListener('keydown', this.handleArrowPress);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         document.removeEventListener('keydown', this.handleArrowPress);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps: Props) { // eslint-disable-line camelcase
+    public UNSAFE_componentWillReceiveProps(nextProps: Props) { // eslint-disable-line camelcase
         this.setState({selected: this.toSelect});
 
         const options = nextProps.options;
@@ -68,7 +68,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         }
     }
 
-    componentDidUpdate(_: Props, prevState: State) {
+    public componentDidUpdate(_: Props, prevState: State) {
         if (prevState.selected === this.state.selected) {
             return;
         }
@@ -86,11 +86,11 @@ export default class MultiSelectList extends React.Component<Props, State> {
         }
     }
 
-    setSelected = (selected: number) => {
+    public setSelected = (selected: number) => {
         this.toSelect = selected;
     }
 
-    handleArrowPress = (e: KeyboardEvent) => {
+    public handleArrowPress = (e: KeyboardEvent) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey) {
             return;
         }
@@ -126,7 +126,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         this.props.onSelect(options[selected]);
     }
 
-    defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd']) => {
+    public defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd']) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -144,7 +144,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         );
     }
 
-    render() {
+    public render() {
         const options = this.props.options;
         let renderOutput;
 
