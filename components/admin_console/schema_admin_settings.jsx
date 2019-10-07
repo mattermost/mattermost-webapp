@@ -817,34 +817,31 @@ export default class SchemaAdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        await this.props.updateConfig(
-            config,
-            (savedConfig) => {
-                this.setState(getStateFromConfig(savedConfig));
+        const {data, error} = await this.props.updateConfig(config);
+        if (data) {
+            this.setState(getStateFromConfig(data));
 
-                if (callback) {
-                    callback();
-                }
-
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
-            },
-            (err) => {
-                this.setState({
-                    serverError: err.message,
-                    serverErrorId: err.id,
-                });
-
-                if (callback) {
-                    callback();
-                }
-
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
+            if (callback) {
+                callback();
             }
-        );
+
+            if (this.handleSaved) {
+                this.handleSaved(config);
+            }
+        } else if (error) {
+            this.setState({
+                serverError: error.message,
+                serverErrorId: error.server_error_id,
+            });
+
+            if (callback) {
+                callback();
+            }
+
+            if (this.handleSaved) {
+                this.handleSaved(config);
+            }
+        }
 
         const results = [];
         for (const saveAction of this.saveActions) {
