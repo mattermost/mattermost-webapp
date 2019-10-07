@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {CSSProperties} from 'react';
-import PropTypes from 'prop-types';
 
 interface PostEmojiProps {
     name: string;
@@ -11,26 +10,10 @@ interface PostEmojiProps {
 declare module 'react' {
     interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
         alt?: string;
-        className?: string;
-        title?: string;
-        style?: CSSProperties;
     }
 }
 
 export default class PostEmoji extends React.PureComponent<PostEmojiProps, {}> {
-    public static propTypes = {
-
-        /*
-         * Emoji name.
-         */
-        name: PropTypes.string.isRequired,
-
-        /*
-         * Emoji image URL.
-         */
-        imageUrl: PropTypes.string.isRequired,
-    };
-
     public render() {
         const emojiText = ':' + this.props.name + ':';
 
