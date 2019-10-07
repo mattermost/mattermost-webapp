@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import MarketplaceModal from './marketplace_modal.jsx';
 
@@ -33,7 +34,7 @@ describe('components/MarketplaceModal', () => {
     };
 
     test('should match the snapshot, no plugins installed', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <MarketplaceModal {...defaultProps}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -56,7 +57,7 @@ describe('components/MarketplaceModal', () => {
         marketplacePluginsSample.push(installedPlugin);
         installedPlugins.push(installedPlugin);
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <MarketplaceModal {...defaultProps}/>
         );
 
@@ -64,7 +65,7 @@ describe('components/MarketplaceModal', () => {
     });
 
     test('should match the snapshot, error banner is shown', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <MarketplaceModal {...defaultProps}/>
         );
 

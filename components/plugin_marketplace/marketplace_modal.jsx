@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import debounce from 'lodash/debounce';
 import {Tabs, Tab} from 'react-bootstrap';
 
@@ -40,6 +40,10 @@ export default class MarketplaceModal extends React.Component {
             getMarketplacePlugins: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape,
+    };
 
     constructor(props) {
         super(props);
@@ -165,14 +169,26 @@ export default class MarketplaceModal extends React.Component {
             </div>
         );
 
+        const {formatMessage} = this.context.intl;
+
         let errorBanner = null;
         if (this.state.serverError) {
+            let basename = window.basename;
+            if (basename === '/') {
+                basename = '';
+            }
+
+            const values = {basename};
+            const message = formatMessage({
+                id: 'app.plugin.marketplace_plugins.app_error',
+                defaultMessage: 'Error connecting to the marketplace server. Please check your settings in the [System Console]({basename}/admin_console/plugins/plugin_management).',
+            }, values);
+
             errorBanner = (
                 <div
                     className='error-bar'
                     id='error_bar'
-                    dangerouslySetInnerHTML={{__html: Markdown.format(localizeMessage('app.plugin.marketplace_plugins.app_error',
-                        'Error connecting to the marketplace server. Please check your settings in the [System Console](/admin_console/plugins/plugin_management).'))}}
+                    dangerouslySetInnerHTML={{__html: Markdown.format(message)}}
                 />
             );
         }
