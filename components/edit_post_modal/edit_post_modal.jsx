@@ -7,6 +7,7 @@ import {FormattedMessage, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
+import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DeletePostModal from 'components/delete_post_modal';
@@ -52,6 +53,7 @@ export default class EditPostModal extends React.PureComponent {
         this.state = {
             preview: false,
             editText: '',
+            caretPosition: ''.length,
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
@@ -99,11 +101,23 @@ export default class EditPostModal extends React.PureComponent {
         if (this.state.editText === '') {
             this.setState({editText: ':' + emojiAlias + ': '});
         } else {
-            //check whether there is already a blank at the end of the current message
-            const newMessage = ((/\s+$/).test(this.state.editText)) ?
-                this.state.editText + ':' + emojiAlias + ': ' : this.state.editText + ' :' + emojiAlias + ': ';
+            const {editText} = this.state;
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, editText);
 
-            this.setState({editText: newMessage});
+            // check whether the first piece of the message is empty when cursor
+            // is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
+
+            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
+
+            const textbox = this.editbox.getInputBox();
+
+            this.setState({
+                editText: newMessage,
+                caretPosition: newCaretPosition,
+            }, () => {
+                Utils.setCaretPosition(textbox, newCaretPosition);
+            });
         }
 
         this.setState({showEmojiPicker: false});
@@ -205,6 +219,13 @@ export default class EditPostModal extends React.PureComponent {
             this.editbox.blur();
             this.handleEdit();
         }
+    }
+
+    handleMouseUpKeyUp = (e) => {
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.setState({
+            caretPosition,
+        });
     }
 
     handleKeyDown = (e) => {
@@ -349,6 +370,8 @@ export default class EditPostModal extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onMouseUp={this.handleMouseUpKeyUp}
+                                onKeyUp={this.handleMouseUpKeyUp}
                                 handlePostError={this.handlePostError}
                                 value={this.state.editText}
                                 channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}

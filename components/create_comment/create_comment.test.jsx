@@ -142,6 +142,14 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>
         );
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
@@ -151,23 +159,27 @@ describe('components/CreateComment', () => {
         );
         expect(wrapper.state().draft.message).toBe(':smile: ');
 
-        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test'.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test :smile:  ');
 
-        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test '.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test  :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test  :smile:  ');
 
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
