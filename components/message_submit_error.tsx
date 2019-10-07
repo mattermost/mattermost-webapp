@@ -24,7 +24,7 @@ class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps, {}
         submittedMessage: PropTypes.string,
     }
 
-    _renderSlashCommandError = () : string | ReactFragment => {
+    public renderSlashCommandError = (): string | ReactFragment => {
         if (!this.props.submittedMessage) {
             return this.props.error.message;
         }
@@ -61,7 +61,7 @@ class MessageSubmitError extends React.PureComponent<MessageSubmitErrorProps, {}
 
         let errorContent = error.message;
         if (isErrorInvalidSlashCommand(error)) {
-            errorContent = this._renderSlashCommandError();
+            errorContent = this.renderSlashCommandError();
         }
 
         return (
