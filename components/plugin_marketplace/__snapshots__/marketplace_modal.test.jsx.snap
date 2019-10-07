@@ -10,7 +10,7 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
       className="error-bar"
       dangerouslySetInnerHTML={
         Object {
-          "__html": "<p>Error connecting to the marketplace server. Please check your settings in the <a class=\\"theme markdown__link\\" href=\\"/admin_console/plugins/plugin_management\\" rel=\\"noreferrer\\" data-link=\\"/admin_console/plugins/plugin_management\\">System Console</a>.</p>",
+          "__html": "<p>Error connecting to the marketplace server. Please check your settings in the <a class=\\"theme markdown__link\\" href=\\"/admin_console/plugins/plugin_management\\" rel=\\"noreferrer\\" target=\\"_blank\\">System Console</a>.</p>",
         }
       }
       id="error_bar"
