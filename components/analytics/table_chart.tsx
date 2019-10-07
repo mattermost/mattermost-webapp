@@ -7,8 +7,19 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 
-export default class TableChart extends React.PureComponent {
-    static propTypes = {
+export interface TableItem {
+    tip: string;
+    name: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    value: any;
+}
+export interface TableChartProps {
+    title: string;
+    data: TableItem[];
+}
+
+export default class TableChart extends React.PureComponent<TableChartProps> {
+    public static propTypes = {
 
         /*
          * Table title
@@ -27,7 +38,7 @@ export default class TableChart extends React.PureComponent {
         ).isRequired,
     };
 
-    render() {
+    public render() {
         return (
             <div className='col-sm-6'>
                 <div className='total-count recent-active-users'>
