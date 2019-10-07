@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
@@ -29,6 +30,8 @@ function mapStateToProps(state, ownProps) {
     const userId = ownProps.userId;
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
+    const config = getConfig(state);
+    const loginWithCertificate = config.LoginWithCertificate === 'true';
 
     let isTeamAdmin = false;
     if (teamMember && teamMember.scheme_admin) {
@@ -63,6 +66,7 @@ function mapStateToProps(state, ownProps) {
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
+        loginWithCertificate,
     };
 }
 

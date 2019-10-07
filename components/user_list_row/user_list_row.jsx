@@ -23,6 +23,7 @@ export default class UserListRow extends React.Component {
         index: PropTypes.number,
         totalUsers: PropTypes.number,
         userCount: PropTypes.number,
+        loginWithCertificate: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {
@@ -82,48 +83,88 @@ export default class UserListRow extends React.Component {
             userCountEmail = Utils.createSafeId('userListRowEmail' + this.props.userCount);
         }
 
-        return (
-            <div
-                key={this.props.user.id}
-                className='more-modal__row'
-            >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
-                    status={status}
-                    width='32'
-                    height='32'
-                />
+        if (this.props.loginWithCertificate){
+           return (
+                       <div
+                           key={this.props.user.id}
+                           className='more-modal__row'
+                       >
+                           <ProfilePicture
+                               src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
+                               status={status}
+                               width='32'
+                               height='32'
+                           />
+                           <div
+                               className='more-modal__details'
+                           >
+                               <div
+                                   id={userCountID}
+                                   className='more-modal__name'
+                               >
+                                   {Utils.displayEntireNameForUser(this.props.user)}
+                                   <BotBadge
+                                       className='badge-popoverlist'
+                                       show={Boolean(this.props.user.is_bot)}
+                                   />
+                                   <GuestBadge
+                                       className='badge-popoverlist'
+                                       show={Utils.isGuest(this.props.user)}
+                                   />
+                               </div>
+                               {this.props.extraInfo}
+                           </div>
+                           <div
+                               className='more-modal__actions'
+                           >
+                               {buttons}
+                           </div>
+                       </div>
+                   );
+        } else {
+            return (
                 <div
-                    className='more-modal__details'
+                    key={this.props.user.id}
+                    className='more-modal__row'
                 >
+                    <ProfilePicture
+                        src={Client4.getProfilePictureUrl(this.props.user.id, this.props.user.last_picture_update)}
+                        status={status}
+                        width='32'
+                        height='32'
+                    />
                     <div
-                        id={userCountID}
-                        className='more-modal__name'
+                        className='more-modal__details'
                     >
-                        {Utils.displayEntireNameForUser(this.props.user)}
-                        <BotBadge
-                            className='badge-popoverlist'
-                            show={Boolean(this.props.user.is_bot)}
-                        />
-                        <GuestBadge
-                            className='badge-popoverlist'
-                            show={Utils.isGuest(this.props.user)}
-                        />
+                        <div
+                            id={userCountID}
+                            className='more-modal__name'
+                        >
+                            {Utils.displayEntireNameForUser(this.props.user)}
+                            <BotBadge
+                                className='badge-popoverlist'
+                                show={Boolean(this.props.user.is_bot)}
+                            />
+                            <GuestBadge
+                                className='badge-popoverlist'
+                                show={Utils.isGuest(this.props.user)}
+                            />
+                        </div>
+                        <div
+                             id={userCountEmail}
+                             className={emailStyle}
+                        >
+                             {email}
+                        </div>
+                        {this.props.extraInfo}
                     </div>
-{/*                     <div */}
-{/*                         id={userCountEmail} */}
-{/*                         className={emailStyle} */}
-{/*                     > */}
-{/*                         {email} */}
-{/*                     </div> */}
-                    {this.props.extraInfo}
+                    <div
+                        className='more-modal__actions'
+                    >
+                        {buttons}
+                    </div>
                 </div>
-                <div
-                    className='more-modal__actions'
-                >
-                    {buttons}
-                </div>
-            </div>
-        );
+            );
+           }
     }
 }

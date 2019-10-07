@@ -17,7 +17,6 @@ export default class UserList extends React.Component {
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
-
         // the type of user list row to render
         rowComponentType: PropTypes.func,
     }
@@ -62,6 +61,7 @@ export default class UserList extends React.Component {
                         index={index}
                         totalUsers={users.length}
                         userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+//                         loginWithCertificate={this.props.loginWithCertificate}
                     />
                 );
             });

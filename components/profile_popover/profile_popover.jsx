@@ -283,32 +283,32 @@ class ProfilePopover extends React.PureComponent {
                 </OverlayTrigger>
             );
         }
+        if (!this.props.loginWithCertificate){
+            const email = this.props.user.email;
+            if (email && !this.props.user.is_bot) {
+                dataContent.push(
+                    <hr
+                        key='user-popover-hr2'
+                        className='divider divider--expanded'
+                    />
+                );
 
-//         const email = this.props.user.email;
-//         if (email && !this.props.user.is_bot) {
-//             dataContent.push(
-//                 <hr
-//                     key='user-popover-hr2'
-//                     className='divider divider--expanded'
-//                 />
-//             );
-//
-//             dataContent.push(
-//                 <div
-//                     data-toggle='tooltip'
-//                     title={email}
-//                     key='user-popover-email'
-//                 >
-//                     <a
-//                         href={'mailto:' + email}
-//                         className='text-nowrap text-lowercase user-popover__email padding-bottom half'
-//                     >
-//                         {email}
-//                     </a>
-//                 </div>
-//             );
-//         }
-
+                dataContent.push(
+                    <div
+                        data-toggle='tooltip'
+                        title={email}
+                        key='user-popover-email'
+                    >
+                        <a
+                            href={'mailto:' + email}
+                            className='text-nowrap text-lowercase user-popover__email padding-bottom half'
+                        >
+                            {email}
+                        </a>
+                    </div>
+                );
+            }
+        }
         dataContent.push(
             <Pluggable
                 key='profilePopoverPluggable2'

@@ -30,7 +30,6 @@ function mapStateToProps(state, ownProps) {
     const samlLoginButtonText = config.SamlLoginButtonText;
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const siteName = config.SiteName;
-
     let usedBefore;
     if (ownProps.location.search) {
         const params = new URLSearchParams(ownProps.location.search);

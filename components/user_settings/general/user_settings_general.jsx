@@ -1242,70 +1242,132 @@ class UserSettingsGeneralTab extends React.Component {
                 />
             );
         }
-
-        return (
-            <div id='generalSettings'>
-                <div className='modal-header'>
-                    <button
-                        id='closeUserSettings'
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
-                        aria-label={formatMessage(holders.close)}
-                        onClick={this.props.closeModal}
-                    >
-                        <span aria-hidden='true'>{'×'}</span>
-                    </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
-                        <div className='modal-back'>
-                            <FormattedMessage
-                                id='generic_icons.collapse'
-                                defaultMessage='Collapse Icon'
-                            >
-                                {(title) => (
-                                    <i
-                                        className='fa fa-angle-left'
-                                        title={title}
-                                        onClick={this.props.collapseModal}
+        if(this.props.loginWithCertificate){
+            return (
+                        <div id='generalSettings'>
+                            <div className='modal-header'>
+                                <button
+                                    id='closeUserSettings'
+                                    type='button'
+                                    className='close'
+                                    data-dismiss='modal'
+                                    aria-label={formatMessage(holders.close)}
+                                    onClick={this.props.closeModal}
+                                >
+                                    <span aria-hidden='true'>{'×'}</span>
+                                </button>
+                                <h4
+                                    className='modal-title'
+                                    ref='title'
+                                >
+                                    <div className='modal-back'>
+                                        <FormattedMessage
+                                            id='generic_icons.collapse'
+                                            defaultMessage='Collapse Icon'
+                                        >
+                                            {(title) => (
+                                                <i
+                                                    className='fa fa-angle-left'
+                                                    title={title}
+                                                    onClick={this.props.collapseModal}
+                                                />
+                                            )}
+                                        </FormattedMessage>
+                                    </div>
+                                    <FormattedMessage
+                                        id='user.settings.general.title'
+                                        defaultMessage='General Settings'
                                     />
-                                )}
-                            </FormattedMessage>
+                                </h4>
+                            </div>
+                            <div className='user-settings'>
+                                <h3
+                                    id='generalSettingsTitle'
+                                    className='tab-header'
+                                >
+                                    <FormattedMessage
+                                        id='user.settings.general.title'
+                                        defaultMessage='General Settings'
+                                    />
+                                </h3>
+                                <div className='divider-dark first'/>
+                                {nameSection}
+                                <div className='divider-light'/>
+                                {nicknameSection}
+                                <div className='divider-light'/>
+                                {positionSection}
+                                <div className='divider-light'/>
+                                {pictureSection}
+                                <div className='divider-dark'/>
+                            </div>
                         </div>
-                        <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
-                        />
-                    </h4>
-                </div>
-                <div className='user-settings'>
-                    <h3
-                        id='generalSettingsTitle'
-                        className='tab-header'
-                    >
-                        <FormattedMessage
-                            id='user.settings.general.title'
-                            defaultMessage='General Settings'
-                        />
-                    </h3>
-                    <div className='divider-dark first'/>
-                    {nameSection}
-{/*                     <div className='divider-light'/> */}
-{/*                     {usernameSection} */}
-                    <div className='divider-light'/>
-                    {nicknameSection}
-                    <div className='divider-light'/>
-                    {positionSection}
-{/*                     <div className='divider-light'/> */}
-{/*                     {emailSection} */}
-                    <div className='divider-light'/>
-                    {pictureSection}
-                    <div className='divider-dark'/>
-                </div>
-            </div>
-        );
+                    );
+        } else {
+            return (
+                        <div id='generalSettings'>
+                            <div className='modal-header'>
+                                <button
+                                    id='closeUserSettings'
+                                    type='button'
+                                    className='close'
+                                    data-dismiss='modal'
+                                    aria-label={formatMessage(holders.close)}
+                                    onClick={this.props.closeModal}
+                                >
+                                    <span aria-hidden='true'>{'×'}</span>
+                                </button>
+                                <h4
+                                    className='modal-title'
+                                    ref='title'
+                                >
+                                    <div className='modal-back'>
+                                        <FormattedMessage
+                                            id='generic_icons.collapse'
+                                            defaultMessage='Collapse Icon'
+                                        >
+                                            {(title) => (
+                                                <i
+                                                    className='fa fa-angle-left'
+                                                    title={title}
+                                                    onClick={this.props.collapseModal}
+                                                />
+                                            )}
+                                        </FormattedMessage>
+                                    </div>
+                                    <FormattedMessage
+                                        id='user.settings.general.title'
+                                        defaultMessage='General Settings'
+                                    />
+                                </h4>
+                            </div>
+                            <div className='user-settings'>
+                                <h3
+                                    id='generalSettingsTitle'
+                                    className='tab-header'
+                                >
+                                    <FormattedMessage
+                                        id='user.settings.general.title'
+                                        defaultMessage='General Settings'
+                                    />
+                                </h3>
+                                <div className='divider-dark first'/>
+                                {nameSection}
+                                 <div className='divider-light'/>
+                                 {usernameSection}
+                                <div className='divider-light'/>
+                                {nicknameSection}
+                                <div className='divider-light'/>
+                                {positionSection}
+                                 <div className='divider-light'/>
+                                 {emailSection}
+                                <div className='divider-light'/>
+                                {pictureSection}
+                                <div className='divider-dark'/>
+                            </div>
+                        </div>
+                    );
+        }
+
     }
 }
 
