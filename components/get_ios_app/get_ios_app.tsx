@@ -11,12 +11,12 @@ import AppStoreButton from 'images/app-store-button.png';
 import IPhone6Mockup from 'images/iphone-6-mockup.png';
 
 type Props = {
-    iosAppDownloadLink: string,
-    history: History,
-    location: Location,
+    iosAppDownloadLink: string;
+    history: History;
+    location: Location;
 }
 
-export default function GetIosApp(props: Props) {
+export default function GetIosApp(props: Props): JSX.Element {
     const {iosAppDownloadLink, history, location} = props;
     const onContinue = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
