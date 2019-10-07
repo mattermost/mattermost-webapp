@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import marked, {MarkedOptions} from 'marked';
+import {oneLineTrim} from 'common-tags';
 
 import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
@@ -42,7 +43,7 @@ export default class Renderer extends marked.Renderer {
 
         let header = '';
         if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            header = `<span class="post-code__language">
+            header = oneLineTrim`<span class="post-code__language">
                     ${SyntaxHighlighting.getLanguageName(usedLanguage)}
                 </span>`;
         }
@@ -66,13 +67,13 @@ export default class Renderer extends marked.Renderer {
             if (tokens.size > 0) {
                 searched = TextFormatting.replaceTokens(searched, tokens);
 
-                searchedContent = `<div class="post-code__search-highlighting">
+                searchedContent = oneLineTrim`<div class="post-code__search-highlighting">
                         ${searched} 
                     </div>`;
             }
         }
 
-        return `<div class="${className}">
+        return oneLineTrim`<div class="${className}">
                 ${header}
                 <code class="hljs">
                     ${searchedContent}
@@ -94,7 +95,7 @@ export default class Renderer extends marked.Renderer {
             output = TextFormatting.replaceTokens(output, tokens);
         }
 
-        return `<span class="codespan__pre-wrap">
+        return oneLineTrim`<span class="codespan__pre-wrap">
                 <code>
                     ${output}
                 </code>
