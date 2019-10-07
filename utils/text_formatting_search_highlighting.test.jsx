@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as TextFormatting from 'utils/text_formatting';
+import {oneLineTrim} from 'common-tags'
 
 describe('TextFormatting.searchHighlighting', () => {
     const testCases = [{
@@ -45,14 +46,14 @@ describe('TextFormatting.searchHighlighting', () => {
         input: '```\nwords in a sentence\n```',
         searchTerm: 'words',
         expected:
-            '<div class="post-code post-code--wrap">' +
-                '<code class="hljs">' +
-                    '<div class="post-code__search-highlighting">' +
-                        '<span class="search-highlight">words</span> in a sentence\n' +
-                    '</div>' +
-                    'words in a sentence\n' +
-                '</code>' +
-            '</div>',
+            oneLineTrim`<div class="post-code post-code--wrap">
+                <code class="hljs">
+                    <div class="post-code__search-highlighting">
+                        <span class="search-highlight">words</span> in a sentence
+                    </div>
+                    words in a sentence
+                </code>
+            </div>`,
     }, {
         name: 'search term highlighting in link text',
         input: 'These are [words in a sentence](https://example.com).',
@@ -119,7 +120,7 @@ describe('TextFormatting.searchHighlighting', () => {
             };
             const output = TextFormatting.formatText(testCase.input, options).trim();
 
-            expect(output).toEqual(testCase.expected);
+            expect(oneLineTrim(output)).toEqual(oneLineTrim(testCase.expected));
         });
     }
 
