@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
