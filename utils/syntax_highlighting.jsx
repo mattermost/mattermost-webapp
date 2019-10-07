@@ -135,15 +135,15 @@ function formatHighLight(code) {
         return code.split('\n').map((str, index) => {
             if (str) {
                 return `
-                  <div>
-                    <span
-                      class='hljs-ln-numbers'
-                      style='min-width: ${width};'
-                    >
-                      ${index + 1}
-                    </span>
-                    <span>${str}</span>
-                  </div>
+                    <div>
+                        <span
+                            class='hljs-ln-numbers'
+                            style='min-width: ${width};'
+                        >
+                            ${index + 1}
+                        </span>
+                        <span>${str}</span>
+                    </div>
                 `;
             }
 

@@ -58,17 +58,17 @@ h6 {
         margin: 5px 2px;
         max-height: 500px;
     }
-    
+
     div .markdown-inline-img {
         display: inline-block;
         width: 100%;
         vertical-align: middle;
     }
-    
+
     .markdown-inline-img--hover {
         max-width: calc(100% - 5px);
         border: 1px solid transparent;
-        
+
         &:hover {
             @include border-radius(4px);
             @include single-transition(all, .1s, linear);
@@ -92,7 +92,6 @@ h6 {
         overflow-x: auto;
         padding: 6.5px;
         text-align: left;
-        white-space: pre;
     }
 
     td {
@@ -111,30 +110,34 @@ h6 {
     .hljs {
         position: relative;
         visibility: visible;
-        white-space: unset;
+        white-space: pre;
         display: flex;
         flex-direction: column;
 
         >div {
-          display: flex;
+            display: flex;
         }
 
         /* for block of numbers */
         .hljs-ln-numbers {
-          -webkit-touch-callout: none;
-          -webkit-user-select: none;
-          -khtml-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-          color: #ccc;
-          border-right: 1px solid #CCC;
-          vertical-align: top;
-          padding-right: 5px;
-          vertical-align: top;
-          padding-right: 4px;
-          margin-right: 12px;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            color: #ccc;
+            border-right: 1px solid #CCC;
+            vertical-align: top;
+            padding-right: 5px;
+            vertical-align: top;
+            padding-right: 4px;
+            margin-right: 12px;
         }
+    }
+
+    .hljs-ln {
+        white-space: unset;
     }
 }
 
