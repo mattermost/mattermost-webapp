@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import {AsyncComponent} from 'components/async_load';
-import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.jsx';
+import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.tsx';
 
 import TeamSettings from 'components/team_settings';
 
