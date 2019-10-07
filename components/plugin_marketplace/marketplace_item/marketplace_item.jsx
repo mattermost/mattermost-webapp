@@ -85,8 +85,6 @@ export default class MarketplaceItem extends React.Component {
 
         onInstall = () => {
             this.setState({installing: true});
-            trackEvent('plugins', 'ui_marketplace_download');
-
             this.installPlugin();
         }
 
