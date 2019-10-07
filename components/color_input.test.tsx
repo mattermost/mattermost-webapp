@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 import ColorInput from 'components/color_input';
 
@@ -77,7 +77,7 @@ describe('components/ColorInput', () => {
 
     test('should have called onChange prop', () => {
         const onChange = jest.fn();
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, ColorInput> = shallow(
             <ColorInput
                 color='#ffffff'
                 id='sidebarBg'
@@ -85,7 +85,10 @@ describe('components/ColorInput', () => {
             />
         );
 
-        const newColorData = {hex: '#ccc'};
+        const newColorData: any = {hex: '#ccc'};
+
+        // Ignoring for now since this test won't matter after TS conversion
+        // @ts-ignore
         wrapper.instance().handleChange(newColorData);
 
         expect(onChange).toHaveBeenCalledTimes(1);

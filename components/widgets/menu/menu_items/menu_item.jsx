@@ -4,6 +4,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './menu_item.scss';
+
 export default function menuItem(Component) {
     class MenuItem extends React.PureComponent {
         static propTypes= {

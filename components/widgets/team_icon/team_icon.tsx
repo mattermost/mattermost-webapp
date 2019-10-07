@@ -42,7 +42,7 @@ export class TeamIcon extends React.PureComponent<Props> {
         }
         const hoverCss = withHover ? '' : 'no-hover';
         const teamIconUrl = url || imageURLForTeam({display_name: name});
-        let icon = null;
+        let icon;
         if (teamIconUrl) {
             icon = (
                 <div
