@@ -397,8 +397,8 @@ export function areObjectsEqual(x, y) {
         }
     }
 
+    //eslint-disable-next-line guard-for-in
     for (p in x) {
-        //eslint-disable-line guard-for-in
         if (y.hasOwnProperty(p) !== x.hasOwnProperty(p)) {
             return false;
         } else if (typeof y[p] !== typeof x[p]) {
@@ -2073,8 +2073,8 @@ export function isValidUsername(name) {
     } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
         error =
             "Must contain only letters, numbers, and the symbols '.', '-', and '_'.";
+    //eslint-disable-next-line no-negated-condition
     } else if (!(/[a-z]/).test(name.charAt(0))) {
-        //eslint-disable-line no-negated-condition
         error = 'First character must be a letter.';
     } else {
         for (var i = 0; i < Constants.RESERVED_USERNAMES.length; i++) {
@@ -2176,7 +2176,7 @@ export function changeColor(colourIn, amt) {
     var i;
     for (i = 0; i < 3; i++) {
         c = parseInt(hex.substr(i * 2, 2), 16);
-        c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+        c = Math.round(Math.min(Math.max(0, (c + c) * lum), 255)).toString(16);
         rgb += ('00' + c).substr(c.length);
     }
 
