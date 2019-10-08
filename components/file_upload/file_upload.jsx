@@ -6,7 +6,7 @@ import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 
-import dragster from 'utils/dragster.js';
+import dragster from 'utils/dragster';
 import Constants from 'utils/constants.jsx';
 import DelayedAction from 'utils/delayed_action';
 import {t} from 'utils/i18n';

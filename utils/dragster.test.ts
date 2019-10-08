@@ -4,28 +4,28 @@
 import dragster from './dragster';
 
 describe('utils.dragster', () => {
-    let div;
-    let unbind;
-    let enterEvent;
-    let leaveEvent;
-    let overEvent;
-    let dropEvent;
+    let div: HTMLElement;
+    let unbind: () => void;
+    let enterEvent: CustomEvent | null;
+    let leaveEvent: CustomEvent | null;
+    let overEvent: CustomEvent | null;
+    let dropEvent: CustomEvent | null;
     const id = 'utils_dragster_test';
     const dragenter = new CustomEvent('dragenter', {detail: 'dragenter_detail'});
     const dragleave = new CustomEvent('dragleave', {detail: 'dragleave_detail'});
     const dragover = new CustomEvent('dragover', {detail: 'dragover_detail'});
     const drop = new CustomEvent('drop', {detail: 'drop_detail'});
     const options = {
-        enter: (event) => {
+        enter: (event: CustomEvent) => {
             enterEvent = event;
         },
-        leave: (event) => {
+        leave: (event: CustomEvent) => {
             leaveEvent = event;
         },
-        over: (event) => {
+        over: (event: CustomEvent) => {
             overEvent = event;
         },
-        drop: (event) => {
+        drop: (event: CustomEvent) => {
             dropEvent = event;
         },
     };
@@ -52,36 +52,36 @@ describe('utils.dragster', () => {
     it('should dispatch dragenter event', () => {
         div.dispatchEvent(dragenter);
 
-        expect(enterEvent.detail.detail).toEqual('dragenter_detail');
+        expect(enterEvent!.detail.detail).toEqual('dragenter_detail');
     });
 
     it('should dispatch dragleave event', () => {
         div.dispatchEvent(dragleave);
 
-        expect(leaveEvent.detail.detail).toEqual('dragleave_detail');
+        expect(leaveEvent!.detail.detail).toEqual('dragleave_detail');
     });
 
     it('should dispatch dragover event', () => {
         div.dispatchEvent(dragover);
 
-        expect(overEvent.detail.detail).toEqual('dragover_detail');
+        expect(overEvent!.detail.detail).toEqual('dragover_detail');
     });
 
     it('should dispatch drop event', () => {
         div.dispatchEvent(drop);
 
-        expect(dropEvent.detail.detail).toEqual('drop_detail');
+        expect(dropEvent!.detail.detail).toEqual('drop_detail');
     });
 
     it('should dispatch dragenter event again', () => {
         div.dispatchEvent(dragenter);
 
-        expect(enterEvent.detail.detail).toEqual('dragenter_detail');
+        expect(enterEvent!.detail.detail).toEqual('dragenter_detail');
     });
 
     it('should dispatch dragenter event once if dispatched 2 times', () => {
         div.dispatchEvent(dragenter);
 
-        expect(enterEvent).toBe(null);
+        expect(enterEvent).toBeNull();
     });
 });
