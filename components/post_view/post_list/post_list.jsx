@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import {PostRequestTypes} from 'utils/constants.jsx';
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
