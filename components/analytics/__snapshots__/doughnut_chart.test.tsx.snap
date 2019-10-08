@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/analytics/doughnut_chart.jsx should match snapshot, loaded with data 1`] = `
+exports[`components/analytics/doughnut_chart.tsx should match snapshot, loaded with data 1`] = `
 <DoughnutChart
   data={
     Object {
@@ -43,7 +43,7 @@ exports[`components/analytics/doughnut_chart.jsx should match snapshot, loaded w
 </DoughnutChart>
 `;
 
-exports[`components/analytics/doughnut_chart.jsx should match snapshot, loaded without data 1`] = `
+exports[`components/analytics/doughnut_chart.tsx should match snapshot, loaded without data 1`] = `
 <DoughnutChart
   data={Object {}}
   height={400}
@@ -74,7 +74,7 @@ exports[`components/analytics/doughnut_chart.jsx should match snapshot, loaded w
 </DoughnutChart>
 `;
 
-exports[`components/analytics/doughnut_chart.jsx should match snapshot, on loading 1`] = `
+exports[`components/analytics/doughnut_chart.tsx should match snapshot, on loading 1`] = `
 <div
   className="col-sm-6"
 >

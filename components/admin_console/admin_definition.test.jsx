@@ -143,6 +143,12 @@ var definition = yup.object().shape({
         system_users: yup.object().shape({schema: customComponentSchema}),
         server_logs: yup.object().shape({schema: customComponentSchema}),
     }),
+    authentication: yup.object().shape({
+        email: yup.object().shape({schema}),
+        ldap: yup.object().shape({schema}),
+        mfa: yup.object().shape({schema}),
+        saml: yup.object().shape({schema}),
+    }),
     settings: yup.object().shape({
         general: yup.object().shape({
             configuration: yup.object().shape({schema}),
@@ -150,11 +156,6 @@ var definition = yup.object().shape({
             users_and_teams: yup.object().shape({schema}),
             privacy: yup.object().shape({schema}),
             compliance: yup.object().shape({schema}),
-        }),
-        authentication: yup.object().shape({
-            email: yup.object().shape({schema}),
-            ldap: yup.object().shape({schema}),
-            mfa: yup.object().shape({schema}),
         }),
         security: yup.object().shape({}),
         notifications: yup.object().shape({}),

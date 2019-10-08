@@ -12,7 +12,7 @@
  *     4.7.0.dev.3034fbc5fd566195d1b53e03890e35ff.true
  *     4.7.1.dev.d131dd02c5e6eec4693d9a0698aff95c.true
  */
-export function equalServerVersions(a, b) {
+export function equalServerVersions(a: string, b: string): boolean {
     if (a === b) {
         return true;
     }
@@ -36,7 +36,7 @@ export function equalServerVersions(a, b) {
  * eg.  currentVersion = 4.16.0, compareVersion = 4.17.0 returns false
  *      currentVersion = 4.16.1, compareVersion = 4.16.1 returns true
  */
-export function isServerVersionGreaterThanOrEqualTo(currentVersion, compareVersion) {
+export function isServerVersionGreaterThanOrEqualTo(currentVersion: string, compareVersion: string): boolean {
     if (currentVersion === compareVersion) {
         return true;
     }
