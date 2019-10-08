@@ -5,14 +5,14 @@ import React from 'react';
 
 type Props = {
     onToggle: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    toggled: boolean,
-    disabled?: boolean,
-    onText: React.ReactNode,
-    offText: React.ReactNode,
+    toggled?: boolean;
+    disabled?: boolean;
+    onText?: React.ReactNode;
+    offText?: React.ReactNode;
 }
 
-export default function Toggle(props: Props) {
-    const {onToggle, toggled, disabled, onText, offText} = props;
+const Toggle: React.FC<Props> = (props: Props) => {
+    const { onToggle, toggled, disabled, onText, offText } = props;
     return (
         <button
             type='button'
@@ -20,18 +20,17 @@ export default function Toggle(props: Props) {
             className={`btn btn-lg btn-toggle ${toggled && 'active'} ${disabled && 'disabled'}`}
             aria-pressed={toggled ? 'true' : 'false'}
         >
-            <div className='handle'/>
+            <div className='handle' />
             {text(toggled, onText, offText)}
-        </button>);
+        </button>
+    );
 }
 
-function text(
-    toggled: boolean,
-    onText: React.ReactNode,
-    offText: React.ReactNode
-): React.ReactNode | null {
+function text(toggled?: boolean, onText?: React.ReactNode, offText?: React.ReactNode): React.ReactNode | null {
     if ((toggled && !onText) || (!toggled && !offText)) {
         return null;
     }
     return (<div className={`bg-text ${toggled ? 'on' : 'off'}`}>{toggled ? onText : offText}</div>);
 }
+
+export default Toggle;
