@@ -146,13 +146,13 @@ describe('components/MoreDirectChannels', () => {
             id: 'user_id_1',
             label: 'user_id_1',
             value: 'user_id_1',
-        }
+        };
 
         const user2 = {
             id: 'user_id_1',
             label: 'user_id_1',
             value: 'user_id_1',
-        }
+        };
 
         wrapper.setState({values: [user1]});
         wrapper.instance().handleDelete([user2]);
