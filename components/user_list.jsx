@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import UserListRow from './user_list_row';
 

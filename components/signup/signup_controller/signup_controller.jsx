@@ -13,7 +13,8 @@ import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error';
-import LoadingScreen from 'components/loading_screen.jsx';
+
+import LoadingScreen from 'components/loading_screen';
 import {Constants} from 'utils/constants';
 
 export default class SignupController extends React.Component {

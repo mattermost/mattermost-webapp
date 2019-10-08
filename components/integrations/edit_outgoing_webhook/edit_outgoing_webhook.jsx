@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {browserHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
 const FOOTER = {id: 'update_outgoing_webhook.update', defaultMessage: 'Update'};

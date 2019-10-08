@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelectList extends React.Component {
