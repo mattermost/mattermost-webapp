@@ -22,7 +22,7 @@ export type Value = {
 
 export type Props = {
     ariaLabelRenderer: getOptionValue<Value>;
-    buttonSubmitLoadingText?: JSX.Element;
+    buttonSubmitLoadingText?: JSX.Element | string;
     buttonSubmitText?: JSX.Element | string;
     handleAdd: (value: Value) => void;
     handleDelete: (values: Value[]) => void;

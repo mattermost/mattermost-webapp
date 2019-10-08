@@ -33,7 +33,6 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         onInputChange={[Function]}
         onKeyDown={[Function]}
         openMenuOnFocus={false}
-        optionRenderer={[Function]}
         options={
           Array [
             Object {
@@ -128,6 +127,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
     onAction={[Function]}
     onAdd={[Function]}
     onSelect={[Function]}
+    optionRenderer={[Function]}
     options={
       Array [
         Object {
@@ -304,9 +304,9 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
     onAction={[Function]}
     onAdd={[Function]}
     onSelect={[Function]}
+    optionRenderer={[Function]}
     options={
       Array [
-        Object {
         Object {
           "id": "5",
           "label": "5",

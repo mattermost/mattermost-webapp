@@ -128,17 +128,17 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           Object {
             "delete_at": 0,
             "id": "user_id_1",
-            "label": "user_id_1"
+            "label": "user_id_1",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_2",
-            "label": "user_id_2"
+            "label": "user_id_2",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_3",
-            "label": "user_id_3"
+            "label": "user_id_3",
           },
         ]
       }
@@ -151,17 +151,17 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           Object {
             "delete_at": 0,
             "id": "user_id_1",
-            "label": "user_id_1"
+            "label": "user_id_1",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_2",
-            "label": "user_id_2"
+            "label": "user_id_2",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_3",
-            "label": "user_id_3"
+            "label": "user_id_3",
           },
         ]
       }
@@ -170,11 +170,11 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
         Array [
           Object {
             "id": "user_id_1",
-            "label": "user_id_1"
+            "label": "user_id_1",
           },
           Object {
             "id": "user_id_2",
-            "label": "user_id_2"
+            "label": "user_id_2",
           },
         ]
       }
@@ -207,7 +207,6 @@ exports[`components/MoreDirectChannels should render the group channel option 1`
       "profiles": Array [
         Object {
           "id": "user_id_2",
-          "label": "user_id_2"
           "username": "username",
         },
       ],
