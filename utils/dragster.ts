@@ -1,7 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export default function dragster(query, options) {
+type Options = {
+    enter?: (event: CustomEvent) => void;
+    leave?: (event: CustomEvent) => void;
+    over?: (event: CustomEvent) => void;
+    drop?: (event: CustomEvent) => void;
+}
+
+export default function dragster(query: string, options: Options) {
     const noop = () => {}; // eslint-disable-line no-empty-function
 
     const defaults = {
@@ -21,7 +28,7 @@ export default function dragster(query, options) {
     let first = false;
     let second = false;
 
-    const dragenter = (event) => {
+    const dragenter = (event: Event) => {
         if (first) {
             second = true;
             return;
@@ -34,7 +41,7 @@ export default function dragster(query, options) {
         event.preventDefault();
     };
 
-    const dragleave = (event) => {
+    const dragleave = (event: Event) => {
         if (second) {
             second = false;
         } else if (first) {
@@ -47,13 +54,13 @@ export default function dragster(query, options) {
         event.preventDefault();
     };
 
-    const dragover = (event) => {
+    const dragover = (event: Event) => {
         const overEvent = new CustomEvent('dragster:over', {detail: event});
         node.dispatchEvent(overEvent);
         event.preventDefault();
     };
 
-    const drop = (event) => {
+    const drop = (event: Event) => {
         if (second) {
             second = false;
         } else if (first) {

@@ -9,17 +9,21 @@ import * as Utils from 'utils/utils';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_row.scss';
+import TeamListDropdown from './team_list_dropdown';
 
 export default class TeamRow extends React.Component {
     static propTypes = {
         team: PropTypes.object.isRequired,
+        doRemoveUserFromTeam: PropTypes.func.isRequired,
+        doMakeUserTeamAdmin: PropTypes.func.isRequired,
+        doMakeUserTeamMember: PropTypes.func.isRequired,
     };
     renderTeamType = (team) => {
         if (team.group_constrained) {
             return (
                 <FormattedMessage
                     id={'admin.systemUserDetail.teamList.teamType.groupSync'}
-                    defaultMessage={'Group Sync'}
+                    defaultMessage={'Group sync'}
                 />
             );
         }
@@ -39,20 +43,31 @@ export default class TeamRow extends React.Component {
         );
     }
     renderTeamRole = (team) => {
-        if (team.scheme_admin) {
+        if (team.scheme_guest) {
             return (
                 <FormattedMessage
-                    id={'admin.systemUserDetail.teamList.teamRole.admin'}
-                    defaultMessage={'Admin'}
+                    id={'admin.systemUserDetail.teamList.teamRole.guest'}
+                    defaultMessage={'Guest'}
                 />
             );
         }
-        return (
-            <FormattedMessage
-                id={'admin.systemUserDetail.teamList.teamRole.member'}
-                defaultMessage={'Member'}
-            />
-        );
+        if (team.scheme_admin && !team.scheme_guest) {
+            return (
+                <FormattedMessage
+                    id={'admin.systemUserDetail.teamList.teamRole.admin'}
+                    defaultMessage={'Team Admin'}
+                />
+            );
+        }
+        if (team.scheme_user && !team.scheme_guest && !team.scheme_admin) {
+            return (
+                <FormattedMessage
+                    id={'admin.systemUserDetail.teamList.teamRole.member'}
+                    defaultMessage={'Team Member'}
+                />
+            );
+        }
+        return null;
     }
     render = () => {
         const {team} = this.props;
@@ -84,6 +99,15 @@ export default class TeamRow extends React.Component {
 
                     <span className='TeamRow__description'>
                         {this.renderTeamRole(team)}
+                    </span>
+
+                    <span className='TeamRow__actions'>
+                        <TeamListDropdown
+                            team={team}
+                            doRemoveUserFromTeam={this.props.doRemoveUserFromTeam}
+                            doMakeUserTeamAdmin={this.props.doMakeUserTeamAdmin}
+                            doMakeUserTeamMember={this.props.doMakeUserTeamMember}
+                        />
                     </span>
                 </div>
             </div>

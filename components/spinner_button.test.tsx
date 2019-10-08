@@ -4,7 +4,7 @@
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 
-import SpinnerButton from 'components/spinner_button.jsx';
+import SpinnerButton from 'components/spinner_button';
 
 describe('components/SpinnerButton', () => {
     test('should match snapshot with required props', () => {

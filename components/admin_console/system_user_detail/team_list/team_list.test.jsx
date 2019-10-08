@@ -15,6 +15,8 @@ describe('admin_console/system_user_detail/team_list/TeamList', () => {
         actions: {
             getTeamsData: jest.fn(),
             getTeamMembersForUser: jest.fn(),
+            removeUserFromTeam: jest.fn(),
+            updateTeamMemberSchemeRoles: jest.fn(),
         },
         userDetailCallback: jest.fn(),
         refreshTeams: false,
