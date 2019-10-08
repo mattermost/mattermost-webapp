@@ -34,9 +34,29 @@ export default class SidebarRight extends React.PureComponent {
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
-            scrollPostList: PropTypes.func.isRequired,
         }),
     };
+
+    constructor(props) {
+        super(props);
+
+        this.sidebarRight = React.createRef();
+        this.state = {
+            isOpened: false,
+        };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.determineTransition);
+        this.determineTransition();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.determineTransition);
+        if (this.sidebarRight.current) {
+            this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
+        }
+    }
 
     componentDidUpdate(prevProps) {
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
@@ -44,14 +64,32 @@ export default class SidebarRight extends React.PureComponent {
 
         if (!wasOpen && isOpen) {
             trackEvent('ui', 'ui_rhs_opened');
-            if (Utils.disableVirtList()) {
-                setTimeout(this.props.actions.scrollPostList, 0);
-            }
         }
 
         const {actions, isPinnedPosts, channel} = this.props;
         if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && channel.id !== prevProps.channel.id) {
             actions.showPinnedPosts(channel.id);
+        }
+    }
+
+    determineTransition = () => {
+        const transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
+        const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
+
+        if (this.sidebarRight.current && hasTransition) {
+            this.setState({isOpened: this.props.isOpen});
+            this.sidebarRight.current.addEventListener('transitionend', this.onFinishTransition);
+        } else {
+            this.setState({isOpened: true});
+            if (this.sidebarRight.current) {
+                this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
+            }
+        }
+    }
+
+    onFinishTransition = (e) => {
+        if (e.propertyName === 'transform') {
+            this.setState({isOpened: this.props.isOpen});
         }
     }
 
@@ -105,6 +143,7 @@ export default class SidebarRight extends React.PureComponent {
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                         channelDisplayName={channelDisplayName}
+                        isOpened={this.state.isOpened}
                     />
                 </div>
             );
@@ -145,6 +184,7 @@ export default class SidebarRight extends React.PureComponent {
             <div
                 className={classNames('sidebar--right', expandedClass, {'move--left': this.props.isOpen})}
                 id='sidebar-right'
+                ref={this.sidebarRight}
             >
                 <div
                     onClick={this.onShrink}

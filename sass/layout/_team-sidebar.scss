@@ -6,7 +6,7 @@
     position: fixed;
     text-align: center;
     width: 65px;
-    z-index: 12;
+    z-index: 13;
 
     .fa {
         @include single-transition(all, .15s, ease);
@@ -48,7 +48,7 @@
             }
 
             &.active {
-                .team-btn__content {
+                .TeamIcon__content {
                     @include opacity(1);
                 }
             }

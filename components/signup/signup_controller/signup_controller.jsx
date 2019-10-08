@@ -12,8 +12,8 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
-import FormError from 'components/form_error.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import FormError from 'components/form_error';
+import LoadingScreen from 'components/loading_screen';
 import {Constants} from 'utils/constants.jsx';
 
 export default class SignupController extends React.Component {
@@ -46,8 +46,6 @@ export default class SignupController extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.renderSignupControls = this.renderSignupControls.bind(this);
 
         let loading = false;
         let serverError = '';
@@ -148,7 +146,7 @@ export default class SignupController extends React.Component {
         });
     }
 
-    renderSignupControls() {
+    renderSignupControls = () => {
         const {formatMessage} = this.context.intl;
         let signupControls = [];
 

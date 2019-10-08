@@ -9,6 +9,7 @@
         .email {
             margin: 0 4px 0 8px;
             overflow-wrap: anywhere;
+            word-break: break-word;
         }
         .name {
             margin: 0 4px 0 8px;
@@ -48,6 +49,8 @@
         }
         .Badge {
             margin-top: 2px;
+            display: inline-block;
+            vertical-align: top;
         }
     }
     .reason {

@@ -10,7 +10,7 @@ import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
 import {Preferences} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
 
@@ -43,9 +43,11 @@ export default class EmailNotificationSetting extends React.Component {
             enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
+            activeSection,
         } = props;
 
         this.state = {
+            activeSection,
             emailInterval,
             enableEmailBatching,
             sendEmailNotifications,
@@ -59,13 +61,27 @@ export default class EmailNotificationSetting extends React.Component {
             enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
+            activeSection,
         } = nextProps;
+
+        // If we're re-opening this section, reset to defaults from props
+        if (activeSection === 'email' && prevState.activeSection !== 'email') {
+            return {
+                activeSection,
+                emailInterval,
+                enableEmailBatching,
+                sendEmailNotifications,
+                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+            };
+        }
 
         if (sendEmailNotifications !== prevState.sendEmailNotifications ||
             enableEmailBatching !== prevState.enableEmailBatching ||
-            emailInterval !== prevState.emailInterval
+            emailInterval !== prevState.emailInterval ||
+            activeSection !== prevState.activeSection
         ) {
             return {
+                activeSection,
                 emailInterval,
                 enableEmailBatching,
                 sendEmailNotifications,

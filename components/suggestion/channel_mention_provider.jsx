@@ -9,7 +9,6 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
-import {autocompleteChannels} from 'actions/channel_actions.jsx';
 import store from 'stores/redux_store.jsx';
 
 import {Constants} from 'utils/constants.jsx';
@@ -56,12 +55,14 @@ class ChannelMentionSuggestion extends Suggestion {
 }
 
 export default class ChannelMentionProvider extends Provider {
-    constructor() {
+    constructor(channelSearchFunc) {
         super();
 
         this.lastPrefixTrimmed = '';
         this.lastPrefixWithNoResults = '';
         this.lastCompletedWord = '';
+
+        this.autocompleteChannels = channelSearchFunc;
     }
 
     handlePretextChanged(pretext, resultCallback) {
@@ -154,7 +155,7 @@ export default class ChannelMentionProvider extends Provider {
             matchedPretext: captured[1],
         });
 
-        autocompleteChannels(
+        this.autocompleteChannels(
             prefix,
             (channels) => {
                 const myMembers = getMyChannelMemberships(store.getState());

@@ -106,6 +106,7 @@ export default class SearchResults extends React.Component {
         channelDisplayName: PropTypes.string.isRequired,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
+        isOpened: PropTypes.bool,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
@@ -181,7 +182,8 @@ export default class SearchResults extends React.Component {
         if (
             this.props.isSearchingTerm ||
             this.props.isSearchingFlaggedPost ||
-            this.props.isSearchingPinnedPost
+            this.props.isSearchingPinnedPost ||
+            !this.props.isOpened
         ) {
             ctls = (
                 <div className='sidebar--right__subheader'>
@@ -315,7 +317,7 @@ export default class SearchResults extends React.Component {
                 >
                     <div
                         id='search-items-container'
-                        className='search-items-container'
+                        className='search-items-container post-list__table'
                     >
                         {ctls}
                         {loadingMorePostsComponent}

@@ -301,13 +301,25 @@
             }
         }
 
+        .attachment__footer-container {
+            position: relative;
+            padding-top: .7em;
+            font-size: 12px;
+            color: #A3A3A3;
+
+            .attachment__footer-icon {
+                margin-top: -2px;
+                margin-right: 5px;
+            }
+        }
+
         .attachment-actions {
             position: relative;
             display: flex;
             flex-wrap: wrap;
 
             .form-group {
-                margin-bottom: 12px;
+                margin-bottom: 4px;
 
                 &:last-child {
                     margin-bottom: 0;

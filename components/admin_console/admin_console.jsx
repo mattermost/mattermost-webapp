@@ -15,12 +15,12 @@ import SchemaAdminSettings from 'components/admin_console/schema_admin_settings'
 import DiscardChangesModal from 'components/discard_changes_modal.jsx';
 
 import AdminSidebar from './admin_sidebar';
-import AdminDefinition from './admin_definition';
 import Highlight from './highlight';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
         config: PropTypes.object.isRequired,
+        adminDefinition: PropTypes.object.isRequired,
         environmentConfig: PropTypes.object,
         license: PropTypes.object.isRequired,
         buildEnterpriseReady: PropTypes.bool,
@@ -39,6 +39,7 @@ export default class AdminConsole extends React.Component {
             cancelNavigation: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
+            updateConfig: PropTypes.func,
         }).isRequired,
     }
 
@@ -72,7 +73,7 @@ export default class AdminConsole extends React.Component {
     }
 
     renderRoutes = (extraProps) => {
-        const schemas = Object.values(AdminDefinition).reduce((acc, section) => {
+        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section) => {
             const items = Object.values(section).filter((item) => {
                 if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                     return false;
@@ -117,7 +118,7 @@ export default class AdminConsole extends React.Component {
             showNavigationPrompt,
             roles,
         } = this.props;
-        const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole} = this.props.actions;
+        const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole, updateConfig} = this.props.actions;
 
         if (!this.props.isCurrentUserSystemAdmin) {
             return (
@@ -157,6 +158,7 @@ export default class AdminConsole extends React.Component {
             setNavigationBlocked,
             roles,
             editRole,
+            updateConfig,
         };
         return (
             <div

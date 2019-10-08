@@ -2,7 +2,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -43,7 +43,7 @@ describe('Elasticsearch system console', () => {
     });
 
     it('can perform bulk index', () => {
-        // # Click the Index Now butto to start the index
+        // # Click the Index Now button to start the index
         cy.contains('button', 'Index Now').click();
 
         // # Small wait to ensure new row is added
@@ -65,8 +65,19 @@ describe('Elasticsearch system console', () => {
             and('have.text', 'In Progress');
 
         // * First row update to say Success
+        cy.waitUntil(() => {
+            return cy.get('@firstRow').then((el) => {
+                return el.find('.status-icon-success').length > 0;
+            });
+        }
+        , {
+            timeout: TIMEOUTS.FOUR_MINS,
+            interval: 2000,
+            errorMsg: 'Reindex did not succeed in time',
+        });
+
         cy.get('@firstRow').
-            find('.status-icon-success', {timeout: TIMEOUTS.GIGANTIC}).
+            find('.status-icon-success').
             should('be.visible').
             and('have.text', 'Success');
     });

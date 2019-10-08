@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -81,6 +81,9 @@ describe('Messaging', () => {
         //# Click on Town-Square channel
         cy.get('#sidebarItem_town-square').click({force: true});
 
+        // # Post a new message
+        cy.postMessage('new post');
+
         //# Open the reply thread on the most recent post on Town-Square channel
         cy.clickPostCommentIcon();
 
@@ -101,6 +104,29 @@ describe('Messaging', () => {
 
         //* Verify focus is moved to main input box when the channel is opened
         cy.get('#post_textbox').should('be.focused');
+    });
+
+    it('M17450 - Focus to remain in RHS textbox each time Reply arrow is clicked', () => {
+        //# Click on Town-Square channel
+        cy.get('#sidebarItem_town-square').click({force: true});
+
+        // # Post a new message
+        cy.postMessage('new post');
+
+        //# Open the reply thread on the most recent post on Town-Square channel
+        cy.clickPostCommentIcon();
+
+        //* Verify RHS textbox is focused the first time Reply arrow is clicked
+        cy.get('#reply_textbox').should('be.focused');
+
+        //# Focus away from RHS textbox
+        cy.get('#rhsContent').click();
+
+        //# Click reply arrow on post in same thread
+        cy.clickPostCommentIcon();
+
+        //* Verify RHS textbox is again focused the second time, when already open
+        cy.get('#reply_textbox').should('be.focused');
     });
 
     it('M17452 Focus does not move when it has already been set elsewhere', () => {

@@ -18,6 +18,7 @@ describe('components/AddUserToChannelModal', () => {
         actions: {
             addChannelMember: jest.fn().mockResolvedValue({}),
             getChannelMember: jest.fn().mockResolvedValue({}),
+            autocompleteChannelsForSearch: jest.fn().mockResolvedValue({}),
         },
     };
 

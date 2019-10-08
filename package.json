@@ -6,7 +6,9 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@types/chart.js": "^2.8.5",
     "@types/enzyme": "3.10.3",
+    "@types/history": "^4.7.3",
     "@types/jest": "24.0.17",
     "@types/node": "12.7.0",
     "@types/react": "16.8.24",
@@ -39,7 +41,7 @@
     "localforage-observable": "2.0.0",
     "mark.js": "8.11.1",
     "marked": "github:mattermost/marked#3a9d0a5bd6d735df1a716ab50f73d58a1d865bdb",
-    "mattermost-redux": "github:mattermost/mattermost-redux#6b198b147fec54f8fd03131f960e5cd37fa987dc",
+    "mattermost-redux": "github:mattermost/mattermost-redux#e40072b407f8d437cb10a2edc78ac7972c7587be",
     "moment-timezone": "0.5.26",
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
@@ -67,8 +69,9 @@
     "redux": "4.0.4",
     "redux-batched-actions": "0.4.1",
     "redux-persist": "4.10.2",
-    "regenerator-runtime": "^0.13.3",
+    "regenerator-runtime": "0.13.3",
     "reselect": "4.0.0",
+    "semver": "6.3.0",
     "superagent": "5.1.0",
     "typescript": "3.5.3",
     "xregexp": "4.2.4",
@@ -84,8 +87,16 @@
     "@babel/preset-react": "7.0.0",
     "@babel/preset-typescript": "7.3.3",
     "@hot-loader/react-dom": "16.8.6",
+    "@storybook/addon-actions": "5.2.1",
+    "@storybook/addon-knobs": "5.2.1",
+    "@storybook/addon-links": "5.2.1",
+    "@storybook/addon-notes": "5.2.1",
+    "@storybook/addons": "5.2.1",
+    "@storybook/react": "5.2.1",
+    "@types/chart.js": "2.8.5",
+    "@types/react-color": "3.0.1",
     "@types/react-intl": "2.3.18",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/eslint-plugin": "1.13.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "24.8.0",
     "babel-loader": "8.0.6",
@@ -99,7 +110,7 @@
     "enzyme-adapter-react-16": "1.14.0",
     "enzyme-to-json": "3.3.5",
     "eslint": "6.0.1",
-    "eslint-config-mattermost": "github:mattermost/eslint-config-mattermost#6fe27a2bd1f9df4d4eb96fac6fcdcc0fee0ecbd7",
+    "eslint-config-mattermost": "github:mattermost/eslint-config-mattermost#8f9eb1414bf9ebfb509359bddddfad9788ca3c3c",
     "eslint-import-resolver-webpack": "0.11.1",
     "eslint-plugin-cypress": "2.6.0",
     "eslint-plugin-header": "3.0.0",
@@ -139,8 +150,7 @@
       "<rootDir>/node_modules/enzyme-to-json/serializer"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/non_npm_dependencies/"
+      "/node_modules/"
     ],
     "clearMocks": true,
     "collectCoverageFrom": [
@@ -166,8 +176,7 @@
     },
     "moduleDirectories": [
       "",
-      "node_modules",
-      "non_npm_dependencies"
+      "node_modules"
     ],
     "moduleFileExtensions": [
       "ts",
@@ -195,8 +204,8 @@
     "output": "build/test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
-    "fix": "eslint --ignore-pattern node_modules --ignore-pattern non_npm_dependencies --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
+    "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
+    "fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",
@@ -206,6 +215,9 @@
     "updatesnapshot": "jest --updateSnapshot",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "mmjstool": "mmjstool"
+    "mmjstool": "mmjstool",
+    "storybook": "start-storybook -p 6006 -s ./storybook/static",
+    "build-storybook": "build-storybook -s ./storybook/static",
+    "check-types": "tsc"
   }
 }

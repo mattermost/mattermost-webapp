@@ -683,6 +683,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
             id="channelHeaderDescription"
           >
             <span
+              className="header-description__text"
               onClick={[Function]}
             >
               <Connect(Markdown)
