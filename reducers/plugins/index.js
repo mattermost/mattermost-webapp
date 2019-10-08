@@ -3,53 +3,37 @@
 
 import {combineReducers} from 'redux';
 
+import remove from 'lodash/remove';
+
 import {ActionTypes} from 'utils/constants.jsx';
 
-function addMenuItem(menu, data) {
-    if (menu.id === data.parentMenuId) {
-        menu.subMenu = [...menu.subMenu, data];
-    } else if (menu.subMenu) {
-        menu.subMenu = menu.subMenu.map((item) => {
-            const subMenu = {...item};
-            return addMenuItem(subMenu, data);
-        });
+function hasMenuId(menu, menuId) {
+    if (!menu.subMenu) {
+        return false;
     }
-    return menu;
-}
 
-function hasSubmenu(menu, data) {
-    if (menu.id === data.parentMenuId) {
+    if (menu.id === menuId) {
         return true;
-    } else if (menu.subMenu) {
-        const subMenuCheck = menu.subMenu.map((item) => {
-            const subMenu = {...item};
-            return hasSubmenu(subMenu, data);
-        });
-        if (subMenuCheck.length === 0) {
-            return false;
+    }
+    for (const subMenu of menu.subMenu) {
+        // Recursively check if subMenu contains menuId.
+        if (hasMenuId(subMenu, menuId)) {
+            return true;
         }
-        return subMenuCheck.flat().some((t) => t);
     }
     return false;
 }
 
-function buildSubMenu(root, data) {
-    let menu = {...root};
-    menu = addMenuItem(menu, {
-        id: data.id,
-        parentMenuId: data.parentMenuId,
-        text: data.text,
-        subMenu: [],
-        action: data.action,
-        filter: data.filter,
-    });
+function buildMenu(rootMenu, data) {
+    // Recursively build the full menu tree.
+    const subMenu = rootMenu.subMenu.map((m) => buildMenu(m, data));
+    if (rootMenu.id === data.parentMenuId) {
+        subMenu.push(data);
+    }
+
     return {
-        id: root.id,
-        pluginId: root.pluginId,
-        text: root.text,
-        subMenu: menu.subMenu,
-        action: root.action,
-        filter: root.filter,
+        ...rootMenu,
+        subMenu,
     };
 }
 
@@ -184,16 +168,17 @@ function components(state = {}, action) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
             const nextState = {...state};
+            const currentArray = [...(nextState[action.name] || [])];
             let actionData = action.data;
-            let currentArray = nextState[action.name] || [];
             if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
-                const subMenus = currentArray.filter((c) => c.subMenu && c.pluginId === actionData.pluginId);
-                const subMenu = subMenus.find((sm) => hasSubmenu(sm, actionData));
-                if (!subMenu) {
+                // Remove the menu from currentArray to rebuild it later.
+                const menu = remove(currentArray, (c) => hasMenuId(c, actionData.parentMenuId) && c.pluginId === actionData.pluginId);
+
+                // Request is for an unknown menuId, return original state.
+                if (!menu[0]) {
                     return state;
                 }
-                currentArray = currentArray.filter((ca) => ca.id !== subMenu.id);
-                actionData = buildSubMenu(subMenu, actionData);
+                actionData = buildMenu(menu[0], actionData);
             }
             const nextArray = [...currentArray, actionData];
             nextArray.sort(sortComponents);
