@@ -97,6 +97,7 @@ export default class Markdown extends React.PureComponent {
         isRHS: false,
         proxyImages: true,
         imagesMetadata: {},
+        postId: '', // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
     render() {
