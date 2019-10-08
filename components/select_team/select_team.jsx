@@ -17,7 +17,7 @@ import logoImage from 'images/logo.png';
 
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
@@ -62,15 +62,8 @@ export default class SelectTeam extends React.Component {
 
     componentDidMount() {
         this.props.actions.getTeams(0, TEAMS_PER_PAGE);
-    }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
-        const {
-            actions,
-            currentUserRoles,
-        } = this.props;
-
-        actions.loadRolesIfNeeded(currentUserRoles.split(' '));
+        this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
     }
 
     handleTeamClick = async (team) => {

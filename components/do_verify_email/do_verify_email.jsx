@@ -10,7 +10,7 @@ import {browserHistory} from 'utils/browser_history';
 import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants.jsx';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
@@ -64,7 +64,7 @@ export default class DoVerifyEmail extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         this.verifyEmail();
     }
 
