@@ -8,6 +8,7 @@ import {getMarketplacePlugins} from 'mattermost-redux/actions/plugins';
 import {getMarketplaceInstalledPlugins} from 'mattermost-redux/selectors/entities/plugins';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {getBasePath} from 'selectors/general';
 import {ModalIdentifiers} from 'utils/constants';
 
 import {closeModal} from 'actions/views/modals';
@@ -19,6 +20,7 @@ function mapStateToProps(state) {
         show: isModalOpen(state, ModalIdentifiers.PLUGIN_MARKETPLACE),
         installedPlugins: getMarketplaceInstalledPlugins(state),
         marketplacePlugins: state.entities.plugins.marketplacePlugins,
+        basePath: getBasePath(state),
     };
 }
 

@@ -6,11 +6,13 @@ import {bindActionCreators} from 'redux';
 
 import {AnnouncementBarMessages} from 'utils/constants.jsx';
 import {dismissNotice} from 'actions/views/notice';
+import {getBasePath} from 'selectors/general';
 
 import ConfigurationBar from './configuration_bar.jsx';
 
 function mapStateToProps(state) {
     return {
+        basePath: getBasePath(state),
         dismissedExpiringLicense: Boolean(state.views.notice.hasBeenDismissed[AnnouncementBarMessages.LICENSE_EXPIRING]),
     };
 }

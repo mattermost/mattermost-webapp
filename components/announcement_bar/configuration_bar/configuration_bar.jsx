@@ -26,6 +26,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
+        basePath: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
         }).isRequired,
@@ -143,7 +144,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                 defaultMessage = 'Please configure your [Site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) in the [System Console]({basename}/admin_console/environment/web_server).';
             }
 
-            let basename = window.basename;
+            let basename = this.props.basePath;
             if (basename === '/') {
                 basename = '';
             }

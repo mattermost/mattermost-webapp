@@ -35,6 +35,7 @@ export default class MarketplaceModal extends React.Component {
         show: PropTypes.bool,
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
+        basePath: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             getMarketplacePlugins: PropTypes.func.isRequired,
@@ -173,7 +174,7 @@ export default class MarketplaceModal extends React.Component {
 
         let errorBanner = null;
         if (this.state.serverError) {
-            let basename = window.basename;
+            let basename = this.props.basePath;
             if (basename === '/') {
                 basename = '';
             }
