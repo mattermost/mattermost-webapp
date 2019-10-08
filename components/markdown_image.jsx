@@ -73,7 +73,7 @@ export default class MarkdownImage extends React.PureComponent {
                     const extension = getFileExtentionFromUrl(safeSrc);
 
                     const className = imageIsLink || !extension ?
-                    `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
+                        `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
                         `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
 
                     return (
