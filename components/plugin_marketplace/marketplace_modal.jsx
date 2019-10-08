@@ -12,7 +12,7 @@ import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
@@ -28,7 +28,7 @@ const MarketplaceTabs = {
     INSTALLED_PLUGINS: 'installed',
 };
 
-const TRACK_SEARCH_WAIT = 1000;
+const SEARCH_TIMEOUT_MILLISECONDS = 200;
 
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
@@ -82,8 +82,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     doSearch = () => {
-        debounce(this.trackSearch, TRACK_SEARCH_WAIT);
-
+        this.trackSearch();
         this.getMarketplacePlugins();
     }
 
@@ -160,7 +159,7 @@ export default class MarketplaceModal extends React.Component {
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
                         inputComponent={LocalizedInput}
-                        onInput={this.doSearch}
+                        onInput={debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS)}
                     />
                 </div>
             </div>

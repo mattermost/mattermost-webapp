@@ -5,12 +5,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
-import Chart from 'chart.js';
+import Chart, {ChartOptions} from 'chart.js';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
-export default class LineChart extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    title: React.ReactNode;
+    width: number;
+    height: number;
+    data?: any;
+}
+
+export default class LineChart extends React.PureComponent<Props> {
+    public static propTypes = {
 
         /*
          * Chart title
@@ -33,29 +40,28 @@ export default class LineChart extends React.PureComponent {
         data: PropTypes.object,
     };
 
-    chart = null;
-    chartOptions = {
+    public chart: Chart | null = null;
+    public chartOptions: ChartOptions = {
         legend: {
             display: false,
         },
     };
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.initChart();
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
+    public UNSAFE_componentWillUpdate(nextProps: Props): void { // eslint-disable-line camelcase
         const willHaveData = nextProps.data && nextProps.data.labels.length > 0;
-        const hasChart = Boolean(this.chart);
 
-        if (!willHaveData && hasChart) {
+        if (!willHaveData && this.chart) {
             // Clean up the rendered chart before we render and destroy its context
             this.chart.destroy();
             this.chart = null;
         }
     }
 
-    componentDidUpdate(prevProps) {
+    public componentDidUpdate(prevProps: Props): void {
         if (Utils.areObjectsEqual(prevProps.data, this.props.data)) {
             return;
         }
@@ -69,20 +75,20 @@ export default class LineChart extends React.PureComponent {
         }
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         if (this.chart) {
             this.chart.destroy();
         }
     }
 
-    initChart = (update) => {
+    public initChart = (update?: boolean): void => {
         if (!this.refs.canvas) {
             return;
         }
 
-        var el = ReactDOM.findDOMNode(this.refs.canvas);
-        var ctx = el.getContext('2d');
-        const dataCopy = JSON.parse(JSON.stringify(this.props.data));
+        const el = ReactDOM.findDOMNode(this.refs.canvas) as HTMLCanvasElement;
+        const ctx = el.getContext('2d') as CanvasRenderingContext2D;
+        const dataCopy: any = JSON.parse(JSON.stringify(this.props.data));
         this.chart = new Chart(ctx, {type: 'line', data: dataCopy, options: this.chartOptions || {}});
 
         if (update) {
@@ -90,7 +96,7 @@ export default class LineChart extends React.PureComponent {
         }
     }
 
-    render() {
+    public render(): JSX.Element {
         let content;
         if (this.props.data == null) {
             content = (
