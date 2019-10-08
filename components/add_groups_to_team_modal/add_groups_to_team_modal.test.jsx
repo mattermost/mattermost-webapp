@@ -92,13 +92,16 @@ describe('components/AddGroupsToTeamModal', () => {
             <AddGroupsToTeamModal {...baseProps}/>
         );
 
-        wrapper.setState({values: [{id: 'id_1'}]});
-        wrapper.instance().addValue({id: 'id_2'});
-        expect(wrapper.state('values')).toEqual([{id: 'id_1'}, {id: 'id_2'}]);
+        const value1 = {id: 'id_1', label: 'label_1'};
+        const value2 = {id: 'id_2', label: 'label_2'};
 
-        wrapper.setState({values: [{id: 'id_1'}]});
-        wrapper.instance().addValue({id: 'id_1'});
-        expect(wrapper.state('values')).toEqual([{id: 'id_1'}]);
+        wrapper.setState({values: [value1]});
+        wrapper.instance().addValue(value2);
+        expect(wrapper.state('values')).toEqual([value1, value2]);
+
+        wrapper.setState({values: [value1]});
+        wrapper.instance().addValue(value2);
+        expect(wrapper.state('values')).toEqual([value1]);
     });
 
     test('should match state when handlePageChange is called', () => {

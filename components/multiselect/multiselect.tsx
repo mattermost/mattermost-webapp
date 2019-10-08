@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {ActionMeta, GroupType} from 'react-select/src/types';
+import {ActionMeta} from 'react-select/src/types';
 import {getOptionValue} from 'react-select/src/builtins';
 import {StateManager} from 'react-select/src/stateManager';
 
@@ -23,7 +23,7 @@ export type Value = {
 export type Props = {
     ariaLabelRenderer: getOptionValue<Value>;
     buttonSubmitLoadingText?: JSX.Element;
-    buttonSubmitText?: JSX.Element;
+    buttonSubmitText?: JSX.Element | string;
     handleAdd: (value: Value) => void;
     handleDelete: (values: Value[]) => void;
     handleInput: (input: string, multiselect: MultiSelect) => void;

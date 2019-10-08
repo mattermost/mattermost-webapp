@@ -33,6 +33,7 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         onInputChange={[Function]}
         onKeyDown={[Function]}
         openMenuOnFocus={false}
+        optionRenderer={[Function]}
         options={
           Array [
             Object {

@@ -14,24 +14,28 @@ describe('components/TeamSelectorModal', () => {
         teams: [
             {
                 id: 'id1',
+                label: 'label1',
                 delete_at: 0,
                 scheme_id: '',
                 display_name: 'Team 1',
             },
             {
                 id: 'id2',
+                label: 'label2',
                 delete_at: 123,
                 scheme_id: '',
                 display_name: 'Team 2',
             },
             {
                 id: 'id3',
+                label: 'label3',
                 delete_at: 0,
                 scheme_id: 'test',
                 display_name: 'Team 3',
             },
             {
                 id: 'id4',
+                label: 'label4',
                 delete_at: 0,
                 scheme_id: '',
                 display_name: 'Team 4',
