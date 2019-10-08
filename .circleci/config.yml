@@ -53,6 +53,15 @@ jobs:
           npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
           diff /tmp/en.json i18n/en.json
 
+  type-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm run check-types
+
   test:
     executor:
       name: default
@@ -146,6 +155,9 @@ workflows:
       - i18n-check:
           requires:
             - install
+      - type-check:
+          requires:
+            - install
       - build:
           requires:
             - install
@@ -163,5 +175,6 @@ workflows:
             - prepare-docker-build
       - test:
           requires:
+            - type-check
             - i18n-check
             - lint

@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
@@ -48,28 +46,6 @@ export default class ChannelView extends React.PureComponent {
                 data-a11y-order-reversed={true}
             />
         );
-    }
-
-    componentDidMount() {
-        const platform = window.navigator.platform;
-
-        $('body').addClass('app__body');
-
-        // IE Detection
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            $('body').addClass('browser--ie');
-        }
-
-        // OS Detection
-        if (platform === 'Win32' || platform === 'Win64') {
-            $('body').addClass('os--windows');
-        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
-            $('body').addClass('os--mac');
-        }
-    }
-
-    componentWillUnmount() {
-        $('body').removeClass('app__body');
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase

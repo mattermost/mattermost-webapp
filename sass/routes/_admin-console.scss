@@ -510,7 +510,7 @@
 }
 
 .admin-sidebar {
-    background: #333;
+    background: #111;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -542,7 +542,6 @@
 
     .nav-pills__container {
         @include font-smoothing(initial);
-        background: #111;
         height: calc(100% - 68px);
         margin-top: 1px;
         padding-bottom: 20px;

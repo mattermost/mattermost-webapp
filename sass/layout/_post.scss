@@ -35,7 +35,9 @@
     }
 
     .textbox-preview-area {
-        white-space: normal;
+        ul {
+            white-space: normal;
+        }
         box-shadow: none;
         left: 0;
         position: relative;
@@ -100,80 +102,6 @@
         cursor: pointer;
         font-size: 13px;
         margin-left: 15px;
-    }
-}
-
-.date-separator,
-.new-separator {
-    height: 2em;
-    margin: 0;
-    position: relative;
-    text-align: center;
-    z-index: 0;
-    pointer-events: none;
-
-    &:before,
-    &:after {
-        content: '';
-        display: none;
-        height: 1em;
-        left: 0;
-        position: absolute;
-        width: 100%;
-    }
-
-    &:before {
-        bottom: 0;
-    }
-
-    &:after {
-        top: 0;
-    }
-
-    &.hovered--after {
-        &:before {
-            background: #f5f5f5;
-            display: block;
-        }
-    }
-
-    &.hovered--before {
-        &:after {
-            background: #f5f5f5;
-            display: block;
-        }
-    }
-
-    .separator__hr {
-        border-color: #cccccc;
-        margin: 0;
-        position: relative;
-        top: 1em;
-        z-index: 5;
-    }
-
-    .separator__text {
-        @include border-radius(50px);
-        background: #ffffff;
-        color: #555555;
-        display: inline-block;
-        font-size: 13px;
-        font-weight: 700;
-        line-height: 2em;
-        padding: 0 1em;
-        position: relative;
-        z-index: 5;
-    }
-}
-
-.new-separator {
-    .separator__hr {
-        border-color: #ffaf53;
-    }
-
-    .separator__text {
-        color: #ff8800;
-        font-weight: normal;
     }
 }
 
@@ -585,7 +513,7 @@
 
         .form-control {
             &:hover, &:focus {
-                border-color: var(--link-color);
+                border-color: var(--center-channel-color-40);
             }
         }
     }
@@ -760,13 +688,6 @@
     padding: 8px .5em 0 1.5em; // If this needs to be changed then .post-row__padding needs to be adjusted accordingly
     position: relative;
     word-wrap: break-word;
-
-    body.enable-animations & {
-        @include transition-property(background-color);
-        @include transition-duration($transition-quick);
-        @include transition-delay(0s);
-        @include transition-timing-function(ease-in-out);
-    }
 
     .browser--ie & {
         .post__header {
@@ -1569,13 +1490,6 @@
         padding: .2em .5em;
         width: 100%;
         word-wrap: break-word;
-
-        body.enable-animations & {
-            @include transition-property(background);
-            @include transition-duration($transition-quick);
-            @include transition-delay(0s);
-            @include transition-timing-function(ease-in-out);
-        }
 
         &.post--ephemeral {
             padding-right: 20px !important;
