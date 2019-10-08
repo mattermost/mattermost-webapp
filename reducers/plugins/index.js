@@ -168,11 +168,12 @@ function components(state = {}, action) {
     case ActionTypes.RECEIVED_PLUGIN_COMPONENT: {
         if (action.name && action.data) {
             const nextState = {...state};
-            const currentArray = [...(nextState[action.name] || [])];
+            const currentArray = nextState[action.name] || [];
+            const nextArray = [...currentArray];
             let actionData = action.data;
             if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
-                // Remove the menu from currentArray to rebuild it later.
-                const menu = remove(currentArray, (c) => hasMenuId(c, actionData.parentMenuId) && c.pluginId === actionData.pluginId);
+                // Remove the menu from nextArray to rebuild it later.
+                const menu = remove(nextArray, (c) => hasMenuId(c, actionData.parentMenuId) && c.pluginId === actionData.pluginId);
 
                 // Request is for an unknown menuId, return original state.
                 if (!menu[0]) {
@@ -180,7 +181,7 @@ function components(state = {}, action) {
                 }
                 actionData = buildMenu(menu[0], actionData);
             }
-            const nextArray = [...currentArray, actionData];
+            nextArray.push(actionData);
             nextArray.sort(sortComponents);
             nextState[action.name] = nextArray;
             return nextState;
