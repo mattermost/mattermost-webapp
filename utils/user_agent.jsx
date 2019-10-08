@@ -57,7 +57,7 @@ export function isSafari() {
 }
 
 export function isIosSafari() {
-    return userAgent.indexOf('iPhone') !== -1 && userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('CriOS') === -1;
+    return (userAgent.indexOf('iPhone') !== -1 || userAgent.indexOf('iPad') !== -1) && userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('CriOS') === -1;
 }
 
 export function isIosChrome() {
