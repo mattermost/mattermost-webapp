@@ -384,7 +384,8 @@ function autolinkChannelMentions(
         let href = '#';
         if (team) {
             href =
-        (window.basename || '') + '/' + team.name + '/channels/' + channelName;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
         }
 
         tokens.set(alias, {
@@ -803,8 +804,10 @@ export function handleUnicodeEmoji(
 
     // replace all occurrences of unicode emoji with additional markup
     output = output.replace(searchPattern, (emoji: string = '') => {
-    // convert unicode character to hex string
-        const emojiCode = emoji.codePointAt(0).toString(16);
+        const emojiUnicode = emoji.codePointAt(0);
+
+        // convert unicode character to hex string
+        const emojiCode = typeof emojiUnicode !== 'undefined' && emojiUnicode.toString(16);
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
         if (supportedEmoji.hasUnicode(emojiCode)) {
