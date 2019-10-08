@@ -35,6 +35,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
+import Setting from './setting.jsx';
+
 export default class SchemaAdminSettings extends React.Component {
     static propTypes = {
         config: PropTypes.object,
@@ -560,7 +562,10 @@ export default class SchemaAdminSettings extends React.Component {
                 key={this.props.schema.id + '_bool_' + setting.key}
             >
                 <div className='banner__content'>
-                    <span>{this.renderBanner(setting)}</span>
+                    <span>
+                        { setting.banner_type === 'warning' ? <i className='fa fa-warning'/> : null}
+                        {this.renderBanner(setting)}
+                    </span>
                 </div>
             </div>
         );
@@ -717,7 +722,8 @@ export default class SchemaAdminSettings extends React.Component {
 
     buildCustomSetting = (setting) => {
         const CustomComponent = setting.component;
-        return (
+
+        const componentInstance = (
             <CustomComponent
                 key={this.props.schema.id + '_custom_' + setting.key}
                 id={setting.key}
@@ -733,8 +739,22 @@ export default class SchemaAdminSettings extends React.Component {
                 registerSaveAction={this.registerSaveAction}
                 setSaveNeeded={this.setSaveNeeded}
                 unRegisterSaveAction={this.unRegisterSaveAction}
-            />
-        );
+            />);
+
+        // If a label was set for the custom component,
+        // handle its UX consistently as other settings with the Setting component
+        if (setting.label) {
+            return (
+                <Setting
+                    label={setting.label}
+                    inputId={setting.key}
+                    helpText={setting.helpText}
+                >
+                    {componentInstance}
+                </Setting>
+            );
+        }
+        return componentInstance;
     }
 
     unRegisterSaveAction = (saveAction) => {

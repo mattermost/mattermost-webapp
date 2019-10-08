@@ -31,17 +31,31 @@ function makeGetPluginSchema() {
                 settings = plugin.settings_schema.settings.map((setting) => {
                     const key = setting.key.toLowerCase();
                     const component = customComponents[key];
-                    const type = component ? Constants.SettingsTypes.TYPE_CUSTOM : setting.type;
-                    console.log(key, component);
+
+                    let bannerType = '';
+                    let type = setting.type;
+                    let displayName = setting.display_name;
+                    let isDisabled = it.stateIsFalse(pluginEnabledConfigKey);
+
+                    if (component) {
+                        type = Constants.SettingsTypes.TYPE_CUSTOM;
+                    } else if (!component && setting.type === Constants.SettingsTypes.TYPE_CUSTOM) {
+                        // Show a warning banner to enable the plugin in order to display the custom component.
+                        type = Constants.SettingsTypes.TYPE_BANNER;
+                        displayName = 'The plugin must be enabled to show this configuration setting: ' + key;
+                        bannerType = 'warning';
+                        isDisabled = it.stateIsTrue(pluginEnabledConfigKey);
+                    }
 
                     return {
                         ...setting,
                         type,
                         key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + key,
                         help_text_markdown: true,
-                        label: setting.display_name,
+                        label: displayName,
                         translate: Boolean(plugin.translate),
-                        isDisabled: it.stateIsFalse(pluginEnabledConfigKey),
+                        isDisabled,
+                        banner_type: bannerType,
                         component,
                     };
                 });

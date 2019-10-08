@@ -6,7 +6,7 @@ import React, {PureComponent} from 'react';
 
 import SetByEnv from './set_by_env';
 
-export default class Setting extends PureComponent {
+export default class Settings extends PureComponent {
     static propTypes = {
         inputId: PropTypes.string,
         label: PropTypes.node.isRequired,

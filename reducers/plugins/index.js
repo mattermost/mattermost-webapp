@@ -253,7 +253,10 @@ function adminConsoleCustomComponents(state = {}, action) {
         if (!nextState[pluginId]) {
             nextState[pluginId] = {};
         }
-        nextState[pluginId][key] = action.data.component;
+        const nextArray = {...nextState[pluginId]};
+        nextArray[key] = action.data.component;
+        nextState[pluginId] = nextArray;
+
         return nextState;
     }
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:

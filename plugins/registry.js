@@ -489,7 +489,7 @@ export default class PluginRegistry {
     // - key - A key specified in the settings_schema.settings block of the plugin's manifest.
     // - component - A react component to render in place of the default handling.
     registerAdminConsoleCustomComponent(key, component) {
-        store.dispatch(registerAdminConsoleCustomComponent(this.id, key, component))
+        store.dispatch(registerAdminConsoleCustomComponent(this.id, key, component));
     }
 
     // Unregister a previously registered admin console definition override function.
