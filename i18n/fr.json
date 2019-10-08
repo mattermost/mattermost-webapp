@@ -1128,7 +1128,7 @@
   "admin.plugins.settings.enable": "Activer des plugins : ",
   "admin.plugins.settings.enableDesc": "Lorsqu'activé, active les plugins sur votre serveur Mattermost. Utilisez les plugins pour vous intégrer avec des systèmes tiers, étendre les fonctionnalités ou personnaliser l'interface utilisateur de votre serveur Mattermost. Consultez notre [documentation](!https://about.mattermost.com/default-plugins) pour en savoir plus.",
   "admin.plugins.settings.enableMarketplace": "Enable Marketplace:",
-  "admin.plugins.settings.enableMarketplaceDesc": "When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html).",
+  "admin.plugins.settings.enableMarketplaceDesc": "When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).",
   "admin.plugins.settings.marketplaceUrl": "Marketplace URL:",
   "admin.plugins.settings.marketplaceUrlDesc": "URL of the marketplace server.",
   "admin.privacy.showEmailDescription": "Lorsque désactivé, l'adresse e-mail des membres est cachée de tout le monde sauf des administrateurs système.",
