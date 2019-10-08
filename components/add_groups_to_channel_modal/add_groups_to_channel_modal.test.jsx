@@ -99,8 +99,8 @@ describe('components/AddGroupsToChannelModal', () => {
         expect(wrapper.state('values')).toEqual([value1, value2]);
 
         wrapper.setState({values: [value1]});
-        wrapper.instance().addValue(value2);
-        expect(wrapper.state('values')).toEqual([value1, value2]);
+        wrapper.instance().addValue(value1);
+        expect(wrapper.state('values')).toEqual([value1]);
     });
 
     test('should match state when handlePageChange is called', () => {

@@ -142,17 +142,17 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
         },
         Object {
           "id": "2",
-          "label": "2"
+          "label": "2",
           "value": "2",
         },
         Object {
           "id": "3",
-          "label": "3"
+          "label": "3",
           "value": "3",
         },
         Object {
           "id": "4",
-          "label": "4"
+          "label": "4",
           "value": "4",
         },
       ]
