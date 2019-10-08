@@ -20,7 +20,7 @@ exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimen
 <React.Fragment>
   <SizeAwareImage
     alt="test image"
-    className="markdown-inline-img"
+    className="markdown-inline-img markdown-inline-img--hover markdown-inline-img--no-border"
     dimensions={
       Object {
         "format": "jpg",
@@ -29,9 +29,8 @@ exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimen
         "width": 100,
       }
     }
-    handleSmallImageContainer={true}
     onClick={[Function]}
-    showLoader={true}
+    showLoader={false}
     src="safeSrc"
   />
 </React.Fragment>
@@ -61,7 +60,7 @@ exports[`components/MarkdownImage should render an image with no preview if the 
 <div>
   <SizeAwareImage
     alt="test image"
-    className="markdown-inline-img"
+    className="markdown-inline-img markdown-inline-img--hover markdown-inline-img--no-border"
     dimensions={
       Object {
         "format": "png",
@@ -70,9 +69,8 @@ exports[`components/MarkdownImage should render an image with no preview if the 
         "width": 1041,
       }
     }
-    handleSmallImageContainer={false}
     onClick={[Function]}
-    showLoader={true}
+    showLoader={false}
     src="https://example.com/image.png"
   />
 </div>
@@ -91,9 +89,8 @@ exports[`components/MarkdownImage should render an image with preview modal if t
         "width": 1041,
       }
     }
-    handleSmallImageContainer={true}
     onClick={[Function]}
-    showLoader={true}
+    showLoader={false}
     src="https://example.com/image.png"
   />
   <Connect(ViewImageModal)

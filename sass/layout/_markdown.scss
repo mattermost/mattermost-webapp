@@ -75,6 +75,10 @@ h6 {
             z-index: 2;
         }
     }
+
+    .markdown-inline-img--no-border {
+        border: unset;
+    }
 }
 
 .post-code {

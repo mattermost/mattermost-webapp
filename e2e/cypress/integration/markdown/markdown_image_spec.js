@@ -33,10 +33,12 @@ describe('Markdown', () => {
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
+                and('have.class', 'markdown-inline-img--hover').
+                and('have.class', 'markdown-inline-img--no-border').
                 and('have.attr', 'alt', 'Build Status').
                 and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
-                and('have.css', 'height', '21px').
-                and('have.css', 'width', '102px');
+                and('have.css', 'height', '20px').
+                and('have.css', 'width', '97px');
         });
     });
 
@@ -51,23 +53,15 @@ describe('Markdown', () => {
                 should('have.text', 'GitHub favicon:  ').
                 and('have.class', 'style--none');
 
-            // * Verify that the image is inside a container div
-            cy.get(`#postMessageText_${postId}`).find('div.small-image__container').as('containerDiv').
-                should('have.class', 'cursor--pointer').
-                and('have.class', 'a11y--active').
-                and('have.class', 'small-image__container--min-width').
-                and('have.css', 'height', '48px').
-                and('have.css', 'width', '48px');
-
-            cy.get('@containerDiv').children('img').
+            cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
                 and('have.class', 'markdown-inline-img--hover').
                 and('have.class', 'cursor--pointer').
                 and('have.class', 'a11y--active').
                 and('have.attr', 'alt', 'Github').
                 and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico`).
-                and('have.css', 'height', '32px').
-                and('have.css', 'width', '32px');
+                and('have.css', 'height', '33px').
+                and('have.css', 'width', '33px');
         });
     });
 
@@ -99,22 +93,10 @@ describe('Markdown', () => {
         cy.postMessageFromFile('markdown/markdown_inline_images_2.md');
 
         cy.getLastPostId().then((postId) => {
-            // # Get the container div and simulate a click.
-            cy.get(`#postMessageText_${postId}`).find('div.small-image__container').as('containerDiv').
-                and('have.css', 'height', '48px').
-                and('have.css', 'width', '48px').
-                click();
-
-            // * Verify that the preview modal opens
-            cy.get('div.file-details__container').should('be.visible');
-
-            // # Close the modal
-            cy.get('div.modal-close').should('exist').click({force: true});
-
             // # Get the image and simulate a click.
-            cy.get('@containerDiv').children('img').
-                and('have.css', 'height', '32px').
-                and('have.css', 'width', '32px').
+            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
+                should('have.css', 'height', '33px').
+                and('have.css', 'width', '33px').
                 click();
 
             // * Verify that the preview modal opens
