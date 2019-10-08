@@ -142,9 +142,21 @@ describe('components/MoreDirectChannels', () => {
         const props = {...baseProps};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
 
-        wrapper.setState({values: [{id: 'user_id_1'}]});
-        wrapper.instance().handleDelete([{id: 'user_id_2'}]);
-        expect(wrapper.state('values')).toEqual([{id: 'user_id_2'}]);
+        const user1 = {
+            id: 'user_id_1',
+            label: 'user_id_1',
+            value: 'user_id_1',
+        }
+
+        const user2 = {
+            id: 'user_id_1',
+            label: 'user_id_1',
+            value: 'user_id_1',
+        }
+
+        wrapper.setState({values: [user1]});
+        wrapper.instance().handleDelete([user2]);
+        expect(wrapper.state('values')).toEqual([user2]);
     });
 
     test('should match renderOption snapshot', () => {

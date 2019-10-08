@@ -18,6 +18,7 @@ describe('components/TeamSelectorModal', () => {
                 delete_at: 0,
                 scheme_id: '',
                 display_name: 'Team 1',
+                value: 'value1',
             },
             {
                 id: 'id2',
@@ -25,6 +26,7 @@ describe('components/TeamSelectorModal', () => {
                 delete_at: 123,
                 scheme_id: '',
                 display_name: 'Team 2',
+                value: 'value2',
             },
             {
                 id: 'id3',
@@ -32,6 +34,7 @@ describe('components/TeamSelectorModal', () => {
                 delete_at: 0,
                 scheme_id: 'test',
                 display_name: 'Team 3',
+                value: 'value3',
             },
             {
                 id: 'id4',
@@ -39,6 +42,7 @@ describe('components/TeamSelectorModal', () => {
                 delete_at: 0,
                 scheme_id: '',
                 display_name: 'Team 4',
+                value: 'value4',
             },
         ],
         onModalDismissed: jest.fn(),
