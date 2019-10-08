@@ -201,7 +201,12 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should open a DM', (done) => {
-        const props = {...baseProps, currentChannelMembers: [{id: 'user_id_1'}]};
+        const user = {
+            id: 'user_id_1',
+            label: 'user_label_1',
+            value: 'user_value_1',
+        };
+        const props = {...baseProps, currentChannelMembers: [user]};
         const wrapper = shallow(<MoreDirectChannels {...props}/>);
         const handleHide = jest.fn();
         const exitToChannel = null;
