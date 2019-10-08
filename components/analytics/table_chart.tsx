@@ -6,12 +6,12 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 
-interface TableItem {
+type TableItem = {
     name: string;
     tip: string;
     value: React.ReactNode;
 }
-interface TableChartProps {
+type TableChartProps = {
     title: React.ReactNode;
     data: TableItem[];
 }
