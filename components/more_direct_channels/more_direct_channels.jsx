@@ -322,6 +322,8 @@ export default class MoreDirectChannels extends React.Component {
         const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
         const email = option.is_bot ? null : option.email;
 
+
+        //if loginWithCertificate, do not show references to email
         if (this.props.loginWithCertificate){
             return (
                 <div
