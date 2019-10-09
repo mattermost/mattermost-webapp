@@ -17,7 +17,9 @@ import logoImage from 'images/logo.png';
 
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
-import LoadingScreen from 'components/loading_screen';
+
+import LoadingScreen from 'components/loading_screen.tsx';
+
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';

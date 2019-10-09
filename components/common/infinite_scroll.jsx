@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen.tsx';
 
 const SCROLL_BUFFER = 100;
 const DEBOUNCE_WAIT_TIME = 200;
