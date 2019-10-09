@@ -2862,6 +2862,8 @@
   "post_info.pin": "Pin to channel",
   "post_info.pinned": "Pinned",
   "post_info.reply": "Reply",
+  "post_info.submenu.icon": "submenu icon",
+  "post_info.submenu.mobile": "mobile submenu",
   "post_info.system": "System",
   "post_info.tooltip.add_reactions": "Add Reaction",
   "post_info.unpin": "Un-pin from channel",
