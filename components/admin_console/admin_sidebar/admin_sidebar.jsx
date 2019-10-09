@@ -89,7 +89,6 @@ export default class AdminSidebar extends React.Component {
         }
 
         this.updateTitle();
-
     }
 
     componentDidUpdate(prevProps) {
