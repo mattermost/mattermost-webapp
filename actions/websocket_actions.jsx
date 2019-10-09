@@ -33,6 +33,7 @@ import {
     receivedPost,
 } from 'mattermost-redux/actions/posts';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
+import {getUser as loadUser} from 'mattermost-redux/actions/users';
 
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
@@ -660,7 +661,7 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export function handleUserRemovedEvent(msg) {
+export async function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUserId = getCurrentUserId(state);
@@ -677,6 +678,10 @@ export function handleUserRemovedEvent(msg) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
+                if (!getUser(state, msg.data.remover_id)) {
+                    await dispatch(loadUser(msg.data.remover_id))
+                }
+
                 const user = getUser(state, msg.data.remover_id) || {};
 
                 dispatch(openModal({
