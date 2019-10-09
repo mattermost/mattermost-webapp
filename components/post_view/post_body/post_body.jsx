@@ -7,7 +7,7 @@ import {Posts} from 'mattermost-redux/constants';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
+import DelayedAction from 'utils/delayed_action';
 
 import CommentedOn from 'components/post_view/commented_on';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -15,7 +15,7 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const SENDING_ANIMATION_DELAY = 3000;
 

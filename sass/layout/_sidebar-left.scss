@@ -129,6 +129,13 @@
                     @include opacity(1);
                 }
             }
+
+            body.enable-animations & {
+                @include transition-property(background-color);
+                @include transition-duration($transition-quick);
+                @include transition-delay(0s);
+                @include transition-timing-function(ease-in-out);
+            }
         }
 
         .switch__shortcut {
@@ -167,24 +174,39 @@
     }
 
     .nav-pills__unread-indicator {
-        @include border-radius(50px);
-        font-size: 13.5px;
-        cursor: pointer;
-        left: 15px;
-        margin: 0 auto;
-        padding: 4px 0 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
+        margin-left: 50%;
+        width: 188px;
+        font-size: 14px;
+        line-height: 28px;
         text-align: center;
-        width: 190px;
+        @include border-radius(14px);
         z-index: 1;
+        cursor: pointer;
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
 
         .icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
             margin-left: 5px;
+        }
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in, step-end);
         }
     }
 
     .nav-pills__unread-indicator-top {
-        top: 15px;
+        top: 16px;
 
         .icon {
             svg {
@@ -194,7 +216,19 @@
     }
 
     .nav-pills__unread-indicator-bottom {
-        bottom: 15px;
+        bottom: 16px;
+    }
+
+    .nav-pills__unread-indicator--visible {
+        opacity: 1;
+        visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
     }
 
     .nav {
@@ -246,10 +280,18 @@
                 padding: 5px 0 5px 15px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+
+                body.enable-animations & {
+                    @include transition-property(color, background-color);
+                    @include transition-duration($transition-quick);
+                    @include transition-delay(0s);
+                    @include transition-timing-function(ease-in-out);
+                }
             }
 
             .sidebar-item {
                 @include single-transition(none);
+                color: v(sidebar-text-60);
                 align-items: center;
                 border-radius: 0;
                 display: flex;
@@ -281,13 +323,13 @@
                     &:hover {
                         .btn-close {
                             @include opacity(.8);
-                            display: block;
+                            visibility: visible;
                         }
                     }
 
                     .btn-close {
                         @include opacity(0);
-                        display: none;
+                        visibility: hidden;
                         font-family: 'Open Sans', sans-serif;
                         font-size: 21px;
                         font-weight: 600;
@@ -315,6 +357,8 @@
             }
 
             &.active {
+                color: v(sidebar-text);
+
                 .muted {
                     opacity: 1;
                 }
@@ -380,6 +424,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        body.enable-animations & {
+            @include transition-property(color);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in-out);
         }
     }
 }

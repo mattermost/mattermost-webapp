@@ -8,7 +8,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import * as utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 import SettingUpload from 'components/setting_upload.jsx';
@@ -26,25 +26,21 @@ class TeamImportTab extends React.Component {
     constructor(props) {
         super(props);
 
-        this.onImportFailure = this.onImportFailure.bind(this);
-        this.onImportSuccess = this.onImportSuccess.bind(this);
-        this.doImportSlack = this.doImportSlack.bind(this);
-
         this.state = {
             status: 'ready',
             link: '',
         };
     }
 
-    onImportFailure() {
+    onImportFailure = () => {
         this.setState({status: 'fail'});
     }
 
-    onImportSuccess(data) {
+    onImportSuccess = (data) => {
         this.setState({status: 'done', link: 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(atob(data.results))});
     }
 
-    doImportSlack(file) {
+    doImportSlack = (file) => {
         this.setState({status: 'in-progress', link: ''});
         utils.importSlack(file, this.onImportSuccess, this.onImportFailure);
     }

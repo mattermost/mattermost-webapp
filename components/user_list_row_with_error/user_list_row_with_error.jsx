@@ -8,7 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -16,7 +16,7 @@ export default class UserListRowWithError extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
         status: PropTypes.string,
-        extraInfo: PropTypes.arrayOf(PropTypes.object),
+        extraInfo: PropTypes.array,
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
@@ -35,11 +35,9 @@ export default class UserListRowWithError extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-
-        this.onError = this.onError.bind(this);
     }
 
-    onError(errorObj) {
+    onError = (errorObj) => {
         this.setState({
             error: errorObj,
         });

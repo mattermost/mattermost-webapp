@@ -8,6 +8,8 @@ import Constants from 'utils/constants.jsx';
 
 import MenuWrapperAnimation from './menu_wrapper_animation.jsx';
 
+import './menu_wrapper.scss';
+
 export default class MenuWrapper extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
@@ -22,10 +24,10 @@ export default class MenuWrapper extends React.PureComponent {
     };
 
     constructor(props) {
+        super(props);
         if (!Array.isArray(props.children) || props.children.length !== 2) {
             throw new Error('MenuWrapper needs exactly 2 children');
         }
-        super(props);
         this.state = {
             open: false,
         };

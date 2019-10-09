@@ -6,7 +6,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
 
 export default class BackstageList extends React.Component {
@@ -30,14 +30,12 @@ export default class BackstageList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateFilter = this.updateFilter.bind(this);
-
         this.state = {
             filter: '',
         };
     }
 
-    updateFilter(e) {
+    updateFilter = (e) => {
         this.setState({
             filter: e.target.value,
         });

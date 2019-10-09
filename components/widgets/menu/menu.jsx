@@ -8,15 +8,15 @@ import {isMobile} from 'utils/utils';
 
 import MenuGroup from './menu_group';
 import MenuItemAction from './menu_items/menu_item_action';
-import MenuItemBlockableLink from './menu_items/menu_item_blockable_link';
 import MenuItemExternalLink from './menu_items/menu_item_external_link';
 import MenuItemLink from './menu_items/menu_item_link';
 import MenuItemToggleModalRedux from './menu_items/menu_item_toggle_modal_redux';
 
+import './menu.scss';
+
 export default class Menu extends React.PureComponent {
     static Group = MenuGroup
     static ItemAction = MenuItemAction
-    static ItemBlockableLink = MenuItemBlockableLink
     static ItemExternalLink = MenuItemExternalLink
     static ItemLink = MenuItemLink
     static ItemToggleModalRedux = MenuItemToggleModalRedux
@@ -33,6 +33,7 @@ export default class Menu extends React.PureComponent {
     constructor(props) {
         super(props);
         this.node = React.createRef();
+        this.observer = new MutationObserver(this.hideUnneededDividers);
     }
 
     hideUnneededDividers = () => {
@@ -40,6 +41,7 @@ export default class Menu extends React.PureComponent {
             return;
         }
 
+        this.observer.disconnect();
         const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length);
 
         // Hiding dividers at beginning and duplicated ones
@@ -47,6 +49,7 @@ export default class Menu extends React.PureComponent {
         let isAtBeginning = true;
         for (const child of children) {
             if (child.classList.contains('menu-divider') || child.classList.contains('mobile-menu-divider')) {
+                child.style.display = 'block';
                 if (isAtBeginning || prevWasDivider) {
                     child.style.display = 'none';
                 }
@@ -65,6 +68,7 @@ export default class Menu extends React.PureComponent {
                 break;
             }
         }
+        this.observer.observe(this.node.current, {attributes: true, childList: true, subtree: true});
     }
 
     componentDidMount() {
@@ -73,6 +77,10 @@ export default class Menu extends React.PureComponent {
 
     componentDidUpdate() {
         this.hideUnneededDividers();
+    }
+
+    componentWillUnmount() {
+        this.observer.disconnect();
     }
 
     // Used from DotMenu component to know in which direction show the menu

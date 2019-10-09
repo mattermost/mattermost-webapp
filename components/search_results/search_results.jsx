@@ -17,7 +17,7 @@ import SearchHint from 'components/search_hint/search_hint';
 import FlagPostSearchHint from 'components/search_hint/flag_post_search_hint';
 import NoResultSearchHint from 'components/search_hint/no_result_search_hint';
 import PinPostSearchHint from 'components/search_hint/pin_post_search_hint';
-import LoadingSpinner from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 
 const GET_MORE_BUFFER = 30;
 
@@ -106,6 +106,7 @@ export default class SearchResults extends React.Component {
         channelDisplayName: PropTypes.string.isRequired,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
+        isOpened: PropTypes.bool,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
@@ -181,7 +182,8 @@ export default class SearchResults extends React.Component {
         if (
             this.props.isSearchingTerm ||
             this.props.isSearchingFlaggedPost ||
-            this.props.isSearchingPinnedPost
+            this.props.isSearchingPinnedPost ||
+            !this.props.isOpened
         ) {
             ctls = (
                 <div className='sidebar--right__subheader'>
@@ -315,7 +317,7 @@ export default class SearchResults extends React.Component {
                 >
                     <div
                         id='search-items-container'
-                        className='search-items-container'
+                        className='search-items-container post-list__table'
                     >
                         {ctls}
                         {loadingMorePostsComponent}

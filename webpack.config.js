@@ -25,7 +25,6 @@ const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
-    path.join(__dirname, 'non_npm_dependencies'),
 ];
 
 // react-hot-loader requires eval
@@ -144,7 +143,7 @@ var config = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)?$/,
+                test: /\.(js|jsx|ts|tsx)?$/,
                 exclude: STANDARD_EXCLUDE,
                 use: {
                     loader: 'babel-loader',
@@ -223,14 +222,13 @@ var config = {
     resolve: {
         modules: [
             'node_modules',
-            'non_npm_dependencies',
             path.resolve(__dirname),
         ],
         alias: {
             jquery: 'jquery/src/jquery',
             superagent: 'node_modules/superagent/lib/client',
         },
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
     performance: {
         hints: 'warning',
@@ -268,6 +266,7 @@ var config = {
             {from: 'images/favicon', to: 'images/favicon'},
             {from: 'images/appIcons.png', to: 'images'},
             {from: 'images/warning.png', to: 'images'},
+            {from: 'images/logo-email.png', to: 'images'},
             {from: 'images/browser-icons', to: 'images/browser-icons'},
         ]),
 

@@ -6,6 +6,7 @@ import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
+import AdminDefinition from 'components/admin_console/admin_definition';
 
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
@@ -29,6 +30,7 @@ describe('components/AdminSidebar', () => {
                 EnableUploads: true,
             },
         },
+        adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
         navigationBlocked: false,
         siteName: 'test snap',
@@ -72,6 +74,7 @@ describe('components/AdminSidebar', () => {
                     EnableUploads: true,
                 },
             },
+            adminDefinition: AdminDefinition,
             buildEnterpriseReady: false,
             siteName: 'test snap',
             navigationBlocked: false,
@@ -113,6 +116,7 @@ describe('components/AdminSidebar', () => {
                     EnableUploads: true,
                 },
             },
+            adminDefinition: AdminDefinition,
             buildEnterpriseReady: false,
             siteName: 'test snap',
             navigationBlocked: false,
@@ -152,6 +156,7 @@ describe('components/AdminSidebar', () => {
                     EnableUploads: true,
                 },
             },
+            adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',
@@ -198,9 +203,6 @@ describe('components/AdminSidebar', () => {
                 CustomPermissionsSchemes: 'true',
             },
             config: {
-                ServiceSettings: {
-                    ExperimentalLdapGroupSync: true,
-                },
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 },
@@ -209,6 +211,7 @@ describe('components/AdminSidebar', () => {
                     EnableUploads: true,
                 },
             },
+            adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',

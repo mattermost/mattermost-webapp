@@ -18,16 +18,7 @@ import {
     loadLatestPosts,
 } from 'actions/views/channel';
 
-import {disableVirtList} from 'utils/utils.jsx';
-
-import IePostList from '../post_list_ie';
-
-import PostListWrapper from './post_list.jsx';
-
-let PostList = PostListWrapper;
-if (disableVirtList()) {
-    PostList = IePostList;
-}
+import PostList from './post_list.jsx';
 
 const isFirstLoad = (state, channelId) => !state.entities.posts.postsInChannel[channelId];
 const memoizedGetLatestPostId = memoizeResult((postIds) => getLatestPostId(postIds));
@@ -46,6 +37,7 @@ function makeMapStateToProps() {
         let postIds;
         let chunk;
         let atLatestPost = false;
+        let atOldestPost = false;
         let formattedPostIds;
         let latestAriaLabelFunc;
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
@@ -61,6 +53,7 @@ function makeMapStateToProps() {
         if (chunk) {
             postIds = chunk.order;
             atLatestPost = chunk.recent;
+            atOldestPost = chunk.oldest;
         }
 
         if (postIds) {
@@ -78,6 +71,7 @@ function makeMapStateToProps() {
             isFirstLoad: isFirstLoad(state, ownProps.channelId),
             formattedPostIds,
             atLatestPost,
+            atOldestPost,
             focusedPostId: ownProps.match.params.postid,
             latestPostTimeStamp,
             postListIds: postIds,

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -111,35 +111,6 @@ describe('Edit Message', () => {
                 cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
             });
         });
-    });
-
-    it('M13542 Open edit modal immediately after making a post when post is pending', () => {
-        // # and go to /. We set fetch to null here so that we can intercept XHR network requests
-        cy.visit('/', {
-            onBeforeLoad: (win) => {
-                win.fetch = null;
-            },
-        });
-
-        // # Enter first message
-        cy.get('#post_textbox').clear().type('Hello{enter}');
-
-        // Start a server, and stub out the response to ensure we have a pending post
-        // Note that this fails the creation of the second post. But we only need it
-        // to be pending
-        cy.server();
-        cy.route({response: {}, method: 'POST', url: 'api/v4/posts', delay: 5000});
-
-        // # Enter second message, submit, and then uparrow to show edit post modal
-        cy.get('#post_textbox').type('world!{enter}{uparrow}');
-
-        // * Edit post modal should appear, and edit the post
-        cy.get('#editPostModal').should('be.visible');
-        cy.get('#edit_textbox').should('have.text', 'Hello').type(' New message{enter}');
-        cy.get('#editPostModal').should('be.not.visible');
-
-        // * Verify last post is pending
-        cy.getLastPostId({force: true}).should('contain', ':');
     });
 
     it('M15519 Open edit modal immediately after making a post when post is pending', () => {

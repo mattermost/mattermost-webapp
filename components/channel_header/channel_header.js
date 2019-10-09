@@ -24,8 +24,8 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import {
     Constants,
@@ -51,6 +51,7 @@ export default class ChannelHeader extends React.PureComponent {
         channel: PropTypes.object,
         channelMember: PropTypes.object,
         dmUser: PropTypes.object,
+        gmMembers: PropTypes.array,
         isFavorite: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         isMuted: PropTypes.bool,
@@ -256,6 +257,7 @@ export default class ChannelHeader extends React.PureComponent {
         const {
             teamId,
             currentUser,
+            gmMembers,
             channel,
             channelMember,
             isMuted: channelMuted,
@@ -327,14 +329,16 @@ export default class ChannelHeader extends React.PureComponent {
         }
 
         if (isGroup) {
-            const usernames = channel.display_name.split(',');
             const nodes = [];
-            for (const username of usernames) {
-                const user = Utils.getUserByUsername(username.trim());
+            for (const user of gmMembers) {
+                if (user.id === currentUser.id) {
+                    continue;
+                }
+                const userDisplayName = Utils.getDisplayNameByUserId(user.id);
                 nodes.push((
-                    <React.Fragment key={username}>
+                    <React.Fragment key={userDisplayName}>
                         {nodes.length !== 0 && ', '}
-                        {username}
+                        {userDisplayName}
                         <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
                 ));
@@ -415,7 +419,10 @@ export default class ChannelHeader extends React.PureComponent {
                         {dmHeaderIconStatus}
                         {dmHeaderTextStatus}
                         {hasGuestsText}
-                        <span onClick={Utils.handleFormattedTextClick}>
+                        <span
+                            className='header-description__text'
+                            onClick={Utils.handleFormattedTextClick}
+                        >
                             <Markdown
                                 message={headerText}
                                 options={this.getHeaderMarkdownOptions(channelNamesMap)}

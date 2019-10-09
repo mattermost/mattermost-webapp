@@ -7,8 +7,8 @@ import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -94,6 +94,7 @@ export default class UserListRow extends React.Component {
                 />
                 <div
                     className='more-modal__details'
+                    data-testid='userListItemDetails'
                 >
                     <div
                         id={userCountID}

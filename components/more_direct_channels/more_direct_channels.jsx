@@ -13,8 +13,8 @@ import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.js
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import ProfilePicture from 'components/profile_picture.jsx';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import GroupMessageOption from './group_message_option';
 
@@ -459,6 +459,7 @@ export default class MoreDirectChannels extends React.Component {
                 onExited={this.handleExit}
                 role='dialog'
                 aria-labelledby='moreDmModalLabel'
+                id='moreDmModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title

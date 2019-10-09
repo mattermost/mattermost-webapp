@@ -9,7 +9,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
+import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import CreateComment from 'components/create_comment';
@@ -53,9 +53,11 @@ export default class RhsThread extends React.Component {
         currentUserId: PropTypes.string.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
+        socketConnectionStatus: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
+            getPostThread: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -99,6 +101,10 @@ export default class RhsThread extends React.Component {
     componentDidUpdate(prevProps) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
+
+        if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
+            this.props.actions.getPostThread(this.props.selected.id, false);
+        }
 
         if (prevPostsArray.length >= curPostsArray.length) {
             return;

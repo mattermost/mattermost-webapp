@@ -144,6 +144,8 @@ export const ActionTypes = keyMirror({
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,
+    RECEIVED_ADMIN_CONSOLE_REDUCER: null,
+    REMOVED_ADMIN_CONSOLE_REDUCER: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -174,6 +176,8 @@ export const ActionTypes = keyMirror({
     CHANNEL_POSTS_STATUS: null,
     CHANNEL_SYNC_STATUS: null,
     ALL_CHANNEL_SYNC_STATUS: null,
+
+    UPDATE_ACTIVE_SECTION: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -211,6 +215,7 @@ export const ModalIdentifiers = {
     ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
     MANAGE_TEAM_GROUPS: 'manage_team_groups',
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
+    PLUGIN_MARKETPLACE: 'plugin_marketplace',
 };
 
 export const UserStatuses = {
@@ -232,7 +237,7 @@ export const EventTypes = Object.assign(
         MOUSE_UP: 'mouseup',
     },
     keyMirror({
-        POST_LIST_SCROLL_CHANGE: null,
+        POST_LIST_SCROLL_TO_BOTTOM: null,
     })
 );
 
@@ -538,6 +543,7 @@ export const SidebarChannelGroups = {
 
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
+    [Permissions.INVITE_GUEST]: 'team_scope',
     [Permissions.ADD_USER_TO_TEAM]: 'team_scope',
     [Permissions.USE_SLASH_COMMANDS]: 'channel_scope',
     [Permissions.MANAGE_SLASH_COMMANDS]: 'team_scope',
@@ -1328,6 +1334,7 @@ export const Constants = {
     CHANNEL_ID_LENGTH: 26,
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
+    MAX_ATTACHMENT_FOOTER_LENGTH: 300,
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];

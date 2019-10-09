@@ -1,8 +1,0 @@
-.MenuGroup {
-    &.menu-divider {
-        @include opacity(.15);
-        background: $black;
-        height: 1px;
-        margin: 8px 0;
-    }
-}

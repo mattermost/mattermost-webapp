@@ -2,12 +2,12 @@
 
 exports[`components/QuickSwitchModal should match snapshot 1`] = `
 <Modal
-  animation={true}
+  animation={false}
   aria-labelledby="quickSwitchModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal channel-switch-modal modal--overflow"
+  dialogClassName="a11y__modal channel-switch__modal"
   dialogComponentClass={[Function]}
   enforceFocus={false}
   keyboard={true}
@@ -49,39 +49,43 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         values={Object {}}
       />
     </div>
-    <SuggestionBox
-      className="form-control focused"
-      completeOnTab={false}
-      containerClass=""
-      delayInputUpdate={true}
-      id="quickSwitchInput"
-      isRHS={false}
-      listComponent={[Function]}
-      listStyle="bottom"
-      listenForMentionKeyClick={false}
-      maxLength="64"
-      onChange={[Function]}
-      onItemSelected={[Function]}
-      onKeyDown={[Function]}
-      openOnFocus={false}
-      openWhenEmpty={true}
-      providers={
-        Array [
-          SwitchChannelProvider {
-            "disableDispatches": false,
-            "latestComplete": true,
-            "latestPrefix": "",
-            "requestStarted": false,
-          },
-        ]
-      }
-      renderDividers={true}
-      renderNoResults={false}
-      replaceAllInputOnSelect={false}
-      requiredCharacters={1}
-      spellCheck="false"
-      value=""
-    />
+    <div
+      className="channel-switch__suggestion-box"
+    >
+      <SuggestionBox
+        className="form-control focused"
+        completeOnTab={false}
+        containerClass=""
+        delayInputUpdate={true}
+        id="quickSwitchInput"
+        isRHS={false}
+        listComponent={[Function]}
+        listStyle="bottom"
+        listenForMentionKeyClick={false}
+        maxLength="64"
+        onChange={[Function]}
+        onItemSelected={[Function]}
+        onKeyDown={[Function]}
+        openOnFocus={false}
+        openWhenEmpty={true}
+        providers={
+          Array [
+            SwitchChannelProvider {
+              "disableDispatches": false,
+              "latestComplete": true,
+              "latestPrefix": "",
+              "requestStarted": false,
+            },
+          ]
+        }
+        renderDividers={true}
+        renderNoResults={false}
+        replaceAllInputOnSelect={false}
+        requiredCharacters={1}
+        spellCheck="false"
+        value=""
+      />
+    </div>
   </ModalBody>
 </Modal>
 `;

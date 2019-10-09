@@ -37,6 +37,8 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
           value=""
@@ -66,6 +68,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       <div>
         <input
           className="btn btn-primary comment-btn pull-right"
+          disabled={false}
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -149,6 +152,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
           value="Test message"
@@ -214,6 +219,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <div>
         <input
           className="btn btn-primary comment-btn pull-right"
+          disabled={false}
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -297,6 +303,8 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
           value="Test message"
@@ -338,6 +346,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <div>
         <input
           className="btn btn-primary comment-btn pull-right"
+          disabled={false}
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -433,6 +442,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
           value=""
@@ -498,6 +509,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <div>
         <input
           className="btn btn-primary comment-btn pull-right disabled"
+          disabled={true}
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -581,6 +593,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onHeightChange={[Function]}
           onKeyDown={[Function]}
           onKeyPress={[Function]}
+          onKeyUp={[Function]}
+          onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
           value="Test message"
@@ -646,6 +660,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div>
         <input
           className="btn btn-primary comment-btn pull-right"
+          disabled={false}
           onClick={[Function]}
           type="button"
           value="Add Comment"

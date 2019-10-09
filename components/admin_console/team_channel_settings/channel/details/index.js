@@ -5,7 +5,8 @@ import {bindActionCreators} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
-import {convertChannelToPrivate, getChannel as fetchChannel, membersMinusGroupMembers, patchChannel} from 'mattermost-redux/actions/channels';
+import {getChannel as fetchChannel, membersMinusGroupMembers, patchChannel, updateChannelPrivacy} from 'mattermost-redux/actions/channels';
+import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
 
 import {
     getGroupsAssociatedToChannel as fetchAssociatedGroups,
@@ -24,7 +25,7 @@ import ChannelDetails from './channel_details';
 function mapStateToProps(state, props) {
     const channelID = props.match.params.channel_id;
     const channel = getChannel(state, channelID) || {};
-    const team = channel.team_id ? getTeam(state, channel.team_id) : {};
+    const team = getTeam(state, channel.team_id) || {};
     const groups = getGroupsAssociatedToChannel(state, channelID);
     const associatedGroups = state.entities.channels.groupsAssociatedToChannel;
     const allGroups = getAllGroups(state, channel.team_id);
@@ -43,13 +44,14 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getChannel: fetchChannel,
+            getTeam: fetchTeam,
             getGroups: fetchAssociatedGroups,
-            convertChannelToPrivate,
             linkGroupSyncable,
             unlinkGroupSyncable,
             membersMinusGroupMembers,
             patchChannel,
             setNavigationBlocked,
+            updateChannelPrivacy,
         }, dispatch),
     };
 }
