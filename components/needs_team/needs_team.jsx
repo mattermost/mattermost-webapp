@@ -180,6 +180,9 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.setPreviousTeamId(team.id);
         GlobalActions.emitCloseRightHandSide();
 
+        if (Utils.isGuest(this.props.currentUser)) {
+            this.setState({finishedFetchingChannels: false});
+        }
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
             () => {
                 this.setState({
@@ -225,7 +228,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     render() {
-        if (this.state.team === null || this.state.finishedFetchingChannels === false) {
+        if (this.state.team === null) {
             return <div/>;
         }
         const teamType = this.state.team ? this.state.team.type : '';
@@ -245,6 +248,7 @@ export default class NeedsTeam extends React.Component {
                         <ChannelController
                             pathName={renderProps.location.pathname}
                             teamType={teamType}
+                            fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}
                 />
