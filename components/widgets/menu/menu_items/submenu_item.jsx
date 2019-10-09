@@ -79,7 +79,9 @@ export default class SubMenuItem extends React.PureComponent {
             event.nativeEvent.path.slice(0, 2).find((e) => e.id === id) &&
             action) {
             action(postId);
-        } else if (!event.nativeEvent.path && action) { //for tests only that don't contain `path`
+        } else if (!event.nativeEvent.path && !event.nativeEvent.composedPath && action) { //for tests only that don't contain `path` or `composedPath`
+            action(postId);
+        } else if (!event.nativeEvent.path && event.nativeEvent.composedPath().slice(0, 2).find((e) => e.id === id) && action) {
             action(postId);
         }
     }
