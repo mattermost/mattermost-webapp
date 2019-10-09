@@ -9,7 +9,7 @@ import {Client4} from 'mattermost-redux/client';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import RevokeTokenButton from 'components/admin_console/revoke_token_button';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import Avatar from 'components/widgets/users/avatar.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
