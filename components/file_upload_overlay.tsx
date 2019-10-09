@@ -1,14 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import fileOverlayImage from 'images/filesOverlay.png';
 import overlayLogoImage from 'images/logoWhite.png';
 
-export default function FileUploadOverlay(props) {
+type Props = {
+    overlayType: string;
+}
+
+const FileUploadOverlay: React.FC<Props> = (props: Props) => {
     var overlayClass = 'file-overlay hidden';
     if (props.overlayType === 'right') {
         overlayClass += ' right-file-overlay';
@@ -33,7 +36,7 @@ export default function FileUploadOverlay(props) {
                             {(title) => (
                                 <i
                                     className='fa fa-upload'
-                                    title={title}
+                                    title={title as string}
                                 />
                             )}
                         </FormattedMessage>
@@ -52,8 +55,6 @@ export default function FileUploadOverlay(props) {
             </div>
         </div>
     );
-}
-
-FileUploadOverlay.propTypes = {
-    overlayType: PropTypes.string,
 };
+
+export default FileUploadOverlay;
