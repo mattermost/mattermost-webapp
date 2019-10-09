@@ -298,7 +298,7 @@ export default class Sidebar extends React.PureComponent {
         } = this.props;
         const {formatMessage} = this.context.intl;
 
-        const currentSiteName = config.SiteName || 'Mattermost';
+        const currentSiteName = config.SiteName || '';
 
         if (currentChannel && currentTeam && currentChannel.id) {
             let currentChannelName = currentChannel.display_name;
@@ -312,7 +312,7 @@ export default class Sidebar extends React.PureComponent {
             const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
         } else {
-            document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName});
+            document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});
         }
     }
 
