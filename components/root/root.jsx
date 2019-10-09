@@ -27,29 +27,30 @@ import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
 import PermalinkRedirector from 'components/permalink_redirector';
 import {makeAsyncComponent} from 'components/async_load';
-import loadErrorPage from 'bundle-loader?lazy!components/error_page';
-import loadLoginController from 'bundle-loader?lazy!components/login/login_controller';
-import loadAdminConsole from 'bundle-loader?lazy!components/admin_console';
-import loadLoggedIn from 'bundle-loader?lazy!components/logged_in';
-import loadPasswordResetSendLink from 'bundle-loader?lazy!components/password_reset_send_link';
-import loadPasswordResetForm from 'bundle-loader?lazy!components/password_reset_form';
-import loadSignupController from 'bundle-loader?lazy!components/signup/signup_controller';
-import loadSignupEmail from 'bundle-loader?lazy!components/signup/signup_email';
-import loadTermsOfService from 'bundle-loader?lazy!components/terms_of_service';
-import loadShouldVerifyEmail from 'bundle-loader?lazy!components/should_verify_email';
-import loadDoVerifyEmail from 'bundle-loader?lazy!components/do_verify_email';
-import loadClaimController from 'bundle-loader?lazy!components/claim';
-import loadHelpController from 'bundle-loader?lazy!components/help/help_controller';
-import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app';
-import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app';
-import loadSelectTeam from 'bundle-loader?lazy!components/select_team';
-import loadAuthorize from 'bundle-loader?lazy!components/authorize';
-import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
-import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url.jsx';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
+
+const loadErrorPage = React.lazy(() => import("components/error_page"))
+const loadLoginController = React.lazy(() => import("components/login/login_controller"))
+const loadAdminConsole = React.lazy(() => import("components/admin_console"))
+const loadLoggedIn = React.lazy(() => import("components/logged_in"))
+const loadPasswordResetSendLink = React.lazy(() => import("components/password_reset_send_link"))
+const loadPasswordResetForm = React.lazy(() => import("components/password_reset_form"))
+const loadSignupController = React.lazy(() => import("components/signup/signup_controller"))
+const loadSignupEmail = React.lazy(() => import("components/signup/signup_email"))
+const loadTermsOfService = React.lazy(() => import("components/terms_of_service"))
+const loadShouldVerifyEmail = React.lazy(() => import("components/should_verify_email"))
+const loadDoVerifyEmail = React.lazy(() => import("components/do_verify_email"))
+const loadClaimController = React.lazy(() => import("components/claim"))
+const loadHelpController = React.lazy(() => import("components/help/help_controller"))
+const loadGetIosApp = React.lazy(() => import("components/get_ios_app"))
+const loadGetAndroidApp = React.lazy(() => import("components/get_android_app"))
+const loadSelectTeam = React.lazy(() => import("components/select_team"))
+const loadAuthorize = React.lazy(() => import("components/authorize"))
+const loadCreateTeam = React.lazy(() => import("components/create_team"))
+const loadMfa = React.lazy(() => import("components/mfa/mfa_controller"))
 
 const CreateTeam = makeAsyncComponent(loadCreateTeam);
 const ErrorPage = makeAsyncComponent(loadErrorPage);

@@ -10,7 +10,7 @@ import {browserHistory} from 'utils/browser_history';
 import store from 'stores/redux_store.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
-import loadRoot from 'bundle-loader?lazy!components/root';
+const loadRoot = React.lazy(() => import("components/root"));
 
 const Root = makeAsyncComponent(loadRoot);
 

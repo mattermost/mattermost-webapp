@@ -10,9 +10,10 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import {AsyncComponent} from 'components/async_load';
-import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.jsx';
 
 import TeamSettings from 'components/team_settings';
+
+const loadSettingsSidebar = React.lazy(() => import("components/settings_sidebar.jsx"))
 
 export default class TeamSettingsModal extends React.Component {
     static propTypes = {

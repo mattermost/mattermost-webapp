@@ -14,8 +14,8 @@ import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
 
-import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+const loadUserSettings = React.lazy(() => import("components/user_settings"))
+const loadSettingsSidebar = React.lazy(() => import("../../settings_sidebar.jsx"))
 
 const holders = defineMessages({
     general: {

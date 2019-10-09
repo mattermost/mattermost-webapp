@@ -14,10 +14,10 @@ import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
 import {AsyncComponent} from 'components/async_load.jsx';
-import loadPDFPreview from 'bundle-loader?lazy!components/pdf_preview';
-
 import ImagePreview from './image_preview';
 import PopoverBar from './popover_bar';
+
+const loadPDFPreview = React.lazy(() => import("components/pdf_preview"));
 
 const KeyCodes = Constants.KeyCodes;
 
