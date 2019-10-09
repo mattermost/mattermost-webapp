@@ -15,6 +15,15 @@
         }
     }
 
+    > div {
+        padding-left: 0px !important;
+        &:hover,
+        &:focus {
+            background-color: var(--center-channel-color-10) !important;
+        }
+    }
+
+    > div,
     > button,
     > a {
         align-items: center;
@@ -58,6 +67,50 @@
         display: block;
         font-size: 10px;
     }
+}
+
+.SubMenu {
+    padding-left: 0px;
+    position: absolute;
+    top: unset;
+    left: unset;
+}
+
+.SubMenu__icon-left {
+    color: inherit;
+    font-size: 19px;
+    padding: 0 8px 0 9px;
+    position: relative;
+    top: 0;
+}
+
+.SubMenu__icon-left-empty {
+    visibility: hidden;
+    font-size: 19px;
+    padding: 0 8px 0 9px;
+    position: relative;
+    top: 0;
+
+    &.mobile {
+        padding: 0 4px 0 9px;
+    }
+}
+
+.SubMenu__icon-right {
+    color: inherit;
+    font-size: 19px;
+    padding: 0;
+    margin-left: auto;
+    top: 0;
+}
+
+.SubMenu__icon-right-empty {
+    visibility: hidden;
+    font-size: 19px;
+    padding: 0;
+    margin-left: auto;
+    width: 0;
+    top: 0;
 }
 
 .MenuItem__divider {
