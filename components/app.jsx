@@ -9,22 +9,21 @@ import {Router, Route} from 'react-router-dom';
 import {browserHistory} from 'utils/browser_history';
 import store from 'stores/redux_store.jsx';
 
-import {makeAsyncComponent} from 'components/async_load';
-import loadRoot from 'bundle-loader?lazy!components/root';
-
-const Root = makeAsyncComponent(loadRoot);
+const Root = React.lazy(() => import('components/root'));
 
 class App extends React.Component {
     render() {
         return (
-            <Provider store={store}>
-                <Router history={browserHistory}>
-                    <Route
-                        path='/'
-                        component={Root}
-                    />
-                </Router>
-            </Provider>);
+            <React.Suspense fallback={null}>
+                <Provider store={store}>
+                    <Router history={browserHistory}>
+                        <Route
+                            path='/'
+                            component={Root}
+                        />
+                    </Router>
+                </Provider>
+            </React.Suspense>);
     }
 }
 

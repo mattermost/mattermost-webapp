@@ -9,10 +9,10 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-import {AsyncComponent} from 'components/async_load';
-import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.jsx';
 
 import TeamSettings from 'components/team_settings';
+
+const SettingsSidebar = React.lazy(() => import('components/settings_sidebar.jsx'));
 
 export default class TeamSettingsModal extends React.Component {
     static propTypes = {
@@ -107,8 +107,7 @@ export default class TeamSettingsModal extends React.Component {
                 <Modal.Body ref='modalBody'>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <AsyncComponent
-                                doLoad={loadSettingsSidebar}
+                            <SettingsSidebar
                                 tabs={tabs}
                                 activeTab={this.state.activeTab}
                                 updateTab={this.updateTab}

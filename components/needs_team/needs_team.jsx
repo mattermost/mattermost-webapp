@@ -12,11 +12,9 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {makeAsyncComponent} from 'components/async_load';
-import loadBackstageController from 'bundle-loader?lazy!components/backstage';
 import ChannelController from 'components/channel_layout/channel_controller';
 
-const BackstageController = makeAsyncComponent(loadBackstageController);
+const BackstageController = React.lazy(() => import('components/backstage'));
 
 let wakeUpInterval;
 let lastTime = Date.now();

@@ -4,20 +4,16 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
 
-import HeaderFooterTemplate from 'bundle-loader?lazy!components/header_footer_template';
-import loadLoggedIn from 'bundle-loader?lazy!components/logged_in';
-import {AsyncComponent} from 'components/async_load';
+const HeaderFooterTemplate = React.lazy(() => import('components/header_footer_template'));
+const LoggedIn = React.lazy(() => import('components/logged_in'));
 
 export const HFTRoute = ({component: Component, ...rest}) => (
     <Route
         {...rest}
         render={(props) => (
-            <AsyncComponent
-                doLoad={HeaderFooterTemplate}
-                {...props}
-            >
+            <HeaderFooterTemplate {...props}>
                 <Component {...props}/>
-            </AsyncComponent>
+            </HeaderFooterTemplate>
         )}
     />
 );
@@ -26,17 +22,11 @@ export const LoggedInHFTRoute = ({component: Component, ...rest}) => (
     <Route
         {...rest}
         render={(props) => (
-            <AsyncComponent
-                doLoad={loadLoggedIn}
-                {...props}
-            >
-                <AsyncComponent
-                    doLoad={HeaderFooterTemplate}
-                    {...props}
-                >
+            <LoggedIn {...props}>
+                <HeaderFooterTemplate {...props}>
                     <Component {...props}/>
-                </AsyncComponent>
-            </AsyncComponent>
+                </HeaderFooterTemplate>
+            </LoggedIn>
         )}
     />
 );

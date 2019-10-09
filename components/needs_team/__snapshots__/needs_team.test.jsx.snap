@@ -3,11 +3,25 @@
 exports[`components/needs_team should match snapshots for init with existing team 1`] = `
 <Switch>
   <Route
-    component={[Function]}
+    component={
+      Object {
+        "$$typeof": Symbol(react.lazy),
+        "_ctor": [Function],
+        "_result": null,
+        "_status": -1,
+      }
+    }
     path="/:team/integrations"
   />
   <Route
-    component={[Function]}
+    component={
+      Object {
+        "$$typeof": Symbol(react.lazy),
+        "_ctor": [Function],
+        "_result": null,
+        "_status": -1,
+      }
+    }
     path="/:team/emoji"
   />
   <Route
@@ -19,11 +33,25 @@ exports[`components/needs_team should match snapshots for init with existing tea
 exports[`components/needs_team should match snapshots for init with existing team 2`] = `
 <Switch>
   <Route
-    component={[Function]}
+    component={
+      Object {
+        "$$typeof": Symbol(react.lazy),
+        "_ctor": [Function],
+        "_result": null,
+        "_status": -1,
+      }
+    }
     path="/:team/integrations"
   />
   <Route
-    component={[Function]}
+    component={
+      Object {
+        "$$typeof": Symbol(react.lazy),
+        "_ctor": [Function],
+        "_result": null,
+        "_status": -1,
+      }
+    }
     path="/:team/emoji"
   />
   <Route

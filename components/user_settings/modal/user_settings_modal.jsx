@@ -12,10 +12,9 @@ import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
-import {AsyncComponent} from 'components/async_load';
 
-import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+const UserSettings = React.lazy(() => import('components/user_settings'));
+const SettingsSidebar = React.lazy(() => import('../../settings_sidebar.jsx'));
 
 const holders = defineMessages({
     general: {
@@ -279,16 +278,14 @@ class UserSettingsModal extends React.Component {
                 <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <AsyncComponent
-                                doLoad={loadSettingsSidebar}
+                            <SettingsSidebar
                                 tabs={tabs}
                                 activeTab={this.state.active_tab}
                                 updateTab={this.updateTab}
                             />
                         </div>
                         <div className='settings-content minimize-settings'>
-                            <AsyncComponent
-                                doLoad={loadUserSettings}
+                            <UserSettings
                                 activeTab={this.state.active_tab}
                                 activeSection={this.state.active_section}
                                 updateSection={this.updateSection}
