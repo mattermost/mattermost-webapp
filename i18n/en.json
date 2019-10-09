@@ -1834,7 +1834,7 @@
   "bots.manage.emptySearch": "No bot accounts match **{searchTerm}**",
   "bots.manage.header": "Bot Accounts",
   "bots.manage.help1": "Use {botAccounts} to integrate with Mattermost through plugins or the API. Bot accounts are available to everyone on your server. ",
-  "bots.manage.help2": "Enable bot account creation in the [System Console](/admin_console/integrations/bot_accounts).",
+  "bots.manage.help2": "Enable bot account creation in the [System Console]({siteURL}/admin_console/integrations/bot_accounts).",
   "bots.manage.search": "Search Bot Accounts",
   "bots.managed_by": "Managed by ",
   "bots.token.confirm": "Delete",
