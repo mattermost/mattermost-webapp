@@ -8,8 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
-import './team_row.scss';
-import TeamListDropdown from './team_list_dropdown';
+import './channel_row.scss';
+import ChannelListDropdown from './channel_list_dropdown';
 
 export default class ChannelRow extends React.Component {
     static propTypes = {
@@ -102,7 +102,7 @@ export default class ChannelRow extends React.Component {
                     </span>
 
                     <span className='TeamRow__actions'>
-                        <TeamListDropdown
+                        <ChannelListDropdown
                             team={team}
                             doRemoveUserFromTeam={this.props.doRemoveUserFromTeam}
                             doMakeUserTeamAdmin={this.props.doMakeUserTeamAdmin}

@@ -413,10 +413,10 @@ export default class SystemUserDetail extends React.PureComponent {
                             />
                         </AdminPanel>
                         <AdminPanel
-                            subtitleId={t('admin.userManagement.userDetail.teamsSubtitle')}
-                            subtitleDefault={'Teams to which this user belongs'}
-                            titleId={t('admin.userManagement.userDetail.teamsTitle')}
-                            titleDefault={'Team Membership'}
+                            subtitleId={t('admin.userManagement.userDetail.channelsSubtitle')}
+                            subtitleDefault={'Channels to which this user belongs'}
+                            titleId={t('admin.userManagement.userDetail.channelsTitle')}
+                            titleDefault={'Channel Membership'}
                             button={(
                                 <div className='add-team-button'>
                                     <button
@@ -424,8 +424,8 @@ export default class SystemUserDetail extends React.PureComponent {
                                         onClick={this.openAddTeam}
                                     >
                                         <FormattedMessage
-                                            id='admin.userManagement.userDetail.addTeam'
-                                            defaultMessage='Add Team'
+                                            id='admin.userManagement.userDetail.addChannel'
+                                            defaultMessage='Add Channel'
                                         />
                                     </button>
                                 </div>
