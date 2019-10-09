@@ -1,0 +1,99 @@
+@charset 'UTF-8';
+@import 'utils/variables';
+
+@media screen and (max-width: 768px) {
+
+    #submenuModal {
+        padding: 0px;
+
+        .mobile-sub-menu {
+            height: 100%;
+            margin-top: 0px !important;
+            max-width: 100% !important;
+
+            .modal-content {
+                background: transparent !important;
+                box-shadow: unset;
+                border: unset;
+                height: 100%;
+                padding: 0px;
+
+                .modal-body {
+                    overflow: unset;
+                    height: 100%;
+                    max-height: unset;
+                    padding: 0px;
+
+                    .MenuWrapper {
+                        height: 100%;
+
+                        div {
+                            height: 100%;
+                        }
+
+                        .Menu {
+                            padding: 0 1.5em;
+
+                            &.dropdown-menu {
+                                top: 0;
+                                height: 100%;
+                                width: 100%;
+                                position: relative;
+                                background: transparent;
+                                list-style: none;
+                                margin-bottom: 0;
+                                max-height: inherit;
+                                max-width: inherit;
+                                border: 0px;
+                                padding-top: 0px;
+                                box-shadow: none;
+                                color: inherit;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+
+                                div,
+                                button,
+                                a,
+                                a:hover {
+                                    opacity: .8;
+                                }
+
+                                .MenuItem {
+                                    background: var(--center-channel-bg);
+
+                                    > div,
+                                    > button,
+                                    > a {
+                                        padding: 15px 20px;
+                                        font-size: 14px;
+                                        width: 100%;
+                                        text-align: left;
+                                        border-top: 1px solid;
+                                        height: auto;
+                                        opacity: 1.0;
+                                        border-color: var(--center-channel-color-10);
+
+                                    }
+
+                                    &:first-child {
+                                        div,
+                                        button {
+                                            border: none;
+                                        }
+                                    }
+                                }
+
+                                .MenuGroup {
+                                    &.menu-divider {
+                                        background: $white;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -172,6 +172,13 @@
     .post__header {
         .dropdown-menu {
             >li {
+                >div {
+                    border-top-color: var(--center-channel-color-10) !important;
+                    .SubMenu__icon {
+                        padding: 0 5px 0 8px !important;
+                    }
+                }
+                >div,
                 >button {
                     @include border-radius(0);
                     border-top: 1px solid;
@@ -180,6 +187,7 @@
                 }
 
                 &:first-child {
+                    div,
                     button {
                         border: none;
                     }
@@ -486,13 +494,6 @@
     .sidebar--left .team__header .Avatar,
     .sidebar--menu .team__header .Avatar {
         display: none;
-    }
-
-    .date-separator.hovered--before:after,
-    .date-separator.hovered--after:before,
-    .new-separator.hovered--after:before,
-    .new-separator.hovered--before:after {
-        background: none !important;
     }
 
     .channel-intro {
@@ -846,21 +847,6 @@
         .overlay__files {
             margin: 60px auto 15px;
             width: 150px;
-        }
-    }
-
-    .date-separator,
-    .new-separator {
-        &.hovered--after {
-            &:before {
-                background: none;
-            }
-        }
-
-        &.hovered--before {
-            &:after {
-                background: none;
-            }
         }
     }
 
