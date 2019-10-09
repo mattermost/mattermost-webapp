@@ -90,11 +90,6 @@ export default class AdminSidebar extends React.Component {
 
         this.updateTitle();
 
-        if (!Utils.isMobile()) {
-            $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true,
-            });
-        }
     }
 
     componentDidUpdate(prevProps) {
@@ -102,12 +97,6 @@ export default class AdminSidebar extends React.Component {
             (!isEqual(this.props.plugins, prevProps.plugins) ||
                 !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
             this.idx = generateIndex(this.props.adminDefinition, this.context.intl, this.props.plugins);
-        }
-
-        if (!Utils.isMobile()) {
-            $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true,
-            });
         }
     }
 
