@@ -272,7 +272,7 @@ export default class AdminSidebar extends React.Component {
                     }
                 }
 
-                if (this.state.sections != null) {
+                if (this.state.sections !== null) {
                     if (this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
                         return;
                     }
