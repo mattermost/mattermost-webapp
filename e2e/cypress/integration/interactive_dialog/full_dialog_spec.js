@@ -26,6 +26,7 @@ const optionsLength = {
     someuserselector: 25, // default number of users in autocomplete
     somechannelselector: 2, // town-square and off-topic for new team
     someoptionselector: 3, // number of defined basic options
+    someradiooptions: 2, // number of defined basic options
 };
 
 describe('ID15888 Interactive Dialog', () => {
@@ -97,7 +98,12 @@ describe('ID15888 Interactive Dialog', () => {
                     // * Verify that the suggestion list or autocomplete open up on click of input element
                     cy.wrap($elForm).find('#suggestionList').should('not.be.visible');
                     cy.wrap($elForm).find('input').click();
-                    cy.wrap($elForm).find('#suggestionList').should('be.visible').children().should('have.length', optionsLength[element.name]);
+                    cy.wrap($elForm).find('#suggestionList').scrollIntoView().should('be.visible').children().should('have.length', optionsLength[element.name]);
+                } else if (element.name === 'someradiooptions') {
+                    cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
+
+                    // * Verify that the default value is the first element of the list
+                    cy.wrap($elForm).find('input').first().should('have.value', 'engineering').and('have.attr', 'checked');
                 } else {
                     cy.wrap($elForm).find(`#${element.name}`).should('be.visible').and('have.value', element.default).and('have.attr', 'placeholder', element.placeholder);
                 }

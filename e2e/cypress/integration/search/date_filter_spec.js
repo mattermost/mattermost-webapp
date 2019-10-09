@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [number] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -12,10 +12,10 @@ import TIMEOUTS from '../../fixtures/timeouts';
 
 function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
-    cy.get('#searchBox').clear().type(query).type('{enter}');
+    cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
 
     cy.get('#loadingSpinner').should('not.be.visible');
-    cy.get('#search-items-container', {timeout: TIMEOUTS.LARGE}).should('be.visible');
+    cy.get('#search-items-container', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
     cy.queryAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
@@ -42,12 +42,7 @@ function getMsAndQueryForDate(date) {
 }
 
 function changeTimezone(timezone) {
-    cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/patch',
-        method: 'PUT',
-        body: {timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}},
-    });
+    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}});
 }
 
 describe('SF15699 Search Date Filter', () => {
@@ -217,12 +212,16 @@ describe('SF15699 Search Date Filter', () => {
             const queryString = `on:${Cypress.moment().format('YYYY-MM-DD')} ${timestamp}`;
 
             it('with keyboard', () => {
-                searchAndValidate(queryString, [todayMessage]);
-                cy.get('#searchBox').focus().type('{backspace}'.repeat(queryString.length)).should('have.value', '');
+                cy.get('#searchBox').
+                    clear().
+                    wait(500).
+                    type(queryString).
+                    type('{backspace}'.repeat(queryString.length)).
+                    should('have.value', '');
             });
 
             it('with "x"', () => {
-                searchAndValidate(queryString, [todayMessage]);
+                cy.get('#searchBox').clear().wait(500).type(queryString);
                 cy.get('#searchClearButton').click();
                 cy.get('#searchBox').should('have.value', '');
             });

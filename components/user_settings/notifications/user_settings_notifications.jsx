@@ -171,7 +171,7 @@ export default class NotificationsTab extends React.Component {
         this.props.actions.updateMe({notify_props: data}).
             then(({data: result, error: err}) => {
                 if (result) {
-                    this.updateSection('');
+                    this.handleUpdateSection('');
                     this.setState(getNotificationsStateFromProps(this.props));
                 } else if (err) {
                     this.setState({serverError: err.message, isSaving: false});
@@ -191,19 +191,15 @@ export default class NotificationsTab extends React.Component {
             this.props.updateSection(section);
         } else {
             this.props.updateSection('');
-            this.handleCancel();
         }
+        this.setState({isSaving: false});
+        this.handleCancel();
     };
 
     setStateValue = (key, value) => {
         const data = {};
         data[key] = value;
         this.setState(data);
-    }
-
-    updateSection = (section) => {
-        this.setState({isSaving: false});
-        this.props.updateSection(section);
     }
 
     handleNotifyCommentsRadio(notifyCommentsLevel) {
@@ -824,7 +820,7 @@ export default class NotificationsTab extends React.Component {
                         <ManageAutoResponder
                             autoResponderActive={this.state.autoResponderActive}
                             autoResponderMessage={this.state.autoResponderMessage}
-                            updateSection={this.updateSection}
+                            updateSection={this.handleUpdateSection}
                             setParentState={this.setStateValue}
                             submit={this.handleSubmit}
                             error={this.state.serverError}
@@ -857,7 +853,7 @@ export default class NotificationsTab extends React.Component {
                         width='medium'
                         describe={describe}
                         section={'auto-responder'}
-                        updateSection={this.updateSection}
+                        updateSection={this.handleUpdateSection}
                     />
                 );
             }
@@ -929,7 +925,7 @@ export default class NotificationsTab extends React.Component {
                     <div className='divider-light'/>
                     <EmailNotificationSetting
                         activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
+                        updateSection={this.handleUpdateSection}
                         enableEmail={this.state.enableEmail === 'true'}
                         onSubmit={this.handleSubmit}
                         onCancel={this.handleCancel}

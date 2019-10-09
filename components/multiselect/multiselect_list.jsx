@@ -7,16 +7,12 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants.jsx';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelectList extends React.Component {
     constructor(props) {
         super(props);
-
-        this.defaultOptionRenderer = this.defaultOptionRenderer.bind(this);
-        this.handleArrowPress = this.handleArrowPress.bind(this);
-        this.setSelected = this.setSelected.bind(this);
 
         this.toSelect = -1;
 
@@ -61,11 +57,11 @@ export default class MultiSelectList extends React.Component {
         }
     }
 
-    setSelected(selected) {
+    setSelected = (selected) => {
         this.toSelect = selected;
     }
 
-    handleArrowPress(e) {
+    handleArrowPress = (e) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey) {
             return;
         }
@@ -101,7 +97,7 @@ export default class MultiSelectList extends React.Component {
         this.props.onSelect(options[selected]);
     }
 
-    defaultOptionRenderer(option, isSelected, onAdd) {
+    defaultOptionRenderer = (option, isSelected, onAdd) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -164,6 +160,7 @@ export default class MultiSelectList extends React.Component {
                     <div
                         className='sr-only'
                         aria-live='polite'
+                        aria-atomic='true'
                     >
                         {ariaLabel}
                     </div>

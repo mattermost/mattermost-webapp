@@ -186,9 +186,7 @@ export default class UserSettingsSidebar extends React.Component {
     }
 
     updateSection = (section) => {
-        if (!section) {
-            this.setState(this.getStateFromProps());
-        }
+        this.setState(this.getStateFromProps());
         this.setState({isSaving: false});
         this.props.updateSection(section);
     };

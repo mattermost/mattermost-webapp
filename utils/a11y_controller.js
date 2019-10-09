@@ -296,6 +296,12 @@ export default class A11yController {
      * @param {array or boolean} elementPath - array of element's dom branch or boolean to find section/region of element
      */
     nextElement(element, elementPath = false) {
+        if (
+            this.modalIsOpen ||
+            this.popupIsOpen
+        ) {
+            return;
+        }
         let region;
         let section;
         if (elementPath && elementPath.length) {
@@ -682,7 +688,9 @@ export default class A11yController {
             if (!this.regions || !this.regions.length) {
                 return;
             }
-            if (modifierKeys.ctrlIsPressed) {
+
+            // Check to make sure both aren't pressed because some older webkit browsers set CTRL and ALT when AltGr is pressed
+            if (modifierKeys.ctrlIsPressed && !modifierKeys.altIsPressed) {
                 this.tildeKeyIsPressed = true;
                 event.preventDefault();
                 if (modifierKeys.shiftIsPressed) {

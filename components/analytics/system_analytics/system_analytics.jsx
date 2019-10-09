@@ -12,16 +12,16 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import DoughnutChart from '../doughnut_chart.jsx';
-import LineChart from '../line_chart.jsx';
-import StatisticCount from '../statistic_count.jsx';
+import DoughnutChart from '../doughnut_chart';
+import LineChart from '../line_chart';
+import StatisticCount from '../statistic_count';
 
 import {
     formatPostsPerDayData,
     formatUsersWithPostsPerDayData,
     formatChannelDoughtnutData,
     formatPostDoughtnutData,
-} from '../format.jsx';
+} from '../format';
 
 const StatTypes = Constants.StatTypes;
 
