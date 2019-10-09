@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import RootPortal from 'components/root_portal';
 
 import {InviteTypes} from 'utils/constants.jsx';

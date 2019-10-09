@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import ConfirmModal from '../../confirm_modal.jsx';
+import ConfirmModal from '../../confirm_modal';
 import {AsyncComponent} from 'components/async_load';
 
 import loadUserSettings from 'bundle-loader?lazy!components/user_settings';

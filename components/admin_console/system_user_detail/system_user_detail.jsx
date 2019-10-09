@@ -20,7 +20,7 @@ import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import AdminButtonOutline from 'components/admin_console/admin_button_outline/admin_button_outline';
 import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';

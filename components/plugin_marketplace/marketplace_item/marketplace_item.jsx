@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';

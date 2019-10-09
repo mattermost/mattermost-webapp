@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import {FormattedMessage} from 'react-intl';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 import Markdown from 'components/markdown';
 import SaveButton from 'components/save_button.jsx';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';

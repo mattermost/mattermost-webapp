@@ -7,7 +7,7 @@ import {FormattedMessage, intlShape} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import ConfirmModal from 'components/confirm_modal.jsx';
+import ConfirmModal from 'components/confirm_modal';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
