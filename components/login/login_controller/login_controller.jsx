@@ -68,14 +68,8 @@ class LoginController extends React.Component {
         super(props);
 
         let loginId = '';
-        if (
-            new URLSearchParams(this.props.location.search).get('extra') ===
-                Constants.SIGNIN_VERIFIED &&
-            new URLSearchParams(this.props.location.search).get('email')
-        ) {
-            loginId = new URLSearchParams(this.props.location.search).get(
-                'email',
-            );
+        if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
+            loginId = (new URLSearchParams(this.props.location.search)).get('email');
         }
 
         this.state = {
@@ -122,9 +116,7 @@ class LoginController extends React.Component {
                 // eslint-disable-next-line react/no-did-mount-set-state
                 this.setState({sessionExpired: true});
                 search.set('extra', Constants.SESSION_EXPIRED);
-                browserHistory.replace(
-                    `${this.props.location.pathname}?${search}`,
-                );
+                browserHistory.replace(`${this.props.location.pathname}?${search}`);
             }
         }
 
@@ -145,30 +137,24 @@ class LoginController extends React.Component {
 
     configureTitle = () => {
         if (this.state.sessionExpired) {
-            document.title = this.props.intl.formatMessage(
-                {
-                    id: 'login.session_expired.title',
-                    defaultMessage: '* {siteName} - Session Expired',
-                },
-                {
-                    siteName: this.props.siteName,
-                },
-            );
+            document.title = this.props.intl.formatMessage({
+                id: 'login.session_expired.title',
+                defaultMessage: '* {siteName} - Session Expired',
+            }, {
+                siteName: this.props.siteName,
+            });
         } else {
             document.title = this.props.siteName;
         }
     };
 
     showSessionExpiredNotificationIfNeeded = () => {
-        if (
-            this.state.sessionExpired &&
-            !this.closeSessionExpiredNotification
-        ) {
+        if (this.state.sessionExpired && !this.closeSessionExpiredNotification) {
             showNotification({
                 title: this.props.siteName,
                 body: Utils.localizeMessage(
                     'login.session_expired.notification',
-                    'Session Expired: Please sign in to continue receiving notifications.',
+                    'Session Expired: Please sign in to continue receiving notifications.'
                 ),
                 requireInteraction: true,
                 silent: false,
@@ -179,13 +165,11 @@ class LoginController extends React.Component {
                         this.closeSessionExpiredNotification = null;
                     }
                 },
-            }).
-                then((closeNotification) => {
-                    this.closeSessionExpiredNotification = closeNotification;
-                }).
-                catch(() => {
-                    // Ignore the failure to display the notification.
-                });
+            }).then((closeNotification) => {
+                this.closeSessionExpiredNotification = closeNotification;
+            }).catch(() => {
+                // Ignore the failure to display the notification.
+            });
         } else if (
             !this.state.sessionExpired &&
             this.closeSessionExpiredNotification
@@ -202,14 +186,9 @@ class LoginController extends React.Component {
         this.onDismissSessionExpired();
 
         const {location} = this.props;
-        const newQuery = location.search.replace(
-            /(extra=password_change)&?/i,
-            '',
-        );
+        const newQuery = location.search.replace(/(extra=password_change)&?/i, '');
         if (newQuery !== location.search) {
-            browserHistory.replace(
-                `${location.pathname}${newQuery}${location.hash}`,
-            );
+            browserHistory.replace(`${location.pathname}${newQuery}${location.hash}`);
         }
 
         // password managers don't always call onInput handlers for form fields so it's possible
@@ -259,12 +238,7 @@ class LoginController extends React.Component {
                     <FormattedMessage
                         id={msgId}
                         values={{
-                            ldapUsername:
-                                this.props.ldapLoginFieldName ||
-                                Utils.localizeMessage(
-                                    'login.ldapUsernameLower',
-                                    'AD/LDAP username',
-                                ),
+                            ldapUsername: this.props.ldapLoginFieldName || Utils.localizeMessage('login.ldapUsernameLower', 'AD/LDAP username'),
                         }}
                     />
                 ),
@@ -290,89 +264,60 @@ class LoginController extends React.Component {
     submit = (loginId, password, token) => {
         this.setState({serverError: null, loading: true});
 
-        this.props.actions.
-            login(loginId, password, token).
-            then(async ({error}) => {
-                if (error) {
-                    if (
-                        error.server_error_id ===
-                        'api.user.login.not_verified.app_error'
-                    ) {
-                        browserHistory.push(
-                            '/should_verify_email?&email=' +
-                                encodeURIComponent(loginId),
-                        );
-                    } else if (
-                        error.server_error_id ===
-                            'store.sql_user.get_for_login.app_error' ||
-                        error.server_error_id ===
-                            'ent.ldap.do_login.user_not_registered.app_error'
-                    ) {
-                        this.setState({
-                            showMfa: false,
-                            loading: false,
-                            serverError: (
-                                <FormattedMessage
-                                    id='login.userNotFound'
-                                    defaultMessage="We couldn't find an account matching your login credentials."
-                                />
-                            ),
-                        });
-                    } else if (
-                        error.server_error_id ===
-                            'api.user.check_user_password.invalid.app_error' ||
-                        error.server_error_id ===
-                            'ent.ldap.do_login.invalid_password.app_error'
-                    ) {
-                        this.setState({
-                            showMfa: false,
-                            loading: false,
-                            serverError: (
-                                <FormattedMessage
-                                    id='login.invalidPassword'
-                                    defaultMessage='Your password is incorrect.'
-                                />
-                            ),
-                        });
-                    } else if (
-                        !this.state.showMfa &&
-                        error.server_error_id ===
-                            'mfa.validate_token.authenticate.app_error'
-                    ) {
-                        this.setState({showMfa: true});
-                    } else {
-                        this.setState({
-                            showMfa: false,
-                            serverError: error.message,
-                            loading: false,
-                        });
-                    }
-
-                    return;
+        this.props.actions.login(loginId, password, token).then(async ({error}) => {
+            if (error) {
+                if (error.server_error_id === 'api.user.login.not_verified.app_error') {
+                    browserHistory.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
+                } else if (error.server_error_id === 'store.sql_user.get_for_login.app_error' ||
+                    error.server_error_id === 'ent.ldap.do_login.user_not_registered.app_error') {
+                    this.setState({
+                        showMfa: false,
+                        loading: false,
+                        serverError: (
+                            <FormattedMessage
+                                id='login.userNotFound'
+                                defaultMessage="We couldn't find an account matching your login credentials."
+                            />
+                        ),
+                    });
+                } else if (error.server_error_id === 'api.user.check_user_password.invalid.app_error' || error.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
+                    this.setState({
+                        showMfa: false,
+                        loading: false,
+                        serverError: (
+                            <FormattedMessage
+                                id='login.invalidPassword'
+                                defaultMessage='Your password is incorrect.'
+                            />
+                        ),
+                    });
+                } else if (!this.state.showMfa && error.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+                    this.setState({showMfa: true});
+                } else {
+                    this.setState({showMfa: false, serverError: error.message, loading: false});
                 }
 
-                // check for query params brought over from signup_user_complete
-                const params = new URLSearchParams(this.props.location.search);
-                const inviteToken = params.get('t') || '';
-                const inviteId = params.get('id') || '';
+                return;
+            }
 
-                if (inviteId || inviteToken) {
-                    const {
-                        data: team,
-                    } = await this.props.actions.addUserToTeamFromInvite(
-                        inviteToken,
-                        inviteId,
-                    );
-                    if (team) {
-                        this.finishSignin(team);
-                    } else {
-                        // there's not really a good way to deal with this, so just let the user log in like normal
-                        this.finishSignin();
-                    }
+            // check for query params brought over from signup_user_complete
+            const params = new URLSearchParams(this.props.location.search);
+            const inviteToken = params.get('t') || '';
+            const inviteId = params.get('id') || '';
+
+            if (inviteId || inviteToken) {
+                const {data: team} = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
+
+                if (team) {
+                    this.finishSignin(team);
                 } else {
+                    // there's not really a good way to deal with this, so just let the user log in like normal
                     this.finishSignin();
                 }
-            });
+            } else {
+                this.finishSignin();
+            }
+        });
     };
 
     finishSignin = (team) => {
@@ -417,9 +362,7 @@ class LoginController extends React.Component {
             const text = this.props.customBrandText || '';
             const formattedText = TextFormatting.formatText(text);
             const brandImageUrl = Client4.getBrandImageUrl(0);
-            const brandImageStyle = this.state.brandImageError ?
-                {display: 'none'} :
-                {};
+            const brandImageStyle = this.state.brandImageError ? {display: 'none'} : {};
 
             return (
                 <div>
@@ -430,10 +373,7 @@ class LoginController extends React.Component {
                         style={brandImageStyle}
                     />
                     <div>
-                        {messageHtmlToComponent(formattedText, false, {
-                            mentions: false,
-                            imagesMetadata: null,
-                        })}
+                        {messageHtmlToComponent(formattedText, false, {mentions: false, imagesMetadata: null})}
                     </div>
                 </div>
             );
@@ -449,38 +389,26 @@ class LoginController extends React.Component {
 
         const loginPlaceholders = [];
         if (emailSigninEnabled) {
-            loginPlaceholders.push(
-                Utils.localizeMessage('login.email', 'Email'),
-            );
+            loginPlaceholders.push(Utils.localizeMessage('login.email', 'Email'));
         }
 
         if (usernameSigninEnabled) {
-            loginPlaceholders.push(
-                Utils.localizeMessage('login.username', 'Username'),
-            );
+            loginPlaceholders.push(Utils.localizeMessage('login.username', 'Username'));
         }
 
         if (ldapEnabled) {
             if (this.props.ldapLoginFieldName) {
                 loginPlaceholders.push(this.props.ldapLoginFieldName);
             } else {
-                loginPlaceholders.push(
-                    Utils.localizeMessage(
-                        'login.ldapUsername',
-                        'AD/LDAP Username',
-                    ),
-                );
+                loginPlaceholders.push(Utils.localizeMessage('login.ldapUsername', 'AD/LDAP Username'));
             }
         }
 
         if (loginPlaceholders.length >= 2) {
-            return (
-                loginPlaceholders.
-                    slice(0, loginPlaceholders.length - 1).
-                    join(', ') +
+            return loginPlaceholders.slice(0, loginPlaceholders.length - 1).join(', ') +
                 Utils.localizeMessage('login.placeholderOr', ' or ') +
-                loginPlaceholders[loginPlaceholders.length - 1]
-            );
+                loginPlaceholders[loginPlaceholders.length - 1];
+            
         } else if (loginPlaceholders.length === 1) {
             return loginPlaceholders[0];
         }
@@ -505,24 +433,26 @@ class LoginController extends React.Component {
     };
 
     createExtraText = () => {
-        const extraParam = new URLSearchParams(this.props.location.search).get(
-            'extra',
-        );
+        const extraParam = new URLSearchParams(this.props.location.search).get('extra');
 
         if (this.state.sessionExpired) {
             return (
                 <div className='alert alert-warning'>
-                    <WarningIcon/>{' '}
+                    <WarningIcon/>
+                    {' '}
                     <FormattedMessage
                         id='login.session_expired'
                         defaultMessage='Your session has expired. Please log in again.'
-                    />{' '}
+                    />
+                    {' '}
                     <Link
                         className='btn-close'
                         to='/login'
                         onClick={this.onDismissSessionExpired}
                     >
-                        <span>{'×'}</span>
+                        <span>
+                            {'×'}
+                        </span>
                     </Link>
                 </div>
             );
@@ -649,10 +579,7 @@ class LoginController extends React.Component {
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
-                                placeholder={{
-                                    id: t('login.password'),
-                                    defaultMessage: 'Password',
-                                }}
+                                placeholder={{id: t('login.password'), defaultMessage: 'Password'}}
                                 spellCheck='false'
                             />
                         </div>
@@ -665,10 +592,7 @@ class LoginController extends React.Component {
                                 <LoadingWrapper
                                     id='login_button_signing'
                                     loading={this.state.loading}
-                                    text={Utils.localizeMessage(
-                                        'login.signInLoading',
-                                        'Signing in...',
-                                    )}
+                                    text={Utils.localizeMessage('login.signInLoading', 'Signing in...')}
                                 >
                                     <FormattedMessage
                                         id='login.signIn'
@@ -695,10 +619,7 @@ class LoginController extends React.Component {
                         />
                         <Link
                             id='signup'
-                            to={
-                                '/signup_user_complete' +
-                                this.props.location.search
-                            }
+                            to={'/signup_user_complete' + this.props.location.search}
                             className='signup-team-login'
                         >
                             <FormattedMessage
@@ -728,13 +649,7 @@ class LoginController extends React.Component {
             );
         }
 
-        if (
-            (emailSigninEnabled || usernameSigninEnabled || ldapEnabled) &&
-            (gitlabSigninEnabled ||
-                googleSigninEnabled ||
-                samlSigninEnabled ||
-                office365SigninEnabled)
-        ) {
+        if ((emailSigninEnabled || usernameSigninEnabled || ldapEnabled) && (gitlabSigninEnabled || googleSigninEnabled || samlSigninEnabled || office365SigninEnabled)) {
             loginControls.push(
                 <div
                     key='divider'
@@ -762,11 +677,7 @@ class LoginController extends React.Component {
                 <a
                     className='btn btn-custom-login gitlab'
                     key='gitlab'
-                    href={
-                        Client4.getOAuthRoute() +
-                        '/gitlab/login' +
-                        this.props.location.search
-                    }
+                    href={Client4.getOAuthRoute() + '/gitlab/login' + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -786,11 +697,7 @@ class LoginController extends React.Component {
                 <a
                     className='btn btn-custom-login google'
                     key='google'
-                    href={
-                        Client4.getOAuthRoute() +
-                        '/google/login' +
-                        this.props.location.search
-                    }
+                    href={Client4.getOAuthRoute() + '/google/login' + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -810,11 +717,7 @@ class LoginController extends React.Component {
                 <a
                     className='btn btn-custom-login office365'
                     key='office365'
-                    href={
-                        Client4.getOAuthRoute() +
-                        '/office365/login' +
-                        this.props.location.search
-                    }
+                    href={Client4.getOAuthRoute() + '/office365/login' + this.props.location.search}
                 >
                     <span>
                         <span className='icon'/>
@@ -834,11 +737,7 @@ class LoginController extends React.Component {
                 <a
                     className='btn btn-custom-login saml'
                     key='saml'
-                    href={
-                        Client4.getUrl() +
-                        '/login/sso/saml' +
-                        this.props.location.search
-                    }
+                    href={Client4.getUrl() + '/login/sso/saml' + this.props.location.search}
                 >
                     <span>
                         <span
@@ -879,7 +778,11 @@ class LoginController extends React.Component {
     };
 
     render() {
-        const {customDescriptionText, siteName, initializing} = this.props;
+        const {
+            customDescriptionText,
+            siteName,
+            initializing,
+        } = this.props;
 
         if (initializing) {
             return <LoadingScreen/>;
