@@ -4,14 +4,14 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {installPluginFromUrl} from 'mattermost-redux/actions/admin';
+import {installMarketplacePlugin} from 'mattermost-redux/actions/plugins';
 
 import MarketplaceItem from './marketplace_item.jsx';
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            installPluginFromUrl,
+            installMarketplacePlugin,
         }, dispatch),
     };
 }

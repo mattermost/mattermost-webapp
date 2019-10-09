@@ -20,7 +20,7 @@ describe('components/MarketplaceItem', () => {
         onConfigure: () => {}, // eslint-disable-line no-empty-function
         onInstalled: () => {}, // eslint-disable-line no-empty-function
         actions: {
-            installPluginFromUrl: () => {}, // eslint-disable-line no-empty-function
+            installMarketplacePlugin: () => {}, // eslint-disable-line no-empty-function
         },
     };
 
