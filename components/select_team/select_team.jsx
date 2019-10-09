@@ -44,7 +44,7 @@ export default class SelectTeam extends React.Component {
         canJoinPrivateTeams: PropTypes.bool.isRequired,
         history: PropTypes.object,
         siteURL: PropTypes.string,
-        loginWithCertificate,//setting custom prop
+        loginWithCertificate: PropTypes.bool.isRequired,//setting custom prop
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,

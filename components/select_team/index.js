@@ -22,7 +22,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const myTeamMemberships = Object.values(getTeamMemberships(state));
-    const loginWithCertificate = config.LoginWithCertificate; //adding custom props
+    const loginWithCertificate = config.LoginWithCertificate === "true"; //adding custom props
 
     return {
         currentUserId: currentUser.id,
