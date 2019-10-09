@@ -56,6 +56,7 @@ export default class MainMenu extends React.PureComponent {
         reportAProblemLink: PropTypes.string,
         moreTeamsToJoin: PropTypes.bool.isRequired,
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
+        skipLoginPage: PropTypes.bool.isRequired,
         isMentionSearch: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -141,223 +142,427 @@ export default class MainMenu extends React.PureComponent {
                 />
             );
         });
-
-        return (
-            <Menu
-                mobile={this.props.mobile}
-                id={this.props.id}
-                ariaLabel={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
-            >
-                <MenuGroup>
-                    <MenuItemAction
-                        id='recentMentions'
-                        show={this.props.mobile}
-                        onClick={this.searchMentions}
-                        icon={this.props.mobile && <i className='mentions'>{'@'}</i>}
-                        text={localizeMessage('sidebar_right_menu.recentMentions', 'Recent Mentions')}
-                    />
-                    <MenuItemAction
-                        id='flaggedPosts'
-                        show={this.props.mobile}
-                        onClick={this.getFlagged}
-                        icon={this.props.mobile && <i className='fa fa-flag'/>}
-                        text={localizeMessage('sidebar_right_menu.flagged', 'Flagged Posts')}
-                    />
-                </MenuGroup>
-                <MenuGroup>
-                    <MenuItemToggleModalRedux
-                        id='accountSettings'
-                        modalId={ModalIdentifiers.USER_SETTINGS}
-                        dialogType={UserSettingsModal}
-                        text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
-                        icon={this.props.mobile && <i className='fa fa-cog'/>}
-                    />
-                </MenuGroup>
-                <MenuGroup>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='addGroupsToTeam'
-                            show={teamIsGroupConstrained}
-                            modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
-                            dialogType={AddGroupsToTeamModal}
-                            text={localizeMessage('navbar_dropdown.addGroupsToTeam', 'Add Groups to Team')}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+        if (this.props.skipLoginPage){
+            return (
+                <Menu
+                    mobile={this.props.mobile}
+                    id={this.props.id}
+                    ariaLabel={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
+                >
+                    <MenuGroup>
+                        <MenuItemAction
+                            id='recentMentions'
+                            show={this.props.mobile}
+                            onClick={this.searchMentions}
+                            icon={this.props.mobile && <i className='mentions'>{'@'}</i>}
+                            text={localizeMessage('sidebar_right_menu.recentMentions', 'Recent Mentions')}
                         />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='invitePeople'
-                            modalId={ModalIdentifiers.INVITATION}
-                            dialogType={InvitationModal}
-                            text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                        <MenuItemAction
+                            id='flaggedPosts'
+                            show={this.props.mobile}
+                            onClick={this.getFlagged}
+                            icon={this.props.mobile && <i className='fa fa-flag'/>}
+                            text={localizeMessage('sidebar_right_menu.flagged', 'Flagged Posts')}
                         />
-                    </TeamPermissionGate>
-                </MenuGroup>
-                <MenuGroup>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
-                    >
+                    </MenuGroup>
+                    <MenuGroup>
                         <MenuItemToggleModalRedux
-                            id='teamSettings'
-                            modalId={ModalIdentifiers.TEAM_SETTINGS}
-                            dialogType={TeamSettingsModal}
-                            text={localizeMessage('navbar_dropdown.teamSettings', 'Team Settings')}
-                            icon={this.props.mobile && <i className='fa fa-globe'/>}
+                            id='accountSettings'
+                            modalId={ModalIdentifiers.USER_SETTINGS}
+                            dialogType={UserSettingsModal}
+                            text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
+                            icon={this.props.mobile && <i className='fa fa-cog'/>}
                         />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_TEAM]}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='manageGroups'
-                            show={teamIsGroupConstrained}
-                            modalId={ModalIdentifiers.MANAGE_TEAM_GROUPS}
-                            dialogProps={{
-                                teamID: this.props.teamId,
-                            }}
-                            dialogType={TeamGroupsManageModal}
-                            text={localizeMessage('navbar_dropdown.manageGroups', 'Manage Groups')}
-                            icon={this.props.mobile && <i className='fa fa-user-plus'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='manageMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={localizeMessage('navbar_dropdown.manageMembers', 'Manage Members')}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
-                        invert={true}
-                    >
-                        <MenuItemToggleModalRedux
-                            id='viewMembers'
-                            modalId={ModalIdentifiers.TEAM_MEMBERS}
-                            dialogType={TeamMembersModal}
-                            text={localizeMessage('navbar_dropdown.viewMembers', 'View Members')}
-                            icon={this.props.mobile && <i className='fa fa-users'/>}
-                        />
-                    </TeamPermissionGate>
-                </MenuGroup>
-                <MenuGroup>
-                    <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
+                    </MenuGroup>
+                    <MenuGroup>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.MANAGE_TEAM]}
+                        >
+                            <MenuItemToggleModalRedux
+                                id='addGroupsToTeam'
+                                show={teamIsGroupConstrained}
+                                modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
+                                dialogType={AddGroupsToTeamModal}
+                                text={localizeMessage('navbar_dropdown.addGroupsToTeam', 'Add Groups to Team')}
+                                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                            />
+                        </TeamPermissionGate>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+                        >
+                            <MenuItemToggleModalRedux
+                                id='invitePeople'
+                                modalId={ModalIdentifiers.INVITATION}
+                                dialogType={InvitationModal}
+                                text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}
+                                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                            />
+                        </TeamPermissionGate>
+                    </MenuGroup>
+                    <MenuGroup>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.MANAGE_TEAM]}
+                        >
+                            <MenuItemToggleModalRedux
+                                id='teamSettings'
+                                modalId={ModalIdentifiers.TEAM_SETTINGS}
+                                dialogType={TeamSettingsModal}
+                                text={localizeMessage('navbar_dropdown.teamSettings', 'Team Settings')}
+                                icon={this.props.mobile && <i className='fa fa-globe'/>}
+                            />
+                        </TeamPermissionGate>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.MANAGE_TEAM]}
+                        >
+                            <MenuItemToggleModalRedux
+                                id='manageGroups'
+                                show={teamIsGroupConstrained}
+                                modalId={ModalIdentifiers.MANAGE_TEAM_GROUPS}
+                                dialogProps={{
+                                    teamID: this.props.teamId,
+                                }}
+                                dialogType={TeamGroupsManageModal}
+                                text={localizeMessage('navbar_dropdown.manageGroups', 'Manage Groups')}
+                                icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                            />
+                        </TeamPermissionGate>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                        >
+                            <MenuItemToggleModalRedux
+                                id='manageMembers'
+                                modalId={ModalIdentifiers.TEAM_MEMBERS}
+                                dialogType={TeamMembersModal}
+                                text={localizeMessage('navbar_dropdown.manageMembers', 'Manage Members')}
+                                icon={this.props.mobile && <i className='fa fa-users'/>}
+                            />
+                        </TeamPermissionGate>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                            invert={true}
+                        >
+                            <MenuItemToggleModalRedux
+                                id='viewMembers'
+                                modalId={ModalIdentifiers.TEAM_MEMBERS}
+                                dialogType={TeamMembersModal}
+                                text={localizeMessage('navbar_dropdown.viewMembers', 'View Members')}
+                                icon={this.props.mobile && <i className='fa fa-users'/>}
+                            />
+                        </TeamPermissionGate>
+                    </MenuGroup>
+                    <MenuGroup>
+                        <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
+                            <MenuItemLink
+                                id='createTeam'
+                                to='/create_team'
+                                text={localizeMessage('navbar_dropdown.create', 'Create a New Team')}
+                                icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                            />
+                        </SystemPermissionGate>
                         <MenuItemLink
-                            id='createTeam'
-                            to='/create_team'
-                            text={localizeMessage('navbar_dropdown.create', 'Create a New Team')}
+                            id='joinTeam'
+                            show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
+                            to='/select_team'
+                            text={localizeMessage('navbar_dropdown.join', 'Join Another Team')}
                             icon={this.props.mobile && <i className='fa fa-plus-square'/>}
                         />
-                    </SystemPermissionGate>
-                    <MenuItemLink
-                        id='joinTeam'
-                        show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
-                        to='/select_team'
-                        text={localizeMessage('navbar_dropdown.join', 'Join Another Team')}
-                        icon={this.props.mobile && <i className='fa fa-plus-square'/>}
-                    />
-                    <MenuItemToggleModalRedux
-                        id='leaveTeam'
-                        show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
-                        modalId={ModalIdentifiers.LEAVE_TEAM}
-                        dialogType={LeaveTeamModal}
-                        text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}
-                        icon={this.props.mobile && <LeaveTeamIcon/>}
-                    />
-                </MenuGroup>
-                <MenuGroup>
-                    {pluginItems}
-                </MenuGroup>
-                <MenuGroup>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS]}
-                    >
-                        <MenuItemLink
-                            id='integrations'
-                            show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}
-                            to={'/' + this.props.teamName + '/integrations'}
-                            text={localizeMessage('navbar_dropdown.integrations', 'Integrations')}
+                        <MenuItemToggleModalRedux
+                            id='leaveTeam'
+                            show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
+                            modalId={ModalIdentifiers.LEAVE_TEAM}
+                            dialogType={LeaveTeamModal}
+                            text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}
+                            icon={this.props.mobile && <LeaveTeamIcon/>}
                         />
-                    </TeamPermissionGate>
-                    <MenuItemLink
-                        id='customEmojis'
-                        show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
-                        to={'/' + this.props.teamName + '/emoji'}
-                        text={localizeMessage('navbar_dropdown.emoji', 'Custom Emoji')}
-                    />
-                </MenuGroup>
-                <MenuGroup>
-                    <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
+                    </MenuGroup>
+                    <MenuGroup>
+                        {pluginItems}
+                    </MenuGroup>
+                    <MenuGroup>
+                        <TeamPermissionGate
+                            teamId={this.props.teamId}
+                            permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS]}
+                        >
+                            <MenuItemLink
+                                id='integrations'
+                                show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}
+                                to={'/' + this.props.teamName + '/integrations'}
+                                text={localizeMessage('navbar_dropdown.integrations', 'Integrations')}
+                            />
+                        </TeamPermissionGate>
                         <MenuItemLink
-                            id='systemConsole'
+                            id='customEmojis'
+                            show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
+                            to={'/' + this.props.teamName + '/emoji'}
+                            text={localizeMessage('navbar_dropdown.emoji', 'Custom Emoji')}
+                        />
+                    </MenuGroup>
+                    <MenuGroup>
+                        <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
+                            <MenuItemLink
+                                id='systemConsole'
+                                show={!this.props.mobile}
+                                to='/admin_console'
+                                text={localizeMessage('navbar_dropdown.console', 'System Console')}
+                                icon={this.props.mobile && <i className='fa fa-wrench'/>}
+                            />
+                        </SystemPermissionGate>
+                    </MenuGroup>
+                    <MenuGroup>
+                        <MenuItemExternalLink
+                            id='helpLink'
+                            show={Boolean(this.props.helpLink)}
+                            url={this.props.helpLink}
+                            text={localizeMessage('navbar_dropdown.help', 'Help')}
+                            icon={this.props.mobile && <i className='fa fa-question'/>}
+                        />
+                        <MenuItemAction
+                            id='keyboardShortcuts'
                             show={!this.props.mobile}
-                            to='/admin_console'
-                            text={localizeMessage('navbar_dropdown.console', 'System Console')}
-                            icon={this.props.mobile && <i className='fa fa-wrench'/>}
+                            onClick={this.toggleShortcutsModal}
+                            text={localizeMessage('navbar_dropdown.keyboardShortcuts', 'Keyboard Shortcuts')}
                         />
-                    </SystemPermissionGate>
-                </MenuGroup>
-                <MenuGroup>
-                    <MenuItemExternalLink
-                        id='helpLink'
-                        show={Boolean(this.props.helpLink)}
-                        url={this.props.helpLink}
-                        text={localizeMessage('navbar_dropdown.help', 'Help')}
-                        icon={this.props.mobile && <i className='fa fa-question'/>}
-                    />
-                    <MenuItemAction
-                        id='keyboardShortcuts'
-                        show={!this.props.mobile}
-                        onClick={this.toggleShortcutsModal}
-                        text={localizeMessage('navbar_dropdown.keyboardShortcuts', 'Keyboard Shortcuts')}
-                    />
-                    <MenuItemExternalLink
-                        id='reportLink'
-                        show={Boolean(this.props.reportAProblemLink)}
-                        url={this.props.reportAProblemLink}
-                        text={localizeMessage('navbar_dropdown.report', 'Report a Problem')}
-                        icon={this.props.mobile && <i className='fa fa-phone'/>}
-                    />
-                    <MenuItemExternalLink
-                        id='nativeAppLink'
-                        show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
-                        url={useSafeUrl(this.props.appDownloadLink)}
-                        text={localizeMessage('navbar_dropdown.nativeApps', 'Download Apps')}
-                        icon={this.props.mobile && <i className='fa fa-mobile'/>}
-                    />
-                    <MenuItemToggleModalRedux
-                        id='about'
-                        modalId={ModalIdentifiers.ABOUT}
-                        dialogType={AboutBuildModal}
-                        text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
-                        icon={this.props.mobile && <i className='fa fa-info'/>}
-                    />
-                </MenuGroup>
-                <MenuGroup>
-                    <MenuItemAction
-                        id='logout'
-                        onClick={this.handleEmitUserLoggedOutEvent}
-                        text={localizeMessage('navbar_dropdown.logout', 'Logout')}
-                        icon={this.props.mobile && <i className='fa fa-sign-out'/>}
-                    />
-                </MenuGroup>
-            </Menu>
-        );
+                        <MenuItemExternalLink
+                            id='reportLink'
+                            show={Boolean(this.props.reportAProblemLink)}
+                            url={this.props.reportAProblemLink}
+                            text={localizeMessage('navbar_dropdown.report', 'Report a Problem')}
+                            icon={this.props.mobile && <i className='fa fa-phone'/>}
+                        />
+                        <MenuItemExternalLink
+                            id='nativeAppLink'
+                            show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
+                            url={useSafeUrl(this.props.appDownloadLink)}
+                            text={localizeMessage('navbar_dropdown.nativeApps', 'Download Apps')}
+                            icon={this.props.mobile && <i className='fa fa-mobile'/>}
+                        />
+                    </MenuGroup>
+                </Menu>
+            );
+        } else {
+            return (
+                        <Menu
+                            mobile={this.props.mobile}
+                            id={this.props.id}
+                            ariaLabel={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
+                        >
+                            <MenuGroup>
+                                <MenuItemAction
+                                    id='recentMentions'
+                                    show={this.props.mobile}
+                                    onClick={this.searchMentions}
+                                    icon={this.props.mobile && <i className='mentions'>{'@'}</i>}
+                                    text={localizeMessage('sidebar_right_menu.recentMentions', 'Recent Mentions')}
+                                />
+                                <MenuItemAction
+                                    id='flaggedPosts'
+                                    show={this.props.mobile}
+                                    onClick={this.getFlagged}
+                                    icon={this.props.mobile && <i className='fa fa-flag'/>}
+                                    text={localizeMessage('sidebar_right_menu.flagged', 'Flagged Posts')}
+                                />
+                            </MenuGroup>
+                            <MenuGroup>
+                                <MenuItemToggleModalRedux
+                                    id='accountSettings'
+                                    modalId={ModalIdentifiers.USER_SETTINGS}
+                                    dialogType={UserSettingsModal}
+                                    text={localizeMessage('navbar_dropdown.accountSettings', 'Account Settings')}
+                                    icon={this.props.mobile && <i className='fa fa-cog'/>}
+                                />
+                            </MenuGroup>
+                            <MenuGroup>
+                                <TeamPermissionGate
+                                    teamId={this.props.teamId}
+                                    permissions={[Permissions.MANAGE_TEAM]}
+                                >
+                                    <MenuItemToggleModalRedux
+                                        id='addGroupsToTeam'
+                                        show={teamIsGroupConstrained}
+                                        modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
+                                        dialogType={AddGroupsToTeamModal}
+                                        text={localizeMessage('navbar_dropdown.addGroupsToTeam', 'Add Groups to Team')}
+                                        icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                                    />
+                                </TeamPermissionGate>
+                                <TeamPermissionGate
+                                    teamId={this.props.teamId}
+                                    permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+                                >
+                                    <MenuItemToggleModalRedux
+                                        id='invitePeople'
+                                        modalId={ModalIdentifiers.INVITATION}
+                                        dialogType={InvitationModal}
+                                        text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}
+                                        icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                                    />
+                                </TeamPermissionGate>
+                            </MenuGroup>
+                            <MenuGroup>
+                                <TeamPermissionGate
+                                    teamId={this.props.teamId}
+                                    permissions={[Permissions.MANAGE_TEAM]}
+                                >
+                                    <MenuItemToggleModalRedux
+                                        id='teamSettings'
+                                        modalId={ModalIdentifiers.TEAM_SETTINGS}
+                                        dialogType={TeamSettingsModal}
+                                        text={localizeMessage('navbar_dropdown.teamSettings', 'Team Settings')}
+                                        icon={this.props.mobile && <i className='fa fa-globe'/>}
+                                    />
+                                </TeamPermissionGate>
+                                <TeamPermissionGate
+                                    teamId={this.props.teamId}
+                                    permissions={[Permissions.MANAGE_TEAM]}
+                                >
+                                    <MenuItemToggleModalRedux
+                                        id='manageGroups'
+                                        show={teamIsGroupConstrained}
+                                        modalId={ModalIdentifiers.MANAGE_TEAM_GROUPS}
+                                        dialogProps={{
+                                            teamID: this.props.teamId,
+                                        }}
+                                        dialogType={TeamGroupsManageModal}
+                                        text={localizeMessage('navbar_dropdown.manageGroups', 'Manage Groups')}
+                                        icon={this.props.mobile && <i className='fa fa-user-plus'/>}
+                                    />
+                                </TeamPermissionGate>
+                                <TeamPermissionGate
+                                    teamId={this.props.teamId}
+                                    permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                                >
+                                    <MenuItemToggleModalRedux
+                                        id='manageMembers'
+                                        modalId={ModalIdentifiers.TEAM_MEMBERS}
+                                        dialogType={TeamMembersModal}
+                                        text={localizeMessage('navbar_dropdown.manageMembers', 'Manage Members')}
+                                        icon={this.props.mobile && <i className='fa fa-users'/>}
+                                    />
+                                </TeamPermissionGate>
+                                <TeamPermissionGate
+                                    teamId={this.props.teamId}
+                                    permissions={[Permissions.REMOVE_USER_FROM_TEAM, Permissions.MANAGE_TEAM_ROLES]}
+                                    invert={true}
+                                >
+                                    <MenuItemToggleModalRedux
+                                        id='viewMembers'
+                                        modalId={ModalIdentifiers.TEAM_MEMBERS}
+                                        dialogType={TeamMembersModal}
+                                        text={localizeMessage('navbar_dropdown.viewMembers', 'View Members')}
+                                        icon={this.props.mobile && <i className='fa fa-users'/>}
+                                    />
+                                </TeamPermissionGate>
+                            </MenuGroup>
+                            <MenuGroup>
+                                <SystemPermissionGate permissions={[Permissions.CREATE_TEAM]}>
+                                    <MenuItemLink
+                                        id='createTeam'
+                                        to='/create_team'
+                                        text={localizeMessage('navbar_dropdown.create', 'Create a New Team')}
+                                        icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                                    />
+                                </SystemPermissionGate>
+                                <MenuItemLink
+                                    id='joinTeam'
+                                    show={!this.props.experimentalPrimaryTeam && this.props.moreTeamsToJoin}
+                                    to='/select_team'
+                                    text={localizeMessage('navbar_dropdown.join', 'Join Another Team')}
+                                    icon={this.props.mobile && <i className='fa fa-plus-square'/>}
+                                />
+                                <MenuItemToggleModalRedux
+                                    id='leaveTeam'
+                                    show={!teamIsGroupConstrained && this.props.experimentalPrimaryTeam !== this.props.teamName}
+                                    modalId={ModalIdentifiers.LEAVE_TEAM}
+                                    dialogType={LeaveTeamModal}
+                                    text={localizeMessage('navbar_dropdown.leave', 'Leave Team')}
+                                    icon={this.props.mobile && <LeaveTeamIcon/>}
+                                />
+                            </MenuGroup>
+                            <MenuGroup>
+                                {pluginItems}
+                            </MenuGroup>
+                            <MenuGroup>
+                                <TeamPermissionGate
+                                    teamId={this.props.teamId}
+                                    permissions={[Permissions.MANAGE_SLASH_COMMANDS, Permissions.MANAGE_OAUTH, Permissions.MANAGE_INCOMING_WEBHOOKS, Permissions.MANAGE_OUTGOING_WEBHOOKS]}
+                                >
+                                    <MenuItemLink
+                                        id='integrations'
+                                        show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}
+                                        to={'/' + this.props.teamName + '/integrations'}
+                                        text={localizeMessage('navbar_dropdown.integrations', 'Integrations')}
+                                    />
+                                </TeamPermissionGate>
+                                <MenuItemLink
+                                    id='customEmojis'
+                                    show={!this.props.mobile && this.props.enableCustomEmoji && this.props.canCreateOrDeleteCustomEmoji}
+                                    to={'/' + this.props.teamName + '/emoji'}
+                                    text={localizeMessage('navbar_dropdown.emoji', 'Custom Emoji')}
+                                />
+                            </MenuGroup>
+                            <MenuGroup>
+                                <SystemPermissionGate permissions={[Permissions.MANAGE_SYSTEM]}>
+                                    <MenuItemLink
+                                        id='systemConsole'
+                                        show={!this.props.mobile}
+                                        to='/admin_console'
+                                        text={localizeMessage('navbar_dropdown.console', 'System Console')}
+                                        icon={this.props.mobile && <i className='fa fa-wrench'/>}
+                                    />
+                                </SystemPermissionGate>
+                            </MenuGroup>
+                            <MenuGroup>
+                                <MenuItemExternalLink
+                                    id='helpLink'
+                                    show={Boolean(this.props.helpLink)}
+                                    url={this.props.helpLink}
+                                    text={localizeMessage('navbar_dropdown.help', 'Help')}
+                                    icon={this.props.mobile && <i className='fa fa-question'/>}
+                                />
+                                <MenuItemAction
+                                    id='keyboardShortcuts'
+                                    show={!this.props.mobile}
+                                    onClick={this.toggleShortcutsModal}
+                                    text={localizeMessage('navbar_dropdown.keyboardShortcuts', 'Keyboard Shortcuts')}
+                                />
+                                <MenuItemExternalLink
+                                    id='reportLink'
+                                    show={Boolean(this.props.reportAProblemLink)}
+                                    url={this.props.reportAProblemLink}
+                                    text={localizeMessage('navbar_dropdown.report', 'Report a Problem')}
+                                    icon={this.props.mobile && <i className='fa fa-phone'/>}
+                                />
+                                <MenuItemExternalLink
+                                    id='nativeAppLink'
+                                    show={this.props.appDownloadLink && !UserAgent.isMobileApp()}
+                                    url={useSafeUrl(this.props.appDownloadLink)}
+                                    text={localizeMessage('navbar_dropdown.nativeApps', 'Download Apps')}
+                                    icon={this.props.mobile && <i className='fa fa-mobile'/>}
+                                />
+                                <MenuItemToggleModalRedux
+                                    id='about'
+                                    modalId={ModalIdentifiers.ABOUT}
+                                    dialogType={AboutBuildModal}
+                                    text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: this.props.siteName || 'Mattermost'})}
+                                    icon={this.props.mobile && <i className='fa fa-info'/>}
+                                />
+                            </MenuGroup>
+                            <MenuGroup>
+                                <MenuItemAction
+                                    id='logout'
+                                    onClick={this.handleEmitUserLoggedOutEvent}
+                                    text={localizeMessage('navbar_dropdown.logout', 'Logout')}
+                                    icon={this.props.mobile && <i className='fa fa-sign-out'/>}
+                                />
+                            </MenuGroup>
+                        </Menu>
+                    );
+        }
     }
 }

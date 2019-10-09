@@ -32,6 +32,7 @@ function mapStateToProps(state) {
     const enableOutgoingWebhooks = config.EnableOutgoingWebhooks === 'true';
     const enableUserCreation = config.EnableUserCreation === 'true';
     const enableEmailInvitations = config.EnableEmailInvitations === 'true';
+    const skipLoginPage = config.SkipLoginPage === "true";
     const experimentalPrimaryTeam = config.ExperimentalPrimaryTeam;
     const helpLink = config.HelpLink;
     const reportAProblemLink = config.ReportAProblemLink;
@@ -71,6 +72,7 @@ function mapStateToProps(state) {
         teamName: currentTeam.name,
         teamType: currentTeam.type,
         currentUser,
+        skipLoginPage,
         isMentionSearch: rhsState === RHSStates.MENTION,
         teamIsGroupConstrained: Boolean(currentTeam.group_constrained),
     };
