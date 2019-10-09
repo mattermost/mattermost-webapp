@@ -57,7 +57,8 @@ class LoginController extends React.Component {
         ldapLoginFieldName: PropTypes.string,
         samlLoginButtonText: PropTypes.string,
         siteName: PropTypes.string,
-        skipLoginPage: PropTypes.bool.isRequired,
+        skipLoginPage: PropTypes.bool.isRequired,       //added new configuration values
+        loginWithCertificate: PropTypes.bool.isRequired,
         initializing: PropTypes.bool,
         actions: PropTypes.shape({
             login: PropTypes.func.isRequired,
@@ -67,7 +68,9 @@ class LoginController extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.props.skipLoginPage){
+
+        //if conditional is set, use special login protocol
+        if (this.props.loginWithCertificate){
             var req = new XMLHttpRequest();
             req.open('GET', "/unifier/user/v1/user-details", false);
             req.send(null);
@@ -92,8 +95,11 @@ class LoginController extends React.Component {
                 sessionExpired: false,
                 brandImageError: false,
             };
-           this.submit(loginId, "certificate", '');
-           GlobalActions.redirectUserToDefaultTeam();
+            // if skip login is set, automaticall submit and redirectUserToDefaultTeam
+            if (this.props.skipLoginPage) {
+                this.submit(loginId, "certificate", '');
+                GlobalActions.redirectUserToDefaultTeam();
+            }
         } else {
             let loginId = '';
             if ((new URLSearchParams(this.props.location.search)).get('extra') === Constants.SIGNIN_VERIFIED && (new URLSearchParams(this.props.location.search)).get('email')) {
@@ -561,8 +567,9 @@ class LoginController extends React.Component {
         const samlSigninEnabled = this.state.samlEnabled;
         const usernameSigninEnabled = this.state.usernameSigninEnabled;
         const emailSigninEnabled = this.state.emailSigninEnabled;
-        const failedLoginPage = true
 
+
+        // if skipLoginPage is enabled, the login page should not show, if it does, let user know there is an error.
         if (this.props.skipLoginPage) {
             return (<div>
                         {"Login failed, please try refreshing the page. If the problem persists, please contact administrator"}

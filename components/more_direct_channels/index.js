@@ -41,7 +41,7 @@ function mapStateToProps(state, ownProps) {
 
     const config = getConfig(state);
     const restrictDirectMessage = config.RestrictDirectMessage;
-
+    const loginWithCertificate = config.LoginWithCertificate;
     const searchTerm = state.views.search.modalSearch;
 
     let users;
@@ -73,6 +73,7 @@ function mapStateToProps(state, ownProps) {
         currentUserId,
         restrictDirectMessage,
         totalCount: stats.total_users_count,
+        loginWithCertificate,
     };
 }
 

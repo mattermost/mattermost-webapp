@@ -30,7 +30,7 @@ function mapStateToProps(state, ownProps) {
     const userId = ownProps.userId;
     const team = getCurrentTeam(state);
     const teamMember = getTeamMember(state, team.id, userId);
-    const config = getConfig(state);
+    const config = getConfig(state);              //getting config for custom values
     const loginWithCertificate = config.LoginWithCertificate === 'true';
 
     let isTeamAdmin = false;
@@ -66,7 +66,7 @@ function mapStateToProps(state, ownProps) {
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
-        loginWithCertificate,
+        loginWithCertificate, //returning custom conf
     };
 }
 

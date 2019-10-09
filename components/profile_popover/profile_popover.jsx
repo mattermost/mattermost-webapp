@@ -283,7 +283,7 @@ class ProfilePopover extends React.PureComponent {
                 </OverlayTrigger>
             );
         }
-        if (!this.props.loginWithCertificate){
+        if (!this.props.loginWithCertificate){  //only show this content if loginWithCertificate is disabled
             const email = this.props.user.email;
             if (email && !this.props.user.is_bot) {
                 dataContent.push(

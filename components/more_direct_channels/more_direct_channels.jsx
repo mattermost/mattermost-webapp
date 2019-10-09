@@ -23,7 +23,7 @@ const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
 export default class MoreDirectChannels extends React.Component {
     static propTypes = {
-
+        loginWithCertificate: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         currentTeamId: PropTypes.string.isRequired,
         currentTeamName: PropTypes.string.isRequired,
@@ -322,44 +322,82 @@ export default class MoreDirectChannels extends React.Component {
         const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
         const email = option.is_bot ? null : option.email;
 
-        return (
-            <div
-                key={option.id}
-                ref={isSelected ? 'selected' : option.id}
-                className={'more-modal__row clickable ' + rowSelected}
-                onClick={() => onAdd(option)}
-            >
-                <ProfilePicture
-                    src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    status={status}
-                    width='32'
-                    height='32'
-                />
+        if (this.props.loginWithCertificate){
+            return (
                 <div
-                    className='more-modal__details'
+                    key={option.id}
+                    ref={isSelected ? 'selected' : option.id}
+                    className={'more-modal__row clickable ' + rowSelected}
+                    onClick={() => onAdd(option)}
                 >
-                    <div className='more-modal__name'>
-                        {modalName}
-                        <BotBadge
-                            show={Boolean(option.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={isGuest(option)}
-                            className='badge-popoverlist'
-                        />
+                    <ProfilePicture
+                        src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
+                        status={status}
+                        width='32'
+                        height='32'
+                    />
+                    <div
+                        className='more-modal__details'
+                    >
+                        <div className='more-modal__name'>
+                            {modalName}
+                            <BotBadge
+                                show={Boolean(option.is_bot)}
+                                className='badge-popoverlist'
+                            />
+                            <GuestBadge
+                                show={isGuest(option)}
+                                className='badge-popoverlist'
+                            />
+                        </div>
                     </div>
-{/*                     <div className='more-modal__description'> */}
-{/*                         {email} */}
-{/*                     </div> */}
-                </div>
-                <div className='more-modal__actions'>
-                    <div className='more-modal__actions--round'>
-                        <AddIcon/>
+                    <div className='more-modal__actions'>
+                        <div className='more-modal__actions--round'>
+                            <AddIcon/>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div
+                    key={option.id}
+                    ref={isSelected ? 'selected' : option.id}
+                    className={'more-modal__row clickable ' + rowSelected}
+                    onClick={() => onAdd(option)}
+                >
+                    <ProfilePicture
+                        src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
+                        status={status}
+                        width='32'
+                        height='32'
+                    />
+                    <div
+                        className='more-modal__details'
+                    >
+                        <div className='more-modal__name'>
+                            {modalName}
+                            <BotBadge
+                                show={Boolean(option.is_bot)}
+                                className='badge-popoverlist'
+                            />
+                            <GuestBadge
+                                show={isGuest(option)}
+                                className='badge-popoverlist'
+                            />
+                        </div>
+                         <div className='more-modal__description'>
+                             {email}
+                         </div>
+                    </div>
+                    <div className='more-modal__actions'>
+                        <div className='more-modal__actions--round'>
+                            <AddIcon/>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     }
 
     renderValue(props) {

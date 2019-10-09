@@ -28,7 +28,7 @@ function mapStateToProps(state) {
     const samlNicknameAttributeSet = config.SamlNicknameAttributeSet === 'true';
     const samlPositionAttributeSet = config.SamlPositionAttributeSet === 'true';
     const ldapPositionAttributeSet = config.LdapPositionAttributeSet === 'true';
-    const loginWithCertificate = config.LoginWithCertificate === 'true';
+    const loginWithCertificate = config.LoginWithCertificate === 'true'; //custom conf value
 
     return {
         requireEmailVerification,
@@ -41,7 +41,7 @@ function mapStateToProps(state) {
         samlNicknameAttributeSet,
         samlPositionAttributeSet,
         ldapPositionAttributeSet,
-        loginWithCertificate,
+        loginWithCertificate, //return custom conf value
     };
 }
 

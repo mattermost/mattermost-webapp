@@ -16,7 +16,7 @@ function mapStateToProps(state) {
     const experimentalChannelOrganization = config.ExperimentalChannelOrganization === 'true';
     const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
-    const loginWithCertificate = config.LoginWithCertificate === 'true';
+    const loginWithCertificate = config.LoginWithCertificate === 'true';                    //adding custom value from conf
 
 
     return {
@@ -25,7 +25,7 @@ function mapStateToProps(state) {
         experimentalChannelOrganization,
         sendEmailNotifications,
         requireEmailVerification,
-        loginWithCertificate,
+        loginWithCertificate,   //returning custom value
     };
 }
 

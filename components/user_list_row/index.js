@@ -10,11 +10,11 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 function mapStateToProps(state, ownProps) {
     const user = ownProps.user || {};
     const config = getConfig(state);
-    const loginWithCertificate = config.LoginWithCertificate === 'true';
+    const loginWithCertificate = config.LoginWithCertificate === 'true'; //adding custom conf
 
     return {
         status: getStatusForUserId(state, user.id),
-        loginWithCertificate,
+        loginWithCertificate, //returning custom conf value
     };
 }
 

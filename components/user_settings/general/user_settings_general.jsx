@@ -1242,6 +1242,8 @@ class UserSettingsGeneralTab extends React.Component {
                 />
             );
         }
+
+        //if loginWithCertificate enabled, omit username and email sections from menu
         if(this.props.loginWithCertificate){
             return (
                         <div id='generalSettings'>

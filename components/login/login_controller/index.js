@@ -36,7 +36,8 @@ function mapStateToProps(state) {
     const ldapLoginFieldName = config.LdapLoginFieldName;
     const samlLoginButtonText = config.SamlLoginButtonText;
     const siteName = config.SiteName;
-    const skipLoginPage = config.SkipLoginPage === "true";
+    const skipLoginPage = config.SkipLoginPage === "true";      //add new custom config value
+    const loginWithCertificate = config.LoginWithCertificate === "true";
     const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
     // Only set experimental team if user is on that team
@@ -72,7 +73,8 @@ function mapStateToProps(state) {
         ldapLoginFieldName,
         samlLoginButtonText,
         siteName,
-        skipLoginPage,
+        skipLoginPage,              //adding return for custom property values
+        loginWithCertificate,
         initializing,
     };
 }

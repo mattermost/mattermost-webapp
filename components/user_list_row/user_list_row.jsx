@@ -23,7 +23,7 @@ export default class UserListRow extends React.Component {
         index: PropTypes.number,
         totalUsers: PropTypes.number,
         userCount: PropTypes.number,
-        loginWithCertificate: PropTypes.bool.isRequired,
+        loginWithCertificate: PropTypes.bool.isRequired, //setting loginWithCertificate prop
     };
 
     static defaultProps = {
@@ -82,7 +82,7 @@ export default class UserListRow extends React.Component {
             userCountID = Utils.createSafeId('userListRowName' + this.props.userCount);
             userCountEmail = Utils.createSafeId('userListRowEmail' + this.props.userCount);
         }
-
+        //if loginWithCertificate is set, return web content that doesnt contain email information
         if (this.props.loginWithCertificate){
            return (
                        <div

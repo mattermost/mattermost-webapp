@@ -44,6 +44,7 @@ export default class SelectTeam extends React.Component {
         canJoinPrivateTeams: PropTypes.bool.isRequired,
         history: PropTypes.object,
         siteURL: PropTypes.string,
+        loginWithCertificate,//setting custom prop
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
@@ -287,26 +288,51 @@ export default class SelectTeam extends React.Component {
                 </div>
             );
         }
-        return (
-            <div>
-                <AnnouncementBar/>
-                {headerButton}
-                <div className='col-sm-12'>
-                    <div className={'signup-team__container'}>
-                        <img
-                            alt={'signup team logo'}
-                            className='signup-team-logo'
-                            src={logoImage}
-                        />
-                        <SiteNameAndDescription
-                            customDescriptionText={customDescriptionText}
-                            siteName={siteName}
-                        />
-                        {openContent}
-                        {adminConsoleLink}
+        if (this.props.loginWithCertificate){ //do not return teamSignUp content if loginWithCertificate
+            return (
+                <div>
+                    <AnnouncementBar/>
+                    {headerButton}
+                    <div className='col-sm-12'>
+                        <div className={'signup-team__container'}>
+                            <img
+                                alt={'signup team logo'}
+                                className='signup-team-logo'
+                                src={logoImage}
+                            />
+                            <SiteNameAndDescription
+                                customDescriptionText={customDescriptionText}
+                                siteName={siteName}
+                            />
+                            {openContent}
+                            {adminConsoleLink}
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div>
+                    <AnnouncementBar/>
+                    {headerButton}
+                    <div className='col-sm-12'>
+                        <div className={'signup-team__container'}>
+                            <img
+                                alt={'signup team logo'}
+                                className='signup-team-logo'
+                                src={logoImage}
+                            />
+                            <SiteNameAndDescription
+                                customDescriptionText={customDescriptionText}
+                                siteName={siteName}
+                            />
+                            {teamSignUp}
+                            {openContent}
+                            {adminConsoleLink}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     }
 }

@@ -63,7 +63,7 @@ const holders = defineMessages({
 class UserSettingsModal extends React.Component {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
-        loginWithCertificate: PropTypes.bool.isRequired,
+        loginWithCertificate: PropTypes.bool.isRequired,        //custom prop from config
         onHide: PropTypes.func.isRequired,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
@@ -252,6 +252,8 @@ class UserSettingsModal extends React.Component {
 
         tabs.push({name: 'general', uiName: formatMessage(holders.general), icon: 'icon fa fa-gear', iconTitle: Utils.localizeMessage('user.settings.general.icon', 'General Settings Icon')});
 
+
+        //if we are using a cert to login, we do not want the user to be able to access the security tab and change their password
         if(!this.props.loginWithCertificate){
             tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
         }

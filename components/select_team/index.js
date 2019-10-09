@@ -22,6 +22,7 @@ function mapStateToProps(state) {
     const config = getConfig(state);
     const currentUser = getCurrentUser(state);
     const myTeamMemberships = Object.values(getTeamMemberships(state));
+    const loginWithCertificate = config.LoginWithCertificate; //adding custom props
 
     return {
         currentUserId: currentUser.id,
@@ -36,6 +37,7 @@ function mapStateToProps(state) {
         canJoinPublicTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PUBLIC_TEAMS}),
         canJoinPrivateTeams: haveISystemPermission(state, {permission: Permissions.JOIN_PRIVATE_TEAMS}),
         siteURL: config.SiteURL,
+        loginWithCertificate, //returning custom props
     };
 }
 

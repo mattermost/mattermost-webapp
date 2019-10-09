@@ -1,7 +1,7 @@
 .PHONY: build test run clean stop check-style run-unit emojis help package-ci
 
-BUILD_SERVER_DIR = ../bdp-mattermost-server
-BUILD_WEBAPP_DIR = ../bdp-mattermost-webapp
+BUILD_SERVER_DIR = ../mattermost-server
+BUILD_WEBAPP_DIR = ../mattermost-webapp
 MM_UTILITIES_DIR = ../mattermost-utilities
 EMOJI_TOOLS_DIR = ./build/emoji
 
