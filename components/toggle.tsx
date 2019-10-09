@@ -12,7 +12,7 @@ type Props = {
 }
 
 const Toggle: React.FC<Props> = (props: Props) => {
-    const { onToggle, toggled, disabled, onText, offText } = props;
+    const {onToggle, toggled, disabled, onText, offText} = props;
     return (
         <button
             type='button'
@@ -20,11 +20,11 @@ const Toggle: React.FC<Props> = (props: Props) => {
             className={`btn btn-lg btn-toggle ${toggled && 'active'} ${disabled && 'disabled'}`}
             aria-pressed={toggled ? 'true' : 'false'}
         >
-            <div className='handle' />
+            <div className='handle'/>
             {text(toggled, onText, offText)}
         </button>
     );
-}
+};
 
 function text(toggled?: boolean, onText?: React.ReactNode, offText?: React.ReactNode): React.ReactNode | null {
     if ((toggled && !onText) || (!toggled && !offText)) {
