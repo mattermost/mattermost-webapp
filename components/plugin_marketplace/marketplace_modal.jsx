@@ -34,9 +34,9 @@ const SEARCH_TIMEOUT_MILLISECONDS = 200;
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
         show: PropTypes.bool,
-        pluginStatuses: PropTypes.object.isRequired,
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
+        pluginStatuses: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             getMarketplacePlugins: PropTypes.func.isRequired,
