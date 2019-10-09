@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-    Switch,
-    Route,
-} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
+
 import Messaging from './components/messaging';
 import Composing from './components/composing';
 import Mentioning from './components/mentioning';
