@@ -596,7 +596,7 @@ export default class PluginManagement extends AdminSettings {
             <div>
                 {
                     url === '' &&
-                    <div>
+                    <div className='alert-warning'>
                         <i className='fa fa-warning'/>
                         <FormattedMarkdownMessage
                             id='admin.plugins.settings.marketplaceUrlDesc.empty'
