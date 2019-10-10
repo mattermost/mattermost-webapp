@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/analytics/line_chart.jsx should match snapshot, loaded with data 1`] = `
+exports[`components/analytics/line_chart.tsx should match snapshot, loaded with data 1`] = `
 <div
   className="col-sm-12"
 >
@@ -24,7 +24,7 @@ exports[`components/analytics/line_chart.jsx should match snapshot, loaded with 
 </div>
 `;
 
-exports[`components/analytics/line_chart.jsx should match snapshot, loaded without data 1`] = `
+exports[`components/analytics/line_chart.tsx should match snapshot, loaded without data 1`] = `
 <div
   className="col-sm-12"
 >
@@ -51,7 +51,7 @@ exports[`components/analytics/line_chart.jsx should match snapshot, loaded witho
 </div>
 `;
 
-exports[`components/analytics/line_chart.jsx should match snapshot, on loading 1`] = `
+exports[`components/analytics/line_chart.tsx should match snapshot, on loading 1`] = `
 <div
   className="col-sm-12"
 >

@@ -203,9 +203,6 @@ describe('components/AdminSidebar', () => {
                 CustomPermissionsSchemes: 'true',
             },
             config: {
-                ServiceSettings: {
-                    ExperimentalLdapGroupSync: true,
-                },
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 },
