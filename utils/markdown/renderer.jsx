@@ -204,7 +204,7 @@ export default class Renderer extends marked.Renderer {
                 */
                 result = result.replace('<p class="markdown__paragraph-inline">',
                     '<div className="style--none markdown__paragraph-inline">');
-                result = result.replace('</p>', '</div');
+                result = result.replace('</p>', '</div>');
             }
             return result;
         }

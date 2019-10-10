@@ -90,6 +90,11 @@ export default class Markdown extends React.PureComponent {
          * Post id prop passed down to markdown image
          */
         postId: PropTypes.string,
+
+        /**
+         * Post id prop passed down to markdown image
+         */
+        postType: PropTypes.string,
     };
 
     static defaultProps = {
@@ -122,6 +127,7 @@ export default class Markdown extends React.PureComponent {
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
+            postType: this.props.postType,
         });
     }
 }

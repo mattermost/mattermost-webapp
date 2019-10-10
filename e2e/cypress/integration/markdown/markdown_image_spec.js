@@ -101,6 +101,57 @@ describe('Markdown', () => {
 
             // * Verify that the preview modal opens
             cy.get('div.file-details__container').should('be.visible');
+
+            // # Close the modal
+            cy.get('div.modal-close').should('exist').click({force: true});
+        });
+    });
+
+    it('channel header is markdown image', () => {
+        // # Update channel header
+        cy.updateChannelHeader('![MM Logo](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
+
+        // * Verify image in header
+        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv').
+            should('have.class', 'style--none');
+
+        cy.get('@imageDiv').find('img.markdown-inline-img').
+            should('have.class', 'markdown-inline-img--hover').
+            and('have.class', 'cursor--pointer').
+            and('have.class', 'a11y--active').
+            and('have.css', 'height', '18px');
+
+        // * Verify image in system message
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
+                should('have.class', 'markdown-inline-img--hover').
+                and('have.class', 'cursor--pointer').
+                and('have.class', 'a11y--active').
+                and('have.class', 'markdown-inline-img--scaled-down').
+                and('have.css', 'height', '18px');
+        });
+    });
+
+    it('channel header is markdown image that is also a link', () => {
+        // # Update channel header
+        cy.updateChannelHeader('[![Build Status](https://travis-ci.org/mattermost/platform.svg?branch=master)](https://travis-ci.org/mattermost/platform)');
+
+        // * Verify image in header
+        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv').
+            should('have.class', 'style--none');
+
+        cy.get('@imageDiv').find('img.markdown-inline-img').
+            should('have.class', 'markdown-inline-img--hover').
+            and('have.class', 'markdown-inline-img--no-border').
+            and('have.css', 'height', '18px');
+
+        // * Verify image in system message
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img--no-border').
+                should('have.class', 'markdown-inline-img--hover').
+                and('have.class', 'markdown-inline-img').
+                and('have.class', 'markdown-inline-img--scaled-down').
+                and('have.css', 'height', '18px');
         });
     });
 });

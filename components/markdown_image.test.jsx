@@ -116,4 +116,19 @@ describe('components/MarkdownImage', () => {
         wrapper.instance().showModal();
         expect(wrapper.state('showModal')).toEqual(false);
     });
+
+    test('should properly scale down the image in case of a header change system message', () => {
+        const props = {...baseProps, src: 'https://example.com/image.png', postType: 'system_header_change'};
+        const wrapper = shallow(
+            <MarkdownImage {...props}/>
+        );
+        const childrenNode = wrapper.props().children(props.src);
+
+        // using a div as a workaround because shallow doesn't support react fragments
+        const childrenWrapper = shallow(<div>{childrenNode}</div>);
+
+        expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
+        expect(childrenWrapper.find(SizeAwareImage).prop('className')).
+            toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active markdown-inline-img--scaled-down`);
+    });
 });
