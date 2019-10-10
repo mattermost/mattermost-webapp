@@ -101,7 +101,7 @@ describe('components/AboutBuildModal', () => {
     });
 
     test('should call onHide callback when the modal is hidden', () => {
-        const onHide = jest.fn()
+        const onHide = jest.fn();
 
         const wrapper = mountWithIntl(
             <AboutBuildModal
