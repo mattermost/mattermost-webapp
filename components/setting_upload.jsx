@@ -93,6 +93,7 @@ export default class SettingsUpload extends React.Component {
                             <button
                                 onClick={this.openFileSelect}
                                 className='btn btn-sm btn-primary btn-file sel-btn'
+                                autoFocus={true}
                             >
                                 <FormattedMessage
                                     id='setting_upload.select'

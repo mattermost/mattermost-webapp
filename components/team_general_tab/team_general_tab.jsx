@@ -535,6 +535,7 @@ export default class GeneralTab extends React.Component {
                     describe={describe}
                     updateSection={this.handleUpdateSection}
                     section={'name'}
+                    first={true}
                 />
             );
         }

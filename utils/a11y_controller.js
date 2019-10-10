@@ -782,6 +782,7 @@ export default class A11yController {
     handleFocus = (event) => {
         if (!this.mouseIsPressed && this.windowIsFocused) {
             this.nextElement(event.target, event.path || true);
+            this.udpateCurrentFocus(true);
         }
 
         // focus just came back to the app

@@ -36,6 +36,7 @@ export default class TeamSettingsModal extends React.Component {
     }
 
     updateTab = (tab) => {
+        this.props.actions.updateActiveSection('__none__');
         this.setState({
             activeTab: tab,
             activeSection: '',

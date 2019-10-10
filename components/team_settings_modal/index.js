@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import {updateActiveSection} from 'actions/views/settings';
 import {ModalIdentifiers} from 'utils/constants';
 import {isModalOpen} from 'selectors/views/modals';
 
@@ -15,4 +17,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(TeamSettingsModal);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            updateActiveSection,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TeamSettingsModal);
