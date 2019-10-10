@@ -2,17 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-export default class SearchHint extends PureComponent {
-    static propTypes = {
-        withTitle: PropTypes.bool,
-    }
+type Props = {
+    withTitle?: boolean;
+}
 
-    render() {
+export default class SearchHint extends PureComponent<Props> {
+    public render() {
         return (
             <React.Fragment>
                 {this.props.withTitle &&

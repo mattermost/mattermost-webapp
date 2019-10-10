@@ -26,10 +26,11 @@ describe('Profile popover', () => {
             cy.wait(TIMEOUTS.TINY);
 
             // # Click on user profile image
-            cy.get(`#post_${postId}`).find('.profile-icon > img').click();
+            cy.get(`#post_${postId}`).find('.profile-icon > img').click({force: true});
 
             // * Popover should have rendered to screen
             cy.get('#user-profile-popover').should('be.visible');
+            cy.get('body').type('{esc}');
         });
     });
 
@@ -38,7 +39,7 @@ describe('Profile popover', () => {
         cy.apiSaveMessageDisplayPreference('compact');
         cy.getLastPostId().then((postId) => {
             // # Click on username
-            cy.get(`#post_${postId}`).find('.user-popover').click();
+            cy.get(`#post_${postId}`).find('.user-popover').click({force: true});
 
             // * Popover should have rendered to screen
             cy.get('#user-profile-popover').should('be.visible');
