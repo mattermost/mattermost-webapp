@@ -35,7 +35,7 @@ export default class MarketplaceModal extends React.Component {
         show: PropTypes.bool,
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
-        basePath: PropTypes.string.isRequired,
+        siteURL: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             getMarketplacePlugins: PropTypes.func.isRequired,
@@ -174,15 +174,10 @@ export default class MarketplaceModal extends React.Component {
 
         let errorBanner = null;
         if (this.state.serverError) {
-            let basename = this.props.basePath;
-            if (basename === '/') {
-                basename = '';
-            }
-
-            const values = {basename};
+            const values = {siteURL: this.props.siteURL};
             const message = formatMessage({
                 id: 'app.plugin.marketplace_plugins.app_error',
-                defaultMessage: 'Error connecting to the marketplace server. Please check your settings in the [System Console]({basename}/admin_console/plugins/plugin_management).',
+                defaultMessage: 'Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management).',
             }, values);
 
             errorBanner = (
