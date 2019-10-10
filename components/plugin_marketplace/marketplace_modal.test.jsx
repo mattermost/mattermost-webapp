@@ -27,7 +27,7 @@ describe('components/MarketplaceModal', () => {
         show: true,
         installedPlugins,
         marketplacePlugins: marketplacePluginsSample,
-        basePath: '/',
+        siteURL: 'http://example.com',
         actions: {
             closeModal: jest.fn(),
             getMarketplacePlugins: jest.fn(),
