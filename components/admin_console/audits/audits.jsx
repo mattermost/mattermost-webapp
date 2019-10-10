@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import ComplianceReports from 'components/admin_console/compliance_reports';
 import AuditTable from 'components/audit_table';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 

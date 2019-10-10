@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
@@ -47,28 +46,6 @@ export default class ChannelView extends React.PureComponent {
                 data-a11y-order-reversed={true}
             />
         );
-    }
-
-    componentDidMount() {
-        const platform = window.navigator.platform;
-
-        document.body.classList.add('app__body', 'channel-view');
-
-        // IE Detection
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            document.body.classList.add('browser--ie');
-        }
-
-        // OS Detection
-        if (platform === 'Win32' || platform === 'Win64') {
-            document.body.classList.add('os--windows');
-        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
-            document.body.classList.add('os--mac');
-        }
-    }
-
-    componentWillUnmount() {
-        document.body.classList.remove('app__body', 'channel-view');
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase

@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import SystemUsers from 'components/admin_console/system_users/system_users.jsx';
-import {Constants, SearchUserTeamFilter} from 'utils/constants.jsx';
+import {Constants, SearchUserTeamFilter, UserFilters} from 'utils/constants.jsx';
 
 jest.mock('actions/admin_actions.jsx');
 
@@ -67,8 +67,13 @@ describe('components/admin_console/system_users', () => {
         await wrapper.instance().loadDataForTeam(SearchUserTeamFilter.NO_TEAM, '');
 
         expect(loadProfilesWithoutTeam).toHaveBeenCalled();
-        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(0, Constants.PROFILE_CHUNK_SIZE);
+        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(0, Constants.PROFILE_CHUNK_SIZE, {});
         expect(wrapper.state().loading).toEqual(false);
+
+        await wrapper.instance().loadDataForTeam(SearchUserTeamFilter.NO_TEAM, UserFilters.INACTIVE);
+
+        expect(loadProfilesWithoutTeam).toHaveBeenCalled();
+        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(0, Constants.PROFILE_CHUNK_SIZE, {inactive: true});
     });
 
     test('nextPage() should have called getProfiles', async () => {
@@ -103,7 +108,7 @@ describe('components/admin_console/system_users', () => {
         await wrapper.instance().nextPage(0);
 
         expect(loadProfilesWithoutTeam).toHaveBeenCalled();
-        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(1, USERS_PER_PAGE);
+        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(1, USERS_PER_PAGE, {});
         expect(wrapper.state().loading).toEqual(false);
     });
 
