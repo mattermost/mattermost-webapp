@@ -12,7 +12,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 let username = '';
 
 // Function to hover over individual items
-function hoverOverItem(postId, iconName, tooltipName, location = 'CENTER') {
+function hoverOverItem(postId, iconName, tooltipName, tooltipText, location = 'CENTER') {
     // # Get the latest post and hover over it
     cy.get(`#post_${postId}`).trigger('mouseover');
 
@@ -22,7 +22,9 @@ function hoverOverItem(postId, iconName, tooltipName, location = 'CENTER') {
     });
 
     // # Check that after hovering on the icon you would like to test, the relevant tooltip appears
-    cy.get(`${tooltipName}`).should('be.visible');
+    cy.get(`${tooltipName}`).find('span').invoke('text').then((text) => {
+        expect(text).to.eq(tooltipText);
+    });
 }
 
 describe('M18697 - Visual verification of tooltips on post hover menu', () => {
@@ -47,19 +49,19 @@ describe('M18697 - Visual verification of tooltips on post hover menu', () => {
 
     it('Check dotmenu icon tooltip', () => {
         cy.getLastPostId().then((postId) => {
-            hoverOverItem(postId, 'button', '#dotmenu-icon-tooltip');
+            hoverOverItem(postId, 'button', '#dotmenu-icon-tooltip', 'More Actions');
         });
     });
 
     it('Check reaction icon tooltip', () => {
         cy.getLastPostId().then((postId) => {
-            hoverOverItem(postId, 'reaction', '#reaction-icon-tooltip');
+            hoverOverItem(postId, 'reaction', '#reaction-icon-tooltip', 'Add Reaction');
         });
     });
 
     it('Check comment icon tooltip', () => {
         cy.getLastPostId().then((postId) => {
-            hoverOverItem(postId, 'commentIcon', '#comment-icon-tooltip');
+            hoverOverItem(postId, 'commentIcon', '#comment-icon-tooltip', 'Reply');
         });
     });
 });
