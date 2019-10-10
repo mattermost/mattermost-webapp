@@ -458,6 +458,7 @@ export default class UserSettingsDisplay extends React.Component {
 
         const clockSection = this.createSection({
             section: 'clock',
+            first: !this.props.enableThemeSelection,
             display: 'militaryTime',
             value: this.state.militaryTime,
             defaultDisplay: 'false',
@@ -678,6 +679,7 @@ export default class UserSettingsDisplay extends React.Component {
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
                         allowCustomThemes={this.props.allowCustomThemes}
+                        first={true}
                     />
                     <div className='divider-dark'/>
                 </div>

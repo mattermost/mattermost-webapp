@@ -46,6 +46,11 @@ export default class SettingItemMin extends React.PureComponent {
         previousActiveSection: PropTypes.string,
 
         /**
+         * Denotes the first section in a set of settings
+         */
+        first: PropTypes.bool,
+
+        /**
          * Actions
          */
         actions: PropTypes.shape({
@@ -58,8 +63,15 @@ export default class SettingItemMin extends React.PureComponent {
     };
 
     componentDidMount() {
-        if (this.props.previousActiveSection === this.props.section) {
+        if (this.props.previousActiveSection === this.props.section || this.props.first) {
             this.edit.focus();
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.first && this.props.previousActiveSection === '__none__') {
+            this.edit.focus();
+            this.props.actions.updateActiveSection(null);
         }
     }
 

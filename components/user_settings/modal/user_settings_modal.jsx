@@ -66,7 +66,8 @@ class UserSettingsModal extends React.Component {
         onHide: PropTypes.func.isRequired,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
-            sendVerificationEmail: PropTypes.func.isRequred,
+            sendVerificationEmail: PropTypes.func.isRequired,
+            updateActiveSection: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -134,6 +135,7 @@ class UserSettingsModal extends React.Component {
             return;
         }
 
+        this.props.actions.updateActiveSection(null);
         this.setState({
             show: false,
         });
@@ -220,6 +222,7 @@ class UserSettingsModal extends React.Component {
         if (!skipConfirm && this.requireConfirm) {
             this.showConfirmModal(() => this.updateTab(tab, true));
         } else {
+            this.props.actions.updateActiveSection('__none__');
             this.setState({
                 active_tab: tab,
                 active_section: '',

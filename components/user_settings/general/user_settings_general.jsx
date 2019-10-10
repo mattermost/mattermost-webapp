@@ -881,6 +881,7 @@ class UserSettingsGeneralTab extends React.Component {
                     describe={describe}
                     section={'name'}
                     updateSection={this.updateSection}
+                    first={true}
                 />
             );
         }

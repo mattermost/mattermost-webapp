@@ -417,6 +417,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     describe={this.renderCtrlEnterLabel()}
                     section={'advancedCtrlSend'}
                     updateSection={this.handleUpdateSection}
+                    first={true}
                 />
             );
         }

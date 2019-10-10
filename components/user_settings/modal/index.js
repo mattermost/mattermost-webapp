@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {updateActiveSection} from 'actions/views/settings';
 
 import UserSettingsModal from './user_settings_modal.jsx';
 
@@ -30,6 +31,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             sendVerificationEmail,
+            updateActiveSection,
         }, dispatch),
     };
 }

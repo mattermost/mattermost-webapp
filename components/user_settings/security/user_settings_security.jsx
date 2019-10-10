@@ -464,6 +464,7 @@ export default class SecurityTab extends React.PureComponent {
                 section={SECTION_PASSWORD}
                 updateSection={this.handleUpdateSection}
                 focused={true}
+                first={true}
             />
         );
     }

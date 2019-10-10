@@ -921,6 +921,7 @@ export default class NotificationsTab extends React.Component {
                         cancel={this.handleCancel}
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
+                        first={true}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting

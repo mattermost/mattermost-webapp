@@ -582,6 +582,7 @@ export default class UserSettingsSidebar extends React.Component {
                     describe={this.renderOrganizationLabel()}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
+                    first={true}
                 />
             );
         }
@@ -684,6 +685,7 @@ export default class UserSettingsSidebar extends React.Component {
                 describe={this.renderChannelSwitcherLabel(this.props.channelSwitcherOption)}
                 section={'channelSwitcher'}
                 updateSection={this.updateSection}
+                first={!this.props.showChannelOrganization}
             />
         );
     };
