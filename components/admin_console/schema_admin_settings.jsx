@@ -563,7 +563,7 @@ export default class SchemaAdminSettings extends React.Component {
             >
                 <div className='banner__content'>
                     <span>
-                        { setting.banner_type === 'warning' ? <i className='fa fa-warning'/> : null}
+                        { setting.banner_type === 'warning' ? <i className='fa fa-warning banner__icon'/> : null}
                         {this.renderBanner(setting)}
                     </span>
                 </div>

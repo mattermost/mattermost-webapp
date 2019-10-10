@@ -348,7 +348,7 @@ export async function testSiteURL(success, error, siteURL) {
     }
 }
 
-export function registerAdminConsoleCustomComponent(pluginId, key, component) {
+export function registerAdminConsoleCustomSetting(pluginId, key, component, title) {
     return (storeDispatch) => {
         storeDispatch({
             type: ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT,
@@ -356,6 +356,7 @@ export function registerAdminConsoleCustomComponent(pluginId, key, component) {
                 pluginId,
                 key,
                 component,
+                title,
             },
         });
     };

@@ -298,7 +298,7 @@ function adminConsoleCustomComponents(state = {}, action) {
             nextState[pluginId] = {};
         }
         const nextArray = {...nextState[pluginId]};
-        nextArray[key] = action.data.component;
+        nextArray[key] = action.data;
         nextState[pluginId] = nextArray;
 
         return nextState;

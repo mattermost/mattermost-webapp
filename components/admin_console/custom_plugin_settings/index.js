@@ -8,6 +8,8 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
+import {localizeMessage} from 'utils/utils.jsx';
+
 import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
@@ -30,19 +32,20 @@ function makeGetPluginSchema() {
             if (plugin.settings_schema && plugin.settings_schema.settings) {
                 settings = plugin.settings_schema.settings.map((setting) => {
                     const key = setting.key.toLowerCase();
-                    const component = customComponents[key];
-
+                    let component = null;
                     let bannerType = '';
                     let type = setting.type;
                     let displayName = setting.display_name;
                     let isDisabled = it.stateIsFalse(pluginEnabledConfigKey);
 
-                    if (component) {
+                    if (customComponents[key]) {
+                        component = customComponents[key].component;
+                        displayName = customComponents[key].title;
                         type = Constants.SettingsTypes.TYPE_CUSTOM;
-                    } else if (!component && setting.type === Constants.SettingsTypes.TYPE_CUSTOM) {
+                    } else if (!customComponents[key] && setting.type === Constants.SettingsTypes.TYPE_CUSTOM) {
                         // Show a warning banner to enable the plugin in order to display the custom component.
                         type = Constants.SettingsTypes.TYPE_BANNER;
-                        displayName = 'The plugin must be enabled to show this configuration setting: ' + key;
+                        displayName = localizeMessage('admin.plugin.customSetting.pluginDisabledWarning', 'In order to view this setting, enable the plugin and click Save.');
                         bannerType = 'warning';
                         isDisabled = it.stateIsTrue(pluginEnabledConfigKey);
                     }
