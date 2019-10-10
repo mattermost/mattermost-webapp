@@ -20,26 +20,26 @@ export default class DiscardChangesModal extends React.Component<Props> {
                 defaultMessage='Discard Changes?'
             />
         );
-    
+
         const message: JSX.Element = (
             <FormattedMessage
                 id='discard_changes_modal.message'
                 defaultMessage='You have unsaved changes, are you sure you want to discard them?'
             />
         );
-    
-        const buttonClass: string = 'btn btn-primary';
+
+        const buttonClass = 'btn btn-primary';
         const button: JSX.Element = (
             <FormattedMessage
                 id='discard_changes_modal.leave'
                 defaultMessage='Yes, Discard'
             />
         );
-    
-        const modalClass: string = 'discard-changes-modal';
-    
+
+        const modalClass = 'discard-changes-modal';
+
         const {show, onConfirm, onCancel} = this.props;
-    
+
         return (
             <ConfirmModal
                 show={show}
