@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import SystemUsersList from 'components/admin_console/system_users/list/system_users_list.jsx';
 
@@ -69,6 +70,46 @@ describe('components/admin_console/system_users/list', () => {
                 />
             );
             expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('should reset page', () => {
+        it('when team changes', () => {
+            const wrapper = shallowWithIntl(
+                <SystemUsersList {...defaultProps}/>
+            );
+
+            expect(wrapper.state('page')).toBe(0);
+            wrapper.instance().nextPage();
+            expect(wrapper.state('page')).toBe(1);
+            wrapper.setProps({...defaultProps, teamId: 'new'});
+            expect(wrapper.state('page')).toBe(0);
+        });
+
+        it('when filter changes', () => {
+            const wrapper = shallowWithIntl(
+                <SystemUsersList {...defaultProps}/>
+            );
+
+            expect(wrapper.state('page')).toBe(0);
+            wrapper.instance().nextPage();
+            expect(wrapper.state('page')).toBe(1);
+            wrapper.setProps({...defaultProps, filter: 'new'});
+            expect(wrapper.state('page')).toBe(0);
+        });
+    });
+
+    describe('should not reset page', () => {
+        it('when term changes', () => {
+            const wrapper = shallowWithIntl(
+                <SystemUsersList {...defaultProps}/>
+            );
+
+            expect(wrapper.state('page')).toBe(0);
+            wrapper.instance().nextPage();
+            expect(wrapper.state('page')).toBe(1);
+            wrapper.setProps({...defaultProps, term: 'new term'});
+            expect(wrapper.state('page')).toBe(1);
         });
     });
 });
