@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Avatar from './avatar.jsx';
+import Avatar from './avatar';
 
 describe('components/widgets/users/Avatar', () => {
     test('should match the snapshot', () => {
