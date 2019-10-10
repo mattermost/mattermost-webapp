@@ -33,7 +33,6 @@ import {
     receivedPost,
 } from 'mattermost-redux/actions/posts';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
-import {getUser as loadUser} from 'mattermost-redux/actions/users';
 
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
@@ -41,6 +40,7 @@ import {
     getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
+    getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -679,7 +679,7 @@ export async function handleUserRemovedEvent(msg) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
                 if (!getUser(state, msg.data.remover_id)) {
-                    await dispatch(loadUser(msg.data.remover_id))
+                    await dispatch(loadUser(msg.data.remover_id));
                 }
 
                 const user = getUser(state, msg.data.remover_id) || {};
