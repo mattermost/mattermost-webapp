@@ -12,7 +12,7 @@ import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';

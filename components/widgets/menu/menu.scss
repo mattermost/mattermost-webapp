@@ -9,8 +9,7 @@
         display: block;
         max-height: 80vh;
         max-width: 270px;
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: visible;
         padding: 8px 0;
 
         li {
