@@ -8,7 +8,7 @@ import './avatar.scss';
 type Props = {
     url: string;
     username?: string;
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+    size?: string;
 };
 
 const Avatar: React.FunctionComponent<Props> = ({url, username, size = 'md'}: Props) => (
