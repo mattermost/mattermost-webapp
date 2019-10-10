@@ -1,17 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class MsgTyping extends React.Component {
-    static propTypes = {
-        typingUsers: PropTypes.array.isRequired,
-    }
+type Props = {
+    typingUsers: string[];
+}
 
-    getTypingText = () => {
-        let users = [];
+export default class MsgTyping extends React.Component<Props> {
+    private getTypingText = () => {
+        let users: string[] = [];
         let numUsers = 0;
         if (this.props.typingUsers) {
             users = [...this.props.typingUsers];
@@ -45,7 +44,7 @@ export default class MsgTyping extends React.Component {
         );
     }
 
-    render() {
+    public render() {
         return (
             <span className='msg-typing'>{this.getTypingText()}</span>
         );
