@@ -4,15 +4,15 @@
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import PropTypes from 'prop-types';
 
-export default class PreviousIcon extends React.PureComponent {
-    static propTypes = {
-        additionalClassName: PropTypes.string,
-    };
+type Props = {
+    additionalClassName: string;
+}
 
-    static defaultProps = {
-        additionalClassName: null,
+export default class PreviousIcon extends React.PureComponent<Props> {
+
+    static defaultProps: Props = {
+        additionalClassName: "",
     };
 
     render() {
@@ -25,7 +25,7 @@ export default class PreviousIcon extends React.PureComponent {
                 {(title) => (
                     <i
                         className={className}
-                        title={title}
+                        title={title as string}
                     />
                 )}
             </FormattedMessage>

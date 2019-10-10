@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-export default class NextIcon extends React.PureComponent {
-    static propTypes = {
-        additionalClassName: PropTypes.string,
-    };
+type Props = {
+    additionalClassName: string;
+}
 
-    static defaultProps = {
-        additionalClassName: null,
+export default class NextIcon extends React.PureComponent<Props> {
+
+    static defaultProps: Props = {
+        additionalClassName: "",
     };
 
     render() {
@@ -25,7 +25,7 @@ export default class NextIcon extends React.PureComponent {
                 {(title) => (
                     <i
                         className={className}
-                        title={title}
+                        title={title as string}
                     />
                 )}
             </FormattedMessage>
