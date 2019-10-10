@@ -4,28 +4,20 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelView from './channel_view.jsx';
+import ChannelController from './channel_controller.jsx';
 
-describe('components/ChannelView', () => {
+describe('components/channel_layout/ChannelController', () => {
     const props = {
-        channelId: 'channelId',
-        deactivatedChannel: true,
-        match: {
-            url: '/team/channels/off-topic',
-        },
-        showTutorial: false,
-        channelIsArchived: false,
-        viewArchivedChannels: false,
-        actions: {
-            goToLastViewedChannel: jest.fn(),
-        },
+        pathName: 'test',
+        teamType: 'test',
+        fetchingChannels: false,
     };
     test('Should have app__body and channel-view classes on body after mount', () => {
         Object.defineProperty(window.navigator, 'platform', {
             value: 'Win32',
             writable: true,
         });
-        shallow(<ChannelView {...props}/>);
+        shallow(<ChannelController {...props}/>);
 
         expect(document.body.classList.contains('app__body')).toBe(true);
         expect(document.body.classList.contains('channel-view')).toBe(true);
@@ -36,7 +28,7 @@ describe('components/ChannelView', () => {
             value: 'Win32',
             writable: true,
         });
-        shallow(<ChannelView {...props}/>);
+        shallow(<ChannelController {...props}/>);
 
         expect(document.body.classList.contains('os--windows')).toBe(true);
     });
@@ -46,7 +38,7 @@ describe('components/ChannelView', () => {
             value: 'Win32',
             writable: true,
         });
-        shallow(<ChannelView {...props}/>);
+        shallow(<ChannelController {...props}/>);
 
         expect(document.body.classList.contains('os--windows')).toBe(true);
     });
@@ -56,7 +48,7 @@ describe('components/ChannelView', () => {
             value: 'MacIntel',
             writable: true,
         });
-        shallow(<ChannelView {...props}/>);
+        shallow(<ChannelController {...props}/>);
 
         expect(document.body.classList.contains('os--mac')).toBe(true);
     });
@@ -66,7 +58,7 @@ describe('components/ChannelView', () => {
             value: 'MacPPC',
             writable: true,
         });
-        shallow(<ChannelView {...props}/>);
+        shallow(<ChannelController {...props}/>);
 
         expect(document.body.classList.contains('os--mac')).toBe(true);
     });
@@ -76,7 +68,7 @@ describe('components/ChannelView', () => {
             value: 'MacPPC',
             writable: true,
         });
-        const wrapper = shallow(<ChannelView {...props}/>);
+        const wrapper = shallow(<ChannelController {...props}/>);
 
         wrapper.unmount();
         expect(document.body.classList.contains('app__body')).toBe(false);

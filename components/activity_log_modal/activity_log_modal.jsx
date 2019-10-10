@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isMobile} from 'utils/utils.jsx';
 import ActivityLog from 'components/activity_log_modal/components/activity_log.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 export default class ActivityLogModal extends React.PureComponent {
     static propTypes = {
