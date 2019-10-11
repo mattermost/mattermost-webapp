@@ -11,15 +11,7 @@ import Constants from 'utils/constants';
 import EditChannelPurposeModal from './edit_channel_purpose_modal.jsx';
 
 const mapStateToProps = createSelector(
-    (state) => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-    ({requests}) => {
-        const {channels: {updateChannel}} = requests;
-        return {
-            serverError: updateChannel.error,
-            requestStatus: updateChannel.status,
-        };
-    },
-    (ctrlSend, requestInfo) => ({ctrlSend, ...requestInfo})
+    (ctrlSend) => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
 );
 
 function mapDispatchToProps(dispatch) {
