@@ -6,12 +6,12 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
-    additionalClassName: string;
+    additionalClassName: string | null;
 }
 
 export default class PreviousIcon extends React.PureComponent<Props> {
     public static defaultProps: Props = {
-        additionalClassName: '',
+        additionalClassName: null,
     };
 
     public render() {
