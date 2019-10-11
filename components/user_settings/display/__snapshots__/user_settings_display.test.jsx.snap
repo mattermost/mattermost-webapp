@@ -2155,6 +2155,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(ThemeSetting)
+        first={true}
         selected={true}
         setEnforceFocus={[MockFunction]}
         setRequireConfirm={[MockFunction]}

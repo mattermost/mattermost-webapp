@@ -54,6 +54,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       className="divider-dark first"
     />
     <Connect(SettingItemMin)
+      first={true}
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -184,6 +185,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
       className="divider-dark first"
     />
     <Connect(SettingItemMin)
+      first={true}
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -309,6 +311,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     />
     <Connect(SettingItemMin)
       describe="TestTeam"
+      first={true}
       section="name"
       title="Team Name"
       updateSection={[Function]}
