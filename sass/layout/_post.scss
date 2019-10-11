@@ -291,10 +291,6 @@
                 @include transition-timing-function(ease-out, step-start);
             }
         }
-
-        &.disabled {
-            display: none;
-        }
     }
 }
 
