@@ -13,7 +13,7 @@ describe('Permalink message edit', () => {
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        const searchWord = 'searchtest';
+        const searchWord = `searchtest ${Date.now()}`;
 
         // # Post message
         cy.postMessage(searchWord);
@@ -30,15 +30,16 @@ describe('Permalink message edit', () => {
                 // # Click on edit post
                 cy.get(`#edit_post_${postId}`).click();
 
+                const editedText = `edited - ${searchWord}`;
+
                 // # Add new text in edit box
-                cy.get('#edit_textbox').clear().type('edited searchtest');
+                cy.get('#edit_textbox').clear().type(editedText);
 
                 // # Click edit button
                 cy.get('#editButton').click();
 
                 // # Check edited post
-                cy.get(`#postMessageText_${postId}`).should('contain', 'edited searchtest');
-                cy.get(`#postEdited_${postId}`).should('contain', '(edited)');
+                verifyEditedPermalink(postId, editedText);
 
                 // # Logout as "user-1"
                 cy.apiLogout('user-1');
@@ -50,10 +51,17 @@ describe('Permalink message edit', () => {
                 // # Find searchWord and verify edited post
                 cy.get('#searchBox').type(searchWord).type('{enter}').then(() => {
                     cy.get('.search-item__jump').first().click();
-                    cy.get(`#postMessageText_${postId}`).should('contain', 'edited searchtest');
-                    cy.get(`#postEdited_${postId}`).should('contain', '(edited)');
+                    verifyEditedPermalink(postId, editedText);
                 });
             });
         });
     });
+    function verifyEditedPermalink(postId, text) {
+        // * Check that it redirected to permalink URL
+        cy.url().should('include', `/ad-1/pl/${postId}`);
+
+        // * Verify edited post
+        cy.get(`#postMessageText_${postId}`).should('have.text', text);
+        cy.get(`#postEdited_${postId}`).should('have.text', '(edited)');
+    }
 });
