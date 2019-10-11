@@ -21,10 +21,8 @@ function hoverOverItem(postId, iconName, tooltipName, tooltipText, location = 'C
         force: true,
     });
 
-    // # Check that after hovering on the icon you would like to test, the relevant tooltip appears
-    cy.get(`${tooltipName}`).find('span').invoke('text').then((text) => {
-        expect(text).to.eq(tooltipText);
-    });
+    // * When hovering on icon, tooltip should appear and text should be valid
+    cy.get(`${tooltipName}`).find('span').should('have.text', tooltipText);
 }
 
 describe('M18697 - Visual verification of tooltips on post hover menu', () => {
