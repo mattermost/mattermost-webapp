@@ -19,6 +19,7 @@ function mapStateToProps(state) {
         show: isModalOpen(state, ModalIdentifiers.PLUGIN_MARKETPLACE),
         installedPlugins: getMarketplaceInstalledPlugins(state),
         marketplacePlugins: state.entities.plugins.marketplacePlugins,
+        pluginStatuses: state.entities.admin.pluginStatuses,
     };
 }
 
