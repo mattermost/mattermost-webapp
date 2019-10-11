@@ -41,24 +41,6 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         enableGifPicker: false,
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            placement: 'top',
-            rightOffset: Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET,
-        };
-    }
-
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.show && !this.props.show) {
-            const targetBounds = nextProps.target().getBoundingClientRect();
-            const placement = popOverOverlayPosition(targetBounds, window.innerHeight, nextProps.spaceRequiredAbove, nextProps.spaceRequiredBelow);
-
-            this.setState({placement, rightOffset: this.emojiPickerPosition()});
-        }
-    }
-
     emojiPickerPosition() {
         const emojiTrigger = this.props.target();
         let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
@@ -73,11 +55,18 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         return rightOffset;
     }
 
+    getPlacement() {
+        const targetBounds = this.props.target().getBoundingClientRect();
+        return popOverOverlayPosition(targetBounds, window.innerHeight, this.props.spaceRequiredAbove, this.props.spaceRequiredBelow);
+    }
+
     render() {
+        const placement = this.getPlacement();
+        const rightOffset = this.emojiPickerPosition();
         return (
             <Overlay
                 show={this.props.show}
-                placement={this.state.placement}
+                placement={placement}
                 rootClose={true}
                 container={this.props.container}
                 onHide={this.props.onHide}
@@ -89,7 +78,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
                     onEmojiClose={this.props.onHide}
                     onEmojiClick={this.props.onEmojiClick}
                     onGifClick={this.props.onGifClick}
-                    rightOffset={this.state.rightOffset}
+                    rightOffset={rightOffset}
                     topOffset={this.props.topOffset}
                 />
             </Overlay>

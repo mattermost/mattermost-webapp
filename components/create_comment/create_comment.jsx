@@ -192,6 +192,32 @@ export default class CreateComment extends React.PureComponent {
         intl: intlShape.isRequired,
     };
 
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {prevProps: {
+            createPostErrorId: props.createPostErrorId,
+            rootId: props.rootId,
+            messageInHistory: props.messageInHistory,
+        }};
+
+        if (typeof state.prevProps === 'undefined') {
+            updatedState = {...updatedState,
+                draft: {...props.draft, uploadsInProgress: []},
+                caretPosition: props.draft.message.length};
+        } else {
+            const rootChanged = props.rootId !== state.prevProps.rootId;
+            const messageInHistoryChanged = props.messageInHistory !== state.prevProps.messageInHistory;
+            if (rootChanged || messageInHistoryChanged) {
+                updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
+            }
+
+            if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.prevProps.createPostErrorId) {
+                updatedState = {...updatedState, showPostDeletedModal: true};
+            }
+        }
+
+        return updatedState;
+    }
+
     constructor(props) {
         super(props);
 
@@ -215,16 +241,9 @@ export default class CreateComment extends React.PureComponent {
         this.doInitialScrollToBottom = false;
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
-        this.setState({
-            draft: {...this.props.draft, uploadsInProgress: []},
-            caretPosition: this.props.draft.message.length,
-        });
-    }
-
-    componentDidMount() {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
@@ -241,19 +260,6 @@ export default class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
-    }
-
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
-        if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
-            this.showPostDeletedModal();
-        }
-        if (newProps.rootId !== this.props.rootId) {
-            this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
-        }
-
-        if (this.props.messageInHistory !== newProps.messageInHistory) {
-            this.setState({draft: newProps.draft});
-        }
     }
 
     componentDidUpdate(prevProps, prevState) {

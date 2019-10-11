@@ -79,10 +79,34 @@ export default class Textbox extends React.Component {
         this.props.onChange(e);
     }
 
+    updateSuggestions(prevProps) {
+        if (this.props.channelId !== prevProps.channelId ||
+            this.props.currentUserId !== prevProps.currentUserId ||
+            this.props.profilesInChannel !== prevProps.profilesInChannel ||
+            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel) {
+            // Update channel id for AtMentionProvider.
+            const providers = this.suggestionProviders;
+            for (let i = 0; i < providers.length; i++) {
+                if (providers[i] instanceof AtMentionProvider) {
+                    providers[i].setProps({
+                        currentUserId: this.props.currentUserId,
+                        profilesInChannel: this.props.profilesInChannel,
+                        profilesNotInChannel: this.props.profilesNotInChannel,
+                        autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
+                    });
+                }
+            }
+        }
+        if (prevProps.value !== this.props.value) {
+            this.checkMessageLength(this.props.value);
+        }
+    }
     componentDidUpdate(prevProps) {
         if (!prevProps.preview && this.props.preview) {
             this.refs.preview.focus();
         }
+
+        this.updateSuggestions(prevProps);
     }
 
     checkMessageLength = (message) => {
@@ -159,6 +183,7 @@ export default class Textbox extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+        /// Loads!!
         if (nextProps.channelId !== this.props.channelId ||
             nextProps.currentUserId !== this.props.currentUserId ||
             nextProps.profilesInChannel !== this.props.profilesInChannel ||
