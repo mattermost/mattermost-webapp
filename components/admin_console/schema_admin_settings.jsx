@@ -732,7 +732,6 @@ export default class SchemaAdminSettings extends React.Component {
                 value={this.state[setting.key]}
                 disabled={this.isDisabled(setting)}
                 config={this.props.config}
-                currentState={this.state}
                 license={this.props.license}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
