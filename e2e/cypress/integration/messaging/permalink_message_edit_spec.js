@@ -41,9 +41,6 @@ describe('Permalink message edit', () => {
                 // # Check edited post
                 verifyEditedPermalink(postId, editedText);
 
-                // # Logout as "user-1"
-                cy.apiLogout('user-1');
-
                 // # Login as "user-2" and go to /
                 cy.apiLogin('user-2');
                 cy.visit('/');
