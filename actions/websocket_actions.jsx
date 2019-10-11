@@ -678,7 +678,7 @@ export async function handleUserRemovedEvent(msg) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
-                let user = getUser(state, msg.data.remover_id)
+                let user = getUser(state, msg.data.remover_id);
                 if (!user) {
                     await dispatch(loadUser(msg.data.remover_id));
                     user = getUser(state, msg.data.remover_id) || {};
