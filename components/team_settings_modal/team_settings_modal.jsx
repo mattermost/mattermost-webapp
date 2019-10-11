@@ -18,6 +18,9 @@ export default class TeamSettingsModal extends React.Component {
     static propTypes = {
         show: PropTypes.bool,
         onHide: PropTypes.func,
+        actions: PropTypes.shape({
+            updateActiveSection: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     constructor(props) {
