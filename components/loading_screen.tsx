@@ -1,29 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default class LoadingScreen extends React.Component {
-    static propTypes = {
-        position: PropTypes.oneOf(['absolute', 'fixed', 'relative', 'static', 'inherit']),
-        style: PropTypes.object,
-        message: PropTypes.node,
-    }
+type Props = {
+    position: 'absolute' | 'fixed' | 'relative' | 'static' | 'inherit';
+    style?: object;
+    message?: ReactNode;
+}
 
-    static defaultProps = {
+export default class LoadingScreen extends React.Component<Props> {
+    public static defaultProps: Partial<Props> = {
         position: 'relative',
         style: {},
     }
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
         this.state = {};
     }
 
-    render() {
-        let message = (
+    public render(): JSX.Element {
+        let message: ReactNode = (
             <FormattedMessage
                 id='loading_screen.loading'
                 defaultMessage='Loading'
