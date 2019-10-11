@@ -10,12 +10,11 @@ type Props = {
 }
 
 export default class NextIcon extends React.PureComponent<Props> {
-
-    static defaultProps: Props = {
-        additionalClassName: "",
+    public static defaultProps: Props = {
+        additionalClassName: '',
     };
 
-    render() {
+    public render() {
         const className = 'fa fa-1x fa-angle-right' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
             <FormattedMessage

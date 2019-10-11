@@ -10,12 +10,11 @@ type Props = {
 }
 
 export default class WarningIcon extends React.PureComponent<Props> {
-
-    static defaultProps: Props = {
-        additionalClassName: "",
+    public static defaultProps: Props = {
+        additionalClassName: '',
     };
 
-    render() {
+    public render() {
         const className = 'fa fa-warning' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
             <FormattedMessage
