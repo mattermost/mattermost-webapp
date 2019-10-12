@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import LoadingScreen from 'components/loading_screen';
 import {PostRequestTypes} from 'utils/constants.jsx';
-import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {getOldestPostId, getLatestPostId, copyPostData} from 'utils/post_utils.jsx';
 
 import VirtPostList from './post_list_virtualized.jsx';
 
@@ -87,6 +87,11 @@ export default class PostList extends React.PureComponent {
             checkAndSetMobileView: PropTypes.func.isRequired,
 
             /*
+             * Used to get posts for coppying
+             */
+            getPostForCopy: PropTypes.func.isRequired,
+
+            /*
              * Used to loading posts since a timestamp to sync the posts
              */
             syncPostsInChannel: PropTypes.func.isRequired,
@@ -116,6 +121,8 @@ export default class PostList extends React.PureComponent {
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
         };
+
+        this.handleCopy = (e) => copyPostData(e, this.props.actions.getPostForCopy);
     }
 
     componentDidMount() {
@@ -123,6 +130,8 @@ export default class PostList extends React.PureComponent {
         if (this.props.channelId) {
             this.postsOnLoad(this.props.channelId);
         }
+
+        window.addEventListener('copy', this.handleCopy);
     }
 
     componentDidUpdate(prevProps) {
@@ -133,6 +142,7 @@ export default class PostList extends React.PureComponent {
 
     componentWillUnmount() {
         this.mounted = false;
+        window.removeEventListener('copy', this.handleCopy);
     }
 
     postsOnLoad = async (channelId) => {

@@ -724,16 +724,24 @@ export default class CreatePost extends React.Component {
             return;
         }
 
+        const markdownData = e.clipboardData.getData('text/markdown');
         const table = getTable(e.clipboardData);
-        if (!table) {
+        let message = null;
+        if (table) {
+            message = formatMarkdownTableMessage(table, this.state.message.trim());
+        }
+
+        if (table || (markdownData && markdownData.length)) {
+            e.preventDefault();
+        } else {
             return;
         }
 
-        e.preventDefault();
-
-        const message = formatMarkdownTableMessage(table, this.state.message.trim());
-
-        this.setState({message});
+        if (message) {
+            this.setState({message});
+        } else {
+            this.setState({message: markdownData});
+        }
     }
 
     handleFileUploadChange = () => {
