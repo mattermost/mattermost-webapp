@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import {getRandomInt} from '../../utils';
+import { getRandomInt } from '../../utils';
 
 describe('Integrations page', () => {
     before(() => {
@@ -61,7 +61,9 @@ describe('Integrations page', () => {
         cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No incoming webhooks match ${searchString}`);
+        cy.get('#emptySearchResultsMessage')
+            .should('be.visible')
+            .and('have.text', `No incoming webhooks match ${searchString}`);
     });
 
     it('should should display correct message when outgoing webhook not found', () => {
@@ -89,7 +91,9 @@ describe('Integrations page', () => {
         cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No outgoing webhooks match ${searchString}`);
+        cy.get('#emptySearchResultsMessage')
+            .should('be.visible')
+            .and('have.text', `No outgoing webhooks match ${searchString}`);
     });
 
     it('should should display correct message when slash command not found', () => {
@@ -117,7 +121,9 @@ describe('Integrations page', () => {
         cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No commands match ${searchString}`);
+        cy.get('#emptySearchResultsMessage')
+            .should('be.visible')
+            .and('have.text', `No commands match ${searchString}`);
     });
 
     it('should should display correct message when OAuth app not found', () => {
@@ -147,7 +153,12 @@ describe('Integrations page', () => {
         cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No OAuth 2.0 Applications match ${searchString}`);
+        cy.get('#emptySearchResultsMessage')
+            .should('be.visible')
+            .and(
+                'have.text',
+                `No OAuth 2.0 Applications match ${searchString}`
+            );
     });
 
     it('should should display correct message when bot account not found', () => {
@@ -174,6 +185,8 @@ describe('Integrations page', () => {
         cy.get('#searchInput').type(`${searchString}{enter}`);
 
         // * Validate that the correct empty message is shown
-        cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No bot accounts match ${searchString}`);
+        cy.get('#emptySearchResultsMessage')
+            .should('be.visible')
+            .and('have.text', `No bot accounts match ${searchString}`);
     });
 });
