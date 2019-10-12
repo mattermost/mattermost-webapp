@@ -16,6 +16,7 @@ import {
     loadPostsAround,
     syncPostsInChannel,
     loadLatestPosts,
+    getPostForCopy,
 } from 'actions/views/channel';
 
 import PostList from './post_list.jsx';
@@ -83,6 +84,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            getPostForCopy,
             loadUnreads,
             loadPosts,
             loadLatestPosts,

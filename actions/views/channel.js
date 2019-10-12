@@ -11,7 +11,8 @@ import {selectTeam} from 'mattermost-redux/actions/teams';
 import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getChannelsNameMapInCurrentTeam, getCurrentChannel, getRedirectChannelNameForTeam, getMyChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getUser, getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getChannelByName, isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -301,5 +302,19 @@ export function syncPostsInChannel(channelId, since, fetchThreads = true) {
 export function scrollPostListToBottom() {
     return () => {
         EventEmitter.emit(EventTypes.POST_LIST_SCROLL_TO_BOTTOM);
+    };
+}
+
+export function getPostForCopy(postId) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const post = await getPost(state, postId);
+        const user = await getUser(state, post.user_id);
+
+        return {
+            user: user.username,
+            date: new Date(post.update_at),
+            content: post.message,
+        };
     };
 }
