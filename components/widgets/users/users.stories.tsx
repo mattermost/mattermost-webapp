@@ -13,7 +13,7 @@ storiesOf('Users Info', module).
     add(
         'avatars per size',
         () => {
-            const sizes = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+            const sizes: ('xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl')[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
             const url = text('Image url', '/api/v4/users/1/image?_=0');
             const username = text('Username', 'jesus.espino');
             return (
