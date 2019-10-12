@@ -49,13 +49,15 @@ export function formatText(text, inputOptions) {
     }
 
     let output = text;
-
     const options = Object.assign({}, inputOptions);
+    const hasPhrases = (/"([^"]*)"/).test(options.searchTerm);
 
-    if (options.searchMatches) {
+    if (options.searchMatches && !hasPhrases) {
         options.searchPatterns = options.searchMatches.map(convertSearchTermToRegex);
     } else {
-        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
+        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex).sort((a, b) => {
+            return b.term.length - a.term.length;
+        });
     }
 
     if (options.renderer) {
@@ -386,7 +388,7 @@ function autolinkHashtags(text, tokens, minimumHashtagLength = 3) {
 const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
 const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
 
-function parseSearchTerms(searchTerm) {
+export function parseSearchTerms(searchTerm) {
     let terms = [];
 
     let termString = searchTerm;
