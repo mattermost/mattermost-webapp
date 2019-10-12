@@ -21,16 +21,20 @@ describe('components/MarketplaceModal', () => {
     }];
 
     const installedPlugins = [];
+    let defaultProps;
 
-    const defaultProps = {
-        show: true,
-        installedPlugins,
-        marketplacePlugins: marketplacePluginsSample,
-        actions: {
-            closeModal: jest.fn(),
-            getMarketplacePlugins: jest.fn(),
-        },
-    };
+    beforeEach(async () => {
+        defaultProps = {
+            show: true,
+            installedPlugins,
+            marketplacePlugins: marketplacePluginsSample,
+            pluginStatuses: {},
+            actions: {
+                closeModal: jest.fn(),
+                getMarketplacePlugins: jest.fn(),
+            },
+        };
+    });
 
     test('should match the snapshot, no plugins installed', () => {
         const wrapper = shallow(
@@ -61,6 +65,18 @@ describe('components/MarketplaceModal', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should fetch marketplace plugins when plugin status is changed', () => {
+        const getMarketplacePlugins = defaultProps.actions.getMarketplacePlugins;
+        const wrapper = shallow(<MarketplaceModal {...defaultProps}/>);
+
+        expect(getMarketplacePlugins).toBeCalledTimes(1);
+        wrapper.setProps({...defaultProps});
+        expect(getMarketplacePlugins).toBeCalledTimes(1);
+
+        wrapper.setProps({...defaultProps, pluginStatuses: {test: 'test'}});
+        expect(getMarketplacePlugins).toBeCalledTimes(2);
     });
 
     test('should match the snapshot, error banner is shown', () => {

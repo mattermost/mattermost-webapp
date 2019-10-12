@@ -157,10 +157,12 @@ exports[`components/PluginManagement should match snapshot 1`] = `
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -367,10 +369,12 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -611,10 +615,12 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -860,10 +866,12 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -1104,10 +1112,12 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
           <AdminTextSetting
             disabled={true}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -1321,10 +1331,12 @@ exports[`components/PluginManagement should match snapshot, text entered into th
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -1565,10 +1577,12 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -1809,10 +1823,12 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -2116,10 +2132,12 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -2391,10 +2409,12 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -2666,10 +2686,12 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
@@ -2941,10 +2963,12 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
           <AdminTextSetting
             disabled={false}
             helpText={
-              <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="URL of the marketplace server."
-                id="admin.plugins.settings.marketplaceUrlDesc"
-              />
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
             }
             id="marketplaceUrl"
             label={
