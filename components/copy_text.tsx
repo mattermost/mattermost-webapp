@@ -10,7 +10,7 @@ import {copyToClipboard} from 'utils/utils.jsx';
 
 type Props = {
     value: string;
-    defaultMessage?: string;
+    defaultMessage: string;
     idMessage: string;
 };
 
