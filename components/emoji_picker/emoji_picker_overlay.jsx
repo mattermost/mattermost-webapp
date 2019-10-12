@@ -56,8 +56,13 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     }
 
     getPlacement() {
-        const targetBounds = this.props.target().getBoundingClientRect();
-        return popOverOverlayPosition(targetBounds, window.innerHeight, this.props.spaceRequiredAbove, this.props.spaceRequiredBelow);
+        const target = this.props.target();
+        if (target) {
+            const targetBounds = target.getBoundingClientRect();
+            return popOverOverlayPosition(targetBounds, window.innerHeight, this.props.spaceRequiredAbove, this.props.spaceRequiredBelow);
+        }
+
+        return 'top';
     }
 
     render() {
