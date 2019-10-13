@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 
 import LoadingScreen from 'components/loading_screen.jsx';
 import {PostRequestTypes} from 'utils/constants.jsx';
-import {getOldestPostId, getLatestPostId, copyPostData} from 'utils/post_utils.jsx';
+import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
+
+import {copyPostData} from 'utils/copy_utils.jsx';
 
 import VirtPostList from './post_list_virtualized.jsx';
 
