@@ -41,6 +41,22 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     constructor(props) {
         super(props);
         this.gmItemRef = React.createRef();
+        this.displayNameRef = React.createRef();
+    }
+
+    state = {
+        showTooltip: false,
+    }
+
+    componentDidMount() {
+        this.onMounted();
+    }
+
+    onMounted = () => {
+        const element = this.displayNameRef.current;
+        if (element && element.offsetWidth < element.scrollWidth) {
+            this.setState({showTooltip: true});
+        }
     }
 
     trackChannelSelectedEvent = () => {
@@ -84,7 +100,9 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     teammateIsBot={this.props.teammateIsBot}
                 />
                 <span className='sidebar-item__name'>
-                    <span>{this.props.displayName}</span>
+                    <span ref={this.displayNameRef}>
+                        {this.props.displayName}
+                    </span>
                 </span>
                 {badge}
                 <SidebarChannelButtonOrLinkCloseButton
@@ -149,7 +167,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
 
-        if (this.props.channelType === Constants.GM_CHANNEL) {
+        if (this.state.showTooltip) {
             const displayNameToolTip = (
                 <Tooltip
                     id='channel-displayname__tooltip'
