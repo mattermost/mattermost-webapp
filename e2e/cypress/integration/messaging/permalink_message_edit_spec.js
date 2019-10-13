@@ -19,38 +19,37 @@ describe('Permalink message edit', () => {
         cy.postMessage(searchWord);
 
         // # Search for searchWord
-        cy.get('#searchBox').type(searchWord).type('{enter}').then(() => {
-            // # Jump to permalink view
+        cy.get('#searchBox').type(searchWord).type('{enter}');
+
+        // # Jump to permalink view
+        cy.get('.search-item__jump').first().click();
+
+        cy.getLastPostId().then((postId) => {
+            // # Click on ... button of last post matching the searchWord
+            cy.clickPostDotMenu(postId);
+
+            // # Click on edit post
+            cy.get(`#edit_post_${postId}`).click();
+
+            const editedText = `edited - ${searchWord}`;
+
+            // # Add new text in edit box
+            cy.get('#edit_textbox').clear().type(editedText);
+
+            // # Click edit button
+            cy.get('#editButton').click();
+
+            // # Check edited post
+            verifyEditedPermalink(postId, editedText);
+
+            // # Login as "user-2" and go to /
+            cy.apiLogin('user-2');
+            cy.visit('/');
+
+            // # Find searchWord and verify edited post
+            cy.get('#searchBox').type(searchWord).type('{enter}');
             cy.get('.search-item__jump').first().click();
-
-            cy.getLastPostId().then((postId) => {
-                // # Click on ... button of last post matching the searchWord
-                cy.clickPostDotMenu(postId);
-
-                // # Click on edit post
-                cy.get(`#edit_post_${postId}`).click();
-
-                const editedText = `edited - ${searchWord}`;
-
-                // # Add new text in edit box
-                cy.get('#edit_textbox').clear().type(editedText);
-
-                // # Click edit button
-                cy.get('#editButton').click();
-
-                // # Check edited post
-                verifyEditedPermalink(postId, editedText);
-
-                // # Login as "user-2" and go to /
-                cy.apiLogin('user-2');
-                cy.visit('/');
-
-                // # Find searchWord and verify edited post
-                cy.get('#searchBox').type(searchWord).type('{enter}').then(() => {
-                    cy.get('.search-item__jump').first().click();
-                    verifyEditedPermalink(postId, editedText);
-                });
-            });
+            verifyEditedPermalink(postId, editedText);
         });
     });
     function verifyEditedPermalink(postId, text) {
