@@ -6,7 +6,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@types/common-tags": "^1.8.0",
+    "@types/common-tags": "1.8.0",
     "@types/enzyme": "3.10.3",
     "@types/history": "^4.7.3",
     "@types/jest": "24.0.17",
