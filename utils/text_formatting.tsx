@@ -297,8 +297,7 @@ var emailAlphaNumericChars = '\\p{L}\\p{Nd}';
 var emailSpecialCharacters = "!#$%&'*+\\-\\/=?^_`{|}~";
 var emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
 var emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
-var emailValidRestrictedCharacters =
-  emailValidCharacters + emailRestrictedSpecialCharacters;
+var emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
 var emailStartPattern =
   '(?:[' +
   emailValidCharacters +
@@ -383,9 +382,8 @@ function autolinkChannelMentions(
         const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
         if (team) {
-            href =
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href = ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
         }
 
         tokens.set(alias, {
