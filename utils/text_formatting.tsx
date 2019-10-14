@@ -24,10 +24,6 @@ const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]+)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
 const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
 
-// pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
-// http://stackoverflow.com/questions/15033196/using-javascript-to-check-whether-a-string-contains-japanese-characters-includi
-const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf\uac00-\ud7a3]/;
-
 // Performs formatting of user posts including highlighting mentions and search terms and converting urls, hashtags,
 // @mentions and ~channels to links by taking a user's message and returning a string of formatted html. Also takes
 // a number of options as part of the second parameter:
@@ -177,6 +173,10 @@ const DEFAULT_OPTIONS: TextFormattingOptions = {
     minimumHashtagLength: 3,
     proxyImages: false,
 };
+
+// pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
+// http://stackoverflow.com/questions/15033196/using-javascript-to-check-whether-a-string-contains-japanese-characters-includi
+const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf\uac00-\ud7a3]/;
 
 export function formatText(
     text: string,
