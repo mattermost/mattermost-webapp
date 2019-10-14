@@ -2402,7 +2402,6 @@ const AdminDefinition = {
                             it.stateIsFalse('LdapSettings.Enable'),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
-                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
