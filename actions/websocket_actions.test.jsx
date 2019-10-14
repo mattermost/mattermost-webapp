@@ -10,6 +10,7 @@ import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
 import {
     getMissingProfilesByIds,
     getStatusesByIds,
+    getUser,
 } from 'mattermost-redux/actions/users';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
@@ -47,6 +48,7 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 jest.mock('mattermost-redux/actions/users', () => ({
     getMissingProfilesByIds: jest.fn(() => ({type: 'GET_MISSING_PROFILES_BY_IDS'})),
     getStatusesByIds: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
+    getUser: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
 }));
 
 jest.mock('actions/post_actions', () => ({
@@ -228,6 +230,36 @@ describe('handleUserRemovedEvent', () => {
         handleUserRemovedEvent(msg);
         mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+
+    test('should load the remover_id user if is not available in the store', async () => {
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+                remover_id: 'otherUser',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+
+        handleUserRemovedEvent(msg);
+        expect(getUser).toHaveBeenCalledWith('otherUser');
+    });
+
+    test('should not load the remover_id user if is available in the store', async () => {
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+                remover_id: 'user',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+
+        handleUserRemovedEvent(msg);
+        expect(getUser).not.toHaveBeenCalled();
     });
 });
 
