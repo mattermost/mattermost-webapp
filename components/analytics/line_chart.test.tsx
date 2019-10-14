@@ -3,9 +3,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import LineChart from 'components/analytics/line_chart.jsx';
+import LineChart from 'components/analytics/line_chart';
 
-describe('components/analytics/line_chart.jsx', () => {
+describe('components/analytics/line_chart.tsx', () => {
     test('should match snapshot, on loading', () => {
         const wrapper = shallow(
             <LineChart

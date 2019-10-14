@@ -89,6 +89,7 @@ export default class DotMenu extends Component {
 
         this.state = {
             openUp: false,
+            width: 0,
         };
 
         this.buttonRef = React.createRef();
@@ -203,9 +204,10 @@ export default class DotMenu extends Component {
             const y = rect.y || rect.top;
             const height = rect.height;
             const windowHeight = window.innerHeight;
-            if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
-                this.setState({openUp: true});
-            }
+            this.setState({
+                openUp: (y + height) > (windowHeight - MENU_BOTTOM_MARGIN),
+                width: rect.width,
+            });
         }
     }
 
@@ -218,6 +220,20 @@ export default class DotMenu extends Component {
                 return item.filter ? item.filter(this.props.post.id) : item;
             }).
             map((item) => {
+                if (item.subMenu) {
+                    return (
+                        <Menu.ItemSubMenu
+                            key={item.id + '_pluginmenuitem'}
+                            id={item.text.id}
+                            postId={this.props.post.id}
+                            text={item.text}
+                            subMenu={item.subMenu}
+                            action={item.action}
+                            xOffset={this.state.width}
+                            root={true}
+                        />
+                    );
+                }
                 return (
                     <Menu.ItemAction
                         key={item.id + '_pluginmenuitem'}
