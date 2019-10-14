@@ -6,6 +6,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {A11yClassNames} from 'utils/constants';
+
 export default class ConfirmModal extends React.Component {
     static propTypes = {
 
@@ -107,7 +109,12 @@ export default class ConfirmModal extends React.Component {
 
     handleKeypress = (e) => {
         if (e.key === 'Enter' && this.props.show) {
-            this.handleConfirm();
+            const cancelButton = document.getElementById('cancelModalButton');
+            if (cancelButton && cancelButton.className.indexOf(A11yClassNames.ACTIVE) > -1) {
+                this.handleCancel();
+            } else {
+                this.handleConfirm();
+            }
         }
     }
 
