@@ -51,7 +51,7 @@ export default class MarketplaceModal extends React.Component {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
             loading: true,
             serverError: null,
-            filter: null,
+            filter: '',
         };
     }
 
@@ -79,7 +79,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     handleClearSearch = () => {
-        this.refs.filter.value = null;
+        this.refs.filter.value = '';
         this.setState({filter: this.refs.filter.value});
 
         this.getMarketplacePlugins();
