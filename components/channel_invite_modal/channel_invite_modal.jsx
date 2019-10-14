@@ -10,7 +10,7 @@ import {Client4} from 'mattermost-redux/client';
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
 import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
+import ProfilePicture from 'components/profile_picture';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
