@@ -153,10 +153,9 @@ export default class Renderer extends marked.Renderer {
                 outHref = `http://${outHref}`;
             // eslint-disable-next-line prefer-rest-params
             } else if (arguments[3] && this.formattingOptions.autolinkedUrlSchemes) {
-                const isValidUrl =
-          this.formattingOptions.autolinkedUrlSchemes.indexOf(
-              scheme.toLowerCase()
-          ) !== -1;
+                const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(
+                    scheme.toLowerCase()
+                ) !== -1;
 
                 if (!isValidUrl) {
                     return text;
