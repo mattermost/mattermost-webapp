@@ -51,6 +51,7 @@ export default class MarketplaceModal extends React.Component {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
             loading: true,
             serverError: null,
+            filter: null,
         };
     }
 
@@ -79,6 +80,8 @@ export default class MarketplaceModal extends React.Component {
 
     handleClearSearch = () => {
         this.refs.filter.value = null;
+        this.setState({filter: null});
+        this.getMarketplacePlugins();
     };
 
     close = () => {
@@ -97,6 +100,14 @@ export default class MarketplaceModal extends React.Component {
     doSearch = () => {
         this.trackSearch();
         this.getMarketplacePlugins();
+    }
+
+    debouncedSearch = debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS);
+
+    onInput = () => {
+        this.setState({filter: this.refs.filter.value});
+
+        this.debouncedSearch();
     }
 
     getPluginsListContent = (pluginsArray, installedList) => {
@@ -181,9 +192,10 @@ export default class MarketplaceModal extends React.Component {
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
                         inputComponent={LocalizedInput}
-                        onInput={debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS)}
+                        onInput={this.onInput}
+                        value={this.state.filter}
                     />
-                    {this.refs.filter && this.refs.filter.value.trim() !== '' &&
+                    {this.state.filter && this.state.filter.trim() !== '' &&
                         <div
                             id='searchClearButton'
                             className='sidebar__search-clear visible'
