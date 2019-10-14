@@ -21,6 +21,7 @@ function mapStateToProps(state) {
         installedPlugins: getMarketplaceInstalledPlugins(state),
         marketplacePlugins: state.entities.plugins.marketplacePlugins,
         siteURL: getSiteURL(state),
+        pluginStatuses: state.entities.admin.pluginStatuses,
     };
 }
 

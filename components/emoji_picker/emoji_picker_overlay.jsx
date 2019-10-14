@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
-import {popOverOverlayPosition} from 'utils/position_utils.jsx';
+import {popOverOverlayPosition} from 'utils/position_utils.tsx';
 import {Constants} from 'utils/constants.jsx';
 
 import EmojiPickerTabs from './emoji_picker_tabs.jsx';
@@ -53,7 +53,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
         if (nextProps.show && !this.props.show) {
             const targetBounds = nextProps.target().getBoundingClientRect();
-            const placement = popOverOverlayPosition(targetBounds, window.innerHeight, {above: nextProps.spaceRequiredAbove, below: nextProps.spaceRequiredBelow});
+            const placement = popOverOverlayPosition(targetBounds, window.innerHeight, nextProps.spaceRequiredAbove, nextProps.spaceRequiredBelow);
 
             this.setState({placement, rightOffset: this.emojiPickerPosition()});
         }

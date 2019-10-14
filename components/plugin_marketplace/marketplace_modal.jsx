@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 import {Tabs, Tab} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -36,6 +37,7 @@ export default class MarketplaceModal extends React.Component {
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
         siteURL: PropTypes.string.isRequired,
+        pluginStatuses: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             getMarketplacePlugins: PropTypes.func.isRequired,
@@ -60,6 +62,12 @@ export default class MarketplaceModal extends React.Component {
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.getMarketplacePlugins();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!isEqual(this.props.pluginStatuses, prevProps.pluginStatuses)) {
+            this.getMarketplacePlugins();
+        }
     }
 
     getMarketplacePlugins = async () => {
