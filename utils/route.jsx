@@ -16,22 +16,16 @@ export const notFoundParams = {
     type: ErrorPageTypes.PAGE_NOT_FOUND,
 };
 
-const mfaPaths = [
-    '/mfa/setup',
-    '/mfa/confirm',
-];
-
 const mfaAuthServices = [
     '',
     'email',
     'ldap',
 ];
 
-export function checkIfMFARequired(user, license, config, path) {
+export function checkIfMFARequired(user, license, config) {
     if (license.MFA === 'true' &&
             config.EnableMultifactorAuthentication === 'true' &&
-            config.EnforceMultifactorAuthentication === 'true' &&
-            mfaPaths.indexOf(path) === -1) {
+            config.EnforceMultifactorAuthentication === 'true') {
         if (isGuest(user) && config.GuestAccountsEnforceMultifactorAuthentication !== 'true') {
             return false;
         }
@@ -44,4 +38,3 @@ export function checkIfMFARequired(user, license, config, path) {
 
     return false;
 }
-

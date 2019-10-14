@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Route, Switch} from 'react-router-dom';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
@@ -15,6 +14,12 @@ import Setup from '../setup';
 import Confirm from '../confirm';
 
 export default class MFAController extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {setupCompleted: false};
+    }
+
     componentDidMount() {
         document.body.classList.add('sticky');
         document.getElementById('root').classList.add('container-fluid');
@@ -33,6 +38,10 @@ export default class MFAController extends React.Component {
         e.preventDefault();
         emitUserLoggedOutEvent('/login');
     }
+
+    completeSetup = () => {
+        this.setState({setupCompleted: true});
+    };
 
     render() {
         let backButton;
@@ -55,6 +64,18 @@ export default class MFAController extends React.Component {
             backButton = (<BackButton/>);
         }
 
+        let step;
+        if (this.state.setupCompleted) {
+            step = (<Confirm state={this.state}/>);
+        } else {
+            step = (
+                <Setup
+                    state={this.state}
+                    completeSetup={this.completeSetup}
+                />
+            );
+        }
+
         return (
             <div className='inner-wrap'>
                 <div className='row content'>
@@ -74,28 +95,7 @@ export default class MFAController extends React.Component {
                                     src={logoImage}
                                 />
                                 <div id='mfa'>
-                                    <Switch>
-                                        <Route
-                                            path={`${this.props.match.url}/setup`}
-                                            render={(props) => (
-                                                <Setup
-                                                    state={this.state}
-                                                    updateParent={this.updateParent}
-                                                    {...props}
-                                                />
-                                            )}
-                                        />
-                                        <Route
-                                            path={`${this.props.match.url}/confirm`}
-                                            render={(props) => (
-                                                <Confirm
-                                                    state={this.state}
-                                                    updateParent={this.updateParent}
-                                                    {...props}
-                                                />
-                                            )}
-                                        />
-                                    </Switch>
+                                    {step}
                                 </div>
                             </div>
                         </div>

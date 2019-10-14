@@ -4,7 +4,6 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 import semver from 'semver';
 
@@ -28,12 +27,10 @@ export default class LoggedIn extends React.PureComponent {
         currentUser: PropTypes.object,
         currentChannelId: PropTypes.string,
         children: PropTypes.object,
-        mfaRequired: PropTypes.bool.isRequired,
         enableTimezone: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             autoUpdateTimezone: PropTypes.func.isRequired,
         }).isRequired,
-        showTermsOfService: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -155,18 +152,6 @@ export default class LoggedIn extends React.PureComponent {
     render() {
         if (!this.isValidState()) {
             return <LoadingScreen/>;
-        }
-
-        if (this.props.mfaRequired) {
-            if (this.props.location.pathname !== '/mfa/setup') {
-                return <Redirect to={'/mfa/setup'}/>;
-            }
-        } else if (this.props.location.pathname === '/mfa/confirm') {
-            // Nothing to do. Wait for MFA flow to complete before prompting TOS.
-        } else if (this.props.showTermsOfService) {
-            if (this.props.location.pathname !== '/terms_of_service') {
-                return <Redirect to={'/terms_of_service?redirect_to=' + encodeURIComponent(this.props.location.pathname)}/>;
-            }
         }
 
         return this.props.children;

@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants.jsx';
 import {isKeyPressed} from 'utils/utils.jsx';
 
-import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+import {browserHistory} from 'utils/browser_history.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -24,7 +24,7 @@ export default class Confirm extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        redirectUserToDefaultTeam();
+        browserHistory.push('/');
     }
 
     onKeyPress = (e) => {

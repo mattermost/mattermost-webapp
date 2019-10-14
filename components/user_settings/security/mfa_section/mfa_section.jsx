@@ -37,7 +37,7 @@ export default class MfaSection extends React.PureComponent {
     setupMfa = (e) => {
         e.preventDefault();
 
-        browserHistory.push('/mfa/setup');
+        browserHistory.push('/mfa');
     };
 
     removeMfa = async (e) => {
@@ -53,7 +53,7 @@ export default class MfaSection extends React.PureComponent {
         }
 
         if (this.props.mfaEnforced) {
-            browserHistory.push('/mfa/setup');
+            browserHistory.push('/mfa');
             return;
         }
 

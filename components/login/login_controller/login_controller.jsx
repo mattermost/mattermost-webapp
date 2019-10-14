@@ -8,7 +8,6 @@ import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
@@ -90,7 +89,7 @@ class LoginController extends React.Component {
         this.configureTitle();
 
         if (this.props.currentUser) {
-            GlobalActions.redirectUserToDefaultTeam();
+            browserHistory.push('/');
             return;
         }
 
@@ -333,7 +332,7 @@ class LoginController extends React.Component {
         } else if (experimentalPrimaryTeam) {
             browserHistory.push(`/${experimentalPrimaryTeam}`);
         } else {
-            GlobalActions.redirectUserToDefaultTeam();
+            browserHistory.push('/');
         }
     }
 

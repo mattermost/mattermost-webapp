@@ -5,7 +5,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
 import {loadMeAndConfig} from 'actions/views/root';
 
@@ -13,13 +12,10 @@ import Root from './root.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
-    const showTermsOfService = shouldShowTermsOfService(state);
 
     return {
         diagnosticsEnabled: config.DiagnosticsEnabled === 'true',
-        noAccounts: config.NoAccounts === 'true',
         diagnosticId: config.DiagnosticId,
-        showTermsOfService,
     };
 }
 

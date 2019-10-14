@@ -4,14 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
+import {browserHistory} from 'utils/browser_history.jsx';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Confirm from 'components/mfa/confirm.jsx';
 import Constants from 'utils/constants.jsx';
 
-jest.mock('actions/global_actions.jsx', () => ({
-    redirectUserToDefaultTeam: jest.fn(),
+jest.mock('utils/browser_history.jsx', () => ({
+    browserHistory: {
+        push: jest.fn(),
+    },
 }));
 
 describe('components/mfa/components/Confirm', () => {
@@ -29,7 +31,7 @@ describe('components/mfa/components/Confirm', () => {
         const wrapper = mountWithIntl(<Confirm/>);
         wrapper.find('form').simulate('submit');
 
-        expect(redirectUserToDefaultTeam).toHaveBeenCalled();
+        expect(browserHistory.push).toHaveBeenCalledWith('/');
     });
 
     test('should submit on enter', () => {
@@ -46,6 +48,6 @@ describe('components/mfa/components/Confirm', () => {
         };
         map.keydown(event);
 
-        expect(redirectUserToDefaultTeam).toHaveBeenCalled();
+        expect(browserHistory.push).toHaveBeenCalledWith('/');
     });
 });

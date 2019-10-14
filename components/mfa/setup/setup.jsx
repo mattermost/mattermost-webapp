@@ -14,6 +14,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 export default class Setup extends React.Component {
     static propTypes = {
         currentUser: PropTypes.object,
+        completeSetup: PropTypes.func.isRequired,
         siteName: PropTypes.string,
         enforceMultifactorAuthentication: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
@@ -75,7 +76,7 @@ export default class Setup extends React.Component {
                 return;
             }
 
-            this.props.history.push('/mfa/confirm');
+            this.props.completeSetup();
         });
     }
 

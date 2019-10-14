@@ -43,7 +43,6 @@ export default class NeedsTeam extends React.Component {
             loadProfilesForDirect: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
-        mfaRequired: PropTypes.bool.isRequired,
 
         /*
          * Object from react-router
@@ -59,11 +58,6 @@ export default class NeedsTeam extends React.Component {
     constructor(params) {
         super(params);
         this.blurTime = new Date().getTime();
-
-        if (this.props.mfaRequired) {
-            this.props.history.push('/mfa/setup');
-            return;
-        }
 
         clearInterval(wakeUpInterval);
 

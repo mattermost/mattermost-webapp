@@ -6,18 +6,16 @@ import {batchActions} from 'redux-batched-actions';
 import {
     createDirectChannel,
     fetchMyChannelsAndMembers,
-    getChannelByNameAndTeamName,
     getChannelStats,
     getMyChannelMember,
     markChannelAsRead,
     markChannelAsViewed,
-    selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsInTeam, getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -287,7 +285,7 @@ export function emitBrowserFocus(focus) {
     });
 }
 
-export async function redirectUserToDefaultTeam() {
+export async function completeUserData() {
     let state = getState();
 
     // Assume we need to load the user if they don't have any team memberships loaded
@@ -300,8 +298,54 @@ export async function redirectUserToDefaultTeam() {
     state = getState();
 
     const user = getCurrentUser(state);
+
+    // If the user is a guest, chances are that only the teams are
+    // loaded and, as guests are not necessarily members of the
+    // default channel, we need to find out their next available team
+    // and get channels and memberships for it to be able to route the
+    // user
+    if (Utils.isGuest(user)) {
+        const locale = getCurrentLocale(state);
+        const teamId = LocalStorageStore.getPreviousTeamId(user.id);
+
+        let team = getTeam(state, teamId);
+        const myMember = getMyTeamMember(state, teamId);
+
+        if (!team || !myMember || !myMember.team_id) {
+            team = null;
+            let myTeams = getMyTeams(state);
+
+            if (myTeams.length > 0) {
+                myTeams = filterAndSortTeamsByDisplayName(myTeams, locale);
+                if (myTeams && myTeams[0]) {
+                    team = myTeams[0];
+                }
+            }
+        }
+
+        await dispatch(fetchMyChannelsAndMembers(team.id));
+    }
+}
+
+export function defaultRoute(state) {
+    const user = getCurrentUser(state);
+
+    if (!user) {
+        return '/login';
+    }
+
     const locale = getCurrentLocale(state);
     const teamId = LocalStorageStore.getPreviousTeamId(user.id);
+
+    // Don't compute a default until we have successfully received our teams.
+    if (state.requests.teams.getMyTeams.status !== 'success') {
+        return '/';
+    }
+
+    // If guest, do not compute a default until we have successfully received team and channels
+    if (Utils.isGuest(user) && Utils.isEmptyObject(getChannelsInTeam(state))) {
+        return '/';
+    }
 
     let team = getTeam(state, teamId);
     const myMember = getMyTeamMember(state, teamId);
@@ -319,26 +363,14 @@ export async function redirectUserToDefaultTeam() {
     }
 
     if (user.id && team) {
-        if (Utils.isGuest(user)) {
-            await dispatch(fetchMyChannelsAndMembers(team.id));
-            state = getState();
-        }
-
         let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
         const channel = getChannelByName(state, channelName);
-
         if (channel && channel.team_id === team.id) {
-            dispatch(selectChannel(channel.id));
             channelName = channel.name;
-        } else {
-            const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
-            if (data) {
-                dispatch(selectChannel(data.id));
-            }
         }
 
-        browserHistory.push(`/${team.name}/channels/${channelName}`);
-    } else if (user.id) {
-        browserHistory.push('/select_team');
+        return `/${team.name}/channels/${channelName}`;
     }
+
+    return '/select_team';
 }

@@ -104,7 +104,7 @@ describe('MfaSection', () => {
 
             wrapper.instance().setupMfa({preventDefault: jest.fn()});
 
-            expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
+            expect(browserHistory.push).toHaveBeenCalledWith('/mfa');
         });
     });
 
@@ -132,7 +132,7 @@ describe('MfaSection', () => {
             await wrapper.instance().removeMfa({preventDefault: jest.fn()});
 
             expect(baseProps.updateSection).not.toHaveBeenCalled();
-            expect(browserHistory.push).toHaveBeenCalledWith('/mfa/setup');
+            expect(browserHistory.push).toHaveBeenCalledWith('/mfa');
         });
 
         it('on error, should show error', async () => {

@@ -10,7 +10,6 @@ import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitUserLoggedOutEvent: jest.fn(),
-    redirectUserToDefaultTeam: jest.fn(),
 }));
 
 describe('components/terms_of_service/TermsOfService', () => {

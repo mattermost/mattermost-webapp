@@ -4,15 +4,10 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants.jsx';
 
 import SignupController from './signup_controller.jsx';
-
-jest.mock('actions/global_actions', () => ({
-    redirectUserToDefaultTeam: jest.fn(),
-}));
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -90,7 +85,6 @@ describe('components/SignupController', () => {
         expect(wrapper).toMatchSnapshot();
         expect(addUserToTeamFromInvite).toHaveBeenCalled();
         expect(getInviteInfo).not.toHaveBeenCalled();
-        expect(GlobalActions.redirectUserToDefaultTeam).not.toHaveBeenCalled();
 
         await addUserToTeamFromInvite();
         expect(browserHistory.push).toHaveBeenCalledWith(`/defaultTeam/channels/${Constants.DEFAULT_CHANNEL}`);

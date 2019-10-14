@@ -74,6 +74,7 @@ export function goToChannelByChannelId(match, history) {
         let channel = getChannel(state, channelId);
         const member = state.entities.channels.myMembers[channelId];
         const teamObj = getTeamByName(state, team);
+
         if (!channel || !member) {
             const {data, error} = await dispatch(joinChannel(getCurrentUserId(state), teamObj.id, channelId, null));
             if (error) {

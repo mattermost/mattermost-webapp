@@ -49,7 +49,7 @@ export default class TermsOfService extends React.PureComponent {
         if (this.props.termsEnabled) {
             this.getTermsOfService();
         } else {
-            GlobalActions.redirectUserToDefaultTeam();
+            browserHistory.push('/');
         }
     }
 
@@ -89,7 +89,7 @@ export default class TermsOfService extends React.PureComponent {
                 if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
                     browserHistory.push(redirectTo);
                 } else {
-                    GlobalActions.redirectUserToDefaultTeam();
+                    browserHistory.push('/');
                 }
             }
         );
