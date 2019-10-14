@@ -155,65 +155,70 @@ export default class ChannelMentionProvider extends Provider {
             matchedPretext: captured[1],
         });
 
-        this.autocompleteChannels(
-            prefix,
-            (channels) => {
-                const myMembers = getMyChannelMemberships(store.getState());
-                if (this.shouldCancelDispatch(prefix)) {
+        const handleChannels = (channels, withError) => {
+            const myMembers = getMyChannelMemberships(store.getState());
+            if (this.shouldCancelDispatch(prefix)) {
+                return;
+            }
+
+            if (channels.length === 0 && !withError) {
+                this.lastPrefixWithNoResults = prefix;
+            }
+
+            // Wrap channels in an outer object to avoid overwriting the 'type' property.
+            const wrappedMoreChannels = [];
+            const moreChannels = [];
+            channels.forEach((item) => {
+                if (item.delete_at > 0 && !myMembers[item.id]) {
+                    return;
+                }
+                if (getChannel(store.getState(), item.id)) {
+                    if (!wrappedChannelIds[item.id]) {
+                        wrappedChannelIds[item.id] = true;
+                        wrappedChannels.push({
+                            type: Constants.MENTION_CHANNELS,
+                            channel: item,
+                        });
+                    }
                     return;
                 }
 
-                if (channels.length === 0) {
-                    this.lastPrefixWithNoResults = prefix;
-                }
-
-                // Wrap channels in an outer object to avoid overwriting the 'type' property.
-                const wrappedMoreChannels = [];
-                const moreChannels = [];
-                channels.forEach((item) => {
-                    if (item.delete_at > 0 && !myMembers[item.id]) {
-                        return;
-                    }
-                    if (getChannel(store.getState(), item.id)) {
-                        if (!wrappedChannelIds[item.id]) {
-                            wrappedChannelIds[item.id] = true;
-                            wrappedChannels.push({
-                                type: Constants.MENTION_CHANNELS,
-                                channel: item,
-                            });
-                        }
-                        return;
-                    }
-
-                    wrappedMoreChannels.push({
-                        type: Constants.MENTION_MORE_CHANNELS,
-                        channel: item,
-                    });
-
-                    moreChannels.push(item);
+                wrappedMoreChannels.push({
+                    type: Constants.MENTION_MORE_CHANNELS,
+                    channel: item,
                 });
 
-                wrappedChannels = wrappedChannels.sort((a, b) => {
-                    //
-                    // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
-                    //
-                    return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
-                });
-                const wrapped = wrappedChannels.concat(wrappedMoreChannels);
-                const mentions = wrapped.map((item) => '~' + item.channel.name);
+                moreChannels.push(item);
+            });
 
+            wrappedChannels = wrappedChannels.sort((a, b) => {
+                //
+                // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
+                //
+                return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
+            });
+            const wrapped = wrappedChannels.concat(wrappedMoreChannels);
+            const mentions = wrapped.map((item) => '~' + item.channel.name);
+
+            if (moreChannels.length > 0) {
                 store.dispatch({
                     type: ChannelTypes.RECEIVED_CHANNELS,
                     data: moreChannels,
                 });
-
-                resultCallback({
-                    matchedPretext: captured[1],
-                    terms: mentions,
-                    items: wrapped,
-                    component: ChannelMentionSuggestion,
-                });
             }
+
+            resultCallback({
+                matchedPretext: captured[1],
+                terms: mentions,
+                items: wrapped,
+                component: ChannelMentionSuggestion,
+            });
+        };
+
+        this.autocompleteChannels(
+            prefix,
+            (channels) => handleChannels(channels, false),
+            () => handleChannels([], true),
         );
 
         return true;
