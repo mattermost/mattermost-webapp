@@ -112,6 +112,7 @@ export default class NotificationsTab extends React.Component {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
+        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         siteName: PropTypes.string,

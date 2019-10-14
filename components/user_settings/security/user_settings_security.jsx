@@ -28,6 +28,7 @@ export default class SecurityTab extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         activeSection: PropTypes.string,
+        previousActiveSection: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,

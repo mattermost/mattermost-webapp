@@ -27,6 +27,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         joinLeave: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
+        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         enablePreviewFeatures: PropTypes.bool,

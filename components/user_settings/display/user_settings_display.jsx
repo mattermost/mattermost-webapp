@@ -39,6 +39,7 @@ export default class UserSettingsDisplay extends React.Component {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
+        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         setRequireConfirm: PropTypes.func.isRequired,

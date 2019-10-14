@@ -76,6 +76,7 @@ class UserSettingsModal extends React.Component {
         this.state = {
             active_tab: 'general',
             active_section: '',
+            previousActiveSection: '',
             showConfirmModal: false,
             enforceFocus: true,
             show: true,
@@ -291,6 +292,7 @@ class UserSettingsModal extends React.Component {
                                 doLoad={loadUserSettings}
                                 activeTab={this.state.active_tab}
                                 activeSection={this.state.active_section}
+                                previousActiveSection={this.state.previousActiveSection}
                                 updateSection={this.updateSection}
                                 updateTab={this.updateTab}
                                 closeModal={this.closeModal}

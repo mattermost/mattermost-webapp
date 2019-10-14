@@ -92,6 +92,7 @@ class UserSettingsGeneralTab extends React.Component {
         updateSection: PropTypes.func.isRequired,
         updateTab: PropTypes.func.isRequired,
         activeSection: PropTypes.string.isRequired,
+        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
