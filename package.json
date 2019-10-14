@@ -6,7 +6,6 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@types/chart.js": "^2.8.5",
     "@types/enzyme": "3.10.3",
     "@types/history": "^4.7.3",
     "@types/jest": "24.0.17",
@@ -40,7 +39,7 @@
     "localforage": "1.7.3",
     "localforage-observable": "2.0.0",
     "mark.js": "8.11.1",
-    "marked": "github:mattermost/marked#3a9d0a5bd6d735df1a716ab50f73d58a1d865bdb",
+    "marked": "github:mattermost/marked#09e4643601bc620c682d16410ddc4a4115815a12",
     "mattermost-redux": "github:mattermost/mattermost-redux#e40072b407f8d437cb10a2edc78ac7972c7587be",
     "moment-timezone": "0.5.26",
     "pdfjs-dist": "2.0.489",
