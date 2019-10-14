@@ -28,6 +28,7 @@ import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx'
 import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button.jsx';
 import FormError from 'components/form_error';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -563,7 +564,7 @@ export default class SchemaAdminSettings extends React.Component {
             >
                 <div className='banner__content'>
                     <span>
-                        { setting.banner_type === 'warning' ? <i className='fa fa-warning banner__icon'/> : null}
+                        { setting.banner_type === 'warning' ? <WarningIcon additionalClassName='banner__icon'/> : null}
                         {this.renderBanner(setting)}
                     </span>
                 </div>

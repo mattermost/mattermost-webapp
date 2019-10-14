@@ -42,7 +42,7 @@ function makeGetPluginSchema() {
                         component = customComponents[key].component;
                         displayName = customComponents[key].title;
                         type = Constants.SettingsTypes.TYPE_CUSTOM;
-                    } else if (!customComponents[key] && setting.type === Constants.SettingsTypes.TYPE_CUSTOM) {
+                    } else if (setting.type === Constants.SettingsTypes.TYPE_CUSTOM) {
                         // Show a warning banner to enable the plugin in order to display the custom component.
                         type = Constants.SettingsTypes.TYPE_BANNER;
                         displayName = localizeMessage('admin.plugin.customSetting.pluginDisabledWarning', 'In order to view this setting, enable the plugin and click Save.');
