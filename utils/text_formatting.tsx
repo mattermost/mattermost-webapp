@@ -3,7 +3,7 @@
 
 import XRegExp from 'xregexp';
 
-// @ts-ignore TODO! ignore this for now because of the missing type definition
+// @ts-ignore TODO! PR in progress https://github.com/mattermost/mattermost-redux/pull/936
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
@@ -204,13 +204,13 @@ export function formatText(
         output = formatWithRenderer(output, options.renderer);
         output = doFormatText(output, options);
     } else if (!('markdown' in options) || options.markdown) {
-    // the markdown renderer will call doFormatText as necessary
+        // the markdown renderer will call doFormatText as necessary
         output = Markdown.format(output, options);
         if (output.includes('class="markdown-inline-img"')) {
             /*
-       ** remove p tag to allow other divs to be nested,
-       ** which allows markdown images to open preview window
-       */
+            ** remove p tag to allow other divs to be nested,
+            ** which allows markdown images to open preview window
+            */
             const replacer = (match: string) => {
                 return match === '<p>' ? '<div className="style--none">' : '</div>';
             };
@@ -682,12 +682,12 @@ function convertSearchTermToRegex(term: string): SearchPattern {
     let pattern;
 
     if (cjkPattern.test(term)) {
-    // term contains Chinese, Japanese, or Korean characters so don't mark word boundaries
+        // term contains Chinese, Japanese, or Korean characters so don't mark word boundaries
         pattern = '()(' + escapeRegex(term.replace(/\*/g, '')) + ')';
     } else if ((/[^\s][*]$/).test(term)) {
         pattern = '\\b()(' + escapeRegex(term.substring(0, term.length - 1)) + ')';
     } else if (term.startsWith('@') || term.startsWith('#')) {
-    // needs special handling of the first boundary because a word boundary doesn't work before a symbol
+        // needs special handling of the first boundary because a word boundary doesn't work before a symbol
         pattern = '(\\W|^)(' + escapeRegex(term) + ')\\b';
     } else {
         pattern = '\\b()(' + escapeRegex(term) + ')\\b';
@@ -727,7 +727,7 @@ export function highlightSearchTerms(
     }
 
     for (const pattern of searchPatterns) {
-    // highlight existing tokens matching search terms
+        // highlight existing tokens matching search terms
         var newTokens = new Map();
         for (const [alias, token] of tokens) {
             if (pattern.pattern.test(token.originalText)) {
