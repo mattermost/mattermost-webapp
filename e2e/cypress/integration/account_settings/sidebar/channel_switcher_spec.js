@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getRandomInt} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // ***************************************************************
@@ -10,7 +9,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-let allChannels = [];
+const allChannels = [];
 let testChannel;
 let channelDisplayName;
 
@@ -19,26 +18,27 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        for(let i = 0; i < 15; i++) {
-            cy.getCurrentTeamId().then((teamId) => {
+        cy.getCurrentTeamId().then((teamId) => {
+            for (let i = 0; i < 15; i++) {
                 channelDisplayName = `Channel Switcher ${i.toString()}`;
                 cy.apiCreateChannel(teamId, 'channel-switcher', channelDisplayName).then((response) => {
-                    testChannel = response.body;
-                    allChannels.push(testChannel);
+                    allChannels.push(response.body);
                 });
-            });
-        }
+            }
+        }).then(() => {
+            testChannel = allChannels[allChannels.length - 1];
+        });
 
         // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal(null, true);
     });
     after(() => {
-        allChannels.forEach(channel => {
+        allChannels.forEach((channel) => {
             cy.apiDeleteChannel(channel.id);
-        })
+        });
     });
 
-    it('should render in min setting view', () => {G
+    it('should render in min setting view', () => {
         // * Check that the Sidebar tab is loaded
         cy.get('#sidebarButton').should('be.visible');
 
