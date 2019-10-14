@@ -130,6 +130,8 @@ export default class SignupController extends React.Component {
         let serverError;
         if (err.server_error_id === 'store.sql_user.save.max_accounts.app_error') {
             serverError = err.message;
+        } else if (err.server_error_id === 'api.team.add_user_to_team_from_invite.guest.app_error') {
+            serverError = err.message;
         } else {
             serverError = (
                 <FormattedMessage
