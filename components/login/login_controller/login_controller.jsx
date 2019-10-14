@@ -8,15 +8,15 @@ import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
 
-import Constants from 'utils/constants';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
+import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {showNotification} from 'utils/notifications';
+import {showNotification} from 'utils/notifications.jsx';
 import {t} from 'utils/i18n.jsx';
 
 import logoImage from 'images/logo.png';
@@ -62,7 +62,7 @@ class LoginController extends React.Component {
             login: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
         }).isRequired,
-    };
+    }
 
     constructor(props) {
         super(props);
@@ -146,7 +146,7 @@ class LoginController extends React.Component {
         } else {
             document.title = this.props.siteName;
         }
-    };
+    }
 
     showSessionExpiredNotificationIfNeeded = () => {
         if (this.state.sessionExpired && !this.closeSessionExpiredNotification) {
@@ -170,14 +170,11 @@ class LoginController extends React.Component {
             }).catch(() => {
                 // Ignore the failure to display the notification.
             });
-        } else if (
-            !this.state.sessionExpired &&
-            this.closeSessionExpiredNotification
-        ) {
+        } else if (!this.state.sessionExpired && this.closeSessionExpiredNotification) {
             this.closeSessionExpiredNotification();
             this.closeSessionExpiredNotification = null;
         }
-    };
+    }
 
     preSubmit = (e) => {
         e.preventDefault();
@@ -259,7 +256,7 @@ class LoginController extends React.Component {
         }
 
         this.submit(loginId, password, '');
-    };
+    }
 
     submit = (loginId, password, token) => {
         this.setState({serverError: null, loading: true});
@@ -307,7 +304,6 @@ class LoginController extends React.Component {
 
             if (inviteId || inviteToken) {
                 const {data: team} = await this.props.actions.addUserToTeamFromInvite(inviteToken, inviteId);
-
                 if (team) {
                     this.finishSignin(team);
                 } else {
@@ -318,7 +314,7 @@ class LoginController extends React.Component {
                 this.finishSignin();
             }
         });
-    };
+    }
 
     finishSignin = (team) => {
         const experimentalPrimaryTeam = this.props.experimentalPrimaryTeam;
@@ -339,23 +335,23 @@ class LoginController extends React.Component {
         } else {
             GlobalActions.redirectUserToDefaultTeam();
         }
-    };
+    }
 
     handleLoginIdChange = (e) => {
         this.setState({
             loginId: e.target.value,
         });
-    };
+    }
 
     handlePasswordChange = (e) => {
         this.setState({
             password: e.target.value,
         });
-    };
+    }
 
     handleBrandImageError = () => {
         this.setState({brandImageError: true});
-    };
+    }
 
     createCustomLogin = () => {
         if (this.props.enableCustomBrand) {
@@ -380,7 +376,7 @@ class LoginController extends React.Component {
         }
 
         return null;
-    };
+    }
 
     createLoginPlaceholder = () => {
         const ldapEnabled = this.state.ldapEnabled;
@@ -408,32 +404,29 @@ class LoginController extends React.Component {
             return loginPlaceholders.slice(0, loginPlaceholders.length - 1).join(', ') +
                 Utils.localizeMessage('login.placeholderOr', ' or ') +
                 loginPlaceholders[loginPlaceholders.length - 1];
-            
         } else if (loginPlaceholders.length === 1) {
             return loginPlaceholders[0];
         }
 
         return '';
-    };
+    }
 
     checkSignUpEnabled = () => {
-        return (
-            this.props.enableSignUpWithEmail ||
+        return this.props.enableSignUpWithEmail ||
             this.props.enableSignUpWithGitLab ||
             this.props.enableSignUpWithOffice365 ||
             this.props.enableSignUpWithGoogle ||
             this.props.enableLdap ||
-            this.props.enableSaml
-        );
-    };
+            this.props.enableSaml;
+    }
 
     onDismissSessionExpired = () => {
         LocalStorageStore.setWasLoggedIn(false);
         this.setState({sessionExpired: false});
-    };
+    }
 
     createExtraText = () => {
-        const extraParam = new URLSearchParams(this.props.location.search).get('extra');
+        const extraParam = (new URLSearchParams(this.props.location.search)).get('extra');
 
         if (this.state.sessionExpired) {
             return (
@@ -527,7 +520,7 @@ class LoginController extends React.Component {
         }
 
         return null;
-    };
+    }
 
     createLoginOptions = () => {
         const loginControls = [];
@@ -602,7 +595,7 @@ class LoginController extends React.Component {
                             </button>
                         </div>
                     </div>
-                </form>,
+                </form>
             );
         }
 
@@ -628,7 +621,7 @@ class LoginController extends React.Component {
                             />
                         </Link>
                     </span>
-                </div>,
+                </div>
             );
         }
 
@@ -645,7 +638,7 @@ class LoginController extends React.Component {
                             defaultMessage='I forgot my password'
                         />
                     </Link>
-                </div>,
+                </div>
             );
         }
 
@@ -659,7 +652,7 @@ class LoginController extends React.Component {
                         id='login.or'
                         defaultMessage='or'
                     />
-                </div>,
+                </div>
             );
 
             loginControls.push(
@@ -668,7 +661,7 @@ class LoginController extends React.Component {
                         id='login.signInWith'
                         defaultMessage='Sign in with:'
                     />
-                </h5>,
+                </h5>
             );
         }
 
@@ -688,7 +681,7 @@ class LoginController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>,
+                </a>
             );
         }
 
@@ -708,7 +701,7 @@ class LoginController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>,
+                </a>
             );
         }
 
@@ -728,7 +721,7 @@ class LoginController extends React.Component {
                             />
                         </span>
                     </span>
-                </a>,
+                </a>
             );
         }
 
@@ -744,9 +737,11 @@ class LoginController extends React.Component {
                             className='icon fa fa-lock fa--margin-top'
                             title='Saml icon'
                         />
-                        <span>{this.props.samlLoginButtonText}</span>
+                        <span>
+                            {this.props.samlLoginButtonText}
+                        </span>
                     </span>
-                </a>,
+                </a>
             );
         }
 
@@ -761,7 +756,7 @@ class LoginController extends React.Component {
                         />
                     }
                     margin={true}
-                />,
+                />
             );
         }
 
@@ -771,11 +766,11 @@ class LoginController extends React.Component {
                 {loginControls}
             </div>
         );
-    };
+    }
 
     hideMfa = () => {
         this.setState({showMfa: false});
-    };
+    }
 
     render() {
         const {
@@ -785,7 +780,7 @@ class LoginController extends React.Component {
         } = this.props;
 
         if (initializing) {
-            return <LoadingScreen/>;
+            return (<LoadingScreen/>);
         }
 
         let content;
@@ -800,7 +795,7 @@ class LoginController extends React.Component {
                     submit={this.submit}
                 />
             );
-            backButton = <BackButton onClick={this.hideMfa}/>;
+            backButton = (<BackButton onClick={this.hideMfa}/>);
         } else {
             content = this.createLoginOptions();
             customContent = this.createCustomLogin();
@@ -818,7 +813,9 @@ class LoginController extends React.Component {
                     className='col-sm-12'
                 >
                     <div className={'signup-team__container ' + customClass}>
-                        <div className='signup__markdown'>{customContent}</div>
+                        <div className='signup__markdown'>
+                            {customContent}
+                        </div>
                         <img
                             alt={'signup team logo'}
                             className='signup-team-logo'
