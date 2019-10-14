@@ -8,7 +8,7 @@ interface Props {
     disabled: boolean;
     value: string;
     defaultValue: string;
-    onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+    onChange: (e: ChangeEvent<HTMLElement>) => void;
     onHeightChange: (height: number, maxHeight: number) => void;
     onInput: (e: FormEvent<HTMLTextAreaElement>) => void;
 }
@@ -34,39 +34,49 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
     }
 
     private getTextareaValue(key: keyof HTMLTextAreaElement) {
-        return this.textareaRef.current ? this.textareaRef.current[key] : undefined;
+        return this.textareaRef.current ? this.textareaRef.current[key] : null;
     }
 
     public get value() {
-        return this.getTextareaValue('value');
+        return this.getTextareaValue('value') as string;
     }
 
-    public set value(value) {
-        this.textareaRef.current && this.textareaRef.current.value = value;
+    public set value(value: string) {
+        if (value && this.textareaRef.current) {
+            this.textareaRef.current.value = value;
+        }
     }
 
     public get selectionStart() {
-        return this.getTextareaValue('selectionStart');
+        return this.getTextareaValue('selectionStart') as number;
     }
 
-    public set selectionStart(selectionStart) {
-        this.textareaRef.current && this.textareaRef.current.selectionStart = selectionStart;
+    public set selectionStart(selectionStart: number) {
+        if (selectionStart && this.textareaRef.current) {
+            this.textareaRef.current.selectionStart = selectionStart;
+        }
     }
 
     public get selectionEnd() {
-        return this.getTextareaValue('selectionEnd');
+        return this.getTextareaValue('selectionEnd') as number;
     }
 
-    public set selectionEnd(selectionEnd) {
-        this.textareaRef.current && this.textareaRef.current.selectionEnd = selectionEnd;
+    public set selectionEnd(selectionEnd: number) {
+        if (selectionEnd && this.textareaRef.current) {
+            this.textareaRef.current.selectionEnd = selectionEnd;
+        }
     }
 
     public focus() {
-        this.textareaRef.current && this.textareaRef.current.focus();
+        if (this.textareaRef.current) {
+            this.textareaRef.current.focus();
+        }
     }
 
     public blur() {
-        this.textareaRef.current && this.textareaRef.current.blur();
+        if (this.textareaRef.current) {
+            this.textareaRef.current.blur();
+        }
     }
 
     public componentDidMount() {
@@ -90,7 +100,7 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
             const borderWidth = style && style.borderTopWidth && style.borderBottomWidth ? parseInt(style.borderTopWidth, 10) + parseInt(style.borderBottomWidth, 10) : 0;
 
             // Directly change the height to avoid circular rerenders
-            if(textarea) {
+            if (textarea) {
                 textarea.style.height = String(height + borderWidth) + 'px';
             }
 
@@ -150,6 +160,8 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
         const placeholderAriaLabel = placeholder.toLowerCase();
         if (!this.props.value && !this.props.defaultValue) {
             textareaPlaceholder = (
+
+                // @ts-ignore
                 <div
                     {...otherProps}
                     style={style.placeholder}
