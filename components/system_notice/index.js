@@ -3,28 +3,17 @@
 
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {bindActionCreators, Dispatch} from 'redux';
-
-// @ts-ignore
+import {bindActionCreators} from 'redux';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-
-// @ts-ignore
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-
-// @ts-ignore
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
-
-// @ts-ignore
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-
-// @ts-ignore
 import {Permissions} from 'mattermost-redux/constants';
-
-// @ts-ignore
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {dismissNotice} from 'actions/views/notice';
 import {Preferences} from 'utils/constants';
+
+import {dismissNotice} from 'actions/views/notice';
 
 import Notices from './notices.jsx';
 import SystemNotice from './system_notice.jsx';
@@ -34,8 +23,8 @@ function makeMapStateToProps() {
 
     const getPreferenceNameMap = createSelector(
         getCategory,
-        (preferences: any[]) => {
-            const nameMap: any = {};
+        (preferences) => {
+            const nameMap = {};
             preferences.forEach((p) => {
                 nameMap[p.name] = p;
             });
@@ -43,7 +32,7 @@ function makeMapStateToProps() {
         }
     );
 
-    return function mapStateToProps(state: any) {
+    return function mapStateToProps(state) {
         const license = getLicense(state);
         const config = getConfig(state);
         const serverVersion = state.entities.general.serverVersion;
@@ -51,8 +40,6 @@ function makeMapStateToProps() {
 
         return {
             currentUserId: state.entities.users.currentUserId,
-
-            // @ts-ignore
             preferences: getPreferenceNameMap(state, Preferences.CATEGORY_SYSTEM_NOTICE),
             dismissedNotices: state.views.notice.hasBeenDismissed,
             isSystemAdmin: haveISystemPermission(state, {permission: Permissions.MANAGE_SYSTEM}),
@@ -65,7 +52,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             savePreferences,
