@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DelayedAction from 'utils/delayed_action';
@@ -16,6 +15,7 @@ import FailedPostOptions from 'components/post_view/failed_post_options';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -97,22 +97,26 @@ export default class PostBody extends React.PureComponent {
         this.state = {sending: false};
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (state.sending && props.post && (props.post.id !== props.post.pending_post_id)) {
+            return {
+                sending: false,
+            };
+        }
+
+        return null;
+    }
+
+    componentDidUpdate() {
+        if (this.state.sending === false) {
+            this.sendingAction.cancel();
+        }
+    }
+
     componentDidMount() {
         const post = this.props.post;
         if (post && post.id === post.pending_post_id) {
             this.sendingAction.fireAfter(SENDING_ANIMATION_DELAY);
-        }
-    }
-
-    stopSend = () => {
-        this.setState({sending: false});
-    }
-
-    componentDidUpdate() {
-        const post = this.props.post;
-        if (post && post.id !== post.pending_post_id) {
-            this.sendingAction.cancel();
-            this.stopSend();
         }
     }
 

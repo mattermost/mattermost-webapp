@@ -32,26 +32,11 @@ export function handleYoutubeTime(link) {
     return '&start=' + ticks.toString();
 }
 
-export function updateStateFromProps(props) {
-    const link = props.link;
-    let stateObject = {};
-
+export function getVideoId(link) {
     const match = link.trim().match(ytRegex);
     if (!match || match[1].length !== 11) {
         return null;
     }
 
-    if (props.show === false) {
-        // equivalent to calling this.stop()
-        stateObject = {playing: false};
-    }
-
-    const updatedStateObject = {
-        videoId: match[1],
-        time: handleYoutubeTime(link),
-    };
-
-    stateObject = {stateObject, ...updatedStateObject};
-
-    return stateObject;
+    return match[1];
 }

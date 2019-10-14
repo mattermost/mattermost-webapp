@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {updateStateFromProps, ytRegex} from 'utils/youtube_video_utils';
+import {getVideoId, ytRegex, handleYoutubeTime} from 'utils/youtube';
 
 import ExternalImage from 'components/external_image';
 
@@ -20,14 +20,12 @@ export default class YoutubeVideo extends React.PureComponent {
 
         this.state = {
             playing: false,
-            ...updateStateFromProps(props),
-            link: '',
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.link !== prevState.link) {
-            return updateStateFromProps(nextProps);
+    static getDerivedStateFromProps(props, state) {
+        if (!props.show && state.playing) {
+            return {playing: false};
         }
         return null;
     }
@@ -41,7 +39,10 @@ export default class YoutubeVideo extends React.PureComponent {
     }
 
     render() {
-        const {metadata} = this.props;
+        const {metadata, link} = this.props;
+
+        const videoId = getVideoId(link);
+        const time = handleYoutubeTime(link);
 
         const header = (
             <h4>
@@ -63,7 +64,7 @@ export default class YoutubeVideo extends React.PureComponent {
         if (this.state.playing) {
             content = (
                 <iframe
-                    src={'https://www.youtube.com/embed/' + this.state.videoId + '?autoplay=1&autohide=1&border=0&wmode=opaque&fs=1&enablejsapi=1' + this.state.time}
+                    src={'https://www.youtube.com/embed/' + videoId + '?autoplay=1&autohide=1&border=0&wmode=opaque&fs=1&enablejsapi=1' + time}
                     width='480px'
                     height='360px'
                     type='text/html'

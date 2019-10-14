@@ -4,8 +4,6 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {handleYoutubeTime} from 'utils/youtube_video_utils';
-
 import ExternalImage from 'components/external_image';
 
 import YoutubeVideo from './youtube_video';
@@ -25,25 +23,6 @@ describe('YoutubeVideo', () => {
             }],
         },
     };
-
-    test('should correctly parse youtube start time formats', () => {
-        for (const youtube of [
-            {
-                link: 'https://www.youtube.com/watch?time_continue=490&v=xqCoNej8Zxo',
-                time: '&start=490',
-            },
-            {
-                link: 'https://www.youtube.com/watch?start=490&v=xqCoNej8Zxo',
-                time: '&start=490',
-            },
-            {
-                link: 'https://www.youtube.com/watch?t=490&v=xqCoNej8Zxo',
-                time: '&start=490',
-            },
-        ]) {
-            expect(handleYoutubeTime(youtube.link)).toEqual(youtube.time);
-        }
-    });
 
     test('should match init snapshot', () => {
         const wrapper = shallow(<YoutubeVideo {...baseProps}/>);

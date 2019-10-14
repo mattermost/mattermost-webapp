@@ -12,26 +12,6 @@ import ProfilePopover from 'components/profile_popover';
 import {popOverOverlayPosition} from 'utils/position_utils.tsx';
 const spaceRequiredForPopOver = 300;
 
-function getUserFromMentionName(props) {
-    const usersByUsername = props.usersByUsername;
-    let mentionName = props.mentionName.toLowerCase();
-
-    while (mentionName.length > 0) {
-        if (usersByUsername.hasOwnProperty(mentionName)) {
-            return usersByUsername[mentionName];
-        }
-
-        // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
-        if ((/[._-]$/).test(mentionName)) {
-            mentionName = mentionName.substring(0, mentionName.length - 1);
-        } else {
-            break;
-        }
-    }
-
-    return '';
-}
-
 export default class AtMention extends React.PureComponent {
     static propTypes = {
         children: PropTypes.node,
@@ -52,23 +32,10 @@ export default class AtMention extends React.PureComponent {
         super(props);
 
         this.state = {
-            user: getUserFromMentionName(props),
             show: false,
-            usersByUsername: '',
         };
 
         this.overlayRef = React.createRef();
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.usersByUsername !== prevState.usersByUsername) {
-            return {
-                user: getUserFromMentionName(nextProps),
-                usersByUsername: nextProps.usersByUsername,
-            };
-        }
-
-        return null;
     }
 
     handleClick = (e) => {
@@ -82,12 +49,32 @@ export default class AtMention extends React.PureComponent {
         this.setState({show: false});
     }
 
+    getUserFromMentionName(props) {
+        const usersByUsername = props.usersByUsername;
+        let mentionName = props.mentionName.toLowerCase();
+
+        while (mentionName.length > 0) {
+            if (usersByUsername.hasOwnProperty(mentionName)) {
+                return usersByUsername[mentionName];
+            }
+
+            // Repeatedly trim off trailing punctuation in case this is at the end of a sentence
+            if ((/[._-]$/).test(mentionName)) {
+                mentionName = mentionName.substring(0, mentionName.length - 1);
+            } else {
+                break;
+            }
+        }
+
+        return '';
+    }
+
     render() {
-        if (!this.state.user) {
+        const user = this.getUserFromMentionName(this.props);
+        if (!user) {
             return <React.Fragment>{this.props.children}</React.Fragment>;
         }
 
-        const user = this.state.user;
         const suffix = this.props.mentionName.substring(user.username.length);
 
         let className = 'mention-link';
