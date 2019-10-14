@@ -80,7 +80,8 @@ export default class MarketplaceModal extends React.Component {
 
     handleClearSearch = () => {
         this.refs.filter.value = null;
-        this.setState({filter: null});
+        this.setState({filter: this.refs.filter.value});
+
         this.getMarketplacePlugins();
     };
 
