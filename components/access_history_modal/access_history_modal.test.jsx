@@ -8,7 +8,7 @@ require('perfect-scrollbar/jquery')($);
 
 import AccessHistoryModal from 'components/access_history_modal/access_history_modal.jsx';
 import AuditTable from 'components/audit_table';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 describe('components/AccessHistoryModal', () => {
     const baseProps = {
