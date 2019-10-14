@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
-import {Tabs, Tab} from 'react-bootstrap';
+import {Tabs, Tab, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -19,6 +19,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
 import * as Markdown from 'utils/markdown';
+import Constants from 'utils/constants.jsx';
 
 import MarketplaceItem from './marketplace_item';
 
@@ -75,6 +76,10 @@ export default class MarketplaceModal extends React.Component {
     handleSelect = (key) => {
         this.setState({tabKey: key});
     }
+
+    handleClearSearch = () => {
+        this.refs.filter.value = null;
+    };
 
     close = () => {
         trackEvent('plugins', 'ui_marketplace_closed');
@@ -158,6 +163,15 @@ export default class MarketplaceModal extends React.Component {
     }
 
     render() {
+        const searchClearTooltip = (
+            <Tooltip id='searchClearTooltip'>
+                <FormattedMessage
+                    id='search_bar.clear'
+                    defaultMessage='Clear search query'
+                />
+            </Tooltip>
+        );
+
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
@@ -169,6 +183,26 @@ export default class MarketplaceModal extends React.Component {
                         inputComponent={LocalizedInput}
                         onInput={debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS)}
                     />
+                    {this.refs.filter && this.refs.filter.value.trim() !== '' &&
+                        <div
+                            id='searchClearButton'
+                            className='sidebar__search-clear visible'
+                            onClick={this.handleClearSearch}
+                        >
+                            <OverlayTrigger
+                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                placement='bottom'
+                                overlay={searchClearTooltip}
+                            >
+                                <span
+                                    className='sidebar__search-clear-x'
+                                    aria-hidden='true'
+                                >
+                                    {'×'}
+                                </span>
+                            </OverlayTrigger>
+                        </div>
+                    }
                 </div>
             </div>
         );
