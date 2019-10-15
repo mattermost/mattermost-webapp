@@ -53,13 +53,6 @@ export default class AboutBuildModal extends React.PureComponent {
         this.props.onHide();
     }
 
-    handleToggle = () => {
-        //toggles the state of shortcut dialog
-        this.setState({
-            show: !this.state.show,
-        });
-    }
-
     render() {
         const config = this.props.config;
         const license = this.props.license;

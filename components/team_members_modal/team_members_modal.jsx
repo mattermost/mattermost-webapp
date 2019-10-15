@@ -33,10 +33,6 @@ export default class TeamMembersModal extends React.PureComponent {
         this.setState({show: false});
     }
 
-    onExit = () => {
-        this.props.onHide();
-    }
-
     render() {
         let teamDisplayName = '';
         if (this.props.currentTeam) {
