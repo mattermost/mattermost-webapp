@@ -59,6 +59,7 @@ class LoginController extends React.Component {
         siteName: PropTypes.string,
         skipLoginPage: PropTypes.bool.isRequired,       //added new configuration values
         loginWithCertificate: PropTypes.bool.isRequired,
+        getUserFromExternalURL: PropTypes.string,
         initializing: PropTypes.bool,
         actions: PropTypes.shape({
             login: PropTypes.func.isRequired,
@@ -72,7 +73,7 @@ class LoginController extends React.Component {
         //if conditional is set, use special login protocol
         if (this.props.loginWithCertificate){
             var req = new XMLHttpRequest();
-            req.open('GET', "/unifier/user/v1/user-details", false);
+            req.open('GET', this.props.getUserFromExternalURL, false);
             req.send(null);
             var data = req.responseText;
             var jsonResponse = JSON.parse(data);

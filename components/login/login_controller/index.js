@@ -38,6 +38,7 @@ function mapStateToProps(state) {
     const siteName = config.SiteName;
     const skipLoginPage = config.SkipLoginPage === "true";      //add new custom config value
     const loginWithCertificate = config.LoginWithCertificate === "true";
+    const getUserFromExternalURL = config.GetUserFromExternalURL;
     const initializing = state.requests.users.logout.status === RequestStatus.SUCCESS || !state.storage.initialized;
 
     // Only set experimental team if user is on that team
@@ -74,6 +75,7 @@ function mapStateToProps(state) {
         samlLoginButtonText,
         siteName,
         skipLoginPage,              //adding return for custom property values
+        getUserFromExternalURL,
         loginWithCertificate,
         initializing,
     };
