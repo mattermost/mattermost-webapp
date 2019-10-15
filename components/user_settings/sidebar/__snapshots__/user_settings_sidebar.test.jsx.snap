@@ -55,6 +55,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       className="divider-dark first"
     />
     <Connect(SettingItemMin)
+      after="channelSwitcher"
       describe={
         Array [
           <FormattedMessage
@@ -92,6 +93,7 @@ exports[`components/user_settings/sidebar/UserSettingsSidebar should match snaps
       className="divider-light"
     />
     <Connect(SettingItemMin)
+      after="groupChannels"
       describe={
         <FormattedMessage
           defaultMessage="On"

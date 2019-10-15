@@ -58,6 +58,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -74,6 +75,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -97,6 +99,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -113,6 +116,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -129,6 +133,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -217,6 +222,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -367,6 +373,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -390,6 +397,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -406,6 +414,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -422,6 +431,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -438,6 +448,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -454,6 +465,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -532,6 +544,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -548,6 +561,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -571,6 +585,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -659,6 +674,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -675,6 +691,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -691,6 +708,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -769,6 +787,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -785,6 +804,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -808,6 +828,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -824,6 +845,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -840,6 +862,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -856,6 +879,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -953,6 +977,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -969,6 +994,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -992,6 +1018,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="collapse"
         title={
           <FormattedMessage
@@ -1008,6 +1035,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -1024,6 +1052,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1040,6 +1069,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -1118,6 +1148,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -1134,6 +1165,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1229,6 +1261,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -1245,6 +1278,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -1261,6 +1295,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1277,6 +1312,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -1355,6 +1391,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -1371,6 +1408,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1394,6 +1432,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1410,6 +1449,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -1518,6 +1558,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1534,6 +1575,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -1612,6 +1654,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -1628,6 +1671,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1651,6 +1695,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1667,6 +1712,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -1683,6 +1729,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -1699,6 +1746,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1715,6 +1763,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -1793,6 +1842,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -1809,6 +1859,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -1832,6 +1883,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -1848,6 +1900,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -1864,6 +1917,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -1880,6 +1934,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -1896,6 +1951,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -1974,6 +2030,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -1990,6 +2047,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -2013,6 +2071,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2029,6 +2088,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -2045,6 +2105,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -2061,6 +2122,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2077,6 +2139,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -2155,6 +2218,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(ThemeSetting)
+        after="languages"
         selected={true}
         setEnforceFocus={[MockFunction]}
         setRequireConfirm={[MockFunction]}
@@ -2166,6 +2230,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="theme"
         section="clock"
         title={
           <FormattedMessage
@@ -2182,6 +2247,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -2205,6 +2271,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2221,6 +2288,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -2237,6 +2305,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -2253,6 +2322,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2269,6 +2339,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={
@@ -2347,6 +2418,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        after="languages"
         section="clock"
         title={
           <FormattedMessage
@@ -2363,6 +2435,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="clock"
         describe={
           <FormattedMessage
             defaultMessage="Show first and last name"
@@ -2386,6 +2459,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="name_format"
         section="linkpreview"
         title={
           <FormattedMessage
@@ -2402,6 +2476,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="linkpreview"
         section="collapse"
         title={
           <FormattedMessage
@@ -2418,6 +2493,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="collapse"
         section="message_display"
         title={
           <FormattedMessage
@@ -2434,6 +2510,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="message_display"
         section="channel_display_mode"
         title={
           <FormattedMessage
@@ -2450,6 +2527,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        after="channel_display_mode"
         describe="English"
         section="languages"
         title={

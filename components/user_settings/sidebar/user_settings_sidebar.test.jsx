@@ -31,6 +31,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         updateSection: () => () => true,
         actions: {
             savePreferences: () => true,
+            setupPreviousActiveSection: jest.fn(),
         },
     };
     const mockStore = configureStore();

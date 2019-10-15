@@ -48,6 +48,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             getSupportedTimezones: jest.fn(),
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
+            setupPreviousActiveSection: jest.fn(),
         },
     };
     const mockStore = configureStore();

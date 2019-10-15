@@ -30,6 +30,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
             sendVerificationEmail: jest.fn(),
             setDefaultProfileImage: jest.fn(),
             uploadProfileImage: jest.fn(),
+            setupPreviousActiveSection: jest.fn(),
         },
         maxFileSize: 1024,
     };

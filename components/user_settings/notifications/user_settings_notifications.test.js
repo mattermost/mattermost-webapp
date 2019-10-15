@@ -19,6 +19,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         collapseModal: jest.fn(),
         actions: {
             updateMe: jest.fn(() => Promise.resolve({})),
+            setupPreviousActiveSection: jest.fn(),
         },
     };
 

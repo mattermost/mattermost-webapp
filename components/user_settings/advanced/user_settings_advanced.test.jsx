@@ -30,6 +30,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             savePreferences: jest.fn(),
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
+            setupPreviousActiveSection: jest.fn(),
         },
         advancedSettingsCategory: [],
         sendOnCtrlEnter: '',

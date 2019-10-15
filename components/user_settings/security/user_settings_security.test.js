@@ -27,6 +27,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
             updateUserPassword: jest.fn(() => Promise.resolve({})),
             getAuthorizedOAuthApps: jest.fn().mockResolvedValue({data: []}),
             deauthorizeOAuthApp: jest.fn().mockResolvedValue({data: true}),
+            setupPreviousActiveSection: jest.fn(),
         },
     };
 
