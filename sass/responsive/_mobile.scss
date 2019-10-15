@@ -1746,6 +1746,17 @@
             overflow: hidden;
             padding: 0;
 
+            .channel-switch__modal {
+                .modal-body {
+                    max-height: 100%;
+                }
+
+                .suggestion-list__content {
+                    height: calc(100vh - 110px);
+                    max-height: 100%;
+                }
+            }
+
             .modal-dialog {
                 height: 100%;
                 margin: 0;
