@@ -15,9 +15,9 @@ export default class UserList extends React.Component {
         users: PropTypes.arrayOf(PropTypes.object),
         extraInfo: PropTypes.object,
         actions: PropTypes.arrayOf(PropTypes.func),
-
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
+
         // the type of user list row to render
         rowComponentType: PropTypes.func,
     }
