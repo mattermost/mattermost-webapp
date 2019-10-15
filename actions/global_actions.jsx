@@ -39,6 +39,10 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import {ModalIdentifiers} from 'utils/constants';
+import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
+
+import {openModal} from './views/modals';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -170,6 +174,18 @@ export function showLeavePrivateChannelModal(channel) {
         type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
         value: channel,
     });
+}
+
+export function showMobileSubMenuModal(elements) {
+    const submenuModalData = {
+        ModalId: ModalIdentifiers.MOBILE_SUBMENU,
+        dialogType: SubMenuModal,
+        dialogProps: {
+            elements,
+        },
+    };
+
+    dispatch(openModal(submenuModalData));
 }
 
 export function sendEphemeralPost(message, channelId, parentId) {
