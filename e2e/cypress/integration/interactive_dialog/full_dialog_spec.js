@@ -107,11 +107,9 @@ describe('ID15888 Interactive Dialog', () => {
                     cy.wrap($elForm).find('input').first().should('have.value', 'engineering').and('have.attr', 'checked');
                 } else if (element.name === 'boolean_input') {
                     cy.wrap($elForm).find('.checkbox').should('be.visible').within(() => {
-                        const checkedState = element.default === 'True' ? 'be.checked' : 'be.not.checked';
-
                         cy.get('#boolean_input').
                             should('be.visible').
-                            and(checkedState);
+                            and('be.checked');
 
                         cy.get('span').should('have.text', element.placeholder);
                     });
