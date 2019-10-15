@@ -62,8 +62,7 @@ describe('components/GetLinkModal', () => {
         const wrapper = mountWithIntl(
             <GetLinkModal {...requiredProps}/>
         );
-
-        wrapper.instance().copyLink();
+        wrapper.find("#linkModalTextArea").simulate('click');
         expect(wrapper.state('copiedLink')).toBe(true);
     });
 });
