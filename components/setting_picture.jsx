@@ -38,6 +38,13 @@ export default class SettingPicture extends Component {
         maxFileSize: PropTypes.number,
     };
 
+    static getDerivedStateFromProps(props, state) {
+        if (props.file !== state.file) {
+            return {file: props.file, image: null};
+        }
+        return null;
+    }
+
     constructor(props) {
         super(props);
 
@@ -46,6 +53,7 @@ export default class SettingPicture extends Component {
         this.confirmButton = React.createRef();
 
         this.state = {
+            file: null,
             image: null,
             removeSrc: false,
             setDefaultSrc: false,
@@ -66,11 +74,9 @@ export default class SettingPicture extends Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.file !== this.props.file) {
-            this.setState({image: null});
-
-            this.setPicture(nextProps.file);
+    componentDidUpdate(prevProps) {
+        if (prevProps.file !== this.props.file) {
+            this.setPicture(this.props.file);
         }
     }
 
