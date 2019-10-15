@@ -59,7 +59,7 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
 >
   <button
     className="status-wrapper style--none "
-    tabIndex="-1"
+    tabIndex={-1}
   >
     <span
       className="profile-icon "

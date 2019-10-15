@@ -10,7 +10,7 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import RevokeTokenButton from 'components/admin_console/revoke_token_button';
 import LoadingScreen from 'components/loading_screen';
-import Avatar from 'components/widgets/users/avatar.jsx';
+import Avatar from 'components/widgets/users/avatar';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
