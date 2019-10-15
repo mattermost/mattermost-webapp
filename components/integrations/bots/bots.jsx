@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {getSiteURL} from 'utils/url';
-
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import Constants from 'utils/constants.jsx';
@@ -206,30 +204,24 @@ export default class Bots extends React.PureComponent {
                     />
                 }
                 helpText={
-                    <React.Fragment>
-                        <FormattedMessage
-                            id='bots.manage.help1'
-                            defaultMessage='Use {botAccounts} to integrate with Mattermost through plugins or the API. Bot accounts are available to everyone on your server. '
-                            values={{
-                                botAccounts: (
-                                    <a
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        href='https://mattermost.com/pl/default-bot-accounts'
-                                    >
-                                        <FormattedMessage
-                                            id='bots.manage.bot_accounts'
-                                            defaultMessage='Bot Accounts'
-                                        />
-                                    </a>
-                                ),
-                            }}
-                        />
-                        <FormattedMarkdownMessage
-                            id='bots.manage.help2'
-                            defaultMessage={'Enable bot account creation in the [System Console](' + getSiteURL() + '/admin_console/integrations/bot_accounts).'}
-                        />
-                    </React.Fragment>
+                    <FormattedMessage
+                        id='bots.manage.help'
+                        defaultMessage='Use {botAccounts} to integrate with Mattermost through plugins or the API. Bot accounts are available to everyone on your server.'
+                        values={{
+                            botAccounts: (
+                                <a
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    href='https://mattermost.com/pl/default-bot-accounts'
+                                >
+                                    <FormattedMessage
+                                        id='bots.manage.bot_accounts'
+                                        defaultMessage='Bot Accounts'
+                                    />
+                                </a>
+                            ),
+                        }}
+                    />
                 }
                 searchPlaceholder={Utils.localizeMessage('bots.manage.search', 'Search Bot Accounts')}
                 loading={this.state.loading}
