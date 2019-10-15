@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
-import {getAllChannelsWithCount as getData} from 'mattermost-redux/actions/channels';
+import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {t} from 'utils/i18n';
@@ -36,6 +36,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getData,
+            searchAllChannels,
         }, dispatch),
     };
 }
