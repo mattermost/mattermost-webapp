@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import GetIosApp from './get_ios_app.jsx';
+import GetIosApp from './get_ios_app.tsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
