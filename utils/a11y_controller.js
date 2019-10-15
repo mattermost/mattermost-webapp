@@ -745,6 +745,7 @@ export default class A11yController {
             this.cancelNavigation();
             break;
         case isKeyPressed(event, Constants.KeyCodes.ENTER):
+            this.lastInputEventIsKeyboard = true;
             this.enterKeyIsPressed = true;
             break;
         case isKeyPressed(event, Constants.KeyCodes.SPACE):
