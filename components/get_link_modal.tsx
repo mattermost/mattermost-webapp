@@ -37,7 +37,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
         this.props.onHide();
     }
 
-    public copyLink = () => {
+    public copyLink = (): void => {
         const textarea = this.textAreaRef.current;
 
         if (textarea) {
@@ -53,15 +53,15 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element {
-        const helpText: JSX.Element = this.props.helpText ? (
+        const helpText = this.props.helpText && (
             <p>
                 {this.props.helpText}
                 <br/>
                 <br/>
             </p>
-        ) : <div/>;
+        );
 
-        const copyLink: JSX.Element = document.queryCommandSupported('copy') ? (
+        const copyLink = document.queryCommandSupported('copy') && (
             <button
                 id='linkModalCopyLink'
                 data-copy-btn='true'
@@ -74,9 +74,9 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     defaultMessage='Copy Link'
                 />
             </button>
-        ) : <div/>;
+        );
 
-        const linkText: JSX.Element = (
+        const linkText = (
             <textarea
                 id='linkModalTextArea'
                 className='form-control no-resize min-height'
@@ -87,7 +87,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
             />
         );
 
-        const copyLinkConfirm: JSX.Element = this.state.copiedLink ? (
+        const copyLinkConfirm = this.state.copiedLink && (
             <p className='alert alert-success alert--confirm'>
                 <SuccessIcon/>
                 <FormattedMessage
@@ -95,7 +95,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     defaultMessage=' Link copied'
                 />
             </p>
-        ) : <div/>;
+        );
 
         return (
             <Modal
