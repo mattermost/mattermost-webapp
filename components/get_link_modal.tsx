@@ -12,7 +12,7 @@ type Props = {
     onHide: () => void;
     title: string;
     helpText?: string;
-    link: string; 
+    link: string;
 }
 
 type State = {
@@ -37,10 +37,10 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
         this.props.onHide();
     }
 
-    copyLink = () => {
+    public copyLink = () => {
         const textarea = this.textAreaRef.current;
 
-        if(textarea){
+        if (textarea) {
             textarea.focus();
             textarea.setSelectionRange(0, this.props.link.length);
 
@@ -53,15 +53,15 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element {
-        let helpText: JSX.Element = this.props.helpText ? (
+        const helpText: JSX.Element = this.props.helpText ? (
             <p>
                 {this.props.helpText}
                 <br/>
                 <br/>
             </p>
-        ): <div/>;
+        ) : <div/>;
 
-        let copyLink: JSX.Element = document.queryCommandSupported('copy') ? (
+        const copyLink: JSX.Element = document.queryCommandSupported('copy') ? (
             <button
                 id='linkModalCopyLink'
                 data-copy-btn='true'
@@ -74,7 +74,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     defaultMessage='Copy Link'
                 />
             </button>
-        ): <div/>;
+        ) : <div/>;
 
         const linkText: JSX.Element = (
             <textarea
@@ -87,7 +87,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
             />
         );
 
-        let copyLinkConfirm: JSX.Element = this.state.copiedLink ? (
+        const copyLinkConfirm: JSX.Element = this.state.copiedLink ? (
             <p className='alert alert-success alert--confirm'>
                 <SuccessIcon/>
                 <FormattedMessage
@@ -95,7 +95,7 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
                     defaultMessage=' Link copied'
                 />
             </p>
-        ): <div/>;
+        ) : <div/>;
 
         return (
             <Modal
