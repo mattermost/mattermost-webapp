@@ -172,6 +172,13 @@
     .post__header {
         .dropdown-menu {
             >li {
+                >div {
+                    border-top-color: var(--center-channel-color-10) !important;
+                    .SubMenu__icon {
+                        padding: 0 5px 0 8px !important;
+                    }
+                }
+                >div,
                 >button {
                     @include border-radius(0);
                     border-top: 1px solid;
@@ -180,6 +187,7 @@
                 }
 
                 &:first-child {
+                    div,
                     button {
                         border: none;
                     }

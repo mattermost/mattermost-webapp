@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import CopyText from 'components/copy_text.jsx';
+import CopyText from 'components/copy_text';
 
 import DeleteIntegration from '../delete_integration.jsx';
 
