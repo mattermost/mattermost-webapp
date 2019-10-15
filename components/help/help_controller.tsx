@@ -19,7 +19,7 @@ type HelpControllerProps = {
 
 export default class HelpController extends React.Component<HelpControllerProps, {}> {
     public componentDidUpdate() {
-        const node = ReactDOM.findDOMNode(this)
+        const node = ReactDOM.findDOMNode(this);
         if (node && node instanceof HTMLDivElement) {
             node.scrollIntoView();
         }
