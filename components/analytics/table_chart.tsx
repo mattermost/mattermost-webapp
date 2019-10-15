@@ -1,33 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 
-export default class TableChart extends React.PureComponent {
-    static propTypes = {
+type TableItem = {
+    name: string;
+    tip: string;
+    value: React.ReactNode;
+}
+type TableChartProps = {
+    title: React.ReactNode;
+    data: TableItem[];
+}
 
-        /*
-         * Table title
-         */
-        title: PropTypes.node.isRequired,
-
-        /*
-         * Table data
-         */
-        data: PropTypes.arrayOf(
-            PropTypes.shape({
-                name: PropTypes.string.isRequired,
-                tip: PropTypes.string.isRequired,
-                value: PropTypes.node.isRequired,
-            })
-        ).isRequired,
-    };
-
-    render() {
+export default class TableChart extends React.PureComponent<TableChartProps> {
+    public render() {
         return (
             <div className='col-sm-6'>
                 <div className='total-count recent-active-users'>
