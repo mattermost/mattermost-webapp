@@ -46,6 +46,12 @@ export default class SettingItemMin extends React.PureComponent {
         previousActiveSection: PropTypes.string,
 
         /**
+         * defines which settings goes before this one.
+         * allows for autofocusing along with previousActiveSection
+         */
+        after: PropTypes.string,
+
+        /**
          * Actions
          */
         actions: PropTypes.shape({
@@ -57,10 +63,20 @@ export default class SettingItemMin extends React.PureComponent {
         }).isRequired,
     };
 
-    componentDidMount() {
-        if (this.props.previousActiveSection === this.props.section) {
+    shouldIFocus() {
+        // use after to define ordering for focus, otherwise it focus itself
+        const target = this.props.after || this.props.section;
+        if (this.props.previousActiveSection === target) {
             this.edit.focus();
         }
+    }
+
+    componentDidMount() {
+        this.shouldIFocus();
+    }
+
+    componentDidUpdate() {
+        this.shouldIFocus();
     }
 
     getEdit = (node) => {

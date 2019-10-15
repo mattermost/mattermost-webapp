@@ -13,6 +13,8 @@ import {
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {setupPreviousActiveSection} from 'actions/views/settings';
+
 import UserSettingsGeneralTab from './user_settings_general.jsx';
 
 function mapStateToProps(state) {
@@ -53,6 +55,7 @@ function mapDispatchToProps(dispatch) {
             sendVerificationEmail,
             setDefaultProfileImage,
             uploadProfileImage,
+            setupPreviousActiveSection,
         }, dispatch),
     };
 }

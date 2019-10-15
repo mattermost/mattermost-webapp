@@ -10,6 +10,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get as getPreference, getSidebarPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {setupPreviousActiveSection} from 'actions/views/settings';
+
 import UserSettingsSidebar from './user_settings_sidebar.jsx';
 
 function mapStateToProps(state) {
@@ -47,6 +49,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             savePreferences,
+            setupPreviousActiveSection,
         }, dispatch),
     };
 }

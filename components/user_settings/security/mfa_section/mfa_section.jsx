@@ -25,6 +25,9 @@ export default class MfaSection extends React.PureComponent {
         mfaEnforced: PropTypes.bool.isRequired,
 
         updateSection: PropTypes.func.isRequired,
+
+        after: PropTypes.string,
+
         actions: PropTypes.shape({
             deactivateMfa: PropTypes.func.isRequired,
         }),
@@ -185,6 +188,7 @@ export default class MfaSection extends React.PureComponent {
                     describe={this.renderDescription()}
                     section={SECTION_MFA}
                     updateSection={this.props.updateSection}
+                    after={this.props.after}
                 />
             );
         }

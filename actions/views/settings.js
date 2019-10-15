@@ -9,3 +9,10 @@ export function updateActiveSection(newActiveSection) {
         data: newActiveSection,
     };
 }
+
+export function setupPreviousActiveSection(previousActiveSection) {
+    return {
+        type: ActionTypes.SETUP_PREVIOUS_ACTIVE_SECTION,
+        data: previousActiveSection,
+    };
+}

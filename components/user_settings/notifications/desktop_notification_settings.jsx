@@ -258,6 +258,7 @@ export default class DesktopNotificationSettings extends React.Component {
                 focused={this.props.focused}
                 section={'desktop'}
                 updateSection={this.handleMinUpdateSection}
+                after={this.props.after}
             />
         );
     }
@@ -282,4 +283,5 @@ DesktopNotificationSettings.propTypes = {
     active: PropTypes.bool,
     saving: PropTypes.bool,
     focused: PropTypes.bool,
+    after: PropTypes.string,
 };

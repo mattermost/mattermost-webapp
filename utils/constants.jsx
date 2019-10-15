@@ -178,6 +178,7 @@ export const ActionTypes = keyMirror({
     ALL_CHANNEL_SYNC_STATUS: null,
 
     UPDATE_ACTIVE_SECTION: null,
+    SETUP_PREVIOUS_ACTIVE_SECTION: null,
 });
 
 export const PostRequestTypes = keyMirror({

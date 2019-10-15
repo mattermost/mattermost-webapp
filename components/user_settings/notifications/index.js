@@ -6,6 +6,8 @@ import {bindActionCreators} from 'redux';
 import {updateMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {setupPreviousActiveSection} from 'actions/views/settings';
+
 import UserSettingsNotifications from './user_settings_notifications.jsx';
 
 function mapStateToProps(state) {
@@ -24,7 +26,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({updateMe}, dispatch),
+        actions: bindActionCreators({
+            updateMe,
+            setupPreviousActiveSection,
+        }, dispatch),
     };
 }
 

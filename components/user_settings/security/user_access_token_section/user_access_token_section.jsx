@@ -30,6 +30,7 @@ export default class UserAccessTokenSection extends React.Component {
         updateSection: PropTypes.func,
         userAccessTokens: PropTypes.object,
         setRequireConfirm: PropTypes.func.isRequired,
+        after: PropTypes.string,
         actions: PropTypes.shape({
             getUserAccessTokensForUser: PropTypes.func.isRequired,
             createUserAccessToken: PropTypes.func.isRequired,
@@ -288,6 +289,7 @@ export default class UserAccessTokenSection extends React.Component {
                     describe={describe}
                     section={SECTION_TOKENS}
                     updateSection={this.props.updateSection}
+                    after={this.props.after}
                 />
             );
         }

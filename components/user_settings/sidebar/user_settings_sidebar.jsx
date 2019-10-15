@@ -22,6 +22,7 @@ export default class UserSettingsSidebar extends React.Component {
              * Function to save the user's preferences
              */
             savePreferences: PropTypes.func.isRequired,
+            setupPreviousActiveSection: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -78,7 +79,6 @@ export default class UserSettingsSidebar extends React.Component {
 
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
     };
@@ -117,6 +117,10 @@ export default class UserSettingsSidebar extends React.Component {
             isSaving: false,
         };
     };
+
+    componentDidMount() {
+        this.props.actions.setupPreviousActiveSection(this.props.showUnusedOption ? 'autoCloseDM' : 'channelSwitcher');
+    }
 
     trackSettingChangeIfNecessary = (setting) => {
         if (this.state.settings[setting] !== this.props.sidebarPreference[setting]) {
@@ -281,6 +285,7 @@ export default class UserSettingsSidebar extends React.Component {
                     describe={this.renderAutoCloseDMLabel(this.state.settings.close_unused_direct_messages)}
                     section={'autoCloseDM'}
                     updateSection={this.updateSection}
+                    after={'channelSwitcher'}
                 />
             );
         }
@@ -583,6 +588,7 @@ export default class UserSettingsSidebar extends React.Component {
                     describe={this.renderOrganizationLabel()}
                     section={'groupChannels'}
                     updateSection={this.updateSection}
+                    after={this.props.showUnusedOption ? 'autoCloseDM' : 'channelSwitcher'}
                 />
             );
         }
@@ -674,6 +680,15 @@ export default class UserSettingsSidebar extends React.Component {
             );
         }
 
+        let after;
+        if (this.props.showChannelOrganization) {
+            after = 'groupChannels';
+        } else if (this.props.showUnusedOption) {
+            after = 'autoCloseDM';
+        } else {
+            after = '';
+        }
+
         return (
             <SettingItemMin
                 title={
@@ -685,6 +700,7 @@ export default class UserSettingsSidebar extends React.Component {
                 describe={this.renderChannelSwitcherLabel(this.props.channelSwitcherOption)}
                 section={'channelSwitcher'}
                 updateSection={this.updateSection}
+                after={after}
             />
         );
     };

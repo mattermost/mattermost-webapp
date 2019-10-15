@@ -14,6 +14,7 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {Preferences} from 'utils/constants.jsx';
+import {setupPreviousActiveSection} from 'actions/views/settings';
 
 import UserSettingsDisplay from './user_settings_display.jsx';
 
@@ -58,6 +59,7 @@ function mapDispatchToProps(dispatch) {
             getSupportedTimezones,
             autoUpdateTimezone,
             savePreferences,
+            setupPreviousActiveSection,
         }, dispatch),
     };
 }

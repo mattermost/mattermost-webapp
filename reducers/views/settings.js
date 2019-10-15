@@ -8,7 +8,11 @@ export default function settings(state = {}, action) {
     case ActionTypes.UPDATE_ACTIVE_SECTION:
         return {
             activeSection: action.data,
-            previousActiveSection: state.activeSection,
+            previousActiveSection: typeof state.activeSection === 'undefined' ? action.data : state.activeSection,
+        };
+    case ActionTypes.SETUP_PREVIOUS_ACTIVE_SECTION:
+        return {
+            previousActiveSection: action.data,
         };
     default:
         return state;

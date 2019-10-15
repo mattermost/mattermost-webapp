@@ -30,6 +30,7 @@ export default class ThemeSetting extends React.Component {
         setEnforceFocus: PropTypes.func.isRequired,
         allowCustomThemes: PropTypes.bool,
         focused: PropTypes.bool.isRequired,
+        after: PropTypes.string,
     };
 
     constructor(props) {
@@ -322,6 +323,7 @@ export default class ThemeSetting extends React.Component {
                     section={'theme'}
                     updateSection={this.handleUpdateSection}
                     focused={this.props.focused}
+                    after={this.props.after}
                 />
             );
         }

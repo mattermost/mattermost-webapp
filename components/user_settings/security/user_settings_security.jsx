@@ -28,7 +28,6 @@ export default class SecurityTab extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         activeSection: PropTypes.string,
-        previousActiveSection: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
@@ -71,6 +70,7 @@ export default class SecurityTab extends React.PureComponent {
             updateUserPassword: PropTypes.func.isRequired,
             getAuthorizedOAuthApps: PropTypes.func.isRequired,
             deauthorizeOAuthApp: PropTypes.func.isRequired,
+            setupPreviousActiveSection: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -102,6 +102,19 @@ export default class SecurityTab extends React.PureComponent {
         if (this.props.enableOAuthServiceProvider) {
             this.loadAuthorizedOAuthApps();
         }
+        let prev;
+        if (this.isSignInSectionEnabled()) {
+            prev = SECTION_SIGNIN;
+        } else if (this.props.canUseAccessTokens) {
+            prev = SECTION_TOKENS;
+        } else if (this.props.enableOAuthServiceProvider) {
+            prev = SECTION_APPS;
+        } else if (this.props.user.mfa_active) {
+            prev = SECTION_MFA;
+        } else {
+            prev = SECTION_PASSWORD;
+        }
+        this.props.actions.setupPreviousActiveSection(prev);
     }
 
     loadAuthorizedOAuthApps = async () => {
@@ -453,6 +466,19 @@ export default class SecurityTab extends React.PureComponent {
             );
         }
 
+        let after;
+        if (this.isSignInSectionEnabled()) {
+            after = SECTION_SIGNIN;
+        } else if (this.props.canUseAccessTokens) {
+            after = SECTION_TOKENS;
+        } else if (this.props.enableOAuthServiceProvider) {
+            after = SECTION_APPS;
+        } else if (this.props.user.mfa_active) {
+            after = SECTION_MFA;
+        } else {
+            after = '';
+        }
+
         return (
             <SettingItemMin
                 title={
@@ -464,7 +490,7 @@ export default class SecurityTab extends React.PureComponent {
                 describe={describe}
                 section={SECTION_PASSWORD}
                 updateSection={this.handleUpdateSection}
-                focused={true}
+                after={after}
             />
         );
     }
@@ -664,12 +690,24 @@ export default class SecurityTab extends React.PureComponent {
             );
         }
 
+        let after;
+        if (this.props.canUseAccessTokens) {
+            after = SECTION_TOKENS;
+        } else if (this.props.enableOAuthServiceProvider) {
+            after = SECTION_APPS;
+        } else if (this.props.user.mfa_active) {
+            after = SECTION_MFA;
+        } else {
+            after = SECTION_PASSWORD;
+        }
+
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.security.method', 'Sign-in Method')}
                 describe={describe}
                 section={SECTION_SIGNIN}
                 updateSection={this.handleUpdateSection}
+                after={after}
             />
         );
     }
@@ -790,6 +828,13 @@ export default class SecurityTab extends React.PureComponent {
             );
         }
 
+        let after;
+        if (this.props.user.mfa_active) {
+            after = SECTION_MFA;
+        } else {
+            after = SECTION_PASSWORD;
+        }
+
         return (
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.security.oauthApps', 'OAuth 2.0 Applications')}
@@ -801,26 +846,30 @@ export default class SecurityTab extends React.PureComponent {
                 }
                 section={SECTION_APPS}
                 updateSection={this.handleUpdateSection}
+                after={after}
             />
         );
     }
 
-    render() {
-        const user = this.props.user;
-
-        const passwordSection = this.createPasswordSection();
-
+    isSignInSectionEnabled() {
         let numMethods = 0;
+
         numMethods = this.props.enableSignUpWithGitLab ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithGoogle ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSignUpWithOffice365 ? numMethods + 1 : numMethods;
         numMethods = this.props.enableLdap ? numMethods + 1 : numMethods;
         numMethods = this.props.enableSaml ? numMethods + 1 : numMethods;
 
+        return ((this.props.enableSignUpWithEmail || this.props.user.auth_service === '') &&
+            numMethods > 0 && this.props.experimentalEnableAuthenticationTransfer);
+    }
+
+    render() {
+        const passwordSection = this.createPasswordSection();
+
         // If there are other sign-in methods and either email is enabled or the user's account is email, then allow switching
         let signInSection;
-        if ((this.props.enableSignUpWithEmail || user.auth_service === '') &&
-            numMethods > 0 && this.props.experimentalEnableAuthenticationTransfer) {
+        if (this.isSignInSectionEnabled()) {
             signInSection = this.createSignInSection();
         }
 
@@ -831,12 +880,21 @@ export default class SecurityTab extends React.PureComponent {
 
         let tokensSection;
         if (this.props.canUseAccessTokens) {
+            let after;
+            if (this.props.enableOAuthServiceProvider) {
+                after = SECTION_APPS;
+            } else if (this.props.user.mfa_active) {
+                after = SECTION_MFA;
+            } else {
+                after = SECTION_PASSWORD;
+            }
             tokensSection = (
                 <UserAccessTokenSection
                     user={this.props.user}
                     active={this.props.activeSection === SECTION_TOKENS}
                     updateSection={this.handleUpdateSection}
                     setRequireConfirm={this.props.setRequireConfirm}
+                    after={after}
                 />
             );
         }
@@ -897,6 +955,7 @@ export default class SecurityTab extends React.PureComponent {
                     <MfaSection
                         active={this.props.activeSection === SECTION_MFA}
                         updateSection={this.handleUpdateSection}
+                        after={SECTION_PASSWORD}
                     />
                     <div className='divider-light'/>
                     {oauthSection}

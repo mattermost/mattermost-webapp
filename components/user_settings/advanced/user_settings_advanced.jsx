@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants, {AdvancedSections} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -27,7 +27,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         joinLeave: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         enablePreviewFeatures: PropTypes.bool,
@@ -36,6 +35,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             savePreferences: PropTypes.func.isRequired,
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessionsForUser: PropTypes.func.isRequired,
+            setupPreviousActiveSection: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -84,6 +84,11 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             previewFeaturesEnabled,
             showDeactivateAccountModal,
         };
+    }
+
+    componentDidMount() {
+        const prev = this.isDeactivateEnabled() ? 'deactivateAccount' : 'advancedPreviewFeatures';
+        this.props.actions.setupPreviousActiveSection(prev);
     }
 
     updateSetting = (setting, value) => {
@@ -294,6 +299,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 describe={this.renderOnOffLabel(this.state.settings.formatting)}
                 section={'formatting'}
                 updateSection={this.handleUpdateSection}
+                after='advancedCtrlSend'
             />
         );
     }
@@ -310,6 +316,10 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         default:
             return null;
         }
+    }
+
+    isDeactivateEnabled() {
+        return this.props.currentUser.auth_service === '' && this.props.enableUserDeactivation;
     }
 
     render() {
@@ -418,6 +428,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     describe={this.renderCtrlEnterLabel()}
                     section={'advancedCtrlSend'}
                     updateSection={this.handleUpdateSection}
+                    after={this.isDeactivateEnabled() ? 'deactivateAccount' : 'advancedPreviewFeatures'}
                 />
             );
         }
@@ -496,6 +507,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         }
                         section={'advancedPreviewFeatures'}
                         updateSection={this.handleUpdateSection}
+                        after={AdvancedSections.JOIN_LEAVE}
                     />
                 );
             }
@@ -503,9 +515,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
 
         let deactivateAccountSection = '';
         let makeConfirmationModal = '';
-        const currentUser = this.props.currentUser;
 
-        if (currentUser.auth_service === '' && this.props.enableUserDeactivation) {
+        if (this.isDeactivateEnabled()) {
             if (this.props.activeSection === 'deactivateAccount') {
                 deactivateAccountSection = (
                     <SettingItemMax
@@ -551,6 +562,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         }
                         section={'deactivateAccount'}
                         updateSection={this.handleUpdateSection}
+                        after={'advancedPreviewFeatures'}
                     />
                 );
             }
@@ -630,6 +642,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         activeSection={this.props.activeSection}
                         onUpdateSection={this.handleUpdateSection}
                         renderOnOffLabel={this.renderOnOffLabel}
+                        after={'formatting'}
                     />
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}

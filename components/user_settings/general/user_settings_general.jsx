@@ -92,7 +92,6 @@ class UserSettingsGeneralTab extends React.Component {
         updateSection: PropTypes.func.isRequired,
         updateTab: PropTypes.func.isRequired,
         activeSection: PropTypes.string.isRequired,
-        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         actions: PropTypes.shape({
@@ -103,6 +102,7 @@ class UserSettingsGeneralTab extends React.Component {
             sendVerificationEmail: PropTypes.func.isRequired,
             setDefaultProfileImage: PropTypes.func.isRequired,
             uploadProfileImage: PropTypes.func.isRequired,
+            setupPreviousActiveSection: PropTypes.func.isRequired,
         }).isRequired,
         requireEmailVerification: PropTypes.bool,
         maxFileSize: PropTypes.number,
@@ -132,6 +132,10 @@ class UserSettingsGeneralTab extends React.Component {
                 this.setState({resendStatus: 'failure'});
             }
         });
+    }
+
+    componentDidMount() {
+        this.props.actions.setupPreviousActiveSection('picture');
     }
 
     createEmailResendLink = (email) => {
@@ -714,6 +718,7 @@ class UserSettingsGeneralTab extends React.Component {
                     describe={describe}
                     section={'email'}
                     updateSection={this.updateSection}
+                    after={'position'}
                 />
             );
         }
@@ -881,6 +886,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.fullName)}
                     describe={describe}
                     section={'name'}
+                    after={'picture'}
                     updateSection={this.updateSection}
                 />
             );
@@ -982,6 +988,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.nickname)}
                     describe={describe}
                     section={'nickname'}
+                    after={'username'}
                     updateSection={this.updateSection}
                 />
             );
@@ -1064,6 +1071,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.username)}
                     describe={this.props.user.username}
                     section={'username'}
+                    after={'name'}
                     updateSection={this.updateSection}
                 />
             );
@@ -1166,6 +1174,7 @@ class UserSettingsGeneralTab extends React.Component {
                     title={formatMessage(holders.position)}
                     describe={describe}
                     section={'position'}
+                    after={'nickname'}
                     updateSection={this.updateSection}
                 />
             );
@@ -1224,6 +1233,7 @@ class UserSettingsGeneralTab extends React.Component {
                     describe={minMessage}
                     section={'picture'}
                     updateSection={this.updateSection}
+                    after={'email'}
                 />
             );
         }

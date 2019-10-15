@@ -39,7 +39,6 @@ export default class UserSettingsDisplay extends React.Component {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         setRequireConfirm: PropTypes.func.isRequired,
@@ -64,6 +63,7 @@ export default class UserSettingsDisplay extends React.Component {
             getSupportedTimezones: PropTypes.func.isRequired,
             autoUpdateTimezone: PropTypes.func.isRequired,
             savePreferences: PropTypes.func.isRequired,
+            setupPreviousActiveSection: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -95,6 +95,7 @@ export default class UserSettingsDisplay extends React.Component {
         if (enableTimezone && shouldAutoUpdateTimezone) {
             actions.autoUpdateTimezone(getBrowserTimezone());
         }
+        this.props.actions.setupPreviousActiveSection('languages');
     }
 
     handleSubmit = async () => {
@@ -205,6 +206,7 @@ export default class UserSettingsDisplay extends React.Component {
             secondOption,
             thirdOption,
             description,
+            after,
         } = props;
 
         const firstMessage = (
@@ -385,6 +387,7 @@ export default class UserSettingsDisplay extends React.Component {
                     describe={describe}
                     section={section}
                     updateSection={this.updateSection}
+                    after={after}
                 />
                 <div className='divider-dark'/>
             </div>
@@ -392,6 +395,14 @@ export default class UserSettingsDisplay extends React.Component {
     }
 
     render() {
+        let collapseAfter;
+        if (this.props.enableLinkPreviews) {
+            collapseAfter = 'linkpreview';
+        } else if (this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone) {
+            collapseAfter = 'timezone';
+        } else {
+            collapseAfter = Preferences.NAME_NAME_FORMAT;
+        }
         const collapseSection = this.createSection({
             section: 'collapse',
             display: 'collapseDisplay',
@@ -419,6 +430,7 @@ export default class UserSettingsDisplay extends React.Component {
                 id: t('user.settings.display.collapseDesc'),
                 message: 'Set whether previews of image links and image attachment thumbnails show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse.',
             },
+            after: collapseAfter,
         });
 
         let linkPreviewSection = null;
@@ -451,6 +463,7 @@ export default class UserSettingsDisplay extends React.Component {
                     id: t('user.settings.display.linkPreviewDesc'),
                     message: 'When available, the first web link in a message will show a preview of the website content below the message.',
                 },
+                after: this.props.enableTimezone && !this.props.shouldAutoUpdateTimezone ? 'timezone' : Preferences.NAME_NAME_FORMAT,
             });
             this.prevSections.message_display = 'linkpreview';
         } else {
@@ -484,6 +497,7 @@ export default class UserSettingsDisplay extends React.Component {
                 id: t('user.settings.display.preferTime'),
                 message: 'Select how you prefer time displayed.',
             },
+            after: this.props.enableThemeSelection ? 'theme' : 'languages',
         });
 
         const teammateNameDisplaySection = this.createSection({
@@ -520,6 +534,7 @@ export default class UserSettingsDisplay extends React.Component {
                 id: t('user.settings.display.teammateNameDisplayDescription'),
                 message: 'Set how to display other user\'s names in posts and the Direct Messages list.',
             },
+            after: 'clock',
         });
 
         let timezoneSelection;
@@ -553,6 +568,7 @@ export default class UserSettingsDisplay extends React.Component {
                             describe={getTimezoneRegion(this.props.currentUserTimezone)}
                             section={'timezone'}
                             updateSection={this.updateSection}
+                            after={Preferences.NAME_NAME_FORMAT}
                         />
                         <div className='divider-dark'/>
                     </div>
@@ -591,6 +607,7 @@ export default class UserSettingsDisplay extends React.Component {
                 id: t('user.settings.display.messageDisplayDescription'),
                 message: 'Select how messages in a channel should be displayed.',
             },
+            after: 'collapse',
         });
 
         const channelDisplayModeSection = this.createSection({
@@ -620,6 +637,7 @@ export default class UserSettingsDisplay extends React.Component {
                 id: t('user.settings.display.channeldisplaymode'),
                 message: 'Select the width of the center channel.',
             },
+            after: Preferences.MESSAGE_DISPLAY,
         });
 
         let languagesSection;
@@ -659,6 +677,7 @@ export default class UserSettingsDisplay extends React.Component {
                         describe={locale}
                         section={'languages'}
                         updateSection={this.updateSection}
+                        after={Preferences.CHANNEL_DISPLAY_MODE}
                     />
                     <div className='divider-dark'/>
                 </div>
@@ -679,6 +698,7 @@ export default class UserSettingsDisplay extends React.Component {
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
                         allowCustomThemes={this.props.allowCustomThemes}
+                        after={'languages'}
                     />
                     <div className='divider-dark'/>
                 </div>

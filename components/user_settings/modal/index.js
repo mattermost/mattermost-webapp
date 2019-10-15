@@ -7,6 +7,8 @@ import {sendVerificationEmail} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {getPreviousActiveSection} from 'selectors/views/settings';
+
 import UserSettingsModal from './user_settings_modal.jsx';
 
 function mapStateToProps(state) {
@@ -19,6 +21,7 @@ function mapStateToProps(state) {
 
     return {
         currentUser: getCurrentUser(state),
+        previousActiveSection: getPreviousActiveSection(state),
         closeUnusedDirectMessages,
         experimentalChannelOrganization,
         sendEmailNotifications,

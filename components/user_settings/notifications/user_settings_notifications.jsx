@@ -112,7 +112,6 @@ export default class NotificationsTab extends React.Component {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        previousActiveSection: PropTypes.string.isRequired,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         siteName: PropTypes.string,
@@ -120,6 +119,7 @@ export default class NotificationsTab extends React.Component {
         enableAutoResponder: PropTypes.bool,
         actions: PropTypes.shape({
             updateMe: PropTypes.func.isRequired,
+            setupPreviousActiveSection: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -133,6 +133,10 @@ export default class NotificationsTab extends React.Component {
         super(props);
 
         this.state = getNotificationsStateFromProps(props);
+    }
+
+    componentDidMount() {
+        this.props.actions.setupPreviousActiveSection(this.props.enableAutoResponder ? 'auto-responder' : 'comments');
     }
 
     handleSubmit = () => {
@@ -504,6 +508,7 @@ export default class NotificationsTab extends React.Component {
                 describe={describe}
                 section={'push'}
                 updateSection={this.handleUpdateSection}
+                after={'email'}
             />
         );
     }
@@ -686,6 +691,7 @@ export default class NotificationsTab extends React.Component {
                     describe={describe}
                     section={'keys'}
                     updateSection={this.handleUpdateSection}
+                    after={'push'}
                 />
             );
         }
@@ -809,6 +815,7 @@ export default class NotificationsTab extends React.Component {
                     describe={describe}
                     section={'comments'}
                     updateSection={this.handleUpdateSection}
+                    after={'keys'}
                 />
             );
         }
@@ -855,6 +862,7 @@ export default class NotificationsTab extends React.Component {
                         describe={describe}
                         section={'auto-responder'}
                         updateSection={this.handleUpdateSection}
+                        after={'comments'}
                     />
                 );
             }
@@ -922,6 +930,7 @@ export default class NotificationsTab extends React.Component {
                         cancel={this.handleCancel}
                         error={this.state.serverError}
                         active={this.props.activeSection === 'desktop'}
+                        after={this.props.enableAutoResponder ? 'auto-responder' : 'comments'}
                     />
                     <div className='divider-light'/>
                     <EmailNotificationSetting
@@ -934,6 +943,7 @@ export default class NotificationsTab extends React.Component {
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
                         siteName={this.props.siteName}
+                        after={'desktop'}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}

@@ -12,6 +12,8 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getPasswordConfig} from 'utils/utils.jsx';
 import {Preferences} from 'utils/constants';
 
+import {setupPreviousActiveSection} from 'actions/views/settings';
+
 import SecurityTab from './user_settings_security.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -51,6 +53,7 @@ function mapDispatchToProps(dispatch) {
             updateUserPassword,
             getAuthorizedOAuthApps,
             deauthorizeOAuthApp,
+            setupPreviousActiveSection,
         }, dispatch),
     };
 }

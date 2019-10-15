@@ -16,7 +16,6 @@ export default class UserSettings extends React.PureComponent {
         user: PropTypes.object.isRequired,
         activeTab: PropTypes.string,
         activeSection: PropTypes.string,
-        previousActiveSection: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
         updateTab: PropTypes.func,
         closeModal: PropTypes.func.isRequired,
@@ -32,7 +31,6 @@ export default class UserSettings extends React.PureComponent {
                     <GeneralTab
                         user={this.props.user}
                         activeSection={this.props.activeSection}
-                        previousActiveSection={this.props.previousActiveSection}
                         updateSection={this.props.updateSection}
                         updateTab={this.props.updateTab}
                         closeModal={this.props.closeModal}
@@ -46,7 +44,6 @@ export default class UserSettings extends React.PureComponent {
                     <SecurityTab
                         user={this.props.user}
                         activeSection={this.props.activeSection}
-                        previousActiveSection={this.props.previousActiveSection}
                         updateSection={this.props.updateSection}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
@@ -60,7 +57,6 @@ export default class UserSettings extends React.PureComponent {
                     <NotificationsTab
                         user={this.props.user}
                         activeSection={this.props.activeSection}
-                        previousActiveSection={this.props.previousActiveSection}
                         updateSection={this.props.updateSection}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
@@ -73,7 +69,6 @@ export default class UserSettings extends React.PureComponent {
                     <DisplayTab
                         user={this.props.user}
                         activeSection={this.props.activeSection}
-                        previousActiveSection={this.props.previousActiveSection}
                         updateSection={this.props.updateSection}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
@@ -87,7 +82,6 @@ export default class UserSettings extends React.PureComponent {
                 <div>
                     <SidebarTab
                         activeSection={this.props.activeSection}
-                        previousActiveSection={this.props.previousActiveSection}
                         updateSection={this.props.updateSection}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}
@@ -99,7 +93,6 @@ export default class UserSettings extends React.PureComponent {
                 <div>
                     <AdvancedTab
                         activeSection={this.props.activeSection}
-                        previousActiveSection={this.props.previousActiveSection}
                         updateSection={this.props.updateSection}
                         closeModal={this.props.closeModal}
                         collapseModal={this.props.collapseModal}

@@ -30,6 +30,7 @@ export default class EmailNotificationSetting extends React.Component {
         sendEmailNotifications: PropTypes.bool,
         enableEmailBatching: PropTypes.bool,
         siteName: PropTypes.string,
+        after: PropTypes.string,
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
@@ -205,6 +206,7 @@ export default class EmailNotificationSetting extends React.Component {
                 focused={focused}
                 section={'email'}
                 updateSection={this.handleUpdateSection}
+                after={this.props.after}
             />
         );
     }
