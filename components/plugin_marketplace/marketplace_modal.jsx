@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 import {Tabs, Tab} from 'react-bootstrap';
@@ -43,10 +43,6 @@ export default class MarketplaceModal extends React.Component {
             getMarketplacePlugins: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape,
-    };
 
     constructor(props) {
         super(props);
