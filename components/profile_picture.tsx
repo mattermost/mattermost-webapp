@@ -61,6 +61,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                     rootClose={true}
                     overlay={
                         <ProfilePopover
+                            className='user-profile-popover'
                             userId={this.props.userId}
                             src={profileSrc}
                             isBusy={this.props.isBusy}

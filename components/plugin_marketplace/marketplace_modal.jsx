@@ -14,11 +14,11 @@ import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 import LoadingScreen from 'components/loading_screen';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import * as Markdown from 'utils/markdown';
 import Constants from 'utils/constants.jsx';
 
 import MarketplaceItem from './marketplace_item';
@@ -37,6 +37,7 @@ export default class MarketplaceModal extends React.Component {
         show: PropTypes.bool,
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
+        siteURL: PropTypes.string.isRequired,
         pluginStatuses: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
@@ -226,9 +227,13 @@ export default class MarketplaceModal extends React.Component {
                 <div
                     className='error-bar'
                     id='error_bar'
-                    dangerouslySetInnerHTML={{__html: Markdown.format(localizeMessage('app.plugin.marketplace_plugins.app_error',
-                        'Error connecting to the marketplace server. Please check your settings in the [System Console](/admin_console/plugins/plugin_management).'))}}
-                />
+                >
+                    <FormattedMarkdownMessage
+                        id='app.plugin.marketplace_plugins.app_error'
+                        defaultMessage='Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management).'
+                        values={{siteURL: this.props.siteURL}}
+                    />
+                </div>
             );
         }
 

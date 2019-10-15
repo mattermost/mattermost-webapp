@@ -1,37 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-
 import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import Constants from 'utils/constants.jsx';
 import {copyToClipboard} from 'utils/utils.jsx';
 
-export default class CopyText extends React.PureComponent {
-    static propTypes = {
-        value: PropTypes.string.isRequired,
+type Props = {
+    value: string;
+    defaultMessage: string;
+    idMessage: string;
+};
 
-        defaultMessage: PropTypes.string,
-
-        idMessage: PropTypes.string,
+export default class CopyText extends React.PureComponent<Props, {}> {
+    public static defaultProps = {
+        defaultMessage: 'Copy',
+        idMessage: 'integrations.copy',
     };
 
-    static get defaultProps() {
-        return {
-            idMessage: 'integrations.copy',
-            defaultMessage: 'Copy',
-        };
-    }
-
-    copyText = (e) => {
+    private copyText = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         e.preventDefault();
         copyToClipboard(this.props.value);
     };
 
-    render() {
+    public render() {
         if (!document.queryCommandSupported('copy')) {
             return null;
         }
