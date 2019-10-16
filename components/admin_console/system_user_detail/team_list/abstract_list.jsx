@@ -134,9 +134,9 @@ export default class AbstractList extends React.PureComponent {
                 <div className='AbstractList__body'>
                     {this.renderRows()}
                 </div>
-                <div className='AbstractList__footer'>
-                    <div className='counter'>
-                        {total > 0 &&
+                {total > 0 &&
+                    <div className='AbstractList__footer'>
+                        <div className='counter'>
                             <FormattedMessage
                                 id='admin.team_channel_settings.list.paginatorCount'
                                 defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
@@ -146,23 +146,23 @@ export default class AbstractList extends React.PureComponent {
                                     total,
                                 }}
                             />
-                        }
+                        </div>
+                        <button
+                            className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                            onClick={firstPage ? null : this.previousPage}
+                            disabled={firstPage}
+                        >
+                            <PreviousIcon/>
+                        </button>
+                        <button
+                            className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                            onClick={lastPage ? null : this.nextPage}
+                            disabled={lastPage}
+                        >
+                            <NextIcon/>
+                        </button>
                     </div>
-                    <button
-                        className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                        onClick={firstPage ? null : this.previousPage}
-                        disabled={firstPage}
-                    >
-                        <PreviousIcon/>
-                    </button>
-                    <button
-                        className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                        onClick={lastPage ? null : this.nextPage}
-                        disabled={lastPage}
-                    >
-                        <NextIcon/>
-                    </button>
-                </div>
+                }
             </div>
         );
     }
