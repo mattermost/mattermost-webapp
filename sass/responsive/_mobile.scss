@@ -320,7 +320,13 @@
     }
 
     .post-create-footer {
-        padding: 0 10px;
+        padding: 0 16px;
+
+        .post-error {
+            position: relative;
+            top: 0;
+            margin: 8px 0;
+        }
 
         .help__text {
             display: none;
