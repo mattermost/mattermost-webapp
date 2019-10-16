@@ -436,7 +436,7 @@ export default class GroupsList extends React.PureComponent {
                 </div>
                 <div className='groups-list--footer'>
                     <div className='counter'>
-                        { total > 0 &&
+                        {total > 0 &&
                             <FormattedMessage
                                 id='admin.group_settings.groups_list.paginatorCount'
                                 defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
