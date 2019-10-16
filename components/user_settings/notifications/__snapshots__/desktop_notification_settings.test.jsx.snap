@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on buildMaximizedSetting 1`] = `
-<SettingItemMax
-  containerStyle=""
-  infoPosition="bottom"
+<Connect(SettingItemMax)
   inputs={
     Array [
       <div>
@@ -156,7 +154,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
     ]
   }
   saving={false}
-  section=""
   server_error=""
   submit={[Function]}
   title="Desktop notifications"
@@ -165,9 +162,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 `;
 
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on buildMaximizedSetting 2`] = `
-<SettingItemMax
-  containerStyle=""
-  infoPosition="bottom"
+<Connect(SettingItemMax)
   inputs={
     Array [
       <div>
@@ -258,7 +253,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
     ]
   }
   saving={false}
-  section=""
   server_error=""
   submit={[Function]}
   title="Desktop notifications"
@@ -275,7 +269,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       values={Object {}}
     />
   }
-  focused={false}
   section="desktop"
   title="Desktop notifications"
   updateSection={[Function]}
@@ -291,7 +284,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       values={Object {}}
     />
   }
-  focused={false}
   section="desktop"
   title="Desktop notifications"
   updateSection={[Function]}
@@ -299,9 +291,7 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
 `;
 
 exports[`components/user_settings/notifications/DesktopNotificationSettings should match snapshot, on max setting 1`] = `
-<SettingItemMax
-  containerStyle=""
-  infoPosition="bottom"
+<Connect(SettingItemMax)
   inputs={
     Array [
       <div>
@@ -454,7 +444,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
     ]
   }
   saving={false}
-  section=""
   server_error=""
   submit={[Function]}
   title="Desktop notifications"
@@ -471,7 +460,6 @@ exports[`components/user_settings/notifications/DesktopNotificationSettings shou
       values={Object {}}
     />
   }
-  focused={false}
   section="desktop"
   title="Desktop notifications"
   updateSection={[Function]}

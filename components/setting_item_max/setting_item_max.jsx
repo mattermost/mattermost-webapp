@@ -106,6 +106,10 @@ export default class SettingItemMax extends React.PureComponent {
          * Text of save button
          */
         saveButtonText: PropTypes.string,
+
+        actions: PropTypes.shape({
+            updateActiveSection: PropTypes.func,
+        }),
     }
 
     constructor(props) {
@@ -147,11 +151,13 @@ export default class SettingItemMax extends React.PureComponent {
         } else {
             this.props.submit();
         }
+        this.props.actions.updateActiveSection('');
     }
 
     handleUpdateSection = (e) => {
         this.props.updateSection(this.props.section);
         e.preventDefault();
+        this.props.actions.updateActiveSection('');
     }
 
     render() {

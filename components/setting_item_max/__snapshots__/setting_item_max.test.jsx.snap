@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/SettingItemMin should match snapshot 1`] = `
+exports[`components/SettingItemMax should match snapshot 1`] = `
 <ul
   className="section-max form-horizontal "
 >
@@ -52,7 +52,7 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
 </ul>
 `;
 
-exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
+exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
 <ul
   className="section-max form-horizontal "
 >
@@ -114,7 +114,7 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
 </ul>
 `;
 
-exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
+exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
 <ul
   className="section-max form-horizontal "
 >
@@ -176,7 +176,7 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
 </ul>
 `;
 
-exports[`components/SettingItemMin should match snapshot, with new saveTextButton 1`] = `
+exports[`components/SettingItemMax should match snapshot, with new saveTextButton 1`] = `
 <ul
   className="section-max form-horizontal "
 >
@@ -229,7 +229,7 @@ exports[`components/SettingItemMin should match snapshot, with new saveTextButto
 </ul>
 `;
 
-exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
+exports[`components/SettingItemMax should match snapshot, without submit 1`] = `
 <ul
   className="section-max form-horizontal "
 >

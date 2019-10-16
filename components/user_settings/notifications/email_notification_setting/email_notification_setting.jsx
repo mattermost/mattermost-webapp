@@ -9,7 +9,7 @@ import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
 
 import {Preferences} from 'utils/constants.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
@@ -26,7 +26,6 @@ export default class EmailNotificationSetting extends React.Component {
         onChange: PropTypes.func.isRequired,
         serverError: PropTypes.string,
         saving: PropTypes.bool,
-        focused: PropTypes.bool,
         sendEmailNotifications: PropTypes.bool,
         enableEmailBatching: PropTypes.bool,
         siteName: PropTypes.string,
@@ -141,7 +140,6 @@ export default class EmailNotificationSetting extends React.Component {
     renderMinSettingView = () => {
         const {
             enableEmail,
-            focused,
             sendEmailNotifications,
         } = this.props;
 
@@ -203,7 +201,6 @@ export default class EmailNotificationSetting extends React.Component {
             <SettingItemMin
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                 describe={description}
-                focused={focused}
                 section={'email'}
                 updateSection={this.handleUpdateSection}
                 after={this.props.after}

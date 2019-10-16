@@ -15,6 +15,7 @@ describe('components/SettingItemMin', () => {
         describe: 'describe',
         actions: {
             updateActiveSection: jest.fn(),
+            getCurrentActiveSection: jest.fn(),
         },
     };
 

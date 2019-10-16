@@ -4,17 +4,9 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getPreviousActiveSection, getCurrentActiveSection} from 'selectors/views/settings';
 import {updateActiveSection} from 'actions/views/settings';
 
-import SettingItemMin from './setting_item_min.jsx';
-
-function mapStateToProps(state) {
-    return {
-        previousActiveSection: getPreviousActiveSection(state),
-        getCurrentActiveSection: getCurrentActiveSection(state),
-    };
-}
+import SettingItemMax from './setting_item_max';
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -24,4 +16,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingItemMin);
+export default connect(null, mapDispatchToProps)(SettingItemMax);

@@ -12,7 +12,7 @@ import {AcceptedProfileImageTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';

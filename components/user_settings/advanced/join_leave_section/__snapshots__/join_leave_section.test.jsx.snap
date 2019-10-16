@@ -15,9 +15,7 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
 `;
 
 exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 2`] = `
-<SettingItemMax
-  containerStyle=""
-  infoPosition="bottom"
+<Connect(SettingItemMax)
   inputs={
     Array [
       <fieldset>
@@ -73,8 +71,6 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
       </fieldset>,
     ]
   }
-  saving={false}
-  section=""
   setting="joinLeave"
   submit={[Function]}
   title={

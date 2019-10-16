@@ -2,11 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import ManageAutoResponder from 'components/user_settings/notifications/manage_auto_responder.jsx';
 
 describe('components/user_settings/notifications/ManageAutoResponder', () => {
+    const mockStore = configureStore();
     const requiredProps = {
         autoResponderActive: false,
         autoResponderMessage: 'Hello World!',
@@ -18,7 +21,7 @@ describe('components/user_settings/notifications/ManageAutoResponder', () => {
     };
 
     test('should match snapshot, default disabled', () => {
-        const wrapper = mountWithIntl(<ManageAutoResponder {...requiredProps}/>);
+        const wrapper = mountWithIntl(<Provider store={mockStore({})}><ManageAutoResponder {...requiredProps}/></Provider>);
 
         expect(wrapper).toMatchSnapshot();
 
@@ -28,10 +31,12 @@ describe('components/user_settings/notifications/ManageAutoResponder', () => {
 
     test('should match snapshot, enabled', () => {
         const wrapper = mountWithIntl(
-            <ManageAutoResponder
-                {...requiredProps}
-                autoResponderActive={true}
-            />
+            <Provider store={mockStore({})}>
+                <ManageAutoResponder
+                    {...requiredProps}
+                    autoResponderActive={true}
+                />
+            </Provider>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -43,11 +48,13 @@ describe('components/user_settings/notifications/ManageAutoResponder', () => {
     test('should pass handleChange', () => {
         const setParentState = jest.fn();
         const wrapper = mountWithIntl(
-            <ManageAutoResponder
-                {...requiredProps}
-                autoResponderActive={true}
-                setParentState={setParentState}
-            />
+            <Provider store={mockStore({})}>
+                <ManageAutoResponder
+                    {...requiredProps}
+                    autoResponderActive={true}
+                    setParentState={setParentState}
+                />
+            </Provider>
         );
 
         expect(wrapper.find('#autoResponderActive').exists()).toBe(true);

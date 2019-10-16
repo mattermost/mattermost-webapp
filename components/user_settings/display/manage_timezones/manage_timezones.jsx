@@ -6,7 +6,7 @@ import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import {getBrowserTimezone} from 'utils/timezone';
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';

@@ -4,3 +4,7 @@
 export function getPreviousActiveSection(state) {
     return state.views.settings.previousActiveSection;
 }
+
+export function getCurrentActiveSection(state) {
+    return state.views.settings.activeSection;
+}

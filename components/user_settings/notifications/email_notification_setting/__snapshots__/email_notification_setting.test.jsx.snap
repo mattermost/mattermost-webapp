@@ -1,17 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot 1`] = `
-<EmailNotificationSetting
-  actions={
-    Object {
-      "savePreferences": [MockFunction],
-    }
-  }
-  activeSection="email"
-  currentUserId="current_user_id"
-  emailInterval={0}
-  enableEmail={false}
-  enableEmailBatching={false}
+<Provider
   intl={
     Object {
       "defaultFormats": Object {},
@@ -39,118 +29,124 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "timeZone": "Etc/UTC",
     }
   }
-  onCancel={[MockFunction]}
-  onChange={[MockFunction]}
-  onSubmit={[MockFunction]}
-  saving={false}
-  sendEmailNotifications={true}
-  serverError=""
-  siteName="Mattermost"
-  updateSection={[MockFunction]}
->
-  <SettingItemMax
-    containerStyle=""
-    infoPosition="bottom"
-    inputs={
-      Array [
-        <fieldset>
-          <legend
-            className="form-legend"
-          >
-            <FormattedMessage
-              defaultMessage="Send email notifications"
-              id="user.settings.notifications.email.send"
-              values={Object {}}
-            />
-          </legend>
-          <div
-            className="radio"
-          >
-            <label>
-              <input
-                checked={false}
-                data-email-interval={30}
-                data-enable-email="true"
-                id="emailNotificationImmediately"
-                name="emailNotifications"
-                onChange={[Function]}
-                type="radio"
-              />
-              <FormattedMessage
-                defaultMessage="Immediately"
-                id="user.settings.notifications.email.immediately"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="radio"
-          >
-            <label>
-              <input
-                checked={true}
-                data-email-interval={0}
-                data-enable-email="false"
-                id="emailNotificationNever"
-                name="emailNotifications"
-                onChange={[Function]}
-                type="radio"
-              />
-              <FormattedMessage
-                defaultMessage="Never"
-                id="user.settings.notifications.email.never"
-                values={Object {}}
-              />
-            </label>
-          </div>
-          <div
-            className="margin-top x2"
-          >
-            <FormattedMessage
-              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
-              id="user.settings.notifications.emailInfo"
-              values={
-                Object {
-                  "siteName": "Mattermost",
-                }
-              }
-            />
-             
-          </div>
-        </fieldset>,
-      ]
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
     }
+  }
+>
+  <EmailNotificationSetting
+    actions={
+      Object {
+        "savePreferences": [MockFunction],
+      }
+    }
+    activeSection="email"
+    currentUserId="current_user_id"
+    emailInterval={0}
+    enableEmail={false}
+    enableEmailBatching={false}
+    onCancel={[MockFunction]}
+    onChange={[MockFunction]}
+    onSubmit={[MockFunction]}
     saving={false}
-    section=""
-    server_error=""
-    submit={[Function]}
-    title="Email notifications"
-    updateSection={[Function]}
+    sendEmailNotifications={true}
+    serverError=""
+    siteName="Mattermost"
+    updateSection={[MockFunction]}
   >
-    <ul
-      className="section-max form-horizontal "
-    >
-      <li
-        className="col-sm-12 section-title"
-        id="settingTitle"
-      >
-        Email notifications
-      </li>
-      <li
-        className="col-sm-9 col-sm-offset-3"
-      >
-        <ul
-          className="setting-list"
-          role="presentation"
-          tabIndex="-1"
-        >
-          <li
-            className="setting-list-item"
-            role="presentation"
-          >
-            <fieldset
-              key="userNotificationEmailOptions"
+    <Connect(SettingItemMax)
+      inputs={
+        Array [
+          <fieldset>
+            <legend
+              className="form-legend"
             >
+              <FormattedMessage
+                defaultMessage="Send email notifications"
+                id="user.settings.notifications.email.send"
+                values={Object {}}
+              />
+            </legend>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={false}
+                  data-email-interval={30}
+                  data-enable-email="true"
+                  id="emailNotificationImmediately"
+                  name="emailNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Immediately"
+                  id="user.settings.notifications.email.immediately"
+                  values={Object {}}
+                />
+              </label>
+            </div>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={true}
+                  data-email-interval={0}
+                  data-enable-email="false"
+                  id="emailNotificationNever"
+                  name="emailNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Never"
+                  id="user.settings.notifications.email.never"
+                  values={Object {}}
+                />
+              </label>
+            </div>
+            <div
+              className="margin-top x2"
+            >
+              <FormattedMessage
+                defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                id="user.settings.notifications.emailInfo"
+                values={
+                  Object {
+                    "siteName": "Mattermost",
+                  }
+                }
+              />
+               
+            </div>
+          </fieldset>,
+        ]
+      }
+      saving={false}
+      server_error=""
+      submit={[Function]}
+      title="Email notifications"
+      updateSection={[Function]}
+    >
+      <SettingItemMax
+        actions={
+          Object {
+            "updateActiveSection": [Function],
+          }
+        }
+        containerStyle=""
+        infoPosition="bottom"
+        inputs={
+          Array [
+            <fieldset>
               <legend
                 className="form-legend"
               >
@@ -158,11 +154,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
                   values={Object {}}
-                >
-                  <span>
-                    Send email notifications
-                  </span>
-                </FormattedMessage>
+                />
               </legend>
               <div
                 className="radio"
@@ -181,11 +173,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     defaultMessage="Immediately"
                     id="user.settings.notifications.email.immediately"
                     values={Object {}}
-                  >
-                    <span>
-                      Immediately
-                    </span>
-                  </FormattedMessage>
+                  />
                 </label>
               </div>
               <div
@@ -205,11 +193,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     defaultMessage="Never"
                     id="user.settings.notifications.email.never"
                     values={Object {}}
-                  >
-                    <span>
-                      Never
-                    </span>
-                  </FormattedMessage>
+                  />
                 </label>
               </div>
               <div
@@ -223,64 +207,175 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       "siteName": "Mattermost",
                     }
                   }
-                >
-                  <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
-                  </span>
-                </FormattedMessage>
+                />
                  
               </div>
-            </fieldset>
+            </fieldset>,
+          ]
+        }
+        saving={false}
+        section=""
+        server_error=""
+        submit={[Function]}
+        title="Email notifications"
+        updateSection={[Function]}
+      >
+        <ul
+          className="section-max form-horizontal "
+        >
+          <li
+            className="col-sm-12 section-title"
+            id="settingTitle"
+          >
+            Email notifications
           </li>
           <li
-            className="setting-list-item"
+            className="col-sm-9 col-sm-offset-3"
           >
-            <hr />
-            <SaveButton
-              btnClass="btn-primary"
-              disabled={false}
-              extraClasses=""
-              onClick={[Function]}
-              saving={false}
+            <ul
+              className="setting-list"
+              role="presentation"
+              tabIndex="-1"
             >
-              <button
-                className="save-button btn btn-primary"
-                disabled={false}
-                id="saveSetting"
-                onClick={[Function]}
-                type="submit"
+              <li
+                className="setting-list-item"
+                role="presentation"
               >
-                <LoadingWrapper
-                  loading={false}
-                  text="Saving"
+                <fieldset
+                  key="userNotificationEmailOptions"
                 >
-                  <span>
-                    Save
-                  </span>
-                </LoadingWrapper>
-              </button>
-            </SaveButton>
-            <button
-              className="btn btn-sm btn-cancel cursor--pointer style--none"
-              id="cancelSetting"
-              onClick={[Function]}
-            >
-              <FormattedMessage
-                defaultMessage="Cancel"
-                id="setting_item_max.cancel"
-                values={Object {}}
+                  <legend
+                    className="form-legend"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Send email notifications"
+                      id="user.settings.notifications.email.send"
+                      values={Object {}}
+                    >
+                      <span>
+                        Send email notifications
+                      </span>
+                    </FormattedMessage>
+                  </legend>
+                  <div
+                    className="radio"
+                  >
+                    <label>
+                      <input
+                        checked={false}
+                        data-email-interval={30}
+                        data-enable-email="true"
+                        id="emailNotificationImmediately"
+                        name="emailNotifications"
+                        onChange={[Function]}
+                        type="radio"
+                      />
+                      <FormattedMessage
+                        defaultMessage="Immediately"
+                        id="user.settings.notifications.email.immediately"
+                        values={Object {}}
+                      >
+                        <span>
+                          Immediately
+                        </span>
+                      </FormattedMessage>
+                    </label>
+                  </div>
+                  <div
+                    className="radio"
+                  >
+                    <label>
+                      <input
+                        checked={true}
+                        data-email-interval={0}
+                        data-enable-email="false"
+                        id="emailNotificationNever"
+                        name="emailNotifications"
+                        onChange={[Function]}
+                        type="radio"
+                      />
+                      <FormattedMessage
+                        defaultMessage="Never"
+                        id="user.settings.notifications.email.never"
+                        values={Object {}}
+                      >
+                        <span>
+                          Never
+                        </span>
+                      </FormattedMessage>
+                    </label>
+                  </div>
+                  <div
+                    className="margin-top x2"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                      id="user.settings.notifications.emailInfo"
+                      values={
+                        Object {
+                          "siteName": "Mattermost",
+                        }
+                      }
+                    >
+                      <span>
+                        Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                      </span>
+                    </FormattedMessage>
+                     
+                  </div>
+                </fieldset>
+              </li>
+              <li
+                className="setting-list-item"
               >
-                <span>
-                  Cancel
-                </span>
-              </FormattedMessage>
-            </button>
+                <hr />
+                <SaveButton
+                  btnClass="btn-primary"
+                  disabled={false}
+                  extraClasses=""
+                  onClick={[Function]}
+                  saving={false}
+                >
+                  <button
+                    className="save-button btn btn-primary"
+                    disabled={false}
+                    id="saveSetting"
+                    onClick={[Function]}
+                    type="submit"
+                  >
+                    <LoadingWrapper
+                      loading={false}
+                      text="Saving"
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </LoadingWrapper>
+                  </button>
+                </SaveButton>
+                <button
+                  className="btn btn-sm btn-cancel cursor--pointer style--none"
+                  id="cancelSetting"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Cancel"
+                    id="setting_item_max.cancel"
+                    values={Object {}}
+                  >
+                    <span>
+                      Cancel
+                    </span>
+                  </FormattedMessage>
+                </button>
+              </li>
+            </ul>
           </li>
         </ul>
-      </li>
-    </ul>
-  </SettingItemMax>
-</EmailNotificationSetting>
+      </SettingItemMax>
+    </Connect(SettingItemMax)>
+  </EmailNotificationSetting>
+</Provider>
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
@@ -329,17 +424,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, enabled email batching 1`] = `
-<EmailNotificationSetting
-  actions={
-    Object {
-      "savePreferences": [MockFunction],
-    }
-  }
-  activeSection="email"
-  currentUserId="current_user_id"
-  emailInterval={0}
-  enableEmail={false}
-  enableEmailBatching={true}
+<Provider
   intl={
     Object {
       "defaultFormats": Object {},
@@ -367,169 +452,175 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       "timeZone": "Etc/UTC",
     }
   }
-  onCancel={[MockFunction]}
-  onChange={[MockFunction]}
-  onSubmit={[MockFunction]}
-  saving={false}
-  sendEmailNotifications={true}
-  serverError=""
-  siteName="Mattermost"
-  updateSection={[MockFunction]}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
 >
-  <SettingItemMax
-    containerStyle=""
-    infoPosition="bottom"
-    inputs={
-      Array [
-        <fieldset>
-          <legend
-            className="form-legend"
-          >
-            <FormattedMessage
-              defaultMessage="Send email notifications"
-              id="user.settings.notifications.email.send"
-              values={Object {}}
-            />
-          </legend>
-          <div
-            className="radio"
-          >
-            <label>
-              <input
-                checked={false}
-                data-email-interval={30}
-                data-enable-email="true"
-                id="emailNotificationImmediately"
-                name="emailNotifications"
-                onChange={[Function]}
-                type="radio"
-              />
+  <EmailNotificationSetting
+    actions={
+      Object {
+        "savePreferences": [MockFunction],
+      }
+    }
+    activeSection="email"
+    currentUserId="current_user_id"
+    emailInterval={0}
+    enableEmail={false}
+    enableEmailBatching={true}
+    onCancel={[MockFunction]}
+    onChange={[MockFunction]}
+    onSubmit={[MockFunction]}
+    saving={false}
+    sendEmailNotifications={true}
+    serverError=""
+    siteName="Mattermost"
+    updateSection={[MockFunction]}
+  >
+    <Connect(SettingItemMax)
+      inputs={
+        Array [
+          <fieldset>
+            <legend
+              className="form-legend"
+            >
               <FormattedMessage
-                defaultMessage="Immediately"
-                id="user.settings.notifications.email.immediately"
+                defaultMessage="Send email notifications"
+                id="user.settings.notifications.email.send"
                 values={Object {}}
               />
-            </label>
-          </div>
-          <fieldset>
+            </legend>
             <div
               className="radio"
             >
               <label>
                 <input
                   checked={false}
-                  data-email-interval={900}
+                  data-email-interval={30}
                   data-enable-email="true"
-                  id="emailNotificationMinutes"
+                  id="emailNotificationImmediately"
                   name="emailNotifications"
                   onChange={[Function]}
                   type="radio"
                 />
                 <FormattedMessage
-                  defaultMessage="Every {count} minutes"
-                  id="user.settings.notifications.email.everyXMinutes"
-                  values={
-                    Object {
-                      "count": 15,
-                    }
-                  }
-                />
-              </label>
-            </div>
-            <div
-              className="radio"
-            >
-              <label>
-                <input
-                  checked={false}
-                  data-email-interval={3600}
-                  data-enable-email="true"
-                  id="emailNotificationHour"
-                  name="emailNotifications"
-                  onChange={[Function]}
-                  type="radio"
-                />
-                <FormattedMessage
-                  defaultMessage="Every hour"
-                  id="user.settings.notifications.email.everyHour"
+                  defaultMessage="Immediately"
+                  id="user.settings.notifications.email.immediately"
                   values={Object {}}
                 />
               </label>
             </div>
-          </fieldset>
-          <div
-            className="radio"
-          >
-            <label>
-              <input
-                checked={true}
-                data-email-interval={0}
-                data-enable-email="false"
-                id="emailNotificationNever"
-                name="emailNotifications"
-                onChange={[Function]}
-                type="radio"
-              />
+            <fieldset>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={false}
+                    data-email-interval={900}
+                    data-enable-email="true"
+                    id="emailNotificationMinutes"
+                    name="emailNotifications"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Every {count} minutes"
+                    id="user.settings.notifications.email.everyXMinutes"
+                    values={
+                      Object {
+                        "count": 15,
+                      }
+                    }
+                  />
+                </label>
+              </div>
+              <div
+                className="radio"
+              >
+                <label>
+                  <input
+                    checked={false}
+                    data-email-interval={3600}
+                    data-enable-email="true"
+                    id="emailNotificationHour"
+                    name="emailNotifications"
+                    onChange={[Function]}
+                    type="radio"
+                  />
+                  <FormattedMessage
+                    defaultMessage="Every hour"
+                    id="user.settings.notifications.email.everyHour"
+                    values={Object {}}
+                  />
+                </label>
+              </div>
+            </fieldset>
+            <div
+              className="radio"
+            >
+              <label>
+                <input
+                  checked={true}
+                  data-email-interval={0}
+                  data-enable-email="false"
+                  id="emailNotificationNever"
+                  name="emailNotifications"
+                  onChange={[Function]}
+                  type="radio"
+                />
+                <FormattedMessage
+                  defaultMessage="Never"
+                  id="user.settings.notifications.email.never"
+                  values={Object {}}
+                />
+              </label>
+            </div>
+            <div
+              className="margin-top x2"
+            >
               <FormattedMessage
-                defaultMessage="Never"
-                id="user.settings.notifications.email.never"
+                defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                id="user.settings.notifications.emailInfo"
+                values={
+                  Object {
+                    "siteName": "Mattermost",
+                  }
+                }
+              />
+               
+              <FormattedMessage
+                defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
+                id="user.settings.notifications.emailBatchingInfo"
                 values={Object {}}
               />
-            </label>
-          </div>
-          <div
-            className="margin-top x2"
-          >
-            <FormattedMessage
-              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
-              id="user.settings.notifications.emailInfo"
-              values={
-                Object {
-                  "siteName": "Mattermost",
-                }
-              }
-            />
-             
-            <FormattedMessage
-              defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
-              id="user.settings.notifications.emailBatchingInfo"
-              values={Object {}}
-            />
-          </div>
-        </fieldset>,
-      ]
-    }
-    saving={false}
-    section=""
-    server_error=""
-    submit={[Function]}
-    title="Email notifications"
-    updateSection={[Function]}
-  >
-    <ul
-      className="section-max form-horizontal "
+            </div>
+          </fieldset>,
+        ]
+      }
+      saving={false}
+      server_error=""
+      submit={[Function]}
+      title="Email notifications"
+      updateSection={[Function]}
     >
-      <li
-        className="col-sm-12 section-title"
-        id="settingTitle"
-      >
-        Email notifications
-      </li>
-      <li
-        className="col-sm-9 col-sm-offset-3"
-      >
-        <ul
-          className="setting-list"
-          role="presentation"
-          tabIndex="-1"
-        >
-          <li
-            className="setting-list-item"
-            role="presentation"
-          >
-            <fieldset
-              key="userNotificationEmailOptions"
-            >
+      <SettingItemMax
+        actions={
+          Object {
+            "updateActiveSection": [Function],
+          }
+        }
+        containerStyle=""
+        infoPosition="bottom"
+        inputs={
+          Array [
+            <fieldset>
               <legend
                 className="form-legend"
               >
@@ -537,11 +628,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
                   values={Object {}}
-                >
-                  <span>
-                    Send email notifications
-                  </span>
-                </FormattedMessage>
+                />
               </legend>
               <div
                 className="radio"
@@ -560,11 +647,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     defaultMessage="Immediately"
                     id="user.settings.notifications.email.immediately"
                     values={Object {}}
-                  >
-                    <span>
-                      Immediately
-                    </span>
-                  </FormattedMessage>
+                  />
                 </label>
               </div>
               <fieldset>
@@ -589,11 +672,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                           "count": 15,
                         }
                       }
-                    >
-                      <span>
-                        Every 15 minutes
-                      </span>
-                    </FormattedMessage>
+                    />
                   </label>
                 </div>
                 <div
@@ -613,11 +692,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       defaultMessage="Every hour"
                       id="user.settings.notifications.email.everyHour"
                       values={Object {}}
-                    >
-                      <span>
-                        Every hour
-                      </span>
-                    </FormattedMessage>
+                    />
                   </label>
                 </div>
               </fieldset>
@@ -638,11 +713,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     defaultMessage="Never"
                     id="user.settings.notifications.email.never"
                     values={Object {}}
-                  >
-                    <span>
-                      Never
-                    </span>
-                  </FormattedMessage>
+                  />
                 </label>
               </div>
               <div
@@ -656,79 +727,247 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                       "siteName": "Mattermost",
                     }
                   }
-                >
-                  <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
-                  </span>
-                </FormattedMessage>
+                />
                  
                 <FormattedMessage
                   defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
                   id="user.settings.notifications.emailBatchingInfo"
                   values={Object {}}
-                >
-                  <span>
-                    Notifications received over the time period selected are combined and sent in a single email.
-                  </span>
-                </FormattedMessage>
+                />
               </div>
-            </fieldset>
+            </fieldset>,
+          ]
+        }
+        saving={false}
+        section=""
+        server_error=""
+        submit={[Function]}
+        title="Email notifications"
+        updateSection={[Function]}
+      >
+        <ul
+          className="section-max form-horizontal "
+        >
+          <li
+            className="col-sm-12 section-title"
+            id="settingTitle"
+          >
+            Email notifications
           </li>
           <li
-            className="setting-list-item"
+            className="col-sm-9 col-sm-offset-3"
           >
-            <hr />
-            <SaveButton
-              btnClass="btn-primary"
-              disabled={false}
-              extraClasses=""
-              onClick={[Function]}
-              saving={false}
+            <ul
+              className="setting-list"
+              role="presentation"
+              tabIndex="-1"
             >
-              <button
-                className="save-button btn btn-primary"
-                disabled={false}
-                id="saveSetting"
-                onClick={[Function]}
-                type="submit"
+              <li
+                className="setting-list-item"
+                role="presentation"
               >
-                <LoadingWrapper
-                  loading={false}
-                  text="Saving"
+                <fieldset
+                  key="userNotificationEmailOptions"
                 >
-                  <span>
-                    Save
-                  </span>
-                </LoadingWrapper>
-              </button>
-            </SaveButton>
-            <button
-              className="btn btn-sm btn-cancel cursor--pointer style--none"
-              id="cancelSetting"
-              onClick={[Function]}
-            >
-              <FormattedMessage
-                defaultMessage="Cancel"
-                id="setting_item_max.cancel"
-                values={Object {}}
+                  <legend
+                    className="form-legend"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Send email notifications"
+                      id="user.settings.notifications.email.send"
+                      values={Object {}}
+                    >
+                      <span>
+                        Send email notifications
+                      </span>
+                    </FormattedMessage>
+                  </legend>
+                  <div
+                    className="radio"
+                  >
+                    <label>
+                      <input
+                        checked={false}
+                        data-email-interval={30}
+                        data-enable-email="true"
+                        id="emailNotificationImmediately"
+                        name="emailNotifications"
+                        onChange={[Function]}
+                        type="radio"
+                      />
+                      <FormattedMessage
+                        defaultMessage="Immediately"
+                        id="user.settings.notifications.email.immediately"
+                        values={Object {}}
+                      >
+                        <span>
+                          Immediately
+                        </span>
+                      </FormattedMessage>
+                    </label>
+                  </div>
+                  <fieldset>
+                    <div
+                      className="radio"
+                    >
+                      <label>
+                        <input
+                          checked={false}
+                          data-email-interval={900}
+                          data-enable-email="true"
+                          id="emailNotificationMinutes"
+                          name="emailNotifications"
+                          onChange={[Function]}
+                          type="radio"
+                        />
+                        <FormattedMessage
+                          defaultMessage="Every {count} minutes"
+                          id="user.settings.notifications.email.everyXMinutes"
+                          values={
+                            Object {
+                              "count": 15,
+                            }
+                          }
+                        >
+                          <span>
+                            Every 15 minutes
+                          </span>
+                        </FormattedMessage>
+                      </label>
+                    </div>
+                    <div
+                      className="radio"
+                    >
+                      <label>
+                        <input
+                          checked={false}
+                          data-email-interval={3600}
+                          data-enable-email="true"
+                          id="emailNotificationHour"
+                          name="emailNotifications"
+                          onChange={[Function]}
+                          type="radio"
+                        />
+                        <FormattedMessage
+                          defaultMessage="Every hour"
+                          id="user.settings.notifications.email.everyHour"
+                          values={Object {}}
+                        >
+                          <span>
+                            Every hour
+                          </span>
+                        </FormattedMessage>
+                      </label>
+                    </div>
+                  </fieldset>
+                  <div
+                    className="radio"
+                  >
+                    <label>
+                      <input
+                        checked={true}
+                        data-email-interval={0}
+                        data-enable-email="false"
+                        id="emailNotificationNever"
+                        name="emailNotifications"
+                        onChange={[Function]}
+                        type="radio"
+                      />
+                      <FormattedMessage
+                        defaultMessage="Never"
+                        id="user.settings.notifications.email.never"
+                        values={Object {}}
+                      >
+                        <span>
+                          Never
+                        </span>
+                      </FormattedMessage>
+                    </label>
+                  </div>
+                  <div
+                    className="margin-top x2"
+                  >
+                    <FormattedMessage
+                      defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                      id="user.settings.notifications.emailInfo"
+                      values={
+                        Object {
+                          "siteName": "Mattermost",
+                        }
+                      }
+                    >
+                      <span>
+                        Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                      </span>
+                    </FormattedMessage>
+                     
+                    <FormattedMessage
+                      defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
+                      id="user.settings.notifications.emailBatchingInfo"
+                      values={Object {}}
+                    >
+                      <span>
+                        Notifications received over the time period selected are combined and sent in a single email.
+                      </span>
+                    </FormattedMessage>
+                  </div>
+                </fieldset>
+              </li>
+              <li
+                className="setting-list-item"
               >
-                <span>
-                  Cancel
-                </span>
-              </FormattedMessage>
-            </button>
+                <hr />
+                <SaveButton
+                  btnClass="btn-primary"
+                  disabled={false}
+                  extraClasses=""
+                  onClick={[Function]}
+                  saving={false}
+                >
+                  <button
+                    className="save-button btn btn-primary"
+                    disabled={false}
+                    id="saveSetting"
+                    onClick={[Function]}
+                    type="submit"
+                  >
+                    <LoadingWrapper
+                      loading={false}
+                      text="Saving"
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </LoadingWrapper>
+                  </button>
+                </SaveButton>
+                <button
+                  className="btn btn-sm btn-cancel cursor--pointer style--none"
+                  id="cancelSetting"
+                  onClick={[Function]}
+                >
+                  <FormattedMessage
+                    defaultMessage="Cancel"
+                    id="setting_item_max.cancel"
+                    values={Object {}}
+                  >
+                    <span>
+                      Cancel
+                    </span>
+                  </FormattedMessage>
+                </button>
+              </li>
+            </ul>
           </li>
         </ul>
-      </li>
-    </ul>
-  </SettingItemMax>
-</EmailNotificationSetting>
+      </SettingItemMax>
+    </Connect(SettingItemMax)>
+  </EmailNotificationSetting>
+</Provider>
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, not send email notifications 1`] = `
-<SettingItemMax
-  containerStyle=""
-  infoPosition="bottom"
+<Connect(SettingItemMax)
   inputs={
     Array [
       <div
@@ -742,7 +981,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       </div>,
     ]
   }
-  saving={false}
   section="email"
   server_error=""
   title="Email notifications"
@@ -751,9 +989,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, on serverError 1`] = `
-<SettingItemMax
-  containerStyle=""
-  infoPosition="bottom"
+<Connect(SettingItemMax)
   inputs={
     Array [
       <fieldset>
@@ -824,7 +1060,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     ]
   }
   saving={false}
-  section=""
   server_error="serverError"
   submit={[Function]}
   title="Email notifications"

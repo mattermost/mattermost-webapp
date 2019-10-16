@@ -3,10 +3,11 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 
 import {Preferences} from 'utils/constants.jsx';
-
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting/email_notification_setting.jsx';
 
 describe('components/user_settings/notifications/EmailNotificationSetting', () => {
@@ -29,9 +30,14 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         },
     };
 
-    test('should match snapshot', () => {
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
+    const mockStore = configureStore({newInterval: null});
 
+    test('should match snapshot', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={mockStore()}>
+                <EmailNotificationSetting {...requiredProps}/>
+            </Provider>
+        );
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#emailNotificationImmediately').exists()).toBe(true);
         expect(wrapper.find('#emailNotificationNever').exists()).toBe(true);
@@ -44,7 +50,11 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
             ...requiredProps,
             enableEmailBatching: true,
         };
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
+        const wrapper = mountWithIntl(
+            <Provider store={mockStore()}>
+                <EmailNotificationSetting {...props}/>
+            </Provider>
+        );
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#emailNotificationMinutes').exists()).toBe(true);
@@ -103,11 +113,17 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
     });
 
     test('should pass handleChange', () => {
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
+        const wrapper = mountWithIntl(
+            <Provider store={mockStore()}>
+                <EmailNotificationSetting {...requiredProps}/>
+            </Provider>
+        );
+
+        const emailComponent = wrapper.find(EmailNotificationSetting);
         wrapper.find('#emailNotificationImmediately').simulate('change');
 
-        expect(wrapper.state('enableEmail')).toBe('true');
-        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_IMMEDIATE);
+        expect(emailComponent.state('enableEmail')).toBe('true');
+        expect(emailComponent.state('newInterval')).toBe(Preferences.INTERVAL_IMMEDIATE);
         expect(requiredProps.onChange).toBeCalledTimes(1);
     });
 
@@ -122,19 +138,24 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
             actions: {savePreferences: newSavePreference},
         };
 
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
+        const wrapper = mountWithIntl(
+            <Provider store={mockStore()}>
+                <EmailNotificationSetting {...props}/>
+            </Provider>
+        );
 
-        await wrapper.instance().handleSubmit();
-        expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_NEVER);
+        const emailComponent = wrapper.find(EmailNotificationSetting);
+        emailComponent.instance().handleSubmit();
+        expect(emailComponent.state('newInterval')).toBe(Preferences.INTERVAL_NEVER);
         expect(newOnSubmit).not.toBeCalled();
         expect(newUpdateSection).toHaveBeenCalledTimes(1);
         expect(newUpdateSection).toBeCalledWith('');
 
         const newInterval = Preferences.INTERVAL_IMMEDIATE;
         wrapper.find('#emailNotificationImmediately').simulate('change');
-        await wrapper.instance().handleSubmit();
+        await emailComponent.instance().handleSubmit();
 
-        expect(wrapper.state('newInterval')).toBe(newInterval);
+        expect(emailComponent.state('newInterval')).toBe(newInterval);
         expect(newOnSubmit).toBeCalled();
         expect(newOnSubmit).toHaveBeenCalledTimes(1);
 
@@ -153,7 +174,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         const newUpdateSection = jest.fn();
         const newOnCancel = jest.fn();
         const props = {...requiredProps, updateSection: newUpdateSection, onCancel: newOnCancel};
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...props}/>);
+        const wrapper = shallowWithIntl(<EmailNotificationSetting {...props}/>);
 
         wrapper.instance().handleUpdateSection('email');
         expect(newUpdateSection).toBeCalledWith('email');
@@ -173,7 +194,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
             enableEmailBatching: true,
             sendEmailNotifications: true,
         };
-        const wrapper = mountWithIntl(<EmailNotificationSetting {...requiredProps}/>);
+        const wrapper = shallowWithIntl(<EmailNotificationSetting {...requiredProps}/>);
         expect(wrapper.state('emailInterval')).toBe(requiredProps.emailInterval);
         expect(wrapper.state('enableEmailBatching')).toBe(requiredProps.enableEmailBatching);
         expect(wrapper.state('sendEmailNotifications')).toBe(requiredProps.sendEmailNotifications);

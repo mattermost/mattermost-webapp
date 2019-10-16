@@ -45,6 +45,8 @@ export default class SettingItemMin extends React.PureComponent {
          */
         previousActiveSection: PropTypes.string,
 
+        getCurrentActiveSection: PropTypes.string,
+
         /**
          * defines which settings goes before this one.
          * allows for autofocusing along with previousActiveSection
@@ -66,7 +68,8 @@ export default class SettingItemMin extends React.PureComponent {
     shouldIFocus() {
         // use after to define ordering for focus, otherwise it focus itself
         const target = this.props.after || this.props.section;
-        if (this.props.previousActiveSection === target) {
+        const noActiveSection = typeof this.props.getCurrentActiveSection === 'undefined' || this.props.getCurrentActiveSection === '';
+        if (this.props.previousActiveSection === target && noActiveSection) {
             this.edit.focus();
         }
     }

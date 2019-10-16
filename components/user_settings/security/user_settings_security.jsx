@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 

@@ -5,9 +5,10 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
 
-describe('components/SettingItemMin', () => {
+import SettingItemMax from './setting_item_max.jsx';
+
+describe('components/SettingItemMax', () => {
     const baseProps = {
         inputs: ['input_1'],
         clientError: '',
@@ -20,6 +21,9 @@ describe('components/SettingItemMin', () => {
         saving: false,
         title: 'title',
         width: 'full',
+        actions: {
+            updateActiveSection: jest.fn(),
+        },
     };
 
     test('should match snapshot', () => {

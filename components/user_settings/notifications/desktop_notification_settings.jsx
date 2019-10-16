@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 export default class DesktopNotificationSettings extends React.Component {
@@ -255,7 +255,6 @@ export default class DesktopNotificationSettings extends React.Component {
             <SettingItemMin
                 title={Utils.localizeMessage('user.settings.notifications.desktop.title', 'Desktop notifications')}
                 describe={<FormattedMessage {...formattedMessageProps}/>}
-                focused={this.props.focused}
                 section={'desktop'}
                 updateSection={this.handleMinUpdateSection}
                 after={this.props.after}
@@ -282,6 +281,5 @@ DesktopNotificationSettings.propTypes = {
     error: PropTypes.string,
     active: PropTypes.bool,
     saving: PropTypes.bool,
-    focused: PropTypes.bool,
     after: PropTypes.string,
 };

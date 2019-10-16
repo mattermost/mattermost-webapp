@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Constants, {NotificationLevels} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 import DesktopNotificationSettings from './desktop_notification_settings.jsx';

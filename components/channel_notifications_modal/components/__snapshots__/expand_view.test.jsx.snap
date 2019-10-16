@@ -1,14 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, DESKTOP on expanded view 1`] = `
-<SettingItemMax
-  containerStyle=""
+<Connect(SettingItemMax)
   extraInfo={
     <ExtraInfo
       section="desktop"
     />
   }
-  infoPosition="bottom"
   inputs={
     Array [
       <div>
@@ -96,8 +94,6 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
       </div>,
     ]
   }
-  saving={false}
-  section=""
   server_error=""
   submit={[Function]}
   title={
@@ -110,14 +106,12 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
 `;
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, MARK_UNREAD on expanded view 1`] = `
-<SettingItemMax
-  containerStyle=""
+<Connect(SettingItemMax)
   extraInfo={
     <ExtraInfo
       section="markUnread"
     />
   }
-  infoPosition="bottom"
   inputs={
     Array [
       <div>
@@ -166,8 +160,6 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
       </div>,
     ]
   }
-  saving={false}
-  section=""
   server_error=""
   submit={[Function]}
   title={
@@ -180,14 +172,12 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
 `;
 
 exports[`components/channel_notifications_modal/ExpandView should match snapshot, PUSH on expanded view 1`] = `
-<SettingItemMax
-  containerStyle=""
+<Connect(SettingItemMax)
   extraInfo={
     <ExtraInfo
       section="push"
     />
   }
-  infoPosition="bottom"
   inputs={
     Array [
       <div>
@@ -275,8 +265,6 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
       </div>,
     ]
   }
-  saving={false}
-  section=""
   server_error=""
   submit={[Function]}
   title={

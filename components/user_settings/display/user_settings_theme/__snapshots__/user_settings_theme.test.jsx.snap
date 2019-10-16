@@ -9,7 +9,6 @@ exports[`components/user_settings/display/user_settings_theme/user_settings_them
       values={Object {}}
     />
   }
-  focused={false}
   section="theme"
   title={
     <FormattedMessage

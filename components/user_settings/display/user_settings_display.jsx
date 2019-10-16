@@ -13,7 +13,7 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
