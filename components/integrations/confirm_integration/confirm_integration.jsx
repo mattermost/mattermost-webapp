@@ -10,7 +10,7 @@ import {browserHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
 import CopyText from 'components/copy_text';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ConfirmIntegration extends React.Component {

@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Markdown from 'components/markdown';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 
 export default function HelpFormatting() {
     const renderRawExample = (example) => {
