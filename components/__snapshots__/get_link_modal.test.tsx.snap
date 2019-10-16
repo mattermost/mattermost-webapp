@@ -45,7 +45,6 @@ exports[`components/GetLinkModal should have called onHide 1`] = `
     bsClass="modal-body"
     componentClass="div"
   >
-    <div />
     <textarea
       className="form-control no-resize min-height"
       id="linkModalTextArea"
@@ -142,7 +141,6 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
     bsClass="modal-body"
     componentClass="div"
   >
-    <div />
     <textarea
       className="form-control no-resize min-height"
       id="linkModalTextArea"
@@ -180,7 +178,6 @@ exports[`components/GetLinkModal should have called onHide 2`] = `
         values={Object {}}
       />
     </button>
-    <div />
   </ModalFooter>
 </Modal>
 `;
@@ -272,7 +269,6 @@ exports[`components/GetLinkModal should match snapshot when all props is set 1`]
         values={Object {}}
       />
     </button>
-    <div />
   </ModalFooter>
 </Modal>
 `;
@@ -322,7 +318,6 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
     bsClass="modal-body"
     componentClass="div"
   >
-    <div />
     <textarea
       className="form-control no-resize min-height"
       id="linkModalTextArea"
@@ -360,7 +355,6 @@ exports[`components/GetLinkModal should match snapshot when helpText is not set 
         values={Object {}}
       />
     </button>
-    <div />
   </ModalFooter>
 </Modal>
 `;
