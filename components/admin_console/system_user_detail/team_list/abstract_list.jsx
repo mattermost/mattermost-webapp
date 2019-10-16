@@ -136,15 +136,17 @@ export default class AbstractList extends React.PureComponent {
                 </div>
                 <div className='AbstractList__footer'>
                     <div className='counter'>
-                        <FormattedMessage
-                            id='admin.team_channel_settings.list.paginatorCount'
-                            defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
-                            values={{
-                                startCount,
-                                endCount,
-                                total,
-                            }}
-                        />
+                        {total > 0 &&
+                            <FormattedMessage
+                                id='admin.team_channel_settings.list.paginatorCount'
+                                defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
+                                values={{
+                                    startCount,
+                                    endCount,
+                                    total,
+                                }}
+                            />
+                        }
                     </div>
                     <button
                         className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}

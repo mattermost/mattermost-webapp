@@ -436,15 +436,17 @@ export default class GroupsList extends React.PureComponent {
                 </div>
                 <div className='groups-list--footer'>
                     <div className='counter'>
-                        <FormattedMessage
-                            id='admin.group_settings.groups_list.paginatorCount'
-                            defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
-                            values={{
-                                startCount,
-                                endCount,
-                                total,
-                            }}
-                        />
+                        { total > 0 &&
+                            <FormattedMessage
+                                id='admin.group_settings.groups_list.paginatorCount'
+                                defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
+                                values={{
+                                    startCount,
+                                    endCount,
+                                    total,
+                                }}
+                            />
+                        }
                     </div>
                     <button
                         className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
