@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {localizeMessage, isGuest} from 'utils/utils';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
@@ -278,7 +278,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         id='channelLeaveChannel'
                         channel={channel}
                         isDefault={isDefault}
-                        isGuestUser={user.is_guest}
+                        isGuestUser={isGuest(user)}
                     />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'
