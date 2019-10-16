@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {AnnouncementBarMessages} from 'utils/constants.jsx';
 import {dismissNotice} from 'actions/views/notice';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 
 import ConfigurationBar from './configuration_bar.jsx';
 
