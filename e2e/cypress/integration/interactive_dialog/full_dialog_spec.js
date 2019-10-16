@@ -59,7 +59,7 @@ describe('ID15888 Interactive Dialog', () => {
                 icon_url: '',
                 method: 'P',
                 team_id: team.id,
-                trigger: 'dialog',
+                trigger: 'dialog' + Date.now(),
                 url: `${webhookBaseUrl}/dialog_request`,
                 username: '',
             };
