@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MsgTyping from 'components/msg_typing/msg_typing.jsx';
+import MsgTyping from 'components/msg_typing/msg_typing';
 
 describe('components/MsgTyping', () => {
     const baseProps = {
