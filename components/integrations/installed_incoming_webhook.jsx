@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import {getSiteURL} from 'utils/url.jsx';
 import {t} from 'utils/i18n';
 
-import CopyText from 'components/copy_text.jsx';
+import CopyText from 'components/copy_text';
 
 import DeleteIntegration from './delete_integration.jsx';
 

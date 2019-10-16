@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {makeGetUsersTypingByChannelAndPost} from 'mattermost-redux/selectors/entities/typing';
 
-import MsgTyping from './msg_typing.jsx';
+import MsgTyping from './msg_typing';
 
 function makeMapStateToProps() {
     const getUsersTypingByChannelAndPost = makeGetUsersTypingByChannelAndPost();

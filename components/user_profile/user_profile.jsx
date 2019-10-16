@@ -74,6 +74,7 @@ export default class UserProfile extends PureComponent {
                     rootClose={true}
                     overlay={
                         <ProfilePopover
+                            className='user-profile-popover'
                             userId={userId}
                             src={profileImg}
                             isBusy={isBusy}
