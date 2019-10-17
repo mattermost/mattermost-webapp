@@ -9,7 +9,7 @@ import {getOptionValue} from 'react-select/src/builtins';
 import Constants from 'utils/constants.jsx';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import {Value} from './multiselect';
 
@@ -32,7 +32,6 @@ type Props = {
 type State = {
     selected: number;
 }
-
 const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelectList extends React.Component<Props, State> {

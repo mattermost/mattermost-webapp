@@ -8,12 +8,11 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 
 import * as I18n from 'i18n/i18n.jsx';
 
-import {saveConfig} from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants.jsx';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
 import TextSetting from 'components/admin_console/text_setting.jsx';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
@@ -44,6 +43,7 @@ export default class SchemaAdminSettings extends React.Component {
         roles: PropTypes.object,
         license: PropTypes.object,
         editRole: PropTypes.func,
+        updateConfig: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -817,34 +817,23 @@ export default class SchemaAdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        await saveConfig(
-            config,
-            (savedConfig) => {
-                this.setState(getStateFromConfig(savedConfig));
+        try {
+            await this.props.updateConfig(config);
+            this.setState(getStateFromConfig(config));
+        } catch (err) {
+            this.setState({
+                serverError: err.message,
+                serverErrorId: err.id,
+            });
+        }
 
-                if (callback) {
-                    callback();
-                }
+        if (callback) {
+            callback();
+        }
 
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
-            },
-            (err) => {
-                this.setState({
-                    serverError: err.message,
-                    serverErrorId: err.id,
-                });
-
-                if (callback) {
-                    callback();
-                }
-
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
-            }
-        );
+        if (this.handleSaved) {
+            this.handleSaved(config);
+        }
 
         const results = [];
         for (const saveAction of this.saveActions) {

@@ -11,7 +11,7 @@ import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
 import TextSetting from 'components/admin_console/text_setting.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import {Constants} from 'utils/constants';
 
