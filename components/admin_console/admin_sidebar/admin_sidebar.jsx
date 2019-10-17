@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
-import isEqual from 'lodash/isequal';
+import isEqual from 'lodash/isEqual';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
