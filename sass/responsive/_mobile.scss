@@ -5,6 +5,25 @@
         margin: 8px 0;
     }
 
+
+    .backstage-list__item {
+        .item-actions,
+        .actions {
+            margin: 10px 0;
+        }
+    }
+
+
+    .integration__icon {
+        &.integration-list__icon {
+            position: relative;
+            top: 0;
+            margin: 0 20px 15px;
+            width: 50px;
+            height: 50px;
+        }
+    }
+
     .emoji-picker {
         // !important is used to overide inline styles
         // used on larger screens
@@ -172,6 +191,13 @@
     .post__header {
         .dropdown-menu {
             >li {
+                >div {
+                    border-top-color: var(--center-channel-color-10) !important;
+                    .SubMenu__icon {
+                        padding: 0 5px 0 8px !important;
+                    }
+                }
+                >div,
                 >button {
                     @include border-radius(0);
                     border-top: 1px solid;
@@ -180,6 +206,7 @@
                 }
 
                 &:first-child {
+                    div,
                     button {
                         border: none;
                     }
@@ -312,7 +339,13 @@
     }
 
     .post-create-footer {
-        padding: 0 10px;
+        padding: 0 16px;
+
+        .post-error {
+            position: relative;
+            top: 0;
+            margin: 8px 0;
+        }
 
         .help__text {
             display: none;
@@ -1724,6 +1757,17 @@
             overflow: hidden;
             padding: 0;
 
+            .channel-switch__modal {
+                .modal-body {
+                    max-height: 100%;
+                }
+
+                .suggestion-list__content {
+                    height: calc(100vh - 110px);
+                    max-height: 100%;
+                }
+            }
+
             .modal-dialog {
                 height: 100%;
                 margin: 0;
@@ -1972,16 +2016,6 @@
         }
     }
 
-    .backstage-list__item {
-        display: block;
-
-        .item-actions,
-        .actions {
-            margin-top: 15px;
-            padding: 0;
-        }
-    }
-
     .app__body {
         .modal {
             .settings-modal {
@@ -2045,10 +2079,6 @@
         &.move--right {
             @include translate3d(0, 0, 0);
         }
-    }
-
-    .integration__icon {
-        display: none;
     }
 
     // overides edit modal body element's css position

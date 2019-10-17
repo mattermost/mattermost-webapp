@@ -26,6 +26,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         canViewSystemErrors: PropTypes.bool.isRequired,
         totalUsers: PropTypes.number,
         dismissedExpiringLicense: PropTypes.bool,
+        siteURL: PropTypes.string.isRequired,
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
         }).isRequired,
@@ -137,13 +138,14 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
             let defaultMessage;
             if (this.props.config.EnableSignUpWithGitLab === 'true') {
                 id = t('announcement_bar.error.site_url_gitlab.full');
-                defaultMessage = 'Please configure your [Site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) in the [System Console](/admin_console/environment/web_server) or in gitlab.rb if you\'re using GitLab Mattermost.';
+                defaultMessage = 'Please configure your [Site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) in the [System Console]({siteURL}/admin_console/environment/web_server) or in gitlab.rb if you\'re using GitLab Mattermost.';
             } else {
                 id = t('announcement_bar.error.site_url.full');
-                defaultMessage = 'Please configure your [Site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) in the [System Console](/admin_console/environment/web_server).';
+                defaultMessage = 'Please configure your [Site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) in the [System Console]({siteURL}/admin_console/environment/web_server).';
             }
 
-            const siteURLMessage = formatMessage({id, defaultMessage});
+            const values = {siteURL: this.props.siteURL};
+            const siteURLMessage = formatMessage({id, defaultMessage}, values);
 
             return (
                 <TextDismissableBar

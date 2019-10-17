@@ -48,9 +48,9 @@ describe('TextFormatting.searchHighlighting', () => {
             '<div class="post-code post-code--wrap">' +
                 '<code class="hljs">' +
                     '<div class="post-code__search-highlighting">' +
-                        '<span class="search-highlight">words</span> in a sentence\n' +
+                        '<span class="search-highlight">words</span> in a sentence' +
                     '</div>' +
-                    'words in a sentence\n' +
+                    'words in a sentence' +
                 '</code>' +
             '</div>',
     }, {
@@ -91,9 +91,9 @@ describe('TextFormatting.searchHighlighting', () => {
             '<div class="post-code post-code--wrap">' +
                 '<code class="hljs">' +
                     '<div class="post-code__search-highlighting">' +
-                        '<span class="search-highlight">words</span> in a sentence\n' +
+                        '<span class="search-highlight">words</span> in a sentence' +
                     '</div>' +
-                    'words in a sentence\n' +
+                    'words in a sentence' +
                 '</code>' +
             '</div>',
     }, {
