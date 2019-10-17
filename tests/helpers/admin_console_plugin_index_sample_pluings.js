@@ -50,3 +50,23 @@ export const samplePlugin2 = {
     },
     active: true,
 };
+
+export const samplePlugin3 = {
+    id: 'plugin-with-markdown',
+    name: 'markdown',
+    description: 'click [here](http://localhost:8080)',
+    version: '1.1.0',
+    settings_schema: {
+        settings: [
+            {
+                key: 'Markdown plugin',
+                display_name: 'Markdown',
+                type: 'bool',
+                help_text: 'click [here](http://localhost:8080)',
+                placeholder: '',
+                default: false,
+            },
+        ],
+    },
+    active: true,
+};

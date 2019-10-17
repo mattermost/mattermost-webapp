@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {stripMarkdown} from 'utils/markdown';
+
 function extractTextsFromPlugin(plugin) {
     const texts = [];
     if (plugin.name) {
@@ -20,13 +22,13 @@ function extractTextsFromPlugin(plugin) {
         if (plugin.settings_schema.settings) {
             for (const setting of Object.values(plugin.settings_schema.settings)) {
                 if (setting.label) {
-                    texts.push(setting.label);
+                    texts.push(stripMarkdown(setting.label));
                 }
                 if (setting.display_name) {
-                    texts.push(setting.display_name);
+                    texts.push(stripMarkdown(setting.display_name));
                 }
                 if (setting.help_text) {
-                    texts.push(setting.help_text);
+                    texts.push(stripMarkdown(setting.help_text));
                 }
                 if (setting.key) {
                     texts.push(setting.key);
