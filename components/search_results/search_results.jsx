@@ -317,7 +317,9 @@ export default class SearchResults extends React.Component {
                 >
                     <div
                         id='search-items-container'
-                        className='search-items-container post-list__table'
+                        className='search-items-container post-list__table a11y__region'
+                        data-a11y-sort-order='3'
+                        data-a11y-focus-child={true}
                     >
                         {ctls}
                         {loadingMorePostsComponent}
