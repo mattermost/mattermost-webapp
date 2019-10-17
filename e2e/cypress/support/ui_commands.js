@@ -390,7 +390,7 @@ Cypress.Commands.add('createAndVisitNewChannel', () => {
             // * Verify channel's display name
             cy.get('#channelHeaderTitle').should('contain', channel.display_name);
 
-            cy.wrap({channel});
+            cy.wrap(channel);
         });
     });
 });

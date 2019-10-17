@@ -12,15 +12,15 @@ import users from '../../fixtures/users.json';
 const sysadmin = users.sysadmin;
 
 describe('Message Reply', () => {
-    let channel;
+    let newChannel;
 
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
 
         // # Create and visit new channel
-        cy.createAndVisitNewChannel().then((data) => {
-            channel = data.channel;
+        cy.createAndVisitNewChannel().then((channel) => {
+            newChannel = channel;
         });
     });
 
@@ -29,7 +29,7 @@ describe('Message Reply', () => {
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
         // # Post a day old message
-        cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId: channel.id, createAt: yesterdaysDate}).
+        cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId: newChannel.id, createAt: yesterdaysDate}).
             its('id').
             should('exist').
             as('yesterdaysPost');
