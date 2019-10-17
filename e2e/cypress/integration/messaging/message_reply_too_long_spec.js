@@ -15,7 +15,7 @@ describe('Message Reply too long', () => {
         cy.postMessage('Hello ' + Date.now());
     });
 
-    it('M18689 - ""Message too long" warning text"', () => {
+    it('M18689 - "Message too long" warning text', () => {
         // # Click "Reply"
         cy.getLastPostId().then((postId) => {
             cy.clickPostCommentIcon(postId);
@@ -29,7 +29,8 @@ describe('Message Reply too long', () => {
         cy.get('.post-error').should('not.exist');
 
         // # Enter too long text into RHS
-        const replyTooLong = replyValid.repeat((16383 / replyValid.length) + 1);
+        const maxReplyLength = 16383;
+        const replyTooLong = replyValid.repeat((maxReplyLength / replyValid.length) + 1);
         cy.get('#reply_textbox').invoke('val', replyTooLong).trigger('input');
 
         // * Check warning doesn't overlap textbox
@@ -39,8 +40,8 @@ describe('Message Reply too long', () => {
         // # Type "enter" into RHS
         cy.get('#reply_textbox').type('{enter}');
 
-        // * Check warning highlight and doesn't overlap textbox
-        cy.get('.post-error').should('be.visible').should('have.class', 'animation--highlight');
+        // * Check warning
+        cy.get('.post-error').should('be.visible').and('have.class', 'animation--highlight').and('have.text', `Your message is too long. Character count: ${replyTooLong.length}/${maxReplyLength}`);
         cy.get('#reply_textbox').should('be.visible');
 
         // * Check last reply is the last valid one
