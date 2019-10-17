@@ -3592,7 +3592,7 @@ const AdminDefinition = {
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
                         help_text: t('admin.service.enableBotAccountCreation'),
-                        help_text_default: 'When true, users can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](!https://mattermost.com/pl/default-bot-accounts) to learn more.',
+                        help_text_default: 'When true, System Admins can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
                         help_text_markdown: true,
                         help_text_values: {siteURL: getSiteURL()},
                     },
