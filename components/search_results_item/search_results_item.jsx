@@ -114,7 +114,8 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.selectPost(this.props.post);
     };
 
-    handleJumpClick = () => {
+    handleJumpClick = (e) => {
+        e.preventDefault();
         if (Utils.isMobile()) {
             this.props.actions.closeRightHandSide();
         }
