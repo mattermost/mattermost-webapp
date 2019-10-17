@@ -55,8 +55,8 @@ describe('components/MarketplaceItem', () => {
     test('should match snapshot, no homepage url', () => {
         const props = {
             ...baseProps,
-        }
-        delete props['homepageUrl'];
+        };
+        delete props.homepageUrl;
 
         const wrapper = shallow(
             <MarketplaceItem {...props}/>
