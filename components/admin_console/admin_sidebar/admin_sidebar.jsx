@@ -95,7 +95,7 @@ export default class AdminSidebar extends React.Component {
         if (this.idx !== null &&
             (!isEqual(this.props.plugins, prevProps.plugins) ||
                 !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
-            this.idx = generateIndex(this.props.adminDefinition, this.context.intl, this.props.plugins);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
         }
     }
 
@@ -108,7 +108,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.context.intl, this.props.plugins);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
         }
         let query = '';
         for (const term of filter.split(' ')) {

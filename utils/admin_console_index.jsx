@@ -77,7 +77,7 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
     return entries;
 }
 
-export function generateIndex(AdminDefinition, intl, plugins) {
+export function generateIndex(AdminDefinition, plugins, intl) {
     const idx = new FlexSearch();
 
     addToIndex(adminDefinitionsToUrlsAndTexts(AdminDefinition, intl), idx);

@@ -17,7 +17,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
         const {intl} = intlProvider.getChildContext();
 
-        const idx = generateIndex(AdminDefinition, intl);
+        const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
             'environment/session_lengths',
             'authentication/mfa',
@@ -48,7 +48,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         const intlProvider = new IntlProvider({locale: 'es', messages: esMessages, defaultLocale: 'es'}, {});
         const {intl} = intlProvider.getChildContext();
 
-        const idx = generateIndex(AdminDefinition, intl);
+        const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
             'environment/session_lengths',
             'authentication/mfa',
@@ -79,7 +79,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
         const {intl} = intlProvider.getChildContext();
 
-        const idx = generateIndex(AdminDefinition, intl, {[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2});
+        const idx = generateIndex(AdminDefinition, {[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2}, intl);
 
         expect(idx.search('random')).toEqual(['plugin_Some-random-plugin', 'site_config/public_links']);
         expect(idx.search('autolink')).toEqual(['plugin_mattermost-autolink']);
