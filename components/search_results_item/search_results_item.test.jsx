@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import {Posts} from 'mattermost-redux/constants';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
