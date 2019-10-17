@@ -12,7 +12,7 @@ import SystemNotice from 'components/system_notice';
 import ModalController from 'components/modal_controller';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
-import DiscardChangesModal from 'components/discard_changes_modal.jsx';
+import DiscardChangesModal from 'components/discard_changes_modal';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
