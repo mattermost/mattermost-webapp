@@ -4,24 +4,30 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {getOptionValue} from 'react-select/src/builtins';
+
 import Constants from 'utils/constants.jsx';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
+
 import LoadingScreen from 'components/loading_screen.jsx';
 
-import {Props as MultiSelectProps, State as MultiSelectState, Value} from './multiselect';
+import {Value} from './multiselect';
 
-type Props = Pick<
-MultiSelectProps,
-| 'ariaLabelRenderer'
-| 'loading'
-| 'optionRenderer'
-| 'options'
-| 'perPage'
-> & {
+type Props = {
+    ariaLabelRenderer: getOptionValue<Value>;
+    loading?: boolean;
     onAdd: (value: Value) => void;
-    onPageChange: MultiSelectProps['handlePageChange'];
+    onPageChange?: (newPage: number, currentPage: number) => void;
     onSelect: (value: Value | null) => void;
-} & Pick<MultiSelectState, 'page'>
+    optionRenderer: (
+        option: Value,
+        isSelected: boolean,
+        onAdd: (value: Value) => void
+    ) => void;
+    options: Value[];
+    page: number;
+    perPage: number;
+}
 
 type State = {
     selected: number;
@@ -36,9 +42,9 @@ export default class MultiSelectList extends React.Component<Props, State> {
         onAction: () => null,
     };
 
-    public toSelect: number = -1
-    public listRef = React.createRef<HTMLDivElement>()
-    public selectedRef = React.createRef<HTMLDivElement>()
+    private toSelect: number = -1
+    private listRef = React.createRef<HTMLDivElement>()
+    private selectedRef = React.createRef<HTMLDivElement>()
 
     public constructor(props: Props) {
         super(props);
@@ -90,7 +96,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         this.toSelect = selected;
     }
 
-    public handleArrowPress = (e: KeyboardEvent) => {
+    private handleArrowPress = (e: KeyboardEvent) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey) {
             return;
         }
@@ -126,7 +132,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         this.props.onSelect(options[selected]);
     }
 
-    public defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd']) => {
+    private defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd']) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';

@@ -8,7 +8,6 @@ import {shallow} from 'enzyme';
 import MultiSelect from 'components/multiselect/multiselect';
 
 const element = (props: any) => <div/>;
-const noop = (props: any) => {};
 
 describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
@@ -20,10 +19,10 @@ describe('components/multiselect/multiselect', () => {
 
     const baseProps = {
         ariaLabelRenderer: element as any,
-        handleAdd: noop,
-        handleDelete: noop,
-        handleInput: noop,
-        handleSubmit: noop,
+        handleAdd: jest.fn(),
+        handleDelete: jest.fn(),
+        handleInput: jest.fn(),
+        handleSubmit: jest.fn(),
         optionRenderer: element,
         options: users,
         perPage: 5,
