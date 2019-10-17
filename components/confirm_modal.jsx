@@ -6,8 +6,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {A11yClassNames} from 'utils/constants';
-
 export default class ConfirmModal extends React.Component {
     static propTypes = {
 
