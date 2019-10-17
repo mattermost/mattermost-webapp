@@ -1,47 +1,46 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 
-export default class UnreadChannelIndicator extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * Function to call when the indicator is clicked
-         */
-        onClick: PropTypes.func.isRequired,
+    /**
+     * Function to call when the indicator is clicked
+     */
+    onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 
-        /**
-         * Set whether to show the indicator or not
-         */
-        show: PropTypes.bool,
+    /**
+     * Set whether to show the indicator or not
+     */
+    show?: boolean;
 
-        /**
-         * The additional CSS class for the indicator
-         */
-        extraClass: PropTypes.string,
+    /**
+     * The additional CSS class for the indicator
+     */
+    extraClass?: string;
 
-        /**
-         * The content of the indicator
-         */
-        content: PropTypes.node,
+    /**
+     * The content of the indicator
+     */
+    content?: ReactNode;
 
-        /**
-         * The name of the indicator
-         */
-        name: PropTypes.string,
-    };
+    /**
+     * The name of the indicator
+     */
+    name?: string;
+}
 
-    static defaultProps = {
+export default class UnreadChannelIndicator extends React.PureComponent<Props> {
+    public static defaultProps: Partial<Props> = {
         show: false,
         extraClass: '',
         content: '',
     };
 
-    render() {
+    public render(): JSX.Element {
         let classes = 'nav-pills__unread-indicator ';
         if (this.props.show) {
             classes += 'nav-pills__unread-indicator--visible ';

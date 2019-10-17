@@ -1,30 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-export default class PostDeletedModal extends React.Component {
-    static propTypes = {
+type Props = {
+    show: boolean;
+    onHide: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
-        /**
-         * Determines whether this modal should be shown or not
-         */
-        show: PropTypes.bool.isRequired,
-
-        /**
-         * Function that is called when modal is hidden
-         */
-        onHide: PropTypes.func.isRequired,
-    };
-
-    shouldComponentUpdate(nextProps) {
+export default class PostDeletedModal extends React.Component<Props> {
+    public shouldComponentUpdate(nextProps: Props): boolean {
         return nextProps.show !== this.props.show;
     }
 
-    render() {
+    public render(): JSX.Element {
         return (
             <Modal
                 dialogClassName='a11y__modal'
