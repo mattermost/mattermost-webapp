@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
-import isEqual from 'lodash.isequal';
+import isEqual from 'lodash/isequal';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants.jsx';
@@ -92,7 +92,7 @@ export default class AdminSidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.idx != null &&
+        if (this.idx !== null &&
             (!isEqual(this.props.plugins, prevProps.plugins) ||
                 !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
             this.idx = generateIndex(this.props.adminDefinition, this.context.intl, this.props.plugins);
@@ -271,10 +271,8 @@ export default class AdminSidebar extends React.Component {
                     }
                 }
 
-                if (this.state.sections !== null) {
-                    if (this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
-                        return;
-                    }
+                if (this.state.sections !== null && this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
+                    return;
                 }
                 customPlugins.push(
                     <AdminSidebarSection

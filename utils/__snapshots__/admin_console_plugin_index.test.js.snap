@@ -19,6 +19,7 @@ Object {
   "plugin_Some-random-plugin": Array [
     "Random",
     "Some-random-plugin",
+    "random plugin footer",
     "Generate with /generateRand command",
     "/generateRand 10",
     "GenerateRandomNumber",

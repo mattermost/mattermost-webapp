@@ -28,6 +28,7 @@ export const samplePlugin2 = {
     description: 'Automatically generate random numbers',
     version: '1.1.0',
     settings_schema: {
+        footer: 'random plugin footer',
         settings: [
             {
                 key: 'GenerateRandomNumber',

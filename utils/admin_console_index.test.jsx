@@ -5,7 +5,7 @@ import {IntlProvider} from 'react-intl';
 
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 
-import {samplePlugin1, samplePlugin2} from '../tests/helpers/admin_console_plugin_index_sample_pluings';
+import {samplePlugin1, samplePlugin2} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 
 import {generateIndex} from './admin_console_index.jsx';
 

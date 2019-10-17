@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 function extractTextsFromPlugin(plugin) {
     const texts = [];
     if (plugin.name) {
@@ -15,30 +16,31 @@ function extractTextsFromPlugin(plugin) {
         if (plugin.settings_schema.header) {
             texts.push(plugin.settings_schema.header);
         }
-    }
 
-    if (plugin.settings_schema && plugin.settings_schema.settings) {
-        for (const setting of Object.values(plugin.settings_schema.settings)) {
-            if (setting.label) {
-                texts.push(setting.label);
-            }
-            if (setting.display_name) {
-                texts.push(setting.display_name);
-            }
-            if (setting.help_text) {
-                texts.push(setting.help_text);
-            }
-            if (setting.key) {
-                texts.push(setting.key);
+        if (plugin.settings_schema.settings) {
+            for (const setting of Object.values(plugin.settings_schema.settings)) {
+                if (setting.label) {
+                    texts.push(setting.label);
+                }
+                if (setting.display_name) {
+                    texts.push(setting.display_name);
+                }
+                if (setting.help_text) {
+                    texts.push(setting.help_text);
+                }
+                if (setting.key) {
+                    texts.push(setting.key);
+                }
             }
         }
     }
     return texts;
 }
 
-export function getPluginEntries(plugins = {}) {
+export function getPluginEntries(pluginsObj = {}) {
     const entries = {};
-    for (const pluginId of Object.keys(plugins || {})) {
+    const plugins = pluginsObj || {};
+    for (const pluginId of Object.keys(plugins)) {
         const url = `plugin_${pluginId}`;
         entries[url] = extractTextsFromPlugin(plugins[pluginId]);
     }
