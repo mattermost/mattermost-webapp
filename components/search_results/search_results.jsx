@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, intlShape} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
@@ -86,8 +86,7 @@ export function shouldRenderFromPropsAndState(props, nextProps, state, nextState
 
     return false;
 }
-
-export default class SearchResults extends React.Component {
+class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
@@ -110,6 +109,7 @@ export default class SearchResults extends React.Component {
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -260,44 +260,33 @@ export default class SearchResults extends React.Component {
             }
         }
 
-        var formattedTitle = (
-            <FormattedMessage
-                id='search_header.results'
-                defaultMessage='Search Results'
-            />
-        );
+        var formattedTitle = this.props.intl.formatMessage({
+            id: 'search_header.results',
+            defaultMessage: 'Search Results',
+        });
 
         if (this.props.isMentionSearch) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title2'
-                    defaultMessage='Recent Mentions'
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title2',
+                defaultMessage: 'Recent Mentions',
+            });
         } else if (this.props.isFlaggedPosts) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title3'
-                    defaultMessage='Flagged Posts'
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title3',
+                defaultMessage: 'Flagged Posts',
+            });
         } else if (this.props.isPinnedPosts) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title4'
-                    defaultMessage='Pinned posts in {channelDisplayName}'
-                    values={{
-                        channelDisplayName: this.props.channelDisplayName,
-                    }}
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title4',
+                defaultMessage: 'Pinned posts in {channelDisplayName}',
+            }, {
+                channelDisplayName: this.props.channelDisplayName,
+            });
         } else if (this.props.isCard) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title5'
-                    defaultMessage='Extra information'
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title5',
+                defaultMessage: 'Extra information',
+            });
         }
 
         return (
@@ -320,6 +309,12 @@ export default class SearchResults extends React.Component {
                         className='search-items-container post-list__table a11y__region'
                         data-a11y-sort-order='3'
                         data-a11y-focus-child={true}
+                        aria-label={this.props.intl.formatMessage({
+                            id: 'accessibility.sections.rhs',
+                            defaultMessage: '{regionTitle} complimentary region',
+                        }, {
+                            regionTitle: formattedTitle,
+                        })}
                     >
                         {ctls}
                         {loadingMorePostsComponent}
@@ -329,3 +324,5 @@ export default class SearchResults extends React.Component {
         );
     }
 }
+
+export default injectIntl(SearchResults);
