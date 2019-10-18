@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 
 describe('components/UnreadChannelIndicator', () => {
     test('should match snapshot', () => {

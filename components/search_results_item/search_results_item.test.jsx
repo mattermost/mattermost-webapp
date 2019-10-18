@@ -198,7 +198,7 @@ describe('components/SearchResultsItem', () => {
             <SearchResultsItem {...props}/>
         );
 
-        wrapper.find('.search-item__jump').simulate('click');
+        wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
         expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
         expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);
