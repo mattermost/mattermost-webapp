@@ -19,12 +19,8 @@ import {t} from 'utils/i18n';
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 export default class SearchableChannelList extends React.Component {
-    static getDerivedStateFromProps(props) {
-        if (!props.isSearch) {
-            return {page: 0};
-        }
-
-        return null;
+    static getDerivedStateFromProps(props, state) {
+        return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
     }
 
     constructor(props) {
