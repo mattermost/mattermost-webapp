@@ -13,13 +13,14 @@ import StatusOfflineIcon from 'components/widgets/icons/status_offline_icon';
 import StatusOnlineAvatarIcon from 'components/widgets/icons/status_online_avatar_icon';
 import StatusOnlineIcon from 'components/widgets/icons/status_online_icon';
 
+type Props = {
+    button: boolean;
+    status: string;
+    className: string;
+    type: string;
+};
+
 export default class StatusIcon extends React.PureComponent {
-    static propTypes = {
-        button: PropTypes.bool,
-        status: PropTypes.string,
-        className: PropTypes.string,
-        type: PropTypes.string,
-    };
 
     static defaultProps = {
         className: '',
