@@ -15,8 +15,8 @@ import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-import FormError from 'components/form_error.jsx';
+import LoadingScreen from 'components/loading_screen';
+import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
 import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
 

@@ -1,59 +1,114 @@
 @import 'compass/css3';
 @import 'utils/module';
 
-.MenuItem {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-
-    > a {
-        text-decoration: none;
-
-        &:focus,
-        &:hover {
-            color: inherit;
-        }
-    }
-
-    > button,
-    > a {
-        align-items: center;
-        clear: both;
-        color: inherit;
-        cursor: pointer;
+.Menu {
+    .MenuItem {
+        font-size: 14px;
         display: flex;
-        font-weight: normal;
-        padding: 0 32px 0 24px;
-        text-align: left;
-        white-space: nowrap;
-        width: 100%;
-        height: 28px;
-        line-height: normal;
+        align-items: center;
 
-        &.MenuItem__help {
-            height: auto;
-            padding: 8px 24px;
-            flex-direction: column;
-            align-items: flex-start;
+        > a {
+            text-decoration: none;
+
+            &:focus,
+            &:hover {
+                color: inherit;
+            }
         }
 
-        &:hover {
-            background: alpha-color($black, .08);
+        > div {
+            padding-left: 0px !important;
+            &:hover,
+            &:focus {
+                background-color: var(--center-channel-color-10) !important;
+            }
+        }
+
+        > div,
+        > button,
+        > a {
+            align-items: center;
+            clear: both;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            font-weight: normal;
+            padding: 0 32px 0 24px;
+            text-align: left;
+            white-space: nowrap;
+            width: 100%;
+            height: 28px;
+            line-height: normal;
+
+            &.MenuItem__help {
+                height: auto;
+                padding: 8px 24px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            &:hover {
+                background: alpha-color($black, .08);
+            }
+        }
+
+        span.icon {
+            width: 30px;
+            padding-right: 15px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        span.extra-text {
+            @include opacity(.7);
+            display: block;
+            font-size: 10px;
         }
     }
+}
 
-    span.icon {
-        width: 30px;
-        padding-right: 15px;
-        display: inline-block;
-        text-align: center;
-    }
+.SubMenu {
+    padding-left: 0px;
+    position: absolute;
+    top: unset;
+    left: unset;
+}
 
-    span.extra-text {
-        @include opacity(.7);
-        display: block;
-        font-size: 10px;
+.SubMenu__icon-left {
+    color: inherit;
+    font-size: 19px;
+    padding: 0 8px 0 9px;
+    position: relative;
+    top: 0;
+}
+
+.SubMenu__icon-left-empty {
+    visibility: hidden;
+    font-size: 19px;
+    padding: 0 8px 0 9px;
+    position: relative;
+    top: 0;
+
+    &.mobile {
+        padding: 0 4px 0 9px;
     }
+}
+
+.SubMenu__icon-right {
+    color: inherit;
+    font-size: 19px;
+    padding: 0;
+    margin-left: auto;
+    top: 0;
+}
+
+.SubMenu__icon-right-empty {
+    visibility: hidden;
+    font-size: 19px;
+    padding: 0;
+    margin-left: auto;
+    width: 0;
+    top: 0;
 }
 
 .MenuItem__divider {

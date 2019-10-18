@@ -22,6 +22,7 @@ exports[`components/AtMention should match snapshot when mentioning current user
     show={false}
   >
     <Connect(InjectIntl(ProfilePopover))
+      className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
       isRHS={false}
@@ -48,6 +49,7 @@ exports[`components/AtMention should match snapshot when mentioning user 1`] = `
     show={false}
   >
     <Connect(InjectIntl(ProfilePopover))
+      className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
       isRHS={false}
@@ -74,6 +76,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
     show={false}
   >
     <Connect(InjectIntl(ProfilePopover))
+      className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
       isRHS={false}
@@ -101,6 +104,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
     show={false}
   >
     <Connect(InjectIntl(ProfilePopover))
+      className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
       isRHS={false}
@@ -127,6 +131,7 @@ exports[`components/AtMention should match snapshot when mentioning user followe
     show={false}
   >
     <Connect(InjectIntl(ProfilePopover))
+      className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
       isRHS={false}
@@ -154,6 +159,7 @@ exports[`components/AtMention should match snapshot when mentioning user with di
     show={false}
   >
     <Connect(InjectIntl(ProfilePopover))
+      className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
       isRHS={false}
@@ -180,6 +186,7 @@ exports[`components/AtMention should match snapshot when mentioning user with mi
     show={false}
   >
     <Connect(InjectIntl(ProfilePopover))
+      className="user-profile-popover"
       hasMention={false}
       hide={[Function]}
       isRHS={false}

@@ -214,13 +214,6 @@ export function getDateForUnixTicks(ticks) {
     return new Date(ticks);
 }
 
-export function displayDate(ticks) {
-    var d = new Date(ticks);
-    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-}
-
 export function displayTime(ticks, utc) {
     const d = new Date(ticks);
     let hours;

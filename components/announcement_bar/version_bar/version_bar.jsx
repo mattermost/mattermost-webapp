@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
 
-import {equalServerVersions} from 'utils/server_version.jsx';
+import {equalServerVersions} from 'utils/server_version';
 import {AnnouncementBarTypes} from 'utils/constants.jsx';
 
 import AnnouncementBar from '../announcement_bar.jsx';
