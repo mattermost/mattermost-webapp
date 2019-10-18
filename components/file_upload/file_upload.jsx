@@ -595,6 +595,7 @@ export default class FileUpload extends PureComponent {
                         aria-label={ariaLabel}
                         className='style--none post-action icon icon--attachment'
                         onClick={this.simulateInputClick}
+                        onTouchEnd={this.simulateInputClick}
                     >
                         <AttachmentIcon/>
                     </button>
@@ -666,6 +667,7 @@ export default class FileUpload extends PureComponent {
                                 <a
                                     href='#'
                                     onClick={this.simulateInputClick}
+                                    onTouchEnd={this.simulateInputClick}
                                 >
                                     <span className='margin-right'><i className='fa fa-laptop'/></span>
                                     <FormattedMessage
