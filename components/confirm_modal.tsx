@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -16,17 +17,17 @@ type Props = {
  * Title to use for the modal
  */
 
-    title: string;
+    title?: string;
 
     /*
    * Message to display in the body of the modal
    */
-    message: string;
+    message?: string|React.JSXElement;
 
     /*
       * The CSS class to apply to the confirm button
       */
-    confirmButtonClass: any;
+    confirmButtonClass: string;
 
 
     /*
@@ -36,22 +37,22 @@ type Props = {
     /*
    * Text/jsx element on the confirm button
    */
-    confirmButtonText: any;
+    confirmButtonText: string|React.JSXElement;
 
     /*
      * Text/jsx element on the cancel button
      */
-    cancelButtonText: any;
+    cancelButtonText?: string|React.JSXElement;
 
     /*
      * Set to show checkbox
      */
-    showCheckbox: boolean;
+    showCheckbox?: boolean;
 
     /*
      * Text/jsx element to display with the checkbox
      */
-    checkboxText: any;
+    checkboxText?: string|React.JSXElement;
 
     /*
      * Function called when the confirm button or ENTER is pressed. Passes `true` if the checkbox is checked
@@ -71,14 +72,10 @@ type Props = {
     /*
      * Set to hide the cancel button
      */
-    hideCancel: boolean;
+    hideCancel?: boolean;
 };
 
 export default class ConfirmModal extends React.PureComponent<Props> {
-
-    public constructor(props: Props) {
-        super(props);
-    }
 
     static defaultProps = {
         title: '',
