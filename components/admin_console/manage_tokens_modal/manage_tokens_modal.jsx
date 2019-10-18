@@ -51,7 +51,7 @@ export default class ManageTokensModal extends React.PureComponent {
         this.state = {error: null};
     }
 
-    componentDidUpdate(prevProps) { // eslint-disable-line camelcase
+    componentDidUpdate(prevProps) {
         const userId = this.props.user ? this.props.user.id : null;
         const prevUserId = prevProps.user ? prevProps.user.id : null;
         if (userId && prevUserId !== userId) {
