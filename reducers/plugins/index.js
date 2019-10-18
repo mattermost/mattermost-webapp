@@ -305,7 +305,7 @@ function adminConsoleCustomComponents(state = {}, action) {
     }
     case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
-        if (!action.data) {
+        if (!action.data || !state[action.data.id]) {
             return state;
         }
 
