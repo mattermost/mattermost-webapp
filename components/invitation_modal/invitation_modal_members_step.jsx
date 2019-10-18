@@ -15,7 +15,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import BackIcon from 'components/widgets/icons/back_icon';
 import LinkIcon from 'components/widgets/icons/link_icon';
 
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
 
 import './invitation_modal_members_step.scss';

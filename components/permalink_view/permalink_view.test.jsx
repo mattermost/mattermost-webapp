@@ -98,6 +98,17 @@ describe('components/PermalinkView', () => {
         expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo);
     });
 
+    test('should call baseProps.actions.focusPost when postid changes', async () => {
+        const wrapper = shallowWithIntl(
+            <PermalinkView {...baseProps}/>
+        );
+        const newPostid = `${baseProps.match.params.postid}_new`;
+        await wrapper.setProps({...baseProps, match: {params: {postid: newPostid}}});
+
+        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
+        expect(baseProps.actions.focusPost).toBeCalledWith(newPostid, baseProps.returnTo);
+    });
+
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channelIsArchived: true};
 

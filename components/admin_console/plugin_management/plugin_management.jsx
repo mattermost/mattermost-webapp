@@ -591,6 +591,34 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
+    getMarketplaceUrlHelpText = (url) => {
+        return (
+            <div>
+                {
+                    url === '' &&
+                    <div className='alert-warning'>
+                        <i className='fa fa-warning'/>
+                        <FormattedMarkdownMessage
+                            id='admin.plugins.settings.marketplaceUrlDesc.empty'
+                            defaultMessage=' Marketplace URL is a required field.'
+                        />
+                    </div>
+                }
+                {
+                    url !== '' &&
+                    <FormattedMarkdownMessage
+                        id='admin.plugins.settings.marketplaceUrlDesc'
+                        defaultMessage='URL of the marketplace server.'
+                    />
+                }
+            </div>
+        );
+    }
+
+    canSave = () => {
+        return this.state.marketplaceUrl !== '';
+    }
+
     handleSubmitInstall = (e) => {
         e.preventDefault();
         return this.installFromUrl(false);
@@ -1001,12 +1029,7 @@ export default class PluginManagement extends AdminSettings {
                                     defaultMessage='Marketplace URL:'
                                 />
                             }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.marketplaceUrlDesc'
-                                    defaultMessage='URL of the marketplace server.'
-                                />
-                            }
+                            helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
                             value={this.state.marketplaceUrl}
                             disabled={!this.state.enable || !this.state.enableMarketplace}
                             onChange={this.handleChange}
