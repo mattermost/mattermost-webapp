@@ -38,6 +38,13 @@ describe('AdminConsolePluginsIndex.getPluginEntries', () => {
         const entries = getPluginEntries({[samplePlugin3.id]: samplePlugin3});
         expect(entries).toHaveProperty('plugin_plugin-with-markdown');
         expect(entries['plugin_plugin-with-markdown']).toContain('click here');
+        expect(entries['plugin_plugin-with-markdown']).toContain('Markdown plugin label');
         expect(entries['plugin_plugin-with-markdown']).not.toContain('localhost');
+    });
+
+    it('should extract the text from label field', () => {
+        const entries = getPluginEntries({[samplePlugin3.id]: samplePlugin3});
+        expect(entries).toHaveProperty('plugin_plugin-with-markdown');
+        expect(entries['plugin_plugin-with-markdown']).toContain('Markdown plugin label');
     });
 });

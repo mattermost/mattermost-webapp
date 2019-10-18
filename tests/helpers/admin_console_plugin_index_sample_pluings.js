@@ -59,6 +59,7 @@ export const samplePlugin3 = {
     settings_schema: {
         settings: [
             {
+                label: 'Markdown plugin label',
                 key: 'Markdown plugin',
                 display_name: 'Markdown',
                 type: 'bool',
