@@ -18,36 +18,18 @@ export default class NewMessagesBelow extends React.PureComponent {
         newMessages: 0,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            visible: false,
-            rendered: false,
-        };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.newMessages > 0 && !nextProps.atBottom) {
-            this.setState({rendered: true}, () => {
-                this.setState({visible: true});
-            });
-        } else {
-            this.setState({visible: false});
-        }
+    isVisible() {
+        return this.props.newMessages > 0 && !this.props.atBottom;
     }
 
     render() {
         let className = 'new-messages__button';
-        if (this.state.visible) {
+        if (this.isVisible()) {
             className += ' visible';
-        }
-        if (!this.state.rendered) {
-            className += ' disabled';
         }
         return (
             <div
                 className={className}
-                onTransitionEnd={this.setRendered}
                 ref='indicator'
             >
                 <div onClick={this.props.onClick}>
@@ -60,11 +42,5 @@ export default class NewMessagesBelow extends React.PureComponent {
                 </div>
             </div>
         );
-    }
-
-    // Sync 'rendered' state with visibility param, only after transitions
-    // have ended
-    setRendered = () => {
-        this.setState({rendered: this.state.visible});
     }
 }
