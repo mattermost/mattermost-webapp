@@ -182,30 +182,6 @@ export default class Textbox extends React.Component {
         this.refs.message.recalculateSize();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        /// Loads!!
-        if (nextProps.channelId !== this.props.channelId ||
-            nextProps.currentUserId !== this.props.currentUserId ||
-            nextProps.profilesInChannel !== this.props.profilesInChannel ||
-            nextProps.profilesNotInChannel !== this.props.profilesNotInChannel) {
-            // Update channel id for AtMentionProvider.
-            const providers = this.suggestionProviders;
-            for (let i = 0; i < providers.length; i++) {
-                if (providers[i] instanceof AtMentionProvider) {
-                    providers[i].setProps({
-                        currentUserId: nextProps.currentUserId,
-                        profilesInChannel: nextProps.profilesInChannel,
-                        profilesNotInChannel: nextProps.profilesNotInChannel,
-                        autocompleteUsersInChannel: (prefix) => nextProps.actions.autocompleteUsersInChannel(prefix, nextProps.channelId),
-                    });
-                }
-            }
-        }
-        if (this.props.value !== nextProps.value) {
-            this.checkMessageLength(nextProps.value);
-        }
-    }
-
     render() {
         let preview = null;
 
