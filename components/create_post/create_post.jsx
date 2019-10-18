@@ -1066,7 +1066,7 @@ export default class CreatePost extends React.Component {
         );
     }
 
-    handleEnableSendButton() {
+    shouldEnableSendButton() {
         return this.state.message.length !== 0 || this.props.draft.fileInfos.length !== 0;
     }
 
@@ -1172,7 +1172,7 @@ export default class CreatePost extends React.Component {
         }
 
         let sendButtonClass = 'send-button theme';
-        if (!this.handleEnableSendButton()) {
+        if (!this.shouldEnableSendButton()) {
             sendButtonClass += ' disabled';
         }
 
