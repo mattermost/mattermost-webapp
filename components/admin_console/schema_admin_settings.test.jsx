@@ -246,6 +246,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 config={config}
                 environmentConfig={environmentConfig}
                 schema={{...schema}}
+                updateConfig={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -257,6 +258,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 config={config}
                 environmentConfig={environmentConfig}
                 schema={{component: () => <p>{'Test'}</p>}}
+                updateConfig={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -271,6 +273,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 ...schema,
                 header: headerText,
             },
+            updateConfig: jest.fn(),
         };
 
         const wrapper = shallow(<SchemaAdminSettings {...props}/>);
@@ -292,6 +295,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 ...schema,
                 footer: footerText,
             },
+            updateConfig: jest.fn(),
         };
 
         const wrapper = shallow(<SchemaAdminSettings {...props}/>);
