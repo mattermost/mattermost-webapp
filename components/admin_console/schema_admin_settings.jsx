@@ -741,9 +741,9 @@ export default class SchemaAdminSettings extends React.Component {
                 unRegisterSaveAction={this.unRegisterSaveAction}
             />);
 
-        // If a label was set for the custom component,
-        // handle its UX consistently as other settings with the Setting component
-        if (setting.label) {
+        // Show the plugin custom setting title
+        // consistently as other settings with the Setting component
+        if (setting.showTitle) {
             return (
                 <Setting
                     label={setting.label}

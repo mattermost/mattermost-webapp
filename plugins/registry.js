@@ -517,10 +517,11 @@ export default class PluginRegistry {
     // Accepts the following:
     // - key - A key specified in the settings_schema.settings block of the plugin's manifest.
     // - component - A react component to render in place of the default handling.
-    // - title - Optional title that, if available, will be displayed on the left column
-    // on the settings page and the registered component will be rendered on space available in the right column.
-    registerAdminConsoleCustomSetting(key, component, title) {
-        store.dispatch(registerAdminConsoleCustomSetting(this.id, key, component, title));
+    // - showTitle - Optional boolean that if true the display_name of the setting will be rendered
+    // on the left column of the settings page and the registered component will be displayed on the
+    // available space in the right column. Defaults to false.
+    registerAdminConsoleCustomSetting(key, component, showTitle) {
+        store.dispatch(registerAdminConsoleCustomSetting(this.id, key, component, showTitle));
     }
 
     // Unregister a previously registered admin console definition override function.

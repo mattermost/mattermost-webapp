@@ -40,7 +40,6 @@ function makeGetPluginSchema() {
 
                     if (customComponents[key]) {
                         component = customComponents[key].component;
-                        displayName = customComponents[key].title;
                         type = Constants.SettingsTypes.TYPE_CUSTOM;
                     } else if (setting.type === Constants.SettingsTypes.TYPE_CUSTOM) {
                         // Show a warning banner to enable the plugin in order to display the custom component.
@@ -60,6 +59,7 @@ function makeGetPluginSchema() {
                         isDisabled,
                         banner_type: bannerType,
                         component,
+                        showTitle: customComponents[key] ? customComponents[key].showTitle : false,
                     };
                 });
             }
