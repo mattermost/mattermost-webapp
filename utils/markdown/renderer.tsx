@@ -6,9 +6,7 @@ import {oneLineTrim} from 'common-tags';
 
 import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
-
 import * as TextFormatting from 'utils/text_formatting';
-
 import {getScheme, isUrlSafe} from 'utils/url';
 
 export default class Renderer extends marked.Renderer {
