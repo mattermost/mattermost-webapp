@@ -186,7 +186,7 @@ class SearchResults extends React.Component {
             !this.props.isOpened
         ) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <div className='sidebar--right__loading'>
                         <LoadingSpinner text={Utils.localizeMessage('search_header.loading', 'Searching')}/>
                     </div>
@@ -194,7 +194,7 @@ class SearchResults extends React.Component {
             );
         } else if (this.props.isFlaggedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <FlagPostSearchHint
                         dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
                         dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
@@ -203,7 +203,7 @@ class SearchResults extends React.Component {
             );
         } else if (this.props.isPinnedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <PinPostSearchHint
                         dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
                         dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
@@ -212,13 +212,13 @@ class SearchResults extends React.Component {
             );
         } else if (!searchTerms && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <SearchHint/>
                 </div>
             );
         } else if (noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <NoResultSearchHint
                         dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
                         dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
@@ -306,9 +306,11 @@ class SearchResults extends React.Component {
                 >
                     <div
                         id='search-items-container'
+                        role='application'
                         className='search-items-container post-list__table a11y__region'
                         data-a11y-sort-order='3'
                         data-a11y-focus-child={true}
+                        data-a11y-loop-navigation={false}
                         aria-label={this.props.intl.formatMessage({
                             id: 'accessibility.sections.rhs',
                             defaultMessage: '{regionTitle} complimentary region',
