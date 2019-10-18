@@ -24,6 +24,7 @@ const MAX_SELECTABLE_VALUES = 20;
 export default class ChannelInviteModal extends React.Component {
     static propTypes = {
         profilesNotInCurrentChannel: PropTypes.array.isRequired,
+        profilesNotInCurrentTeam: PropTypes.array.isRequired,
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -213,8 +214,12 @@ export default class ChannelInviteModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term);
-        users = users.filter((user) => user.delete_at === 0);
+        const usersNotInTeam = this.props.profilesNotInCurrentTeam;
+        let users = this.props.profilesNotInCurrentChannel;
+        users = filterProfilesMatchingTerm(users, this.state.term);
+        users = users.filter((user) => {
+            return user.delete_at === 0 && !usersNotInTeam.includes(user);
+        });
 
         const content = (
             <MultiSelect
