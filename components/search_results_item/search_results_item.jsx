@@ -179,24 +179,28 @@ class SearchResultsItem extends React.PureComponent {
     };
 
     handleSearchItemFocus = () => {
-        this.setState({currentAriaLabel: this.props.createAriaLabel(this.props.intl)});
+        this.setState({currentAriaLabel: `${this.getChannelName()}, ${this.props.createAriaLabel(this.props.intl)}`});
     }
 
-    render() {
-        const {post, channelIsArchived, channelId, channelType} = this.props;
+    getChannelName = () => {
+        const {channelId, channelType} = this.props;
         let {channelName} = this.props;
 
         if (channelType === Constants.DM_CHANNEL) {
-            channelName = (
-                <FormattedMessage
-                    id='search_item.direct'
-                    defaultMessage='Direct Message (with {username})'
-                    values={{
-                        username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
-                    }}
-                />
-            );
+            channelName = this.props.intl.formatMessage({
+                id: 'search_item.direct',
+                defaultMessage: 'Direct Message (with {username})',
+            }, {
+                username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+            });
         }
+
+        return channelName;
+    }
+
+    render() {
+        const {post, channelIsArchived} = this.props;
+        const channelName = this.getChannelName();
 
         let overrideUsername;
         let disableProfilePopover = false;
@@ -352,12 +356,17 @@ class SearchResultsItem extends React.PureComponent {
             <div
                 data-testid='search-item-container'
                 className='search-item__container'
-                onFocus={this.handleSearchItemFocus}
-                aria-label={this.state.currentAriaLabel}
             >
                 <DateSeparator date={currentPostDay}/>
-                <div className={`a11y__section ${this.getClassName()}`}>
-                    <div className='search-channel__name'>
+                <div
+                    className={`a11y__section ${this.getClassName()}`}
+                    aria-label={this.state.currentAriaLabel}
+                    onFocus={this.handleSearchItemFocus}
+                >
+                    <div
+                        className='search-channel__name'
+                        aria-hidden='true'
+                    >
                         {channelName}
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
