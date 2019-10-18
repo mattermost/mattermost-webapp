@@ -193,26 +193,20 @@ export default class CreateComment extends React.PureComponent {
     };
 
     static getDerivedStateFromProps(props, state) {
-        let updatedState = {prevProps: {
+        let updatedState = {
             createPostErrorId: props.createPostErrorId,
             rootId: props.rootId,
             messageInHistory: props.messageInHistory,
-        }};
+        };
 
-        if (typeof state.prevProps === 'undefined') {
-            updatedState = {...updatedState,
-                draft: {...props.draft, uploadsInProgress: []},
-                caretPosition: props.draft.message.length};
-        } else {
-            const rootChanged = props.rootId !== state.prevProps.rootId;
-            const messageInHistoryChanged = props.messageInHistory !== state.prevProps.messageInHistory;
-            if (rootChanged || messageInHistoryChanged) {
-                updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
-            }
+        const rootChanged = props.rootId !== state.rootId;
+        const messageInHistoryChanged = props.messageInHistory !== state.messageInHistory;
+        if (rootChanged || messageInHistoryChanged) {
+            updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
+        }
 
-            if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.prevProps.createPostErrorId) {
-                updatedState = {...updatedState, showPostDeletedModal: true};
-            }
+        if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.createPostErrorId) {
+            updatedState = {...updatedState, showPostDeletedModal: true};
         }
 
         return updatedState;
@@ -230,6 +224,7 @@ export default class CreateComment extends React.PureComponent {
                 message: '',
                 uploadsInProgress: [],
                 fileInfos: [],
+                caretPosition: props.draft.message.length,
             },
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
