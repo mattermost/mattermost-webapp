@@ -8,18 +8,49 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
-      <strong
-        className="item-details__name"
+      <div>
+        <strong
+          className="item-details__name"
+        >
+          display_name
+        </strong>
+        <span
+          className="item-details__trigger"
+        >
+          - /trigger auto_complete_hint
+        </span>
+      </div>
+      <div
+        className="item-actions"
       >
-        display_name
-      </strong>
-      <span
-        className="item-details__trigger"
-      >
-        - /trigger auto_complete_hint
-      </span>
+        <button
+          className="style--none color--link"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Regenerate Token"
+            id="installed_integrations.regenToken"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <Link
+          to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          />
+        </Link>
+         - 
+        <DeleteIntegration
+          messageId="installed_commands.delete.confirm"
+          onDelete={[Function]}
+        />
+      </div>
     </div>
     <div
       className="item-details__row"
@@ -70,35 +101,6 @@ exports[`components/integrations/InstalledCommand should call onDelete function 
         />
       </span>
     </div>
-  </div>
-  <div
-    className="item-actions"
-  >
-    <button
-      className="style--none color--link"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Regenerate Token"
-        id="installed_integrations.regenToken"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <Link
-      to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
-    >
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="installed_integrations.edit"
-        values={Object {}}
-      />
-    </Link>
-     - 
-    <DeleteIntegration
-      messageId="installed_commands.delete.confirm"
-      onDelete={[Function]}
-    />
   </div>
 </div>
 `;
@@ -111,18 +113,49 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
-      <strong
-        className="item-details__name"
+      <div>
+        <strong
+          className="item-details__name"
+        >
+          display_name
+        </strong>
+        <span
+          className="item-details__trigger"
+        >
+          - /trigger auto_complete_hint
+        </span>
+      </div>
+      <div
+        className="item-actions"
       >
-        display_name
-      </strong>
-      <span
-        className="item-details__trigger"
-      >
-        - /trigger auto_complete_hint
-      </span>
+        <button
+          className="style--none color--link"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Regenerate Token"
+            id="installed_integrations.regenToken"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <Link
+          to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          />
+        </Link>
+         - 
+        <DeleteIntegration
+          messageId="installed_commands.delete.confirm"
+          onDelete={[Function]}
+        />
+      </div>
     </div>
     <div
       className="item-details__row"
@@ -173,35 +206,6 @@ exports[`components/integrations/InstalledCommand should call onRegenToken funct
         />
       </span>
     </div>
-  </div>
-  <div
-    className="item-actions"
-  >
-    <button
-      className="style--none color--link"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Regenerate Token"
-        id="installed_integrations.regenToken"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <Link
-      to="/team_name/integrations/commands/edit?id=r5tpgt4iepf45jt768jz84djic"
-    >
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="installed_integrations.edit"
-        values={Object {}}
-      />
-    </Link>
-     - 
-    <DeleteIntegration
-      messageId="installed_commands.delete.confirm"
-      onDelete={[Function]}
-    />
   </div>
 </div>
 `;
@@ -216,18 +220,20 @@ exports[`components/integrations/InstalledCommand should match snapshot 1`] = `
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
-      <strong
-        className="item-details__name"
-      >
-        display_name
-      </strong>
-      <span
-        className="item-details__trigger"
-      >
-        - /trigger auto_complete_hint
-      </span>
+      <div>
+        <strong
+          className="item-details__name"
+        >
+          display_name
+        </strong>
+        <span
+          className="item-details__trigger"
+        >
+          - /trigger auto_complete_hint
+        </span>
+      </div>
     </div>
     <div
       className="item-details__row"
@@ -290,22 +296,24 @@ exports[`components/integrations/InstalledCommand should match snapshot, not aut
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
-      <strong
-        className="item-details__name"
-      >
-        <FormattedMessage
-          defaultMessage="Unnamed Slash Command"
-          id="installed_commands.unnamed_command"
-          values={Object {}}
-        />
-      </strong>
-      <span
-        className="item-details__trigger"
-      >
-        - /trigger
-      </span>
+      <div>
+        <strong
+          className="item-details__name"
+        >
+          <FormattedMessage
+            defaultMessage="Unnamed Slash Command"
+            id="installed_commands.unnamed_command"
+            values={Object {}}
+          />
+        </strong>
+        <span
+          className="item-details__trigger"
+        >
+          - /trigger
+        </span>
+      </div>
     </div>
     <div
       className="item-details__row"

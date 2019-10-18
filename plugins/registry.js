@@ -248,6 +248,35 @@ export default class PluginRegistry {
         return id;
     }
 
+    // Register a post sub menu list item by providing some text and an action function.
+    // Accepts the following:
+    // - text - A string or React element to display in the menu
+    // - action - A function to trigger when component is clicked on
+    // - filter - A function whether to apply the plugin into the post' dropdown menu
+    // Returns an unique identifier for the root submenu, and a function to register submenu items.
+    registerPostDropdownSubMenuAction(text, action, filter) {
+        function registerMenuItem(pluginId, id, parentMenuId, innerText, innerAction, innerFilter) {
+            store.dispatch({
+                type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+                name: 'PostDropdownMenu',
+                data: {
+                    id,
+                    parentMenuId,
+                    pluginId,
+                    text: resolveReactElement(innerText),
+                    subMenu: [],
+                    action: innerAction,
+                    filter: innerFilter,
+                },
+            });
+            return function registerSubMenuItem(t, a, f) {
+                return registerMenuItem(pluginId, generateId(), id, t, a, f);
+            };
+        }
+        const id = generateId();
+        return {id, rootRegisterMenuItem: registerMenuItem(this.id, id, null, text, action, filter)};
+    }
+
     // Register a component at the bottom of the post dropdown menu.
     // Accepts a React component. Returns a unique identifier.
     registerPostDropdownMenuComponent(component) {

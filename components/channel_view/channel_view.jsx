@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
@@ -30,14 +29,8 @@ export default class ChannelView extends React.PureComponent {
         }),
     };
 
-    constructor(props) {
-        super(props);
-
-        this.createDeferredPostView();
-    }
-
-    createDeferredPostView = () => {
-        this.deferredPostView = deferComponentRender(
+    static createDeferredPostView = () => {
+        return deferComponentRender(
             PostView,
             <div
                 id='post-list'
@@ -49,32 +42,19 @@ export default class ChannelView extends React.PureComponent {
         );
     }
 
-    componentDidMount() {
-        const platform = window.navigator.platform;
-
-        document.body.classList.add('app__body', 'channel-view');
-
-        // IE Detection
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            document.body.classList.add('browser--ie');
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {url: props.match.url};
+        if (!state.url || props.match.url !== state.url) {
+            updatedState = {...updatedState, deferredPostView: ChannelView.createDeferredPostView()};
         }
 
-        // OS Detection
-        if (platform === 'Win32' || platform === 'Win64') {
-            document.body.classList.add('os--windows');
-        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
-            document.body.classList.add('os--mac');
-        }
+        return updatedState;
     }
 
-    componentWillUnmount() {
-        document.body.classList.remove('app__body', 'channel-view');
-    }
+    constructor(props) {
+        super(props);
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.url !== nextProps.match.url) {
-            this.createDeferredPostView();
-        }
+        this.state = {url: ''};
     }
 
     getChannelView = () => {
@@ -164,7 +144,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        const DeferredPostView = this.deferredPostView;
+        const DeferredPostView = this.state.deferredPostView;
 
         return (
             <div
