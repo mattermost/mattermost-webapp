@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {oneLineTrim} from 'common-tags';
-
 import * as TextFormatting from 'utils/text_formatting';
 
 describe('TextFormatting.searchHighlighting', () => {
@@ -47,14 +45,13 @@ describe('TextFormatting.searchHighlighting', () => {
         input: '```\nwords in a sentence\n```',
         searchTerm: 'words',
         expected:
-            oneLineTrim`<div class="post-code post-code--wrap">
-                <code class="hljs">
-                    <div class="post-code__search-highlighting">
-                        <span class="search-highlight">words</span> in a sentence
-                    </div>
-                    words in a sentence
-                </code>
-            </div>`,
+            '<div class="post-code post-code--wrap">' +
+                '<code class="hljs">' +
+                    '<div class="post-code__search-highlighting">' +
+                        '<span class="search-highlight">words</span> in a sentence ' +
+                    '</div>words in a sentence' +
+                '</code>' +
+            '</div>',
     }, {
         name: 'search term highlighting in link text',
         input: 'These are [words in a sentence](https://example.com).',
@@ -93,7 +90,7 @@ describe('TextFormatting.searchHighlighting', () => {
             '<div class="post-code post-code--wrap">' +
                 '<code class="hljs">' +
                     '<div class="post-code__search-highlighting">' +
-                        '<span class="search-highlight">words</span> in a sentence' +
+                        '<span class="search-highlight">words</span> in a sentence ' +
                     '</div>' +
                     'words in a sentence' +
                 '</code>' +
@@ -121,7 +118,7 @@ describe('TextFormatting.searchHighlighting', () => {
             };
             const output = TextFormatting.formatText(testCase.input, options).trim();
 
-            expect(oneLineTrim(output)).toEqual(oneLineTrim(testCase.expected));
+            expect(output).toEqual(testCase.expected);
         });
     }
 
@@ -136,7 +133,7 @@ describe('TextFormatting.searchHighlighting', () => {
         assertTextMatch('foo⺑bar', 'foo⺑*', 'foo⺑', 'bar');
 
         function assertTextMatch(input, search, expectedMatch, afterMatch) {
-            expect(TextFormatting.formatText(input, {searchTerm: search}).trim()).
+            expect(TextFormatting.formatText(input, {searchTerm: search})).
                 toEqual(`<p><span class="search-highlight">${expectedMatch}</span>${afterMatch}</p>`);
         }
     });
