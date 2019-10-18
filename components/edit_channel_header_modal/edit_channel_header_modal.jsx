@@ -71,10 +71,10 @@ class EditChannelHeaderModal extends React.PureComponent {
     static getDerivedStateFromProps(props) {
         const {requestStatus} = props;
         if (requestStatus === RequestStatus.SUCCESS) {
-            return {show: false, showError: false};
+            return {show: false};
         }
 
-        return {showError: requestStatus === RequestStatus.FAILURE};
+        return null;
     }
 
     constructor(props) {
@@ -84,7 +84,6 @@ class EditChannelHeaderModal extends React.PureComponent {
             preview: false,
             header: props.channel.header,
             show: true,
-            showError: false,
         };
     }
 
@@ -150,7 +149,7 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     render() {
         let serverError = null;
-        if (this.props.serverError && this.state.showError) {
+        if (this.props.serverError && this.props.requestStatus === RequestStatus.FAILURE) {
             let errorMsg;
             if (this.props.serverError.server_error_id === 'model.channel.is_valid.header.app_error') {
                 errorMsg = this.props.intl.formatMessage(holders.error);
