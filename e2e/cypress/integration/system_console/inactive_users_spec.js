@@ -7,6 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/**
+ * Note: This test requires hundreds of deactivated users
+ * May generate by modifying `make test-data` command at `./mattermost-server/Makefile`
+ * Should change to `sampledata -w 4 -u 60 --deactivated-users 200`
+ */
+
 const perPage = 50;
 
 describe('System Console', () => {
