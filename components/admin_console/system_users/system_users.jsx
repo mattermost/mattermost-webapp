@@ -332,6 +332,7 @@ export default class SystemUsers extends React.Component {
                         />
                     </span>
                     <select
+                        id='selectUserStatus'
                         className='form-control system-users__filter'
                         value={this.props.filter}
                         onChange={this.handleFilterChange}

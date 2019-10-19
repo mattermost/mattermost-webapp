@@ -46,7 +46,7 @@ describe('ID17212 Interactive Dialog without element', () => {
                 icon_url: '',
                 method: 'P',
                 team_id: team.id,
-                trigger: 'simple_dialog',
+                trigger: 'simple_dialog' + Date.now(),
                 url: `${webhookBaseUrl}/simple_dialog_request`,
                 username: '',
             };

@@ -8,8 +8,8 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants';
-import * as URL from 'utils/url.jsx';
+import Constants from 'utils/constants.jsx';
+import * as URL from 'utils/url';
 import logoImage from 'images/logo.png';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';

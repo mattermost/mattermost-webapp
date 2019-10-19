@@ -47,7 +47,7 @@ import loadAuthorize from 'bundle-loader?lazy!components/authorize';
 import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
 import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
 import store from 'stores/redux_store.jsx';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 import A11yController from 'utils/a11y_controller';
 

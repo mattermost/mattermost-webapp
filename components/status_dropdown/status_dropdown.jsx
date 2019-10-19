@@ -155,9 +155,9 @@ export default class StatusDropdown extends React.Component {
                         />
                         <Menu.ItemAction
                             onClick={setDnd}
-                            ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications').toLowerCase()}`}
+                            ariaLabel={`${localizeMessage('status_dropdown.set_dnd', 'Do not disturb').toLowerCase()}. ${localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications').toLowerCase()}`}
                             text={localizeMessage('status_dropdown.set_dnd', 'Do not disturb')}
-                            extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables Desktop and Push Notifications')}
+                            extraText={localizeMessage('status_dropdown.set_dnd.extra', 'Disables desktop, email and push notifications')}
                         />
                         <Menu.ItemAction
                             onClick={setOffline}

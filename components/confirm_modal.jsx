@@ -107,7 +107,12 @@ export default class ConfirmModal extends React.Component {
 
     handleKeypress = (e) => {
         if (e.key === 'Enter' && this.props.show) {
-            this.handleConfirm();
+            const cancelButton = document.getElementById('cancelModalButton');
+            if (cancelButton && cancelButton === document.activeElement) {
+                this.handleCancel();
+            } else {
+                this.handleConfirm();
+            }
         }
     }
 

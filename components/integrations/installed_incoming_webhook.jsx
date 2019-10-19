@@ -6,10 +6,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n';
 
-import CopyText from 'components/copy_text.jsx';
+import CopyText from 'components/copy_text';
 
 import DeleteIntegration from './delete_integration.jsx';
 
@@ -133,10 +133,11 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         return (
             <div className='backstage-list__item'>
                 <div className='item-details'>
-                    <div className='item-details__row'>
+                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {displayName}
                         </strong>
+                        {actions}
                     </div>
                     {description}
                     <div className='item-details__row'>
@@ -168,7 +169,6 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
                         </span>
                     </div>
                 </div>
-                {actions}
             </div>
         );
     }
