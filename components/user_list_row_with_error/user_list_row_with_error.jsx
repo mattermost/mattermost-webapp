@@ -106,6 +106,7 @@ export default class UserListRowWithError extends React.Component {
 
         return (
             <div
+                data-testid='userListRow'
                 key={this.props.user.id}
                 className='more-modal__row'
             >
