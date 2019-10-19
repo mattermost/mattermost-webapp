@@ -9,7 +9,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
   >
     <div
       className="search-channel__name"
@@ -134,6 +134,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             />
             <a
               className="search-item__jump"
+              href="#"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -223,7 +224,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
   >
     <div
       className="search-channel__name"
@@ -343,6 +344,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
             />
             <a
               className="search-item__jump"
+              href="#"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -432,7 +434,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
   >
     <div
       className="search-channel__name"
@@ -540,6 +542,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             />
             <a
               className="search-item__jump"
+              href="#"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -629,7 +632,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
   >
     <div
       className="search-channel__name"
@@ -764,7 +767,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
   >
     <div
       className="search-channel__name"

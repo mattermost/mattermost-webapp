@@ -114,7 +114,8 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.selectPost(this.props.post);
     };
 
-    handleJumpClick = () => {
+    handleJumpClick = (e) => {
+        e.preventDefault();
         if (Utils.isMobile()) {
             this.props.actions.closeRightHandSide();
         }
@@ -287,6 +288,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         searchStyle={'search-item__comment'}
                     />
                     <a
+                        href='#'
                         onClick={this.handleJumpClick}
                         className='search-item__jump'
                     >
@@ -338,7 +340,7 @@ export default class SearchResultsItem extends React.PureComponent {
                 className='search-item__container'
             >
                 <DateSeparator date={currentPostDay}/>
-                <div className={this.getClassName()}>
+                <div className={`a11y__section ${this.getClassName()}`}>
                     <div className='search-channel__name'>
                         {channelName}
                         {channelIsArchived &&

@@ -59,10 +59,8 @@ describe('components/MarkdownImage', () => {
         const wrapper = shallow(
             <MarkdownImage {...props}/>
         );
-        const childrenWrapper = shallow(wrapper.props().children());
-
-        expect(childrenWrapper.find('a.markdown__link')).toHaveLength(1);
-        expect(childrenWrapper).toMatchSnapshot();
+        expect(wrapper.props().alt).toBe(props.alt);
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should render an image with preview modal if the source is safe', () => {
