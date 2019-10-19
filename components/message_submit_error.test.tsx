@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MessageSubmitError from 'components/message_submit_error.jsx';
+import MessageSubmitError from 'components/message_submit_error';
 
 describe('components/MessageSubmitError', () => {
     const baseProps = {

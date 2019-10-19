@@ -8,13 +8,18 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
   >
     <div
       className="error-bar"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<p>Error connecting to the marketplace server. Please check your settings in the <a class=\\"theme markdown__link\\" href=\\"/admin_console/plugins/plugin_management\\" rel=\\"noreferrer\\" data-link=\\"/admin_console/plugins/plugin_management\\">System Console</a>.</p>",
-        }
-      }
       id="error_bar"
-    />
+    >
+      <InjectIntl(FormattedMarkdownMessage)
+        defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
+        id="app.plugin.marketplace_plugins.app_error"
+        values={
+          Object {
+            "siteURL": "http://example.com",
+          }
+        }
+      />
+    </div>
     <div
       className="modal-marketplace"
       id="modal_marketplace"
