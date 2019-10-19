@@ -50,10 +50,7 @@ export async function showNotification(
         throw new Error('Notification.requestPermission not supported');
     }
 
-    if (
-        Notification.permission !== 'granted' &&
-    requestedNotificationPermission
-    ) {
+    if (Notification.permission !== 'granted' && requestedNotificationPermission) {
         throw new Error('Notifications already requested but not granted');
     }
 
@@ -61,7 +58,7 @@ export async function showNotification(
 
     let permission = await Notification.requestPermission();
     if (typeof permission === 'undefined') {
-    // Handle browsers that don't support the promise-based syntax.
+        // Handle browsers that don't support the promise-based syntax.
         permission = await new Promise((resolve) => {
             Notification.requestPermission(resolve);
         });
