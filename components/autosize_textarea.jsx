@@ -1,129 +1,102 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FormEvent, ChangeEvent, createRef, RefObject} from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-interface Props {
-    id: string;
-    disabled: boolean;
-    value: string;
-    defaultValue: string;
-    onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-    onHeightChange: (height: number, maxHeight: number) => void;
-    onInput: (e: FormEvent<HTMLTextAreaElement>) => void;
-}
+export default class AutosizeTextarea extends React.Component {
+    static propTypes = {
+        value: PropTypes.string,
+        defaultValue: PropTypes.string,
+        placeholder: PropTypes.string,
+        onChange: PropTypes.func,
+        onHeightChange: PropTypes.func,
+    };
 
-interface DefaultProps {
-    placeholder?: string;
-}
+    static defaultProps = {
+        placeholder: '',
+    };
 
-type AutosizeTextareaProps = DefaultProps & Props;
-
-export default class AutosizeTextarea extends React.Component<AutosizeTextareaProps> {
-    private height: number;
-    private textareaRef: RefObject<HTMLTextAreaElement>
-    private referenceRef: RefObject<HTMLTextAreaElement>
-
-    public constructor(props: AutosizeTextareaProps) {
+    constructor(props) {
         super(props);
 
         this.height = 0;
-
-        this.textareaRef = createRef<HTMLTextAreaElement>();
-        this.referenceRef = createRef<HTMLTextAreaElement>();
     }
 
-    private getTextareaValue(key: keyof HTMLTextAreaElement, defaultValue?: any) {
-        return this.textareaRef.current ? this.textareaRef.current[key] : defaultValue;
+    get value() {
+        return this.refs.textarea.value;
     }
 
-    private setTextAreaValue(key: keyof Pick<HTMLTextAreaElement, 'value' | 'selectionStart' | 'selectionEnd'>, value: string | number) {
-        if (this.textareaRef.current) {
-            // @ts-ignore
-            this.textareaRef.current[key] = value;
-        }
+    set value(value) {
+        this.refs.textarea.value = value;
     }
 
-    public get value() {
-        return this.getTextareaValue('value', '');
+    get selectionStart() {
+        return this.refs.textarea.selectionStart;
     }
 
-    public set value(value: string) {
-        this.setTextAreaValue('value', value);
+    set selectionStart(selectionStart) {
+        this.refs.textarea.selectionStart = selectionStart;
     }
 
-    public get selectionStart() {
-        return this.getTextareaValue('selectionStart', 0);
+    get selectionEnd() {
+        return this.refs.textarea.selectionEnd;
     }
 
-    public set selectionStart(selectionStart: number) {
-        this.setTextAreaValue('selectionStart', selectionStart);
+    set selectionEnd(selectionEnd) {
+        this.refs.textarea.selectionEnd = selectionEnd;
     }
 
-    public get selectionEnd() {
-        return this.getTextareaValue('selectionEnd', 0);
+    focus() {
+        this.refs.textarea.focus();
     }
 
-    public set selectionEnd(selectionEnd: number) {
-        this.setTextAreaValue('selectionEnd', selectionEnd);
+    blur() {
+        this.refs.textarea.blur();
     }
 
-    public focus() {
-        if (this.textareaRef.current) {
-            this.textareaRef.current.focus();
-        }
-    }
-
-    public blur() {
-        if (this.textareaRef.current) {
-            this.textareaRef.current.blur();
-        }
-    }
-
-    public componentDidMount() {
+    componentDidMount() {
         this.recalculateSize();
     }
 
-    public componentDidUpdate() {
+    componentDidUpdate() {
         this.recalculateSize();
     }
 
-    public recalculateSize = () => {
+    recalculateSize = () => {
         if (!this.refs.reference || !this.refs.textarea) {
             return;
         }
 
-        const height = this.referenceRef.current ? this.referenceRef.current.scrollHeight : 0;
-        const textarea = this.textareaRef.current;
+        const height = this.refs.reference.scrollHeight;
+        const textarea = this.refs.textarea;
 
         if (height > 0 && height !== this.height) {
-            const style = textarea ? getComputedStyle(textarea) : null;
-            const borderWidth = style && style.borderTopWidth && style.borderBottomWidth ? parseInt(style.borderTopWidth, 10) + parseInt(style.borderBottomWidth, 10) : 0;
+            const style = getComputedStyle(textarea);
+            const borderWidth = parseInt(style.borderTopWidth, 10) + parseInt(style.borderBottomWidth, 10);
 
             // Directly change the height to avoid circular rerenders
-            if (textarea) {
-                textarea.style.height = String(height + borderWidth) + 'px';
-            }
+            textarea.style.height = String(height + borderWidth) + 'px';
 
             this.height = height;
 
-            if (this.props.onHeightChange && style && style.maxHeight) {
+            if (this.props.onHeightChange) {
                 this.props.onHeightChange(height, parseInt(style.maxHeight, 10));
             }
         }
     };
 
-    public getDOMNode = () => {
+    getDOMNode = () => {
         return this.refs.textarea;
     };
 
-    public handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    handleChange = (e) => {
         if (this.props.onChange) {
             this.props.onChange(e);
         }
     };
 
-    public render() {
+    render() {
         const props = {...this.props};
 
         Reflect.deleteProperty(props, 'onHeightChange');
@@ -133,7 +106,7 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
         const {
             value,
             defaultValue,
-            placeholder = '',
+            placeholder,
             disabled,
             onInput,
 
@@ -145,10 +118,7 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
             ...otherProps
         } = props;
 
-        const heightProps = {
-            rows: 0,
-            height: 0,
-        };
+        const heightProps = {};
 
         if (this.height <= 0) {
             // Set an initial number of rows so that the textarea doesn't appear too large when its first rendered
@@ -161,8 +131,6 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
         const placeholderAriaLabel = placeholder.toLowerCase();
         if (!this.props.value && !this.props.defaultValue) {
             textareaPlaceholder = (
-
-                // @ts-ignore for now
                 <div
                     {...otherProps}
                     style={style.placeholder}
@@ -176,7 +144,7 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
             <div>
                 {textareaPlaceholder}
                 <textarea
-                    ref={this.textareaRef}
+                    ref='textarea'
                     id={id}
                     {...heightProps}
                     {...otherProps}
@@ -190,11 +158,11 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
                 />
                 <div style={style.container}>
                     <textarea
-                        ref={this.referenceRef}
+                        ref='reference'
                         id={id + '-reference'}
                         style={style.reference}
                         disabled={true}
-                        rows={1}
+                        rows='1'
                         {...otherProps}
                         value={value || defaultValue}
                     />
@@ -204,7 +172,7 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
     }
 }
 
-const style: { [Key: string]: React.CSSProperties} = {
+const style = {
     container: {height: 0, overflow: 'hidden'},
     reference: {height: 'auto', width: '100%'},
     placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none'},
