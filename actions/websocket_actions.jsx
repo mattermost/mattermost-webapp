@@ -40,6 +40,7 @@ import {
     getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
+    getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -67,7 +68,7 @@ import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
 import {fromAutoResponder} from 'utils/post_utils';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
@@ -660,7 +661,7 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export function handleUserRemovedEvent(msg) {
+export async function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUserId = getCurrentUserId(state);
@@ -677,7 +678,11 @@ export function handleUserRemovedEvent(msg) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
-                const user = getUser(state, msg.data.remover_id) || {};
+                let user = getUser(state, msg.data.remover_id);
+                if (!user) {
+                    await dispatch(loadUser(msg.data.remover_id));
+                    user = getUser(state, msg.data.remover_id) || {};
+                }
 
                 dispatch(openModal({
                     modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,

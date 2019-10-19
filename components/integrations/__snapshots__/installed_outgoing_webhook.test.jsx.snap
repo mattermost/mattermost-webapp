@@ -20,13 +20,42 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
       <strong
         className="item-details__name"
       >
         build
       </strong>
+      <div
+        className="item-actions"
+      >
+        <button
+          className="style--none color--link"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Regen Token"
+            id="installed_integrations.regenToken"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <Link
+          to="/test/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          />
+        </Link>
+         - 
+        <DeleteIntegration
+          messageId="installed_outgoing_webhooks.delete.confirm"
+          onDelete={[Function]}
+        />
+      </div>
     </div>
     <div
       className="item-details__row"
@@ -149,35 +178,6 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         />
       </span>
     </div>
-  </div>
-  <div
-    className="item-actions"
-  >
-    <button
-      className="style--none color--link"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Regen Token"
-        id="installed_integrations.regenToken"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <Link
-      to="/test/integrations/outgoing_webhooks/edit?id=7h88x419ubbyuxzs7dfwtgkffr"
-    >
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="installed_integrations.edit"
-        values={Object {}}
-      />
-    </Link>
-     - 
-    <DeleteIntegration
-      messageId="installed_outgoing_webhooks.delete.confirm"
-      onDelete={[Function]}
-    />
   </div>
 </div>
 `;

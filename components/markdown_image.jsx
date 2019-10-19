@@ -10,6 +10,8 @@ import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 import ViewImageModal from 'components/view_image';
 
+import brokenImageIcon from 'images/icons/brokenimage.png';
+
 export default class MarkdownImage extends React.PureComponent {
     static defaultProps = {
         imageMetadata: {},
@@ -32,6 +34,7 @@ export default class MarkdownImage extends React.PureComponent {
 
         this.state = {
             showModal: false,
+            loadFailed: false,
         };
     }
 
@@ -46,9 +49,20 @@ export default class MarkdownImage extends React.PureComponent {
         this.setState({showModal: false});
     }
 
-    render() {
-        const {imageMetadata, src, imageIsLink} = this.props;
+    handleLoadFail = () => {
+        this.setState({loadFailed: true});
+    }
 
+    render() {
+        const {imageMetadata, src, alt, imageIsLink} = this.props;
+        if (src === '' || this.state.loadFailed) {
+            return (
+                <img
+                    alt={alt}
+                    src={brokenImageIcon}
+                />
+            );
+        }
         return (
             <ExternalImage
                 src={src}
@@ -64,7 +78,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 target='_blank'
                                 title={this.props.title}
                             >
-                                {this.props.alt}
+                                {alt}
                             </a>
                         );
                     }
@@ -89,27 +103,28 @@ export default class MarkdownImage extends React.PureComponent {
                     return (
                         <>
                             <SizeAwareImage
-                                alt={this.props.alt}
+                                alt={alt}
                                 className={className}
                                 src={safeSrc}
                                 dimensions={imageMetadata}
                                 showLoader={false}
                                 onClick={this.showModal}
+                                onImageLoadFail={this.handleLoadFail}
                                 onImageLoaded={this.props.onImageLoaded}
                             />
                             {!imageIsLink && extension &&
-                                <ViewImageModal
-                                    show={this.state.showModal}
-                                    onModalDismissed={this.hideModal}
-                                    postId={this.props.postId}
-                                    startIndex={0}
-                                    fileInfos={[{
-                                        has_preview_image: false,
-                                        link: safeSrc,
-                                        extension: imageMetadata.format || extension,
-                                        name: this.props.alt,
-                                    }]}
-                                />
+                            <ViewImageModal
+                                show={this.state.showModal}
+                                onModalDismissed={this.hideModal}
+                                postId={this.props.postId}
+                                startIndex={0}
+                                fileInfos={[{
+                                    has_preview_image: false,
+                                    link: safeSrc,
+                                    extension: imageMetadata.format || extension,
+                                    name: alt,
+                                }]}
+                            />
                             }
                         </>
                     );
