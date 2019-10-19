@@ -107,7 +107,16 @@ describe('channel name tooltips', () => {
             }, [teamId]).then((user) => {
                 // # Open a DM with the user
                 cy.get('#addDirectChannel').should('be.visible').click();
-                cy.focused().type(user.username, {force: true}).type('{enter}', {force: true});
+                cy.focused().as('searchBox').type(user.username, {force: true});
+
+                // * Verify that the user is selected in the results list before typing enter
+                cy.get('div.more-modal__row').
+                    should('have.length', 1).
+                    and('have.class', 'clickable').
+                    and('have.class', 'more-modal__row--selected').
+                    and('contain.text', user.username.toLowerCase());
+
+                cy.get('@searchBox').type('{enter}', {force: true});
                 cy.get('#saveItems').should('be.visible').click();
 
                 // # Hover on the channel name
