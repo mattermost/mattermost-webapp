@@ -664,6 +664,18 @@ Cypress.Commands.add('apiGetConfig', () => {
     });
 });
 
+/**
+ * Get some analytics data about the system.
+ */
+Cypress.Commands.add('apiGetAnalytics', () => {
+    cy.apiLogin('sysadmin');
+
+    return cy.request('/api/v4/analytics/old').then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Webhooks
 // https://api.mattermost.com/#tag/webhooks

@@ -11,7 +11,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 
 import Markdown from './markdown';
 
