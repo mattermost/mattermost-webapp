@@ -45,7 +45,7 @@ describe('TextFormatting.searchHighlighting', () => {
         input: '```\nwords in a sentence\n```',
         searchTerm: 'words',
         expected:
-            '<div class="post-code post-code--wrap">' +
+            '<div class="post-code">' +
                 '<code class="hljs">' +
                     '<div class="post-code__search-highlighting">' +
                         '<span class="search-highlight">words</span> in a sentence' +
@@ -88,7 +88,7 @@ describe('TextFormatting.searchHighlighting', () => {
         input: '```\nwords in a sentence\n```',
         searchMatches: ['words'],
         expected:
-            '<div class="post-code post-code--wrap">' +
+            '<div class="post-code">' +
                 '<code class="hljs">' +
                     '<div class="post-code__search-highlighting">' +
                         '<span class="search-highlight">words</span> in a sentence' +
