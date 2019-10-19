@@ -30,8 +30,8 @@ exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimen
       }
     }
     onClick={[Function]}
-    showLoader={false}
     onImageLoadFail={[Function]}
+    showLoader={false}
     src="safeSrc"
   />
 </React.Fragment>
@@ -67,8 +67,8 @@ exports[`components/MarkdownImage should render an image with no preview if the 
       }
     }
     onClick={[Function]}
-    showLoader={false}
     onImageLoadFail={[Function]}
+    showLoader={false}
     src="https://example.com/image.png"
   />
 </div>
@@ -88,8 +88,8 @@ exports[`components/MarkdownImage should render an image with preview modal if t
       }
     }
     onClick={[Function]}
-    showLoader={false}
     onImageLoadFail={[Function]}
+    showLoader={false}
     src="https://example.com/image.png"
   />
   <Connect(ViewImageModal)
