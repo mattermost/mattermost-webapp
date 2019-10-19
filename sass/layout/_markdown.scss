@@ -84,6 +84,7 @@ h6 {
     .markdown-inline-img--scaled-down {
         max-height: 18px;
         margin: 2px;
+        @include border-radius(2px);
 
         &:hover {
             @include single-transition(all, .1s, linear);
@@ -99,7 +100,7 @@ h6 {
         -moz-force-broken-image-icon: 1;
         margin: 2px;
         max-height: 18px;
-        @include border-radius(4px);
+        @include border-radius(2px);
     }
     
     div .markdown-inline-img {
