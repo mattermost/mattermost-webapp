@@ -3,31 +3,29 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {intlShape} from 'react-intl';
 
 type Props = {
     additionalClassName: string | null;
 }
 
-export default class WarningIcon extends React.PureComponent<Props> {
+export default class WarningIcon extends React.PureComponent<Props & InjectedIntlProps> {
+    public static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     public static defaultProps: Props = {
         additionalClassName: null,
     };
 
-    public render() {
+    public render(): JSX.Element {
+        const {formatMessage} = this.context.intl;
         const className = 'fa fa-warning' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
-            <FormattedMessage
-                id='generic_icons.warning'
-                defaultMessage='Warning Icon'
-            >
-                {(title) => (
-                    <i
-                        className={className}
-                        title={title as string}
-                    />
-                )}
-            </FormattedMessage>
+            <i
+                className={className}
+                title={formatMessage({id: 'generic_icons.warning', defaultMessage: 'Warning Icon'})}
+            />
         );
     }
 }
