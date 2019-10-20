@@ -214,11 +214,8 @@ export default class ChannelInviteModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        const usersNotInTeam = this.props.profilesNotInCurrentTeam;
-        let users = this.props.profilesNotInCurrentChannel;
-        users = filterProfilesMatchingTerm(users, this.state.term);
-        users = users.filter((user) => {
-            return user.delete_at === 0 && !usersNotInTeam.includes(user);
+        const users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+            return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user);
         });
 
         const content = (
