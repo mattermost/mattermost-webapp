@@ -137,10 +137,10 @@ export default class SystemUsers extends React.Component {
                 getStandardAnalytics(),
             ]);
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
-            await loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE);
+            await loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE, options);
         } else {
             await Promise.all([
-                loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId),
+                loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId, options),
                 getTeamStats(teamId),
             ]);
         }
@@ -179,6 +179,8 @@ export default class SystemUsers extends React.Component {
     }
 
     nextPage = async (page) => {
+        const {teamId, filter} = this.props;
+
         // Paging isn't supported while searching
         const {
             getProfiles,
@@ -186,17 +188,19 @@ export default class SystemUsers extends React.Component {
             loadProfilesAndTeamMembers,
         } = this.props.actions;
 
-        if (this.props.teamId === SearchUserTeamFilter.ALL_USERS) {
-            await getProfiles(page + 1, USERS_PER_PAGE, {});
-        } else if (this.props.teamId === SearchUserTeamFilter.NO_TEAM) {
-            await loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE);
+        const options = getUserOptionsFromFilter(filter);
+
+        if (teamId === SearchUserTeamFilter.ALL_USERS) {
+            await getProfiles(page + 1, USERS_PER_PAGE, options);
+        } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
+            await loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, options);
         } else {
-            await loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, this.props.teamId);
+            await loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, teamId, options);
         }
         this.setState({loading: false});
     }
 
-    doSearch = debounce(async (term, teamId, filter = this.props.filter) => {
+    doSearch = debounce(async (term, teamId = this.props.teamId, filter = this.props.filter) => {
         if (!term) {
             return;
         }
@@ -328,6 +332,7 @@ export default class SystemUsers extends React.Component {
                         />
                     </span>
                     <select
+                        id='selectUserStatus'
                         className='form-control system-users__filter'
                         value={this.props.filter}
                         onChange={this.handleFilterChange}

@@ -12,10 +12,10 @@ import * as AdminActions from 'actions/admin_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import {StatTypes} from 'utils/constants.jsx';
 import Banner from 'components/admin_console/banner.jsx';
-import LineChart from 'components/analytics/line_chart.jsx';
+import LineChart from 'components/analytics/line_chart';
 import StatisticCount from 'components/analytics/statistic_count';
 import TableChart from 'components/analytics/table_chart.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import {getMonthLong} from 'utils/i18n';
 
