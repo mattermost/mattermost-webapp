@@ -91,8 +91,7 @@ function makeMapStateToProps() {
                 botLastIconUpdate = teammate.bot_last_icon_update;
             }
             if (channelTeammateIsBot) {
-                if (typeof botLastIconUpdate !== 'undefined' &&
-                    botLastIconUpdate !== 0) {
+                if (botLastIconUpdate !== 0) {
                     botIconUrl = botIconImageUrl(teammate);
                 }
             }
