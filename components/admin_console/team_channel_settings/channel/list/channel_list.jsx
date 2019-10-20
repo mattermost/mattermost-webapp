@@ -31,7 +31,7 @@ export default class ChannelList extends React.PureComponent {
             searchString: '',
             channels: [],
             searchTotalCount: 0,
-            pageResetKey: Date.now(),
+            pageResetKey: 0,
         };
     }
 

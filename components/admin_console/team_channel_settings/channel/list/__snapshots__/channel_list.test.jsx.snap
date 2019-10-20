@@ -81,6 +81,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       </div>
     </React.Fragment>
   }
+  key="0"
   onPageChangedCallback={[Function]}
   removeGroup={[MockFunction]}
   renderRow={[Function]}
@@ -285,6 +286,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
       </div>
     </React.Fragment>
   }
+  key="0"
   onPageChangedCallback={[Function]}
   removeGroup={[MockFunction]}
   renderRow={[Function]}
