@@ -48,14 +48,21 @@ export default class ChannelView extends React.PureComponent {
             updatedState = {...updatedState, deferredPostView: ChannelView.createDeferredPostView()};
         }
 
+        if (props.channelId !== state.channelId) {
+            updatedState = {...updatedState, channelId: props.channelId, prevChannelId: state.channelId};
+        }
+
         return updatedState;
     }
 
     constructor(props) {
         super(props);
 
-        this.state = {url: ''};
-        this.prevChannelId = '';
+        this.state = {
+            url: '',
+            channelId: props.channelId,
+            prevChannelId: ''
+        };
     }
 
     getChannelView = () => {
@@ -88,11 +95,6 @@ export default class ChannelView extends React.PureComponent {
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
                 this.props.actions.goToLastViewedChannel();
             }
-        }
-
-        if (prevProps.channelId !== this.props.channelId) {
-            //we update this value on update so we have the channel id for next cycle
-            this.prevChannelId !== this.props.channelId;
         }
     }
 
@@ -164,7 +166,7 @@ export default class ChannelView extends React.PureComponent {
                 />
                 <DeferredPostView
                     channelId={this.props.channelId}
-                    prevChannelId={this.prevChannelId}
+                    prevChannelId={this.state.prevChannelId}
                 />
                 {createPost}
             </div>

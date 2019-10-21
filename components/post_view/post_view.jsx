@@ -14,7 +14,7 @@ export default class PostView extends React.PureComponent {
         channelLoading: PropTypes.bool,
         channelId: PropTypes.string,
         focusedPostId: PropTypes.string,
-        prevChannelId: PropTypes.string.isRequred,
+        prevChannelId: PropTypes.string.isRequired,
     }
 
     constructor(props) {
