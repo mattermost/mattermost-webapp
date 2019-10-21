@@ -175,10 +175,6 @@ export function showPinnedPosts(channelId) {
 
         dispatch(batchActions([
             {
-                type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                terms: '',
-            },
-            {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 channelId: channelId || currentChannelId,
                 state: RHSStates.PIN,
