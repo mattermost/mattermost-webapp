@@ -9,7 +9,7 @@ type Props = {
     additionalClassName: string | null;
 }
 
-export default class WarningIcon extends React.PureComponent<Props & InjectedIntlProps> {
+export default class WarningIcon extends React.PureComponent<Props> {
     public static contextTypes = {
         intl: intlShape.isRequired,
     };
