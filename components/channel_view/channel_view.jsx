@@ -29,14 +29,8 @@ export default class ChannelView extends React.PureComponent {
         }),
     };
 
-    constructor(props) {
-        super(props);
-        this.prevChannelId = '';
-        this.createDeferredPostView();
-    }
-
-    createDeferredPostView = () => {
-        this.deferredPostView = deferComponentRender(
+    static createDeferredPostView = () => {
+        return deferComponentRender(
             PostView,
             <div
                 id='post-list'
@@ -48,13 +42,20 @@ export default class ChannelView extends React.PureComponent {
         );
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.url !== nextProps.match.url) {
-            if (nextProps.channelId !== this.prevChannelId) {
-                this.prevChannelId = this.props.channelId;
-            }
-            this.createDeferredPostView();
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {url: props.match.url};
+        if (!state.url || props.match.url !== state.url) {
+            updatedState = {...updatedState, deferredPostView: ChannelView.createDeferredPostView()};
         }
+
+        return updatedState;
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {url: ''};
+        this.prevChannelId = '';
     }
 
     getChannelView = () => {
@@ -87,6 +88,11 @@ export default class ChannelView extends React.PureComponent {
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
                 this.props.actions.goToLastViewedChannel();
             }
+        }
+
+        if (prevProps.channelId !== this.props.channelId) {
+            //we update this value on update so we have the channel id for next cycle
+            this.prevChannelId !== this.props.channelId;
         }
     }
 
@@ -144,7 +150,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        const DeferredPostView = this.deferredPostView;
+        const DeferredPostView = this.state.deferredPostView;
 
         return (
             <div
