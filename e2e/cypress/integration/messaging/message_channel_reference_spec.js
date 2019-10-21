@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     before(() => {
         cy.apiLogin('user-1');
@@ -22,11 +24,8 @@ describe('Messaging', () => {
         // # Hit the "up" arrow to open the edit modal
         cy.get('#post_textbox').type('{uparrow}');
 
-        // * Edit modal opens
-        cy.get('#edit_textbox').should('be.visible');
-
         // # Insert a tilde (~) at the beginning of the post to be edited
-        cy.get('#edit_textbox').type('{ctrl}{home}').type('~');
+        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.TINY).type('{ctrl}{home}').type('~');
 
         // * autocomplete opens
         cy.get('#suggestionList').should('be.visible');
@@ -36,5 +35,8 @@ describe('Messaging', () => {
 
         // * autocomplete closes
         cy.get('#suggestionList').should('not.be.visible');
+
+        // close the edit modal
+        cy.get('#editButton').click();
     });
 });
