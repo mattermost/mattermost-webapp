@@ -13,19 +13,19 @@ function extractTextsFromPlugin(plugin) {
     }
     if (plugin.settings_schema) {
         if (plugin.settings_schema.footer) {
-            texts.push(plugin.settings_schema.footer);
+            texts.push(stripMarkdown(plugin.settings_schema.footer));
         }
         if (plugin.settings_schema.header) {
-            texts.push(plugin.settings_schema.header);
+            texts.push(stripMarkdown(plugin.settings_schema.header));
         }
 
         if (plugin.settings_schema.settings) {
             for (const setting of Object.values(plugin.settings_schema.settings)) {
                 if (setting.label) {
-                    texts.push(stripMarkdown(setting.label));
+                    texts.push(setting.label);
                 }
                 if (setting.display_name) {
-                    texts.push(stripMarkdown(setting.display_name));
+                    texts.push(setting.display_name);
                 }
                 if (setting.help_text) {
                     texts.push(stripMarkdown(setting.help_text));
