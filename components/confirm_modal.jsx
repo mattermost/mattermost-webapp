@@ -97,17 +97,22 @@ export default class ConfirmModal extends React.Component {
         return nextProps.show !== this.props.show;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.show && !nextProps.show) {
+    componentDidUpdate(prevProps) {
+        if (prevProps.show && !this.props.show) {
             document.removeEventListener('keydown', this.handleKeypress);
-        } else if (!this.props.show && nextProps.show) {
+        } else if (!prevProps.show && this.props.show) {
             document.addEventListener('keydown', this.handleKeypress);
         }
     }
 
     handleKeypress = (e) => {
         if (e.key === 'Enter' && this.props.show) {
-            this.handleConfirm();
+            const cancelButton = document.getElementById('cancelModalButton');
+            if (cancelButton && cancelButton === document.activeElement) {
+                this.handleCancel();
+            } else {
+                this.handleConfirm();
+            }
         }
     }
 

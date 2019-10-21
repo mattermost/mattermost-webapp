@@ -36,13 +36,13 @@ export default class EmojiPage extends React.Component {
         this.props.actions.loadRolesIfNeeded(['system_admin', 'team_admin', 'system_user', 'team_user']);
     }
 
-    updateTitle = (props = this.props) => {
-        document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + props.teamDisplayName + ' ' + props.siteName;
+    updateTitle = () => {
+        document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + this.props.teamDisplayName + ' ' + this.props.siteName;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.siteName !== nextProps.siteName) {
-            this.updateTitle(nextProps);
+    componentDidUpdate(prevProps) {
+        if (this.props.siteName !== prevProps.siteName) {
+            this.updateTitle();
         }
     }
 

@@ -34,7 +34,7 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 }
 
 describe('Message', () => {
-    beforeEach(() => {
+    before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');

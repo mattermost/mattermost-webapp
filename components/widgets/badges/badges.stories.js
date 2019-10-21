@@ -15,7 +15,7 @@ storiesOf('Badges', module).
     add(
         'regular badge',
         () => {
-            const content = text('Text', 'Text');
+            const content = text('Text', 'BADGE');
             return (<Badge show={boolean('Show', true)}>{content}</Badge>);
         }
     ).
