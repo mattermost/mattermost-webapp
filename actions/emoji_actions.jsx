@@ -4,20 +4,10 @@
 import * as EmojiActions from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import store from 'stores/redux_store.jsx';
 import {setRecentEmojis} from 'actions/local_storage';
 import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
 
 import {ActionTypes} from 'utils/constants.jsx';
-
-export async function addEmoji(emoji, image, success, error) {
-    const {data, error: err} = await EmojiActions.createCustomEmoji(emoji, image)(store.dispatch, store.getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
 
 export function loadRecentlyUsedCustomEmojis() {
     return async (dispatch, getState) => {
