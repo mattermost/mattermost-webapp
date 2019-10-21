@@ -77,6 +77,7 @@
         "plugin:cypress/recommended"
       ],
       "rules": {
+        "@typescript-eslint/no-non-null-assertion": 0,
         "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/prefer-interface": 0,
         "@typescript-eslint/explicit-function-return-type": 0,

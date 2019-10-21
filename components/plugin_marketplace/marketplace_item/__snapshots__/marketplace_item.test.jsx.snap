@@ -6,7 +6,7 @@ exports[`components/MarketplaceItem should match snapshot, no plugin icon 1`] = 
   key="id"
 >
   <PluginIcon
-    className="icon__plugin"
+    className="icon__plugin icon__plugin--background"
   />
   <div
     className="more-modal__details"
@@ -88,10 +88,13 @@ exports[`components/MarketplaceItem should match snapshot, with plugin icon 1`] 
   className="more-modal__row more-modal__row--link"
   key="id"
 >
-  <img
-    className="icon__plugin"
-    src="icon"
-  />
+  <div
+    className="icon__plugin icon__plugin--background"
+  >
+    <img
+      src="icon"
+    />
+  </div>
   <div
     className="more-modal__details"
   >
