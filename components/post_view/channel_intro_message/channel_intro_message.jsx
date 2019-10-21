@@ -10,7 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
-import ProfilePicture from 'components/profile_picture.jsx';
+import ProfilePicture from 'components/profile_picture';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';

@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import FormError from 'components/form_error';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import CopyText from 'components/copy_text.jsx';
+import CopyText from 'components/copy_text';
 
 import DeleteIntegration from '../delete_integration.jsx';
 
@@ -245,10 +245,27 @@ export default class InstalledOAuthApp extends React.PureComponent {
             <div className='backstage-list__item'>
                 {icon}
                 <div className='item-details'>
-                    <div className='item-details__row'>
+                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {name}
                         </strong>
+                        <div className='item-actions'>
+                            {showHide}
+                            {' - '}
+                            {regen}
+                            {' - '}
+                            <Link to={`/${this.props.team.name}/integrations/oauth2-apps/edit?id=${oauthApp.id}`}>
+                                <FormattedMessage
+                                    id='installed_integrations.edit'
+                                    defaultMessage='Edit'
+                                />
+                            </Link>
+                            {' - '}
+                            <DeleteIntegration
+                                messageId={t('installed_oauth_apps.delete.confirm')}
+                                onDelete={this.handleDelete}
+                            />
+                        </div>
                     </div>
                     {error}
                     {description}
@@ -295,23 +312,6 @@ export default class InstalledOAuthApp extends React.PureComponent {
                             />
                         </span>
                     </div>
-                </div>
-                <div className='item-actions'>
-                    {showHide}
-                    {' - '}
-                    {regen}
-                    {' - '}
-                    <Link to={`/${this.props.team.name}/integrations/oauth2-apps/edit?id=${oauthApp.id}`}>
-                        <FormattedMessage
-                            id='installed_integrations.edit'
-                            defaultMessage='Edit'
-                        />
-                    </Link>
-                    {' - '}
-                    <DeleteIntegration
-                        messageId={t('installed_oauth_apps.delete.confirm')}
-                        onDelete={this.handleDelete}
-                    />
                 </div>
             </div>
         );

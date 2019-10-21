@@ -8,13 +8,31 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
       <strong
         className="item-details__name"
       >
         build
       </strong>
+      <div
+        className="item-actions"
+      >
+        <Link
+          to="/test/integrations/incoming_webhooks/edit?id=9w96t4nhbfdiij64wfqors4i1r"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          />
+        </Link>
+         - 
+        <DeleteIntegration
+          messageId="installed_incoming_webhooks.delete.confirm"
+          onDelete={[Function]}
+        />
+      </div>
     </div>
     <div
       className="item-details__row"
@@ -67,24 +85,6 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
         />
       </span>
     </div>
-  </div>
-  <div
-    className="item-actions"
-  >
-    <Link
-      to="/test/integrations/incoming_webhooks/edit?id=9w96t4nhbfdiij64wfqors4i1r"
-    >
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="installed_integrations.edit"
-        values={Object {}}
-      />
-    </Link>
-     - 
-    <DeleteIntegration
-      messageId="installed_incoming_webhooks.delete.confirm"
-      onDelete={[Function]}
-    />
   </div>
 </div>
 `;

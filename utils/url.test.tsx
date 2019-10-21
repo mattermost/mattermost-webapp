@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getSiteURLFromWindowObject, getRelativeChannelURL} from 'utils/url.jsx';
+import {getSiteURLFromWindowObject, getRelativeChannelURL} from 'utils/url';
 
 describe('Utils.URL', () => {
     test('getRelativeChannelURL', () => {
