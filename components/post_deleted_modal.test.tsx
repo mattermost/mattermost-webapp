@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import PostDeletedModal from 'components/post_deleted_modal';
 
 describe('components/ChannelInfoModal', () => {
     test('should match snapshot when modal is showing', () => {
@@ -59,8 +59,7 @@ describe('components/ChannelInfoModal', () => {
                 onHide={emptyFunction}
             />
         );
-
-        const shouldUpdate = wrapper.instance().shouldComponentUpdate({show: true});
+        const shouldUpdate = wrapper.instance().shouldComponentUpdate!({show: true}, {}, null);
         expect(shouldUpdate).toBe(true);
     });
 });
