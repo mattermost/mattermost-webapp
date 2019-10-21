@@ -784,6 +784,7 @@ export default class A11yController {
     handleFocus = (event) => {
         if (this.lastInputEventIsKeyboard && this.windowIsFocused) {
             this.nextElement(event.target, event.path || true);
+            this.udpateCurrentFocus(true);
         }
 
         // focus just came back to the app
