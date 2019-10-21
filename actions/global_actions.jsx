@@ -8,16 +8,13 @@ import {
     fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
-    getMyChannelMember,
-    markChannelAsRead,
-    markChannelAsViewed,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -61,21 +58,13 @@ export function emitChannelClickEvent(channel) {
     }
     function switchToChannel(chan) {
         const state = getState();
-        const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
-        const oldChannelId = getCurrentChannelId(state);
         const userId = getCurrentUserId(state);
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
-        const member = selectMyChannelMember(state, chan.id);
+        const member = getMyChannelMember(state, chan.id);
 
-        getMyChannelMemberPromise.then(() => {
-            dispatch(getChannelStats(chan.id));
-
-            // Mark previous and next channel as read
-            dispatch(markChannelAsRead(chan.id, oldChannelId));
-            dispatch(markChannelAsViewed(chan.id, oldChannelId));
-        });
+        dispatch(getChannelStats(chan.id));
 
         if (chan.delete_at === 0) {
             const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);

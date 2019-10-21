@@ -61,9 +61,11 @@ export default class PostList extends React.PureComponent {
         latestAriaLabelFunc: PropTypes.func,
 
         /*
-         * Used for padding down to virt list so it can change the chunk of posts selected
+         * Used for passing down to virt list so it can change the chunk of posts selected
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
+
+        prevChannelId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
 
             /*
@@ -96,6 +98,10 @@ export default class PostList extends React.PureComponent {
              * This happens when previous channel visit has a chunk which is not the latest set of posts
              */
             loadLatestPosts: PropTypes.func.isRequired,
+
+            markChannelAsViewed: PropTypes.func.isRequred,
+
+            markChannelAsRead: PropTypes.func.isRequred,
         }).isRequired,
     }
 
@@ -146,6 +152,10 @@ export default class PostList extends React.PureComponent {
             await this.props.actions.loadLatestPosts(channelId);
         }
 
+        if(!this.props.focusedPostId) {
+            this.markChannelAsReadAndViewed();
+        }
+
         this.setState({
             loadingOlderPosts: false,
             loadingNewerPosts: false,
@@ -183,6 +193,17 @@ export default class PostList extends React.PureComponent {
         }
 
         return {error};
+    }
+
+    markChannelAsReadAndViewed = () => {
+        const currentChannelId = this.props.channelId;
+        const prevChannelId = this.props.prevChannelId;
+
+        // Mark previous and next channel as read
+        // Posts are marked as read from here to not cause a race when loading posts
+        // marking channel as read and viewed after calling for posts in channel
+        this.props.actions.markChannelAsViewed(currentChannelId, prevChannelId);
+        this.props.actions.markChannelAsRead(currentChannelId, prevChannelId);
     }
 
     getOldestVisiblePostId = () => {

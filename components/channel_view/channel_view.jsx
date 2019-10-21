@@ -31,7 +31,7 @@ export default class ChannelView extends React.PureComponent {
 
     constructor(props) {
         super(props);
-
+        this.prevChannelId = '';
         this.createDeferredPostView();
     }
 
@@ -50,6 +50,9 @@ export default class ChannelView extends React.PureComponent {
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
         if (this.props.match.url !== nextProps.match.url) {
+            if (nextProps.channelId !== this.prevChannelId) {
+                this.prevChannelId = this.props.channelId;
+            }
             this.createDeferredPostView();
         }
     }
@@ -155,6 +158,7 @@ export default class ChannelView extends React.PureComponent {
                 />
                 <DeferredPostView
                     channelId={this.props.channelId}
+                    prevChannelId={this.prevChannelId}
                 />
                 {createPost}
             </div>
