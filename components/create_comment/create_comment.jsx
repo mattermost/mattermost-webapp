@@ -685,7 +685,11 @@ export default class CreateComment extends React.PureComponent {
             serverError = new Error(err);
         }
 
-        this.setState({serverError});
+        this.setState({serverError}, () => {
+            if (serverError) {
+                this.scrollToBottom();
+            }
+        });
     }
 
     removePreview = (id) => {
