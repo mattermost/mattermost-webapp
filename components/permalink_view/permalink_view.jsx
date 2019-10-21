@@ -54,9 +54,6 @@ export default class PermalinkView extends React.PureComponent {
 
     componentWillUnmount() {
         window.removeEventListener('keydown', this.onShortcutKeyDown);
-    }
-
-    componentWillUnmount() {
         document.body.classList.remove('app__body');
     }
 
