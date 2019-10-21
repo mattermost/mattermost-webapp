@@ -61,7 +61,7 @@ export default class ChannelView extends React.PureComponent {
         this.state = {
             url: '',
             channelId: props.channelId,
-            prevChannelId: ''
+            prevChannelId: '',
         };
     }
 

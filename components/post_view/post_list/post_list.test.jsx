@@ -240,7 +240,7 @@ describe('components/post_view/post_list', () => {
         test('Should not call markChannelAsReadAndViewed as it is a permalink', async () => {
             const emptyPostList = [];
             const focusedPostId = 'new';
-            const wrapper = shallow(
+            shallow(
                 <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId', focusedPostId}}/>
             );
 
