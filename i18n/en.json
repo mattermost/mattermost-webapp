@@ -926,7 +926,7 @@
   "admin.permissions.group.posts.name": "Manage Posts",
   "admin.permissions.group.private_channel.description": "Create and archive channels, manage settings and members.",
   "admin.permissions.group.private_channel.name": "Manage Private Channels",
-  "admin.permissions.group.public_channel.description": "Join, create and archive channels, manage settings and members.",
+  "admin.permissions.group.public_channel.description": "Join and archive channels, manage settings and members.",
   "admin.permissions.group.public_channel.name": "Manage Public Channels",
   "admin.permissions.group.reactions.description": "Add and delete reactions on posts.",
   "admin.permissions.group.reactions.name": "Post Reactions",
