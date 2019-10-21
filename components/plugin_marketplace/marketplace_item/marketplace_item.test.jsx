@@ -64,4 +64,19 @@ describe('components/MarketplaceItem', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, with server error', () => {
+        const props = {
+            ...baseProps,
+        };
+
+        const wrapper = shallow(
+            <MarketplaceItem {...props}/>
+        );
+        wrapper.setState({
+            serverError: true,
+        });
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });
