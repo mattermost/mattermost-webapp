@@ -72,13 +72,18 @@ export default class ChannelList extends React.Component {
     }
 
     componentDidMount() {
-        this.getTeamsAndMemberships();
+        this.getChannels().then(console.log(data));
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.refreshTeams !== this.props.refreshTeams) {
-            this.getTeamsAndMemberships();
+            //this.getTeamsAndMemberships();
         }
+    }
+
+    getChannels = async (userId = this.props.userId) => {
+        console.log('getChannels');
+        const test = await this.props.actions.getMyChannelMember();
     }
 
     getTeamsAndMemberships = async (userId = this.props.userId) => {

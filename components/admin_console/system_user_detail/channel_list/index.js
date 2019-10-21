@@ -11,6 +11,10 @@ import {
     updateTeamMemberSchemeRoles,
 } from 'mattermost-redux/actions/teams';
 
+import {
+    getMyChannelMember,
+} from 'mattermost-redux/actions/channels';
+
 import {getCurrentLocale} from 'selectors/i18n';
 
 import ChannelList from './channel_list.jsx';
@@ -28,6 +32,7 @@ function mapDispatchToProps(dispatch) {
             getTeamMembersForUser,
             removeUserFromTeam,
             updateTeamMemberSchemeRoles,
+            getMyChannelMember,
         }, dispatch),
     };
 }
