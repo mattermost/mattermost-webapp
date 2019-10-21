@@ -18,6 +18,11 @@ check-style: node_modules ## Checks JS file for ESLint confirmity
 
 	npm run check
 
+check-types: node_modules ## Checks TS file for TypeScript confirmity
+	@echo Checking for TypeScript compliance
+
+	npm run check-types
+
 test: node_modules ## Runs tests
 	@echo Running jest unit/component testing
 

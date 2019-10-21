@@ -44,12 +44,10 @@ describe('components/select_team/SelectTeam', () => {
         const wrapper = shallow(<SelectTeam {...props}/>);
         expect(wrapper).toMatchSnapshot();
 
-        // on componentWillMount
-        expect(props.actions.loadRolesIfNeeded).toHaveBeenCalledWith(baseProps.currentUserRoles.split(' '));
-
         // on componentDidMount
         expect(props.actions.getTeams).toHaveBeenCalledTimes(1);
         expect(props.actions.getTeams).toHaveBeenCalledWith(0, 200);
+        expect(props.actions.loadRolesIfNeeded).toHaveBeenCalledWith(baseProps.currentUserRoles.split(' '));
     });
 
     test('should match snapshot, on loading', () => {

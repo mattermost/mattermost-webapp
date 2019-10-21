@@ -90,4 +90,50 @@ describe('Emoticons', () => {
                 toEqual('"$MM_EMOTICON0$"');
         });
     });
+
+    describe('matchEmoticons', () => {
+        test('empty message', () => {
+            expect(Emoticons.matchEmoticons('')).
+                toEqual(null);
+        });
+
+        test('no emoticons', () => {
+            expect(Emoticons.matchEmoticons('test')).
+                toEqual(null);
+        });
+
+        describe('single', () => {
+            test('shorthand forms', () => {
+                expect(Emoticons.matchEmoticons(':+1:')).
+                    toEqual([':+1:']);
+            });
+
+            test('named emoticons forms', () => {
+                expect(Emoticons.matchEmoticons(':thumbs_up:')).
+                    toEqual([':thumbs_up:']);
+            });
+        });
+
+        describe('multiple', () => {
+            test('shorthand forms', () => {
+                expect(Emoticons.matchEmoticons(':+1: :D')).
+                    toEqual([':D', ':+1:']);
+            });
+
+            test('named emoticons forms', () => {
+                expect(Emoticons.matchEmoticons(':thumbs_up: :smile:')).
+                    toEqual([':thumbs_up:', ':smile:']);
+            });
+
+            test('mixed', () => {
+                expect(Emoticons.matchEmoticons(':thumbs_up: :smile: :+1: :D')).
+                    toEqual([':thumbs_up:', ':smile:', ':D', ':+1:']);
+            });
+        });
+
+        test('inline', () => {
+            expect(Emoticons.matchEmoticons('I am feeling pretty :D -- you are: ok?')).
+                toEqual([':D']);
+        });
+    });
 });

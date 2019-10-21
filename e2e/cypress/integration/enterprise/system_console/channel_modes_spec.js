@@ -12,7 +12,6 @@ describe('Test channel public/private toggle', () => {
         // Enable LDAP and LDAP group sync
         cy.apiUpdateConfig({
             LdapSettings: {Enable: true},
-            ServiceSettings: {ExperimentalLdapGroupSync: true},
         });
     });
 

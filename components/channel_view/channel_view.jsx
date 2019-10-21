@@ -1,12 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
@@ -31,14 +29,8 @@ export default class ChannelView extends React.PureComponent {
         }),
     };
 
-    constructor(props) {
-        super(props);
-
-        this.createDeferredPostView();
-    }
-
-    createDeferredPostView = () => {
-        this.deferredPostView = deferComponentRender(
+    static createDeferredPostView = () => {
+        return deferComponentRender(
             PostView,
             <div
                 id='post-list'
@@ -50,32 +42,19 @@ export default class ChannelView extends React.PureComponent {
         );
     }
 
-    componentDidMount() {
-        const platform = window.navigator.platform;
-
-        $('body').addClass('app__body');
-
-        // IE Detection
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            $('body').addClass('browser--ie');
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {url: props.match.url};
+        if (!state.url || props.match.url !== state.url) {
+            updatedState = {...updatedState, deferredPostView: ChannelView.createDeferredPostView()};
         }
 
-        // OS Detection
-        if (platform === 'Win32' || platform === 'Win64') {
-            $('body').addClass('os--windows');
-        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
-            $('body').addClass('os--mac');
-        }
+        return updatedState;
     }
 
-    componentWillUnmount() {
-        $('body').removeClass('app__body');
-    }
+    constructor(props) {
+        super(props);
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.url !== nextProps.match.url) {
-            this.createDeferredPostView();
-        }
+        this.state = {url: ''};
     }
 
     getChannelView = () => {
@@ -165,7 +144,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        const DeferredPostView = this.deferredPostView;
+        const DeferredPostView = this.state.deferredPostView;
 
         return (
             <div

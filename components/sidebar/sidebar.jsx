@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -23,7 +23,7 @@ import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
-import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
 
 import SidebarHeader from './header';
@@ -143,6 +143,10 @@ export default class Sidebar extends React.PureComponent {
     static defaultProps = {
         currentChannel: {},
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     constructor(props) {
         super(props);
@@ -292,13 +296,11 @@ export default class Sidebar extends React.PureComponent {
             currentTeammate,
             unreads,
         } = this.props;
+        const {formatMessage} = this.context.intl;
 
-        if (currentChannel && currentTeam) {
-            let currentSiteName = '';
-            if (config.SiteName != null) {
-                currentSiteName = config.SiteName;
-            }
+        const currentSiteName = config.SiteName || '';
 
+        if (currentChannel && currentTeam && currentChannel.id) {
             let currentChannelName = currentChannel.display_name;
             if (currentChannel.type === Constants.DM_CHANNEL) {
                 if (currentTeammate != null) {
@@ -309,6 +311,8 @@ export default class Sidebar extends React.PureComponent {
             const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
             const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
+        } else {
+            document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});
         }
     }
 

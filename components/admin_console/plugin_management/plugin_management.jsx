@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
@@ -591,6 +591,34 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
+    getMarketplaceUrlHelpText = (url) => {
+        return (
+            <div>
+                {
+                    url === '' &&
+                    <div className='alert-warning'>
+                        <i className='fa fa-warning'/>
+                        <FormattedMarkdownMessage
+                            id='admin.plugins.settings.marketplaceUrlDesc.empty'
+                            defaultMessage=' Marketplace URL is a required field.'
+                        />
+                    </div>
+                }
+                {
+                    url !== '' &&
+                    <FormattedMarkdownMessage
+                        id='admin.plugins.settings.marketplaceUrlDesc'
+                        defaultMessage='URL of the marketplace server.'
+                    />
+                }
+            </div>
+        );
+    }
+
+    canSave = () => {
+        return this.state.marketplaceUrl !== '';
+    }
+
     handleSubmitInstall = (e) => {
         e.preventDefault();
         return this.installFromUrl(false);
@@ -983,7 +1011,7 @@ export default class PluginManagement extends AdminSettings {
                             helpText={
                                 <FormattedMarkdownMessage
                                     id='admin.plugins.settings.enableMarketplaceDesc'
-                                    defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                    defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
                                 />
                             }
                             value={this.state.enableMarketplace}
@@ -1001,12 +1029,7 @@ export default class PluginManagement extends AdminSettings {
                                     defaultMessage='Marketplace URL:'
                                 />
                             }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.marketplaceUrlDesc'
-                                    defaultMessage='URL of the marketplace server.'
-                                />
-                            }
+                            helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
                             value={this.state.marketplaceUrl}
                             disabled={!this.state.enable || !this.state.enableMarketplace}
                             onChange={this.handleChange}

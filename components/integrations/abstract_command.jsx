@@ -9,8 +9,8 @@ import {Link} from 'react-router-dom';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-import FormError from 'components/form_error.jsx';
-import SpinnerButton from 'components/spinner_button.jsx';
+import FormError from 'components/form_error';
+import SpinnerButton from 'components/spinner_button';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';

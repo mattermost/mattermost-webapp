@@ -87,6 +87,7 @@
         }
 
         .markdown__paragraph-inline {
+            margin: 0;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
@@ -227,6 +228,9 @@
             top: 2px;
         }
 
+        .icon__pluginChannelHeader {
+            top: 3px;
+        }
         .icon__mentions {
             top: 1px;
         }
@@ -365,6 +369,7 @@
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
+        margin: 2px 0 0;
         height: 22px;
         width: 100%;
         display: flex;
@@ -379,10 +384,9 @@
 
         blockquote {
             font-size: 13px;
-            padding: 1px 0 0 19px;
+            padding: 0 0 0 20px;
             overflow: hidden;
             text-overflow: ellipsis;
-            display: inline;
 
             &:before {
                 font-size: 15px;
@@ -613,6 +617,7 @@
         .dropdown-menu {
             margin: 4px 0 0 10px;
             min-width: 220px;
+            overflow: auto;
         }
 
         .sidebar-header-dropdown,
@@ -753,7 +758,6 @@
 }
 
 .app__body {
-
     .channel-header__links {
         display: inline-block;
         font-family: 'Open Sans', sans-serif;
