@@ -924,7 +924,7 @@
   "admin.permissions.group.integrations.name": "Integrations & Customizations",
   "admin.permissions.group.posts.description": "Write, edit and delete posts.",
   "admin.permissions.group.posts.name": "Manage Posts",
-  "admin.permissions.group.private_channel.description": "Create and archive channels, manage settings and members.",
+  "admin.permissions.group.private_channel.description": "Archive channels, manage settings and members.",
   "admin.permissions.group.private_channel.name": "Manage Private Channels",
   "admin.permissions.group.public_channel.description": "Join and archive channels, manage settings and members.",
   "admin.permissions.group.public_channel.name": "Manage Public Channels",
