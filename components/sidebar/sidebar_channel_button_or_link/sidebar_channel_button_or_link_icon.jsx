@@ -39,14 +39,14 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
     onSvgLoadError = () => {
         this.setState({
             svgError: true,
-            botIconUrl: null,
+            botIconUrl: this.props.botIconUrl,
         });
     }
 
     onSvgLoad = () => {
         this.setState({
             svgError: false,
-            botIconUrl: this.props.botIconUrl,
+            botIconUrl: null,
         });
     }
 
@@ -81,8 +81,8 @@ export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent 
 
                 // Attempt to display custom icon if botIconUrl has changed
                 // or if there was no error when loading custom svg
-                if ((this.props.botIconUrl != null && this.props.botIconUrl !== this.state.botIconUrl) ||
-                    (this.state.botIconUrl != null && !this.state.svgError)) {
+                if ((this.props.botIconUrl && !this.state.svgError) ||
+                    this.props.botIconUrl !== this.state.botIconUrl) {
                     icon = (
                         <Svg
                             className='icon icon__bot'
