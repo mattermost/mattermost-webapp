@@ -5,6 +5,25 @@
         margin: 8px 0;
     }
 
+
+    .backstage-list__item {
+        .item-actions,
+        .actions {
+            margin: 10px 0;
+        }
+    }
+
+
+    .integration__icon {
+        &.integration-list__icon {
+            position: relative;
+            top: 0;
+            margin: 0 20px 15px;
+            width: 50px;
+            height: 50px;
+        }
+    }
+
     .emoji-picker {
         // !important is used to overide inline styles
         // used on larger screens
@@ -2005,16 +2024,6 @@
         }
     }
 
-    .backstage-list__item {
-        display: block;
-
-        .item-actions,
-        .actions {
-            margin-top: 15px;
-            padding: 0;
-        }
-    }
-
     .app__body {
         .modal {
             .settings-modal {
@@ -2078,10 +2087,6 @@
         &.move--right {
             @include translate3d(0, 0, 0);
         }
-    }
-
-    .integration__icon {
-        display: none;
     }
 
     // overides edit modal body element's css position

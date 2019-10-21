@@ -133,10 +133,11 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         return (
             <div className='backstage-list__item'>
                 <div className='item-details'>
-                    <div className='item-details__row'>
+                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {displayName}
                         </strong>
+                        {actions}
                     </div>
                     {description}
                     <div className='item-details__row'>
@@ -168,7 +169,6 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
                         </span>
                     </div>
                 </div>
-                {actions}
             </div>
         );
     }
