@@ -19,6 +19,7 @@ import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import NewMessagesBelow from 'components/post_view/new_messages_below';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
+import Toast from 'components/toast/toast';
 
 const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
@@ -444,6 +445,25 @@ export default class PostList extends React.PureComponent {
         this.listRef.current.scrollToItem(0, 'end');
     }
 
+    renderToasts = () => (
+        <React.Fragment>
+            <Toast
+                jumpTo={this.scrollToBottom}
+                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Scroll to bottom')}
+                order={0}
+            >
+                {'This is history'}
+            </Toast>
+            <Toast
+                jumpTo={this.scrollToLatestMessages}
+                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Scroll to latest messages')}
+                order={1}
+            >
+                {'There are new messages'}
+            </Toast>
+        </React.Fragment>
+    )
+
     render() {
         const channelId = this.props.channelId;
         let ariaLabel;
@@ -489,6 +509,7 @@ export default class PostList extends React.PureComponent {
                         />
                     </React.Fragment>
                 )}
+                {!this.state.isMobile && (this.renderToasts())}
                 {newMessagesBelow}
                 <div
                     role='presentation'

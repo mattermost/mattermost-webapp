@@ -2105,3 +2105,62 @@
         margin-top: -1em;
     }
 }
+
+.toast {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 20px;
+    width: 80%;
+    font-size: 14px;
+    line-height: 28px;
+    text-align: center;
+    @include border-radius(14px);
+    z-index: 1;
+    cursor: pointer;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    background-color: var(--button-bg-90);
+    color: var(--button-color-90);
+
+    svg {
+        fill: var(--button-color-90);
+        transform: translateY(20%);
+        stroke-width: 2px;
+    }
+
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration($transition-quick);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in, step-end);
+    }
+
+    .toast__jump {
+        float: left;
+        margin-left: 15px;
+    }
+    .toast__dismiss {
+        float: right;
+        margin-right: 15px;
+    }
+    .toast__message {
+        display: inline-block;
+        margin: 0 auto;
+        width: 50%;
+    }
+}
+.toast__visible {
+        opacity: 0.90;
+        visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
+}
