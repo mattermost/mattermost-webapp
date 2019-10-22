@@ -18,11 +18,12 @@ let testTeam;
 let newUser;
 const user1 = users['user-1'];
 
-function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true) {
+function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
     // # Update Guest Account Settings
     cy.apiUpdateConfig({
         GuestAccountsSettings: {
             Enable: featureFlag,
+            RestrictCreationToDomains: whitelistedDomains,
         },
         ServiceSettings: {
             EnableEmailInvitations: emailInvitation,
@@ -133,6 +134,9 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     after(() => {
+        // # Reset Guest Feature settings
+        changeGuestFeatureSettings();
+
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
             cy.apiLogin('sysadmin');
@@ -314,5 +318,46 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the content and message in next screen
         verifyInvitationError(email, 'Error: Email invitations are disabled.');
+    });
+
+    it('MM-18047 Verify Guest User whitelisted domains', () => {
+        // #Configure a whitelisted domain
+        changeGuestFeatureSettings(true, true, 'example.com');
+
+        // # Login as sysadmin and visit to newly created team
+        cy.apiLogin('sysadmin');
+        cy.visit(`/${testTeam.name}`);
+
+        // # Invite a Guest by email
+        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        const expectedError = `Error: The following email addresses do not belong to an accepted domain: ${email}. Please contact your System Administrator for details.`;
+        verifyInvitationError(email, expectedError);
+
+        // # From System Console try to update email of guest user
+        cy.createNewUser().then((user) => {
+            // # Demote the user from member to guest
+            cy.demoteUser(user.id);
+
+            // # Navigate to System Console Users listing page
+            cy.visit('/admin_console/user_management/users');
+
+            // # Search for User by username and select the option to update email
+            cy.get('#searchUsers').should('be.visible').type(user.username);
+
+            // # Click on the option to update email
+            cy.getByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+            cy.getByText('Update Email').should('be.visible').click();
+
+            // * Update email outside whitelisted domain and verify error message
+            cy.getByTestId('resetEmailModal').should('be.visible').within(($el) => {
+                cy.wrap($el).getByTestId('resetEmailForm').should('be.visible').find('input').type(email);
+                cy.wrap($el).getByTestId('resetEmailButton').click();
+                cy.wrap($el).find('.error').should('be.visible').and('have.text', 'The email you provided does not belong to an accepted domain for guest accounts. Please contact your administrator or sign up with a different email.');
+                cy.wrap($el).find('.close').click();
+            });
+        });
     });
 });
