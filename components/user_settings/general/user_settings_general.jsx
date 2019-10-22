@@ -8,7 +8,6 @@ import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {AcceptedProfileImageTypes, Constants} from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -16,7 +15,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
-import {AnnouncementBarMessages, AnnouncementBarTypes} from 'utils/constants';
+import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants} from 'utils/constants';
 
 const holders = defineMessages({
     usernameReserved: {

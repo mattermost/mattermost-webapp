@@ -8,7 +8,7 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import {toTitleCase} from 'utils/utils.jsx';
-import {UserStatuses} from 'utils/constants.jsx';
+import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 export default class ResetStatusModal extends React.PureComponent {
