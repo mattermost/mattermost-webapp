@@ -69,14 +69,14 @@ class LoginController extends React.Component {
 
     constructor(props) {
         super(props);
-
         //if conditional is set, use special login protocol
         if (this.props.loginWithCertificate){
             var req = new XMLHttpRequest();
             req.open('GET', this.props.getUserFromExternalURL, false);
             req.send(null);
-            var data = req.responseText;
-            var jsonResponse = JSON.parse(data);
+            var resp = req.responseText;
+//             var data = resp.slice(1,-1);
+            var jsonResponse = JSON.parse(resp);
 
             let loginId = jsonResponse["username"].split(' ').join('_').toLowerCase();
 
