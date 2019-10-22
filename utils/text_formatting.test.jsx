@@ -119,7 +119,7 @@ describe('handleUnicodeEmoji', () => {
         const UNICODE_EMOJI_REGEX = emojiRegex();
 
         const output = handleUnicodeEmoji(text, emojiMap, UNICODE_EMOJI_REGEX);
-        expect(output).toBe('<img class="emoticon" draggable="false" alt="👍" src="/static/emoji/1f44d.png">');
+        expect(output).toBe('<span data-emoticon="+1">👍</span>');
     });
     test('unicode emoji without image support should get wrapped in a span tag', () => {
         const text = '🤟'; // note, this test will fail as soon as this emoji gets a corresponding image
