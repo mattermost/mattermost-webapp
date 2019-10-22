@@ -140,6 +140,41 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(editRole).toHaveBeenCalledTimes(8);
     });
 
+    test('should save roles based on license', async () => {
+        const license = {
+            IsLicensed: 'true',
+            CustomPermissionsSchemes: 'false',
+            GuestAccountsPermissions: 'false',
+        };
+        let editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
+        const wrapper = shallow(
+            <PermissionSystemSchemeSettings
+                {...defaultProps}
+                license={license}
+                actions={{...defaultProps.actions, editRole}}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+
+        await wrapper.instance().handleSubmit();
+        expect(editRole).toHaveBeenCalledTimes(5);
+        license.GuestAccountsPermissions = 'true';
+        editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
+        const wrapper2 = shallow(
+            <PermissionSystemSchemeSettings
+                {...defaultProps}
+                license={license}
+                actions={{...defaultProps.actions, editRole}}
+            />
+        );
+
+        expect(wrapper2).toMatchSnapshot();
+
+        await wrapper2.instance().handleSubmit();
+        expect(editRole).toHaveBeenCalledTimes(8);
+    });
+
     test('should show error if editRole fails', async () => {
         const editRole = jest.fn().mockImplementation(() => Promise.resolve({error: {message: 'test error'}}));
         const wrapper = shallow(
