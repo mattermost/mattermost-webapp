@@ -171,7 +171,7 @@ describe('components/EditChannelHeaderModal', () => {
                 onHide={emptyFunction}
                 actions={{patchChannel: emptyFunction}}
             />
-        ).dive({disableLifecycleMethods: true});
+        ).dive({disableLifecycleMethods: false});
 
         wrapper.setProps({
             channel,

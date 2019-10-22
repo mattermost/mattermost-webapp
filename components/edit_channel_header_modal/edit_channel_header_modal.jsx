@@ -68,6 +68,15 @@ class EditChannelHeaderModal extends React.PureComponent {
         }).isRequired,
     }
 
+    static getDerivedStateFromProps(props) {
+        const {requestStatus} = props;
+        if (requestStatus === RequestStatus.SUCCESS) {
+            return {show: false};
+        }
+
+        return null;
+    }
+
     constructor(props) {
         super(props);
 
@@ -75,21 +84,7 @@ class EditChannelHeaderModal extends React.PureComponent {
             preview: false,
             header: props.channel.header,
             show: true,
-            showError: false,
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const {requestStatus: nextRequestStatus} = nextProps;
-        const {requestStatus} = this.props;
-
-        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
-            this.setState({showError: true});
-        } else if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
-            this.onHide();
-        } else {
-            this.setState({showError: false});
-        }
     }
 
     handleModalKeyDown = (e) => {
@@ -154,7 +149,7 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     render() {
         let serverError = null;
-        if (this.props.serverError && this.state.showError) {
+        if (this.props.serverError && this.props.requestStatus === RequestStatus.FAILURE) {
             let errorMsg;
             if (this.props.serverError.server_error_id === 'model.channel.is_valid.header.app_error') {
                 errorMsg = this.props.intl.formatMessage(holders.error);
