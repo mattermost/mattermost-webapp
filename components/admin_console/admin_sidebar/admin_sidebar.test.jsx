@@ -5,13 +5,13 @@ import React from 'react';
 import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
+import enMessages from 'i18n/en.json';
+
 import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
 import AdminDefinition from 'components/admin_console/admin_definition';
 import {generateIndex} from 'utils/admin_console_index';
-
-const enMessages = require('i18n/en');
 
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
