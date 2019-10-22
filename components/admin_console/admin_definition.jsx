@@ -2391,6 +2391,20 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.GuestFilter',
+                        label: t('admin.ldap.guestFilterTitle'),
+                        label_default: 'Guest Filter:',
+                        help_text: t('admin.ldap.guestFilterFilterDesc'),
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.',
+                        placeholder: t('admin.ldap.guestFilterEx'),
+                        placeholder_default: 'E.g.: "(objectClass=guests)"',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.GroupFilter',
                         label: t('admin.ldap.groupFilterTitle'),
                         label_default: 'Group Filter:',
