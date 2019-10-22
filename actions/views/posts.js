@@ -5,7 +5,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {logError} from 'mattermost-redux/actions/errors';
 
-import {ActionTypes, AnnouncementBarTypes} from 'utils/constants.jsx';
+import {ActionTypes, AnnouncementBarTypes} from 'utils/constants';
 
 export function editPost(post) {
     return async (dispatch, getState) => {

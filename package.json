@@ -96,6 +96,7 @@
     "@types/react-bootstrap": "^0.32.20",
     "@types/react-color": "3.0.1",
     "@types/react-intl": "2.3.18",
+    "@types/react-redux": "7.1.4",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "24.8.0",

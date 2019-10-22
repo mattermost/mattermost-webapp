@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 import {UserTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 
 const defaultState = {
     show: false,

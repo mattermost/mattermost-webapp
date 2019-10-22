@@ -5,7 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingScreen from 'components/loading_screen';
-import {PostRequestTypes} from 'utils/constants.jsx';
+import {PostRequestTypes} from 'utils/constants';
+
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
 import VirtPostList from './post_list_virtualized.jsx';

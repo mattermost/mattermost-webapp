@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal.jsx';
 
 describe('components/NewChannelModal', () => {
