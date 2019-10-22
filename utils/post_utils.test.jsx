@@ -6,7 +6,7 @@ import assert from 'assert';
 import {IntlProvider} from 'react-intl';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {PostListRowListIds} from 'utils/constants.jsx';
+import {PostListRowListIds} from 'utils/constants';
 
 const enMessages = require('../i18n/en');
 

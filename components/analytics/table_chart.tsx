@@ -4,7 +4,7 @@
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 type TableItem = {
     name: string;

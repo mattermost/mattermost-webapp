@@ -7,7 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
