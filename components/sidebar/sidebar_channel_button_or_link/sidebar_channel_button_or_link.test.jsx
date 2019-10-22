@@ -128,7 +128,6 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
                 const overlayWrapper = wrapper.find(OverlayTrigger).first();
                 expect(overlayWrapper.prop('overlay').type).toEqual(Tooltip);
                 expect(overlayWrapper.prop('overlay').props.children).toEqual(baseProps.displayName);
-                expect(wrapper).toMatchSnapshot();
             });
         }
     });
