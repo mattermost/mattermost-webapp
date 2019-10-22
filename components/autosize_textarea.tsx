@@ -4,13 +4,13 @@
 import React, {FormEvent, ChangeEvent, createRef, RefObject} from 'react';
 
 interface Props {
-    id: string;
-    disabled: boolean;
-    value: string;
-    defaultValue: string;
-    onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-    onHeightChange: (height: number, maxHeight: number) => void;
-    onInput: (e: FormEvent<HTMLTextAreaElement>) => void;
+    id?: string;
+    disabled?: boolean;
+    value?: string;
+    defaultValue?: string;
+    onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+    onHeightChange?: (height: number, maxHeight: number) => void;
+    onInput?: (e: FormEvent<HTMLTextAreaElement>) => void;
 }
 
 interface DefaultProps {
@@ -33,39 +33,45 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
         this.referenceRef = createRef<HTMLTextAreaElement>();
     }
 
-    private getTextareaValue(key: keyof HTMLTextAreaElement, defaultValue?: any) {
-        return this.textareaRef.current ? this.textareaRef.current[key] : defaultValue;
-    }
-
-    private setTextAreaValue(key: keyof Pick<HTMLTextAreaElement, 'value' | 'selectionStart' | 'selectionEnd'>, value: string | number) {
-        if (this.textareaRef.current) {
-            // @ts-ignore
-            this.textareaRef.current[key] = value;
-        }
-    }
-
     public get value() {
-        return this.getTextareaValue('value', '');
+        if (this.textareaRef && this.textareaRef.current) {
+            return this.textareaRef.current.value;
+        }
+
+        return '';
     }
 
     public set value(value: string) {
-        this.setTextAreaValue('value', value);
+        if (this.textareaRef && this.textareaRef.current) {
+            this.textareaRef.current.value = value;
+        }
     }
 
     public get selectionStart() {
-        return this.getTextareaValue('selectionStart', 0);
+        if (this.textareaRef && this.textareaRef.current) {
+            return this.textareaRef.current.selectionStart;
+        }
+        return 0;
     }
 
     public set selectionStart(selectionStart: number) {
-        this.setTextAreaValue('selectionStart', selectionStart);
+        if (this.textareaRef && this.textareaRef.current) {
+            this.textareaRef.current.selectionStart = selectionStart;
+        }
     }
 
     public get selectionEnd() {
-        return this.getTextareaValue('selectionEnd', 0);
+        if (this.textareaRef && this.textareaRef.current) {
+            return this.textareaRef.current.selectionEnd;
+        }
+
+        return 0;
     }
 
     public set selectionEnd(selectionEnd: number) {
-        this.setTextAreaValue('selectionEnd', selectionEnd);
+        if (this.textareaRef && this.textareaRef.current) {
+            this.textareaRef.current.selectionEnd = selectionEnd;
+        }
     }
 
     public focus() {
@@ -134,7 +140,7 @@ export default class AutosizeTextarea extends React.Component<AutosizeTextareaPr
             value,
             defaultValue,
             placeholder = '',
-            disabled,
+            disabled = false,
             onInput,
 
             // TODO: The provided `id` is sometimes hard-coded and used to interface with the
