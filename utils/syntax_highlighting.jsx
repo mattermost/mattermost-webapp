@@ -142,7 +142,7 @@ function formatHighLight(code) {
                         >
                             ${index + 1}
                         </span>
-                        <span>${str}</span>
+                        <span class='hljs-code'>${str}</span>
                     </div>
                 `;
             }
