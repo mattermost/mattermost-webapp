@@ -53,14 +53,34 @@ export default class MarkdownImage extends React.PureComponent {
         this.setState({loadFailed: true});
     }
 
+    handleImageLoaded = ({height, width}) => {
+        if (this.state.loadFailed) {
+            this.setState({loadFailed: false});
+        }
+        this.props.onImageLoaded({height, width});
+    }
+
+    isHeaderChangeMessage = () => {
+        return this.props.postType &&
+            this.props.postType === Constants.PostTypes.HEADER_CHANGE;
+    }
+
     render() {
         const {imageMetadata, src, alt, imageIsLink} = this.props;
         if (src === '' || this.state.loadFailed) {
+            let className = 'markdown-inline-img broken-image';
+            if (this.isHeaderChangeMessage()) {
+                className += ' broken-image--scaled-down';
+            }
+
             return (
-                <img
-                    alt={alt}
-                    src={brokenImageIcon}
-                />
+                <div className={'style--none'}>
+                    <img
+                        className={className}
+                        alt={alt}
+                        src={brokenImageIcon}
+                    />
+                </div>
             );
         }
         return (
@@ -93,10 +113,7 @@ export default class MarkdownImage extends React.PureComponent {
                         `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
                         `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
 
-                    if (
-                        this.props.postType &&
-                        this.props.postType === Constants.PostTypes.HEADER_CHANGE
-                    ) {
+                    if (this.isHeaderChangeMessage()) {
                         className += ' markdown-inline-img--scaled-down';
                     }
 

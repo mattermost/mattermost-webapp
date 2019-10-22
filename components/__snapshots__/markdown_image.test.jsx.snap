@@ -47,10 +47,15 @@ exports[`components/MarkdownImage should match snapshot for broken link 1`] = `
 `;
 
 exports[`components/MarkdownImage should render a link if the source is unsafe 1`] = `
-<img
-  alt="test image"
-  src={null}
-/>
+<div
+  className="style--none"
+>
+  <img
+    alt="test image"
+    className="markdown-inline-img broken-image"
+    src={null}
+  />
+</div>
 `;
 
 exports[`components/MarkdownImage should render an image with no preview if the source is safe and the image is a link 1`] = `

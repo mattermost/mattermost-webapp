@@ -92,6 +92,14 @@ h6 {
             z-index: 2;
         }
     }
+
+    .broken-image {
+        border-radius: unset;
+    }
+
+    .broken-image--scaled-down {
+        max-height: 18px;
+    }
 }
 
 #channelHeaderDescription,
@@ -126,6 +134,11 @@ h6 {
     .markdown__paragraph-inline {
         display: inline-flex;
         align-items: center;
+    }
+
+    .broken-image {
+        border-radius: unset;
+        max-height: 18px;
     }
 }
 

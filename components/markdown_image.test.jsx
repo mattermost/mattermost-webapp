@@ -59,7 +59,8 @@ describe('components/MarkdownImage', () => {
         const wrapper = shallow(
             <MarkdownImage {...props}/>
         );
-        expect(wrapper.props().alt).toBe(props.alt);
+        expect(wrapper.find('img').props().alt).toBe(props.alt);
+        expect(wrapper.find('img').props().className).toBe(props.className + ' broken-image');
         expect(wrapper).toMatchSnapshot();
     });
 
