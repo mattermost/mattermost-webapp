@@ -91,20 +91,20 @@ export default class NewChannelModal extends React.PureComponent {
         canCreatePrivateChannel: PropTypes.bool.isRequired,
     }
 
+    static getDerivedStateFromProps(props) {
+        if (props.show === false) {
+            return {displayNameError: ''};
+        }
+
+        return null;
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
             displayNameError: '',
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.show === true && this.props.show === false) {
-            this.setState({
-                displayNameError: '',
-            });
-        }
     }
 
     componentDidMount() {

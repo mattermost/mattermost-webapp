@@ -36,10 +36,9 @@ import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {ModalIdentifiers} from 'utils/constants';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
 import {openModal} from './views/modals';

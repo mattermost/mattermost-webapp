@@ -11,7 +11,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
 

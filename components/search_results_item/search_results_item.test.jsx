@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import {browserHistory} from 'utils/browser_history';
 import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
@@ -85,9 +86,9 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('should match snapshot for channel', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -107,9 +108,9 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -128,9 +129,9 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -144,9 +145,9 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
         expect(getDirectTeammate).toHaveBeenCalledWith('channel_id');
@@ -154,9 +155,9 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('Check for dotmenu dropdownOpened state', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        );
+        ).dive();
 
         const instance = wrapper.instance();
         instance.handleDropdownOpened(false);
@@ -175,9 +176,9 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
         wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
         expect(selectPost).toHaveBeenCalledTimes(1);
@@ -194,9 +195,9 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
         wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
@@ -210,9 +211,9 @@ describe('components/SearchResultsItem', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });

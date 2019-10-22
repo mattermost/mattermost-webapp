@@ -17,7 +17,7 @@ import {
     getSelectedChannelId,
     getPreviousRhsState,
 } from 'selectors/rhs';
-import {RHSStates} from 'utils/constants.jsx';
+import {RHSStates} from 'utils/constants';
 
 import SidebarRight from './sidebar_right.jsx';
 

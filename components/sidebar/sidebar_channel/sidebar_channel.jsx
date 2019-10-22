@@ -6,7 +6,7 @@ import {intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';

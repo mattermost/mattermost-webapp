@@ -37,11 +37,9 @@ function addNumberOfUsersToChannel(num = 1) {
     cy.get('#channelAddMembers').click();
 
     // * Assert that modal appears
-    cy.get('#addUsersToChannelModal').should('be.visible');
-
     // # Click the first row for a number of times
     Cypress._.times(num, () => {
-        cy.get('#multiSelectList').first().click();
+        cy.get('#multiSelectList').should('be.visible').first().click();
     });
 
     // # Click the button "Add" to add user to a channel
@@ -57,63 +55,33 @@ describe('CS15445 Join/leave messages', () => {
     });
 
     it('Single User: Usernames are links, open profile popovers', () => {
-        let channel;
+        // # Create and visit new channel
+        cy.createAndVisitNewChannel().then(() => {
+            // # Add users to channel
+            addNumberOfUsersToChannel(1);
 
-        // # Go to "/"
-        cy.visit('/');
+            cy.getLastPostId().then((id) => {
+                // * The system message should contain 'added to the channel by you'
+                cy.get(`#postMessageText_${id}`).should('contain', 'added to the channel by you');
 
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new test channel
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                channel = res.body;
-
-                // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).click();
-
-                // * Channel's display name should be visible at the top of the center pane
-                cy.get('#channelHeaderTitle').should('contain', channel.display_name);
-
-                // # Add users to channel
-                addNumberOfUsersToChannel(1);
-
-                cy.getLastPostId().then((id) => {
-                    // * The system message should contain 'added to the channel by you'
-                    cy.get(`#postMessageText_${id}`).should('contain', 'added to the channel by you');
-
-                    // # Verify username link
-                    verifyMentionedUserAndProfilePopover(id);
-                });
+                // # Verify username link
+                verifyMentionedUserAndProfilePopover(id);
             });
         });
     });
 
     it('Combined Users: Usernames are links, open profile popovers', () => {
-        let channel;
+        // # Create and visit new channel
+        cy.createAndVisitNewChannel().then(() => {
+            addNumberOfUsersToChannel(3);
 
-        // # Go to "/"
-        cy.visit('/');
+            cy.getLastPostId().then((id) => {
+                cy.get(`#postMessageText_${id}`).should('contain', '2 others were added to the channel by you');
 
-        cy.getCurrentTeamId().then((teamId) => {
-            // # Create new test channel
-            cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
-                channel = res.body;
-
-                // # Select channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).click();
-
-                // * Channel's display name should be visible at the top of the center pane
-                cy.get('#channelHeaderTitle').should('contain', channel.display_name);
-
-                addNumberOfUsersToChannel(3);
-
-                cy.getLastPostId().then((id) => {
-                    cy.get(`#postMessageText_${id}`).should('contain', '2 others were added to the channel by you');
-
-                    // # Click "2 others" to expand more users
-                    cy.get(`#post_${id}`).find('.markdown__paragraph-inline').siblings('a').first().click().then(() => {
-                        // # Verify each username link
-                        verifyMentionedUserAndProfilePopover(id);
-                    });
+                // # Click "2 others" to expand more users
+                cy.get(`#post_${id}`).find('.markdown__paragraph-inline').siblings('a').first().click().then(() => {
+                    // # Verify each username link
+                    verifyMentionedUserAndProfilePopover(id);
                 });
             });
         });
