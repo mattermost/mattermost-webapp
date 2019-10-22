@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';

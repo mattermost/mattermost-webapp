@@ -6,7 +6,7 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
 import {popOverOverlayPosition} from 'utils/position_utils.tsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import EmojiPickerTabs from './emoji_picker_tabs.jsx';
 

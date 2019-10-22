@@ -11,7 +11,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {isEmbedVisible} from 'selectors/posts';
 
 import RhsComment from './rhs_comment.jsx';
