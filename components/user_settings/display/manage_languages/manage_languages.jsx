@@ -10,7 +10,7 @@ import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {isKeyPressed} from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 export default class ManageLanguage extends React.Component {
     static propTypes = {

@@ -6,7 +6,7 @@ import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {fileSizeToString, localizeMessage} from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';
 
