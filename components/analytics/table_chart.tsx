@@ -11,12 +11,12 @@ type TableItem = {
     tip: string;
     value: React.ReactNode;
 }
-type TableChartProps = {
+type Props = {
     title: React.ReactNode;
     data: TableItem[];
 }
 
-export default class TableChart extends React.PureComponent<TableChartProps> {
+export default class TableChart extends React.PureComponent<Props> {
     public render() {
         return (
             <div className='col-sm-6'>
