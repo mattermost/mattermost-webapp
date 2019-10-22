@@ -13,7 +13,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import UserSettingsDisplay from './user_settings_display.jsx';
 
