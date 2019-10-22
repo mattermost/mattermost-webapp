@@ -14,6 +14,9 @@ describe('admin_console/system_user_detail/team_list/AbstractList', () => {
                 key={item.id}
                 team={item}
                 onRowClick={jest.fn()}
+                doRemoveUserFromTeam={jest.fn()}
+                doMakeUserTeamAdmin={jest.fn()}
+                doMakeUserTeamMember={jest.fn()}
             />
         );
     });

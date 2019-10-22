@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
+import isEqual from 'lodash/isEqual';
 import {Tabs, Tab} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -12,12 +13,12 @@ import RootPortal from 'components/root_portal';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
-import * as Markdown from 'utils/markdown';
 
 import MarketplaceItem from './marketplace_item';
 
@@ -28,13 +29,15 @@ const MarketplaceTabs = {
     INSTALLED_PLUGINS: 'installed',
 };
 
-const TRACK_SEARCH_WAIT = 1000;
+const SEARCH_TIMEOUT_MILLISECONDS = 200;
 
 export default class MarketplaceModal extends React.Component {
     static propTypes = {
         show: PropTypes.bool,
         installedPlugins: PropTypes.array.isRequired,
         marketplacePlugins: PropTypes.array.isRequired,
+        siteURL: PropTypes.string.isRequired,
+        pluginStatuses: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
             getMarketplacePlugins: PropTypes.func.isRequired,
@@ -55,6 +58,12 @@ export default class MarketplaceModal extends React.Component {
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.getMarketplacePlugins();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!isEqual(this.props.pluginStatuses, prevProps.pluginStatuses)) {
+            this.getMarketplacePlugins();
+        }
     }
 
     getMarketplacePlugins = async () => {
@@ -82,8 +91,7 @@ export default class MarketplaceModal extends React.Component {
     }
 
     doSearch = () => {
-        debounce(this.trackSearch, TRACK_SEARCH_WAIT);
-
+        this.trackSearch();
         this.getMarketplacePlugins();
     }
 
@@ -160,7 +168,7 @@ export default class MarketplaceModal extends React.Component {
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
                         inputComponent={LocalizedInput}
-                        onInput={this.doSearch}
+                        onInput={debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS)}
                     />
                 </div>
             </div>
@@ -172,9 +180,13 @@ export default class MarketplaceModal extends React.Component {
                 <div
                     className='error-bar'
                     id='error_bar'
-                    dangerouslySetInnerHTML={{__html: Markdown.format(localizeMessage('app.plugin.marketplace_plugins.app_error',
-                        'Error connecting to the marketplace server. Please check your settings in the [System Console](/admin_console/plugins/plugin_management).'))}}
-                />
+                >
+                    <FormattedMarkdownMessage
+                        id='app.plugin.marketplace_plugins.app_error'
+                        defaultMessage='Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management).'
+                        values={{siteURL: this.props.siteURL}}
+                    />
+                </div>
             );
         }
 

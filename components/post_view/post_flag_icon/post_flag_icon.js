@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
-import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants.jsx';
+import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 

@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 
 import GetPostLinkModal from './get_post_link_modal';
 

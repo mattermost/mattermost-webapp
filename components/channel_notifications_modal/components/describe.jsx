@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 export default function Describe({section, isCollapsed, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}) {

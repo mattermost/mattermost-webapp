@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import MarketplaceModal from './marketplace_modal.jsx';
 
@@ -21,19 +22,24 @@ describe('components/MarketplaceModal', () => {
     }];
 
     const installedPlugins = [];
+    let defaultProps;
 
-    const defaultProps = {
-        show: true,
-        installedPlugins,
-        marketplacePlugins: marketplacePluginsSample,
-        actions: {
-            closeModal: jest.fn(),
-            getMarketplacePlugins: jest.fn(),
-        },
-    };
+    beforeEach(async () => {
+        defaultProps = {
+            show: true,
+            installedPlugins,
+            marketplacePlugins: marketplacePluginsSample,
+            pluginStatuses: {},
+            siteURL: 'http://example.com',
+            actions: {
+                closeModal: jest.fn(),
+                getMarketplacePlugins: jest.fn(),
+            },
+        };
+    });
 
     test('should match the snapshot, no plugins installed', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <MarketplaceModal {...defaultProps}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -56,15 +62,27 @@ describe('components/MarketplaceModal', () => {
         marketplacePluginsSample.push(installedPlugin);
         installedPlugins.push(installedPlugin);
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <MarketplaceModal {...defaultProps}/>
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should fetch marketplace plugins when plugin status is changed', () => {
+        const getMarketplacePlugins = defaultProps.actions.getMarketplacePlugins;
+        const wrapper = shallowWithIntl(<MarketplaceModal {...defaultProps}/>);
+
+        expect(getMarketplacePlugins).toBeCalledTimes(1);
+        wrapper.setProps({...defaultProps});
+        expect(getMarketplacePlugins).toBeCalledTimes(1);
+
+        wrapper.setProps({...defaultProps, pluginStatuses: {test: 'test'}});
+        expect(getMarketplacePlugins).toBeCalledTimes(2);
+    });
+
     test('should match the snapshot, error banner is shown', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <MarketplaceModal {...defaultProps}/>
         );
 

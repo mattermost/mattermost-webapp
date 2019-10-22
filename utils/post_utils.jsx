@@ -18,7 +18,7 @@ import {getEmojiMap} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants, {PostListRowListIds, Preferences} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
@@ -448,4 +448,11 @@ export function createAriaLabelForPost(post, author, isFlagged, reactions, intl)
     }
 
     return ariaLabel;
+}
+
+// Splits text message based on the current caret position
+export function splitMessageBasedOnCaretPosition(caretPosition, message) {
+    const firstPiece = message.substring(0, caretPosition);
+    const lastPiece = message.substring(caretPosition, message.length);
+    return {firstPiece, lastPiece};
 }
