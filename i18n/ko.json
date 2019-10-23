@@ -670,7 +670,7 @@
   "admin.jobTable.statusInProgress": "진행 중",
   "admin.jobTable.statusPending": " 보내는 중",
   "admin.jobTable.statusSuccess": "성공",
-  "admin.ldap.baseDesc": "The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.",
+  "admin.ldap.baseDesc": "The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the LDAP tree.",
   "admin.ldap.baseEx": "예시 \"ou=Unit Name,dc=corp,dc=example,dc=com\"",
   "admin.ldap.baseTitle": "BaseDN:",
   "admin.ldap.bindPwdDesc": "Password of the user given in \"Bind Username\".",
