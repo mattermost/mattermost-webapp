@@ -36,6 +36,9 @@ export default class SettingPicture extends Component {
         updateSection: PropTypes.func,
         imageContext: PropTypes.string,
         maxFileSize: PropTypes.number,
+        actions: PropTypes.shape({
+            updateActiveSection: PropTypes.func,
+        }),
     };
 
     constructor(props) {
@@ -87,6 +90,7 @@ export default class SettingPicture extends Component {
     handleCancel = (e) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.updateSection(e);
+        this.props.actions.updateActiveSection('');
     }
 
     handleFileSelected = () => {
@@ -104,6 +108,7 @@ export default class SettingPicture extends Component {
         } else {
             this.props.onSubmit();
         }
+        this.props.actions.updateActiveSection('');
     }
 
     handleRemoveSrc = (e) => {

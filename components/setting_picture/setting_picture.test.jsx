@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SettingPicture from 'components/setting_picture.jsx';
+import SettingPicture from 'components/setting_picture/setting_picture.jsx';
 
 describe('components/SettingItemMin', () => {
     const baseProps = {
@@ -18,6 +18,9 @@ describe('components/SettingItemMin', () => {
         onFileChange: () => {}, // eslint-disable-line no-empty-function
         updateSection: () => {}, // eslint-disable-line no-empty-function
         maxFileSize: 209715200,
+        actions: {
+            updateActiveSection: () => {},
+        },
     };
 
     test('should match snapshot, profile picture on source', () => {
