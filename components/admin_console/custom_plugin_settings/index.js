@@ -59,7 +59,7 @@ function makeGetPluginSchema() {
                         isDisabled,
                         banner_type: bannerType,
                         component,
-                        showTitle: customComponents[key] ? customComponents[key].showTitle : false,
+                        showTitle: customComponents[key] ? customComponents[key].options.showTitle : false,
                     };
                 });
             }
