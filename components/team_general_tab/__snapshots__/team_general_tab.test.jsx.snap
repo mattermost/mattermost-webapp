@@ -76,7 +76,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingPicture
+    <Connect(SettingPicture)
       clientError=""
       file={null}
       imageContext="team"
@@ -206,7 +206,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingPicture
+    <Connect(SettingPicture)
       clientError=""
       file={null}
       imageContext="team"
@@ -325,7 +325,7 @@ exports[`components/TeamSettings should match snapshot when team is group constr
     <div
       className="divider-light"
     />
-    <SettingPicture
+    <Connect(SettingPicture)
       clientError=""
       file={null}
       imageContext="team"
