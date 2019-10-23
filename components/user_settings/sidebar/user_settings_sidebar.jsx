@@ -7,7 +7,7 @@ import {FormattedMessage, intlShape} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 

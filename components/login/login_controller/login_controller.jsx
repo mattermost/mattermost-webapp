@@ -16,7 +16,7 @@ import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {showNotification} from 'utils/notifications.jsx';
+import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n.jsx';
 
 import logoImage from 'images/logo.png';

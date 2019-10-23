@@ -5,7 +5,7 @@ import {combineReducers} from 'redux';
 
 import remove from 'lodash/remove';
 
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 
 function hasMenuId(menu, menuId) {
     if (!menu.subMenu) {
