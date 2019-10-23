@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
-import {UploadStatuses} from 'utils/constants.jsx';
+import {UploadStatuses} from 'utils/constants';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';

@@ -8,7 +8,7 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
-import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants.jsx';
+import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import {getUserOptionsFromFilter, searchUserOptionsFromFilter} from 'utils/filter_users';
