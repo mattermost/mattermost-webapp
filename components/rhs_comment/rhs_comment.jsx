@@ -11,7 +11,7 @@ import {
     isPostPendingOrFailed,
 } from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants.jsx';
+import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';

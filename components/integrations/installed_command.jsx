@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {t} from 'utils/i18n';
-import CopyText from '../copy_text.jsx';
+import CopyText from '../copy_text';
 
 import DeleteIntegration from './delete_integration.jsx';
 
@@ -141,13 +141,16 @@ export default class InstalledCommand extends React.PureComponent {
         return (
             <div className='backstage-list__item'>
                 <div className='item-details'>
-                    <div className='item-details__row'>
-                        <strong className='item-details__name'>
-                            {name}
-                        </strong>
-                        <span className='item-details__trigger'>
-                            {trigger}
-                        </span>
+                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
+                        <div>
+                            <strong className='item-details__name'>
+                                {name}
+                            </strong>
+                            <span className='item-details__trigger'>
+                                {trigger}
+                            </span>
+                        </div>
+                        {actions}
                     </div>
                     {description}
                     <div className='item-details__row'>
@@ -177,7 +180,6 @@ export default class InstalledCommand extends React.PureComponent {
                         </span>
                     </div>
                 </div>
-                {actions}
             </div>
         );
     }

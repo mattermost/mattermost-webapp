@@ -352,7 +352,7 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 // ************************************************************
 
 Cypress.Commands.add('getCurrentChannelId', () => {
-    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+    return cy.get('#channel-header', {timeout: TIMEOUTS.LARGE}).invoke('attr', 'data-channelid');
 });
 
 /**
@@ -372,6 +372,27 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.TINY);
+});
+
+/**
+ * On default "ad-1" team, create and visit a new channel
+ */
+Cypress.Commands.add('createAndVisitNewChannel', () => {
+    cy.visit('/ad-1/channels/town-square');
+
+    cy.getCurrentTeamId().then((teamId) => {
+        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+            const channel = res.body;
+
+            // # Visit the new channel
+            cy.visit(`/ad-1/channels/${channel.name}`);
+
+            // * Verify channel's display name
+            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+            cy.wrap(channel);
+        });
+    });
 });
 
 // ***********************************************************

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants';
 import {
     trimFilename,
 } from 'utils/file_utils';
@@ -104,6 +104,7 @@ export default class FileAttachment extends React.PureComponent {
 
     onAttachmentClick = (e) => {
         e.preventDefault();
+        e.target.blur();
         if (this.props.handleImageClick) {
             this.props.handleImageClick(this.props.index);
         }

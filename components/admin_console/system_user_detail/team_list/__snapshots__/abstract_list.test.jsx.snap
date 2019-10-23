@@ -54,43 +54,6 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       />
     </div>
   </div>
-  <div
-    className="AbstractList__footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.team_channel_settings.list.paginatorCount"
-        values={
-          Object {
-            "endCount": 0,
-            "startCount": 1,
-            "total": 0,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
-  </div>
 </div>
 `;
 
@@ -150,43 +113,6 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       />
     </div>
   </div>
-  <div
-    className="AbstractList__footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.team_channel_settings.list.paginatorCount"
-        values={
-          Object {
-            "endCount": 0,
-            "startCount": 1,
-            "total": 0,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
-  </div>
 </div>
 `;
 
@@ -237,6 +163,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     className="AbstractList__body"
   >
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id11"
       onRowClick={[MockFunction]}
       team={
@@ -248,6 +177,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id12"
       onRowClick={[MockFunction]}
       team={
@@ -259,6 +191,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id13"
       onRowClick={[MockFunction]}
       team={
@@ -270,6 +205,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id14"
       onRowClick={[MockFunction]}
       team={
@@ -281,6 +219,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id15"
       onRowClick={[MockFunction]}
       team={
@@ -292,6 +233,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id16"
       onRowClick={[MockFunction]}
       team={
@@ -303,6 +247,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id17"
       onRowClick={[MockFunction]}
       team={
@@ -314,6 +261,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id18"
       onRowClick={[MockFunction]}
       team={
@@ -325,6 +275,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id19"
       onRowClick={[MockFunction]}
       team={
@@ -336,6 +289,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id20"
       onRowClick={[MockFunction]}
       team={
@@ -434,6 +390,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     className="AbstractList__body"
   >
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id1"
       onRowClick={[MockFunction]}
       team={
@@ -445,6 +404,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id2"
       onRowClick={[MockFunction]}
       team={
@@ -456,6 +418,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id3"
       onRowClick={[MockFunction]}
       team={
@@ -467,6 +432,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id4"
       onRowClick={[MockFunction]}
       team={
@@ -478,6 +446,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id5"
       onRowClick={[MockFunction]}
       team={
@@ -489,6 +460,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id6"
       onRowClick={[MockFunction]}
       team={
@@ -500,6 +474,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id7"
       onRowClick={[MockFunction]}
       team={
@@ -511,6 +488,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id8"
       onRowClick={[MockFunction]}
       team={
@@ -522,6 +502,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id9"
       onRowClick={[MockFunction]}
       team={
@@ -533,6 +516,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id10"
       onRowClick={[MockFunction]}
       team={
@@ -631,6 +617,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
     className="AbstractList__body"
   >
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id1"
       onRowClick={[MockFunction]}
       team={
@@ -642,6 +631,9 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       }
     />
     <TeamRow
+      doMakeUserTeamAdmin={[MockFunction]}
+      doMakeUserTeamMember={[MockFunction]}
+      doRemoveUserFromTeam={[MockFunction]}
       key="id2"
       onRowClick={[MockFunction]}
       team={

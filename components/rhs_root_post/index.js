@@ -10,7 +10,7 @@ import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {isEmbedVisible} from 'selectors/posts';
 
 import RhsRootPost from './rhs_root_post.jsx';

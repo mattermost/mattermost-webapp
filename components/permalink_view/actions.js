@@ -9,11 +9,11 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants.jsx';
+import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
 
 export function focusPost(postId, returnTo = '') {
     return async (dispatch, getState) => {
-        const {data} = await dispatch(getPostThread(postId));
+        const {data} = await dispatch(getPostThread(postId, false));
 
         if (!data) {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);

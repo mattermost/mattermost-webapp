@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {UserSearchOptions, UserListOptions, UserFilters} from 'utils/constants.jsx';
+import {UserSearchOptions, UserListOptions, UserFilters} from 'utils/constants';
 
 // userSelectorOptionsFromFilter will convert a string UI filter to an options object
 // for selecting users out of redux state

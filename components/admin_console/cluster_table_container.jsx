@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {getClusterStatus} from 'actions/admin_actions.jsx';
-import LoadingScreen from '../loading_screen.jsx';
+import LoadingScreen from '../loading_screen';
 
 import ClusterTable from './cluster_table.jsx';
 
@@ -30,7 +30,7 @@ export default class ClusterTableContainer extends React.Component {
         );
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         this.load();
 
         // reload the cluster status every 15 seconds

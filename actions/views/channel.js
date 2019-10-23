@@ -22,7 +22,7 @@ import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
+import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
 import LocalStorageStore from 'stores/local_storage_store.jsx';
 
@@ -274,7 +274,7 @@ export function loadPosts({channelId, postId, type}) {
     };
 }
 
-export function syncPostsInChannel(channelId, since) {
+export function syncPostsInChannel(channelId, since, fetchThreads = true) {
     return async (dispatch, getState) => {
         const time = Date.now();
         const state = getState();
@@ -286,7 +286,7 @@ export function syncPostsInChannel(channelId, since) {
             sinceTimeToGetPosts = lastPostsApiCallForChannel;
         }
 
-        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts, false));
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts, fetchThreads));
         if (data) {
             dispatch({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,

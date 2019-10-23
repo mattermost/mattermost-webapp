@@ -9,7 +9,7 @@ import configureStore from 'redux-mock-store';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal.jsx';
 
 describe('components/NewChannelModal', () => {
@@ -203,5 +203,19 @@ describe('components/NewChannelModal', () => {
         wrapper.instance().onEnterKeyDown(evt);
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledTimes(2);
         expect(wrapper.instance().handleSubmit).toHaveBeenCalledWith(evt);
+    });
+
+    test('should clear the display name error when showing', () => {
+        const wrapper = shallow(
+            <NewChannelModal
+                {...baseProps}
+                show={false}
+            />
+        );
+
+        wrapper.setState({displayNameError: 'an error'});
+        wrapper.setProps({show: true});
+
+        expect(wrapper.state('displayNameError')).toEqual('');
     });
 });

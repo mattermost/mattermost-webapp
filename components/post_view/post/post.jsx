@@ -8,7 +8,7 @@ import {intlShape} from 'react-intl';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {A11yCustomEventTypes} from 'utils/constants.jsx';
+import {A11yCustomEventTypes} from 'utils/constants';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
@@ -99,14 +99,9 @@ export default class Post extends React.PureComponent {
             dropdownOpened: false,
             hover: false,
             a11yActive: false,
-            sameRoot: this.hasSameRoot(props),
             currentAriaLabel: '',
             ariaHidden: true,
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.setState({sameRoot: this.hasSameRoot(nextProps)});
     }
 
     componentDidMount() {
@@ -179,7 +174,7 @@ export default class Post extends React.PureComponent {
         }
 
         let rootUser = '';
-        if (this.state.sameRoot && !fromBot) {
+        if (this.hasSameRoot(this.props) && !fromBot) {
             rootUser = 'same--root';
         } else {
             rootUser = 'other--root';
@@ -271,7 +266,7 @@ export default class Post extends React.PureComponent {
         const fromBot = post && post.props && post.props.from_bot === 'true';
 
         let profilePic;
-        const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
+        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
         if (!hideProfilePicture) {
             profilePic = (
                 <PostProfilePicture

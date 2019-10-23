@@ -11,7 +11,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
-import {ActionTypes, PostRequestTypes} from 'utils/constants.jsx';
+import {ActionTypes, PostRequestTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 
@@ -462,7 +462,7 @@ describe('channel view actions', () => {
                 },
             });
 
-            await store.dispatch(Actions.syncPostsInChannel(channelId, 12350));
+            await store.dispatch(Actions.syncPostsInChannel(channelId, 12350, false));
             expect(PostActions.getPostsSince).toHaveBeenCalledWith(channelId, 12350, false);
         });
 
@@ -486,7 +486,7 @@ describe('channel view actions', () => {
                 },
             });
 
-            await store.dispatch(Actions.syncPostsInChannel(channelId, 12355));
+            await store.dispatch(Actions.syncPostsInChannel(channelId, 12355, false));
             expect(PostActions.getPostsSince).toHaveBeenCalledWith(channelId, 12343, false);
         });
     });

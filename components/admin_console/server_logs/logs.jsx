@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
@@ -44,9 +44,9 @@ export default class Logs extends React.Component {
         );
     }
 
-    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
-        if (this.state.page !== nextState.page) {
-            this.props.actions.getLogs(nextState.page, nextState.perPage).then(
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.page !== prevState.page) {
+            this.props.actions.getLogs(this.state.page, this.state.perPage).then(
                 () => this.setState({loadingLogs: false})
             );
         }

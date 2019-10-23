@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import AutosizeTextarea from 'components/autosize_textarea.jsx';
+import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
@@ -26,6 +26,8 @@ export default class Textbox extends React.Component {
         onHeightChange: PropTypes.func,
         createMessage: PropTypes.string.isRequired,
         onKeyDown: PropTypes.func,
+        onMouseUp: PropTypes.func,
+        onKeyUp: PropTypes.func,
         onBlur: PropTypes.func,
         supportsCommands: PropTypes.bool.isRequired,
         handlePostError: PropTypes.func,
@@ -42,7 +44,6 @@ export default class Textbox extends React.Component {
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
-            scrollPostList: PropTypes.func.isRequired,
             autocompleteChannels: PropTypes.func.isRequired,
         }),
     };
@@ -109,6 +110,18 @@ export default class Textbox extends React.Component {
         }
     }
 
+    handleMouseUp = (e) => {
+        if (this.props.onMouseUp) {
+            this.props.onMouseUp(e);
+        }
+    }
+
+    handleKeyUp = (e) => {
+        if (this.props.onKeyUp) {
+            this.props.onKeyUp(e);
+        }
+    }
+
     handleBlur = (e) => {
         if (this.props.onBlur) {
             this.props.onBlur(e);
@@ -119,6 +132,11 @@ export default class Textbox extends React.Component {
         if (this.props.onHeightChange) {
             this.props.onHeightChange(height, maxHeight);
         }
+    }
+
+    getInputBox = () => {
+        const textbox = this.refs.message.getTextbox();
+        return textbox;
     }
 
     focus = () => {
@@ -209,6 +227,8 @@ export default class Textbox extends React.Component {
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
+                    onMouseUp={this.handleMouseUp}
+                    onKeyUp={this.handleKeyUp}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
