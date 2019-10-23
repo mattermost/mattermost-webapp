@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants';
 import {
     trimFilename,
 } from 'utils/file_utils';

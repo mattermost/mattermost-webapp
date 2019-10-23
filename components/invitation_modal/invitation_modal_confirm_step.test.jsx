@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {InviteTypes} from 'utils/constants.jsx';
+import {InviteTypes} from 'utils/constants';
 
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 

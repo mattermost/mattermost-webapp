@@ -9,7 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {adminResetMfa} from 'actions/admin_actions.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
