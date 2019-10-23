@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SettingItemMax from 'components/setting_item_max';
-
-import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 
 import Describe from './describe.jsx';
 import ExtraInfo from './extra_info.jsx';

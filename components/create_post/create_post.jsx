@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {
     containsAtChannel,
     postMessageOnKeyPress,

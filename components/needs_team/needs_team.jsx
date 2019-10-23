@@ -9,7 +9,7 @@ import iNoBounce from 'inobounce';
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {makeAsyncComponent} from 'components/async_load';

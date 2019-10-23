@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';

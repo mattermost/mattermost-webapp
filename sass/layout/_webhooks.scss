@@ -317,9 +317,10 @@
             position: relative;
             display: flex;
             flex-wrap: wrap;
+            padding-bottom: 4px;
 
             .form-group {
-                margin-bottom: 4px;
+                margin-bottom: 0;
 
                 &:last-child {
                     margin-bottom: 0;

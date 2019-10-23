@@ -11,7 +11,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
-import {ActionTypes, PostRequestTypes} from 'utils/constants.jsx';
+import {ActionTypes, PostRequestTypes} from 'utils/constants';
 
 const mockStore = configureStore([thunk]);
 

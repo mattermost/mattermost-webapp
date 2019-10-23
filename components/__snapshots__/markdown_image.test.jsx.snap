@@ -30,6 +30,7 @@ exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimen
       }
     }
     onClick={[Function]}
+    onImageLoadFail={[Function]}
     showLoader={true}
     src="safeSrc"
   />
@@ -46,14 +47,10 @@ exports[`components/MarkdownImage should match snapshot for broken link 1`] = `
 `;
 
 exports[`components/MarkdownImage should render a link if the source is unsafe 1`] = `
-<a
-  className="theme markdown__link"
-  href=""
-  rel="noopener noreferrer"
-  target="_blank"
->
-  test image
-</a>
+<img
+  alt="test image"
+  src={null}
+/>
 `;
 
 exports[`components/MarkdownImage should render an image with no preview if the source is safe and the image is a link 1`] = `
@@ -70,6 +67,7 @@ exports[`components/MarkdownImage should render an image with no preview if the 
       }
     }
     onClick={[Function]}
+    onImageLoadFail={[Function]}
     showLoader={true}
     src="https://example.com/image.png"
   />
@@ -90,6 +88,7 @@ exports[`components/MarkdownImage should render an image with preview modal if t
       }
     }
     onClick={[Function]}
+    onImageLoadFail={[Function]}
     showLoader={true}
     src="https://example.com/image.png"
   />

@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import MenuIcon from 'components/widgets/icons/menu_icon';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 

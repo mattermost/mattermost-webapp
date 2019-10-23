@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import {generateId} from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import ViewImageModal from 'components/view_image/view_image.jsx';
 
 describe('components/ViewImageModal', () => {

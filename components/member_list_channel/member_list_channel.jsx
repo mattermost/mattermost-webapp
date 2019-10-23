@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';

@@ -26,7 +26,7 @@ import {
     closeMenu,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {ActionTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, RHSStates} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 
 const mockStore = configureStore([thunk]);

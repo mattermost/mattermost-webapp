@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import Constants, {AdvancedSections} from 'utils/constants.jsx';
+import Constants, {AdvancedSections} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';

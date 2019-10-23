@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;

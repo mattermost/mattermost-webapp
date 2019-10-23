@@ -10,8 +10,8 @@ import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferen
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
 
-import {Preferences} from 'utils/constants.jsx';
 import {setupPreviousActiveSection} from 'actions/views/settings';
+import {Preferences} from 'utils/constants';
 
 import AdvancedSettingsDisplay from './user_settings_advanced.jsx';
 

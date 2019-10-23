@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting/email_notification_setting.jsx';
 
