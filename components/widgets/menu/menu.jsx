@@ -111,7 +111,7 @@ export default class Menu extends React.PureComponent {
         }
 
         return (
-            <div class='a11y__popup Menu__container'>
+            <div className='a11y__popup Menu__container'>
                 <ul
                     id={id}
                     className='Menu dropdown-menu'
