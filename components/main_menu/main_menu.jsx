@@ -7,7 +7,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed, localizeMessage} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';

@@ -36,6 +36,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       "component": [Function],
     }
   }
+  updateConfig={[MockFunction]}
 />
 `;
 

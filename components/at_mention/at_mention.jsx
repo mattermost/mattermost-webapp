@@ -9,7 +9,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import ProfilePopover from 'components/profile_popover';
 
-import {popOverOverlayPosition} from 'utils/position_utils.jsx';
+import {popOverOverlayPosition} from 'utils/position_utils.tsx';
 const spaceRequiredForPopOver = 300;
 
 export default class AtMention extends React.PureComponent {
@@ -49,7 +49,7 @@ export default class AtMention extends React.PureComponent {
 
     handleClick = (e) => {
         const targetBounds = this.overlayRef.current.getBoundingClientRect();
-        const placement = popOverOverlayPosition(targetBounds, window.innerHeight, {above: spaceRequiredForPopOver});
+        const placement = popOverOverlayPosition(targetBounds, window.innerHeight, spaceRequiredForPopOver);
 
         this.setState({target: e.target, show: !this.state.show, placement});
     }
@@ -101,6 +101,7 @@ export default class AtMention extends React.PureComponent {
                     onHide={this.hideOverlay}
                 >
                     <ProfilePopover
+                        className='user-profile-popover'
                         userId={user.id}
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                         isRHS={this.props.isRHS}

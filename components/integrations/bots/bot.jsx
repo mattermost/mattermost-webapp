@@ -456,7 +456,7 @@ export default class Bot extends React.PureComponent {
                     />
                 </div>
                 <div className='item-details'>
-                    <div className='item-details__row d-flex justify-content-between'>
+                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {displayName + ' (@' + username + ')'}
                         </strong>

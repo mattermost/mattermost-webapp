@@ -8,12 +8,11 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 
 import * as I18n from 'i18n/i18n.jsx';
 
-import {saveConfig} from 'actions/admin_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
 import TextSetting from 'components/admin_console/text_setting.jsx';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
@@ -28,7 +27,7 @@ import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx'
 import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
 import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button.jsx';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -44,6 +43,7 @@ export default class SchemaAdminSettings extends React.Component {
         roles: PropTypes.object,
         license: PropTypes.object,
         editRole: PropTypes.func,
+        updateConfig: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -455,7 +455,7 @@ export default class SchemaAdminSettings extends React.Component {
             }
         });
 
-        const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name)}));
+        const values = options.map((o) => ({value: o.value, text: Utils.localizeMessage(o.display_name, o.display_name_default)}));
         const selectedValue = this.state[setting.key] || values[0].value;
 
         let selectedOptionForHelpText = null;
@@ -817,34 +817,23 @@ export default class SchemaAdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        await saveConfig(
-            config,
-            (savedConfig) => {
-                this.setState(getStateFromConfig(savedConfig));
+        try {
+            await this.props.updateConfig(config);
+            this.setState(getStateFromConfig(config));
+        } catch (err) {
+            this.setState({
+                serverError: err.message,
+                serverErrorId: err.id,
+            });
+        }
 
-                if (callback) {
-                    callback();
-                }
+        if (callback) {
+            callback();
+        }
 
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
-            },
-            (err) => {
-                this.setState({
-                    serverError: err.message,
-                    serverErrorId: err.id,
-                });
-
-                if (callback) {
-                    callback();
-                }
-
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
-            }
-        );
+        if (this.handleSaved) {
+            this.handleSaved(config);
+        }
 
         const results = [];
         for (const saveAction of this.saveActions) {

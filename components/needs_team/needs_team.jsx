@@ -9,7 +9,7 @@ import iNoBounce from 'inobounce';
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {makeAsyncComponent} from 'components/async_load';
@@ -180,6 +180,9 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.setPreviousTeamId(team.id);
         GlobalActions.emitCloseRightHandSide();
 
+        if (Utils.isGuest(this.props.currentUser)) {
+            this.setState({finishedFetchingChannels: false});
+        }
         this.props.actions.fetchMyChannelsAndMembers(team.id).then(
             () => {
                 this.setState({
@@ -225,7 +228,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     render() {
-        if (this.state.team === null || this.state.finishedFetchingChannels === false) {
+        if (this.state.team === null) {
             return <div/>;
         }
         const teamType = this.state.team ? this.state.team.type : '';
@@ -245,6 +248,7 @@ export default class NeedsTeam extends React.Component {
                         <ChannelController
                             pathName={renderProps.location.pathname}
                             teamType={teamType}
+                            fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}
                 />

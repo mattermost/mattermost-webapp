@@ -6,15 +6,15 @@ import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import DoughnutChart from '../doughnut_chart.jsx';
-import LineChart from '../line_chart.jsx';
-import StatisticCount from '../statistic_count.jsx';
+import DoughnutChart from '../doughnut_chart';
+import LineChart from '../line_chart';
+import StatisticCount from '../statistic_count';
 
 import {
     formatPostsPerDayData,

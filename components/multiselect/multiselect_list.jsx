@@ -5,16 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 const KeyCodes = Constants.KeyCodes;
 
 export default class MultiSelectList extends React.Component {
     constructor(props) {
         super(props);
-
-        this.toSelect = -1;
 
         this.state = {
             selected: -1,
@@ -29,17 +27,12 @@ export default class MultiSelectList extends React.Component {
         document.removeEventListener('keydown', this.handleArrowPress);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        this.setState({selected: this.toSelect});
-
-        const options = nextProps.options;
-
-        if (options && options.length > 0 && this.toSelect >= 0) {
-            this.props.onSelect(options[this.toSelect]);
-        }
-    }
-
     componentDidUpdate(_, prevState) {
+        const options = this.props.options;
+        if (options && options.length > 0 && this.state.selected >= 0) {
+            this.props.onSelect(options[this.state.selected]);
+        }
+
         if (prevState.selected === this.state.selected) {
             return;
         }
@@ -55,10 +48,6 @@ export default class MultiSelectList extends React.Component {
                 this.refs.selected.scrollIntoView(true);
             }
         }
-    }
-
-    setSelected = (selected) => {
-        this.toSelect = selected;
     }
 
     handleArrowPress = (e) => {
@@ -93,7 +82,6 @@ export default class MultiSelectList extends React.Component {
 
         e.preventDefault();
         this.setState({selected});
-        this.setSelected(selected);
         this.props.onSelect(options[selected]);
     }
 

@@ -6,12 +6,12 @@ import {shallow} from 'enzyme';
 
 import ChannelView from './channel_view.jsx';
 
-describe('components/ChannelView', () => {
-    const props = {
+describe('components/channel_view', () => {
+    const baseProps = {
         channelId: 'channelId',
-        deactivatedChannel: true,
+        deactivatedChannel: false,
         match: {
-            url: '/team/channels/off-topic',
+            url: '/team/channel/channelId',
         },
         showTutorial: false,
         channelIsArchived: false,
@@ -20,66 +20,15 @@ describe('components/ChannelView', () => {
             goToLastViewedChannel: jest.fn(),
         },
     };
-    test('Should have app__body and channel-view classes on body after mount', () => {
-        Object.defineProperty(window.navigator, 'platform', {
-            value: 'Win32',
-            writable: true,
-        });
-        shallow(<ChannelView {...props}/>);
 
-        expect(document.body.classList.contains('app__body')).toBe(true);
-        expect(document.body.classList.contains('channel-view')).toBe(true);
-    });
+    it('Should have prevChannelId based on prev props', () => {
+        const wrapper = shallow(<ChannelView {...baseProps}/>);
+        expect(wrapper.state('prevChannelId')).toEqual('');
 
-    test('Should have os--windows class on body for windows 32', () => {
-        Object.defineProperty(window.navigator, 'platform', {
-            value: 'Win32',
-            writable: true,
-        });
-        shallow(<ChannelView {...props}/>);
+        wrapper.setProps({channelId: 'newChannelId'});
+        expect(wrapper.state('prevChannelId')).toEqual('channelId');
 
-        expect(document.body.classList.contains('os--windows')).toBe(true);
-    });
-
-    test('Should have os--windows class on body for windows 64', () => {
-        Object.defineProperty(window.navigator, 'platform', {
-            value: 'Win32',
-            writable: true,
-        });
-        shallow(<ChannelView {...props}/>);
-
-        expect(document.body.classList.contains('os--windows')).toBe(true);
-    });
-
-    test('Should have os--mac class on body for MacIntel', () => {
-        Object.defineProperty(window.navigator, 'platform', {
-            value: 'MacIntel',
-            writable: true,
-        });
-        shallow(<ChannelView {...props}/>);
-
-        expect(document.body.classList.contains('os--mac')).toBe(true);
-    });
-
-    test('Should have os--mac class on body for MacPPC', () => {
-        Object.defineProperty(window.navigator, 'platform', {
-            value: 'MacPPC',
-            writable: true,
-        });
-        shallow(<ChannelView {...props}/>);
-
-        expect(document.body.classList.contains('os--mac')).toBe(true);
-    });
-
-    test('Should remove app__body and channel-view classes on body on unmount', () => {
-        Object.defineProperty(window.navigator, 'platform', {
-            value: 'MacPPC',
-            writable: true,
-        });
-        const wrapper = shallow(<ChannelView {...props}/>);
-
-        wrapper.unmount();
-        expect(document.body.classList.contains('app__body')).toBe(false);
-        expect(document.body.classList.contains('channel-view')).toBe(false);
+        wrapper.setProps({channelIsArchived: true});
+        expect(wrapper.state('prevChannelId')).toEqual('channelId'); //should still be the same value as there no change in channelId
     });
 });
