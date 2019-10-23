@@ -24,14 +24,18 @@ describe('components/Menu', () => {
         const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
-  role="menu"
-  style={Object {}}
+<div
+  className="a11y__popup Menu__container"
 >
-  text
-</ul>
+  <ul
+    aria-label="test-label"
+    className="Menu dropdown-menu"
+    role="menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -46,15 +50,19 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
-  id="test-id"
-  role="menu"
-  style={Object {}}
+<div
+  className="a11y__popup Menu__container"
 >
-  text
-</ul>
+  <ul
+    aria-label="test-label"
+    className="Menu dropdown-menu"
+    id="test-id"
+    role="menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -73,14 +81,18 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
-  role="menu"
-  style={Object {}}
+<div
+  className="a11y__popup Menu__container"
 >
-  text
-</ul>
+  <ul
+    aria-label="test-label"
+    className="Menu dropdown-menu"
+    role="menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -99,21 +111,25 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
-  aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
-  role="menu"
-  style={
-    Object {
-      "bottom": "100%",
-      "left": "inherit",
-      "right": 0,
-      "top": "auto",
-    }
-  }
+<div
+  className="a11y__popup Menu__container"
 >
-  text
-</ul>
+  <ul
+    aria-label="test-label"
+    className="Menu dropdown-menu"
+    role="menu"
+    style={
+      Object {
+        "bottom": "100%",
+        "left": "inherit",
+        "right": 0,
+        "top": "auto",
+      }
+    }
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
