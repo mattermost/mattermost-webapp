@@ -10,9 +10,10 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
+import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
-import {markPostAsUnread} from 'actions/post_actions.jsx';
-import {Preferences} from 'utils/constants.jsx';
+
+import {Preferences} from 'utils/constants';
 import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';

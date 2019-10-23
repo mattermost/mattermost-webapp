@@ -8,7 +8,7 @@ import {intlShape} from 'react-intl';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {A11yCustomEventTypes} from 'utils/constants.jsx';
+import {A11yCustomEventTypes} from 'utils/constants';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';

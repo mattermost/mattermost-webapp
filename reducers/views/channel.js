@@ -4,7 +4,7 @@
 import {combineReducers} from 'redux';
 import {ChannelTypes, PostTypes, UserTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes, Constants, NotificationLevels} from 'utils/constants.jsx';
+import {ActionTypes, Constants, NotificationLevels} from 'utils/constants';
 
 function postVisibility(state = {}, action) {
     switch (action.type) {
