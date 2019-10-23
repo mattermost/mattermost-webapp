@@ -17,6 +17,7 @@ describe('components/ChannelHeader', () => {
             showFlaggedPosts: jest.fn(),
             showPinnedPosts: jest.fn(),
             showMentions: jest.fn(),
+            openRHSSearch: jest.fn(),
             closeRightHandSide: jest.fn(),
             updateRhsState: jest.fn(),
             openModal: jest.fn(),

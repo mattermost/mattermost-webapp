@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {
+    clearSearch,
     getFlaggedPosts,
     getPinnedPosts,
     searchPostsWithParams,
@@ -277,4 +278,13 @@ export function selectPost(post) {
 
 export function selectPostCard(post) {
     return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
+}
+
+export function openRHSSearch() {
+    return (dispatch) => {
+        dispatch(clearSearch());
+        dispatch(updateSearchTerms(''));
+
+        dispatch(updateRhsState(RHSStates.SEARCH));
+    };
 }
