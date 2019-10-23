@@ -9,7 +9,7 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants';
 
 import AboutBuildModal from 'components/about_build_modal';
 

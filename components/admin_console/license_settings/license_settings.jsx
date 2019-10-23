@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -99,9 +99,9 @@ export default class LicenseSettings extends React.Component {
         let licenseType;
         let licenseKey;
 
-        const issued = Utils.displayDate(parseInt(license.IssuedAt, 10)) + ' ' + Utils.displayTime(parseInt(license.IssuedAt, 10), true);
-        const startsAt = Utils.displayDate(parseInt(license.StartsAt, 10));
-        const expiresAt = Utils.displayDate(parseInt(license.ExpiresAt, 10));
+        const issued = <React.Fragment><FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>{' '}{Utils.displayTime(parseInt(license.IssuedAt, 10), true)}</React.Fragment>;
+        const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
+        const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
         if (license.IsLicensed === 'true' && !uploading) {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
@@ -116,9 +116,9 @@ export default class LicenseSettings extends React.Component {
                     {`Company or organization name: ${license.Company}`}<br/>
                     {sku}
                     {`Number of users: ${license.Users}`}<br/>
-                    {`License issued: ${issued}`}<br/>
-                    {`Start date of license: ${startsAt}`}<br/>
-                    {`Expiry date of license: ${expiresAt}`}<br/>
+                    {'License issued: '}{issued}<br/>
+                    {'Start date of license: '}{startsAt}<br/>
+                    {'Expiry date of license: '}{expiresAt}<br/>
                     <br/>
                     {'See also '}
                     <a

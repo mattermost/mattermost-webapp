@@ -9,7 +9,7 @@ import {getSiteURL} from 'utils/url';
 
 import * as Utils from 'utils/utils.jsx';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Bot, {matchesFilter} from './bot.jsx';
@@ -227,7 +227,10 @@ export default class Bots extends React.PureComponent {
                         />
                         <FormattedMarkdownMessage
                             id='bots.manage.help2'
-                            defaultMessage={'Enable bot account creation in the [System Console](' + getSiteURL() + '/admin_console/integrations/bot_accounts).'}
+                            defaultMessage={'Enable bot account creation in the [System Console]({siteURL}/admin_console/integrations/bot_accounts).'}
+                            values={{
+                                siteURL: getSiteURL(),
+                            }}
                         />
                     </React.Fragment>
                 }

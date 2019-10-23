@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import {openModal, closeModal} from 'actions/views/modals';
-import {ActionTypes, ModalIdentifiers} from 'utils/constants.jsx';
+import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
 class TestModal extends React.Component {
     render() {
