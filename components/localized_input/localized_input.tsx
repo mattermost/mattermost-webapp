@@ -11,7 +11,7 @@ type Props = {
     };
     value?: string;
     intl: IntlShape;
-    forwardedRef: React.RefObject<HTMLInputElement>;
+    forwardedRef?: React.RefObject<HTMLInputElement>;
 };
 
 class LocalizedInput extends React.Component<Props> {

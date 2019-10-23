@@ -11,6 +11,7 @@ type Props = {
 
 type DefaultProps = {
     additionalClassName: string | null;
+    intl: IntlShape;
 }
 
 class PreviousIcon extends React.PureComponent<Props> {
@@ -19,7 +20,7 @@ class PreviousIcon extends React.PureComponent<Props> {
     };
 
     public render(): JSX.Element {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const className = 'fa fa-1x fa-angle-left' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
             <i
