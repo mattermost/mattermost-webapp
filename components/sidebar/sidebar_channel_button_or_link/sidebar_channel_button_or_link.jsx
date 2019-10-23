@@ -49,13 +49,21 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.onMounted();
+        this.enableToolTipIfNeeded();
     }
 
-    onMounted = () => {
+    componentDidUpdate(prevProps) {
+        if (prevProps.displayName !== this.props.displayName) {
+            this.enableToolTipIfNeeded(true);
+        }
+    }
+
+    enableToolTipIfNeeded = (disableIfAlreadyEnabled = false) => {
         const element = this.displayNameRef.current;
         if (element && element.offsetWidth < element.scrollWidth) {
             this.setState({showTooltip: true});
+        } else if (disableIfAlreadyEnabled) {
+            this.setState({showTooltip: false});
         }
     }
 
