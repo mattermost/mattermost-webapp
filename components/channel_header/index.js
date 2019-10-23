@@ -33,6 +33,7 @@ import {
     showFlaggedPosts,
     showPinnedPosts,
     showMentions,
+    openRHSSearch,
     closeRightHandSide,
     updateRhsState,
 } from 'actions/views/rhs';
@@ -83,6 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
         showFlaggedPosts,
         showPinnedPosts,
         showMentions,
+        openRHSSearch,
         closeRightHandSide,
         updateRhsState,
         getCustomEmojisInText,

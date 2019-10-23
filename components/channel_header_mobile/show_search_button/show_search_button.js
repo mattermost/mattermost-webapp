@@ -5,17 +5,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SearchIcon from 'components/widgets/icons/search_icon';
-import {RHSStates} from 'utils/constants';
 
 export default class ShowSearchButton extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
+            openRHSSearch: PropTypes.func.isRequired,
             updateRhsState: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     handleClick = () => {
-        this.props.actions.updateRhsState(RHSStates.SEARCH);
+        this.props.actions.openRHSSearch();
     }
 
     render() {
