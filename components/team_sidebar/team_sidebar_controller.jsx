@@ -7,6 +7,7 @@ import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 import classNames from 'classnames';
+import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 
@@ -41,7 +42,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class TeamSidebar extends React.PureComponent {
+export default class TeamSidebar extends React.Component {
     static propTypes = {
         myTeams: PropTypes.array.isRequired,
         currentTeamId: PropTypes.string.isRequired,
@@ -53,11 +54,57 @@ export default class TeamSidebar extends React.PureComponent {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             switchTeam: PropTypes.func.isRequired,
+            updateTeamsOrderForUser: PropTypes.func.isRequired
         }).isRequired,
+    }
+
+    state = {
+        teamsOrder: filterAndSortTeamsByDisplayName(
+            this.props.myTeams,
+            this.props.locale,
+            this.props.userTeamsOrderPreference
+        )
     }
 
     componentDidMount() {
         this.props.actions.getTeams(0, 200);
+    }
+
+    onDragEnd = (result) => {
+        const {
+            updateTeamsOrderForUser
+        } = this.props.actions;
+
+        if (!result.destination) {
+            return;
+        }
+
+        const teams = this.state.teamsOrder;
+
+        const sourceIndex = result.source.index;
+        const destinationIndex = result.destination.index;
+
+        // Positioning the dropped Team button
+        const popElement = (list, idx) => {
+            return [...list.slice(0, idx), ...list.slice(idx + 1, list.length)];
+        };
+
+        const pushElement = (list, idx, itemId) => {
+            return [
+                ...list.slice(0, idx),
+                teams.find(team => team.id === itemId),
+                ...list.slice(idx, list.length)
+            ];
+        };
+
+        const newTeamsOrder = pushElement(
+            popElement(teams, sourceIndex),
+            destinationIndex,
+            result.draggableId
+        );
+        
+        updateTeamsOrderForUser(newTeamsOrder.map(o=>o.id));
+        this.setState({teamsOrder: newTeamsOrder})
     }
 
     render() {
@@ -69,8 +116,8 @@ export default class TeamSidebar extends React.PureComponent {
         root.classList.add('multi-teams');
 
         const plugins = [];
-        const teams = filterAndSortTeamsByDisplayName(this.props.myTeams, this.props.locale).
-            map((team) => {
+        const teams = this.state.teamsOrder.
+            map((team, index) => {
                 const member = this.props.myTeamMembers[team.id];
                 return (
                     <TeamButton
@@ -83,12 +130,17 @@ export default class TeamSidebar extends React.PureComponent {
                         mentions={member.mention_count}
                         teamIconUrl={Utils.imageURLForTeam(team)}
                         switchTeam={this.props.actions.switchTeam}
+                        isDraggable={true}
+                        teamId={team.id}
+                        teamIndex={index}
                     />
                 );
             });
 
+        const extraTeamsChoices = [];
+
         if (this.props.moreTeamsToJoin && !this.props.experimentalPrimaryTeam) {
-            teams.push(
+            extraTeamsChoices.push(
                 <TeamButton
                     btnClass='team-btn__add'
                     key='more_teams'
@@ -104,7 +156,7 @@ export default class TeamSidebar extends React.PureComponent {
                 />
             );
         } else {
-            teams.push(
+            extraTeamsChoices.push(
                 <SystemPermissionGate
                     permissions={[Permissions.CREATE_TEAM]}
                     key='more_teams'
@@ -135,11 +187,10 @@ export default class TeamSidebar extends React.PureComponent {
         );
 
         return (
-            <div className={classNames('team-sidebar', {'move--right': this.props.isOpen})}>
-                <div
-                    className='team-wrapper'
-                    id='teamSidebarWrapper'
-                >
+            <div
+                className={classNames("team-sidebar", { "move--right": this.props.isOpen})}
+            >
+                <div className="team-wrapper" id="teamSidebarWrapper">
                     <Scrollbars
                         autoHide={true}
                         autoHideTimeout={500}
@@ -149,7 +200,27 @@ export default class TeamSidebar extends React.PureComponent {
                         renderView={renderView}
                         onScroll={this.handleScroll}
                     >
-                        {teams}
+                        <DragDropContext
+                            onDragEnd={this.onDragEnd}
+                        >
+                            <Droppable
+                                droppableId="my_teams"
+                                type="TEAM_BUTTON"
+                            >
+                                {(provided, snapshot) => {
+                                    return (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                        >
+                                            {teams}
+                                            {provided.placeholder}
+                                        </div>
+                                    );
+                                }}
+                            </Droppable>
+                        </DragDropContext>
+                        {extraTeamsChoices}
                     </Scrollbars>
                 </div>
                 {plugins}

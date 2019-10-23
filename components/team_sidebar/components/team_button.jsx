@@ -6,6 +6,7 @@ import React from 'react';
 import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import {Draggable} from 'react-beautiful-dnd';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
@@ -32,7 +33,7 @@ export default class TeamButton extends React.Component {
     }
 
     render() {
-        const {teamIconUrl, displayName, btnClass, mentions, unread} = this.props;
+        const {teamIconUrl, displayName, btnClass, mentions, unread, isDraggable = false, teamIndex, teamId} = this.props;
         const {formatMessage} = this.context.intl;
 
         let teamClass = this.props.active ? 'active' : '';
@@ -138,12 +139,21 @@ export default class TeamButton extends React.Component {
             );
         }
 
-        return (
-            <div
-                className={`team-container ${teamClass}`}
-            >
-                {teamButton}
-            </div>
+        return isDraggable ? (
+            <Draggable draggableId={teamId} index={teamIndex}>
+                {(provided, snapshot) => (
+                    <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`team-container ${teamClass}`}
+                    >
+                        {teamButton}
+                    </div>
+                )}
+            </Draggable>
+        ) : (
+            <div className={`team-container ${teamClass}`}>{teamButton}</div>
         );
     }
 }
@@ -171,4 +181,6 @@ TeamButton.propTypes = {
     placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
     teamIconUrl: PropTypes.string,
     switchTeam: PropTypes.func.isRequired,
+    isDraggable: PropTypes.bool,
+    teamIndex: PropTypes.number,
 };
