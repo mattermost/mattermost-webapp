@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Account Settings > Sidebar > General', () => {
+describe('Account Settings > General', () => {
     before(() => {
         // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal('user-1');
