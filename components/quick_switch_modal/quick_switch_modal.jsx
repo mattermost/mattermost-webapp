@@ -120,13 +120,11 @@ export default class QuickSwitchModal extends React.PureComponent {
             switchToChannel(selectedChannel).then((result) => {
                 if (result.data) {
                     this.onHide();
-                    document.getElementById(`sidebarItem_${selected.name}`).scrollIntoView();
                 }
             });
         } else {
             browserHistory.push('/' + selected.name);
             this.onHide();
-            document.getElementById(`sidebarItem_${selected.name}`).scrollIntoView();
         }
     };
 
