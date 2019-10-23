@@ -52,6 +52,5 @@ describe('Account Settings > Display', () => {
 
         // * focus cycles
         nextFocusIs('themeEdit');
-
     });
 });
