@@ -107,7 +107,6 @@
     "babel-jest": "24.8.0",
     "babel-loader": "8.0.6",
     "babel-plugin-typescript-to-proptypes": "0.17.1",
-    "bundle-loader": "0.5.6",
     "clone": "2.1.2",
     "copy-webpack-plugin": "5.0.3",
     "cross-env": "5.2.0",
@@ -177,8 +176,7 @@
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
       "^.+\\.(css|less|scss)$": "identity-obj-proxy",
-      "^.*i18n.*\\.(json)$": "<rootDir>/tests/i18n_mock.json",
-      "^bundle-loader\\?lazy\\!(.*)$": "$1"
+      "^.*i18n.*\\.(json)$": "<rootDir>/tests/i18n_mock.json"
     },
     "moduleDirectories": [
       "",
