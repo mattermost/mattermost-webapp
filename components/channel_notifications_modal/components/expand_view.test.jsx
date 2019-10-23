@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {NotificationLevels, NotificationSections} from 'utils/constants';
 
 import ExpandView from 'components/channel_notifications_modal/components/expand_view.jsx';
 

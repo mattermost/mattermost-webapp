@@ -121,13 +121,50 @@
     white-space: nowrap;
 }
 
-#user-profile-popover .user-popover__username:only-child,
-#user-profile-popover .user-popover__username:only-child > a{
+.user-profile-popover .user-popover__username:only-child,
+.user-profile-popover .user-popover__username:only-child > a{
     max-width: 100%;
 }
-#user-profile-popover .Avatar {
+.user-profile-popover .Avatar {
     margin: 5px auto;
     display: block;
+}
+
+.user-profile-popover {
+    border: none;
+    box-shadow: none !important;
+    background: transparent !important;;
+    padding: 7rem 0;
+
+    .popover-title {
+        border: 1px solid v(center-channel-color-10);
+        border-radius: $border-rad $border-rad 0 0;
+        background: v(center-channel-bg);
+        position: relative;
+
+        &:before {
+            position: absolute;
+            background: v(center-channel-color-05) !important;
+            content: '';
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        span {
+            z-index: 1;
+            position: relative;
+        }
+    }
+
+    .popover-content {
+        border-radius: 0 0 $border-rad $border-rad;
+        border: 1px solid v(center-channel-color-10);
+        border-top: none;
+        @include box-shadow(v(center-channel-color-10) 0px 17px 50px 0px, v(center-channel-color-10) 0px 12px 15px 0px);
+        background: v(center-channel-bg);
+    }
 }
 
 .user-popover__role {

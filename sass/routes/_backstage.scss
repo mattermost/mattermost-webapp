@@ -211,7 +211,6 @@
 
 .backstage-list__item {
     border-bottom: 1px solid $light-gray;
-    display: flex;
     padding: 20px 15px;
     position: relative;
 
@@ -253,12 +252,6 @@
 
     .item-details__trigger-words {
         white-space: nowrap;
-    }
-
-    .item-actions {
-        flex-grow: 0;
-        flex-shrink: 0;
-        padding-left: 20px;
     }
 }
 
@@ -333,8 +326,8 @@
 
 .integration__icon {
     position: absolute;
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 80px;
     right: 20px;
 
     &.integration-list__icon {

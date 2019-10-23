@@ -347,6 +347,9 @@ Cypress.Commands.add('apiGetUsersNotInTeam', (teamId, page = 0, perPage = 60) =>
         method: 'GET',
         url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
     });
 });
 
@@ -362,6 +365,9 @@ Cypress.Commands.add('apiAddUsersToTeam', (teamId, teamMembers) => {
         url: `/api/v4/teams/${teamId}/members/batch`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         body: teamMembers,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        cy.wrap(response);
     });
 });
 
@@ -659,6 +665,18 @@ Cypress.Commands.add('apiGetConfig', () => {
 
     // # Get current settings
     return cy.request('/api/v4/config').then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
+/**
+ * Get some analytics data about the system.
+ */
+Cypress.Commands.add('apiGetAnalytics', () => {
+    cy.apiLogin('sysadmin');
+
+    return cy.request('/api/v4/analytics/old').then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
     });

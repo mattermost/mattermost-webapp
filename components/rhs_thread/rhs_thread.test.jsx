@@ -69,4 +69,19 @@ describe('components/RhsThread', () => {
 
         expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
     });
+
+    test('should update openTime state when selected prop updated', async () => {
+        jest.useRealTimers();
+        const wrapper = shallow(
+            <RhsThread {...defaultProps}/>
+        );
+
+        const waitMilliseconds = 100;
+        const originalOpenTimeState = wrapper.state('openTime');
+
+        await new Promise((resolve) => setTimeout(resolve, waitMilliseconds));
+
+        wrapper.setProps({selected: {...post, id: `${post.id}_new`}});
+        expect(wrapper.state('openTime')).not.toEqual(originalOpenTimeState);
+    });
 });

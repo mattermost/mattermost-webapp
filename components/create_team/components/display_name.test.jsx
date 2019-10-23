@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import DisplayName from 'components/create_team/components/display_name.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 jest.mock('images/logo.png', () => 'logo.png');
 
