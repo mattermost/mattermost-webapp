@@ -19,6 +19,33 @@ export default class TeamRow extends React.Component {
         const {team, onRowClick} = this.props;
         onRowClick(team.id);
     }
+
+    renderManagementMethodText = () => {
+        const {team: {group_constrained, allow_open_invite}} = this.props;
+        if (group_constrained) {
+            return (
+                <FormattedMessage
+                    id={'admin.team_settings.team_row.managementMethod.groupSync'}
+                    defaultMessage={'Group sync'}
+                />
+            );
+        } else if (allow_open_invite) {
+            return (
+                <FormattedMessage
+                    id={'admin.team_settings.team_row.managementMethod.anyoneCanJoin'}
+                    defaultMessage={'Anyone can join'}
+                />
+            );
+        }
+        return (
+            <FormattedMessage
+                id={'admin.team_settings.team_row.managementMethod.inviteOnly'}
+                defaultMessage={'Invite only'}
+            />
+        );
+
+    }
+
     render = () => {
         const {team} = this.props;
         const teamIconUrl = Utils.imageURLForTeam(team);
@@ -46,10 +73,7 @@ export default class TeamRow extends React.Component {
                     </div>
 
                     <span className='group-description adjusted row-content'>
-                        <FormattedMessage
-                            id={`admin.team_settings.team_row.managementMethod.${team.group_constrained ? 'group' : 'manual'}`}
-                            defaultMessage={team.group_constrained ? 'Group Sync' : 'Manual Invites'}
-                        />
+                        {this.renderManagementMethodText()}
                     </span>
                     <span className='group-actions'>
                         <Link to={`/admin_console/user_management/teams/${team.id}`}>
