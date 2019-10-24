@@ -46,6 +46,7 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
+                "displayName": "forwardRef(injectIntl(input))",
                 "render": [Function],
               }
             }
@@ -137,6 +138,7 @@ exports[`components/MarketplaceModal should match the snapshot, no plugins insta
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
+                "displayName": "forwardRef(injectIntl(input))",
                 "render": [Function],
               }
             }
@@ -238,6 +240,7 @@ exports[`components/MarketplaceModal should match the snapshot, with plugins ins
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
+                "displayName": "forwardRef(injectIntl(input))",
                 "render": [Function],
               }
             }

@@ -36,4 +36,7 @@ class LocalizedInput extends React.Component<Props> {
     }
 }
 
-export default injectIntl(LocalizedInput, {forwardRef: true});
+const Component = injectIntl(LocalizedInput, {forwardRef: true});
+Component.displayName = 'forwardRef(injectIntl(input))';
+
+export default Component;
