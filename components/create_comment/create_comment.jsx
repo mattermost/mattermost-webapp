@@ -197,6 +197,7 @@ export default class CreateComment extends React.PureComponent {
             createPostErrorId: props.createPostErrorId,
             rootId: props.rootId,
             messageInHistory: props.messageInHistory,
+            draft: state.draft || {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []},
         };
 
         const rootChanged = props.rootId !== state.rootId;
@@ -220,12 +221,6 @@ export default class CreateComment extends React.PureComponent {
             showConfirmModal: false,
             showEmojiPicker: false,
             showPreview: false,
-            draft: {
-                message: '',
-                uploadsInProgress: [],
-                fileInfos: [],
-                caretPosition: props.draft.message.length,
-            },
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,

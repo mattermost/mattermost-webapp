@@ -41,8 +41,8 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         enableGifPicker: false,
     };
 
-    emojiPickerPosition() {
-        const emojiTrigger = this.props.target();
+    static emojiPickerPosition(props) {
+        const emojiTrigger = props.target();
         let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         if (emojiTrigger) {
             rightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
@@ -55,23 +55,28 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         return rightOffset;
     }
 
-    getPlacement() {
-        const target = this.props.target();
+    static getPlacement(props) {
+        const target = props.target();
         if (target) {
             const targetBounds = target.getBoundingClientRect();
-            return popOverOverlayPosition(targetBounds, window.innerHeight, this.props.spaceRequiredAbove, this.props.spaceRequiredBelow);
+            return popOverOverlayPosition(targetBounds, window.innerHeight, props.spaceRequiredAbove, props.spaceRequiredBelow);
         }
 
         return 'top';
     }
 
+    static getDerivedStateFromProps(props) {
+        return {
+            placement: EmojiPickerOverlay.getPlacement(props),
+            rightOffset: EmojiPickerOverlay.emojiPickerPosition(props),
+        };
+    }
+
     render() {
-        const placement = this.getPlacement();
-        const rightOffset = this.emojiPickerPosition();
         return (
             <Overlay
                 show={this.props.show}
-                placement={placement}
+                placement={this.state.placement}
                 rootClose={true}
                 container={this.props.container}
                 onHide={this.props.onHide}
@@ -83,7 +88,7 @@ export default class EmojiPickerOverlay extends React.PureComponent {
                     onEmojiClose={this.props.onHide}
                     onEmojiClick={this.props.onEmojiClick}
                     onGifClick={this.props.onGifClick}
-                    rightOffset={rightOffset}
+                    rightOffset={this.state.rightOffset}
                     topOffset={this.props.topOffset}
                 />
             </Overlay>

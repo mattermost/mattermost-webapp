@@ -1067,7 +1067,7 @@ export default class CreatePost extends React.Component {
     }
 
     shouldEnableSendButton() {
-        return this.state.message.length !== 0 || this.props.draft.fileInfos.length !== 0;
+        return this.state.message.trim().length !== 0 || this.props.draft.fileInfos.length !== 0;
     }
 
     handleHeightChange = (height, maxHeight) => {
