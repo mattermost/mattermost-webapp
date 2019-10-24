@@ -104,11 +104,11 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - aws-s3/copy:
+      - aws-s3/sync:
           from: storybook-static
           to: s3://alpha-storybook.devops.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g' | sed 's/^master$//g')/
           arguments: --cache-control no-cache
-      - aws-s3/copy:
+      - aws-s3/sync:
           from: storybook-static
           to: s3://alpha-storybook.devops.mattermost.com/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
