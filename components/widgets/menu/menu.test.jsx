@@ -25,12 +25,12 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="a11y__popup Menu__container"
+  aria-label="test-label"
+  className="a11y__popup Menu"
+  role="menu"
 >
   <ul
-    aria-label="test-label"
-    className="Menu dropdown-menu"
-    role="menu"
+    className="Menu__content dropdown-menu"
     style={Object {}}
   >
     text
@@ -51,13 +51,13 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="a11y__popup Menu__container"
+  aria-label="test-label"
+  className="a11y__popup Menu"
+  id="test-id"
+  role="menu"
 >
   <ul
-    aria-label="test-label"
-    className="Menu dropdown-menu"
-    id="test-id"
-    role="menu"
+    className="Menu__content dropdown-menu"
     style={Object {}}
   >
     text
@@ -82,12 +82,12 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="a11y__popup Menu__container"
+  aria-label="test-label"
+  className="a11y__popup Menu"
+  role="menu"
 >
   <ul
-    aria-label="test-label"
-    className="Menu dropdown-menu"
-    role="menu"
+    className="Menu__content dropdown-menu"
     style={Object {}}
   >
     text
@@ -112,12 +112,12 @@ describe('components/Menu', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
 <div
-  className="a11y__popup Menu__container"
+  aria-label="test-label"
+  className="a11y__popup Menu"
+  role="menu"
 >
   <ul
-    aria-label="test-label"
-    className="Menu dropdown-menu"
-    role="menu"
+    className="Menu__content dropdown-menu"
     style={
       Object {
         "bottom": "100%",

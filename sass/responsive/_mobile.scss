@@ -226,7 +226,7 @@
 
     .app__body {
         .post {
-            .Menu__container {
+            .Menu {
                 @include border-radius(0);
                 border: 0px;
                 height: 100%;
@@ -243,7 +243,7 @@
                 align-items: center;
                 overflow: auto;
 
-                .Menu {
+                .Menu__content {
                     width: 100%;
                     max-height: inherit;
                     max-width: inherit;
