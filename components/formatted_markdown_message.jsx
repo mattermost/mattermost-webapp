@@ -48,7 +48,9 @@ class FormattedMarkdownMessage extends React.PureComponent {
     render() {
         const origMsg = this.props.intl.formatMessage({
             id: this.props.id,
-            defaultMessage: this.props.defaultMessage,
+
+            // Any strings, but never empty
+            defaultMessage: this.props.defaultMessage || this.props.id,
         }, this.props.values);
 
         const markedUpMessage = marked(origMsg, {

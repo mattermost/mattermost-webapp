@@ -2,13 +2,27 @@
 // See LICENSE.txt for license information.
 
 import PropTypes from 'prop-types';
-import React, {ReactElement, ExoticComponent, ForwardRefExoticComponent} from 'react';
-import {createIntl, IntlProvider, IntlShape, injectIntl} from 'react-intl';
-import {mount, shallow, ShallowRendererProps, MountRendererProps} from 'enzyme';
+import React, {
+    ReactElement,
+    ExoticComponent,
+    ForwardRefExoticComponent,
+} from 'react';
+import {
+    createIntl,
+    injectIntl,
+    IntlShape,
+    IntlProvider,
+} from 'react-intl';
+import {
+    shallow,
+    mount,
+    ShallowRendererProps,
+    MountRendererProps,
+} from 'enzyme';
 
 import defaultMessages from 'i18n/en.json';
 
-const defaultIntl = createIntl({
+export const defaultIntl = createIntl({
     locale: 'en',
     defaultLocale: 'en',
     timeZone: 'Etc/UTC',
