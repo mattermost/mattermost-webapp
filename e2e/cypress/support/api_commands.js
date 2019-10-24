@@ -120,6 +120,24 @@ Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
 });
 
 /**
+ * Creates a group channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} userIds - IDs of users as member of the group
+ * All parameters required except purpose and header
+ */
+Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/group',
+        method: 'POST',
+        body: userIds,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
+    });
+});
+
+/**
  * Deletes a channel directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {String} channelId - The channel ID to be deleted
