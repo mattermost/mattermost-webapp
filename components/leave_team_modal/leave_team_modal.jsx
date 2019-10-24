@@ -50,10 +50,6 @@ export default class LeaveTeamModal extends React.PureComponent {
         }),
     };
 
-    static contextType = {
-        intl: PropTypes.any,
-    };
-
     componentDidMount() {
         if (this.props.show) {
             document.addEventListener('keypress', this.handleKeyPress);
