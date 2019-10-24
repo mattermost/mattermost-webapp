@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 
 describe('components/SaveButton', () => {
     const baseProps = {

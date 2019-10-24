@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
