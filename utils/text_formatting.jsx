@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import XRegExp from 'xregexp';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
 import {formatWithRenderer} from 'utils/markdown';
@@ -564,22 +563,23 @@ function replaceNewlines(text) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text, supportedEmoji, searchPattern) {
+export function handleUnicodeEmoji(text, emojiMap, searchPattern) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
-    output = output.replace(searchPattern, (emoji) => {
+    output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
-        const emojiCode = emoji.codePointAt(0).toString(16);
+        const emojiCode = emojiMatch.codePointAt(0).toString(16);
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
-        if (supportedEmoji.hasUnicode(emojiCode)) {
-            // build image tag to replace supported unicode emoji
-            return `<img class="emoticon" draggable="false" alt="${emoji}" src="${getEmojiImageUrl(supportedEmoji.getUnicode(emojiCode))}">`;
+        if (emojiMap.hasUnicode(emojiCode)) {
+            const emoji = emojiMap.getUnicode(emojiCode);
+
+            return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);
         }
 
         // wrap unsupported unicode emoji in span to style as needed
-        return `<span class="emoticon emoticon--unicode">${emoji}</span>`;
+        return `<span class="emoticon emoticon--unicode">${emojiMatch}</span>`;
     });
     return output;
 }
