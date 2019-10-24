@@ -35,7 +35,6 @@ module.exports = async ({config, mode}) => {
     });
 
     config.resolve.alias.actions = path.join(path.resolve(__dirname), '..', 'actions')
-    config.resolve.alias.actions = path.join(path.resolve(__dirname), '..', 'actions')
     config.resolve.alias.client = path.join(path.resolve(__dirname), '..', 'client')
     config.resolve.alias.components = path.join(path.resolve(__dirname), '..', 'components')
     config.resolve.alias.dispatcher = path.join(path.resolve(__dirname), '..', 'dispatcher')
