@@ -1958,6 +1958,14 @@ const AdminDefinition = {
                         help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableLatex',
+                        label: t('admin.customization.enableLatexTitle'),
+                        label_default: 'Enable Latex Rendering:',
+                        help_text: t('admin.customization.enableLatexDesc'),
+                        help_text_default: 'Enable rendering of Latex code.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
