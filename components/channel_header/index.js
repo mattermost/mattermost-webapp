@@ -35,7 +35,6 @@ import {
     showMentions,
     openRHSSearch,
     closeRightHandSide,
-    updateRhsState,
 } from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
