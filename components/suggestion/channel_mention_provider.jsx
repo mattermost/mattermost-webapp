@@ -3,11 +3,9 @@
 
 import React from 'react';
 
-import {getMyChannels, getChannel, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {getMyChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
-
-import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import store from 'stores/redux_store.jsx';
 
@@ -167,28 +165,36 @@ export default class ChannelMentionProvider extends Provider {
 
             // Wrap channels in an outer object to avoid overwriting the 'type' property.
             const wrappedMoreChannels = [];
-            const moreChannels = [];
             channels.forEach((item) => {
                 if (item.delete_at > 0 && !myMembers[item.id]) {
                     return;
                 }
-                if (getChannel(store.getState(), item.id)) {
-                    if (!wrappedChannelIds[item.id]) {
-                        wrappedChannelIds[item.id] = true;
-                        wrappedChannels.push({
-                            type: Constants.MENTION_CHANNELS,
-                            channel: item,
-                        });
-                    }
+
+                if (myMembers[item.id] && !wrappedChannelIds[item.id]) {
+                    wrappedChannelIds[item.id] = true;
+                    wrappedChannels.push({
+                        type: Constants.MENTION_CHANNELS,
+                        channel: item,
+                    });
                     return;
+                }
+
+                if (myMembers[item.id] && wrappedChannelIds[item.id]) {
+                    return;
+                }
+
+                if (!myMembers[item.id] && wrappedChannelIds[item.id]) {
+                    delete wrappedChannelIds[item.id];
+                    const idx = wrappedChannels.map((el) => el.channel.id).indexOf(item.id);
+                    if (idx >= 0) {
+                        wrappedChannels.splice(idx, 1);
+                    }
                 }
 
                 wrappedMoreChannels.push({
                     type: Constants.MENTION_MORE_CHANNELS,
                     channel: item,
                 });
-
-                moreChannels.push(item);
             });
 
             wrappedChannels = wrappedChannels.sort((a, b) => {
@@ -197,15 +203,9 @@ export default class ChannelMentionProvider extends Provider {
                 //
                 return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
             });
+
             const wrapped = wrappedChannels.concat(wrappedMoreChannels);
             const mentions = wrapped.map((item) => '~' + item.channel.name);
-
-            if (moreChannels.length > 0) {
-                store.dispatch({
-                    type: ChannelTypes.RECEIVED_CHANNELS,
-                    data: moreChannels,
-                });
-            }
 
             resultCallback({
                 matchedPretext: captured[1],
