@@ -10,7 +10,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-import {AdvancedSections} from 'utils/constants.jsx';
+import {AdvancedSections} from 'utils/constants';
 
 export default class JoinLeaveSection extends React.PureComponent {
     static propTypes = {

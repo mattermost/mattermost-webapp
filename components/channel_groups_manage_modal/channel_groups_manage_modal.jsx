@@ -9,7 +9,7 @@ import {Groups} from 'mattermost-redux/constants';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 

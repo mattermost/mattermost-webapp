@@ -5,7 +5,7 @@ import marked from 'marked';
 
 export default class RemoveMarkdown extends marked.Renderer {
     code(text) {
-        return text.replace(/\n/g, ' ');
+        return ' ' + text.replace(/\n/g, ' ');
     }
 
     blockquote(text) {
