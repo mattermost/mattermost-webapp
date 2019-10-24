@@ -31,13 +31,13 @@ export default class MemberListChannel extends React.PureComponent {
         }).isRequired,
     }
 
+
     constructor(props) {
         super(props);
-
-        this.searchTimeoutId = 0;
-
         this.state = {
             loading: true,
+            searchTerm: props.searchTerm,
+            searchTimeoutId: 0,
         };
     }
 
@@ -61,29 +61,36 @@ export default class MemberListChannel extends React.PureComponent {
         this.props.actions.setModalSearchTerm('');
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.searchTerm !== nextProps.searchTerm) {
-            clearTimeout(this.searchTimeoutId);
-            const searchTerm = nextProps.searchTerm;
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.searchTerm !== prevState.searchTerm) {
+            return {searchTerm: nextProps.searchTerm}
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.searchTerm !== this.props.searchTerm) {
+            clearTimeout(this.state.searchTimeoutId);
+            const searchTerm = this.props.searchTerm;
 
             if (searchTerm === '') {
                 this.loadComplete();
-                this.searchTimeoutId = '';
+                this.setState({searchTimeoutId: null});
                 return;
             }
 
             const searchTimeoutId = setTimeout(
                 async () => {
-                    const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: nextProps.currentTeamId, in_channel_id: nextProps.currentChannelId});
+                    const {data} = await prevProps.actions.searchProfiles(searchTerm, {team_id: this.props.currentTeamId, in_channel_id: this.props.currentChannelId});
 
-                    if (searchTimeoutId !== this.searchTimeoutId) {
+                    if (searchTimeoutId !== this.state.searchTimeoutId) {
                         return;
                     }
 
                     this.setState({loading: true});
 
-                    nextProps.actions.loadStatusesForProfilesList(data);
-                    nextProps.actions.loadTeamMembersAndChannelMembersForProfilesList(data, nextProps.currentTeamId, nextProps.currentChannelId).then(({data: membersLoaded}) => {
+                    this.props.actions.loadStatusesForProfilesList(data);
+                    this.props.actions.loadTeamMembersAndChannelMembersForProfilesList(data, this.props.currentTeamId, this.props.currentChannelId).then(({data: membersLoaded}) => {
                         if (membersLoaded) {
                             this.loadComplete();
                         }
@@ -92,7 +99,7 @@ export default class MemberListChannel extends React.PureComponent {
                 Constants.SEARCH_TIMEOUT_MILLISECONDS
             );
 
-            this.searchTimeoutId = searchTimeoutId;
+            this.setState({searchTimeoutId});
         }
     }
 
