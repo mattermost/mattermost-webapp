@@ -86,7 +86,6 @@ const mapDispatchToProps = (dispatch) => ({
         showMentions,
         openRHSSearch,
         closeRightHandSide,
-        updateRhsState,
         getCustomEmojisInText,
         updateChannelNotifyProps,
         goToLastViewedChannel,
