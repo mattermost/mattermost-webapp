@@ -90,7 +90,7 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - run: make build-storybook package-ci
+      - run: make build-storybook
       - store_artifacts:
           path: ~/mattermost-webapp/storybook-static
       - persist_to_workspace:
