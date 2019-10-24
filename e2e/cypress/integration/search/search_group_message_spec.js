@@ -44,7 +44,7 @@ describe('Search', () => {
         // * Should return exactly one result from the group channel and matches the message
         cy.queryAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {
             cy.get('.search-channel__name').should('be.visible').and('have.text', groupMembers.join(', '));
-            cy.get('.search-highlight').contains(message).should('text', message);
+            cy.get('.search-highlight').should('be.visible').and('have.text', message);
         });
     });
 });
