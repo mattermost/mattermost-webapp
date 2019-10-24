@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {stripMarkdown} from 'utils/markdown';
+import getEnablePluginSetting from '../components/admin_console/custom_plugin_settings/EnablePluginSetting';
 
 function extractTextsFromPlugin(plugin) {
     const texts = [];
@@ -20,7 +21,10 @@ function extractTextsFromPlugin(plugin) {
         }
 
         if (plugin.settings_schema.settings) {
-            for (const setting of Object.values(plugin.settings_schema.settings)) {
+            const settings = Object.values(plugin.settings_schema.settings);
+            settings.unshift(getEnablePluginSetting(plugin));
+
+            for (const setting of settings) {
                 if (setting.label) {
                     texts.push(setting.label);
                 }

@@ -47,4 +47,11 @@ describe('AdminConsolePluginsIndex.getPluginEntries', () => {
         expect(entries).toHaveProperty('plugin_plugin-with-markdown');
         expect(entries['plugin_plugin-with-markdown']).toContain('Markdown plugin label');
     });
+
+    it('should index the enable plugin setting', () => {
+        const entries = getPluginEntries({[samplePlugin3.id]: samplePlugin3});
+        expect(entries).toHaveProperty('plugin_plugin-with-markdown');
+        expect(entries['plugin_plugin-with-markdown']).toContain('admin.plugin.enable_plugin');
+        expect(entries['plugin_plugin-with-markdown']).toContain('PluginSettings.PluginStates.plugin-with-markdown.Enable');
+    });
 });

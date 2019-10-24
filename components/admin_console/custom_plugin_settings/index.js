@@ -6,12 +6,11 @@ import {createSelector} from 'reselect';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 
-import {Constants} from 'utils/constants';
-import {t} from 'utils/i18n';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
 import CustomPluginSettings from './custom_plugin_settings.jsx';
+import getEnablePluginSetting from './EnablePluginSetting';
 
 function makeGetPluginSchema() {
     return createSelector(
@@ -38,14 +37,7 @@ function makeGetPluginSchema() {
                 });
             }
 
-            settings.unshift({
-                type: Constants.SettingsTypes.TYPE_BOOL,
-                key: pluginEnabledConfigKey,
-                label: t('admin.plugin.enable_plugin'),
-                label_default: 'Enable Plugin: ',
-                help_text: t('admin.plugin.enable_plugin.help'),
-                help_text_default: 'When true, this plugin is enabled.',
-            });
+            settings.unshift(getEnablePluginSetting(plugin));
 
             return {
                 ...plugin.settings_schema,
