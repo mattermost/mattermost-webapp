@@ -279,7 +279,7 @@ export default class RootSwitch extends React.PureComponent {
             />,
             <LoggedInRoute
                 key={'/_redirect'}
-                path={['/_redirect/integrations*', '/_redirect/pl/:postid']}
+                path={['/_redirect/integrations*', '/_redirect/pl/:postid', '/_redirect/messages/@:username']}
                 component={PermalinkRedirector}
             />,
             <LoggedInRoute
