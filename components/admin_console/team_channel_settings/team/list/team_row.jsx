@@ -21,15 +21,15 @@ export default class TeamRow extends React.Component {
     }
 
     renderManagementMethodText = () => {
-        const {team: {group_constrained, allow_open_invite}} = this.props;
-        if (group_constrained) {
+        const {team} = this.props;
+        if (team.group_constrained) {
             return (
                 <FormattedMessage
                     id={'admin.team_settings.team_row.managementMethod.groupSync'}
                     defaultMessage={'Group sync'}
                 />
             );
-        } else if (allow_open_invite) {
+        } else if (team.allow_open_invite) {
             return (
                 <FormattedMessage
                     id={'admin.team_settings.team_row.managementMethod.anyoneCanJoin'}
@@ -43,7 +43,6 @@ export default class TeamRow extends React.Component {
                 defaultMessage={'Invite only'}
             />
         );
-
     }
 
     render = () => {
