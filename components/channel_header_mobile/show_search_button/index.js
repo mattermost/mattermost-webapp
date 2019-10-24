@@ -4,15 +4,12 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {clearSearch} from 'mattermost-redux/actions/search';
-
 import {openRHSSearch} from 'actions/views/rhs';
 
 import ShowSearchButton from './show_search_button';
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
-        clearSearch,
         openRHSSearch,
     }, dispatch),
 });
