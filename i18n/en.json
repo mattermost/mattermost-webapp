@@ -218,7 +218,7 @@
   "admin.channel_settings.channel_list.no_channels_found": "No channels found",
   "admin.channel_settings.channel_list.teamHeader": "Team",
   "admin.channel_settings.channel_row.configure": "Edit",
-  "admin.channel_settings.description": "Showing {startCount, number} - {endCount, number} of {total, number} channels. Manage channel settings.",
+  "admin.channel_settings.description": "Manage channel settings.",
   "admin.channel_settings.groupsPageTitle": "{siteName} Channels",
   "admin.channel_settings.title": "Channels",
   "admin.cluster.ClusterName": "Cluster Name:",
