@@ -84,6 +84,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths: .
+
   build-storybook:
     executor:
       name: default
@@ -202,7 +203,7 @@ workflows:
             - prepare-docker-build
       - build-storybook:
           requires:
-            - install
+            - build
       - upload-storybook:
           context: mattermost-s3-storybook-alpha
           requires:
