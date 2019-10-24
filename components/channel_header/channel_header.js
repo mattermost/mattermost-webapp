@@ -68,7 +68,6 @@ export default class ChannelHeader extends React.PureComponent {
             showMentions: PropTypes.func.isRequired,
             openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
-            updateRhsState: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
