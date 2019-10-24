@@ -13,28 +13,27 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import ErrorTitle from './error_title';
 import ErrorMessage from './error_message';
 
-interface ILocation {
+type Location = {
     search: string;
 }
 
 type Props = {
-    location: ILocation;
+    location: Location;
     asymmetricSigningPublicKey?: string;
     siteName?: string;
     isGuest?: boolean;
 }
 
 export default class ErrorPage extends React.PureComponent<Props> {
-
-    componentDidMount() {
+    public componentDidMount() {
         document.body.setAttribute('class', 'sticky error');
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         document.body.removeAttribute('class');
     }
 
-    render() {
+    public render() {
         const {isGuest} = this.props;
         const params: URLSearchParams = new URLSearchParams(this.props.location.search);
         const signature = params.get('s');
