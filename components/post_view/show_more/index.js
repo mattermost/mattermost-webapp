@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import ShowMore from './show_more';
 

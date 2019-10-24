@@ -2,17 +2,24 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+const appDownloadLink = 'https://about.mattermost.com/downloads/';
+
 describe('Test Tutorial Navigation', () => {
     before(() => {
+        cy.apiUpdateConfig({
+            NativeAppSettings: {
+                AppDownloadLink: appDownloadLink,
+            },
+        });
         cy.loginAsNewUser({}, false);
     });
 
-    it('MM-13989 - Tutorial Navigation and Links', () => {
+    it('On13989 - Tutorial Navigation and Links', () => {
         // * Check that step one displays after new user signs in.
         checkStepOne();
 
@@ -112,9 +119,9 @@ function checkStepTwo() {
         and('contain', 'Install the apps for PC, Mac, iOS and Android for easy access and notifications on the go.');
 
     cy.get('#appDownloadLink').should('be.visible').and('contain', 'PC, Mac, iOS and Android').
-        and('have.attr', 'href', 'https://about.mattermost.com/downloads/');
+        and('have.attr', 'href', appDownloadLink);
 
-    cy.get('#appDownloadImage').should('have.attr', 'href', 'https://about.mattermost.com/downloads/');
+    cy.get('#appDownloadImage').should('have.attr', 'href', appDownloadLink);
     cy.get('#tutorialIntroCircle1').should('have.class', 'circle active');
 
     checkTutorialFooter();

@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import './menu_group.scss';
+
 export default class MenuGroup extends React.PureComponent {
     static propTypes = {
         divider: PropTypes.node,

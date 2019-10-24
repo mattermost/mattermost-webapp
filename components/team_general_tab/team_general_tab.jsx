@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, FormattedDate} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
@@ -39,25 +39,10 @@ export default class GeneralTab extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateSection = this.updateSection.bind(this);
-        this.handleNameSubmit = this.handleNameSubmit.bind(this);
-        this.handleAllowedDomainsSubmit = this.handleAllowedDomainsSubmit.bind(this);
-        this.handleInviteIdSubmit = this.handleInviteIdSubmit.bind(this);
-        this.handleOpenInviteSubmit = this.handleOpenInviteSubmit.bind(this);
-        this.handleDescriptionSubmit = this.handleDescriptionSubmit.bind(this);
-        this.handleTeamIconSubmit = this.handleTeamIconSubmit.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-
-        this.updateName = this.updateName.bind(this);
-        this.updateDescription = this.updateDescription.bind(this);
-        this.updateTeamIcon = this.updateTeamIcon.bind(this);
-        this.updateAllowedDomains = this.updateAllowedDomains.bind(this);
-        this.handleOpenInviteRadio = this.handleOpenInviteRadio.bind(this);
-
         this.state = this.setupInitialState(props);
     }
 
-    updateSection(section) {
+    updateSection = (section) => {
         if ($('.section-max').length) {
             $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
         }
@@ -92,7 +77,7 @@ export default class GeneralTab extends React.Component {
         });
     }
 
-    handleOpenInviteRadio(openInvite) {
+    handleOpenInviteRadio = (openInvite) => {
         this.setState({allow_open_invite: openInvite});
     }
 
@@ -187,7 +172,7 @@ export default class GeneralTab extends React.Component {
         }
     }
 
-    handleClose() {
+    handleClose = () => {
         this.updateSection('');
     }
 
@@ -288,15 +273,15 @@ export default class GeneralTab extends React.Component {
         this.updateSection(section);
     }
 
-    updateName(e) {
+    updateName = (e) => {
         this.setState({name: e.target.value});
     }
 
-    updateDescription(e) {
+    updateDescription = (e) => {
         this.setState({description: e.target.value});
     }
 
-    updateTeamIcon(e) {
+    updateTeamIcon = (e) => {
         if (e && e.target && e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
 
@@ -323,7 +308,7 @@ export default class GeneralTab extends React.Component {
         }
     }
 
-    updateAllowedDomains(e) {
+    updateAllowedDomains = (e) => {
         this.setState({allowed_domains: e.target.value});
     }
 

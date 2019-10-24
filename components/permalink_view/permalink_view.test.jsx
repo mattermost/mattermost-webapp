@@ -98,6 +98,17 @@ describe('components/PermalinkView', () => {
         expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo);
     });
 
+    test('should call baseProps.actions.focusPost when postid changes', async () => {
+        const wrapper = shallowWithIntl(
+            <PermalinkView {...baseProps}/>
+        );
+        const newPostid = `${baseProps.match.params.postid}_new`;
+        await wrapper.setProps({...baseProps, match: {params: {postid: newPostid}}});
+
+        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
+        expect(baseProps.actions.focusPost).toBeCalledWith(newPostid, baseProps.returnTo);
+    });
+
     test('should match snapshot with archived channel', () => {
         const props = {...baseProps, channelIsArchived: true};
 
@@ -134,7 +145,7 @@ describe('components/PermalinkView', () => {
                 const testStore = await mockStore(initialState);
                 await testStore.dispatch(focusPost('postid1'));
 
-                expect(getPostThread).toHaveBeenCalledWith('postid1');
+                expect(getPostThread).toHaveBeenCalledWith('postid1', false);
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid1: {id: 'postid1', message: 'some message', channel_id: 'channelid1'}}, order: ['postid1']}},
                     {type: 'MOCK_SELECT_CHANNEL', args: ['channelid1']},
@@ -149,7 +160,7 @@ describe('components/PermalinkView', () => {
 
                 await testStore.dispatch(focusPost('postid2'));
 
-                expect(getPostThread).toHaveBeenCalledWith('postid2');
+                expect(getPostThread).toHaveBeenCalledWith('postid2', false);
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {postid2: {id: 'postid2', message: 'some message', channel_id: 'channelid2'}}, order: ['postid2']}},
                     {type: 'MOCK_GET_CHANNEL', data: {id: 'channelid2', type: 'O', team_id: 'current_team_id'}},
@@ -165,7 +176,7 @@ describe('components/PermalinkView', () => {
                 const testStore = await mockStore(initialState);
                 await testStore.dispatch(focusPost('dmpostid1'));
 
-                expect(getPostThread).toHaveBeenCalledWith('dmpostid1');
+                expect(getPostThread).toHaveBeenCalledWith('dmpostid1', false);
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
                 ]);
@@ -176,7 +187,7 @@ describe('components/PermalinkView', () => {
                 const testStore = await mockStore(initialState);
                 await testStore.dispatch(focusPost('gmpostid1'));
 
-                expect(getPostThread).toHaveBeenCalledWith('gmpostid1');
+                expect(getPostThread).toHaveBeenCalledWith('gmpostid1', false);
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {gmpostid1: {id: 'gmpostid1', message: 'some message', channel_id: 'gmchannelid'}}, order: ['gmpostid1']}},
                 ]);

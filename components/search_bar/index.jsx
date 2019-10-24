@@ -11,8 +11,9 @@ import {
     showFlaggedPosts,
     closeRightHandSide,
 } from 'actions/views/rhs';
+import {autocompleteChannelsForSearch} from 'actions/channel_actions';
 import {getRhsState, getSearchTerms, getIsSearchingTerm} from 'selectors/rhs';
-import {RHSStates} from 'utils/constants.jsx';
+import {RHSStates} from 'utils/constants';
 
 import SearchBar from './search_bar.jsx';
 
@@ -35,6 +36,7 @@ function mapDispatchToProps(dispatch) {
             showMentions,
             showFlaggedPosts,
             closeRightHandSide,
+            autocompleteChannelsForSearch,
         }, dispatch),
     };
 }

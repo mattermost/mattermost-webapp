@@ -8,14 +8,14 @@ import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
 
 import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.tsx';
 
 const holders = defineMessages({
     general: {
@@ -76,7 +76,6 @@ class UserSettingsModal extends React.Component {
         this.state = {
             active_tab: 'general',
             active_section: '',
-            prev_active_section: 'dummySectionName', // dummy value that should never match any section name
             showConfirmModal: false,
             enforceFocus: true,
             show: true,
@@ -145,7 +144,6 @@ class UserSettingsModal extends React.Component {
         this.setState({
             active_tab: 'general',
             active_section: '',
-            prev_active_section: 'dummySectionName',
         });
         this.props.onHide();
     }
@@ -157,7 +155,6 @@ class UserSettingsModal extends React.Component {
         this.setState({
             active_tab: '',
             active_section: '',
-            prev_active_section: '',
         });
     }
 
@@ -226,7 +223,6 @@ class UserSettingsModal extends React.Component {
             this.setState({
                 active_tab: tab,
                 active_section: '',
-                prev_active_section: 'dummySectionName',
             });
         }
     }
@@ -236,7 +232,6 @@ class UserSettingsModal extends React.Component {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
             this.setState({
-                prev_active_section: section ? '' : this.state.active_section,
                 active_section: section,
             });
         }
@@ -296,7 +291,6 @@ class UserSettingsModal extends React.Component {
                                 doLoad={loadUserSettings}
                                 activeTab={this.state.active_tab}
                                 activeSection={this.state.active_section}
-                                prevActiveSection={this.state.prev_active_section}
                                 updateSection={this.updateSection}
                                 updateTab={this.updateTab}
                                 closeModal={this.closeModal}

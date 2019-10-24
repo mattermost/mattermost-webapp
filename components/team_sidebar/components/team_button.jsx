@@ -8,41 +8,34 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {isDesktopApp} from 'utils/user_agent.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
+import TeamIcon from '../../widgets/team_icon/team_icon';
 
 // eslint-disable-next-line react/require-optimization
 export default class TeamButton extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.handleSwitch = this.handleSwitch.bind(this);
-        this.handleDisabled = this.handleDisabled.bind(this);
-    }
-
     static contextTypes = {
         intl: intlShape.isRequired,
     };
 
-    handleSwitch(e) {
+    handleSwitch = (e) => {
         e.preventDefault();
         mark('TeamLink#click');
         trackEvent('ui', 'ui_team_sidebar_switch_team');
         this.props.switchTeam(this.props.url);
     }
 
-    handleDisabled(e) {
+    handleDisabled = (e) => {
         e.preventDefault();
     }
 
     render() {
-        const teamIconUrl = this.props.teamIconUrl;
+        const {teamIconUrl, displayName, btnClass, mentions, unread} = this.props;
         const {formatMessage} = this.context.intl;
 
         let teamClass = this.props.active ? 'active' : '';
-        const btnClass = this.props.btnClass;
         const disabled = this.props.disabled ? 'team-disabled' : '';
         const handleClick = (this.props.active || this.props.disabled) ? this.handleDisabled : this.handleSwitch;
         let badge;
@@ -52,62 +45,44 @@ export default class TeamButton extends React.Component {
             defaultMessage: '{teamName} team',
         },
         {
-            teamName: this.props.displayName,
+            teamName: displayName,
         });
 
         if (!teamClass) {
-            teamClass = this.props.unread ? 'unread' : '';
+            teamClass = unread ? 'unread' : '';
             ariaLabel = formatMessage({
                 id: 'team.button.unread.ariaLabel',
                 defaultMessage: '{teamName} team unread',
             },
             {
-                teamName: this.props.displayName,
+                teamName: displayName,
             });
 
-            if (this.props.mentions) {
+            if (mentions) {
                 ariaLabel = formatMessage({
                     id: 'team.button.mentions.ariaLabel',
                     defaultMessage: '{teamName} team, {mentionCount} mentions',
                 },
                 {
-                    teamName: this.props.displayName,
-                    mentionCount: this.props.mentions,
+                    teamName: displayName,
+                    mentionCount: mentions,
                 });
 
                 badge = (
-                    <span className={'badge pull-right small'}>{this.props.mentions}</span>
+                    <span className={'badge pull-right small'}>{mentions}</span>
                 );
             }
         }
 
         ariaLabel = ariaLabel.toLowerCase();
 
-        let content = this.props.content;
-
-        if (!content) {
-            if (teamIconUrl) {
-                content = (
-                    <div className='team-btn__content'>
-                        <div
-                            className='team-btn__image'
-                            style={{backgroundImage: `url('${teamIconUrl}')`}}
-                        />
-                    </div>
-                );
-            } else {
-                let initials = this.props.displayName;
-                initials = initials ? initials.replace(/\s/g, '').substring(0, 2) : '??';
-
-                content = (
-                    <div className='team-btn__content'>
-                        <div className='team-btn__initials'>
-                            {initials}
-                        </div>
-                    </div>
-                );
-            }
-        }
+        const content = (
+            <TeamIcon
+                withHover={true}
+                name={this.props.content || displayName}
+                url={teamIconUrl}
+            />
+        );
 
         const toolTip = this.props.tip || localizeMessage('team.button.name_undefined', 'Name undefined');
         const btn = (

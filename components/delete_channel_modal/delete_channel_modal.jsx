@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class DeleteChannelModal extends React.PureComponent {
@@ -44,12 +44,10 @@ export default class DeleteChannelModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleDelete = this.handleDelete.bind(this);
-        this.onHide = this.onHide.bind(this);
         this.state = {show: true};
     }
 
-    handleDelete() {
+    handleDelete = () => {
         if (this.props.channel.id.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
@@ -61,7 +59,7 @@ export default class DeleteChannelModal extends React.PureComponent {
         this.onHide();
     }
 
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 

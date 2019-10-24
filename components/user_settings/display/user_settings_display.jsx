@@ -6,7 +6,7 @@ import React from 'react';
 import {getTimezoneRegion} from 'mattermost-redux/utils/timezone_utils';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 
@@ -14,7 +14,7 @@ import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
@@ -39,7 +39,6 @@ export default class UserSettingsDisplay extends React.Component {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        prevActiveSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         setRequireConfirm: PropTypes.func.isRequired,
@@ -383,7 +382,6 @@ export default class UserSettingsDisplay extends React.Component {
                 <SettingItemMin
                     title={messageTitle}
                     describe={describe}
-                    focused={this.props.prevActiveSection === this.prevSections[section]}
                     section={section}
                     updateSection={this.updateSection}
                 />
@@ -658,7 +656,6 @@ export default class UserSettingsDisplay extends React.Component {
                         }
                         width='medium'
                         describe={locale}
-                        focused={this.props.prevActiveSection === this.prevSections.languages}
                         section={'languages'}
                         updateSection={this.updateSection}
                     />
@@ -681,7 +678,6 @@ export default class UserSettingsDisplay extends React.Component {
                         setRequireConfirm={this.props.setRequireConfirm}
                         setEnforceFocus={this.props.setEnforceFocus}
                         allowCustomThemes={this.props.allowCustomThemes}
-                        focused={this.props.prevActiveSection === this.prevSections.theme}
                     />
                     <div className='divider-dark'/>
                 </div>

@@ -10,8 +10,8 @@ import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
+import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
+import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -157,7 +157,7 @@ export default class PostList extends React.PureComponent {
 
         window.addEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
+        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
     getSnapshotBeforeUpdate(prevProps) {
@@ -199,7 +199,7 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
+        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
     static getDerivedStateFromProps(props) {
@@ -231,12 +231,6 @@ export default class PostList extends React.PureComponent {
         return postListIds.findIndex(
             (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
         );
-    }
-
-    scrollChange = (toBottom) => {
-        if (toBottom) {
-            this.scrollToLatestMessages();
-        }
     }
 
     handleWindowResize = () => {

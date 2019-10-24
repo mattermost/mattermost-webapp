@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -83,5 +83,27 @@ describe('Messaging', () => {
 
         // # Making sure Emojis from last post message are 21px size
         checkEmojiSize('@newLineMessage', emojis, false);
+    });
+
+    it('M17457 Emojis show as jumbo in main thread - Multi emoji, no text, including unicode and emoticon', () => {
+        // # Create list of emojis we want to post
+        const emojis = [':smiley:', ':thumbsup:', '🤟'];
+
+        // # Post Emojis list
+        cy.postMessage(emojis.join(''));
+
+        // #Get last post message
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).as('lastMessage');
+
+            //# Expect unicode value from last message to have jumbo size
+            cy.get('@lastMessage').find('.emoticon--unicode').should('have.css', 'height', '32px').and('have.css', 'width', '32px').and('have.text', '🤟');
+
+            //#Removes unicode item
+            emojis.pop();
+
+            //# Expect emoji list to have emoji jumbo size
+            checkEmojiSize('@lastMessage', emojis, true);
+        });
     });
 });

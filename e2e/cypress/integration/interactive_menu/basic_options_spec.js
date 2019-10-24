@@ -83,10 +83,10 @@ describe('MM-15887 Interactive menus - basic options', () => {
             cy.get('#suggestionList').children().each(($el, index) => {
                 cy.wrap($el).should('have.text', options[index].text);
             });
-
-            // * Close suggestion list by clicking on other element
-            cy.get('.attachment__thumb-pretext').click();
         });
+
+        // * Close suggestion list by clicking on other element
+        cy.get('body').click();
     });
 
     it('displays selected option and posts ephemeral message', () => {
@@ -200,7 +200,7 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
         } else {
             // # Select an option (long) in center view
             cy.get('.select-suggestion-container > input').should('be.visible').click();
-            cy.get('#suggestionList').should('be.visible').children().first().click();
+            cy.get('#suggestionList').should('be.visible').children().first().click({force: true});
         }
 
         // * Verify exact height, width and padding of suggestion container and its input

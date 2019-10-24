@@ -5,9 +5,9 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {JobTypes} from 'utils/constants.jsx';
+import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 
 import AdminSettings from './admin_settings.jsx';
 import BooleanSetting from './boolean_setting.jsx';
@@ -24,14 +24,7 @@ const exportFormats = {
 };
 
 export default class MessageExportSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.renderSettings = this.renderSettings.bind(this);
-    }
-
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.MessageExportSettings.EnableExport = this.state.enableComplianceExport;
         config.MessageExportSettings.ExportFormat = this.state.exportFormat;
         config.MessageExportSettings.DailyRunTime = this.state.exportJobStartTime;
@@ -87,7 +80,7 @@ export default class MessageExportSettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const exportFormatOptions = [
             {value: exportFormats.EXPORT_FORMAT_ACTIANCE, text: Utils.localizeMessage('admin.complianceExport.exportFormat.actiance', 'Actiance XML')},
             {value: exportFormats.EXPORT_FORMAT_CSV, text: Utils.localizeMessage('admin.complianceExport.exportFormat.csv', 'CSV')},

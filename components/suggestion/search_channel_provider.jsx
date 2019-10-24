@@ -5,8 +5,7 @@ import React from 'react';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
-import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import SelectIcon from 'components/widgets/icons/fa_select_icon';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
@@ -67,6 +66,11 @@ class SearchChannelSuggestion extends Suggestion {
 }
 
 export default class SearchChannelProvider extends Provider {
+    constructor(channelSearchFunc) {
+        super();
+        this.autocompleteChannelsForSearch = channelSearchFunc;
+    }
+
     handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
@@ -74,7 +78,7 @@ export default class SearchChannelProvider extends Provider {
 
             this.startNewRequest(channelPrefix);
 
-            autocompleteChannelsForSearch(
+            this.autocompleteChannelsForSearch(
                 channelPrefix,
                 (data) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
@@ -93,7 +97,7 @@ export default class SearchChannelProvider extends Provider {
                         items: channels,
                         component: SearchChannelSuggestion,
                     });
-                }
+                },
             );
         }
 

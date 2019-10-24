@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import assert from 'assert';
 
 import Reaction from 'components/post_view/reaction/reaction.jsx';
 
@@ -98,5 +99,41 @@ describe('components/post_view/Reaction', () => {
 
         expect(newActions.getMissingProfilesByIds).toHaveBeenCalledTimes(1);
         expect(newActions.getMissingProfilesByIds).toHaveBeenCalledWith([reactions[0].user_id, reactions[1].user_id]);
+    });
+
+    test('should sort users by who reacted first', () => {
+        const baseDate = Date.now();
+        const newReactions = [
+            {user_id: 'user_id_2', create_at: baseDate}, // Will be sorted 2nd, after the logged-in user
+            {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 2nd user reacted first
+            {user_id: 'user_id_3', create_at: baseDate + 8000}, // Last to react, will be sorted last
+        ];
+        const newProfiles = [{id: 'user_id_1'}, {id: 'user_id_2'}, {id: 'user_id_3'}];
+        const props = {
+            ...baseProps,
+            reactions: newReactions,
+            profiles: newProfiles,
+        };
+        const getDisplayNameMock = (user) => {
+            switch (user.id) {
+            case 'user_id_1':
+                return 'username_1';
+            case 'user_id_2':
+                return 'username_2';
+            case 'user_id_3':
+                return 'username_3';
+            default:
+                return '';
+            }
+        };
+
+        const wrapper = shallow(<Reaction {...props}/>);
+
+        const {currentUserReacted, users} = wrapper.instance().getSortedUsers(getDisplayNameMock);
+        expect(currentUserReacted).toEqual(true);
+        assert.deepEqual(
+            users,
+            ['You', 'username_2', 'username_3']
+        );
     });
 });

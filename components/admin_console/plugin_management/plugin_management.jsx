@@ -8,13 +8,14 @@ import {Link} from 'react-router-dom';
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 import AdminSettings from '../admin_settings.jsx';
 import BooleanSetting from '../boolean_setting.jsx';
 import SettingsGroup from '../settings_group.jsx';
+import TextSetting from '../text_setting.jsx';
 
 const PluginItemState = ({state}) => {
     switch (state) {
@@ -410,9 +411,6 @@ export default class PluginManagement extends AdminSettings {
     constructor(props) {
         super(props);
 
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.renderSettings = this.renderSettings.bind(this);
-
         this.state = Object.assign(this.state, {
             loading: true,
             fileSelected: false,
@@ -426,13 +424,17 @@ export default class PluginManagement extends AdminSettings {
             confirmOverwriteUploadModal: false,
             overwritingInstall: false,
             confirmOverwriteInstallModal: false,
+            showRemoveModal: false,
+            resolveRemoveModal: null,
         });
     }
 
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.PluginSettings.Enable = this.state.enable;
         config.PluginSettings.EnableUploads = this.state.enableUploads;
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
+        config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
+        config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
 
         return config;
     }
@@ -442,6 +444,8 @@ export default class PluginManagement extends AdminSettings {
             enable: config.PluginSettings.Enable,
             enableUploads: config.PluginSettings.EnableUploads,
             allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
+            enableMarketplace: config.PluginSettings.EnableMarketplace,
+            marketplaceUrl: config.PluginSettings.MarketplaceUrl,
         };
 
         return state;
@@ -587,6 +591,34 @@ export default class PluginManagement extends AdminSettings {
         });
     }
 
+    getMarketplaceUrlHelpText = (url) => {
+        return (
+            <div>
+                {
+                    url === '' &&
+                    <div className='alert-warning'>
+                        <i className='fa fa-warning'/>
+                        <FormattedMarkdownMessage
+                            id='admin.plugins.settings.marketplaceUrlDesc.empty'
+                            defaultMessage=' Marketplace URL is a required field.'
+                        />
+                    </div>
+                }
+                {
+                    url !== '' &&
+                    <FormattedMarkdownMessage
+                        id='admin.plugins.settings.marketplaceUrlDesc'
+                        defaultMessage='URL of the marketplace server.'
+                    />
+                }
+            </div>
+        );
+    }
+
+    canSave = () => {
+        return this.state.marketplaceUrl !== '';
+    }
+
     handleSubmitInstall = (e) => {
         e.preventDefault();
         return this.installFromUrl(false);
@@ -606,13 +638,24 @@ export default class PluginManagement extends AdminSettings {
         return this.installFromUrl(true);
     }
 
-    handleRemove = async (e) => {
-        this.setState({lastMessage: null, serverError: null});
+    showRemovePluginModal = (e) => {
         e.preventDefault();
         const pluginId = e.currentTarget.getAttribute('data-plugin-id');
-        this.setState({removing: pluginId});
+        this.setState({showRemoveModal: true, removing: pluginId});
+    }
 
-        const {error} = await this.props.actions.removePlugin(pluginId);
+    handleRemovePluginCancel = () => {
+        this.setState({showRemoveModal: false, removing: null});
+    }
+
+    handleRemovePlugin = () => {
+        this.setState({showRemoveModal: false});
+        this.handleRemove();
+    }
+
+    handleRemove = async () => {
+        this.setState({lastMessage: null, serverError: null});
+        const {error} = await this.props.actions.removePlugin(this.state.removing);
         this.setState({removing: null});
 
         if (error) {
@@ -688,6 +731,41 @@ export default class PluginManagement extends AdminSettings {
         );
     }
 
+    renderRemovePluginModal = ({show, onConfirm, onCancel}) => {
+        const title = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.title'
+                defaultMessage='Remove plugin?'
+            />
+        );
+
+        const message = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.desc'
+                defaultMessage='Are you sure you would like to remove the plugin?'
+            />
+        );
+
+        const removeButton = (
+            <FormattedMessage
+                id='admin.plugin.remove_modal.overwrite'
+                defaultMessage='Remove'
+            />
+        );
+
+        return (
+            <ConfirmModal
+                show={show}
+                title={title}
+                message={message}
+                confirmButtonClass='btn btn-danger'
+                confirmButtonText={removeButton}
+                onConfirm={onConfirm}
+                onCancel={onCancel}
+            />
+        );
+    }
+
     renderEnablePluginsSetting = () => {
         const hideEnablePlugins = this.props.config.ExperimentalSettings.RestrictSystemAdmin;
         if (!hideEnablePlugins) {
@@ -715,7 +793,7 @@ export default class PluginManagement extends AdminSettings {
         return null;
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const {enableUploads} = this.state;
         const enable = this.props.config.PluginSettings.Enable;
         let serverError = '';
@@ -790,7 +868,7 @@ export default class PluginManagement extends AdminSettings {
                         removing={this.state.removing === pluginStatus.id}
                         handleEnable={this.handleEnable}
                         handleDisable={this.handleDisable}
-                        handleRemove={this.handleRemove}
+                        handleRemove={this.showRemovePluginModal}
                         showInstances={showInstances}
                         hasSettings={hasSettings}
                     />
@@ -862,6 +940,12 @@ export default class PluginManagement extends AdminSettings {
             onCancel: this.handleOverwriteUploadPluginCancel,
         });
 
+        const removePluginModal = this.state.showRemoveModal && this.renderRemovePluginModal({
+            show: this.state.showRemoveModal,
+            onConfirm: this.handleRemovePlugin,
+            onCancel: this.handleRemovePluginCancel,
+        });
+
         return (
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
@@ -916,9 +1000,45 @@ export default class PluginManagement extends AdminSettings {
                                 </p>
                             </div>
                         </div>
+                        <BooleanSetting
+                            id='enableMarketplace'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enableMarketplace'
+                                    defaultMessage='Enable Marketplace:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.enableMarketplaceDesc'
+                                    defaultMessage='When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html).'
+                                />
+                            }
+                            value={this.state.enableMarketplace}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
+                        />
+
+                        <TextSetting
+                            id={'marketplaceUrl'}
+                            type={'input'}
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.marketplaceUrl'
+                                    defaultMessage='Marketplace URL:'
+                                />
+                            }
+                            helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
+                            value={this.state.marketplaceUrl}
+                            disabled={!this.state.enable || !this.state.enableMarketplace}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
+                        />
                         {pluginsContainer}
                     </SettingsGroup>
                     {overwriteUploadPluginModal}
+                    {removePluginModal}
                 </div>
             </div>
         );

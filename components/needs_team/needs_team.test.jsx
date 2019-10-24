@@ -26,7 +26,7 @@ jest.mock('utils/utils', () => ({
     applyTheme: jest.fn(),
     localizeMessage: jest.fn(),
     areObjectsEqual: jest.fn(),
-    disableVirtList: jest.fn(),
+    isGuest: jest.fn(),
 }));
 
 describe('components/needs_team', () => {

@@ -7,7 +7,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed, localizeMessage} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent.jsx';
@@ -24,6 +24,7 @@ import TeamMembersModal from 'components/team_members_modal';
 import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
+import MarketplaceModal from 'components/plugin_marketplace';
 
 import Menu from 'components/widgets/menu/menu.jsx';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
@@ -46,6 +47,7 @@ export default class MainMenu extends React.PureComponent {
         enableOutgoingWebhooks: PropTypes.bool.isRequired,
         enableUserCreation: PropTypes.bool.isRequired,
         enableEmailInvitations: PropTypes.bool.isRequired,
+        enablePluginMarketplace: PropTypes.bool.isRequired,
         experimentalPrimaryTeam: PropTypes.string,
         helpLink: PropTypes.string,
         reportAProblemLink: PropTypes.string,
@@ -288,6 +290,18 @@ export default class MainMenu extends React.PureComponent {
                             show={!this.props.mobile && (this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider)}
                             to={'/' + this.props.teamName + '/integrations'}
                             text={localizeMessage('navbar_dropdown.integrations', 'Integrations')}
+                        />
+                    </TeamPermissionGate>
+                    <TeamPermissionGate
+                        teamId={this.props.teamId}
+                        permissions={[Permissions.MANAGE_SYSTEM]}
+                    >
+                        <Menu.ItemToggleModalRedux
+                            id='marketplaceModal'
+                            modalId={ModalIdentifiers.PLUGIN_MARKETPLACE}
+                            show={!this.props.mobile && this.props.enablePluginMarketplace}
+                            dialogType={MarketplaceModal}
+                            text={localizeMessage('navbar_dropdown.marketplace', 'Plugin Marketplace')}
                         />
                     </TeamPermissionGate>
                     <Menu.ItemLink

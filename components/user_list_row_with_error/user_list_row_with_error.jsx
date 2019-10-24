@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
+import ProfilePicture from 'components/profile_picture';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -16,7 +16,7 @@ export default class UserListRowWithError extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
         status: PropTypes.string,
-        extraInfo: PropTypes.arrayOf(PropTypes.object),
+        extraInfo: PropTypes.array,
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
         actionUserProps: PropTypes.object,
@@ -35,11 +35,9 @@ export default class UserListRowWithError extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-
-        this.onError = this.onError.bind(this);
     }
 
-    onError(errorObj) {
+    onError = (errorObj) => {
         this.setState({
             error: errorObj,
         });
@@ -108,6 +106,7 @@ export default class UserListRowWithError extends React.Component {
 
         return (
             <div
+                data-testid='userListRow'
                 key={this.props.user.id}
                 className='more-modal__row'
             >

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, intlShape} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
@@ -86,8 +86,7 @@ export function shouldRenderFromPropsAndState(props, nextProps, state, nextState
 
     return false;
 }
-
-export default class SearchResults extends React.Component {
+class SearchResults extends React.Component {
     static propTypes = {
         results: PropTypes.array,
         matches: PropTypes.object,
@@ -106,9 +105,11 @@ export default class SearchResults extends React.Component {
         channelDisplayName: PropTypes.string.isRequired,
         dataRetentionEnableMessageDeletion: PropTypes.bool.isRequired,
         dataRetentionMessageRetentionDays: PropTypes.string,
+        isOpened: PropTypes.bool,
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -181,10 +182,11 @@ export default class SearchResults extends React.Component {
         if (
             this.props.isSearchingTerm ||
             this.props.isSearchingFlaggedPost ||
-            this.props.isSearchingPinnedPost
+            this.props.isSearchingPinnedPost ||
+            !this.props.isOpened
         ) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <div className='sidebar--right__loading'>
                         <LoadingSpinner text={Utils.localizeMessage('search_header.loading', 'Searching')}/>
                     </div>
@@ -192,7 +194,7 @@ export default class SearchResults extends React.Component {
             );
         } else if (this.props.isFlaggedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <FlagPostSearchHint
                         dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
                         dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
@@ -201,7 +203,7 @@ export default class SearchResults extends React.Component {
             );
         } else if (this.props.isPinnedPosts && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <PinPostSearchHint
                         dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
                         dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
@@ -210,13 +212,13 @@ export default class SearchResults extends React.Component {
             );
         } else if (!searchTerms && noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <SearchHint/>
                 </div>
             );
         } else if (noResults) {
             ctls = (
-                <div className='sidebar--right__subheader'>
+                <div className='sidebar--right__subheader a11y__section'>
                     <NoResultSearchHint
                         dataRetentionEnableMessageDeletion={this.props.dataRetentionEnableMessageDeletion}
                         dataRetentionMessageRetentionDays={this.props.dataRetentionMessageRetentionDays}
@@ -258,44 +260,33 @@ export default class SearchResults extends React.Component {
             }
         }
 
-        var formattedTitle = (
-            <FormattedMessage
-                id='search_header.results'
-                defaultMessage='Search Results'
-            />
-        );
+        var formattedTitle = this.props.intl.formatMessage({
+            id: 'search_header.results',
+            defaultMessage: 'Search Results',
+        });
 
         if (this.props.isMentionSearch) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title2'
-                    defaultMessage='Recent Mentions'
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title2',
+                defaultMessage: 'Recent Mentions',
+            });
         } else if (this.props.isFlaggedPosts) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title3'
-                    defaultMessage='Flagged Posts'
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title3',
+                defaultMessage: 'Flagged Posts',
+            });
         } else if (this.props.isPinnedPosts) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title4'
-                    defaultMessage='Pinned posts in {channelDisplayName}'
-                    values={{
-                        channelDisplayName: this.props.channelDisplayName,
-                    }}
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title4',
+                defaultMessage: 'Pinned posts in {channelDisplayName}',
+            }, {
+                channelDisplayName: this.props.channelDisplayName,
+            });
         } else if (this.props.isCard) {
-            formattedTitle = (
-                <FormattedMessage
-                    id='search_header.title5'
-                    defaultMessage='Extra information'
-                />
-            );
+            formattedTitle = this.props.intl.formatMessage({
+                id: 'search_header.title5',
+                defaultMessage: 'Extra information',
+            });
         }
 
         return (
@@ -315,7 +306,17 @@ export default class SearchResults extends React.Component {
                 >
                     <div
                         id='search-items-container'
-                        className='search-items-container'
+                        role='application'
+                        className='search-items-container post-list__table a11y__region'
+                        data-a11y-sort-order='3'
+                        data-a11y-focus-child={true}
+                        data-a11y-loop-navigation={false}
+                        aria-label={this.props.intl.formatMessage({
+                            id: 'accessibility.sections.rhs',
+                            defaultMessage: '{regionTitle} complimentary region',
+                        }, {
+                            regionTitle: formattedTitle,
+                        })}
                     >
                         {ctls}
                         {loadingMorePostsComponent}
@@ -325,3 +326,5 @@ export default class SearchResults extends React.Component {
         );
     }
 }
+
+export default injectIntl(SearchResults);

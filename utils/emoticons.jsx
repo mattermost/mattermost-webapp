@@ -26,6 +26,25 @@ export const emoticonPatterns = {
 
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_-]+):)/g;
 
+export function matchEmoticons(text) {
+    let emojis = text.match(EMOJI_PATTERN);
+
+    for (const name of Object.keys(emoticonPatterns)) {
+        const pattern = emoticonPatterns[name];
+
+        const matches = text.match(pattern);
+        if (matches) {
+            if (emojis) {
+                emojis = emojis.concat(matches);
+            } else {
+                emojis = matches;
+            }
+        }
+    }
+
+    return emojis;
+}
+
 export function handleEmoticons(text, tokens) {
     let output = text;
 

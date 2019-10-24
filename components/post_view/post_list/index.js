@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
 import {getLatestPostId, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
@@ -18,16 +19,7 @@ import {
     loadLatestPosts,
 } from 'actions/views/channel';
 
-import {disableVirtList} from 'utils/utils.jsx';
-
-import IePostList from '../post_list_ie';
-
-import PostListWrapper from './post_list.jsx';
-
-let PostList = PostListWrapper;
-if (disableVirtList()) {
-    PostList = IePostList;
-}
+import PostList from './post_list.jsx';
 
 const isFirstLoad = (state, channelId) => !state.entities.posts.postsInChannel[channelId];
 const memoizedGetLatestPostId = memoizeResult((postIds) => getLatestPostId(postIds));
@@ -98,6 +90,8 @@ function mapDispatchToProps(dispatch) {
             loadPostsAround,
             checkAndSetMobileView,
             syncPostsInChannel,
+            markChannelAsViewed,
+            markChannelAsRead,
         }, dispatch),
     };
 }

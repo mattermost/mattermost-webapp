@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {emailToOAuth} from 'actions/admin_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
@@ -23,13 +23,10 @@ export default class EmailToOAuth extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.submit = this.submit.bind(this);
-        this.preSubmit = this.preSubmit.bind(this);
-
         this.state = {showMfa: false, password: ''};
     }
 
-    preSubmit(e) {
+    preSubmit = (e) => {
         e.preventDefault();
         var state = {};
 
@@ -48,7 +45,7 @@ export default class EmailToOAuth extends React.PureComponent {
         this.submit(this.props.email, password, '');
     }
 
-    submit(loginId, password, token) {
+    submit = (loginId, password, token) => {
         emailToOAuth(
             loginId,
             password,

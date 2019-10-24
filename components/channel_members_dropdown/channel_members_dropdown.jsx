@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
@@ -123,12 +123,12 @@ export default class ChannelMembersDropdown extends React.Component {
             return null;
         }
 
-        if (this.props.canChangeMemberRoles) {
+        if (this.props.canChangeMemberRoles || this.props.canRemoveMember) {
             const role = this.renderRole(isChannelAdmin, isGuest);
 
             const canRemoveFromChannel = this.props.canRemoveMember && (this.props.channel.name !== Constants.DEFAULT_CHANNEL || isGuest) && !this.props.channel.group_constrained;
-            const canMakeChannelMember = isChannelAdmin && !isGuest;
-            const canMakeChannelAdmin = supportsChannelAdmin && !isChannelAdmin && !isGuest;
+            const canMakeChannelMember = Boolean(isChannelAdmin && !isGuest && this.props.canChangeMemberRoles);
+            const canMakeChannelAdmin = Boolean(supportsChannelAdmin && !isChannelAdmin && !isGuest && this.props.canChangeMemberRoles);
 
             if ((canMakeChannelMember || canMakeChannelAdmin || canRemoveFromChannel)) {
                 const {index, totalUsers} = this.props;
@@ -182,7 +182,7 @@ export default class ChannelMembersDropdown extends React.Component {
 
         return (
             <div>
-                {this.renderRole(isChannelAdmin)}
+                {this.renderRole(isChannelAdmin, isGuest)}
             </div>
         );
     }

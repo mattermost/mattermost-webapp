@@ -32,6 +32,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
   >
     <CloseIcon
       className="close-x"
+      id="closeIcon"
       onClick={[Function]}
     />
     test
@@ -62,6 +63,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
   >
     <CloseIcon
       className="close-x"
+      id="closeIcon"
       onClick={[Function]}
     />
     test

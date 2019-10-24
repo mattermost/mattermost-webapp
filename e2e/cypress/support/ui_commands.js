@@ -133,31 +133,36 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
     cy.wait(TIMEOUTS.TINY);
 });
 
+function waitUntilPermanentPost() {
+    cy.get('#postListContent').should('be.visible');
+    cy.waitUntil(() => cy.getAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
+}
+
 Cypress.Commands.add('getLastPost', () => {
-    cy.get('#post-list', {timeout: TIMEOUTS.HUGE}).should('be.visible');
-    return cy.getAllByTestId('postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
+    waitUntilPermanentPost();
+
+    cy.getAllByTestId('postView').last();
 });
 
-Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
-    cy.getLastPost().parent().as('parent');
+Cypress.Commands.add('getLastPostId', () => {
+    waitUntilPermanentPost();
 
-    if (opts.force) {
-        cy.get('@parent').should('have.attr', 'id').invoke('replace', 'post_', '');
-    } else {
-        cy.get('@parent').should('have.attr', 'id').and('not.include', ':').
-            invoke('replace', 'post_', '');
-    }
+    cy.getAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'post_', '');
 });
 
 /**
-* Get post ID for nth newest post
-* .eq() is 0-based index, hence nthPost-2 to get the nth post
-@param {Integer} nthPost - nth newest post
+* Get post ID based on index of post list
+* @param {Integer} index
+* zero (0)         : oldest post
+* positive number  : from old to latest post
+* negative number  : from new to oldest post
 */
-Cypress.Commands.add('getNthPostId', (nthPost) => {
-    return cy.get('#postListContent [id^=post]:first').parent().parent().siblings().eq(nthPost - 2).find('[id^=post]:first').invoke('attr', 'id').then((nthPostId) => {
-        return nthPostId.replace('post_', '');
-    });
+Cypress.Commands.add('getNthPostId', (index = 0) => {
+    waitUntilPermanentPost();
+
+    cy.getAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'post_', '');
 });
 
 /**
@@ -168,7 +173,7 @@ Cypress.Commands.add('getNthPostId', (nthPost) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.MEDIUM).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -347,7 +352,7 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 // ************************************************************
 
 Cypress.Commands.add('getCurrentChannelId', () => {
-    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+    return cy.get('#channel-header', {timeout: TIMEOUTS.LARGE}).invoke('attr', 'data-channelid');
 });
 
 /**
@@ -367,6 +372,27 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.TINY);
+});
+
+/**
+ * On default "ad-1" team, create and visit a new channel
+ */
+Cypress.Commands.add('createAndVisitNewChannel', () => {
+    cy.visit('/ad-1/channels/town-square');
+
+    cy.getCurrentTeamId().then((teamId) => {
+        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+            const channel = res.body;
+
+            // # Visit the new channel
+            cy.visit(`/ad-1/channels/${channel.name}`);
+
+            // * Verify channel's display name
+            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+            cy.wrap(channel);
+        });
+    });
 });
 
 // ***********************************************************

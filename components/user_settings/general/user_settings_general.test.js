@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
@@ -18,7 +20,6 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         updateSection: jest.fn(),
         updateTab: jest.fn(),
         activeSection: '',
-        prevActiveSection: '',
         closeModal: jest.fn(),
         collapseModal: jest.fn(),
         actions: {
@@ -32,6 +33,15 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         },
         maxFileSize: 1024,
     };
+
+    const mockStore = configureStore();
+    const state = {
+        views: {
+            settings: {},
+        },
+    };
+
+    const store = mockStore(state);
 
     test('submitUser() should have called updateMe', () => {
         const updateMe = jest.fn().mockResolvedValue({data: true});
@@ -97,21 +107,33 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         props.ldapPositionAttributeSet = false;
         props.samlPositionAttributeSet = false;
 
-        let wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
+        let wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UserSettingsGeneral {...props}/>
+            </Provider>
+        );
         expect(wrapper.find('#position').length).toBe(1);
         expect(wrapper.find('#position').is('input')).toBeTruthy();
 
         props.ldapPositionAttributeSet = true;
         props.samlPositionAttributeSet = false;
 
-        wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
+        wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UserSettingsGeneral {...props}/>
+            </Provider>
+        );
         expect(wrapper.find('#position').length).toBe(0);
 
         props.user.auth_service = 'saml';
         props.ldapPositionAttributeSet = false;
         props.samlPositionAttributeSet = true;
 
-        wrapper = mountWithIntl(<UserSettingsGeneral {...props}/>);
+        wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UserSettingsGeneral {...props}/>
+            </Provider>
+        );
         expect(wrapper.find('#position').length).toBe(0);
     });
 });

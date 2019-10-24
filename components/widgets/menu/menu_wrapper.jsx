@@ -4,9 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import MenuWrapperAnimation from './menu_wrapper_animation.jsx';
+
+import './menu_wrapper.scss';
 
 export default class MenuWrapper extends React.PureComponent {
     static propTypes = {

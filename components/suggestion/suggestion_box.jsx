@@ -7,7 +7,7 @@ import React from 'react';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent.jsx';
 import * as Utils from 'utils/utils.jsx';
 
@@ -188,6 +188,14 @@ export default class SuggestionBox extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        const {value} = this.props;
+
+        // Post was just submitted, update pretext property.
+        if (value === '' && this.pretext !== value) {
+            this.handlePretextChanged(value);
+            return;
+        }
+
         if (prevProps.contextId !== this.props.contextId) {
             const textbox = this.getTextbox();
             const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
@@ -654,7 +662,7 @@ export default class SuggestionBox extends React.Component {
                 <div
                     ref={this.suggestionReadOut}
                     aria-live='polite'
-                    role='alert'
+                    role={UserAgent.isFirefox() ? '' : 'alert'}
                     className='sr-only'
                 />
                 <QuickInput

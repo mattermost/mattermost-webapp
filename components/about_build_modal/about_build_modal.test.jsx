@@ -100,10 +100,8 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper.find('#buildnumberString').text()).toBe('\u00a0123');
     });
 
-    test('should call onHide callback when the modal is hidden', (done) => {
-        function onHide() {
-            done();
-        }
+    test('should call onHide callback when the modal is hidden', () => {
+        const onHide = jest.fn();
 
         const wrapper = mountWithIntl(
             <AboutBuildModal
@@ -115,7 +113,8 @@ describe('components/AboutBuildModal', () => {
             />
         );
 
-        wrapper.find(Modal).first().props().onHide();
+        wrapper.find(Modal).first().props().onExited();
+        expect(onHide).toHaveBeenCalledTimes(1);
     });
 
     function shallowAboutBuildModal(props = {}) {

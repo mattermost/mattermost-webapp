@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -14,10 +14,6 @@ import FileInfoPreview from 'components/file_info_preview';
 export default class CodePreview extends React.Component {
     constructor(props) {
         super(props);
-
-        this.updateStateFromProps = this.updateStateFromProps.bind(this);
-        this.handleReceivedError = this.handleReceivedError.bind(this);
-        this.handleReceivedCode = this.handleReceivedCode.bind(this);
 
         this.state = {
             code: '',
@@ -37,7 +33,7 @@ export default class CodePreview extends React.Component {
         }
     }
 
-    updateStateFromProps(props) {
+    updateStateFromProps = (props) => {
         const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(props.fileInfo.extension);
 
         if (!usedLanguage || props.fileInfo.size > Constants.CODE_PREVIEW_MAX_FILE_SIZE) {
@@ -57,7 +53,7 @@ export default class CodePreview extends React.Component {
         });
     }
 
-    handleReceivedCode(data) {
+    handleReceivedCode = (data) => {
         let code = data;
         if (data.nodeName === '#document') {
             code = new XMLSerializer().serializeToString(data);
@@ -69,7 +65,7 @@ export default class CodePreview extends React.Component {
         });
     }
 
-    handleReceivedError() {
+    handleReceivedError = () => {
         this.setState({loading: false, success: false});
     }
 

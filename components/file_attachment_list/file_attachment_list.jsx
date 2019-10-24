@@ -6,7 +6,7 @@ import React from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
@@ -40,12 +40,10 @@ export default class FileAttachmentList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleImageClick = this.handleImageClick.bind(this);
-
         this.state = {showPreviewModal: false, startImgIndex: 0};
     }
 
-    handleImageClick(indexClicked) {
+    handleImageClick = (indexClicked) => {
         this.setState({showPreviewModal: true, startImgIndex: indexClicked});
     }
 

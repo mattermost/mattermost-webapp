@@ -25,7 +25,6 @@ const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
-    path.join(__dirname, 'non_npm_dependencies'),
 ];
 
 // react-hot-loader requires eval
@@ -223,7 +222,6 @@ var config = {
     resolve: {
         modules: [
             'node_modules',
-            'non_npm_dependencies',
             path.resolve(__dirname),
         ],
         alias: {
@@ -268,6 +266,7 @@ var config = {
             {from: 'images/favicon', to: 'images/favicon'},
             {from: 'images/appIcons.png', to: 'images'},
             {from: 'images/warning.png', to: 'images'},
+            {from: 'images/logo-email.png', to: 'images'},
             {from: 'images/browser-icons', to: 'images/browser-icons'},
         ]),
 

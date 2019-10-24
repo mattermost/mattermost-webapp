@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -14,20 +14,16 @@ import {SpringSystem, MathUtil} from 'rebound';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import favicon16x16 from 'images/favicon/favicon-16x16.png';
-import favicon32x32 from 'images/favicon/favicon-32x32.png';
-import favicon96x96 from 'images/favicon/favicon-96x96.png';
-import redDotFavicon16x16 from 'images/favicon/favicon-reddot-16x16.png';
-import redDotFavicon32x32 from 'images/favicon/favicon-reddot-32x32.png';
-import redDotFavicon96x96 from 'images/favicon/favicon-reddot-96x96.png';
+import favicon from 'images/favicon/favicon-16x16.png';
+import redFavicon from 'images/favicon/redfavicon-16x16.png';
 import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
-import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
 
 import SidebarHeader from './header';
@@ -148,6 +144,10 @@ export default class Sidebar extends React.PureComponent {
         currentChannel: {},
     }
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -224,7 +224,8 @@ export default class Sidebar extends React.PureComponent {
 
         this.updateTitle();
 
-        this.setBadgesActiveAndFavicon();
+        // Don't modify favicon for now: https://mattermost.atlassian.net/browse/MM-13643.
+        // this.setBadgesActiveAndFavicon();
 
         this.setFirstAndLastUnreadChannels();
         this.updateUnreadIndicators();
@@ -240,18 +241,26 @@ export default class Sidebar extends React.PureComponent {
     }
 
     setBadgesActiveAndFavicon() {
-        const link = document.querySelector('link[rel="icon"]');
-
-        if (!link) {
-            return;
-        }
-
         this.lastBadgesActive = this.badgesActive;
-        this.badgesActive = this.props.unreads.mentionCount > 0;
+        this.badgesActive = this.props.unreads.mentionCount;
 
         // update the favicon to show if there are any notifications
         if (this.lastBadgesActive !== this.badgesActive) {
-            this.updateFavicon(this.badgesActive);
+            var link = document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.id = 'favicon';
+            if (this.badgesActive) {
+                link.href = typeof redFavicon === 'string' ? redFavicon : '';
+            } else {
+                link.href = typeof favicon === 'string' ? favicon : '';
+            }
+            var head = document.getElementsByTagName('head')[0];
+            var oldLink = document.getElementById('favicon');
+            if (oldLink) {
+                head.removeChild(oldLink);
+            }
+            head.appendChild(link);
         }
     }
 
@@ -287,13 +296,11 @@ export default class Sidebar extends React.PureComponent {
             currentTeammate,
             unreads,
         } = this.props;
+        const {formatMessage} = this.context.intl;
 
-        if (currentChannel && currentTeam) {
-            let currentSiteName = '';
-            if (config.SiteName != null) {
-                currentSiteName = config.SiteName;
-            }
+        const currentSiteName = config.SiteName || '';
 
+        if (currentChannel && currentTeam && currentChannel.id) {
             let currentChannelName = currentChannel.display_name;
             if (currentChannel.type === Constants.DM_CHANNEL) {
                 if (currentTeammate != null) {
@@ -304,22 +311,8 @@ export default class Sidebar extends React.PureComponent {
             const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
             const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
-        }
-    }
-
-    updateFavicon = (active) => {
-        const link16x16 = document.querySelector('link[rel="icon"][sizes="16x16"]');
-        const link32x32 = document.querySelector('link[rel="icon"][sizes="32x32"]');
-        const link96x96 = document.querySelector('link[rel="icon"][sizes="96x96"]');
-
-        if (active) {
-            link16x16.href = typeof redDotFavicon16x16 === 'string' ? redDotFavicon16x16 : '';
-            link32x32.href = typeof redDotFavicon32x32 === 'string' ? redDotFavicon32x32 : '';
-            link96x96.href = typeof redDotFavicon96x96 === 'string' ? redDotFavicon96x96 : '';
         } else {
-            link16x16.href = typeof favicon16x16 === 'string' ? favicon16x16 : '';
-            link32x32.href = typeof favicon32x32 === 'string' ? favicon32x32 : '';
-            link96x96.href = typeof favicon96x96 === 'string' ? favicon96x96 : '';
+            document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});
         }
     }
 
@@ -646,6 +639,8 @@ export default class Sidebar extends React.PureComponent {
         if (this.props.currentTeam == null || this.props.currentUser == null) {
             return (<div/>);
         }
+
+        this.badgesActive = false;
 
         // keep track of the first and last unread channels so we can use them to set the unread indicators
         this.firstUnreadChannel = null;

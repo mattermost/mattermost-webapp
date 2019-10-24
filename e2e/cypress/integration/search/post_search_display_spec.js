@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [number] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -39,10 +39,12 @@ describe('Post search display', () => {
         cy.get('#searchbar-help-popup').within(() => {
             cy.get('h4 span').first().should('have.text', 'Search Options');
             cy.get('span ul li').first().should('have.text', 'Use "quotation marks" to search for phrases');
-            cy.get('span ul li').eq(1).should('have.text', 'Use from: to find posts from specific users and in: to find posts in specific channels');
-            cy.get('span ul li').eq(2).should('have.text', 'Use on: to find posts on a specific date');
-            cy.get('span ul li').eq(3).should('have.text', 'Use before: to find posts before a specific date');
-            cy.get('span ul li').last().should('have.text', 'Use after: to find posts after a specific date');
+            cy.get('span ul li').eq(1).should('have.text', 'Use from: to find posts from specific users');
+            cy.get('span ul li').eq(2).should('have.text', 'Use in: to find posts in specific channels');
+            cy.get('span ul li').eq(3).should('have.text', 'Use on: to find posts on a specific date');
+            cy.get('span ul li').eq(4).should('have.text', 'Use before: to find posts before a specific date');
+            cy.get('span ul li').eq(5).should('have.text', 'Use after: to find posts after a specific date');
+            cy.get('span ul li').last().should('have.text', 'Use dash "-" to exclude search terms and modifiers');
         });
     });
 });

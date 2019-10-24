@@ -149,8 +149,6 @@ export default class RequestButton extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleRequest = this.handleRequest.bind(this);
-
         this.state = {
             busy: false,
             fail: null,
@@ -158,7 +156,7 @@ export default class RequestButton extends React.Component {
         };
     }
 
-    handleRequest(e) {
+    handleRequest = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -177,7 +175,7 @@ export default class RequestButton extends React.Component {
                 },
                 (err) => {
                     let errMsg = err.message;
-                    if (this.props.includeDetailedError) {
+                    if (this.props.includeDetailedError && err.detailed_error) {
                         errMsg += ' - ' + err.detailed_error;
                     }
 
