@@ -13,6 +13,7 @@ import './team_row.scss';
 export default class TeamRow extends React.Component {
     static propTypes = {
         team: PropTypes.object.isRequired,
+        user: PropTypes.object.isRequired,
     };
     renderTeamType = (team) => {
         if (team.group_constrained) {
@@ -38,8 +39,25 @@ export default class TeamRow extends React.Component {
             />
         );
     }
-    renderTeamRole = (team) => {
-        if (team.scheme_admin) {
+    renderTeamRole = (team, user) => {
+        const isSysAdmin = Utils.isSystemAdmin(user.roles);
+        const isAdmin = team.scheme_admin && !isSysAdmin;
+        const isGuest = Utils.isGuest(user);
+        if (isGuest) {
+            return (
+                <FormattedMessage
+                    id={'admin.system_users.guest'}
+                    defaultMessage={'Guest'}
+                />
+            );
+        } else if (isSysAdmin) {
+            return (
+                <FormattedMessage
+                    id={'admin.system_users.system_admin'}
+                    defaultMessage={'System Admin'}
+                />
+            );
+        } else if (isAdmin) {
             return (
                 <FormattedMessage
                     id={'admin.systemUserDetail.teamList.teamRole.admin'}
@@ -55,7 +73,7 @@ export default class TeamRow extends React.Component {
         );
     }
     render = () => {
-        const {team} = this.props;
+        const {team, user} = this.props;
         const teamIconUrl = Utils.imageURLForTeam(team);
         return (
             <div className={'TeamRow'}>
@@ -83,7 +101,7 @@ export default class TeamRow extends React.Component {
                     </span>
 
                     <span className='TeamRow__description'>
-                        {this.renderTeamRole(team)}
+                        {this.renderTeamRole(team, user)}
                     </span>
                 </div>
             </div>

@@ -8,7 +8,14 @@ import TeamList from './team_list.jsx';
 
 describe('admin_console/system_user_detail/team_list/TeamList', () => {
     const defaultProps = {
-        userId: '1234',
+        user: {
+            username: 'jim.halpert',
+            first_name: 'Jim',
+            last_name: 'Halpert',
+            nickname: 'Big Tuna',
+            id: '1234',
+            roles: 'system_user',
+        },
         locale: 'en',
         emptyListTextId: 'emptyListTextId',
         emptyListTextDefaultMessage: 'No teams found',

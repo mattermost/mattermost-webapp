@@ -246,6 +246,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id11",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id12"
@@ -255,6 +265,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 12 description",
           "display_name": "Team 12",
           "id": "id12",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -268,6 +288,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id13",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id14"
@@ -277,6 +307,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 14 description",
           "display_name": "Team 14",
           "id": "id14",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -290,6 +330,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id15",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id16"
@@ -299,6 +349,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 16 description",
           "display_name": "Team 16",
           "id": "id16",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -312,6 +372,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id17",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id18"
@@ -321,6 +391,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 18 description",
           "display_name": "Team 18",
           "id": "id18",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -334,6 +414,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id19",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id20"
@@ -343,6 +433,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 20 description",
           "display_name": "Team 20",
           "id": "id20",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -443,6 +543,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id1",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id2"
@@ -452,6 +562,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "The 2 description",
           "display_name": "Team 2",
           "id": "id2",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -465,6 +585,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id3",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id4"
@@ -474,6 +604,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 4 description",
           "display_name": "Team 4",
           "id": "id4",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -487,6 +627,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id5",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id6"
@@ -496,6 +646,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 6 description",
           "display_name": "Team 6",
           "id": "id6",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -509,6 +669,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id7",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id8"
@@ -518,6 +688,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 8 description",
           "display_name": "Team 8",
           "id": "id8",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -531,6 +711,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id9",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id10"
@@ -540,6 +730,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "Team 10 description",
           "display_name": "Team 10",
           "id": "id10",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
@@ -640,6 +840,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "id": "id1",
         }
       }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
+        }
+      }
     />
     <TeamRow
       key="id2"
@@ -649,6 +859,16 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
           "description": "The 2 description",
           "display_name": "Team 2",
           "id": "id2",
+        }
+      }
+      user={
+        Object {
+          "first_name": "Jim",
+          "id": "1234",
+          "last_name": "Halpert",
+          "nickname": "Big Tuna",
+          "roles": "system_user",
+          "username": "jim.halpert",
         }
       }
     />
