@@ -140,7 +140,10 @@ export default class TeamButton extends React.Component {
         }
 
         return isDraggable ? (
-            <Draggable draggableId={teamId} index={teamIndex}>
+            <Draggable
+                draggableId={teamId}
+                index={teamIndex}
+            >
                 {(provided, snapshot) => (
                     <div
                         ref={provided.innerRef}
@@ -183,4 +186,5 @@ TeamButton.propTypes = {
     switchTeam: PropTypes.func.isRequired,
     isDraggable: PropTypes.bool,
     teamIndex: PropTypes.number,
+    teamId: PropTypes.string,
 };

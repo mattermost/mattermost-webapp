@@ -13,9 +13,9 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
+import {Preferences} from 'utils/constants.jsx';
 
 import TeamSidebar from './team_sidebar_controller.jsx';
-import { Preferences } from 'utils/constants.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -32,7 +32,7 @@ function mapStateToProps(state) {
         experimentalPrimaryTeam,
         locale: getCurrentLocale(state),
         moreTeamsToJoin,
-        userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, "", "")
+        userTeamsOrderPreference: get(state, Preferences.TEAMS_ORDER, '', ''),
     };
 }
 

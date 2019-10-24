@@ -54,16 +54,17 @@ export default class TeamSidebar extends React.Component {
         actions: PropTypes.shape({
             getTeams: PropTypes.func.isRequired,
             switchTeam: PropTypes.func.isRequired,
-            updateTeamsOrderForUser: PropTypes.func.isRequired
+            updateTeamsOrderForUser: PropTypes.func.isRequired,
         }).isRequired,
+        userTeamsOrderPreference: PropTypes.string,
     }
 
     state = {
         teamsOrder: filterAndSortTeamsByDisplayName(
             this.props.myTeams,
             this.props.locale,
-            this.props.userTeamsOrderPreference
-        )
+            this.props.userTeamsOrderPreference,
+        ),
     }
 
     componentDidMount() {
@@ -72,7 +73,7 @@ export default class TeamSidebar extends React.Component {
 
     onDragEnd = (result) => {
         const {
-            updateTeamsOrderForUser
+            updateTeamsOrderForUser,
         } = this.props.actions;
 
         if (!result.destination) {
@@ -92,8 +93,8 @@ export default class TeamSidebar extends React.Component {
         const pushElement = (list, idx, itemId) => {
             return [
                 ...list.slice(0, idx),
-                teams.find(team => team.id === itemId),
-                ...list.slice(idx, list.length)
+                teams.find((team) => team.id === itemId),
+                ...list.slice(idx, list.length),
             ];
         };
 
@@ -102,9 +103,8 @@ export default class TeamSidebar extends React.Component {
             destinationIndex,
             result.draggableId
         );
-        
-        updateTeamsOrderForUser(newTeamsOrder.map(o=>o.id));
-        this.setState({teamsOrder: newTeamsOrder})
+        updateTeamsOrderForUser(newTeamsOrder.map((o) => o.id));
+        this.setState({teamsOrder: newTeamsOrder});
     }
 
     render() {
@@ -188,9 +188,12 @@ export default class TeamSidebar extends React.Component {
 
         return (
             <div
-                className={classNames("team-sidebar", { "move--right": this.props.isOpen})}
+                className={classNames('team-sidebar', {'move--right': this.props.isOpen})}
             >
-                <div className="team-wrapper" id="teamSidebarWrapper">
+                <div
+                    className='team-wrapper'
+                    id='teamSidebarWrapper'
+                >
                     <Scrollbars
                         autoHide={true}
                         autoHideTimeout={500}
@@ -204,8 +207,8 @@ export default class TeamSidebar extends React.Component {
                             onDragEnd={this.onDragEnd}
                         >
                             <Droppable
-                                droppableId="my_teams"
-                                type="TEAM_BUTTON"
+                                droppableId='my_teams'
+                                type='TEAM_BUTTON'
                             >
                                 {(provided, snapshot) => {
                                     return (

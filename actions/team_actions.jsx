@@ -93,9 +93,9 @@ export function updateTeamsOrderForUser(teamIds) {
         const currentUserId = getCurrentUserId(state);
         const teamOrderPreferences = [{
             user_id: currentUserId,
-            name: "",
+            name: '',
             category: Preferences.TEAMS_ORDER,
-            value: teamIds.join(',')
+            value: teamIds.join(','),
         }];
         dispatch(savePreferences(currentUserId, teamOrderPreferences));
     };
