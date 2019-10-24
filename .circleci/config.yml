@@ -91,7 +91,7 @@ jobs:
     steps:
       - checkout
       - *restore_cache
-      - run: make build-storybook
+      - run: npm run build-storybook
       - store_artifacts:
           path: ~/mattermost-webapp/storybook-static
       - persist_to_workspace:
