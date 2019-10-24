@@ -9,7 +9,7 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 
 import store from 'stores/redux_store.jsx';
 
-import {Constants} from 'utils/constants';
+import {Constants} from 'utils/constants.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -154,10 +154,11 @@ export default class ChannelMentionProvider extends Provider {
         });
 
         const handleChannels = (channels, withError) => {
-            const myMembers = getMyChannelMemberships(store.getState());
-            if (this.shouldCancelDispatch(prefix)) {
+            if (prefix !== this.latestPrefix || this.shouldCancelDispatch(prefix)) {
                 return;
             }
+
+            const myMembers = getMyChannelMemberships(store.getState());
 
             if (channels.length === 0 && !withError) {
                 this.lastPrefixWithNoResults = prefix;
