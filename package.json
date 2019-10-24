@@ -94,6 +94,7 @@
     "@storybook/addons": "5.2.1",
     "@storybook/react": "5.2.1",
     "@types/chart.js": "2.8.5",
+    "@types/jquery": "3.3.31",
     "@types/react-bootstrap": "0.32.20",
     "@types/react-color": "3.0.1",
     "@types/react-intl": "2.3.18",
