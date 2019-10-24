@@ -341,10 +341,7 @@ export default class MoreDirectChannels extends React.Component {
                 <div
                     className='more-modal__details'
                 >
-                    <div
-                        data-testid='username'
-                        className='more-modal__name'
-                    >
+                    <div className='more-modal__name'>
                         {modalName}
                         <BotBadge
                             show={Boolean(option.is_bot)}
