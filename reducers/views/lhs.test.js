@@ -4,7 +4,7 @@
 import {TeamTypes} from 'mattermost-redux/action_types';
 
 import lhsReducer from 'reducers/views/lhs';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 
 describe('Reducers.LHS', () => {
     const initialState = {

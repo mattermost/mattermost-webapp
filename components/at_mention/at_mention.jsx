@@ -101,6 +101,7 @@ export default class AtMention extends React.PureComponent {
                     onHide={this.hideOverlay}
                 >
                     <ProfilePopover
+                        className='user-profile-popover'
                         userId={user.id}
                         src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                         isRHS={this.props.isRHS}

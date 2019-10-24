@@ -20,7 +20,7 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
+import {Constants, Preferences, UserStatuses} from 'utils/constants';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
