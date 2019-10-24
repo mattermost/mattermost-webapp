@@ -10,7 +10,6 @@ export default class ShowSearchButton extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
             openRHSSearch: PropTypes.func.isRequired,
-            updateRhsState: PropTypes.func.isRequired,
         }).isRequired,
     }
 
