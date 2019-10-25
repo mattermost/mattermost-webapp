@@ -8,16 +8,16 @@ import Setting from './setting';
 type BoolSettingProps = {
     id: string;
     label: React.ReactNode;
-    labelClassName: string; // This is optional property to allow defaults props for ts [1]
+    labelClassName: string;
     helpText?: React.ReactNode;
     placeholder: string;
     value: boolean;
-    inputClassName: string; // see [1]
+    inputClassName: string;
     onChange(name: string, value: any): void; // value is any since onChange is a common func for inputs and checkboxes
 }
 
 export default class BoolSetting extends React.Component<BoolSettingProps> {
-    private static defaultProps = {
+    public static defaultProps: Partial<BoolSettingProps> = {
         labelClassName: '',
         inputClassName: '',
     };
