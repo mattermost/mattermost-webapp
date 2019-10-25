@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 
 import thunk from 'redux-thunk';
 
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 import {executeCommand} from './command';
@@ -48,7 +48,7 @@ const initialState = {
     },
 };
 
-jest.mock('utils/user_agent.jsx');
+jest.mock('utils/user_agent');
 jest.mock('actions/global_actions.jsx');
 
 describe('executeCommand', () => {
