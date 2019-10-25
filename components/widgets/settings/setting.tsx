@@ -2,19 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Setting = (props) => {
-    const {
-        children,
-        footer,
-        helpText,
-        inputId,
-        label,
-        labelClassName,
-        inputClassName,
-    } = props;
+interface SettingsPropsInterface {
+    inputId?: string;
+    label: React.ReactNode;
+    labelClassName?: string;
+    inputClassName?: string;
+    children: React.ReactNode;
+    helpText?: React.ReactNode;
+    footer?: React.ReactNode;
+}
 
+const Setting: React.FunctionComponent<SettingsPropsInterface> = ({
+    inputId,
+    label,
+    labelClassName,
+    inputClassName,
+    children,
+    footer,
+    helpText,
+}) => {
     return (
         <div className='form-group'>
             <label
@@ -32,16 +39,6 @@ const Setting = (props) => {
             </div>
         </div>
     );
-};
-
-Setting.propTypes = {
-    inputId: PropTypes.string,
-    label: PropTypes.node.isRequired,
-    labelClassName: PropTypes.string,
-    inputClassName: PropTypes.string,
-    children: PropTypes.node.isRequired,
-    helpText: PropTypes.node,
-    footer: PropTypes.node,
 };
 
 export default Setting;
