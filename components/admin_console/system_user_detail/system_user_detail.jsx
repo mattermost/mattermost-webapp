@@ -406,7 +406,7 @@ export default class SystemUserDetail extends React.PureComponent {
                             )}
                         >
                             <TeamList
-                                userId={this.props.user.id}
+                                user={this.props.user}
                                 userDetailCallback={this.setTeamsData}
                                 refreshTeams={this.state.refreshTeams}
                             />

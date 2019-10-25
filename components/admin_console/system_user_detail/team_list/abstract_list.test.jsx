@@ -8,11 +8,21 @@ import AbstractList from './abstract_list.jsx';
 import TeamRow from './team_row.jsx';
 
 describe('admin_console/system_user_detail/team_list/AbstractList', () => {
+    const user = {
+        username: 'jim.halpert',
+        first_name: 'Jim',
+        last_name: 'Halpert',
+        nickname: 'Big Tuna',
+        id: '1234',
+        roles: 'system_user',
+    };
+
     const renderRow = jest.fn((item) => {
         return (
             <TeamRow
                 key={item.id}
                 team={item}
+                user={user}
                 onRowClick={jest.fn()}
             />
         );

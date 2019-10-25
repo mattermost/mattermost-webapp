@@ -38,7 +38,7 @@ const headerLabels = [
 
 export default class TeamList extends React.Component {
     static propTypes = {
-        userId: PropTypes.string.isRequired,
+        user: PropTypes.object.isRequired,
         locale: PropTypes.string.isRequired,
         emptyListTextId: PropTypes.string.isRequired,
         emptyListTextDefaultMessage: PropTypes.string.isRequired,
@@ -73,7 +73,7 @@ export default class TeamList extends React.Component {
         }
     }
 
-    getTeamsAndMemberships = async (userId = this.props.userId) => {
+    getTeamsAndMemberships = async (userId = this.props.user.id) => {
         const teams = await this.props.actions.getTeamsData(userId);
         const memberships = await this.props.actions.getTeamMembersForUser(userId);
         return Promise.all([teams, memberships]).
@@ -106,7 +106,7 @@ export default class TeamList extends React.Component {
                 actions={this.props.actions}
                 emptyListTextId={this.props.emptyListTextId}
                 emptyListTextDefaultMessage={this.props.emptyListTextDefaultMessage}
-                userId={this.props.userId}
+                userId={this.props.user.id}
             />
         );
     }
@@ -116,6 +116,7 @@ export default class TeamList extends React.Component {
             <TeamRow
                 key={item.id}
                 team={item}
+                user={this.props.user}
                 onRowClick={this.onTeamClick}
             />
         );
