@@ -1198,6 +1198,19 @@ export function isValidUsername(name) {
     return error;
 }
 
+export function isValidBotUsername(name) {
+    let error = isValidUsername(name);
+    if (error) {
+        return error;
+    }
+
+    if (name.endsWith('.')) {
+        error = "Must not end with '.' symbol.";
+    }
+
+    return error;
+}
+
 export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
 }
