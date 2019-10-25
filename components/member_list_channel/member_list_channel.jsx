@@ -31,13 +31,14 @@ export default class MemberListChannel extends React.PureComponent {
         }).isRequired,
     }
 
-
     constructor(props) {
         super(props);
+
+        this.searchTimeoutId = 0;
+
         this.state = {
             loading: true,
             searchTerm: props.searchTerm,
-            searchTimeoutId: 0,
         };
     }
 
@@ -63,19 +64,19 @@ export default class MemberListChannel extends React.PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.searchTerm !== prevState.searchTerm) {
-            return {searchTerm: nextProps.searchTerm}
+            return {searchTerm: nextProps.searchTerm};
         }
         return null;
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.searchTerm !== this.props.searchTerm) {
-            clearTimeout(this.state.searchTimeoutId);
+            clearTimeout(this.searchTimeoutId);
             const searchTerm = this.props.searchTerm;
 
             if (searchTerm === '') {
                 this.loadComplete();
-                this.setState({searchTimeoutId: null});
+                this.searchTimeoutId = 0;
                 return;
             }
 
@@ -83,7 +84,7 @@ export default class MemberListChannel extends React.PureComponent {
                 async () => {
                     const {data} = await prevProps.actions.searchProfiles(searchTerm, {team_id: this.props.currentTeamId, in_channel_id: this.props.currentChannelId});
 
-                    if (searchTimeoutId !== this.state.searchTimeoutId) {
+                    if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
 
@@ -99,7 +100,7 @@ export default class MemberListChannel extends React.PureComponent {
                 Constants.SEARCH_TIMEOUT_MILLISECONDS
             );
 
-            this.setState({searchTimeoutId});
+            this.searchTimeoutId = searchTimeoutId;
         }
     }
 
