@@ -10,10 +10,17 @@ import MemberListTeam from 'components/member_list_team';
 
 export default class TeamMembersModal extends React.PureComponent {
     static propTypes = {
-        show: PropTypes.bool.isRequired,
         currentTeam: PropTypes.object.isRequired,
         onHide: PropTypes.func.isRequired,
         onLoad: PropTypes.func,
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            show: true,
+        };
     }
 
     componentDidMount() {
@@ -23,7 +30,7 @@ export default class TeamMembersModal extends React.PureComponent {
     }
 
     onHide = () => {
-        this.props.onHide();
+        this.setState({show: false});
     }
 
     render() {
@@ -35,7 +42,7 @@ export default class TeamMembersModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='a11y__modal more-modal'
-                show={this.props.show}
+                show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 role='dialog'

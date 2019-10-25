@@ -1,8 +1,36 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .app__body {
+        .MenuWrapper {
+            .MenuItem__divider {
+                margin: 0;
+                border: none;
+            }
+        }
+    }
+
     .line-switch__toggle {
         margin: 8px 0;
+    }
+
+
+    .backstage-list__item {
+        .item-actions,
+        .actions {
+            margin: 10px 0;
+        }
+    }
+
+
+    .integration__icon {
+        &.integration-list__icon {
+            position: relative;
+            top: 0;
+            margin: 0 20px 15px;
+            width: 50px;
+            height: 50px;
+        }
     }
 
     .emoji-picker {
@@ -209,10 +237,20 @@
                 z-index: 9999;
                 display: flex;
                 margin: 0;
-                padding: 0 2em;
+                padding: 6em 2em 4em;
                 background: transparent;
-                flex-direction: column;
-                justify-content: center;
+                flex-wrap: wrap;
+                align-items: center;
+                overflow: auto;
+
+                .Menu__content {
+                    width: 100%;
+                    max-height: inherit;
+                    max-width: inherit;
+                    position: relative;
+                    top: 0;
+                    padding: 0;
+                }
 
                 &:after {
                     background: alpha-color($black, .3);
@@ -320,7 +358,13 @@
     }
 
     .post-create-footer {
-        padding: 0 10px;
+        padding: 0 16px;
+
+        .post-error {
+            position: relative;
+            top: 0;
+            margin: 8px 0;
+        }
 
         .help__text {
             display: none;
@@ -1702,15 +1746,6 @@
         }
     }
 
-    .app__body {
-        .MenuWrapper {
-            .MenuItem__divider {
-                margin: 0;
-                border: none;
-            }
-        }
-    }
-
     .filtered-user-list {
         height: calc(100vh - 80px);
     }
@@ -1731,6 +1766,17 @@
         .modal {
             overflow: hidden;
             padding: 0;
+
+            .channel-switch__modal {
+                .modal-body {
+                    max-height: 100%;
+                }
+
+                .suggestion-list__content {
+                    height: calc(100vh - 110px);
+                    max-height: 100%;
+                }
+            }
 
             .modal-dialog {
                 height: 100%;
@@ -1980,16 +2026,6 @@
         }
     }
 
-    .backstage-list__item {
-        display: block;
-
-        .item-actions,
-        .actions {
-            margin-top: 15px;
-            padding: 0;
-        }
-    }
-
     .app__body {
         .modal {
             .settings-modal {
@@ -2053,10 +2089,6 @@
         &.move--right {
             @include translate3d(0, 0, 0);
         }
-    }
-
-    .integration__icon {
-        display: none;
     }
 
     // overides edit modal body element's css position

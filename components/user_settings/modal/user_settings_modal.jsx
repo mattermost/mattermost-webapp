@@ -8,14 +8,14 @@ import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
 
 import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.tsx';
 
 const holders = defineMessages({
     general: {

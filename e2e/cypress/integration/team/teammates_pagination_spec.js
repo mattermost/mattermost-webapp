@@ -8,7 +8,7 @@
 // ***************************************************************
 
 describe('Teams Suite', () => {
-    it('TS14868 Team Admin can use Next button to page through list in Manage Members', () => {
+    before(() => {
         cy.apiLogin('user-1');
 
         // # Create new team and visit its URL
@@ -16,22 +16,31 @@ describe('Teams Suite', () => {
             const testTeam = createResponse.body;
             cy.visit(`/${testTeam.name}`);
 
-            cy.apiGetUsersNotInTeam(testTeam.id).then((getResponse) => {
-                const users = getResponse.body;
+            const users = [];
 
-                const usersToAdd = users.slice(0, 59).map((user) => {
-                    return {
-                        team_id: testTeam.id,
-                        user_id: user.id,
-                    };
-                });
+            cy.apiGetUsersNotInTeam(testTeam.id, 0, 200).then((pageOne) => {
+                pageOne.body.forEach((user) => users.push(user));
 
-                Cypress._.chunk(usersToAdd, 20).forEach((chunk) => {
-                    cy.apiAddUsersToTeam(testTeam.id, chunk);
+                cy.apiGetUsersNotInTeam(testTeam.id, 1, 200).then((pageTwo) => {
+                    pageTwo.body.forEach((user) => users.push(user));
+
+                    const activeUsers = users.filter((user) => user.delete_at === 0);
+                    const usersToAdd = activeUsers.slice(0, 59).map((user) => {
+                        return {
+                            team_id: testTeam.id,
+                            user_id: user.id,
+                        };
+                    });
+
+                    Cypress._.chunk(usersToAdd, 20).forEach((chunk) => {
+                        cy.apiAddUsersToTeam(testTeam.id, chunk);
+                    });
                 });
             });
         });
+    });
 
+    it('TS14868 Team Admin can use Next button to page through list in Manage Members', () => {
         // # Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 

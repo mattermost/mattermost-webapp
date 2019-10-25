@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants';
 import {
     trimFilename,
 } from 'utils/file_utils';
@@ -53,6 +53,7 @@ export default class FileAttachment extends React.PureComponent {
 
         this.state = {
             loaded: getFileType(props.fileInfo.extension) !== FileTypes.IMAGE,
+            fileInfo: props.fileInfo,
         };
     }
 
@@ -61,14 +62,17 @@ export default class FileAttachment extends React.PureComponent {
         this.loadFiles();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.fileInfo.id !== this.props.fileInfo.id) {
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.fileInfo.id !== prevState.fileInfo.id) {
             const extension = nextProps.fileInfo.extension;
 
-            this.setState({
+            return {
                 loaded: getFileType(extension) !== FileTypes.IMAGE && !(nextProps.enableSVGs && extension === FileTypes.SVG),
-            });
+                fileInfo: nextProps.fileInfo,
+            };
         }
+
+        return null;
     }
 
     componentDidUpdate(prevProps) {

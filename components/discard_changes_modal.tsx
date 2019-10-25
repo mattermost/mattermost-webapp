@@ -2,40 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-export default class DiscardChangesModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    show: boolean;
+    onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
 
-        /*
-         * Bool whether the modal is shown
-         */
-        show: PropTypes.bool.isRequired,
-
-        /*
-         * Action to call on confirm
-         */
-        onConfirm: PropTypes.func.isRequired,
-
-        /*
-         * Action to call on cancel
-         */
-        onCancel: PropTypes.func.isRequired,
-
-    }
-
-    render() {
-        const title = (
+export default class DiscardChangesModal extends React.Component<Props> {
+    public render(): JSX.Element {
+        const title: JSX.Element = (
             <FormattedMessage
                 id='discard_changes_modal.title'
                 defaultMessage='Discard Changes?'
             />
         );
 
-        const message = (
+        const message: JSX.Element = (
             <FormattedMessage
                 id='discard_changes_modal.message'
                 defaultMessage='You have unsaved changes, are you sure you want to discard them?'
@@ -43,7 +29,7 @@ export default class DiscardChangesModal extends React.PureComponent {
         );
 
         const buttonClass = 'btn btn-primary';
-        const button = (
+        const button: JSX.Element = (
             <FormattedMessage
                 id='discard_changes_modal.leave'
                 defaultMessage='Yes, Discard'

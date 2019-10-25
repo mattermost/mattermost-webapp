@@ -1,67 +1,75 @@
 @import 'compass/css3';
 @import 'utils/module';
 
-.MenuItem {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-
-    > a {
-        text-decoration: none;
-
-        &:focus,
-        &:hover {
-            color: inherit;
-        }
-    }
-
-    > div {
-        padding-left: 0px !important;
-        &:hover,
-        &:focus {
-            background-color: var(--center-channel-color-10) !important;
-        }
-    }
-
-    > div,
-    > button,
-    > a {
-        align-items: center;
-        clear: both;
-        color: inherit;
-        cursor: pointer;
+.Menu {
+    .MenuItem {
+        font-size: 14px;
         display: flex;
-        font-weight: normal;
-        padding: 0 32px 0 24px;
-        text-align: left;
-        white-space: nowrap;
-        width: 100%;
-        height: 28px;
-        line-height: normal;
+        align-items: center;
 
-        &.MenuItem__help {
-            height: auto;
-            padding: 8px 24px;
-            flex-direction: column;
-            align-items: flex-start;
+        .MenuItem__icon {
+            text-align: center;
+            width: 20px;
+            margin-right: 8px;
         }
 
-        &:hover {
-            background: alpha-color($black, .08);
+        > a {
+            text-decoration: none;
+
+            &:focus,
+            &:hover {
+                color: inherit;
+            }
         }
-    }
 
-    span.icon {
-        width: 30px;
-        padding-right: 15px;
-        display: inline-block;
-        text-align: center;
-    }
+        > div {
+            padding-left: 0px !important;
+            &:hover,
+            &:focus {
+                background-color: var(--center-channel-color-10) !important;
+            }
+        }
 
-    span.extra-text {
-        @include opacity(.7);
-        display: block;
-        font-size: 10px;
+        > div,
+        > button,
+        > a {
+            align-items: center;
+            clear: both;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            font-weight: normal;
+            padding: 0 32px 0 24px;
+            text-align: left;
+            white-space: nowrap;
+            width: 100%;
+            height: 28px;
+            line-height: normal;
+
+            &.MenuItem__help {
+                height: auto;
+                padding: 8px 24px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            &:hover {
+                background: alpha-color($black, .08);
+            }
+        }
+
+        span.icon {
+            width: 30px;
+            padding-right: 15px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        span.extra-text {
+            @include opacity(.7);
+            display: block;
+            font-size: 10px;
+        }
     }
 }
 
