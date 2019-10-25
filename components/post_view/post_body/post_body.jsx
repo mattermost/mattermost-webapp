@@ -97,6 +97,22 @@ export default class PostBody extends React.PureComponent {
         this.state = {sending: false};
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (state.sending && props.post && (props.post.id !== props.post.pending_post_id)) {
+            return {
+                sending: false,
+            };
+        }
+
+        return null;
+    }
+
+    componentDidUpdate() {
+        if (this.state.sending === false) {
+            this.sendingAction.cancel();
+        }
+    }
+
     componentDidMount() {
         const post = this.props.post;
         if (post && post.id === post.pending_post_id) {
@@ -106,14 +122,6 @@ export default class PostBody extends React.PureComponent {
 
     componentWillUnmount() {
         this.sendingAction.cancel();
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const post = nextProps.post;
-        if (post && post.id !== post.pending_post_id) {
-            this.sendingAction.cancel();
-            this.setState({sending: false});
-        }
     }
 
     render() {
