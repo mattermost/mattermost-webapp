@@ -8,6 +8,12 @@ import React from 'react';
 import * as UserAgent from 'utils/user_agent.jsx';
 
 export default class SettingsSidebar extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.first = React.createRef();
+    }
+
     handleClick = (tab, e) => {
         e.preventDefault();
         this.props.updateTab(tab.name);
@@ -17,13 +23,24 @@ export default class SettingsSidebar extends React.Component {
         if (UserAgent.isFirefox()) {
             $('.settings-modal .settings-table .nav').addClass('position--top');
         }
+        this.first.current.focus();
     }
     render() {
-        const tabList = this.props.tabs.map((tab) => {
+        const tabList = this.props.tabs.map((tab, i) => {
             const key = `${tab.name}_li`;
             let className = '';
             if (this.props.activeTab === tab.name) {
                 className = 'active';
+            }
+
+            const buttonProps = {
+                id: `${tab.name}Button`,
+                className: 'cursor--pointer style--none',
+                onClick: this.handleClick.bind(null, tab),
+                'aria-label': tab.uiName.toLowerCase(),
+            };
+            if (i === 0) {
+                buttonProps.ref = this.first;
             }
 
             return (
@@ -32,12 +49,7 @@ export default class SettingsSidebar extends React.Component {
                     key={key}
                     className={className}
                 >
-                    <button
-                        id={`${tab.name}Button`}
-                        className='cursor--pointer style--none'
-                        onClick={this.handleClick.bind(null, tab)}
-                        aria-label={tab.uiName.toLowerCase()}
-                    >
+                    <button {...buttonProps}>
                         <i
                             className={tab.icon}
                             title={tab.iconTitle}
