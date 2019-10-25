@@ -26,21 +26,21 @@ export default class TeamRow extends React.Component {
             return (
                 <FormattedMessage
                     id={'admin.team_settings.team_row.managementMethod.groupSync'}
-                    defaultMessage={'Group sync'}
+                    defaultMessage={'Group Sync'}
                 />
             );
         } else if (team.allow_open_invite) {
             return (
                 <FormattedMessage
                     id={'admin.team_settings.team_row.managementMethod.anyoneCanJoin'}
-                    defaultMessage={'Anyone can join'}
+                    defaultMessage={'Anyone Can Join'}
                 />
             );
         }
         return (
             <FormattedMessage
                 id={'admin.team_settings.team_row.managementMethod.inviteOnly'}
-                defaultMessage={'Invite only'}
+                defaultMessage={'Invite Only'}
             />
         );
     }
