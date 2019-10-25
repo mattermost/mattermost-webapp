@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import FileUploadOverlay from 'components/file_upload_overlay.jsx';

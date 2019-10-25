@@ -24,11 +24,11 @@ import cssVars from 'css-vars-ponyfill';
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import bing from 'images/bing.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
-import {showNotification} from 'utils/notifications.jsx';
+import {showNotification} from 'utils/notifications';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 export function isMac() {

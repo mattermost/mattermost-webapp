@@ -3,6 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -157,25 +158,46 @@ export default class MarketplaceItem extends React.Component {
                 pluginIcon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
             }
 
+            let pluginDetails = (
+                <>
+                    {this.props.name} <span className='light subtitle'>{versionLabel}</span>
+                    <p className={classNames('more-modal__description', {error_text: this.state.serverError})}>
+                        {this.state.serverError ? this.state.serverError : this.props.description}
+                    </p>
+                </>
+            );
+
+            if (this.props.homepageUrl) {
+                pluginDetails = (
+                    <a
+                        aria-label={ariaLabel}
+                        className='style--none more-modal__row--link'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        href={this.props.homepageUrl}
+                    >
+                        {pluginDetails}
+                    </a>
+                );
+            } else {
+                pluginDetails = (
+                    <span
+                        aria-label={ariaLabel}
+                        className='style--none'
+                    >
+                        {pluginDetails}
+                    </span>
+                );
+            }
+
             return (
                 <div
-                    className={'more-modal__row more-modal__row--link' + (this.state.serverError ? ' item_error' : '')}
+                    className={classNames('more-modal__row', 'more-modal__row--link', {item_error: this.state.serverError})}
                     key={this.props.id}
                 >
                     {pluginIcon}
                     <div className='more-modal__details'>
-                        <a
-                            aria-label={ariaLabel}
-                            className='style--none more-modal__row--link'
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            href={this.props.homepageUrl}
-                        >
-                            {this.props.name} <span className='light subtitle'>{versionLabel}</span>
-                            <p className={'more-modal__description' + (this.state.serverError ? ' error_text' : '')}>
-                                { this.state.serverError ? this.state.serverError : this.props.description}
-                            </p>
-                        </a>
+                        {pluginDetails}
                     </div>
                     <div className='more-modal__actions'>
                         {this.getItemButton()}

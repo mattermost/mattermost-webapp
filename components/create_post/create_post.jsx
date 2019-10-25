@@ -9,7 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -18,7 +18,7 @@ import {
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 import ConfirmModal from 'components/confirm_modal.jsx';

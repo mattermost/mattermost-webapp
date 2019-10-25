@@ -7,7 +7,7 @@ import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay.jsx';
 import RemoveIcon from 'components/widgets/icons/fa_remove_icon';
-import Constants, {FileTypes} from 'utils/constants.jsx';
+import Constants, {FileTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import FileProgressPreview from './file_progress_preview.jsx';

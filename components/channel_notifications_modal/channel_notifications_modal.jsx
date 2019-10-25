@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
