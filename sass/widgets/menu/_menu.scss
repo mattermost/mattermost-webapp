@@ -1,7 +1,7 @@
 .Menu {
     z-index: 10000;
 
-    &.dropdown-menu {
+    .dropdown-menu {
         @include border-radius(4px);
         display: block;
         max-height: 80vh;
@@ -10,7 +10,14 @@
         overflow-y: auto;
         padding: 8px 0;
 
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
         li {
+            list-style: none;
+
             a {
                 color: inherit;
             }
@@ -18,7 +25,7 @@
     }
 
     &.Menu-enter {
-        &.dropdown-menu {
+        .dropdown-menu {
             opacity: 0;
 
             @media screen and (min-width: 768px) {
@@ -30,7 +37,7 @@
     }
 
     &.Menu-enter-active {
-        &.dropdown-menu {
+        .dropdown-menu {
             opacity: 1;
             @media screen and (min-width: 768px) {
                 max-height: 80vh;
@@ -44,7 +51,7 @@
     }
 
     &.Menu-enter-done {
-        &.dropdown-menu {
+        .dropdown-menu {
             opacity: 1;
             @media screen and (min-width: 768px) {
                 max-height: 80vh;
@@ -54,7 +61,7 @@
     }
 
     &.Menu-exit {
-        &.dropdown-menu {
+        .dropdown-menu {
             opacity: 0;
             @media screen and (min-width: 768px) {
                 max-height: 0;
