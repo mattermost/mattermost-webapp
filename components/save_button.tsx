@@ -7,12 +7,12 @@ import {intlShape} from 'react-intl';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 type Props = {
-    saving: boolean,
-    disabled?: boolean,
-    savingMessage?: React.ReactNode,
-    defaultMessage?: React.ReactNode,
-    btnClass?: string,
-    extraClasses?: string,
+    saving: boolean;
+    disabled?: boolean;
+    savingMessage?: React.ReactNode;
+    defaultMessage?: React.ReactNode;
+    btnClass?: string;
+    extraClasses?: string;
 }
 
 export default class SaveButton extends React.PureComponent<Props> {
