@@ -186,21 +186,21 @@ describe('Teams Suite', () => {
     it('TS14632 Team Icon should be Removed', () => {
         cy.apiLogin('sysadmin');
         cy.apiCreateTeam('test-team', 'Test Team').then(() => {
-          cy.visit('/');
+            cy.visit('/');
         });
         cy.get('#sidebarHeaderDropdownButton').click();
         cy.get('#teamSettings').click();
 
         // 1. On a Team taht has a team icon
         cy.get('#team_iconEdit').click();
-        cy.fileUpload('.section-max input', '../fixtures/mattermost-icon.png', 'image/png').trigger('change', { force: true });
-        cy.get('#saveSettingPicture').should('not.have.css', 'disabled')
+        cy.fileUpload('.section-max input', '../fixtures/mattermost-icon.png', 'image/png').trigger('change', {force: true});
+        cy.get('#saveSettingPicture').should('not.have.css', 'disabled');
         cy.get('#saveSettingPicture').click();
         cy.get('#teamSettingsModalLabel > .close').click();
 
         // Making sure there is a team icon for active team
         cy.get('.TeamIcon__image').should('be.visible');
-    
+
         // 2. Go to main menu > Team Settings > Team Icon > Edit
         cy.get('#sidebarHeaderDropdownButton').click();
         cy.get('#teamSettings').click();
@@ -226,7 +226,6 @@ describe('Teams Suite', () => {
         cy.get('.img-preview__image > .team-img').should('not.be.visible');
         cy.get('#teamSettingsModalLabel > .close').click();
         cy.get('.TeamIcon__image').should('not.be.visible');
-
-      });
+    });
 });
 
