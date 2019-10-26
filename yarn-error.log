@@ -1,0 +1,261 @@
+Arguments: 
+  /home/zubair/.nvm/versions/node/v12.11.1/bin/node /usr/share/yarn/bin/yarn.js check-types
+
+PATH: 
+  /home/zubair/.nvm/versions/node/v12.11.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/go/bin
+
+Yarn version: 
+  1.19.1
+
+Node version: 
+  12.11.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: spawn E2BIG
+      at ChildProcess.spawn (internal/child_process.js:394:11)
+      at Object.spawn (child_process.js:540:9)
+      at /usr/share/yarn/lib/cli.js:25829:24
+      at new Promise (<anonymous>)
+      at new F (/usr/share/yarn/lib/cli.js:5301:28)
+      at /usr/share/yarn/lib/cli.js:25828:12
+      at run (/usr/share/yarn/lib/cli.js:43132:7)
+      at BlockingQueue.maybePushConcurrencyQueue (/usr/share/yarn/lib/cli.js:43147:7)
+      at BlockingQueue.shift (/usr/share/yarn/lib/cli.js:43142:10)
+      at /usr/share/yarn/lib/cli.js:43086:15
+
+npm manifest: 
+  {
+    "name": "mattermost-webapp",
+    "browser": {
+      "./client/web_client.jsx": "./client/browser_web_client.jsx"
+    },
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+      "@types/enzyme": "3.10.3",
+      "@types/history": "^4.7.3",
+      "@types/jest": "24.0.17",
+      "@types/moment-timezone": "0.5.12",
+      "@types/node": "12.7.0",
+      "@types/react": "16.8.24",
+      "@types/react-dom": "16.8.5",
+      "@types/react-router-dom": "4.3.4",
+      "@types/react-transition-group": "4.2.2",
+      "@typescript-eslint/parser": "1.13.0",
+      "bootstrap": "3.4.1",
+      "bootstrap-colorpicker": "2.5.2",
+      "chart.js": "2.8.0",
+      "compass-mixins": "0.12.10",
+      "core-js": "3.1.4",
+      "css-vars-ponyfill": "2.0.2",
+      "emoji-regex": "8.0.0",
+      "exif2css": "1.3.0",
+      "fastclick": "1.0.6",
+      "flexsearch": "0.6.23",
+      "flux": "3.1.3",
+      "font-awesome": "4.7.0",
+      "highlight.js": "9.15.8",
+      "hoist-non-react-statics": "3.3.0",
+      "html-to-react": "1.3.4",
+      "inobounce": "0.2.0",
+      "intl": "1.2.5",
+      "jasny-bootstrap": "3.1.3",
+      "jquery": "3.4.1",
+      "katex": "0.10.2",
+      "key-mirror": "1.0.1",
+      "localforage": "1.7.3",
+      "localforage-observable": "2.0.0",
+      "mark.js": "8.11.1",
+      "marked": "github:mattermost/marked#09e4643601bc620c682d16410ddc4a4115815a12",
+      "mattermost-redux": "github:mattermost/mattermost-redux#e40072b407f8d437cb10a2edc78ac7972c7587be",
+      "moment-timezone": "0.5.26",
+      "pdfjs-dist": "2.0.489",
+      "perfect-scrollbar": "0.8.1",
+      "popmotion": "8.7.0",
+      "popper.js": "1.15.0",
+      "prop-types": "15.7.2",
+      "react": "16.8.6",
+      "react-addons-pure-render-mixin": "15.6.2",
+      "react-bootstrap": "github:mattermost/react-bootstrap#c6957962364e0818a51bbfd13e89919903b422d6",
+      "react-color": "2.17.3",
+      "react-contextmenu": "2.11.0",
+      "react-custom-scrollbars": "4.2.1",
+      "react-day-picker": "7.3.0",
+      "react-dom": "16.8.6",
+      "react-hot-loader": "4.12.8",
+      "react-intl": "2.9.0",
+      "react-overlays": "1.2.0",
+      "react-redux": "5.1.1",
+      "react-router-dom": "5.0.1",
+      "react-select": "2.4.4",
+      "react-transition-group": "4.2.1",
+      "react-virtualized-auto-sizer": "1.0.2",
+      "react-window": "github:mattermost/react-window#fcc3f86581fc0bb4a1f34c0024b34f06fc9d971a",
+      "rebound": "0.1.0",
+      "redux": "4.0.4",
+      "redux-batched-actions": "0.4.1",
+      "redux-persist": "4.10.2",
+      "regenerator-runtime": "0.13.3",
+      "reselect": "4.0.0",
+      "semver": "6.3.0",
+      "superagent": "5.1.0",
+      "typescript": "3.5.3",
+      "xregexp": "4.2.4",
+      "zen-observable": "0.8.14"
+    },
+    "devDependencies": {
+      "@babel/cli": "7.5.5",
+      "@babel/core": "7.5.5",
+      "@babel/plugin-proposal-class-properties": "7.5.5",
+      "@babel/plugin-proposal-object-rest-spread": "7.5.5",
+      "@babel/plugin-syntax-dynamic-import": "7.2.0",
+      "@babel/preset-env": "7.5.5",
+      "@babel/preset-react": "7.0.0",
+      "@babel/preset-typescript": "7.3.3",
+      "@hot-loader/react-dom": "16.8.6",
+      "@storybook/addon-actions": "5.2.1",
+      "@storybook/addon-knobs": "5.2.1",
+      "@storybook/addon-links": "5.2.1",
+      "@storybook/addon-notes": "5.2.1",
+      "@storybook/addons": "5.2.1",
+      "@storybook/react": "5.2.1",
+      "@types/chart.js": "2.8.5",
+      "@types/jquery": "3.3.31",
+      "@types/react-bootstrap": "0.32.20",
+      "@types/react-color": "3.0.1",
+      "@types/react-intl": "2.3.18",
+      "@types/react-redux": "7.1.4",
+      "@typescript-eslint/eslint-plugin": "1.13.0",
+      "babel-eslint": "10.0.2",
+      "babel-jest": "24.8.0",
+      "babel-loader": "8.0.6",
+      "babel-plugin-typescript-to-proptypes": "0.17.1",
+      "bundle-loader": "0.5.6",
+      "clone": "2.1.2",
+      "copy-webpack-plugin": "5.0.3",
+      "cross-env": "5.2.0",
+      "css-loader": "3.1.0",
+      "enzyme": "3.10.0",
+      "enzyme-adapter-react-16": "1.14.0",
+      "enzyme-to-json": "3.3.5",
+      "eslint": "6.0.1",
+      "eslint-config-mattermost": "github:mattermost/eslint-config-mattermost#8f9eb1414bf9ebfb509359bddddfad9788ca3c3c",
+      "eslint-import-resolver-webpack": "0.11.1",
+      "eslint-plugin-cypress": "2.6.0",
+      "eslint-plugin-header": "3.0.0",
+      "eslint-plugin-import": "2.18.2",
+      "eslint-plugin-react": "7.14.2",
+      "exports-loader": "0.7.0",
+      "file-loader": "4.1.0",
+      "html-loader": "0.5.5",
+      "html-webpack-plugin": "3.2.0",
+      "identity-obj-proxy": "3.0.0",
+      "image-webpack-loader": "5.0.0",
+      "imports-loader": "0.8.0",
+      "jest": "24.8.0",
+      "jest-canvas-mock": "2.1.0",
+      "jest-cli": "24.8.0",
+      "jest-junit": "6.4.0",
+      "jquery-deferred": "0.3.1",
+      "mini-css-extract-plugin": "0.8.0",
+      "mmjstool": "github:mattermost/mattermost-utilities#c7e59207d553dcd0b8513ba5772d3ddc80dd5970",
+      "node-sass": "4.12.0",
+      "react-router-enzyme-context": "1.2.0",
+      "redux-mock-store": "1.5.3",
+      "redux-persist-node-storage": "2.0.0",
+      "remote-redux-devtools": "0.5.16",
+      "sass-loader": "7.1.0",
+      "style-loader": "0.23.1",
+      "webpack": "4.36.1",
+      "webpack-cli": "3.3.6",
+      "webpack-dev-server": "3.7.2",
+      "webpack-livereload-plugin": "2.2.0",
+      "webpack-node-externals": "1.7.2",
+      "webpack-pwa-manifest": "4.0.0",
+      "yup": "0.27.0"
+    },
+    "jest": {
+      "snapshotSerializers": [
+        "<rootDir>/node_modules/enzyme-to-json/serializer"
+      ],
+      "testPathIgnorePatterns": [
+        "/node_modules/"
+      ],
+      "clearMocks": true,
+      "collectCoverageFrom": [
+        "actions/**/*.{js,jsx}",
+        "client/**/*.{js,jsx}",
+        "components/**/*.jsx",
+        "plugins/**/*.{js,jsx}",
+        "reducers/**/*.{js,jsx}",
+        "routes/**/*.{js,jsx}",
+        "selectors/**/*.{js,jsx}",
+        "stores/**/*.{js,jsx}",
+        "utils/**/*.{js,jsx}"
+      ],
+      "coverageReporters": [
+        "lcov",
+        "text-summary"
+      ],
+      "moduleNameMapper": {
+        "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
+        "^.+\\.(css|less|scss)$": "identity-obj-proxy",
+        "^.*i18n.*\\.(json)$": "<rootDir>/tests/i18n_mock.json",
+        "^bundle-loader\\?lazy\\!(.*)$": "$1"
+      },
+      "moduleDirectories": [
+        "",
+        "node_modules"
+      ],
+      "moduleFileExtensions": [
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json"
+      ],
+      "reporters": [
+        "default",
+        "jest-junit"
+      ],
+      "transformIgnorePatterns": [
+        "node_modules/(?!react-native|react-router)"
+      ],
+      "setupFiles": [
+        "jest-canvas-mock"
+      ],
+      "setupFilesAfterEnv": [
+        "<rootDir>/tests/setup.js"
+      ],
+      "testURL": "http://localhost:8065"
+    },
+    "jest-junit": {
+      "output": "build/test-results.xml"
+    },
+    "scripts": {
+      "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
+      "fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
+      "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
+      "run": "webpack --progress --watch",
+      "dev-server": "webpack-dev-server",
+      "test": "jest --forceExit --detectOpenHandles",
+      "test-ci": "jest --forceExit --detectOpenHandles --maxWorkers=2",
+      "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
+      "updatesnapshot": "jest --updateSnapshot",
+      "test:watch": "jest --watch",
+      "test:coverage": "jest --coverage",
+      "mmjstool": "mmjstool",
+      "storybook": "start-storybook -p 6006 -s ./storybook/static",
+      "build-storybook": "build-storybook -s ./storybook/static",
+      "check-types": "tsc"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

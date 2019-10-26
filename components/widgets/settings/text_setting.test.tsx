@@ -3,15 +3,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 describe('components/widgets/settings/TextSetting', () => {
     test('render component with required props', () => {
+        const onChange = jest.fn();
         const wrapper = shallow(
             <TextSetting
                 id='string.id'
                 label='some label'
                 value='some value'
+                onChange={onChange}
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
@@ -34,12 +36,14 @@ describe('components/widgets/settings/TextSetting', () => {
     });
 
     test('render with textarea type', () => {
+        const onChange = jest.fn();
         const wrapper = shallow(
             <TextSetting
                 id='string.id'
                 label='some label'
                 value='some value'
                 type='textarea'
+                onChange={onChange}
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
@@ -62,8 +66,10 @@ describe('components/widgets/settings/TextSetting', () => {
 `);
     });
 
+    // This test is disabled as TSC will not allow to pass any other value to `type`
+/*
     test('render with bad type', () => {
-        console.originalError = console.error;
+        const originalError = console.error;
         console.error = jest.fn();
 
         const wrapper = shallow(
@@ -77,7 +83,7 @@ describe('components/widgets/settings/TextSetting', () => {
 
         expect(console.error).toBeCalledTimes(1);
 
-        console.error = console.originalError;
+        console.error = originalError;
 
         expect(wrapper).toMatchInlineSnapshot(`
 <Setting
@@ -97,6 +103,7 @@ describe('components/widgets/settings/TextSetting', () => {
 </Setting>
 `);
     });
+*/
 
     test('onChange', () => {
         const onChange = jest.fn();

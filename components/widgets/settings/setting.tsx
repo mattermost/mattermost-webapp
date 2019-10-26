@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-interface SettingsPropsInterface {
+type SettingsPropsInterface = {
     inputId?: string;
     label: React.ReactNode;
     labelClassName?: string;

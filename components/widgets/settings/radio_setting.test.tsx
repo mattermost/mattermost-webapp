@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import RadioSetting from './radio_setting.jsx';
+import RadioSetting from './radio_setting';
 
 describe('components/widgets/settings/RadioSetting', () => {
     test('render component with required props', () => {
