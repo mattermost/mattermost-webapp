@@ -335,6 +335,7 @@ export default class SettingPicture extends Component {
                                 />
                             </button>
                             <button
+                                id='saveSettingPicture'
                                 tabIndex={disableSaveButtonFocus ? '-1' : '0'}
                                 ref={this.confirmButton}
                                 className={confirmButtonClass}
@@ -352,6 +353,7 @@ export default class SettingPicture extends Component {
                                 </LoadingWrapper>
                             </button>
                             <button
+                                id='cancelSettingPicture'
                                 className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}
