@@ -125,6 +125,23 @@ export default class AtMentionProvider extends Provider {
             }));
     }
 
+    // comparator which prioritises users with usernames starting with search term
+    orderUsers = (a, b) => {
+        const aStartsWith = a.username.startsWith(this.latestPrefix);
+        const bStartsWith = b.username.startsWith(this.latestPrefix);
+
+        if (aStartsWith && bStartsWith) {
+            return a.username.localeCompare(b.username);
+        }
+        if (aStartsWith) {
+            return -1;
+        }
+        if (bStartsWith) {
+            return 1;
+        }
+        return a.username.localeCompare(b.username);
+    }
+
     users() {
         const specialMentions = this.specialMentions();
 
@@ -138,11 +155,11 @@ export default class AtMentionProvider extends Provider {
         const remoteMembers = this.remoteMembers().filter((item) => !localUserIds[item.id]);
 
         // Combine the local and remote members, sorting to mix the results together.
-        const localAndRemoteMembers = localMembers.concat(remoteMembers).sort((a, b) =>
-            a.username.localeCompare(b.username)
-        );
+        const localAndRemoteMembers = localMembers.concat(remoteMembers).sort(this.orderUsers);
 
-        const remoteNonMembers = this.remoteNonMembers().filter((item) => !localUserIds[item.id]);
+        const remoteNonMembers = this.remoteNonMembers().
+            filter((item) => !localUserIds[item.id]).
+            sort(this.orderUsers);
 
         return localAndRemoteMembers.concat(specialMentions).concat(remoteNonMembers);
     }
