@@ -81,6 +81,40 @@ describe('Header', () => {
         // # Verify that the Search term input box is still cleared and search term does not reappear when RHS opens
         cy.get('#searchBox').should('be.visible').and('be.empty');
     });
+
+    describe('Header update', () => {
+        before(() => {
+            // # cheange channel header
+            cy.updateChannelHeader('updated header');
+        });
+
+        beforeEach(() => {
+            // # hover on last message i.e system message
+            cy.get('.post--system').last().trigger('mouseover');
+        });
+
+        it('should not have emoji reactions ', () => {
+            // # verify that reaction/emoji container is not available on system message
+            cy.get('.reaction__container').should('not.be.visible');
+        });
+        it('should not flag action ', () => {
+            // # verify that flag is not available on system message
+            cy.get('.flag-icon__container').should('not.be.visible');
+        });
+        it('should not have pin to channel message ', () => {
+            // # verify that pin_to_channel button is  not visible on system message
+            cy.clickPostDotMenu().get('button').
+                contains('Pin to channel').
+                should('not.be.visible');
+        });
+        it('should have delete button on system message', () => {
+            // # verify that delete option is available on system message
+            // cy.get('.post--system').last().trigger('mouseover');
+            cy.get('button').
+                contains('Delete').
+                should('be.visible');
+        });
+    });
 });
 
 function updateAndVerifyChannelHeader(prefix, header) {
