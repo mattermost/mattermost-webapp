@@ -33,11 +33,10 @@ export default class Renderer extends marked.Renderer {
         }
 
         let className = 'post-code';
-        let codeClassName = 'hljs';
+        let codeClassName = 'hljs hljs-ln';
         if (!usedLanguage) {
             className += ' post-code--wrap';
-        } else if (usedLanguage) {
-            codeClassName += ' hljs-ln';
+            codeClassName = 'hljs-ln';
         }
 
         let header = '';

@@ -133,15 +133,25 @@ h6 {
             vertical-align: top;
             padding-right: 4px;
             margin-right: 12px;
+            min-width: 36px;
         }
 
         .hljs-code {
             white-space: pre;
         }
+
+        .post-code__search-highlighting {
+          display: block;
+          white-space: pre;
+        }
     }
 
     .hljs-ln {
         white-space: unset;
+
+        .post-code__search-highlighting {
+          left: 54.5px;
+        }
     }
 }
 
