@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
- import {Constants} from 'utils/constants';
+import {Constants} from 'utils/constants';
 
 import TeamRow from 'components/admin_console/team_channel_settings/team/list/team_row.jsx';
 import AbstractList, {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
@@ -51,7 +51,7 @@ export default class TeamList extends React.PureComponent {
                             defaultMessage='Management'
                         />
                     </div>
-                    <div className='group-actions' />
+                    <div className='group-actions'/>
                 </div>
             </>
         );
