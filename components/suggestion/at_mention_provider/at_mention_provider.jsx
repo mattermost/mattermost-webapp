@@ -125,23 +125,6 @@ export default class AtMentionProvider extends Provider {
             }));
     }
 
-    // comparator which prioritises users with usernames starting with search term
-    orderUsers = (a, b) => {
-        const aStartsWith = a.username.startsWith(this.latestPrefix);
-        const bStartsWith = b.username.startsWith(this.latestPrefix);
-
-        if (aStartsWith && bStartsWith) {
-            return a.username.localeCompare(b.username);
-        }
-        if (aStartsWith) {
-            return -1;
-        }
-        if (bStartsWith) {
-            return 1;
-        }
-        return a.username.localeCompare(b.username);
-    }
-
     users() {
         const specialMentions = this.specialMentions();
 
@@ -154,12 +137,29 @@ export default class AtMentionProvider extends Provider {
 
         const remoteMembers = this.remoteMembers().filter((item) => !localUserIds[item.id]);
 
+        // comparator which prioritises users with usernames starting with search term
+        const orderUsers = (a, b) => {
+            const aStartsWith = a.username.startsWith(this.latestPrefix);
+            const bStartsWith = b.username.startsWith(this.latestPrefix);
+
+            if (aStartsWith && bStartsWith) {
+                return a.username.localeCompare(b.username);
+            }
+            if (aStartsWith) {
+                return -1;
+            }
+            if (bStartsWith) {
+                return 1;
+            }
+            return a.username.localeCompare(b.username);
+        };
+
         // Combine the local and remote members, sorting to mix the results together.
-        const localAndRemoteMembers = localMembers.concat(remoteMembers).sort(this.orderUsers);
+        const localAndRemoteMembers = localMembers.concat(remoteMembers).sort(orderUsers);
 
         const remoteNonMembers = this.remoteNonMembers().
             filter((item) => !localUserIds[item.id]).
-            sort(this.orderUsers);
+            sort(orderUsers);
 
         return localAndRemoteMembers.concat(specialMentions).concat(remoteNonMembers);
     }

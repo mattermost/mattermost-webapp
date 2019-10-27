@@ -12,7 +12,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'};
     const userid4 = {id: 'userid4', username: 'user4', first_name: 'X', last_name: 'Y', nickname: 'Z'};
     const userid5 = {id: 'userid5', username: 'user5', first_name: 'out', last_name: 'out', nickname: 'out'};
-    const userid6 = {id: 'userid6', username: 'user.six-split', first_name: 'out Junior', last_name: 'out', nickname: 'out'};
+    const userid6 = {id: 'userid6', username: 'user6.six-split', first_name: 'out Junior', last_name: 'out', nickname: 'out'};
 
     const baseParams = {
         currentUserId: 'userid1',
@@ -104,7 +104,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@channel',
                     '@all',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -174,7 +174,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@channel',
                     '@all',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -298,7 +298,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user2',
                     '@user4',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid2},
@@ -352,7 +352,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -403,7 +403,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -453,7 +453,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -504,7 +504,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -747,7 +747,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user2',
                     '@user4',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid2},
