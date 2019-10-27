@@ -7,8 +7,8 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
-import {isMobile} from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';

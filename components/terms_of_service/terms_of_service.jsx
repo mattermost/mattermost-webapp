@@ -18,7 +18,7 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 export default class TermsOfService extends React.PureComponent {
     static propTypes = {

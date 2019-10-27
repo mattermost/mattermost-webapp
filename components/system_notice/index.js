@@ -11,8 +11,9 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Permissions} from 'mattermost-redux/constants';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
+import {Preferences} from 'utils/constants';
+
 import {dismissNotice} from 'actions/views/notice';
-import {Preferences} from 'utils/constants.jsx';
 
 import Notices from './notices.jsx';
 import SystemNotice from './system_notice.jsx';
