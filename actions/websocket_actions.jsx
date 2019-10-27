@@ -667,7 +667,7 @@ export async function handleUserRemovedEvent(msg) {
     const currentUserId = getCurrentUserId(state);
 
     if (msg.broadcast.user_id === currentUserId) {
-        dispatch(loadChannelsForCurrentUser());
+        await dispatch(loadChannelsForCurrentUser());
 
         const rhsChannelId = getSelectedChannelId(state);
         if (msg.data.channel_id === rhsChannelId) {
@@ -692,6 +692,7 @@ export async function handleUserRemovedEvent(msg) {
                         remover: user.username,
                     },
                 }));
+                GlobalActions.redirectUserToDefaultTeam();
             }
         }
 
