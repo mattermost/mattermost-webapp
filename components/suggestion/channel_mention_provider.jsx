@@ -9,7 +9,7 @@ import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_u
 
 import store from 'stores/redux_store.jsx';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
