@@ -18,7 +18,7 @@ type RadioSettingProps = {
 }
 
 export default class RadioSetting extends React.Component<RadioSettingProps> {
-    public static defaultProps = {
+    public static defaultProps: Partial<RadioSettingProps> = {
         labelClassName: '',
         inputClassName: '',
         options: [],
@@ -28,7 +28,7 @@ export default class RadioSetting extends React.Component<RadioSettingProps> {
         this.props.onChange(this.props.id, e.target.value);
     }
 
-    public render() {
+    public render(): JSX.Element {
         return (
             <Setting
                 label={this.props.label}

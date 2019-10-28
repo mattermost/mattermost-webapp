@@ -27,11 +27,11 @@ type TextSettingProps = {
 type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
 
 export default class TextSetting extends React.Component<TextSettingProps> {
-    public static defaultProps = {
+    public static defaultProps: Partial<TextSettingProps> = {
         labelClassName: '',
         inputClassName: '',
         type: 'input',
-        maxLength: null,
+        maxLength: -1, // A negative number allows for values of any lenght
         resizable: true,
     };
 
@@ -43,7 +43,7 @@ export default class TextSetting extends React.Component<TextSettingProps> {
         }
     }
 
-    public render() {
+    public render(): JSX.Element {
         const {resizable} = this.props;
         let {type} = this.props;
         let input = null;

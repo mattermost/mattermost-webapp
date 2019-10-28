@@ -26,7 +26,7 @@ export default class BoolSetting extends React.Component<BoolSettingProps> {
         this.props.onChange(this.props.id, e.target.checked);
     }
 
-    public render() {
+    public render(): JSX.Element {
         return (
             <Setting
                 label={this.props.label}
