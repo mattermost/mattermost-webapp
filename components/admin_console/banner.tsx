@@ -35,3 +35,5 @@ const Banner: React.FC<Props> = (props: Props) => {
         </div>
     );
 };
+
+export default Banner;
