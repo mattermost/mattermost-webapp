@@ -8,16 +8,12 @@ import debounce from 'lodash/debounce';
 
 type Props = {
     filter : string;
+    children : JSX.Element;
 }
 
 export default class Highlight extends React.Component<Props> {
     private markInstance? : Mark;
     private ref : React.RefObject<HTMLDivElement>;
-
-    public static propTypes = {
-        filter: PropTypes.string.isRequired,
-        children: PropTypes.node.isRequired,
-    }
 
     public constructor(props : Props) {
         super(props);
@@ -26,7 +22,7 @@ export default class Highlight extends React.Component<Props> {
     }
 
     private redrawHighlight = debounce(() => {
-        if (this.markInstance !== undefined) {
+        if (this.markInstance) {
             this.markInstance.unmark();
         }
 
