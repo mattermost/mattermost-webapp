@@ -10,7 +10,7 @@ type Props = {
     defaultMessage: string;
 }
 
-export default function ErrorLink({url, messageId, defaultMessage}: Props) {
+const ErrorLink: React.FC<Props> = ({url, messageId, defaultMessage}: Props) => {
     return (
         <a
             href={url}
@@ -23,4 +23,12 @@ export default function ErrorLink({url, messageId, defaultMessage}: Props) {
             />
         </a>
     );
-}
+};
+
+ErrorLink.defaultProps = {
+    url: '',
+    messageId: '',
+    defaultMessage: '',
+};
+
+export default ErrorLink;

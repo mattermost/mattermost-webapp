@@ -8,11 +8,11 @@ import {ErrorPageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
-    type: string | null;
+    type?: string;
     title: string;
 }
 
-export default function ErrorTitle({type, title}: Props) {
+const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
     let errorTitle = null;
     if (type) {
         switch (type) {
@@ -80,4 +80,6 @@ export default function ErrorTitle({type, title}: Props) {
     }
 
     return errorTitle;
-}
+};
+
+export default ErrorTitle;

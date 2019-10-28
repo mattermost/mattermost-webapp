@@ -10,12 +10,12 @@ import {t} from 'utils/i18n';
 import ErrorLink from './error_link';
 
 type Props = {
-    type: string | null;
-    message: string;
-    service: string;
+    type?: string;
+    message?: string;
+    service?: string;
 }
 
-export default function ErrorMessage({type, message, service}: Props) {
+const ErrorMessage: React.FC<Props> = ({type, message, service}: Props) => {
     let errorMessage = null;
     if (type) {
         switch (type) {
@@ -196,4 +196,6 @@ export default function ErrorMessage({type, message, service}: Props) {
     }
 
     return errorMessage;
-}
+};
+
+export default ErrorMessage;
