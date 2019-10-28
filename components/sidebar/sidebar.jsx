@@ -215,8 +215,7 @@ export default class Sidebar extends React.PureComponent {
 
         // Scroll to selected channel so it's in view
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
-            const offset = 60;
-            this.updateScrollbarOnChannelChange(this.props.currentChannel.id, offset);
+            this.updateScrollbarOnChannelChange(this.props.currentChannel.id);
         }
 
         // close the LHS on mobile when you change channels
@@ -394,10 +393,10 @@ export default class Sidebar extends React.PureComponent {
         }
     }
 
-    updateScrollbarOnChannelChange = (channelId, offset = 0) => {
+    updateScrollbarOnChannelChange = (channelId) => {
         const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
         if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
-            this.refs.scrollbar.scrollTop((this.refs.scrollbar.view.scrollTop - offset) + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
+            this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
         }
     }
 
