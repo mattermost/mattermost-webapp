@@ -18,7 +18,7 @@ export default class ArrowRightIcon extends React.PureComponent {
                             width='24px'
                             height='24px'
                             viewBox='0 0 24 24'
-                            role='icon'
+                            role='img'
                             title={title}
                         >
                             <path d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z'/>

@@ -8,7 +8,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input.jsx';
 import Constants from 'utils/constants';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
