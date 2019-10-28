@@ -17,11 +17,6 @@ export default class AboutBuildModal extends React.PureComponent {
     static propTypes = {
 
         /**
-         * Determines whether modal is shown or not
-         */
-        show: PropTypes.bool.isRequired,
-
-        /**
          * Function that is called when the modal is dismissed
          */
         onHide: PropTypes.func.isRequired,
@@ -42,7 +37,19 @@ export default class AboutBuildModal extends React.PureComponent {
         webappBuildHash: PropTypes.string,
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            show: true,
+        };
+    }
+
     doHide = () => {
+        this.setState({show: false});
+    }
+
+    handleExit = () => {
         this.props.onHide();
     }
 
@@ -194,8 +201,9 @@ export default class AboutBuildModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='a11y__modal about-modal'
-                show={this.props.show}
+                show={this.state.show}
                 onHide={this.doHide}
+                onExited={this.handleExit}
                 role='dialog'
                 aria-labelledby='aboutModalLabel'
             >

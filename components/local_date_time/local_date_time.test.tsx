@@ -4,9 +4,9 @@
 import React from 'react';
 import moment from 'moment-timezone';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import LocalDateTime from 'components/local_date_time/local_date_time';
 
-import LocalDateTime from 'components/local_date_time/local_date_time.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 describe('components/LocalDateTime', () => {
     beforeEach(() => {

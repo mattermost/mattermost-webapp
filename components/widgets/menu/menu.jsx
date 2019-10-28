@@ -111,16 +111,20 @@ export default class Menu extends React.PureComponent {
         }
 
         return (
-            <ul
-                id={id}
-                className='a11y__popup Menu dropdown-menu'
-                ref={this.node}
-                style={styles}
-                role='menu'
+            <div
                 aria-label={ariaLabel}
+                className='a11y__popup Menu'
+                id={id}
+                role='menu'
             >
-                {children}
-            </ul>
+                <ul
+                    ref={this.node}
+                    style={styles}
+                    className='Menu__content dropdown-menu'
+                >
+                    {children}
+                </ul>
+            </div>
         );
     }
 }

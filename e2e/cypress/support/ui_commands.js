@@ -374,6 +374,27 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         wait(TIMEOUTS.TINY);
 });
 
+/**
+ * On default "ad-1" team, create and visit a new channel
+ */
+Cypress.Commands.add('createAndVisitNewChannel', () => {
+    cy.visit('/ad-1/channels/town-square');
+
+    cy.getCurrentTeamId().then((teamId) => {
+        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+            const channel = res.body;
+
+            // # Visit the new channel
+            cy.visit(`/ad-1/channels/${channel.name}`);
+
+            // * Verify channel's display name
+            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+            cy.wrap(channel);
+        });
+    });
+});
+
 // ***********************************************************
 // File Upload
 // ************************************************************

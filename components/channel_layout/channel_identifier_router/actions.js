@@ -7,7 +7,7 @@ import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername as selectUserByUsername, getUser as selectUser, getUserByEmail as selectUserByEmail} from 'mattermost-redux/selectors/entities/users';
 import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as Utils from 'utils/utils.jsx';

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
@@ -337,7 +337,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
     });
 
-    test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
+    test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
@@ -350,10 +350,8 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>
         );
 
-        const showPostDeletedModal = jest.fn();
-        wrapper.instance().showPostDeletedModal = showPostDeletedModal;
         wrapper.setProps({createPostErrorId: 'api.post.create_post.root_id.app_error'});
-        expect(showPostDeletedModal).toHaveBeenCalled();
+        expect(wrapper.state('showPostDeletedModal')).toBe(true);
     });
 
     describe('focusTextbox', () => {

@@ -1,47 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {getRandomInt} from '../../utils';
+
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
 
 import users from '../../fixtures/users.json';
 
-let channel;
-const channelDisplayName = `Message Reply ${getRandomInt(9999).toString()}`;
 const sysadmin = users.sysadmin;
 
 describe('Message Reply', () => {
-    beforeEach(() => {
+    let newChannel;
+
+    before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
 
-        // # Create a new channel for the test
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-switcher', channelDisplayName).then((response) => {
-                channel = response.body;
-
-                // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).should('be.visible').scrollIntoView().click();
-            });
-        });
-    });
-
-    afterEach(() => {
-        cy.getCurrentChannelId().then((channelId) => {
-            cy.apiDeleteChannel(channelId);
+        // # Create and visit new channel
+        cy.createAndVisitNewChannel().then((channel) => {
+            newChannel = channel;
         });
     });
 
     it('MM-16730 Reply to an older message', () => {
-        cy.getCurrentChannelId().then((channelId) => {
-            // # Get yesterdays date in UTC
-            const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        // # Get yesterdays date in UTC
+        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
-            // # Post a day old message
-            cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId, createAt: yesterdaysDate}).
-                its('id').
-                should('exist').
-                as('yesterdaysPost');
-        });
+        // # Post a day old message
+        cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId: newChannel.id, createAt: yesterdaysDate}).
+            its('id').
+            should('exist').
+            as('yesterdaysPost');
 
         // # Add two subsequent posts
         cy.postMessage('One');

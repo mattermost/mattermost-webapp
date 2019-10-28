@@ -4,13 +4,13 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
-import {updateRhsState} from 'actions/views/rhs';
+import {openRHSSearch} from 'actions/views/rhs';
 
 import ShowSearchButton from './show_search_button';
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators({
-        updateRhsState,
+        openRHSSearch,
     }, dispatch),
 });
 

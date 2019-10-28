@@ -1,6 +1,169 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`components/MarketplaceItem should match snapshot, no homepage url 1`] = `
+<div
+  className="more-modal__row more-modal__row--link"
+  key="id"
+>
+  <PluginIcon
+    className="icon__plugin icon__plugin--background"
+  />
+  <div
+    className="more-modal__details"
+  >
+    <span
+      aria-label="name, test plugin"
+      className="style--none"
+    >
+      name
+       
+      <span
+        className="light subtitle"
+      >
+        (1.0.0)
+      </span>
+      <p
+        className="more-modal__description"
+      >
+        test plugin
+      </p>
+    </span>
+  </div>
+  <div
+    className="more-modal__actions"
+  >
+    <button
+      className="btn btn-primary"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <LoadingWrapper
+        loading={false}
+        text="Installing..."
+      >
+        <FormattedMessage
+          defaultMessage="Install"
+          id="marketplace_modal.list.Install"
+          values={Object {}}
+        />
+      </LoadingWrapper>
+    </button>
+  </div>
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Overwrite"
+        id="admin.plugin.upload.overwrite_modal.overwrite"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="A plugin with this ID already exists. Would you like to overwrite it?"
+        id="admin.plugin.upload.overwrite_modal.desc"
+        values={Object {}}
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Overwrite existing plugin?"
+        id="admin.plugin.upload.overwrite_modal.title"
+        values={Object {}}
+      />
+    }
+  />
+</div>
+`;
+
 exports[`components/MarketplaceItem should match snapshot, no plugin icon 1`] = `
+<div
+  className="more-modal__row more-modal__row--link"
+  key="id"
+>
+  <PluginIcon
+    className="icon__plugin icon__plugin--background"
+  />
+  <div
+    className="more-modal__details"
+  >
+    <a
+      aria-label="name, test plugin"
+      className="style--none more-modal__row--link"
+      href="http://example.com"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      name
+       
+      <span
+        className="light subtitle"
+      >
+        (1.0.0)
+      </span>
+      <p
+        className="more-modal__description"
+      >
+        test plugin
+      </p>
+    </a>
+  </div>
+  <div
+    className="more-modal__actions"
+  >
+    <button
+      className="btn btn-primary"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <LoadingWrapper
+        loading={false}
+        text="Installing..."
+      >
+        <FormattedMessage
+          defaultMessage="Install"
+          id="marketplace_modal.list.Install"
+          values={Object {}}
+        />
+      </LoadingWrapper>
+    </button>
+  </div>
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Overwrite"
+        id="admin.plugin.upload.overwrite_modal.overwrite"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="A plugin with this ID already exists. Would you like to overwrite it?"
+        id="admin.plugin.upload.overwrite_modal.desc"
+        values={Object {}}
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Overwrite existing plugin?"
+        id="admin.plugin.upload.overwrite_modal.title"
+        values={Object {}}
+      />
+    }
+  />
+</div>
+`;
+
+exports[`components/MarketplaceItem should match snapshot, with homepage url 1`] = `
 <div
   className="more-modal__row more-modal__row--link"
   key="id"
@@ -134,6 +297,89 @@ exports[`components/MarketplaceItem should match snapshot, with plugin icon 1`] 
         <FormattedMessage
           defaultMessage="Install"
           id="marketplace_modal.list.Install"
+          values={Object {}}
+        />
+      </LoadingWrapper>
+    </button>
+  </div>
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <FormattedMessage
+        defaultMessage="Overwrite"
+        id="admin.plugin.upload.overwrite_modal.overwrite"
+        values={Object {}}
+      />
+    }
+    message={
+      <FormattedMessage
+        defaultMessage="A plugin with this ID already exists. Would you like to overwrite it?"
+        id="admin.plugin.upload.overwrite_modal.desc"
+        values={Object {}}
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <FormattedMessage
+        defaultMessage="Overwrite existing plugin?"
+        id="admin.plugin.upload.overwrite_modal.title"
+        values={Object {}}
+      />
+    }
+  />
+</div>
+`;
+
+exports[`components/MarketplaceItem should match snapshot, with server error 1`] = `
+<div
+  className="more-modal__row more-modal__row--link item_error"
+  key="id"
+>
+  <PluginIcon
+    className="icon__plugin icon__plugin--background"
+  />
+  <div
+    className="more-modal__details"
+  >
+    <a
+      aria-label="name, test plugin"
+      className="style--none more-modal__row--link"
+      href="http://example.com"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      name
+       
+      <span
+        className="light subtitle"
+      >
+        (1.0.0)
+      </span>
+      <p
+        className="more-modal__description error_text"
+      >
+        <Component />
+      </p>
+    </a>
+  </div>
+  <div
+    className="more-modal__actions"
+  >
+    <button
+      className="btn btn-primary"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <LoadingWrapper
+        loading={false}
+        text="Installing..."
+      >
+        <FormattedMessage
+          defaultMessage="Try Again"
+          id="marketplace_modal.list.try_again"
           values={Object {}}
         />
       </LoadingWrapper>
