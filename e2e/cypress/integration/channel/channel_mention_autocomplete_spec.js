@@ -9,7 +9,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Identical Message Drafts', () => {
+describe('Channel Mention Autocomplete', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
