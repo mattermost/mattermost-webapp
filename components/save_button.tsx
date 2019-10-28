@@ -16,7 +16,7 @@ type Props = {
 }
 
 export default class SaveButton extends React.PureComponent<Props> {
-    public static defaultProps = {
+    public static defaultProps: Partial<Props> = {
         disabled: false,
         btnClass: 'btn-primary',
         extraClasses: '',
