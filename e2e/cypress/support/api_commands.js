@@ -186,10 +186,10 @@ Cypress.Commands.add('apiPatchChannel', (channelId, channelData) => {
     });
 });
 
-Cypress.Commands.add('apiGetChannelByName', (channelName) => {
+Cypress.Commands.add('apiGetChannelByName', (teamName, channelName) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: `/api/v4/channels/name/${channelName}`,
+        url: `/api/v4/teams/name/${teamName}/channels/name/${channelName}`,
     }).then((response) => {
         expect(response.status).to.equal(200);
         return cy.wrap(response);
@@ -298,6 +298,20 @@ Cypress.Commands.add('apiPatchTeam', (teamId, teamData) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
+    });
+});
+
+/**
+ * Gets current user
+ * This API assume that the user is logged
+ * no params required because we are using /me to refer to current user
+ */
+
+Cypress.Commands.add('apiGetMe', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: 'api/v4/users/me',
+        method: 'GET',
     });
 });
 
