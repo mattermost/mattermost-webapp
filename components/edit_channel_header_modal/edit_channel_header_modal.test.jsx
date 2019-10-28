@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import Constants from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal/edit_channel_header_modal.jsx';
@@ -18,9 +18,6 @@ jest.mock('react-dom', () => ({
 }));
 
 describe('components/EditChannelHeaderModal', () => {
-    const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
-    const {intl} = intlProvider.getChildContext();
-
     const channel = {
         id: 'fake-id',
         header: 'Fake Channel',
@@ -41,9 +38,8 @@ describe('components/EditChannelHeaderModal', () => {
     };
 
     test('should match snapshot, init', () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -53,21 +49,19 @@ describe('components/EditChannelHeaderModal', () => {
             type: Constants.DM_CHANNEL,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelHeaderModal
                 {...baseProps}
                 channel={dmChannel}
-            />,
-            {context: {intl}}
+            />
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('submitted', () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
         );
 
         wrapper.setState({saving: true});
@@ -76,9 +70,8 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('error with intl message', () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
         );
 
         wrapper.setState({serverError: {...serverError, server_error_id: 'model.channel.is_valid.header.app_error'}});
@@ -86,9 +79,8 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('error without intl message', () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
         );
 
         wrapper.setState({serverError});
@@ -96,10 +88,9 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('should match state and called actions on handleSave', async () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
-        );
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
+        ).dive();
 
         const instance = wrapper.instance();
 
@@ -122,10 +113,9 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('change header', () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
-        );
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
+        ).dive();
 
         wrapper.find(Textbox).simulate('change', {target: {value: 'header'}});
 
@@ -135,10 +125,9 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('patch on save button click', () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
-        );
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
+        ).dive();
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});
@@ -148,13 +137,12 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('patch on enter keypress event with ctrl', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelHeaderModal
                 {...baseProps}
                 ctrlSend={true}
-            />,
-            {context: {intl}}
-        );
+            />
+        ).dive();
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});
@@ -171,10 +159,9 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('patch on enter keypress', () => {
-        const wrapper = shallow(
-            <EditChannelHeaderModal {...baseProps}/>,
-            {context: {intl}}
-        );
+        const wrapper = shallowWithIntl(
+            <EditChannelHeaderModal {...baseProps}/>
+        ).dive();
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});
@@ -191,13 +178,12 @@ describe('components/EditChannelHeaderModal', () => {
     });
 
     test('patch on enter keydown', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <EditChannelHeaderModal
                 {...baseProps}
                 ctrlSend={true}
-            />,
-            {context: {intl}}
-        );
+            />
+        ).dive();
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});

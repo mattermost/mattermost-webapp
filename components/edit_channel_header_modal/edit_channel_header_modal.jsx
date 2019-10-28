@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
@@ -21,8 +21,13 @@ const holders = defineMessages({
     },
 });
 
-export default class EditChannelHeaderModal extends React.PureComponent {
+class EditChannelHeaderModal extends React.PureComponent {
     static propTypes = {
+
+        /*
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired,
 
         /*
          * Object with info about current channel ,
@@ -57,10 +62,6 @@ export default class EditChannelHeaderModal extends React.PureComponent {
             saving: false,
         };
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     handleModalKeyDown = (e) => {
         if (isKeyPressed(e, KeyCodes.ESCAPE)) {
@@ -142,7 +143,7 @@ export default class EditChannelHeaderModal extends React.PureComponent {
 
         let errorMsg;
         if (serverError.server_error_id === 'model.channel.is_valid.header.app_error') {
-            errorMsg = this.context.intl.formatMessage(holders.error);
+            errorMsg = this.props.intl.formatMessage(holders.error);
         } else {
             errorMsg = serverError.message;
         }
@@ -263,3 +264,5 @@ export default class EditChannelHeaderModal extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(EditChannelHeaderModal);
