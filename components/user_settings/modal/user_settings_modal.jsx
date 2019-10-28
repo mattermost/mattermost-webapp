@@ -15,7 +15,7 @@ import ConfirmModal from '../../confirm_modal.jsx';
 import {AsyncComponent} from 'components/async_load';
 
 import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.tsx';
 
 const holders = defineMessages({
     general: {
