@@ -266,42 +266,38 @@ export default class PostList extends React.PureComponent {
     render() {
         if (!this.props.postListIds) {
             return (
-                <div id='post-list'>
-                    <LoadingScreen
-                        position='absolute'
-                        key='loading'
-                    />
-                </div>
+                <LoadingScreen
+                    position='absolute'
+                    key='loading'
+                />
             );
         }
 
         return (
-            <div id='post-list'>
-                <div
-                    ref='postlist'
-                    className='post-list-holder-by-time'
-                    key={'postlist-' + this.props.channelId}
-                >
-                    <div className='post-list__table'>
-                        <div
-                            id='virtualizedPostListContent'
-                            ref='postListContent'
-                            className='post-list__content'
-                        >
-                            <VirtPostList
-                                loadingNewerPosts={this.state.loadingNewerPosts}
-                                loadingOlderPosts={this.state.loadingOlderPosts}
-                                atOldestPost={this.props.atOldestPost}
-                                atLatestPost={this.props.atLatestPost}
-                                focusedPostId={this.props.focusedPostId}
-                                channelId={this.props.channelId}
-                                autoRetryEnable={this.state.autoRetryEnable}
-                                actions={this.actionsForPostList}
-                                postListIds={this.props.formattedPostIds}
-                                latestPostTimeStamp={this.props.latestPostTimeStamp}
-                                latestAriaLabelFunc={this.props.latestAriaLabelFunc}
-                            />
-                        </div>
+            <div
+                ref='postlist'
+                className='post-list-holder-by-time'
+                key={'postlist-' + this.props.channelId}
+            >
+                <div className='post-list__table'>
+                    <div
+                        id='virtualizedPostListContent'
+                        ref='postListContent'
+                        className='post-list__content'
+                    >
+                        <VirtPostList
+                            loadingNewerPosts={this.state.loadingNewerPosts}
+                            loadingOlderPosts={this.state.loadingOlderPosts}
+                            atOldestPost={this.props.atOldestPost}
+                            atLatestPost={this.props.atLatestPost}
+                            focusedPostId={this.props.focusedPostId}
+                            channelId={this.props.channelId}
+                            autoRetryEnable={this.state.autoRetryEnable}
+                            actions={this.actionsForPostList}
+                            postListIds={this.props.formattedPostIds}
+                            latestPostTimeStamp={this.props.latestPostTimeStamp}
+                            latestAriaLabelFunc={this.props.latestAriaLabelFunc}
+                        />
                     </div>
                 </div>
             </div>
