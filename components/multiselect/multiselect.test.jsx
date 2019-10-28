@@ -3,11 +3,9 @@
 
 import React from 'react';
 
-import {shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import {MultiSelectList} from 'components/multiselect/multiselect_list.jsx';
-import MenuWrapperAnimation from 'components/widgets/menu/menu_wrapper_animation';
 
 describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
