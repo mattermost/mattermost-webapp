@@ -6,11 +6,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
-    title: JSX.Element;
+    title?: JSX.Element;
     description: JSX.Element;
 }
 
-export default function Banner(props: Props) {
+const Banner: React.FC<Props> = (props: Props) => {
     let title = (
         <FormattedMessage
             id='admin.banner.heading'
@@ -34,11 +34,4 @@ export default function Banner(props: Props) {
             </div>
         </div>
     );
-}
-
-Banner.defaultProps = {
-};
-Banner.propTypes = {
-    title: PropTypes.node,
-    description: PropTypes.node.isRequired,
 };
