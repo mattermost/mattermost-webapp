@@ -194,18 +194,13 @@ export default class Root extends React.Component {
         }
         /*eslint-enable */
 
-        const afterIntl = () => {
-            if (this.props.location.pathname === '/' && this.props.noAccounts) {
-                this.props.history.push('/signup_user_complete');
-            }
-
-            initializePlugins().then(() => {
-                this.setState({configLoaded: true});
-            });
-        };
-        if (global.Intl) {
-            afterIntl();
+        if (this.props.location.pathname === '/' && this.props.noAccounts) {
+            this.props.history.push('/signup_user_complete');
         }
+
+        initializePlugins().then(() => {
+            this.setState({configLoaded: true});
+        });
 
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
 
