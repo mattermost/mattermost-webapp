@@ -17,7 +17,6 @@ export default class Highlight extends React.Component<Props> {
 
     public constructor(props : Props) {
         super(props);
-        this.markInstance = undefined;
         this.ref = React.createRef<HTMLDivElement>();
     }
 
