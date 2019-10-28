@@ -502,6 +502,7 @@ export default class PostList extends React.PureComponent {
                         <div
                             id='postListContent'
                             className='post-list__content'
+                            role='list'
                         >
                             <span
                                 className='sr-only'
@@ -512,7 +513,6 @@ export default class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
-                                        role='listbox'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}
