@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default function Banner(props) {
+type Props = {
+    title: JSX.Element;
+    description: JSX.Element;
+}
+
+export default function Banner(props: Props) {
     let title = (
         <FormattedMessage
             id='admin.banner.heading'
