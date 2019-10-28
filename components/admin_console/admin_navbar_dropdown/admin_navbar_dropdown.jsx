@@ -9,16 +9,13 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants';
 
 import AboutBuildModal from 'components/about_build_modal';
 
 import Menu from 'components/widgets/menu/menu';
-import MenuGroup from 'components/widgets/menu/menu_group';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
-import MenuItemExternalLink from 'components/widgets/menu/menu_items/menu_item_external_link';
-import MenuItemToggleModalRedux from 'components/widgets/menu/menu_items/menu_item_toggle_modal_redux';
-import MenuItemBlockableLink from 'components/widgets/menu/menu_items/menu_item_blockable_link';
+
+import MenuItemBlockableLink from './menu_item_blockable_link';
 
 export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {
@@ -86,35 +83,35 @@ export default class AdminNavbarDropdown extends React.Component {
 
         return (
             <Menu ariaLabel={Utils.localizeMessage('admin.nav.menuAriaLabel', 'Admin Console Menu')}>
-                <MenuGroup>
+                <Menu.Group>
                     {teamToRender}
                     {switchTeams}
-                </MenuGroup>
-                <MenuGroup>
-                    <MenuItemExternalLink
+                </Menu.Group>
+                <Menu.Group>
+                    <Menu.ItemExternalLink
                         url='https://about.mattermost.com/administrators-guide/'
                         text={Utils.localizeMessage('admin.nav.administratorsGuide', 'Administrator Guide')}
                     />
-                    <MenuItemExternalLink
+                    <Menu.ItemExternalLink
                         url='https://about.mattermost.com/troubleshooting-forum/'
                         text={Utils.localizeMessage('admin.nav.troubleshootingForum', 'Troubleshooting Forum')}
                     />
-                    <MenuItemExternalLink
+                    <Menu.ItemExternalLink
                         url='https://about.mattermost.com/commercial-support/'
                         text={Utils.localizeMessage('admin.nav.commercialSupport', 'Commercial Support')}
                     />
-                    <MenuItemToggleModalRedux
+                    <Menu.ItemToggleModalRedux
                         modalId={ModalIdentifiers.ABOUT}
                         dialogType={AboutBuildModal}
                         text={formatMessage({id: 'navbar_dropdown.about', defaultMessage: 'About {appTitle}'}, {appTitle: siteName || 'Mattermost'})}
                     />
-                </MenuGroup>
-                <MenuGroup>
-                    <MenuItemAction
+                </Menu.Group>
+                <Menu.Group>
+                    <Menu.ItemAction
                         onClick={this.handleLogout}
                         text={Utils.localizeMessage('navbar_dropdown.logout', 'Logout')}
                     />
-                </MenuGroup>
+                </Menu.Group>
             </Menu>
         );
     }

@@ -200,6 +200,15 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the permissions field.',
                     permissions_mapping_name: 'enableOnlyAdminIntegrations',
                 },
+                {
+                    key: 'EscapedSettings.com+example+setting.a',
+                    label: 'escaped-label-a',
+                    label_default: 'Escaped Setting A',
+                    type: 'bool',
+                    default: false,
+                    help_text: 'escaped-help-text-a',
+                    help_text_default: 'This is some help text for the first escaped field.',
+                },
             ],
         };
 
@@ -217,6 +226,11 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 settingg: 7,
                 settingh: 100,
             },
+            EscapedSettings: {
+                'com.example.setting': {
+                    a: true,
+                },
+            },
         };
 
         environmentConfig = {
@@ -232,6 +246,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 config={config}
                 environmentConfig={environmentConfig}
                 schema={{...schema}}
+                updateConfig={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -243,6 +258,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 config={config}
                 environmentConfig={environmentConfig}
                 schema={{component: () => <p>{'Test'}</p>}}
+                updateConfig={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -257,6 +273,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 ...schema,
                 header: headerText,
             },
+            updateConfig: jest.fn(),
         };
 
         const wrapper = shallow(<SchemaAdminSettings {...props}/>);
@@ -278,6 +295,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 ...schema,
                 footer: footerText,
             },
+            updateConfig: jest.fn(),
         };
 
         const wrapper = shallow(<SchemaAdminSettings {...props}/>);

@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 export default class SearchResultsHeader extends React.Component {
     static propTypes = {
@@ -56,7 +56,6 @@ export default class SearchResultsHeader extends React.Component {
                         onClick={this.props.actions.toggleRhsExpanded}
                     >
                         <OverlayTrigger
-                            trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
                             placement='top'
                             overlay={expandSidebarTooltip}
@@ -74,7 +73,6 @@ export default class SearchResultsHeader extends React.Component {
                             </FormattedMessage>
                         </OverlayTrigger>
                         <OverlayTrigger
-                            trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
                             placement='top'
                             overlay={shrinkSidebarTooltip}
@@ -100,7 +98,6 @@ export default class SearchResultsHeader extends React.Component {
                         onClick={this.props.actions.closeRightHandSide}
                     >
                         <OverlayTrigger
-                            trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
                             placement='top'
                             overlay={closeSidebarTooltip}

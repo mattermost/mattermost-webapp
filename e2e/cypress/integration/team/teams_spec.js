@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -15,7 +15,7 @@ function removeTeamMember(teamURL, username) {
     cy.apiLogout();
     cy.apiLogin('sysadmin');
     cy.visit(`/${teamURL}`);
-    cy.get('#sidebarHeaderDropdownButton').click();
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#manageMembers').click();
     cy.get(`#teamMembersDropdown_${username}`).should('be.visible').click();
     cy.get('#removeFromTeam').should('be.visible').click();
@@ -57,67 +57,105 @@ describe('Teams Suite', () => {
     });
 
     it('TS13548 Team or System Admin searches and adds new team member', () => {
-        const user = users['user-1'];
+        cy.apiUpdateConfig({
+            GuestAccountsSettings: {
+                Enable: false,
+            },
+        });
+
+        const user1 = users['user-1'];
+        const sysadmin = users.sysadmin;
         const letterCount = 3;
-        const nameStartsWith = user.firstName.slice(0, letterCount);
-        const maxSelectableValues = 20;
+        const nameStartsWith = user1.firstName.slice(0, letterCount);
         const teamName = 'Stub team';
         const max = 9999;
         const teamURL = `stub-team-${getRandomInt(max).toString()}`;
-        const townSquareURL = `/${teamURL}/channels/town-square`;
-        const offTopicURL = `/${teamURL}/channels/off-topic`;
 
         // # Login as System Admin, update teammate name display preference to "username" and visit "/"
-        cy.apiLogin('sysadmin');
+        cy.apiLogin(sysadmin.username);
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.visit('/');
 
         // # Create team
         cy.createNewTeam(teamName, teamURL);
 
-        // # Click hamburger menu > “Add Members to Team”
+        // # Click hamburger menu > Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#sidebarDropdownMenu #addUsersToTeam').should('be.visible').click();
+        cy.get('#invitePeople').should('be.visible').and('have.text', 'Invite People').click();
 
-        // * Check that the "add new members modal" opened up
-        cy.get('#addUsersToTeamModal').should('be.visible');
+        // * Check that the Invitation Modal opened up
+        cy.getByTestId('invitationModal', {timeout: TIMEOUTS.TINY}).should('be.visible');
 
-        // # In "Add New Members To [team name] Team" modal, type the first few letters of a user who is on that server but not on the active team in the search box to filter the list
-        cy.focused().type(nameStartsWith, {force: true});
+        cy.getByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+            // # Type the first letters of a user
+            cy.wrap($el).get('input').type(nameStartsWith, {force: true});
 
-        // * Verify list filters as expected
-        cy.get('.filtered-user-list').should('contain', user.username);
+            // * Verify user is on the list, then select by clicking on it
+            cy.wrap($el).get('.users-emails-input__menu').
+                children().should('have.length', 1).
+                eq(0).should('contain', `@${user1.username}`).and('contain', `${user1.firstName} ${user1.lastName}`).
+                click();
+        });
 
-        // # Select a user from the list, verify number of users who can be added decrements from 20 to 19
-        cy.get('#numPeopleRemaining').should('contain', maxSelectableValues);
-        cy.focused().type('{enter}');
-        cy.get('#numPeopleRemaining').should('contain', maxSelectableValues - 1);
+        // # Click "Invite Members" button, then "Done" button
+        cy.getByText(/Invite Members/).should('be.visible').click();
+        cy.getByText(/Done/).should('be.visible').click();
 
-        // # Click Add
-        cy.get('#saveItems').click();
+        // * As sysadmin, verify system message posts in Town Square and Off-Topic
+        cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.wrap($el).get('.user-popover').
+                should('be.visible').
+                and('have.text', 'System');
+            cy.wrap($el).get('.post-message__text-container').
+                should('be.visible').
+                and('contain', 'You joined the team.').
+                and('contain', `@${user1.username} added to the team by you.`);
+        });
 
-        // * System message posts in Town Square and Off-Topic "[user2] added to the channel by [user1]"
-        cy.visit(townSquareURL);
-        cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the team by you.`);
-        cy.visit(offTopicURL);
-        cy.getLastPost().should('contain', 'System').and('contain', `${user.username} added to the channel by you.`);
+        cy.get('#sidebarItem_off-topic').should('be.visible').click({force: true});
+        cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.wrap($el).get('.user-popover').
+                should('be.visible').
+                and('have.text', 'System');
+            cy.wrap($el).get('.post-message__text-container').
+                should('be.visible').
+                and('contain', 'You joined the channel.').
+                and('contain', `@${user1.username} added to the channel by you.`);
+        });
 
         // # Login as user added to Team, update teammate name display preference to "username" and reload
-        cy.apiLogin(user.username);
+        cy.apiLogin(user1.username);
         cy.apiSaveTeammateNameDisplayPreference('username');
         cy.reload();
 
-        // * The added user sees the new team added to the team sidebar
-        cy.get(`#${teamURL}TeamButton`).should('have.attr', 'href').should('contain', teamURL);
+        // # Visit the new team and verify that it's in the correct team view
+        cy.visit(`/${teamURL}/channels/town-square`);
+        cy.get(`#${teamURL}TeamButton`).should('have.attr', 'href').and('contain', teamURL);
 
-        // * System message posts in Town Square and Off-Topic "[user2] added to the channel by [user1]"
-        cy.visit(townSquareURL);
-        cy.getLastPost().should('contain', 'System').and('contain', 'You were added to the team by @sysadmin.');
-        cy.visit(offTopicURL);
-        cy.getLastPost().should('contain', 'System').and('contain', 'You were added to the channel by @sysadmin.');
+        // * As user-1, verify system message posts in Town Square and Off-Topic
+        cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.wrap($el).get('.user-popover').
+                should('be.visible').
+                and('have.text', 'System');
+            cy.wrap($el).get('.post-message__text-container').
+                should('be.visible').
+                and('contain', `@${sysadmin.username} joined the team.`).
+                and('contain', `You were added to the team by @${sysadmin.username}.`);
+        });
+
+        cy.get('#sidebarItem_off-topic').should('be.visible').click({force: true});
+        cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {
+            cy.wrap($el).get('.user-popover').
+                should('be.visible').
+                and('have.text', 'System');
+            cy.wrap($el).get('.post-message__text-container').
+                should('be.visible').
+                and('contain', `@${sysadmin.username} joined the channel.`).
+                and('contain', `You were added to the channel by @${sysadmin.username}.`);
+        });
 
         // # Remove user from team
-        removeTeamMember(teamURL, user.username);
+        removeTeamMember(teamURL, user1.username);
     });
 
     it('TS14633 Leave all teams', () => {
@@ -127,19 +165,19 @@ describe('Teams Suite', () => {
         cy.loginAsNewUser();
 
         // # Leave all teams
-        function leaveAllTeams() {
-            cy.apiGetTeams().then((response) => {
-                if (response.body.length > 0) {
-                    cy.leaveTeam().then(() => leaveAllTeams());
-                }
+        cy.apiGetTeams().then((response) => {
+            response.body.forEach((team) => {
+                cy.visit(`/${team.name}/channels/town-square`);
+                cy.get('#headerTeamName').should('be.visible').and('have.text', team.display_name);
+                cy.leaveTeam();
             });
-        }
+        });
 
-        leaveAllTeams();
+        // * Check that it redirects into team selection page after leaving all teams
+        cy.url().should('include', '/select_team');
 
-        cy.get('a.signup-team-login').should('contain', 'Create a new team');
-
-        cy.logout();
+        // # Check that logout is visible and then click to logout
+        cy.get('#logout').should('be.visible').click();
 
         // * Ensure user is logged out
         cy.url({timeout: TIMEOUTS.LARGE}).should('include', 'login');

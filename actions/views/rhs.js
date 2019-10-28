@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {
+    clearSearch,
     getFlaggedPosts,
     getPinnedPosts,
     searchPostsWithParams,
@@ -19,7 +20,7 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {getSearchTerms, getRhsState} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluginId} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -119,6 +120,25 @@ export function showRHSPlugin(pluginId) {
     return action;
 }
 
+export function hideRHSPlugin(pluginId) {
+    return (dispatch, getState) => {
+        if (getPluginId(getState()) === pluginId) {
+            dispatch(closeRightHandSide());
+        }
+    };
+}
+
+export function toggleRHSPlugin(pluginId) {
+    return (dispatch, getState) => {
+        if (getPluginId(getState()) === pluginId) {
+            dispatch(hideRHSPlugin(pluginId));
+            return;
+        }
+
+        dispatch(showRHSPlugin(pluginId));
+    };
+}
+
 export function showFlaggedPosts() {
     return async (dispatch, getState) => {
         const state = getState();
@@ -155,10 +175,6 @@ export function showPinnedPosts(channelId) {
         const teamId = getCurrentTeamId(state);
 
         dispatch(batchActions([
-            {
-                type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                terms: '',
-            },
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 channelId: channelId || currentChannelId,
@@ -262,4 +278,13 @@ export function selectPost(post) {
 
 export function selectPostCard(post) {
     return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
+}
+
+export function openRHSSearch() {
+    return (dispatch) => {
+        dispatch(clearSearch());
+        dispatch(updateSearchTerms(''));
+
+        dispatch(updateRhsState(RHSStates.SEARCH));
+    };
 }

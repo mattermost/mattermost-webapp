@@ -4,9 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
-import AutosizeTextarea from 'components/autosize_textarea.jsx';
+import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
 import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
@@ -14,10 +13,7 @@ import CommandProvider from 'components/suggestion/command_provider.jsx';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 export default class Textbox extends React.Component {
     static propTypes = {
@@ -29,8 +25,9 @@ export default class Textbox extends React.Component {
         onComposition: PropTypes.func,
         onHeightChange: PropTypes.func,
         createMessage: PropTypes.string.isRequired,
-        previewMessageLink: PropTypes.string,
         onKeyDown: PropTypes.func,
+        onMouseUp: PropTypes.func,
+        onKeyUp: PropTypes.func,
         onBlur: PropTypes.func,
         supportsCommands: PropTypes.bool.isRequired,
         handlePostError: PropTypes.func,
@@ -42,11 +39,12 @@ export default class Textbox extends React.Component {
         badConnection: PropTypes.bool,
         listenForMentionKeyClick: PropTypes.bool,
         currentUserId: PropTypes.string.isRequired,
+        preview: PropTypes.bool,
         profilesInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         profilesNotInChannel: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
             autocompleteUsersInChannel: PropTypes.func.isRequired,
-            scrollPostList: PropTypes.func.isRequired,
+            autocompleteChannels: PropTypes.func.isRequired,
         }),
     };
 
@@ -59,8 +57,6 @@ export default class Textbox extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
-
         this.suggestionProviders = [
             new AtMentionProvider({
                 currentUserId: this.props.currentUserId,
@@ -68,7 +64,7 @@ export default class Textbox extends React.Component {
                 profilesNotInChannel: this.props.profilesNotInChannel,
                 autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, props.channelId),
             }),
-            new ChannelMentionProvider(),
+            new ChannelMentionProvider(props.actions.autocompleteChannels),
             new EmoticonProvider(),
         ];
 
@@ -81,6 +77,36 @@ export default class Textbox extends React.Component {
 
     handleChange = (e) => {
         this.props.onChange(e);
+    }
+
+    updateSuggestions(prevProps) {
+        if (this.props.channelId !== prevProps.channelId ||
+            this.props.currentUserId !== prevProps.currentUserId ||
+            this.props.profilesInChannel !== prevProps.profilesInChannel ||
+            this.props.profilesNotInChannel !== prevProps.profilesNotInChannel) {
+            // Update channel id for AtMentionProvider.
+            const providers = this.suggestionProviders;
+            for (let i = 0; i < providers.length; i++) {
+                if (providers[i] instanceof AtMentionProvider) {
+                    providers[i].setProps({
+                        currentUserId: this.props.currentUserId,
+                        profilesInChannel: this.props.profilesInChannel,
+                        profilesNotInChannel: this.props.profilesNotInChannel,
+                        autocompleteUsersInChannel: (prefix) => this.props.actions.autocompleteUsersInChannel(prefix, this.props.channelId),
+                    });
+                }
+            }
+        }
+        if (prevProps.value !== this.props.value) {
+            this.checkMessageLength(this.props.value);
+        }
+    }
+    componentDidUpdate(prevProps) {
+        if (!prevProps.preview && this.props.preview) {
+            this.refs.preview.focus();
+        }
+
+        this.updateSuggestions(prevProps);
     }
 
     checkMessageLength = (message) => {
@@ -108,6 +134,18 @@ export default class Textbox extends React.Component {
         }
     }
 
+    handleMouseUp = (e) => {
+        if (this.props.onMouseUp) {
+            this.props.onMouseUp(e);
+        }
+    }
+
+    handleKeyUp = (e) => {
+        if (this.props.onKeyUp) {
+            this.props.onKeyUp(e);
+        }
+    }
+
     handleBlur = (e) => {
         if (this.props.onBlur) {
             this.props.onBlur(e);
@@ -118,9 +156,11 @@ export default class Textbox extends React.Component {
         if (this.props.onHeightChange) {
             this.props.onHeightChange(height, maxHeight);
         }
-        if (Utils.disableVirtList()) {
-            this.props.actions.scrollPostList();
-        }
+    }
+
+    getInputBox = () => {
+        const textbox = this.refs.message.getTextbox();
+        return textbox;
     }
 
     focus = () => {
@@ -142,135 +182,7 @@ export default class Textbox extends React.Component {
         this.refs.message.recalculateSize();
     }
 
-    togglePreview = (e) => {
-        e.preventDefault();
-        e.target.blur();
-        this.setState((prevState) => {
-            return {preview: !prevState.preview};
-        });
-    }
-
-    hidePreview = () => {
-        this.setState({preview: false});
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.channelId !== this.props.channelId ||
-            nextProps.currentUserId !== this.props.currentUserId ||
-            nextProps.profilesInChannel !== this.props.profilesInChannel ||
-            nextProps.profilesNotInChannel !== this.props.profilesNotInChannel) {
-            // Update channel id for AtMentionProvider.
-            const providers = this.suggestionProviders;
-            for (let i = 0; i < providers.length; i++) {
-                if (providers[i] instanceof AtMentionProvider) {
-                    providers[i].setProps({
-                        currentUserId: nextProps.currentUserId,
-                        profilesInChannel: nextProps.profilesInChannel,
-                        profilesNotInChannel: nextProps.profilesNotInChannel,
-                        autocompleteUsersInChannel: (prefix) => nextProps.actions.autocompleteUsersInChannel(prefix, nextProps.channelId),
-                    });
-                }
-            }
-        }
-        if (this.props.value !== nextProps.value) {
-            this.checkMessageLength(nextProps.value);
-        }
-    }
-
     render() {
-        const hasText = this.props.value && this.props.value.length > 0;
-
-        let editHeader;
-        let helpTextClass = '';
-
-        if (this.props.value && this.props.value.length > this.props.characterLimit) {
-            helpTextClass = 'hidden';
-        }
-
-        if (this.props.previewMessageLink) {
-            editHeader = (
-                <span>
-                    {this.props.previewMessageLink}
-                </span>
-            );
-        } else {
-            editHeader = (
-                <FormattedMessage
-                    id='textbox.edit'
-                    defaultMessage='Edit message'
-                />
-            );
-        }
-
-        let previewLink = null;
-        if (Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW)) {
-            previewLink = (
-                <a
-                    id='previewLink'
-                    onClick={this.togglePreview}
-                    className='textbox-preview-link'
-                >
-                    {this.state.preview ? (
-                        editHeader
-                    ) : (
-                        <FormattedMessage
-                            id='textbox.preview'
-                            defaultMessage='Preview'
-                        />
-                    )}
-                </a>
-            );
-        }
-
-        const helpText = (
-            <div
-                id='helpText'
-                style={{visibility: hasText ? 'visible' : 'hidden', opacity: hasText ? '0.45' : '0'}}
-                className='help__format-text'
-            >
-                <b>
-                    <FormattedMessage
-                        id='textbox.bold'
-                        defaultMessage='**bold**'
-                    />
-                </b>
-                <i>
-                    <FormattedMessage
-                        id='textbox.italic'
-                        defaultMessage='_italic_'
-                    />
-                </i>
-                <span>
-                    {'~~'}
-                    <strike>
-                        <FormattedMessage
-                            id='textbox.strike'
-                            defaultMessage='strike'
-                        />
-                    </strike>
-                    {'~~ '}
-                </span>
-                <span>
-                    <FormattedMessage
-                        id='textbox.inlinecode'
-                        defaultMessage='`inline code`'
-                    />
-                </span>
-                <span>
-                    <FormattedMessage
-                        id='textbox.preformatted'
-                        defaultMessage='```preformatted```'
-                    />
-                </span>
-                <span>
-                    <FormattedMessage
-                        id='textbox.quote'
-                        defaultMessage='>quote'
-                    />
-                </span>
-            </div>
-        );
-
         let preview = null;
 
         let textboxClassName = 'form-control custom-textarea';
@@ -281,14 +193,18 @@ export default class Textbox extends React.Component {
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
-        if (this.state.preview) {
+        if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
             textWrapperClass += ' textarea-wrapper--preview';
 
             preview = (
                 <div
+                    tabIndex='0'
                     ref='preview'
                     className='form-control custom-textarea textbox-preview-area'
+                    onKeyPress={this.props.onKeyPress}
+                    onKeyDown={this.handleKeyDown}
+                    onBlur={this.handleBlur}
                 >
                     <PostMarkdown
                         isRHS={this.props.isRHS}
@@ -312,10 +228,12 @@ export default class Textbox extends React.Component {
                     onChange={this.handleChange}
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
+                    onMouseUp={this.handleMouseUp}
+                    onKeyUp={this.handleKeyUp}
                     onComposition={this.props.onComposition}
                     onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
-                    style={{visibility: this.state.preview ? 'hidden' : 'visible'}}
+                    style={{visibility: this.props.preview ? 'hidden' : 'visible'}}
                     inputComponent={AutosizeTextarea}
                     listComponent={SuggestionList}
                     listStyle={this.props.suggestionListStyle}
@@ -329,22 +247,6 @@ export default class Textbox extends React.Component {
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                 />
                 {preview}
-                <div className={'help__text ' + helpTextClass}>
-                    {helpText}
-                    {previewLink}
-                    <Link
-                        id='helpTextLink'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        to='/help/messaging'
-                        className='textbox-help-link'
-                    >
-                        <FormattedMessage
-                            id='textbox.help'
-                            defaultMessage='Help'
-                        />
-                    </Link>
-                </div>
             </div>
         );
     }

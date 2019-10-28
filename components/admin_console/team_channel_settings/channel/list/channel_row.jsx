@@ -7,8 +7,8 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
 
 export default class ChannelRow extends React.Component {
     static propTypes = {
@@ -28,14 +28,14 @@ export default class ChannelRow extends React.Component {
                 onClick={this.handleRowClick}
             >
                 <div className='group-row'>
-                    <span className='group-name'>
+                    <span className='group-name overflow--ellipsis row-content'>
                         {channel.type === Constants.PRIVATE_CHANNEL ? <LockIcon className='channel-icon channel-icon__lock'/> : <GlobeIcon className='channel-icon channel-icon__globe'/>}
-                        {channel.name}
+                        {channel.display_name}
                     </span>
-                    <span className='group-description'>
+                    <span className='group-description row-content'>
                         {channel.team_name}
                     </span>
-                    <span className='group-description'>
+                    <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
                             defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}

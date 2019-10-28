@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import Badge from 'components/widgets/badges/badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import Badge from 'components/widgets/badges/badge';
 
 export default class PostHeader extends React.PureComponent {
     static propTypes = {
@@ -69,6 +69,11 @@ export default class PostHeader extends React.PureComponent {
          * If the user that made the post is a bot.
          */
         isBot: PropTypes.bool.isRequired,
+
+        /**
+         * If the user that made the post is a guest.
+         */
+        isGuest: PropTypes.bool.isRequired,
     }
 
     render() {

@@ -7,9 +7,9 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
-import SuccessIcon from 'components/icon/success_icon';
-import WarningIcon from 'components/icon/warning_icon';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import SuccessIcon from 'components/widgets/icons/fa_success_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 /**
  * A button which, when clicked, performs an action and displays
@@ -18,6 +18,11 @@ import WarningIcon from 'components/icon/warning_icon';
  */
 export default class RequestButton extends React.Component {
     static propTypes = {
+
+        /**
+         * TD to assign to the form
+         */
+        id: PropTypes.string,
 
         /**
          * The action to be called to carry out the request.
@@ -126,6 +131,7 @@ export default class RequestButton extends React.Component {
     }
 
     static defaultProps = {
+        id: null,
         disabled: false,
         saveNeeded: false,
         showSuccessMessage: true,
@@ -143,8 +149,6 @@ export default class RequestButton extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleRequest = this.handleRequest.bind(this);
-
         this.state = {
             busy: false,
             fail: null,
@@ -152,7 +156,7 @@ export default class RequestButton extends React.Component {
         };
     }
 
-    handleRequest(e) {
+    handleRequest = (e) => {
         e.preventDefault();
 
         this.setState({
@@ -171,7 +175,7 @@ export default class RequestButton extends React.Component {
                 },
                 (err) => {
                     let errMsg = err.message;
-                    if (this.props.includeDetailedError) {
+                    if (this.props.includeDetailedError && err.detailed_error) {
                         errMsg += ' - ' + err.detailed_error;
                     }
 
@@ -236,7 +240,10 @@ export default class RequestButton extends React.Component {
         }
 
         return (
-            <div className='form-group'>
+            <div
+                className='form-group'
+                id={this.props.id}
+            >
                 {label}
                 <div className={widgetClassNames}>
                     <div>

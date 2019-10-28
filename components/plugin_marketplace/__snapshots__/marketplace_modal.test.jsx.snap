@@ -1,0 +1,283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MarketplaceModal should match the snapshot, error banner is shown 1`] = `
+<RootPortal>
+  <FullScreenModal
+    onClose={[Function]}
+    show={true}
+  >
+    <div
+      className="error-bar"
+      id="error_bar"
+    >
+      <InjectIntl(FormattedMarkdownMessage)
+        defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
+        id="app.plugin.marketplace_plugins.app_error"
+        values={
+          Object {
+            "siteURL": "http://example.com",
+          }
+        }
+      />
+    </div>
+    <div
+      className="modal-marketplace"
+      id="modal_marketplace"
+    >
+      <h1>
+        <strong>
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="marketplace_modal.title"
+            values={Object {}}
+          />
+        </strong>
+      </h1>
+      <div
+        className="filter-row filter-row--full"
+      >
+        <div
+          className="col-sm-12"
+        >
+          <QuickInput
+            className="form-control filter-textbox search_input"
+            delayInputUpdate={false}
+            id="searchMarketplaceTextbox"
+            inputComponent={[Function]}
+            onInput={[Function]}
+            placeholder={
+              Object {
+                "defaultMessage": "Search Plugins",
+                "id": "marketplace_modal.search",
+              }
+            }
+            value=""
+          />
+        </div>
+      </div>
+      <Uncontrolled(Tabs)
+        activeKey="allPlugins"
+        className="tabs"
+        defaultActiveKey="allPlugins"
+        id="marketplaceTabs"
+        onSelect={[Function]}
+        unmountOnExit={true}
+      >
+        <Tab
+          eventKey="allPlugins"
+          title="All Plugins"
+        >
+          <LoadingScreen
+            position="relative"
+            style={Object {}}
+          />
+        </Tab>
+        <Tab
+          eventKey="installed"
+          title="Installed (1)"
+        >
+          <div
+            className="more-modal__list"
+          >
+            <Connect(MarketplaceItem)
+              description="This plugin is to test"
+              downloadUrl="https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
+              homepageUrl="https://github.com/mattermost/mattermost-test"
+              id="com.mattermost.test"
+              installed={true}
+              isPrepackaged={false}
+              key="com.mattermost.test"
+              name="Test"
+              onConfigure={[Function]}
+              onInstalled={[Function]}
+              version="1.0.3"
+            />
+          </div>
+        </Tab>
+      </Uncontrolled(Tabs)>
+    </div>
+  </FullScreenModal>
+</RootPortal>
+`;
+
+exports[`components/MarketplaceModal should match the snapshot, no plugins installed 1`] = `
+<RootPortal>
+  <FullScreenModal
+    onClose={[Function]}
+    show={true}
+  >
+    <div
+      className="modal-marketplace"
+      id="modal_marketplace"
+    >
+      <h1>
+        <strong>
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="marketplace_modal.title"
+            values={Object {}}
+          />
+        </strong>
+      </h1>
+      <div
+        className="filter-row filter-row--full"
+      >
+        <div
+          className="col-sm-12"
+        >
+          <QuickInput
+            className="form-control filter-textbox search_input"
+            delayInputUpdate={false}
+            id="searchMarketplaceTextbox"
+            inputComponent={[Function]}
+            onInput={[Function]}
+            placeholder={
+              Object {
+                "defaultMessage": "Search Plugins",
+                "id": "marketplace_modal.search",
+              }
+            }
+            value=""
+          />
+        </div>
+      </div>
+      <Uncontrolled(Tabs)
+        activeKey="allPlugins"
+        className="tabs"
+        defaultActiveKey="allPlugins"
+        id="marketplaceTabs"
+        onSelect={[Function]}
+        unmountOnExit={true}
+      >
+        <Tab
+          eventKey="allPlugins"
+          title="All Plugins"
+        >
+          <LoadingScreen
+            position="relative"
+            style={Object {}}
+          />
+        </Tab>
+        <Tab
+          eventKey="installed"
+          title="Installed (0)"
+        >
+          <div
+            className="no_plugins_div"
+          >
+            <br />
+            <PluginIcon
+              className="icon__plugin"
+            />
+            <div
+              className="margin-top x2 light"
+            >
+              <FormattedMessage
+                defaultMessage="You do not have any plugins installed."
+                id="marketplace_modal.no_plugins_installed"
+                values={Object {}}
+              />
+            </div>
+            <button
+              className="margin-top x3 style--none color--link"
+              onClick={[Function]}
+            >
+              <FormattedMessage
+                defaultMessage="Install Plugins"
+                id="marketplace_modal.install_plugins"
+                values={Object {}}
+              />
+            </button>
+          </div>
+        </Tab>
+      </Uncontrolled(Tabs)>
+    </div>
+  </FullScreenModal>
+</RootPortal>
+`;
+
+exports[`components/MarketplaceModal should match the snapshot, with plugins installed 1`] = `
+<RootPortal>
+  <FullScreenModal
+    onClose={[Function]}
+    show={true}
+  >
+    <div
+      className="modal-marketplace"
+      id="modal_marketplace"
+    >
+      <h1>
+        <strong>
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="marketplace_modal.title"
+            values={Object {}}
+          />
+        </strong>
+      </h1>
+      <div
+        className="filter-row filter-row--full"
+      >
+        <div
+          className="col-sm-12"
+        >
+          <QuickInput
+            className="form-control filter-textbox search_input"
+            delayInputUpdate={false}
+            id="searchMarketplaceTextbox"
+            inputComponent={[Function]}
+            onInput={[Function]}
+            placeholder={
+              Object {
+                "defaultMessage": "Search Plugins",
+                "id": "marketplace_modal.search",
+              }
+            }
+            value=""
+          />
+        </div>
+      </div>
+      <Uncontrolled(Tabs)
+        activeKey="allPlugins"
+        className="tabs"
+        defaultActiveKey="allPlugins"
+        id="marketplaceTabs"
+        onSelect={[Function]}
+        unmountOnExit={true}
+      >
+        <Tab
+          eventKey="allPlugins"
+          title="All Plugins"
+        >
+          <LoadingScreen
+            position="relative"
+            style={Object {}}
+          />
+        </Tab>
+        <Tab
+          eventKey="installed"
+          title="Installed (1)"
+        >
+          <div
+            className="more-modal__list"
+          >
+            <Connect(MarketplaceItem)
+              description="This plugin is to test"
+              downloadUrl="https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz"
+              homepageUrl="https://github.com/mattermost/mattermost-test"
+              id="com.mattermost.test"
+              installed={true}
+              isPrepackaged={false}
+              key="com.mattermost.test"
+              name="Test"
+              onConfigure={[Function]}
+              onInstalled={[Function]}
+              version="1.0.3"
+            />
+          </div>
+        </Tab>
+      </Uncontrolled(Tabs)>
+    </div>
+  </FullScreenModal>
+</RootPortal>
+`;

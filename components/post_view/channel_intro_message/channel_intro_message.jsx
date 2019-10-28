@@ -7,18 +7,18 @@ import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-import {Constants} from 'utils/constants';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
-import ProfilePicture from 'components/profile_picture.jsx';
+import ProfilePicture from 'components/profile_picture';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import EditIcon from 'components/icon/edit_icon';
+import EditIcon from 'components/widgets/icons/fa_edit_icon';
+import InvitationModal from 'components/invitation_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
@@ -79,8 +79,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
                 <ProfilePicture
                     key={'introprofilepicture' + profile.id}
                     src={Utils.imageURLForUser(profile)}
-                    width='50'
-                    height='50'
+                    size='xl'
                     userId={profile.id}
                     username={profile.username}
                 />
@@ -141,8 +140,7 @@ function createDMIntroMessage(channel, centeredIntro) {
                 <div className='post-profile-img__container channel-intro-img'>
                     <ProfilePicture
                         src={Utils.imageURLForUser(teammate)}
-                        width='50'
-                        height='50'
+                        size='xl'
                         userId={teammate.id}
                         username={teammate.username}
                         hasMention={true}
@@ -245,26 +243,33 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                     permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
                     {!teamIsGroupConstrained &&
-                    <span
-                        className='intro-links color--link cursor--pointer'
-                        onClick={GlobalActions.showGetTeamInviteLinkModal}
+                    <FormattedMessage
+                        id='intro_messages.inviteOthers'
+                        defaultMessage='Invite others to this team'
                     >
-                        <FormattedMessage
-                            id='generic_icons.add'
-                            defaultMessage='Add Icon'
-                        >
-                            {(title) => (
-                                <i
-                                    className='fa fa-user-plus'
-                                    title={title}
-                                />
-                            )}
-                        </FormattedMessage>
-                        <FormattedMessage
-                            id='intro_messages.inviteOthers'
-                            defaultMessage='Invite others to this team'
-                        />
-                    </span>
+                        {(message) => (
+                            <ToggleModalButtonRedux
+                                accessibilityLabel={message}
+                                id='introTextInvite'
+                                className='intro-links color--link cursor--pointer'
+                                modalId={ModalIdentifiers.INVITATION}
+                                dialogType={InvitationModal}
+                            >
+                                <FormattedMessage
+                                    id='generic_icons.add'
+                                    defaultMessage='Add Icon'
+                                >
+                                    {(title) => (
+                                        <i
+                                            className='fa fa-user-plus'
+                                            title={title}
+                                        />
+                                    )}
+                                </FormattedMessage>
+                                {message}
+                            </ToggleModalButtonRedux>
+                        )}
+                    </FormattedMessage>
                     }
                     {teamIsGroupConstrained &&
                     <ToggleModalButton
@@ -288,7 +293,6 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                             defaultMessage='Add other groups to this team'
                         />
                     </ToggleModalButton>
-
                     }
                 </TeamPermissionGate>
             </TeamPermissionGate>
@@ -566,6 +570,7 @@ function createSetHeaderButton(channel) {
         >
             {(message) => (
                 <ToggleModalButtonRedux
+                    modalId='editChannelHeaderModal'
                     accessibilityLabel={message}
                     className={'intro-links color--link'}
                     dialogType={EditChannelHeaderModal}

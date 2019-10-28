@@ -13,21 +13,25 @@ exports[`components/SettingItemMin should match snapshot with active Save button
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
+        role="presentation"
       >
-         
         <img
           alt="profile image"
           className="profile-img"
           src="http://localhost:8065/api/v4/users/src_id"
         />
-         
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -41,6 +45,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -53,25 +58,32 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={false}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
+          tabIndex="0"
         >
           <LoadingWrapper
             loading={false}
@@ -83,8 +95,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -94,7 +107,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -114,10 +127,15 @@ exports[`components/SettingItemMin should match snapshot with active Save button
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -131,6 +149,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -143,25 +162,32 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={false}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-primary"
           onClick={[Function]}
+          tabIndex="0"
         >
           <LoadingWrapper
             loading={false}
@@ -173,8 +199,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -184,7 +211,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -204,21 +231,25 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
+        role="presentation"
       >
-         
         <img
           alt="profile image"
           className="profile-img"
           src="http://localhost:8065/api/v4/users/src_id"
         />
-         
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -232,6 +263,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -244,25 +276,32 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={true}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={true}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={true}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Uploading..."
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={true}
@@ -274,8 +313,9 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -285,7 +325,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -305,12 +345,15 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
+        role="presentation"
       >
-         
         <div
           className="profile-img-preview"
         >
@@ -328,10 +371,11 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             />
           </div>
         </div>
-         
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -345,6 +389,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -357,25 +402,32 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={false}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -387,8 +439,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -398,7 +451,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -418,21 +471,25 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
+        role="presentation"
       >
-         
         <img
           alt="profile image"
           className="profile-img"
           src="http://localhost:8065/api/v4/users/src_id"
         />
-         
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -446,6 +503,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -458,25 +516,32 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={false}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -488,8 +553,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -499,7 +565,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -519,12 +585,15 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
+        role="presentation"
       >
-         
         <div
           className="team-img-preview"
         >
@@ -542,10 +611,11 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             />
           </div>
         </div>
-         
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
@@ -554,6 +624,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -566,25 +637,32 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={false}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -596,8 +674,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -607,7 +686,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -627,16 +706,20 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
+        role="presentation"
       >
-         
         <div
           className="team-img__container"
         >
           <div
+            aria-hidden={true}
             className="img-preview__image"
           >
             <img
@@ -654,11 +737,15 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
                 id="removeIcon"
                 placement="right"
               >
-                <FormattedMessage
-                  defaultMessage="Remove this icon"
-                  id="setting_picture.remove"
-                  values={Object {}}
-                />
+                <div
+                  aria-hidden={true}
+                >
+                  <FormattedMessage
+                    defaultMessage="Remove this icon"
+                    id="setting_picture.remove"
+                    values={Object {}}
+                  />
+                </div>
               </Tooltip>
             }
             placement="right"
@@ -669,20 +756,32 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
               ]
             }
           >
-            <a
+            <button
               className="team-img__remove"
               onClick={[Function]}
             >
-              <span>
+              <span
+                aria-hidden={true}
+              >
                 ×
               </span>
-            </a>
+              <span
+                className="sr-only"
+              >
+                <FormattedMessage
+                  defaultMessage="Remove this icon"
+                  id="setting_picture.remove"
+                  values={Object {}}
+                />
+              </span>
+            </button>
           </OverlayTrigger>
         </div>
-         
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
@@ -691,6 +790,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -703,25 +803,32 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={false}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -733,8 +840,9 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -744,7 +852,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>
@@ -764,16 +872,20 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
     className="col-xs-offset-3 col-xs-8"
   >
     <ul
+      aria-describedby="setting-picture__helptext"
+      aria-label="Profile Picture"
       className="setting-list"
+      tabIndex="-1"
     >
       <li
         className="setting-list-item"
+        role="presentation"
       >
-         
         <div
           className="profile-img__container"
         >
           <div
+            aria-hidden={true}
             className="img-preview__image"
           >
             <img
@@ -791,11 +903,15 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
                 id="removeIcon"
                 placement="right"
               >
-                <FormattedMessage
-                  defaultMessage="Remove profile picture"
-                  id="setting_picture.remove_profile_picture"
-                  values={Object {}}
-                />
+                <div
+                  aria-hidden={true}
+                >
+                  <FormattedMessage
+                    defaultMessage="Remove profile picture"
+                    id="setting_picture.remove_profile_picture"
+                    values={Object {}}
+                  />
+                </div>
               </Tooltip>
             }
             placement="right"
@@ -806,20 +922,32 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
               ]
             }
           >
-            <a
+            <button
               className="profile-img__remove"
               onClick={[Function]}
             >
-              <span>
+              <span
+                aria-hidden={true}
+              >
                 ×
               </span>
-            </a>
+              <span
+                className="sr-only"
+              >
+                <FormattedMessage
+                  defaultMessage="Remove profile picture"
+                  id="setting_picture.remove_profile_picture"
+                  values={Object {}}
+                />
+              </span>
+            </button>
           </OverlayTrigger>
         </div>
-         
       </li>
       <li
         className="setting-list-item padding-top x2"
+        id="setting-picture__helptext"
+        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -833,6 +961,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
       </li>
       <li
         className="setting-list-item"
+        role="presentation"
       >
         <hr />
         <FormError
@@ -845,25 +974,32 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           }
           type="modal"
         />
-        <div
+        <input
+          accept=".jpg,.png,.bmp"
+          aria-hidden={true}
+          className="hidden"
+          disabled={false}
+          onChange={[Function]}
+          tabIndex="-1"
+          type="file"
+        />
+        <button
+          aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
           disabled={false}
+          onClick={[Function]}
         >
           <FormattedMessage
             defaultMessage="Select"
             id="setting_picture.select"
             values={Object {}}
           />
-          <input
-            accept=".jpg,.png,.bmp"
-            disabled={false}
-            onChange={[Function]}
-            type="file"
-          />
-        </div>
-        <a
+        </button>
+        <button
+          aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
           onClick={[Function]}
+          tabIndex="-1"
         >
           <LoadingWrapper
             loading={false}
@@ -875,8 +1011,9 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
               values={Object {}}
             />
           </LoadingWrapper>
-        </a>
-        <a
+        </button>
+        <button
+          aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           href="#"
           onClick={[Function]}
@@ -886,7 +1023,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             id="setting_picture.cancel"
             values={Object {}}
           />
-        </a>
+        </button>
       </li>
     </ul>
   </li>

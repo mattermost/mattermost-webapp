@@ -7,10 +7,10 @@ import {FormattedMessage} from 'react-intl';
 
 import {getEmailInterval} from 'mattermost-redux/utils/notify_props';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
 
@@ -43,9 +43,11 @@ export default class EmailNotificationSetting extends React.Component {
             enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
+            activeSection,
         } = props;
 
         this.state = {
+            activeSection,
             emailInterval,
             enableEmailBatching,
             sendEmailNotifications,
@@ -59,13 +61,27 @@ export default class EmailNotificationSetting extends React.Component {
             enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
+            activeSection,
         } = nextProps;
+
+        // If we're re-opening this section, reset to defaults from props
+        if (activeSection === 'email' && prevState.activeSection !== 'email') {
+            return {
+                activeSection,
+                emailInterval,
+                enableEmailBatching,
+                sendEmailNotifications,
+                newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
+            };
+        }
 
         if (sendEmailNotifications !== prevState.sendEmailNotifications ||
             enableEmailBatching !== prevState.enableEmailBatching ||
-            emailInterval !== prevState.emailInterval
+            emailInterval !== prevState.emailInterval ||
+            activeSection !== prevState.activeSection
         ) {
             return {
+                activeSection,
                 emailInterval,
                 enableEmailBatching,
                 sendEmailNotifications,
@@ -221,7 +237,7 @@ export default class EmailNotificationSetting extends React.Component {
         let batchingInfo = null;
         if (this.props.enableEmailBatching) {
             batchingOptions = (
-                <div>
+                <fieldset>
                     <div className='radio'>
                         <label>
                             <input
@@ -257,7 +273,7 @@ export default class EmailNotificationSetting extends React.Component {
                             />
                         </label>
                     </div>
-                </div>
+                </fieldset>
             );
 
             batchingInfo = (
@@ -272,13 +288,13 @@ export default class EmailNotificationSetting extends React.Component {
             <SettingItemMax
                 title={localizeMessage('user.settings.notifications.emailNotifications', 'Email notifications')}
                 inputs={[
-                    <div key='userNotificationEmailOptions'>
-                        <label>
+                    <fieldset key='userNotificationEmailOptions'>
+                        <legend className='form-legend'>
                             <FormattedMessage
                                 id='user.settings.notifications.email.send'
                                 defaultMessage='Send email notifications'
                             />
-                        </label>
+                        </legend>
                         <div className='radio'>
                             <label>
                                 <input
@@ -314,8 +330,7 @@ export default class EmailNotificationSetting extends React.Component {
                                 />
                             </label>
                         </div>
-                        <br/>
-                        <div>
+                        <div className='margin-top x2'>
                             <FormattedMessage
                                 id='user.settings.notifications.emailInfo'
                                 defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes.'
@@ -326,7 +341,7 @@ export default class EmailNotificationSetting extends React.Component {
                             {' '}
                             {batchingInfo}
                         </div>
-                    </div>,
+                    </fieldset>,
                 ]}
                 submit={this.handleSubmit}
                 saving={this.props.saving}

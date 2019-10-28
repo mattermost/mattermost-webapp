@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
@@ -14,7 +14,7 @@ describe('components/Menu', () => {
         mobile: false,
         teamId: 'team-id',
         teamType: Constants.OPEN_TEAM,
-        teamName: 'team name',
+        teamName: 'team_name',
         currentUser: {id: 'test-user-id'},
         appDownloadLink: null,
         enableCommands: false,
@@ -25,6 +25,7 @@ describe('components/Menu', () => {
         enableOutgoingWebhooks: false,
         enableUserCreation: false,
         enableEmailInvitations: false,
+        enablePluginMarketplace: false,
         experimentalPrimaryTeam: null,
         helpLink: null,
         reportAProblemLink: null,
@@ -70,6 +71,7 @@ describe('components/Menu', () => {
             enableOutgoingWebhooks: true,
             enableUserCreation: true,
             enableEmailInvitations: true,
+            enablePluginMarketplace: true,
             experimentalPrimaryTeam: 'test',
             helpLink: 'test-link-help',
             reportAProblemLink: 'test-report-link',
@@ -92,6 +94,7 @@ describe('components/Menu', () => {
             enableOutgoingWebhooks: true,
             enableUserCreation: true,
             enableEmailInvitations: true,
+            enablePluginMarketplace: true,
             experimentalPrimaryTeam: 'test',
             helpLink: 'test-link-help',
             reportAProblemLink: 'test-report-link',
@@ -124,5 +127,24 @@ describe('components/Menu', () => {
         };
         const wrapper = shallowWithIntl(<MainMenu {...props}/>);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show leave team option when primary team is set', () => {
+        const props = {...defaultProps, teamIsGroupConstrained: false, experimentalPrimaryTeam: null};
+        const wrapper = shallowWithIntl(<MainMenu {...props}/>);
+
+        // show leave team option when experimentalPrimaryTeam is not set
+        expect(wrapper.find('#leaveTeam')).toHaveLength(1);
+        expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
+
+        // hide leave team option when experimentalPrimaryTeam is same as current team
+        wrapper.setProps({experimentalPrimaryTeam: defaultProps.teamName});
+        expect(wrapper.find('#leaveTeam')).toHaveLength(1);
+        expect(wrapper.find('#leaveTeam').props().show).toEqual(false);
+
+        // show leave team option when experimentalPrimaryTeam is set to other team
+        wrapper.setProps({experimentalPrimaryTeam: 'other_name'});
+        expect(wrapper.find('#leaveTeam')).toHaveLength(1);
+        expect(wrapper.find('#leaveTeam').props().show).toEqual(true);
     });
 });

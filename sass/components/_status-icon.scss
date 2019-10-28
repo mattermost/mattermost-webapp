@@ -86,19 +86,51 @@
 }
 
 .status-selector:hover>.status {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration($transition-quick);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in, step-end);
+    }
 }
 
 .status-selector>.status {
-    display: inherit;
+    opacity: 1;
+    visibility: visible;
+
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration($transition-quick);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-out, step-start);
+    }
 }
 
 .status-selector>.status-edit {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration($transition-quick);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in, step-end);
+    }
 }
 
 .status-selector:hover>.status-edit {
-    display: inherit;
+    opacity: 1;
+    visibility: visible;
+
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration($transition-quick);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-out, step-start);
+    }
 }
 
 .status {

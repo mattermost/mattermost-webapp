@@ -54,14 +54,6 @@ export default class SearchableUserList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
-        this.focusSearchBar = this.focusSearchBar.bind(this);
-
-        this.handleInput = this.handleInput.bind(this);
-
-        this.renderCount = this.renderCount.bind(this);
-
         this.nextTimeoutId = 0;
 
         this.state = {
@@ -77,15 +69,13 @@ export default class SearchableUserList extends React.Component {
         if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
             this.refs.userList.scrollToTop();
         }
-
-        this.focusSearchBar();
     }
 
     componentWillUnmount() {
         clearTimeout(this.nextTimeoutId);
     }
 
-    nextPage(e) {
+    nextPage = (e) => {
         e.preventDefault();
 
         this.setState({nextDisabled: true});
@@ -95,25 +85,25 @@ export default class SearchableUserList extends React.Component {
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
-    previousPage(e) {
+    previousPage = (e) => {
         e.preventDefault();
 
         this.props.previousPage();
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
-    focusSearchBar() {
+    focusSearchBar = () => {
         if (this.props.focusOnMount) {
             this.refs.filter.focus();
         }
     }
 
-    handleInput(e) {
+    handleInput = (e) => {
         this.props.onTermChange(e.target.value);
         this.props.search(e.target.value);
     }
 
-    renderCount(users) {
+    renderCount = (users) => {
         if (!users) {
             return null;
         }
@@ -242,14 +232,13 @@ export default class SearchableUserList extends React.Component {
                         <span
                             id='searchableUserListTotal'
                             className='member-count pull-left'
+                            aria-live='polite'
                         >
                             {this.renderCount(usersToDisplay)}
                         </span>
                     </div>
                 </div>
-                <div
-                    className='more-modal__list'
-                >
+                <div className='more-modal__list'>
                     <UserList
                         ref='userList'
                         users={usersToDisplay}

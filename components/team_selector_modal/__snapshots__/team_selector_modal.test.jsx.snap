@@ -7,7 +7,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="more-modal more-direct-channels team-selector-modal"
+  dialogClassName="a11y__modal more-modal more-direct-channels team-selector-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -79,6 +79,7 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
       }
     />
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitText="Add"
       handleAdd={[Function]}
       handleDelete={[Function]}

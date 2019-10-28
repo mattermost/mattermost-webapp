@@ -6,20 +6,21 @@ import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 import {General} from 'mattermost-redux/constants';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import LoadingScreen from 'components/loading_screen';
 
-import * as AdminActions from 'actions/admin_actions.jsx';
-import BrowserStore from 'stores/browser_store.jsx';
-import {StatTypes} from 'utils/constants.jsx';
-import Banner from 'components/admin_console/banner.jsx';
-import LineChart from 'components/analytics/line_chart.jsx';
-import StatisticCount from 'components/analytics/statistic_count.jsx';
-import TableChart from 'components/analytics/table_chart.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
+import * as AdminActions from 'actions/admin_actions';
+import BrowserStore from 'stores/browser_store';
+import {StatTypes} from 'utils/constants';
+import Banner from 'components/admin_console/banner';
+import LineChart from 'components/analytics/line_chart';
+import StatisticCount from 'components/analytics/statistic_count';
+import TableChart from 'components/analytics/table_chart';
 
 import {getMonthLong} from 'utils/i18n';
 
-import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format.jsx';
+import {formatPostsPerDayData, formatUsersWithPostsPerDayData} from '../format';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
@@ -74,15 +75,16 @@ export default class TeamAnalytics extends React.Component {
         this.props.actions.getTeams(0, 1000);
     }
 
-    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
-        if (nextState.team && nextState.team !== this.state.team) {
-            this.getData(nextState.team.id);
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.team && prevState.team !== this.state.team) {
+            this.getData(this.state.team.id);
         }
     }
 
     getData = async (id) => {
         AdminActions.getStandardAnalytics(id);
         AdminActions.getPostsPerDayAnalytics(id);
+        AdminActions.getBotPostsPerDayAnalytics(id);
         AdminActions.getUsersPerDayAnalytics(id);
         const {data: recentlyActiveUsers} = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'last_activity_at');
         const {data: newUsers} = await this.props.actions.getProfilesInTeam(id, 0, General.PROFILE_CHUNK_SIZE, 'create_at');

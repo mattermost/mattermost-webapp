@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 export const DEFAULT_NUM_PER_PAGE = 50;
 
@@ -96,9 +96,9 @@ export default class ListModal extends React.PureComponent {
         };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         const {totalCount, items} = await this.props.loadItems(0, '');
-        this.setState({totalCount, items, loading: false});
+        this.setState({totalCount, items, loading: false}); // eslint-disable-line react/no-did-mount-set-state
     }
 
     handleHide = () => {
@@ -169,7 +169,7 @@ export default class ListModal extends React.PureComponent {
         return (
             <div>
                 <Modal
-                    dialogClassName='more-modal more-modal--action'
+                    dialogClassName='a11y__modal more-modal more-modal--action'
                     show={this.state.show}
                     onHide={this.handleHide}
                     onExited={this.handleExit}

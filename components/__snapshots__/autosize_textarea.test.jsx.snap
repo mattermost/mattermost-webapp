@@ -5,6 +5,7 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
   <div
     style={
       Object {
+        "background": "none",
         "opacity": 0.5,
         "overflow": "hidden",
         "pointerEvents": "none",
@@ -15,7 +16,9 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
     }
   />
   <textarea
+    aria-label=""
     onChange={[Function]}
+    role="textbox"
     rows={1}
   />
   <div

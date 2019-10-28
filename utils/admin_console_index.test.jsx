@@ -3,6 +3,8 @@
 
 import {IntlProvider} from 'react-intl';
 
+import AdminDefinition from 'components/admin_console/admin_definition.jsx';
+
 import {generateIndex} from './admin_console_index.jsx';
 
 const enMessages = require('../i18n/en');
@@ -13,7 +15,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
         const {intl} = intlProvider.getChildContext();
 
-        const idx = generateIndex(intl);
+        const idx = generateIndex(AdminDefinition, intl);
         expect(idx.search('ldap')).toEqual([
             'environment/session_lengths',
             'authentication/mfa',
@@ -21,6 +23,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'authentication/saml',
             'experimental/features',
             'authentication/email',
+            'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
             'authentication/saml',
@@ -43,7 +46,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
         const intlProvider = new IntlProvider({locale: 'es', messages: esMessages, defaultLocale: 'es'}, {});
         const {intl} = intlProvider.getChildContext();
 
-        const idx = generateIndex(intl);
+        const idx = generateIndex(AdminDefinition, intl);
         expect(idx.search('ldap')).toEqual([
             'environment/session_lengths',
             'authentication/mfa',
@@ -51,6 +54,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'authentication/saml',
             'experimental/features',
             'authentication/email',
+            'authentication/guest_access',
         ]);
         expect(idx.search('saml')).toEqual([
             'authentication/saml',

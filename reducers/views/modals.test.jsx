@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 
 import modalsReducer from 'reducers/views/modals';
-import {ActionTypes, ModalIdentifiers} from 'utils/constants.jsx';
+import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
 class TestModal extends React.Component {
     render() {

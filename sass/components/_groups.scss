@@ -1,15 +1,21 @@
 #ldap_groups {
     overflow: visible;
 }
+
 .groups-list {
     @include single-transition(all, .4s, ease-in-out, 0s);
-    padding: .8em 1.5rem;
+    padding: 1rem 2rem 2rem 2rem;
+
+    &.groups-list-less-padding {
+        padding: 0;
+    }
 
     .groups-list--global-actions {
         position: relative;
         display: flex;
         background: $white;
         padding: 8px 20px;
+
         .group-list-search {
             display: flex;
             flex-grow: 1;
@@ -18,6 +24,7 @@
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 15px;
             height: 30px;
+
             input {
                 border: 0px;
                 margin-left: 25px;
@@ -25,22 +32,28 @@
                 font-size: .95em;
                 width: 100%;
             }
+
             input:focus {
                 outline: none;
             }
+
             margin-top: 2px;
+
             .group-filter-action {
                 padding: 8px 10px 0px 0px;
+
                 &.hidden {
                     visibility: hidden;
                 }
             }
         }
+
         .group-list-link-unlink {
             display: flex;
             flex-grow: 1;
             justify-content: flex-end;
         }
+
         .group-search-filters {
             position: absolute;
             width: 303px;
@@ -48,18 +61,22 @@
             top: 40px;
             border: 1px solid rgba(0, 0, 0, .1);
             padding: 20px;
+
             .search-groups-btn {
                 float: right;
                 bottom: 20px;
                 right: 20px;
             }
+
             .cancel-filters {
                 float: right;
             }
+
             .filter-row {
                 height: 30px;
                 vertical-align: middle;
             }
+
             .filter-check {
                 border-radius: 3px;
                 border: 2px solid $dark-gray;
@@ -68,8 +85,10 @@
                 display: inline-block;
                 margin-right: 7px;
                 vertical-align: middle;
+
                 &.checked {
                     border: 0;
+
                     svg {
                         background: $white;
                         fill: $primary-color;
@@ -78,8 +97,9 @@
             }
         }
     }
+
     .groups-list--header {
-        border-bottom: solid 1px rgba(0,0,0,0.1);
+        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: row;
         font-size: 1.1em;
@@ -95,6 +115,10 @@
             display: block;
             width: 150px;
             opacity: 1;
+
+            &.adjusted {
+                width: 100px;
+            }
         }
 
         .group-actions {
@@ -105,16 +129,26 @@
     .groups-list--body {
         background: $bg--gray;
         cursor: pointer;
+
         .groups-list-loading {
             text-align: center;
             padding: 40px;
         }
+
         .groups-list-empty {
             text-align: center;
-            padding: 20px;
-            font-size: 1.5em;
+            margin-top: 1rem;
+            font-size: 1.6rem;
             background: alpha-color($white, .5);
             color: $gray;
+
+            span {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
         }
     }
 
@@ -125,17 +159,22 @@
         background: $white;
         padding: 5px;
         height: auto;
+
         .btn-link {
             color: $dark-gray;
+
             &.disabled {
                 opacity: .5;
             }
         }
-        .counter{
+
+        .counter {
             color: $dark-gray;
             font-size: 1.1em;
             margin-bottom: 2px;
         }
+
+        border-top: solid 1px rgba(0, 0, 0, 0.1);
     }
 
     .group-check {
@@ -171,19 +210,36 @@
         overflow: hidden;
         opacity: .65;
         width: 150px;
+
+        &.adjusted {
+            width: 120px;
+        }
+
         i {
             margin-right: 5px;
         }
-        > a {
+
+        >a {
             color: $black;
             text-decoration: none;
             padding: 3px 5px;
+
             &:hover {
                 background-color: $light-gray;
                 border-radius: 3px;
             }
+
             &.warning {
                 color: $red;
+            }
+        }
+    }
+
+    .group-description-link {
+        >a {
+            &:hover {
+                background-color: transparent;
+                text-decoration: underline;
             }
         }
     }
@@ -197,16 +253,20 @@
     .group {
         &.checked {
             background-color: lighten($primary-color, 40%);
+
             .group-description {
                 opacity: 1;
             }
         }
+
         &:nth-child(even) {
             background: alpha-color($white, .5)
         }
+
         &.checked:nth-child(even) {
             background-color: lighten($primary-color, 40%);
         }
+
         .group-row {
             .group-name {
                 min-width: 276px;
@@ -224,6 +284,7 @@
         &:hover {
             background-color: lighten($primary-color, 45%);
             border-left: 2px solid $primary-color;
+
             .group-description {
                 opacity: 1;
             }
@@ -233,22 +294,30 @@
             animation-duration: 3s;
             animation-name: rowhighlight;
         }
+
         &.group-row-large {
-            height: 50px;
+            height: 80px;
         }
+    }
+
+    .channel-icon {
+        opacity: 0.8;
     }
 }
 
 .group-profile {
     padding: 15px;
+
     .group-profile-field {
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
+
         label {
             flex-grow: 1;
             width: 33.3%;
         }
+
         .form-control {
             flex-grow: 3;
             width: 100%;
@@ -261,14 +330,17 @@
         background: #333;
         color: $white;
         padding: 10px 20px;
+
         a {
             color: $white;
             text-decoration: underline;
         }
     }
+
     .group-users--body {
         margin: 15px 15px 0 15px;
         position: relative;
+
         .group-users-loading {
             display: none;
             text-align: center;
@@ -276,15 +348,18 @@
             height: 100%;
             position: absolute;
             background: $light-gray;
+
             &.active {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+
                 .fa-spinner {
                     max-width: 10%;
                 }
             }
         }
+
         .group-users-empty {
             text-align: center;
             padding: 20px;
@@ -292,32 +367,42 @@
             background: alpha-color($white, .5);
             color: $gray;
         }
+
         .group-users-row {
             &:nth-child(even) {
                 background: alpha-color($white, .5)
             }
+
             display: flex;
             align-items: center;
             padding: 10px 15px;
+
             .profile-picture {
                 width: 32px;
                 height: 32px;
                 margin: 5px 10px;
                 border-radius: 100%;
             }
+
             .user-data {
+                margin-left: 10px;
+
                 .name-row {
                     display: flex;
                 }
-                .display-name, .email {
+
+                .display-name,
+                .email {
                     color: $gray;
                 }
             }
+
             .email-label {
                 margin-right: 5px;
             }
         }
     }
+
     .group-users--footer {
         margin: 0 15px 15px 15px;
         display: flex;
@@ -326,18 +411,22 @@
         background: $white;
         padding: 5px;
         height: auto;
+
         &.empty {
             border-top: 0;
             padding: 0;
             height: 0;
         }
+
         .btn-link {
             color: $dark-gray;
+
             &.disabled {
                 opacity: .5;
             }
         }
-        .counter{
+
+        .counter {
             color: $dark-gray;
             font-size: 1.1em;
             margin-bottom: 2px;
@@ -347,11 +436,13 @@
 }
 
 .group-teams-and-channels {
-    padding: 15px;
+    padding: 2rem;
+
     .group-teams-and-channels-loading {
         text-align: center;
         padding: 40px;
     }
+
     .group-teams-and-channels-empty {
         text-align: center;
         padding: 20px;
@@ -359,54 +450,67 @@
         background: alpha-color($white, .5);
         color: $gray;
     }
+
     .group-teams-and-channels--header {
         font-size: 1.1em;
         font-weight: bold;
         padding: 5px 20px;
-        border-bottom: solid 1px rgba(0,0,0,0.1);
+        border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     }
+
     .group-teams-and-channels--body {
         .group-teams-and-channels-row {
             display: flex;
             padding: 5px;
             align-items: center;
+
             &:nth-child(even) {
                 background: alpha-color($white, .5)
             }
+
             .arrow-icon {
                 margin-left: 10px;
+
                 .fa-caret-right {
                     padding: 5px;
                     cursor: pointer;
                 }
+
                 .open {
                     transform: rotate(90deg);
                     transform-origin: 55% 50%;
                     transition: transform 300ms;
                 }
             }
-            .team-icon, .channel-icon {
+
+            .team-icon,
+            .channel-icon {
                 width: 16px;
                 height: 16px;
                 margin: 0 5px;
                 color: inherit;
                 opacity: .7;
             }
+
             .team-icon-private {
                 font-size: .35em;
             }
+
             .actions {
                 button {
                     padding: 5px;
                 }
             }
+
             .name {
                 width: 100%;
             }
+
             .remove {
                 height: 30px;
             }
         }
+
         .teams-list {
             .teams-list--header {
                 font-weight: bold;
@@ -423,9 +527,11 @@
     position: relative;
     margin-left: 10px;
     margin-top: -36px;
+
     .fa-caret-down {
         margin-left: 5px;
     }
+
     .add-team-or-channel-menu {
         position: absolute;
         top: 33px;
@@ -434,6 +540,7 @@
         border-radius: 2px;
         width: 100%;
         padding: 5px 8px;
+
         a {
             display: block;
             color: $dark-gray;
@@ -457,4 +564,35 @@
 
 .group-description.group-user-removal-column {
     height: 40px;
+}
+
+#team_groups .group-row .group-description,
+#channel_groups .group-row .group-description {
+    width: 170px;
+}
+
+.section-separator {
+    height: 4rem;
+    margin: 0;
+    position: relative;
+    text-align: center;
+    z-index: 0;
+
+    hr {
+        border-color: #cccccc;
+        margin: 0;
+        position: relative;
+        top: 2rem;
+        z-index: 5;
+    }
+}
+
+.email-group-row {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 90%;
+}
+
+.group-users--header-padded {
+    padding-left: 24px;
 }

@@ -7,9 +7,9 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import {t} from 'utils/i18n';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
@@ -254,7 +254,7 @@ export default class QuickSwitchModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='channel-switch-modal modal--overflow'
+                dialogClassName='a11y__modal channel-switch__modal'
                 ref='modal'
                 show={true}
                 onHide={this.onHide}
@@ -262,6 +262,7 @@ export default class QuickSwitchModal extends React.PureComponent {
                 restoreFocus={false}
                 role='dialog'
                 aria-labelledby='quickSwitchModalLabel'
+                animation={false}
             >
                 <Modal.Header
                     id='quickSwitchModalLabel'
@@ -275,24 +276,26 @@ export default class QuickSwitchModal extends React.PureComponent {
                     >
                         {help}
                     </div>
-                    <SuggestionBox
-                        id='quickSwitchInput'
-                        ref={this.setSwitchBoxRef}
-                        className='form-control focused'
-                        onChange={this.onChange}
-                        value={this.state.text}
-                        onKeyDown={this.handleKeyDown}
-                        onItemSelected={this.handleSubmit}
-                        listComponent={SuggestionList}
-                        maxLength='64'
-                        providers={providers}
-                        listStyle='bottom'
-                        completeOnTab={false}
-                        spellCheck='false'
-                        renderDividers={renderDividers}
-                        delayInputUpdate={true}
-                        openWhenEmpty={true}
-                    />
+                    <div className='channel-switch__suggestion-box'>
+                        <SuggestionBox
+                            id='quickSwitchInput'
+                            ref={this.setSwitchBoxRef}
+                            className='form-control focused'
+                            onChange={this.onChange}
+                            value={this.state.text}
+                            onKeyDown={this.handleKeyDown}
+                            onItemSelected={this.handleSubmit}
+                            listComponent={SuggestionList}
+                            maxLength='64'
+                            providers={providers}
+                            listStyle='bottom'
+                            completeOnTab={false}
+                            spellCheck='false'
+                            renderDividers={renderDividers}
+                            delayInputUpdate={true}
+                            openWhenEmpty={true}
+                        />
+                    </div>
                 </Modal.Body>
             </Modal>
         );

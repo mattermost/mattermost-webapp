@@ -8,10 +8,10 @@ import {FormattedMessage} from 'react-intl';
 import * as Utils from 'utils/utils.jsx';
 
 import GroupRow from 'components/admin_console/group_settings/group_row.jsx';
-import NextIcon from 'components/icon/next_icon';
-import PreviousIcon from 'components/icon/previous_icon';
-import SearchIcon from 'components/svg/search_icon';
-import CheckboxCheckedIcon from 'components/svg/checkbox_checked_icon.jsx';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon.jsx';
 
 import {Constants} from 'utils/constants';
 
@@ -434,33 +434,35 @@ export default class GroupsList extends React.PureComponent {
                 <div className='groups-list--body'>
                     {this.renderRows()}
                 </div>
-                <div className='groups-list--footer'>
-                    <div className='counter'>
-                        <FormattedMessage
-                            id='admin.group_settings.groups_list.paginatorCount'
-                            defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
-                            values={{
-                                startCount,
-                                endCount,
-                                total,
-                            }}
-                        />
+                {total > 0 &&
+                    <div className='groups-list--footer'>
+                        <div className='counter'>
+                            <FormattedMessage
+                                id='admin.group_settings.groups_list.paginatorCount'
+                                defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
+                                values={{
+                                    startCount,
+                                    endCount,
+                                    total,
+                                }}
+                            />
+                        </div>
+                        <button
+                            className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                            onClick={firstPage ? null : this.previousPage}
+                            disabled={firstPage}
+                        >
+                            <PreviousIcon/>
+                        </button>
+                        <button
+                            className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                            onClick={lastPage ? null : this.nextPage}
+                            disabled={lastPage}
+                        >
+                            <NextIcon/>
+                        </button>
                     </div>
-                    <button
-                        className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                        onClick={firstPage ? null : this.previousPage}
-                        disabled={firstPage}
-                    >
-                        <PreviousIcon/>
-                    </button>
-                    <button
-                        className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                        onClick={lastPage ? null : this.nextPage}
-                        disabled={lastPage}
-                    >
-                        <NextIcon/>
-                    </button>
-                </div>
+                }
             </div>
         );
     }

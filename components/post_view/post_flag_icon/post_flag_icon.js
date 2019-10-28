@@ -6,9 +6,10 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import FlagIcon from 'components/svg/flag_icon';
-import FlagIconFilled from 'components/svg/flag_icon_filled';
-import Constants, {Locations} from 'utils/constants.jsx';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
+import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
+import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 export default class PostFlagIcon extends React.PureComponent {
@@ -28,6 +29,35 @@ export default class PostFlagIcon extends React.PureComponent {
         location: Locations.CENTER,
     };
 
+    constructor() {
+        super();
+
+        this.buttonRef = React.createRef();
+
+        this.state = {
+            a11yActive: false,
+        };
+    }
+
+    componentDidMount() {
+        if (this.buttonRef.current) {
+            this.buttonRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.buttonRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
+    }
+    componentWillUnmount() {
+        if (this.buttonRef.current) {
+            this.buttonRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.buttonRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.state.a11yActive && this.buttonRef.current) {
+            this.buttonRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
+    }
+
     handlePress = (e) => {
         e.preventDefault();
 
@@ -42,6 +72,14 @@ export default class PostFlagIcon extends React.PureComponent {
         } else {
             actions.flagPost(postId);
         }
+    }
+
+    handleA11yActivateEvent = () => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = () => {
+        this.setState({a11yActive: false});
     }
 
     render() {
@@ -61,28 +99,29 @@ export default class PostFlagIcon extends React.PureComponent {
         }
 
         return (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                key={'flagtooltipkey' + flagVisible}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={
-                    <Tooltip id='flagTooltip'>
-                        <FormattedMessage
-                            id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
-                            defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
-                        />
-                    </Tooltip>
-                }
+            <button
+                ref={this.buttonRef}
+                id={`${this.props.location}_flagIcon_${this.props.postId}`}
+                aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Unflag').toLowerCase() : localizeMessage('flag_post.flag', 'Flag for follow up').toLowerCase()}
+                className={'style--none flag-icon__container ' + flagVisible}
+                onClick={this.handlePress}
             >
-                <button
-                    id={`${this.props.location}_flagIcon_${this.props.postId}`}
-                    className={'style--none flag-icon__container ' + flagVisible}
-                    onClick={this.handlePress}
+                <OverlayTrigger
+                    key={'flagtooltipkey' + flagVisible}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='flagTooltip'>
+                            <FormattedMessage
+                                id={isFlagged ? t('flag_post.unflag') : t('flag_post.flag')}
+                                defaultMessage={isFlagged ? 'Unflag' : 'Flag for follow up'}
+                            />
+                        </Tooltip>
+                    }
                 >
                     {flagIcon}
-                </button>
-            </OverlayTrigger>
+                </OverlayTrigger>
+            </button>
         );
     }
 }

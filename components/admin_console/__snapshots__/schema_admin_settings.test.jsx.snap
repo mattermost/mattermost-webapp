@@ -4,6 +4,11 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
 <component
   config={
     Object {
+      "EscapedSettings": Object {
+        "com.example.setting": Object {
+          "a": true,
+        },
+      },
       "FirstSettings": Object {
         "settinga": "fsdsdg",
         "settingb": false,
@@ -31,6 +36,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
       "component": [Function],
     }
   }
+  updateConfig={[MockFunction]}
 />
 `;
 
@@ -339,7 +345,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 11,
-                  "text": "Yкраїнська (Beta)",
+                  "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
@@ -453,7 +459,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 11,
-                  "text": "Yкраїнська (Beta)",
+                  "text": "Yкраїнська (Alpha)",
                   "value": "uk",
                 },
                 Object {
@@ -499,6 +505,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 textDefault="This is some help text for the button field."
               />
             }
+            id={null}
             includeDetailedError={true}
             key="Config_text_SecondSettings.settingk"
             requestAction={[Function]}
@@ -561,7 +568,10 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             id="custom"
             key="Config_userautocomplete_custom"
             onChange={[Function]}
+            registerSaveAction={[Function]}
             setByEnv={false}
+            setSaveNeeded={[Function]}
+            unRegisterSaveAction={[Function]}
             value=""
           />
           <Connect(InjectIntl(JobTable))
@@ -612,6 +622,36 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               />
             }
             value={false}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <SchemaText
+                isTranslated={true}
+                text="escaped-help-text-a"
+                textDefault="This is some help text for the first escaped field."
+              />
+            }
+            id="EscapedSettings.com+example+setting.a"
+            key="Config_bool_EscapedSettings.com+example+setting.a"
+            label="Escaped Setting A"
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
           />
         </SettingsGroup>
       </form>

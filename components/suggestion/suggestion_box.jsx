@@ -7,8 +7,8 @@ import React from 'react';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input.jsx';
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
@@ -145,6 +145,7 @@ export default class SuggestionBox extends React.Component {
 
     constructor(props) {
         super(props);
+        this.suggestionReadOut = React.createRef();
 
         // Keep track of whether we're composing a CJK character so we can make suggestions for partial characters
         this.composing = false;
@@ -187,6 +188,14 @@ export default class SuggestionBox extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        const {value} = this.props;
+
+        // Post was just submitted, update pretext property.
+        if (value === '' && this.pretext !== value) {
+            this.handlePretextChanged(value);
+            return;
+        }
+
         if (prevProps.contextId !== this.props.contextId) {
             const textbox = this.getTextbox();
             const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
@@ -650,6 +659,12 @@ export default class SuggestionBox extends React.Component {
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
             >
+                <div
+                    ref={this.suggestionReadOut}
+                    aria-live='polite'
+                    role={UserAgent.isFirefox() ? '' : 'alert'}
+                    className='sr-only'
+                />
                 <QuickInput
                     ref='input'
                     autoComplete='off'
@@ -663,6 +678,7 @@ export default class SuggestionBox extends React.Component {
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <SuggestionListComponent
                         ref='list'
+                        ariaLiveRef={this.suggestionReadOut}
                         open={this.state.focused}
                         pretext={this.pretext}
                         location={listStyle}

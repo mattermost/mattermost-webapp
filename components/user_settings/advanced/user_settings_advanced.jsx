@@ -6,12 +6,12 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import BackIcon from 'components/icon/back_icon';
+import BackIcon from 'components/widgets/icons/fa_back_icon';
 
 import JoinLeaveSection from './join_leave_section';
 
@@ -27,7 +27,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         joinLeave: PropTypes.string.isRequired,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
-        prevActiveSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
         enablePreviewFeatures: PropTypes.bool,
@@ -43,14 +42,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         super(props);
 
         this.state = this.getStateFromProps();
-
-        this.prevSections = {
-            advancedCtrlSend: 'dummySectionName', // dummy value that should never match any section name
-            formatting: 'advancedCtrlSend',
-            join_leave: 'formatting',
-            advancedPreviewFeatures: 'join_leave',
-            deactivateAccount: 'advancedPreviewFeatures',
-        };
     }
 
     getStateFromProps = () => {
@@ -241,7 +232,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         />
                     }
                     inputs={[
-                        <div key='formattingSetting'>
+                        <fieldset key='formattingSetting'>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -274,14 +265,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                 </label>
                                 <br/>
                             </div>
-                            <div>
-                                <br/>
+                            <div className='margin-top x3'>
                                 <FormattedMessage
                                     id='user.settings.advance.formattingDesc'
                                     defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'
                                 />
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={'formatting'}
                     submit={this.handleSubmit}
@@ -301,7 +291,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     />
                 }
                 describe={this.renderOnOffLabel(this.state.settings.formatting)}
-                focused={this.props.prevActiveSection === this.prevSections.formatting}
                 section={'formatting'}
                 updateSection={this.handleUpdateSection}
             />
@@ -426,7 +415,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         />
                     }
                     describe={this.renderCtrlEnterLabel()}
-                    focused={this.props.prevActiveSection === this.prevSections.advancedCtrlSend}
                     section={'advancedCtrlSend'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -505,7 +493,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                 values={{count: this.state.enabledFeatures}}
                             />
                         }
-                        focused={this.props.prevActiveSection === this.prevSections.advancedPreviewFeatures}
                         section={'advancedPreviewFeatures'}
                         updateSection={this.handleUpdateSection}
                     />
@@ -561,7 +548,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                                 defaultMessage="Click 'Edit' to deactivate your account"
                             />
                         }
-                        focused={this.props.prevActiveSection === this.prevSections.deactivateAccount}
                         section={'deactivateAccount'}
                         updateSection={this.handleUpdateSection}
                     />
@@ -642,7 +628,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     <JoinLeaveSection
                         activeSection={this.props.activeSection}
                         onUpdateSection={this.handleUpdateSection}
-                        prevActiveSection={this.props.prevActiveSection}
                         renderOnOffLabel={this.renderOnOffLabel}
                     />
                     {previewFeaturesSectionDivider}

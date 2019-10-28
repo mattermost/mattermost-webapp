@@ -13,6 +13,7 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
   <div>
     <EmojiPickerOverlay
       enableGifPicker={false}
+      n={true}
       onEmojiClick={[Function]}
       onEmojiClose={[MockFunction]}
       onHide={[MockFunction]}
@@ -49,6 +50,7 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
       }
     >
       <button
+        aria-label="add reaction"
         className="reacticon__container color--link style--none"
         id="CENTER_reaction_post_id_1"
         onClick={[MockFunction]}

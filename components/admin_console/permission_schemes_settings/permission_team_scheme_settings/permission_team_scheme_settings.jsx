@@ -7,18 +7,18 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {PermissionsScope, ModalIdentifiers} from 'utils/constants.jsx';
+import {PermissionsScope, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import SaveButton from 'components/save_button.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-import FormError from 'components/form_error.jsx';
+import LoadingScreen from 'components/loading_screen';
+import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
-import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable.jsx';
-import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
+import AdminPanelTogglable from 'components/widgets/admin_console/admin_panel_togglable';
+import AdminPanelWithButton from 'components/widgets/admin_console/admin_panel_with_button';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 

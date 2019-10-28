@@ -9,35 +9,18 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
-      <FormattedMessage
-        defaultMessage="Direct Message (with {username})"
-        id="search_item.direct"
-        values={
-          Object {
-            "username": "Other guy",
-          }
-        }
-      />
-      <span
-        className="search-channel__archived"
-      >
-        <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon svg-text-color"
-        />
-        <FormattedMessage
-          defaultMessage="Archived"
-          id="search_item.channelArchived"
-          values={Object {}}
-        />
-      </span>
+      Direct Message (with Other guy)
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"
@@ -113,7 +96,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
               isFlagged={true}
-              isReadOnly={true}
+              isReadOnly={null}
               location="SEARCH"
               post={
                 Object {
@@ -145,6 +128,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
             />
             <a
               className="search-item__jump"
+              href="#"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -234,11 +218,14 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
+      channel_name
       <span
         className="search-channel__archived"
       >
@@ -254,6 +241,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"
@@ -352,6 +340,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
             />
             <a
               className="search-item__jump"
+              href="#"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -441,26 +430,18 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
-      <span
-        className="search-channel__archived"
-      >
-        <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon svg-text-color"
-        />
-        <FormattedMessage
-          defaultMessage="Archived"
-          id="search_item.channelArchived"
-          values={Object {}}
-        />
-      </span>
+      channel_name
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"
@@ -527,7 +508,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             <Connect(DotMenu)
               handleDropdownOpened={[Function]}
               isFlagged={true}
-              isReadOnly={true}
+              isReadOnly={null}
               location="SEARCH"
               post={
                 Object {
@@ -559,6 +540,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
             />
             <a
               className="search-item__jump"
+              href="#"
               onClick={[Function]}
             >
               <FormattedMessage
@@ -639,6 +621,143 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
 </div>
 `;
 
+exports[`components/SearchResultsItem should match snapshot for deleted message 1`] = `
+<div
+  className="search-item__container"
+  data-testid="search-item-container"
+>
+  <Connect(DateSeparator)
+    date={2017-12-14T18:15:28.290Z}
+  />
+  <div
+    className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
+  >
+    <div
+      aria-hidden="true"
+      className="search-channel__name"
+    >
+      channel_name
+    </div>
+    <div
+      className="post__content"
+      role="application"
+    >
+      <div
+        className="post__img"
+      >
+        <Connect(PostProfilePicture)
+          compactDisplay={true}
+          post={
+            Object {
+              "channel_id": "channel_id",
+              "create_at": 1502715365009,
+              "delete_at": 0,
+              "edit_at": 1502715372443,
+              "file_ids": Array [
+                "id",
+                "id2",
+              ],
+              "id": "id",
+              "is_pinned": false,
+              "message": "post message",
+              "original_id": "",
+              "parent_id": "",
+              "pending_post_id": "",
+              "props": Object {
+                "from_webhook": true,
+                "override_username": "overridden_username",
+              },
+              "root_id": "",
+              "state": "DELETED",
+              "type": "",
+              "update_at": 1502715372443,
+              "user_id": "user_id",
+            }
+          }
+          userId="user_id"
+        />
+      </div>
+      <div>
+        <div
+          className="post__header"
+        >
+          <div
+            className="col col__name"
+          >
+            <Connect(UserProfile)
+              disablePopover={true}
+              isRHS={true}
+              overwriteName="overridden_username"
+              userId="user_id"
+            />
+            <BotBadge
+              className=""
+              show={true}
+            />
+          </div>
+          <div
+            className="col"
+          >
+            <Connect(PostTime)
+              eventTime={1502715365009}
+              isPermalink={false}
+              location="SEARCH"
+              postId="id"
+            />
+          </div>
+        </div>
+        <div
+          className="search-item-snippet post__body"
+        >
+          <div
+            className=" post--edited"
+          >
+            <p>
+              <FormattedMessage
+                defaultMessage="(message deleted)"
+                id="post_body.deleted"
+                values={Object {}}
+              />
+            </p>
+            <Connect(FileAttachmentList)
+              compactDisplay={true}
+              post={
+                Object {
+                  "channel_id": "channel_id",
+                  "create_at": 1502715365009,
+                  "delete_at": 0,
+                  "edit_at": 1502715372443,
+                  "file_ids": Array [
+                    "id",
+                    "id2",
+                  ],
+                  "id": "id",
+                  "is_pinned": false,
+                  "message": "post message",
+                  "original_id": "",
+                  "parent_id": "",
+                  "pending_post_id": "",
+                  "props": Object {
+                    "from_webhook": true,
+                    "override_username": "overridden_username",
+                  },
+                  "root_id": "",
+                  "state": "DELETED",
+                  "type": "",
+                  "update_at": 1502715372443,
+                  "user_id": "user_id",
+                }
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`components/SearchResultsItem should match snapshot for deleted message with attachments by bot 1`] = `
 <div
   className="search-item__container"
@@ -648,26 +767,18 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
     date={2017-12-14T18:15:28.290Z}
   />
   <div
-    className="post post--thread post--compact"
+    className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
-      <span
-        className="search-channel__archived"
-      >
-        <ArchiveIcon
-          className="icon icon__archive channel-header-archived-icon svg-text-color"
-        />
-        <FormattedMessage
-          defaultMessage="Archived"
-          id="search_item.channelArchived"
-          values={Object {}}
-        />
-      </span>
+      channel_name
     </div>
     <div
       className="post__content"
+      role="application"
     >
       <div
         className="post__img"

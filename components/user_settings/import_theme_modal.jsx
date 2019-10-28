@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 const ActionTypes = Constants.ActionTypes;
 
@@ -146,6 +146,7 @@ export default class ImportThemeModal extends React.Component {
         return (
             <span>
                 <Modal
+                    dialogClassName='a11y__modal'
                     show={this.state.show}
                     onHide={this.handleOnHide}
                     role='dialog'

@@ -5,16 +5,29 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PermissionSystemSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings.jsx';
-import {DefaultRolePermissions} from 'utils/constants.jsx';
+import {DefaultRolePermissions} from 'utils/constants';
 
 describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
     const defaultProps = {
+        config: {
+            EnableGuestAccounts: 'true',
+        },
         license: {
             IsLicensed: 'true',
             CustomPermissionsSchemes: 'true',
+            GuestAccountsPermissions: 'true',
         },
         location: {},
         roles: {
+            system_guest: {
+                permissions: [],
+            },
+            team_guest: {
+                permissions: [],
+            },
+            channel_guest: {
+                permissions: [],
+            },
             system_user: {
                 permissions: [],
             },
@@ -70,6 +83,15 @@ describe('components/admin_console/permission_schemes_settings/permission_system
 
     test('should match snapshot on roles with permissions', (done) => {
         const roles = {
+            system_guest: {
+                permissions: ['create_post'],
+            },
+            team_guest: {
+                permissions: ['invite_user'],
+            },
+            channel_guest: {
+                permissions: ['add_reaction'],
+            },
             system_user: {
                 permissions: ['create_post'],
             },
@@ -115,7 +137,42 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper).toMatchSnapshot();
 
         await wrapper.instance().handleSubmit();
+        expect(editRole).toHaveBeenCalledTimes(8);
+    });
+
+    test('should save roles based on license', async () => {
+        const license = {
+            IsLicensed: 'true',
+            CustomPermissionsSchemes: 'false',
+            GuestAccountsPermissions: 'false',
+        };
+        let editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
+        const wrapper = shallow(
+            <PermissionSystemSchemeSettings
+                {...defaultProps}
+                license={license}
+                actions={{...defaultProps.actions, editRole}}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+
+        await wrapper.instance().handleSubmit();
         expect(editRole).toHaveBeenCalledTimes(5);
+        license.GuestAccountsPermissions = 'true';
+        editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
+        const wrapper2 = shallow(
+            <PermissionSystemSchemeSettings
+                {...defaultProps}
+                license={license}
+                actions={{...defaultProps.actions, editRole}}
+            />
+        );
+
+        expect(wrapper2).toMatchSnapshot();
+
+        await wrapper2.instance().handleSubmit();
+        expect(editRole).toHaveBeenCalledTimes(8);
     });
 
     test('should show error if editRole fails', async () => {

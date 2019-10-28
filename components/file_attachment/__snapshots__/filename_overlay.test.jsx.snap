@@ -24,6 +24,7 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, compa
   <a
     className="post-image__name"
     href="#"
+    id="file-attachment-link"
     onClick={[MockFunction]}
     rel="noopener noreferrer"
   >
@@ -44,67 +45,75 @@ exports[`components/file_attachment/FilenameOverlay should match snapshot, stand
 `;
 
 exports[`components/file_attachment/FilenameOverlay should match snapshot, standard display 1`] = `
-<a
+<div
   className="post-image__name"
-  download="test_filename"
-  href="/api/v4/files/thumbnail_id?download=1"
-  rel="noopener noreferrer"
-  target="_blank"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={1000}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="file-name__tooltip"
-        placement="right"
-      >
-        Download
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+  <a
+    aria-label="download"
+    download="test_filename"
+    href="/api/v4/files/thumbnail_id?download=1"
+    rel="noopener noreferrer"
+    target="_blank"
   >
-    test_filename
-  </OverlayTrigger>
-</a>
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={1000}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="file-name__tooltip"
+          placement="right"
+        >
+          download
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      test_filename
+    </OverlayTrigger>
+  </a>
+</div>
 `;
 
 exports[`components/file_attachment/FilenameOverlay should match snapshot, with Download icon as children 1`] = `
-<a
+<div
   className="post-image__name"
-  download="test_filename"
-  href="/api/v4/files/thumbnail_id?download=1"
-  rel="noopener noreferrer"
-  target="_blank"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={1000}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="file-name__tooltip"
-        placement="right"
-      >
-        Download
-      </Tooltip>
-    }
-    placement="top"
-    trigger={
-      Array [
-        "hover",
-        "focus",
-      ]
-    }
+  <a
+    aria-label="download"
+    download="test_filename"
+    href="/api/v4/files/thumbnail_id?download=1"
+    rel="noopener noreferrer"
+    target="_blank"
   >
-    <DownloadIcon />
-  </OverlayTrigger>
-</a>
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={1000}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="file-name__tooltip"
+          placement="right"
+        >
+          download
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <DownloadIcon />
+    </OverlayTrigger>
+  </a>
+</div>
 `;

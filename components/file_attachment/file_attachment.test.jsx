@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import FileAttachment from 'components/file_attachment/file_attachment.jsx';
+
+import FileAttachment from './file_attachment';
 
 jest.mock('utils/utils.jsx', () => {
     const original = require.requireActual('utils/utils.jsx');
@@ -15,7 +16,7 @@ jest.mock('utils/utils.jsx', () => {
     };
 });
 
-function createComponent({fileInfo, handleImageClick, index, compactDisplay, canDownloadFiles = true} = {}) { //eslint-disable-line react/prop-types
+function createComponent({fileInfo, handleImageClick, index, compactDisplay, canDownloadFiles = true, enableSVGs = false} = {}) { //eslint-disable-line react/prop-types
     const fileInfoProp = fileInfo || {
         id: 1,
         extension: 'pdf',
@@ -31,11 +32,12 @@ function createComponent({fileInfo, handleImageClick, index, compactDisplay, can
             index={indexProp}
             compactDisplay={compactDisplay}
             canDownloadFiles={canDownloadFiles}
+            enableSVGs={enableSVGs}
         />
     );
 }
 
-describe('component/FileAttachment', () => {
+describe('FileAttachment', () => {
     test('should match snapshot, regular file', () => {
         const wrapper = shallow(createComponent());
         expect(wrapper).toMatchSnapshot();
@@ -121,10 +123,15 @@ describe('component/FileAttachment', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call the handleImageClick on attachment clicked', () => {
-        const handleImageClick = jest.fn();
-        const wrapper = mountWithIntl(createComponent({handleImageClick}));
-        wrapper.find('.post-image__thumbnail').simulate('click');
-        expect(handleImageClick).toBeCalled();
+    test('should blur file attachment link after click', () => {
+        const wrapper = mountWithIntl(createComponent({compactDisplay: true}));
+        const e = {
+            preventDefault: jest.fn(),
+            target: {blur: jest.fn()},
+        };
+
+        const a = wrapper.find('#file-attachment-link');
+        a.simulate('click', e);
+        expect(e.target.blur).toHaveBeenCalled();
     });
 });

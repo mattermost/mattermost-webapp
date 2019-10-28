@@ -34,15 +34,17 @@ import {
     isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
 
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import Avatar from 'components/widgets/users/avatar';
 
-import DraftIcon from 'components/svg/draft_icon';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
-import ArchiveIcon from 'components/svg/archive_icon';
+import DraftIcon from 'components/widgets/icons/draft_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
@@ -100,10 +102,9 @@ class SwitchChannelSuggestion extends Suggestion {
         } else {
             icon = (
                 <div className='pull-left'>
-                    <img
-                        alt={''}
-                        className='mention__image'
-                        src={Utils.imageURLForUser(channel.userId)}
+                    <Avatar
+                        size='xs'
+                        url={Utils.imageURLForUser(channel.userId)}
                     />
                 </div>
             );
@@ -116,10 +117,16 @@ class SwitchChannelSuggestion extends Suggestion {
                 teammate = getUser(getState(), channel.userId);
             }
             tag = (
-                <BotBadge
-                    show={Boolean(teammate && teammate.is_bot)}
-                    className='badge-autocomplete'
-                />
+                <React.Fragment>
+                    <BotBadge
+                        show={Boolean(teammate && teammate.is_bot)}
+                        className='badge-autocomplete'
+                    />
+                    <GuestBadge
+                        show={Boolean(teammate && Utils.isGuest(teammate))}
+                        className='badge-autocomplete'
+                    />
+                </React.Fragment>
             );
         }
 
@@ -128,6 +135,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 className={className}
                 id={`switchChannel_${channel.name}`}
+                data-testid={channel.name}
                 {...Suggestion.baseProps}
             >
                 {icon}

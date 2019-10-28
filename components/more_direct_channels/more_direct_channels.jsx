@@ -8,12 +8,13 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
+import Constants from 'utils/constants';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
 import MultiSelect from 'components/multiselect/multiselect.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
-import AddIcon from 'components/icon/add_icon';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import ProfilePicture from 'components/profile_picture';
+import AddIcon from 'components/widgets/icons/fa_add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import GroupMessageOption from './group_message_option';
 
@@ -98,15 +99,15 @@ export default class MoreDirectChannels extends React.Component {
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.searchTerm !== nextProps.searchTerm) {
+    updateFromProps(prevProps) {
+        if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
-            const searchTerm = nextProps.searchTerm;
+            const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 this.resetPaging();
             } else {
-                const teamId = nextProps.restrictDirectMessage === 'any' ? '' : nextProps.currentTeamId;
+                const teamId = this.props.restrictDirectMessage === 'any' ? '' : this.props.currentTeamId;
 
                 this.searchTimeoutId = setTimeout(
                     async () => {
@@ -130,11 +131,15 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         if (
-            this.props.users.length !== nextProps.users.length ||
-            Object.keys(this.props.statuses).length !== Object.keys(nextProps.statuses).length
+            prevProps.users.length !== this.props.users.length ||
+            Object.keys(prevProps.statuses).length !== Object.keys(this.props.statuses).length
         ) {
-            this.loadProfilesMissingStatus(nextProps.users, nextProps.statuses);
+            this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        this.updateFromProps(prevProps);
     }
 
     loadProfilesMissingStatus = (users = [], statuses = {}) => {
@@ -269,6 +274,13 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({values});
     }
 
+    renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
+        return option.username;
+    }
+
     renderOption = (option, isSelected, onAdd) => {
         if (option.type && option.type === 'G') {
             return (
@@ -324,8 +336,7 @@ export default class MoreDirectChannels extends React.Component {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div
                     className='more-modal__details'
@@ -334,6 +345,10 @@ export default class MoreDirectChannels extends React.Component {
                         {modalName}
                         <BotBadge
                             show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
                             className='badge-popoverlist'
                         />
                     </div>
@@ -415,6 +430,7 @@ export default class MoreDirectChannels extends React.Component {
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
+                ariaLabelRenderer={this.renderAriaLabel}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -441,12 +457,13 @@ export default class MoreDirectChannels extends React.Component {
 
         return (
             <Modal
-                dialogClassName={'more-modal more-direct-channels'}
+                dialogClassName='a11y__modal more-modal more-direct-channels'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
                 role='dialog'
                 aria-labelledby='moreDmModalLabel'
+                id='moreDmModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
@@ -459,7 +476,9 @@ export default class MoreDirectChannels extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {body}
                 </Modal.Body>
                 <Modal.Footer className='modal-footer--invisible'>

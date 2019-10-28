@@ -9,8 +9,8 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {localizeMessage} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
-import {isDesktopApp} from 'utils/user_agent.jsx';
-import Constants from 'utils/constants.jsx';
+import {isDesktopApp} from 'utils/user_agent';
+import Constants from 'utils/constants';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
@@ -38,7 +38,34 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
     }
 
-    overlayTriggerAttr = ['hover', 'focus']
+    constructor(props) {
+        super(props);
+        this.gmItemRef = React.createRef();
+        this.displayNameRef = React.createRef();
+    }
+
+    state = {
+        showTooltip: false,
+    }
+
+    componentDidMount() {
+        this.enableToolTipIfNeeded();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.displayName !== this.props.displayName) {
+            this.enableToolTipIfNeeded();
+        }
+    }
+
+    enableToolTipIfNeeded = () => {
+        const element = this.displayNameRef.current;
+        if (element && element.offsetWidth < element.scrollWidth) {
+            this.setState({showTooltip: true});
+        } else {
+            this.setState({showTooltip: false});
+        }
+    }
 
     trackChannelSelectedEvent = () => {
         mark('SidebarChannelLink#click');
@@ -48,6 +75,11 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
     handleClick = () => {
         this.trackChannelSelectedEvent();
         browserHistory.push(this.props.link);
+    }
+
+    removeTooltipLink = () => {
+        // Bootstrap adds the attr dynamically, removing it to prevent a11y readout
+        this.gmItemRef.current.removeAttribute('aria-describedby');
     }
 
     render = () => {
@@ -76,7 +108,9 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
                     teammateIsBot={this.props.teammateIsBot}
                 />
                 <span className='sidebar-item__name'>
-                    <span>{this.props.displayName}</span>
+                    <span ref={this.displayNameRef}>
+                        {this.props.displayName}
+                    </span>
                 </span>
                 {badge}
                 <SidebarChannelButtonOrLinkCloseButton
@@ -141,7 +175,7 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
         }
 
-        if (this.props.channelType === Constants.GM_CHANNEL) {
+        if (this.state.showTooltip) {
             const displayNameToolTip = (
                 <Tooltip
                     id='channel-displayname__tooltip'
@@ -152,12 +186,14 @@ export default class SidebarChannelButtonOrLink extends React.PureComponent {
             );
             element = (
                 <OverlayTrigger
-                    trigger={this.overlayTriggerAttr}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={displayNameToolTip}
+                    onEntering={this.removeTooltipLink}
                 >
-                    {element}
+                    <div ref={this.gmItemRef}>
+                        {element}
+                    </div>
                 </OverlayTrigger>
             );
         }

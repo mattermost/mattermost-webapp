@@ -3,11 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import truncate from 'lodash/truncate';
 
-import {getImageSrc} from 'utils/post_utils';
 import {isUrlSafe} from 'utils/url';
 import {handleFormattedTextClick} from 'utils/utils';
+import {Constants} from 'utils/constants';
 
+import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
 import ShowMore from 'components/post_view/show_more';
 import SizeAwareImage from 'components/size_aware_image';
@@ -33,11 +35,6 @@ export default class MessageAttachment extends React.PureComponent {
          * Options specific to text formatting
          */
         options: PropTypes.object,
-
-        /**
-         * Whether or not the server has an image proxy enabled
-         */
-        hasImageProxy: PropTypes.bool.isRequired,
 
         /**
          * images object for dimensions
@@ -259,14 +256,21 @@ export default class MessageAttachment extends React.PureComponent {
         if (attachment.author_name || attachment.author_icon) {
             if (attachment.author_icon) {
                 author.push(
-                    <img
-                        alt={'attachment author icon'}
-                        className='attachment__author-icon'
-                        src={getImageSrc(attachment.author_icon, this.props.hasImageProxy)}
+                    <ExternalImage
                         key={'attachment__author-icon'}
-                        height='14'
-                        width='14'
-                    />
+                        src={attachment.author_icon}
+                        imageMetadata={this.props.imagesMetadata[attachment.author_icon]}
+                    >
+                        {(iconUrl) => (
+                            <img
+                                alt={'attachment author icon'}
+                                className='attachment__author-icon'
+                                src={iconUrl}
+                                height='14'
+                                width='14'
+                            />
+                        )}
+                    </ExternalImage>
                 );
             }
             if (attachment.author_name) {
@@ -342,27 +346,77 @@ export default class MessageAttachment extends React.PureComponent {
 
         let image;
         if (attachment.image_url) {
+            const imageMetadata = this.props.imagesMetadata[attachment.image_url];
+
             image = (
                 <div className='attachment__image-container'>
-                    <SizeAwareImage
-                        className='attachment__image'
-                        onImageLoaded={this.handleHeightReceivedForImageUrl}
-                        src={getImageSrc(attachment.image_url, this.props.hasImageProxy)}
-                        dimensions={this.props.imagesMetadata[attachment.image_url]}
-                    />
+                    <ExternalImage
+                        src={attachment.image_url}
+                        imageMetadata={imageMetadata}
+                    >
+                        {(imageUrl) => (
+                            <SizeAwareImage
+                                className='attachment__image'
+                                onImageLoaded={this.handleHeightReceivedForImageUrl}
+                                src={imageUrl}
+                                dimensions={imageMetadata}
+                            />
+                        )}
+                    </ExternalImage>
+                </div>
+            );
+        }
+
+        let footer;
+        if (attachment.footer) {
+            let footerIcon;
+            if (attachment.footer_icon) {
+                const footerIconMetadata = this.props.imagesMetadata[attachment.footer_icon];
+
+                footerIcon = (
+                    <ExternalImage
+                        src={attachment.footer_icon}
+                        imageMetadata={footerIconMetadata}
+                    >
+                        {(footerIconUrl) => (
+                            <img
+                                alt={'attachment footer icon'}
+                                className='attachment__footer-icon'
+                                src={footerIconUrl}
+                                height='16'
+                                width='16'
+                            />
+                        )}
+                    </ExternalImage>
+                );
+            }
+
+            footer = (
+                <div className='attachment__footer-container'>
+                    {footerIcon}
+                    <span>{truncate(attachment.footer, {length: Constants.MAX_ATTACHMENT_FOOTER_LENGTH, omission: '…'})}</span>
                 </div>
             );
         }
 
         let thumb;
         if (attachment.thumb_url) {
+            const thumbMetadata = this.props.imagesMetadata[attachment.thumb_url];
+
             thumb = (
                 <div className='attachment__thumb-container'>
-                    <SizeAwareImage
-                        onImageLoaded={this.handleHeightReceivedForThumbUrl}
-                        src={getImageSrc(attachment.thumb_url, this.props.hasImageProxy)}
-                        dimensions={this.props.imagesMetadata[attachment.thumb_url]}
-                    />
+                    <ExternalImage
+                        src={attachment.thumb_url}
+                        imageMetadata={thumbMetadata}
+                    >
+                        {(thumbUrl) => (
+                            <SizeAwareImage
+                                onImageLoaded={this.handleHeightReceivedForThumbUrl}
+                                src={thumbUrl}
+                                dimensions={thumbMetadata}
+                            />
+                        )}
+                    </ExternalImage>
                 </div>
             );
         }
@@ -396,6 +450,7 @@ export default class MessageAttachment extends React.PureComponent {
                                 {attachmentText}
                                 {image}
                                 {fields}
+                                {footer}
                                 {actions}
                             </div>
                             {thumb}

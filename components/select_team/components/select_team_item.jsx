@@ -6,7 +6,7 @@ import React from 'react';
 import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import TeamInfoIcon from 'components/svg/team_info_icon';
+import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
@@ -41,7 +41,6 @@ export default class SelectTeamItem extends React.PureComponent {
 
         return (
             <OverlayTrigger
-                trigger={['hover', 'focus', 'click']}
                 delayShow={1000}
                 placement='top'
                 overlay={descriptionTooltip}

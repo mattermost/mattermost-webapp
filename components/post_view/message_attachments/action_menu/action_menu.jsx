@@ -7,7 +7,7 @@ import React from 'react';
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
-import AutocompleteSelector from 'components/widgets/settings/autocomplete_selector';
+import AutocompleteSelector from 'components/autocomplete_selector';
 
 export default class ActionMenu extends React.PureComponent {
     static propTypes = {
@@ -15,6 +15,7 @@ export default class ActionMenu extends React.PureComponent {
         action: PropTypes.object.isRequired,
         selected: PropTypes.object,
         actions: PropTypes.shape({
+            autocompleteChannels: PropTypes.func.isRequired,
             selectAttachmentMenuAction: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -28,7 +29,7 @@ export default class ActionMenu extends React.PureComponent {
             if (action.data_source === 'users') {
                 this.providers = [new GenericUserProvider()];
             } else if (action.data_source === 'channels') {
-                this.providers = [new GenericChannelProvider()];
+                this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (action.options) {
                 this.providers = [new MenuActionProvider(action.options)];
             }

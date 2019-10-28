@@ -8,10 +8,10 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 const MAX_TEAMS_PER_SCHEME_SUMMARY = 8;
 
@@ -133,7 +133,6 @@ export default class PermissionsSchemeSummary extends React.Component {
         if (teams.length > MAX_TEAMS_PER_SCHEME_SUMMARY) {
             extraTeams = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={

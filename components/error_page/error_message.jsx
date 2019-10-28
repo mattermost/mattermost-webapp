@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ErrorPageTypes} from 'utils/constants.jsx';
+import {ErrorPageTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import ErrorLink from './error_link.jsx';
@@ -69,7 +69,7 @@ export default function ErrorMessage({type, message, service}) {
                 <p>
                     <FormattedMessage
                         id='error.channel_not_found.message'
-                        defaultMessage="The team you're requesting is private or does not exist. Please contact your Administrator for an invitation."
+                        defaultMessage="The channel you're requesting is private or does not exist. Please contact an Administrator to be added to the channel."
                     />
                 </p>
             );

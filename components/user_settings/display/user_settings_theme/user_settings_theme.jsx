@@ -7,11 +7,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionTypes, Constants} from 'utils/constants.jsx';
+import {ActionTypes, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 
 import CustomThemeChooser from './custom_theme_chooser.jsx';
 import PremadeThemeChooser from './premade_theme_chooser';
@@ -259,16 +259,16 @@ export default class ThemeSetting extends React.Component {
                         key='importSlackThemeButton'
                         className='padding-top'
                     >
-                        <a
+                        <button
                             id='slackImportTheme'
-                            className='theme'
+                            className='theme style--none color--link'
                             onClick={this.handleImportModal}
                         >
                             <FormattedMessage
                                 id='user.settings.display.theme.import'
                                 defaultMessage='Import theme colors from Slack'
                             />
-                        </a>
+                        </button>
                     </div>
                 );
             }

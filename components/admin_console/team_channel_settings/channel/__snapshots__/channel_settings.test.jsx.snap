@@ -26,7 +26,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelSettings should matc
       <AdminPanel
         className=""
         id="channels"
-        subtitleDefault="Showing {startCount, number} - {endCount, number} of {total, number} channels. Search for and manage channel settings."
+        subtitleDefault="Showing {startCount, number} - {endCount, number} of {total, number} channels. Manage channel settings."
         subtitleId="admin.channel_settings.description"
         subtitleValues={
           Object {

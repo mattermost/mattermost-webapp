@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isMobile} from 'utils/utils.jsx';
 import ActivityLog from 'components/activity_log_modal/components/activity_log.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 export default class ActivityLogModal extends React.PureComponent {
     static propTypes = {
@@ -112,7 +112,7 @@ export default class ActivityLogModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='modal--scroll'
+                dialogClassName='a11y__modal modal--scroll'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}

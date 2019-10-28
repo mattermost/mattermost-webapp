@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {RHSStates} from 'utils/constants.jsx';
+import Constants, {RHSStates} from 'utils/constants';
 
 export default class RhsCardHeader extends React.Component {
     static propTypes = {
@@ -115,7 +115,6 @@ export default class RhsCardHeader extends React.Component {
                     className='sidebar--right__back'
                 >
                     <OverlayTrigger
-                        trigger={['hover', 'focus']}
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         placement='top'
                         overlay={backToResultsTooltip}
@@ -153,7 +152,6 @@ export default class RhsCardHeader extends React.Component {
                         onClick={this.props.actions.toggleRhsExpanded}
                     >
                         <OverlayTrigger
-                            trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
                             placement='top'
                             overlay={expandSidebarTooltip}
@@ -171,7 +169,6 @@ export default class RhsCardHeader extends React.Component {
                             </FormattedMessage>
                         </OverlayTrigger>
                         <OverlayTrigger
-                            trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
                             placement='top'
                             overlay={shrinkSidebarTooltip}
@@ -196,7 +193,6 @@ export default class RhsCardHeader extends React.Component {
                         onClick={this.props.actions.closeRightHandSide}
                     >
                         <OverlayTrigger
-                            trigger={['hover', 'focus']}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
                             placement='top'
                             overlay={closeSidebarTooltip}

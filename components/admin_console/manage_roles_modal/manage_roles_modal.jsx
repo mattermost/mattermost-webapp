@@ -12,7 +12,8 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 function getStateFromProps(props) {
     const roles = props.user && props.user.roles ? props.user.roles : '';
@@ -275,10 +276,10 @@ export default class ManageRolesModal extends React.PureComponent {
         return (
             <div>
                 <div className='manage-teams__user'>
-                    <img
-                        alt={''}
-                        className='manage-teams__profile-picture'
-                        src={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
+                    <Avatar
+                        size='lg'
+                        username={user.username}
+                        url={Client4.getProfilePictureUrl(user.id, user.last_picture_update)}
                     />
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>
@@ -335,7 +336,7 @@ export default class ManageRolesModal extends React.PureComponent {
             <Modal
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
-                dialogClassName='manage-teams'
+                dialogClassName='a11y__modal manage-teams'
                 role='dialog'
                 aria-labelledby='manageRolesModalLabel'
             >

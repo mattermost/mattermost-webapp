@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// [number] indicates a test step (e.g. 1. Go to a page)
+// [number] indicates a test step (e.g. # Go to a page)
 // [*] indicates an assertion (e.g. * Check the title)
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -34,20 +34,10 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 }
 
 describe('Message', () => {
-    beforeEach(() => {
+    before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
-
-        // # Change settings to allow @channel messages
-        cy.getCookie('MMUSERID').then((cookie) => {
-            cy.request({
-                headers: {'X-Requested-With': 'XMLHttpRequest'},
-                url: '/api/v4/users/me/patch',
-                method: 'PUT',
-                body: {user_id: cookie.value, notify_props: {channel: 'true'}},
-            });
-        });
     });
 
     it('M13701 Consecutive message does not repeat profile info', () => {
@@ -56,7 +46,7 @@ describe('Message', () => {
 
         // # Post a message to force next user message to display a message
         cy.getCurrentChannelId().then((channelId) => {
-            cy.task('postMessageAs', {sender: sysadmin, message: 'Hello', channelId, baseUrl: Cypress.config('baseUrl')});
+            cy.postMessageAs({sender: sysadmin, message: 'Hello', channelId});
         });
 
         // # Post message "One"
@@ -103,18 +93,20 @@ describe('Message', () => {
         });
     });
 
-    it('M14320 @here., @all. and @channel. (ending in a period) still highlight', () => {
+    it('M14320 @here, @all and @channel (ending in a period) still highlight', () => {
+        // # Change settings to allow @channel messages
+        cy.apiPatchMe({notify_props: {channel: 'true'}});
+
+        // # Login as new user
+        cy.loginAsNewUser().then(() => {
+            // # Create new team and visit its URL
+            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                cy.visit(`/${response.body.name}`);
+            });
+        });
+
         // # Post message
         cy.postMessage('@here. @all. @channel.');
-
-        // * Check that confirm modal is displayed
-        cy.get('#confirmModal').should('be.visible');
-
-        // # Confirm multiple mentions
-        cy.get('#confirmModalButton').click();
-
-        // * Check that confirm modal is closed
-        cy.get('#confirmModal').should('not.be.visible');
 
         cy.getLastPostId().then((postId) => {
             const divPostId = `#postMessageText_${postId}`;

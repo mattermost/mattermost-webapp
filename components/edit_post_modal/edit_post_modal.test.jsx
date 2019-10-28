@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {shallow} from 'enzyme';
 import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
@@ -57,7 +57,7 @@ function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, 
 
 describe('components/EditPostModal', () => {
     it('should match with default config', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -66,7 +66,7 @@ describe('components/EditPostModal', () => {
             PostEditTimeLimit: 300,
             EnableEmojiPicker: 'false',
         };
-        const wrapper = shallow(createEditPost({config}));
+        const wrapper = shallowWithIntl(createEditPost({config}));
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -91,7 +91,7 @@ describe('components/EditPostModal', () => {
             title: 'test',
         };
 
-        var wrapper = shallow(createEditPost({actions, editingPost}));
+        var wrapper = shallowWithIntl(createEditPost({actions, editingPost}));
         var instance = wrapper.instance();
         wrapper.setState({editText: ''});
         instance.handleEdit();
@@ -108,7 +108,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallow(createEditPost({actions}));
+        const wrapper = shallowWithIntl(createEditPost({actions}));
 
         expect(actions.addMessageIntoHistory).not.toBeCalled();
         expect(actions.editPost).not.toBeCalled();
@@ -126,14 +126,14 @@ describe('components/EditPostModal', () => {
     });
 
     it('should show emojis on emojis click', () => {
-        const wrapper = shallow(createEditPost());
-        wrapper.find('.edit-post__actions .icon--emoji').simulate('click');
+        const wrapper = shallowWithIntl(createEditPost());
+        wrapper.find('.post-action').simulate('click');
 
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should set the postError state when error happens', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
         expect(wrapper.state().postError).toBe('');
         instance.handlePostError('Test error message');
@@ -144,13 +144,13 @@ describe('components/EditPostModal', () => {
     });
 
     it('should show errors when it is set in the state', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         wrapper.setState({postError: 'Test error message'});
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should set the errorClass to animate when try to edit with an error', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         wrapper.setState({postError: 'Test error message'});
         expect(wrapper.state().errorClass).toBe(null);
         wrapper.instance().handleEdit('Test error message');
@@ -160,7 +160,7 @@ describe('components/EditPostModal', () => {
     });
 
     it('should hide and toggle the emoji picker on correctly on (toggle/hide)EmojiPicker', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         expect(wrapper.state().showEmojiPicker).toBe(false);
         wrapper.instance().toggleEmojiPicker();
         expect(wrapper.state().showEmojiPicker).toBe(true);
@@ -173,8 +173,15 @@ describe('components/EditPostModal', () => {
     });
 
     it('should add emoji to editText when an emoji is clicked', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        instance.editbox = {getInputBox: jest.fn(mockImpl), focus: jest.fn()};
         wrapper.setState({editText: ''});
         instance.handleEmojiClick(null);
         instance.handleEmojiClick({});
@@ -185,17 +192,21 @@ describe('components/EditPostModal', () => {
         instance.handleEmojiClick({name: '+1', aliases: ['thumbsup']});
         expect(wrapper.state().editText).toBe(':+1: ');
 
-        wrapper.setState({editText: 'test'});
+        wrapper.setState(
+            {
+                editText: 'test',
+                caretPosition: 'test'.length,
+            });
         instance.handleEmojiClick({name: '-1', aliases: ['thumbsdown']});
         expect(wrapper.state().editText).toBe('test :-1: ');
 
         wrapper.setState({editText: 'test '});
         instance.handleEmojiClick({name: '-1', aliases: ['thumbsdown']});
-        expect(wrapper.state().editText).toBe('test :-1: ');
+        expect(wrapper.state().editText).toBe('test  :-1: ');
     });
 
     it('should set the focus and recalculate the size of the edit box after entering', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
         instance.editbox = {focus: jest.fn(), recalculateSize: jest.fn()};
 
@@ -208,14 +219,13 @@ describe('components/EditPostModal', () => {
     });
 
     it('should hide the preview when exiting', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
-        instance.editbox = {hidePreview: jest.fn()};
 
-        const ref = instance.editbox;
-        expect(ref.hidePreview).not.toBeCalled();
+        instance.updatePreview(true);
+        expect(wrapper.state().preview).toBe(true);
         instance.handleExit();
-        expect(ref.hidePreview).toBeCalled();
+        expect(wrapper.state().preview).toBe(false);
     });
 
     it('should close without saving when post text is not changed', () => {
@@ -225,7 +235,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallow(createEditPost({actions}));
+        const wrapper = shallowWithIntl(createEditPost({actions}));
         const instance = wrapper.instance();
 
         expect(actions.hideEditPostModal).not.toBeCalled();
@@ -244,7 +254,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        var wrapper = shallow(createEditPost({actions}));
+        var wrapper = shallowWithIntl(createEditPost({actions}));
         var instance = wrapper.instance();
 
         expect(actions.hideEditPostModal).not.toBeCalled();
@@ -270,7 +280,7 @@ describe('components/EditPostModal', () => {
 
         actions.hideEditPostModal.mockClear();
 
-        wrapper = shallow(createEditPost({actions}));
+        wrapper = shallowWithIntl(createEditPost({actions}));
         instance = wrapper.instance();
 
         expect(actions.hideEditPostModal).not.toBeCalled();
@@ -294,7 +304,7 @@ describe('components/EditPostModal', () => {
             openModal: jest.fn(),
         };
         global.scrollTo = jest.fn();
-        const wrapper = shallow(createEditPost({actions}));
+        const wrapper = shallowWithIntl(createEditPost({actions}));
         const instance = wrapper.instance();
 
         wrapper.setState({editText: 'new text'});
@@ -304,7 +314,7 @@ describe('components/EditPostModal', () => {
     });
 
     it('should update state after changing value in textbox', () => {
-        const wrapper = shallow(createEditPost());
+        const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
 
         wrapper.setState({editText: ''});
@@ -320,13 +330,14 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallow(createEditPost({actions}));
+        const editingPost = {show: false};
+        const wrapper = shallowWithIntl(createEditPost({actions, editingPost}));
         const instance = wrapper.instance();
 
-        wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', showEmojiPicker: true});
+        wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', preview: true, showEmojiPicker: true});
         instance.handleExited();
 
-        expect(wrapper.state()).toEqual({editText: '', postError: '', errorClass: null, showEmojiPicker: false});
+        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     });
 
     it('should focus element on exit based on refocusId', () => {
@@ -336,7 +347,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallow(createEditPost({actions}));
+        const wrapper = shallowWithIntl(createEditPost({actions}));
         const instance = wrapper.instance();
 
         const elem = document.createElement('INPUT');
@@ -353,7 +364,7 @@ describe('components/EditPostModal', () => {
 
     it('should handle edition on key down enter depending on the conditions', () => {
         const options = new ReactRouterEnzymeContext();
-        var wrapper = shallow(createEditPost({ctrlSend: true}), {context: options.get()});
+        var wrapper = shallowWithIntl(createEditPost({ctrlSend: true}), {context: options.get()});
         var instance = wrapper.instance();
         instance.handleEdit = jest.fn();
         instance.handleKeyDown({keyCode: 1, ctrlKey: true});
@@ -363,7 +374,7 @@ describe('components/EditPostModal', () => {
         instance.handleKeyDown({key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], ctrlKey: true});
         expect(instance.handleEdit).toBeCalled();
 
-        wrapper = shallow(createEditPost({ctrlSend: false}));
+        wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
         instance = wrapper.instance();
         instance.handleEdit = jest.fn();
         instance.handleKeyDown({keyCode: 1, ctrlKey: true});
@@ -377,7 +388,7 @@ describe('components/EditPostModal', () => {
     describe('should handle edition on key press enter depending on the conditions', () => {
         it('for Android, ctrlSend true', () => {
             global.navigator = {userAgent: 'Android'};
-            const wrapper = shallow(createEditPost({ctrlSend: true}));
+            const wrapper = shallowWithIntl(createEditPost({ctrlSend: true}));
             const instance = wrapper.instance();
             instance.editbox = {blur: jest.fn()};
 
@@ -396,7 +407,7 @@ describe('components/EditPostModal', () => {
 
         it('for Chrome, ctrlSend false', () => {
             global.navigator = {userAgent: 'Chrome'};
-            const wrapper = shallow(createEditPost({ctrlSend: false}));
+            const wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
             const instance = wrapper.instance();
             instance.editbox = {blur: jest.fn()};
 
@@ -418,7 +429,7 @@ describe('components/EditPostModal', () => {
     });
 
     it('should handle the escape key manually to hide the modal', () => {
-        const wrapper = shallow(createEditPost({ctrlSend: true}));
+        const wrapper = shallowWithIntl(createEditPost({ctrlSend: true}));
         const instance = wrapper.instance();
         instance.handleHide = jest.fn();
         instance.handleExit = jest.fn();
@@ -431,7 +442,7 @@ describe('components/EditPostModal', () => {
     });
 
     it('should handle the escape key manually to hide the modal, unless the emoji picker is shown', () => {
-        const wrapper = shallow(createEditPost({ctrlSend: true}));
+        const wrapper = shallowWithIntl(createEditPost({ctrlSend: true}));
         const instance = wrapper.instance();
         instance.handleHide = jest.fn();
         instance.handleExit = jest.fn();
@@ -449,7 +460,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallow(createEditPost({actions, canEditPost: false}));
+        const wrapper = shallowWithIntl(createEditPost({actions, canEditPost: false}));
         wrapper.setState({editText: 'new message'});
         expect(wrapper).toMatchSnapshot();
 
@@ -462,7 +473,7 @@ describe('components/EditPostModal', () => {
     });
 
     it('should not disable the button on not canEditPost and no text in it with canDeletePost', () => {
-        const wrapper = shallow(createEditPost({canEditPost: false}));
+        const wrapper = shallowWithIntl(createEditPost({canEditPost: false}));
         wrapper.setState({editText: ''});
         expect(wrapper).toMatchSnapshot();
     });
@@ -474,7 +485,7 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallow(createEditPost({actions, canDeletePost: false}));
+        const wrapper = shallowWithIntl(createEditPost({actions, canDeletePost: false}));
         wrapper.setState({editText: ''});
         expect(wrapper).toMatchSnapshot();
 
@@ -487,7 +498,7 @@ describe('components/EditPostModal', () => {
     });
 
     it('should not disable the button on not canDeletePost and text in it with canEditPost', () => {
-        const wrapper = shallow(createEditPost({canDeletePost: false}));
+        const wrapper = shallowWithIntl(createEditPost({canDeletePost: false}));
         wrapper.setState({editText: 'new message'});
         expect(wrapper).toMatchSnapshot();
     });
@@ -506,7 +517,7 @@ describe('components/EditPostModal', () => {
             show: true,
             title: 'test',
         };
-        var wrapper = shallow(createEditPost({canDeletePost: false, editingPost}));
+        var wrapper = shallowWithIntl(createEditPost({canDeletePost: false, editingPost}));
         wrapper.setState({editText: ''});
         expect(wrapper).toMatchSnapshot();
     });

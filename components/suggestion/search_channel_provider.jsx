@@ -5,10 +5,9 @@ import React from 'react';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
-import {autocompleteChannelsForSearch} from 'actions/channel_actions.jsx';
-import Constants from 'utils/constants.jsx';
-import SelectIcon from 'components/icon/select_icon';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import Constants from 'utils/constants';
+import SelectIcon from 'components/widgets/icons/fa_select_icon';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
 
@@ -31,7 +30,7 @@ class SearchChannelSuggestion extends Suggestion {
 
         let className = 'search-autocomplete__item';
         if (isSelection) {
-            className += ' selected keyboard-focus';
+            className += ' selected a11y--focused';
         }
 
         const name = itemToName(item);
@@ -54,7 +53,10 @@ class SearchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
-                <span className='search-autocomplete__name'>
+                <span
+                    data-testid='listItem'
+                    className='search-autocomplete__name'
+                >
                     {name}
                 </span>
                 {tag}
@@ -64,6 +66,11 @@ class SearchChannelSuggestion extends Suggestion {
 }
 
 export default class SearchChannelProvider extends Provider {
+    constructor(channelSearchFunc) {
+        super();
+        this.autocompleteChannelsForSearch = channelSearchFunc;
+    }
+
     handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
@@ -71,7 +78,7 @@ export default class SearchChannelProvider extends Provider {
 
             this.startNewRequest(channelPrefix);
 
-            autocompleteChannelsForSearch(
+            this.autocompleteChannelsForSearch(
                 channelPrefix,
                 (data) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
@@ -90,7 +97,7 @@ export default class SearchChannelProvider extends Provider {
                         items: channels,
                         component: SearchChannelSuggestion,
                     });
-                }
+                },
             );
         }
 

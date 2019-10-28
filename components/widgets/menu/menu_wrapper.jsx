@@ -4,7 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Constants from 'utils/constants';
+
 import MenuWrapperAnimation from './menu_wrapper_animation.jsx';
+
+import './menu_wrapper.scss';
 
 export default class MenuWrapper extends React.PureComponent {
     static propTypes = {
@@ -20,10 +24,10 @@ export default class MenuWrapper extends React.PureComponent {
     };
 
     constructor(props) {
+        super(props);
         if (!Array.isArray(props.children) || props.children.length !== 2) {
             throw new Error('MenuWrapper needs exactly 2 children');
         }
-        super(props);
         this.state = {
             open: false,
         };
@@ -31,18 +35,34 @@ export default class MenuWrapper extends React.PureComponent {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.close, true);
+        document.addEventListener('click', this.closeOnBlur, true);
+        document.addEventListener('keyup', this.keyboardClose, true);
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.close, true);
+        document.removeEventListener('click', this.closeOnBlur, true);
+        document.removeEventListener('keyup', this.keyboardClose, true);
     }
 
-    close = (e) => {
-        if (this.node.current.contains(e.target)) {
+    keyboardClose = (e) => {
+        if (e.key === Constants.KeyCodes.ESCAPE[0]) {
+            this.close();
+        }
+
+        if (e.key === Constants.KeyCodes.TAB[0]) {
+            this.closeOnBlur(e);
+        }
+    }
+
+    closeOnBlur = (e) => {
+        if (this.node.current && this.node.current.contains(e.target)) {
             return;
         }
 
+        this.close();
+    }
+
+    close = () => {
         if (this.state.open) {
             this.setState({open: false});
             if (this.props.onToggle) {

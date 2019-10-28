@@ -28,7 +28,7 @@ import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (key, value) => {
@@ -82,6 +82,7 @@ export function submitPost(channelId, rootId, draft) {
             user_id: userId,
             create_at: time,
             metadata: {},
+            props: {},
         };
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));

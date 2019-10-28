@@ -7,7 +7,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="settings-modal settings-modal--tabless"
+  dialogClassName="a11y__modal settings-modal settings-modal--tabless"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}

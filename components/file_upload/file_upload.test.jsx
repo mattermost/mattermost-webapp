@@ -98,6 +98,21 @@ describe('components/FileUpload', () => {
         expect(baseProps.onClick).toHaveBeenCalledTimes(1);
     });
 
+    test('should call onClick on fileInput when button is touched', () => {
+        const wrapper = shallowWithIntl(
+            <FileUpload {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.handleLocalFileUploaded = jest.fn();
+        instance.fileInput = {
+            current: {
+                click: () => instance.handleLocalFileUploaded(),
+            },
+        };
+        wrapper.find('button').simulate('touchend');
+        expect(instance.handleLocalFileUploaded).toHaveBeenCalledTimes(1);
+    });
+
     test('should match state and call handleMaxUploadReached or props.onClick on handleLocalFileUploaded', () => {
         const wrapper = shallowWithIntl(
             <FileUpload
@@ -289,7 +304,7 @@ describe('components/FileUpload', () => {
             <FileUpload {...baseProps}/>
         );
 
-        const e = {originalEvent: {dataTransfer: {files: [{name: 'file1.pdf'}]}}};
+        const e = {dataTransfer: {files: [{name: 'file1.pdf'}]}};
         const instance = wrapper.instance();
         instance.uploadFiles = jest.fn();
         instance.handleDrop(e);
@@ -298,7 +313,7 @@ describe('components/FileUpload', () => {
         expect(baseProps.onUploadError).toHaveBeenCalledWith(null);
 
         expect(instance.uploadFiles).toBeCalled();
-        expect(instance.uploadFiles).toHaveBeenCalledWith(e.originalEvent.dataTransfer.files);
+        expect(instance.uploadFiles).toHaveBeenCalledWith(e.dataTransfer.files);
 
         expect(baseProps.onFileUploadChange).toBeCalled();
         expect(baseProps.onFileUploadChange).toHaveBeenCalledWith();

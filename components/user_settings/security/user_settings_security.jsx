@@ -6,13 +6,13 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import MfaSection from './mfa_section';
@@ -245,6 +245,7 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateCurrentPassword}
                                 value={this.state.currentPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.currentPassword', 'Current Password')}
                             />
                         </div>
                     </div>
@@ -267,6 +268,7 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateNewPassword}
                                 value={this.state.newPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.newPassword', 'New Password')}
                             />
                         </div>
                     </div>
@@ -289,6 +291,7 @@ export default class SecurityTab extends React.PureComponent {
                                 type='password'
                                 onChange={this.updateConfirmPassword}
                                 value={this.state.confirmPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.retypePassword', 'Retype New Password')}
                             />
                         </div>
                     </div>

@@ -2,39 +2,103 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Markdown', () => {
     before(() => {
-        cy.apiLogin('user-1');
-        cy.visit('/');
+        // # Login as new user
+        cy.loginAsNewUser().then(() => {
+            // # Create new team and visit its URL
+            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                cy.visit(`/${response.body.name}`);
+            });
+        });
     });
 
     const baseUrl = Cypress.config('baseUrl');
 
-    const inlineImage1 = `<h3 class="markdown__heading">In-line Images</h3><p>Mattermost/platform build status:  <a class="theme markdown__link" href="https://travis-ci.org/mattermost/platform" rel="noreferrer" target="_blank"><img alt="Build Status" class="markdown-inline-img" src="${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster"></a></p>`;
-    const inlineImage2 = `<h3 class="markdown__heading">In-line Images</h3><p>GitHub favicon:  <img alt="Github" class="markdown-inline-img" src="${baseUrl}/api/v4/image?url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico"></p>`;
+    it('with in-line images 1', () => {
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_1.md');
 
-    const tests = [
-        {name: 'with in-line images 1', fileKey: 'markdown_inline_images_1', expected: inlineImage1},
-        {name: 'with in-line images 2', fileKey: 'markdown_inline_images_2', expected: inlineImage2},
-    ];
+        // * Verify that HTML Content is correct.
+        // Note we check width and height to verify that img element is actually loaded
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).find('div').
+                should('have.text', 'Mattermost/platform build status:  ').
+                and('have.class', 'style--none');
 
-    tests.forEach((test) => {
-        it(test.name, () => {
-            // #  Post markdown message
-            cy.postMessageFromFile(`markdown/${test.fileKey}.md`);
+            cy.get(`#postMessageText_${postId}`).find('img').
+                should('have.class', 'markdown-inline-img').
+                and('have.attr', 'alt', 'Build Status').
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
+                and('have.css', 'height', '21px').
+                and('have.css', 'width', '102px');
+        });
+    });
 
-            // * Verify that HTML Content is correct.
-            // Note we use the Gigantic timeout to ensure that the large images will load
-            cy.getLastPostId().then((postId) => {
-                cy.get(`#postMessageText_${postId}`, {timeout: TIMEOUTS.GIGANTIC}).should('have.html', test.expected);
-            });
+    it('with in-line images 2', () => {
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_2.md');
+
+        // * Verify that HTML Content is correct.
+        // Note we check width and height to verify that img element is actually loaded
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).find('div').
+                should('have.text', 'GitHub favicon:  ').
+                and('have.class', 'style--none');
+
+            cy.get(`#postMessageText_${postId}`).find('img').
+                should('have.class', 'markdown-inline-img').
+                and('have.class', 'markdown-inline-img--hover').
+                and('have.class', 'cursor--pointer').
+                and('have.class', 'a11y--active').
+                and('have.attr', 'alt', 'Github').
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fgithub.githubassets.com%2Ffavicon.ico`).
+                and('have.css', 'height', '33px').
+                and('have.css', 'width', '33px');
+        });
+    });
+
+    it('opens image preview window when image is clicked', () => {
+        // For example a png image
+
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_6.md');
+
+        cy.getLastPostId().then((postId) => {
+            // # Get the image and simulate a click.
+            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
+                should('have.css', 'height', '143px').
+                and('have.css', 'width', '894px').
+                click();
+
+            // * Verify that the preview modal opens
+            cy.get('div.modal-image__content').should('be.visible');
+
+            // # Close the modal
+            cy.get('div.modal-close').should('exist').click({force: true});
+        });
+    });
+
+    it('opens file preview window when icon image is clicked', () => {
+        // Icon (.ico) files are opened in a file preview window
+
+        // #  Post markdown message
+        cy.postMessageFromFile('markdown/markdown_inline_images_2.md');
+
+        cy.getLastPostId().then((postId) => {
+            // # Get the image and simulate a click.
+            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
+                should('have.css', 'height', '33px').
+                and('have.css', 'width', '33px').
+                click();
+
+            // * Verify that the preview modal opens
+            cy.get('div.file-details__container').should('be.visible');
         });
     });
 });

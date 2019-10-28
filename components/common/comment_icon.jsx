@@ -6,9 +6,10 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Locations} from 'utils/constants.jsx';
+import {Locations} from 'utils/constants';
+import {localizeMessage} from 'utils/utils.jsx';
 
-import ReplyIcon from 'components/svg/reply_icon';
+import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 export default class CommentIcon extends React.PureComponent {
     static propTypes = {
@@ -62,13 +63,17 @@ export default class CommentIcon extends React.PureComponent {
             >
                 <button
                     id={`${this.props.location}_commentIcon_${this.props.postId}`}
+                    aria-label={localizeMessage('post_info.comment_icon.tooltip.reply', 'Reply').toLowerCase()}
                     className={iconStyle + ' color--link style--none ' + this.props.extraClass}
                     onClick={this.props.handleCommentClick}
                 >
-                    <ReplyIcon className='comment-icon'/>
-                    {commentCountSpan}
+                    <span className='d-flex'>
+                        <ReplyIcon className='comment-icon'/>
+                        {commentCountSpan}
+                    </span>
                 </button>
             </OverlayTrigger>
         );
     }
 }
+

@@ -3,7 +3,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -70,10 +70,13 @@ describe('Post Header', () => {
             cy.clickPostFlagIcon(postId);
 
             // * Check that the center flag icon of a post becomes visible
-            cy.get(`#CENTER_flagIcon_${postId}`).should('be.visible').should('have.attr', 'class', 'style--none flag-icon__container visible');
+            cy.get(`#CENTER_flagIcon_${postId}`).should('be.visible').should('have.class', 'style--none flag-icon__container visible');
 
             // # Click again the center flag icon of a post
             cy.clickPostFlagIcon(postId);
+
+            // # Click on textbox to focus away from flag area
+            cy.get('#post_textbox').click();
 
             // * Check that the center flag icon of a post is now hidden.
             cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
@@ -131,6 +134,9 @@ describe('Post Header', () => {
 
             // # Click again the center post reaction icon of the post
             cy.clickPostReactionIcon(postId);
+
+            // # Click on textbox to focus away from emoji area
+            cy.get('#post_textbox').click();
 
             // * Check that the center post reaction icon and emoji picker are not visible
             cy.get(`#CENTER_reaction_${postId}`).should('not.be.visible');

@@ -70,7 +70,7 @@ const mobileMapStateToProps = (state) => {
     let teammateIsBot = false;
     if (teammateId) {
         const teammate = getUser(state, teammateId);
-        teammateIsBot = teammate.is_bot;
+        teammateIsBot = teammate && teammate.is_bot;
     }
 
     return {

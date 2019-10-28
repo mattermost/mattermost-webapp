@@ -14,18 +14,13 @@ import {Constants} from 'utils/constants';
 
 import List from './channel_list.jsx';
 
-const compareByTypeAndName = (a, b) => {
-    if (a.type === b.type) {
-        return a.name.localeCompare(b.name);
-    }
-    return a.type === Constants.OPEN_CHANNEL ? 1 : -1;
-};
+const compareByDisplayName = (a, b) => a.display_name.localeCompare(b.display_name);
 
 const getSortedListOfChannels = createSelector(
     getAllChannels,
     (teams) => Object.values(teams).
         filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).
-        sort(compareByTypeAndName)
+        sort(compareByDisplayName)
 );
 
 function mapStateToProps(state) {

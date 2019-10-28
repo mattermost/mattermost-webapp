@@ -8,8 +8,9 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import Textbox from 'components/textbox';
-import Constants from 'utils/constants.jsx';
-import {isMobile} from 'utils/user_agent.jsx';
+import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import Constants from 'utils/constants';
+import {isMobile} from 'utils/user_agent';
 import {isKeyPressed, localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -67,27 +68,33 @@ class EditChannelHeaderModal extends React.PureComponent {
         }).isRequired,
     }
 
+    static getDerivedStateFromProps(props) {
+        const {requestStatus} = props;
+        if (requestStatus === RequestStatus.SUCCESS) {
+            return {show: false};
+        }
+
+        return null;
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
+            preview: false,
             header: props.channel.header,
             show: true,
-            showError: false,
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const {requestStatus: nextRequestStatus} = nextProps;
-        const {requestStatus} = this.props;
-
-        if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.FAILURE) {
-            this.setState({showError: true});
-        } else if (requestStatus !== nextRequestStatus && nextRequestStatus === RequestStatus.SUCCESS) {
+    handleModalKeyDown = (e) => {
+        if (isKeyPressed(e, KeyCodes.ESCAPE)) {
             this.onHide();
-        } else {
-            this.setState({showError: false});
         }
+    }
+
+    updatePreview = (newState) => {
+        this.setState({preview: newState});
     }
 
     handleChange = (e) => {
@@ -142,7 +149,7 @@ class EditChannelHeaderModal extends React.PureComponent {
 
     render() {
         let serverError = null;
-        if (this.props.serverError && this.state.showError) {
+        if (this.props.serverError && this.props.requestStatus === RequestStatus.FAILURE) {
             let errorMsg;
             if (this.props.serverError.server_error_id === 'model.channel.is_valid.header.app_error') {
                 errorMsg = this.props.intl.formatMessage(holders.error);
@@ -182,7 +189,10 @@ class EditChannelHeaderModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
+                keyboard={false}
+                onKeyDown={this.handleModalKeyDown}
                 onHide={this.onHide}
                 onEntering={this.handleEntering}
                 onExited={this.props.onHide}
@@ -205,20 +215,32 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 defaultMessage='Edit the text appearing next to the channel name in the channel header.'
                             />
                         </p>
-                        <Textbox
-                            value={this.state.header}
-                            onChange={this.handleChange}
-                            onKeyPress={this.handleKeyPress}
-                            onKeyDown={this.handleKeyDown}
-                            supportsCommands={false}
-                            suggestionListStyle='bottom'
-                            createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
-                            previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
-                            handlePostError={this.handlePostError}
-                            id='edit_textbox'
-                            ref='editChannelHeaderTextbox'
-                            characterLimit={1024}
-                        />
+                        <div className='textarea-wrapper'>
+                            <Textbox
+                                value={this.state.header}
+                                onChange={this.handleChange}
+                                onKeyPress={this.handleKeyPress}
+                                onKeyDown={this.handleKeyDown}
+                                supportsCommands={false}
+                                suggestionListStyle='bottom'
+                                createMessage={localizeMessage('edit_channel_header.editHeader', 'Edit the Channel Header...')}
+                                previewMessageLink={localizeMessage('edit_channel_header.previewHeader', 'Edit Header')}
+                                handlePostError={this.handlePostError}
+                                id='edit_textbox'
+                                ref='editChannelHeaderTextbox'
+                                characterLimit={1024}
+                                preview={this.state.preview}
+                            />
+                        </div>
+                        <div className='post-create-footer'>
+                            <TextboxLinks
+                                characterLimit={1024}
+                                showPreview={this.state.preview}
+                                ref={this.setTextboxLinksRef}
+                                updatePreview={this.updatePreview}
+                                message={this.state.header}
+                            />
+                        </div>
                         <br/>
                         {serverError}
                     </div>

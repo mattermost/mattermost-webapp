@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+
+import users from '../../fixtures/users.json';
 
 let config;
 
@@ -73,11 +75,13 @@ describe('Login page', () => {
     });
 
     it('should login then logout by user-1', () => {
+        const user = users['user-1'];
+
         // # Enter "user-1" on Email or Username input box
-        cy.get('#loginId').should('be.visible').type('user-1');
+        cy.get('#loginId').should('be.visible').type(user.username);
 
         // # Enter "user-1" on "Password" input box
-        cy.get('#loginPassword').should('be.visible').type('user-1');
+        cy.get('#loginPassword').should('be.visible').type(user.password);
 
         // # Click "Sign in" button
         cy.get('#loginButton').should('be.visible').click();

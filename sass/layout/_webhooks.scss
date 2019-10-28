@@ -301,11 +301,31 @@
             }
         }
 
+        .attachment__footer-container {
+            position: relative;
+            padding-top: .7em;
+            font-size: 12px;
+            color: #A3A3A3;
+
+            .attachment__footer-icon {
+                margin-top: -2px;
+                margin-right: 5px;
+            }
+        }
+
         .attachment-actions {
-            margin-top: 9px;
             position: relative;
             display: flex;
             flex-wrap: wrap;
+            padding-bottom: 4px;
+
+            .form-group {
+                margin-bottom: 0;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
 
             button {
                 @include border-radius(3px);

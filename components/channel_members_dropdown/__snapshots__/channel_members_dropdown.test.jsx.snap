@@ -1,19 +1,95 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/channel_members_dropdown should match snapshot for channel_members_dropdown 1`] = `
-<button
-  className="btn btn-danger btn-message"
-  disabled={false}
-  id="removeMember"
-  onClick={[Function]}
-  type="button"
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
 >
-  <FormattedMessage
-    defaultMessage="Remove Member"
-    id="channel_members_dropdown.remove_member"
-    values={Object {}}
-  />
-</button>
+  <button
+    className="dropdown-toggle theme color--link style--none"
+    type="button"
+  >
+    <span
+      className="sr-only"
+    />
+    <span>
+      <FormattedMessage
+        defaultMessage="Channel Admin"
+        id="channel_members_dropdown.channel_admin"
+        values={Object {}}
+      />
+       
+    </span>
+    <DropdownIcon />
+  </button>
+  <Menu
+    ariaLabel="Channel member role change"
+    openLeft={true}
+    openUp={false}
+  >
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Member"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Admin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Remove From Channel"
+    />
+  </Menu>
+</MenuWrapper>
+`;
+
+exports[`components/channel_members_dropdown should match snapshot for dropdown with guest user 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+>
+  <button
+    className="dropdown-toggle theme color--link style--none"
+    type="button"
+  >
+    <span
+      className="sr-only"
+    />
+    <span>
+      <FormattedMessage
+        defaultMessage="Channel Guest"
+        id="channel_members_dropdown.channel_guest"
+        values={Object {}}
+      />
+       
+    </span>
+    <DropdownIcon />
+  </button>
+  <Menu
+    ariaLabel="Channel member role change"
+    openLeft={true}
+    openUp={false}
+  >
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Member"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Admin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Remove From Channel"
+    />
+  </Menu>
+</MenuWrapper>
 `;
 
 exports[`components/channel_members_dropdown should match snapshot for group_constrained channel 1`] = `
@@ -26,18 +102,94 @@ exports[`components/channel_members_dropdown should match snapshot for group_con
 </div>
 `;
 
-exports[`components/channel_members_dropdown should match snapshot opening dropdown upwards 1`] = `
-<button
-  className="btn btn-danger btn-message"
-  disabled={false}
-  id="removeMember"
-  onClick={[Function]}
-  type="button"
+exports[`components/channel_members_dropdown should match snapshot for not dropdown with guest user 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
 >
-  <FormattedMessage
-    defaultMessage="Remove Member"
-    id="channel_members_dropdown.remove_member"
-    values={Object {}}
-  />
-</button>
+  <button
+    className="dropdown-toggle theme color--link style--none"
+    type="button"
+  >
+    <span
+      className="sr-only"
+    />
+    <span>
+      <FormattedMessage
+        defaultMessage="Channel Guest"
+        id="channel_members_dropdown.channel_guest"
+        values={Object {}}
+      />
+       
+    </span>
+    <DropdownIcon />
+  </button>
+  <Menu
+    ariaLabel="Channel member role change"
+    openLeft={true}
+    openUp={false}
+  >
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Member"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Admin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Remove From Channel"
+    />
+  </Menu>
+</MenuWrapper>
+`;
+
+exports[`components/channel_members_dropdown should match snapshot opening dropdown upwards 1`] = `
+<MenuWrapper
+  animationComponent={[Function]}
+  className=""
+>
+  <button
+    className="dropdown-toggle theme color--link style--none"
+    type="button"
+  >
+    <span
+      className="sr-only"
+    />
+    <span>
+      <FormattedMessage
+        defaultMessage="Channel Admin"
+        id="channel_members_dropdown.channel_admin"
+        values={Object {}}
+      />
+       
+    </span>
+    <DropdownIcon />
+  </button>
+  <Menu
+    ariaLabel="Channel member role change"
+    openLeft={true}
+    openUp={true}
+  >
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Member"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={false}
+      text="Make Channel Admin"
+    />
+    <MenuItemAction
+      onClick={[Function]}
+      show={true}
+      text="Remove From Channel"
+    />
+  </Menu>
+</MenuWrapper>
 `;

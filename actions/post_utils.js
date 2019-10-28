@@ -83,23 +83,9 @@ export function setChannelReadAndView(post, websocketMessageProps) {
             return;
         }
 
-        // in this case, marking as unread is prevented instead of marking as read being called,
-        // because there might be other unread messages in the channel and that would mark them as read
-        const postShowsOnCurrentRHS =
-              state.views.rhs &&
-              state.views.rhs.selectedPostId !== '' &&
-              state.views.rhs.selectedPostId === post.root_id &&
-              state.views.browser &&
-              state.views.browser.focused;
-
         let markAsRead = false;
         let markAsReadOnServer = false;
-        let markAsUnread = true;
-        if (postShowsOnCurrentRHS) {
-            markAsRead = false;
-            markAsReadOnServer = false;
-            markAsUnread = false;
-        } else if (
+        if (
             post.user_id === getCurrentUserId(state) &&
             !isSystemMessage(post) &&
             !isFromWebhook(post)
@@ -117,7 +103,7 @@ export function setChannelReadAndView(post, websocketMessageProps) {
         if (markAsRead) {
             dispatch(markChannelAsRead(post.channel_id, null, markAsReadOnServer));
             dispatch(markChannelAsViewed(post.channel_id));
-        } else if (markAsUnread) {
+        } else {
             dispatch(markChannelAsUnread(websocketMessageProps.team_id, post.channel_id, websocketMessageProps.mentions));
         }
     };

@@ -69,7 +69,7 @@ export default class ViewImageModal extends React.PureComponent {
             imageHeight: '100%',
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
             progress: Utils.fillArray(0, this.props.fileInfos.length),
-            showFooter: false,
+            showCloseBtn: false,
         };
     }
 
@@ -196,11 +196,11 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     onMouseEnterImage = () => {
-        this.setState({showFooter: true});
+        this.setState({showCloseBtn: true});
     }
 
     onMouseLeaveImage = () => {
-        this.setState({showFooter: false});
+        this.setState({showCloseBtn: false});
     }
 
     render() {
@@ -310,7 +310,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
 
         let closeButtonClass = 'modal-close';
-        if (this.state.showFooter) {
+        if (this.state.showCloseBtn) {
             closeButtonClass += ' modal-close--show';
         }
 
@@ -319,7 +319,7 @@ export default class ViewImageModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 className='modal-image'
-                dialogClassName='modal-image'
+                dialogClassName='a11y__modal modal-image'
                 role='dialog'
                 aria-labelledby='viewImageModalLabel'
             >
@@ -348,7 +348,6 @@ export default class ViewImageModal extends React.PureComponent {
                                 {content}
                             </div>
                             <PopoverBar
-                                show={this.state.showFooter}
                                 showPublicLink={showPublicLink}
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}

@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
-import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
@@ -231,7 +231,7 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='settings-modal settings-modal--tabless'
+                dialogClassName='a11y__modal settings-modal settings-modal--tabless'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}

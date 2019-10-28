@@ -4,30 +4,35 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
 <div
   id="channelMember"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="channelMembersTooltip"
-        placement="right"
-      >
-        <FormattedMessage
-          defaultMessage="Members"
-          id="channel_header.channelMembers"
-          values={Object {}}
-        />
-      </Tooltip>
-    }
-    placement="bottom"
-    trigger="hover"
+  <button
+    aria-label="members"
+    className="style--none member-popover__trigger channel-header__icon wide "
+    id="member_popover"
+    onClick={[Function]}
   >
-    <button
-      aria-label="members"
-      className="style--none member-popover__trigger channel-header__icon wide "
-      id="member_popover"
-      onClick={[Function]}
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="channelMembersTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Members"
+            id="channel_header.channelMembers"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
       <div>
         <span
@@ -42,8 +47,8 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
           id="channelMemberIcon"
         />
       </div>
-    </button>
-  </OverlayTrigger>
+    </OverlayTrigger>
+  </button>
   <Overlay
     animation={[Function]}
     onHide={[Function]}
@@ -72,6 +77,8 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       >
         <div
           className="more-modal__list"
+          role="presentation"
+          tabIndex="-1"
         >
           <PopoverListMembersItem
             key="member_id_1"
@@ -106,30 +113,35 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
 <div
   id="channelMember"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="channelMembersTooltip"
-        placement="right"
-      >
-        <FormattedMessage
-          defaultMessage="Members"
-          id="channel_header.channelMembers"
-          values={Object {}}
-        />
-      </Tooltip>
-    }
-    placement="bottom"
-    trigger="hover"
+  <button
+    aria-label="members"
+    className="style--none member-popover__trigger channel-header__icon wide "
+    id="member_popover"
+    onClick={[Function]}
   >
-    <button
-      aria-label="members"
-      className="style--none member-popover__trigger channel-header__icon wide "
-      id="member_popover"
-      onClick={[Function]}
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="channelMembersTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Members"
+            id="channel_header.channelMembers"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
       <div>
         <span
@@ -144,8 +156,8 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
           id="channelMemberIcon"
         />
       </div>
-    </button>
-  </OverlayTrigger>
+    </OverlayTrigger>
+  </button>
   <Overlay
     animation={[Function]}
     onHide={[Function]}
@@ -174,6 +186,8 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       >
         <div
           className="more-modal__list"
+          role="presentation"
+          tabIndex="-1"
         >
           <PopoverListMembersItem
             key="member_id_1"
@@ -208,30 +222,35 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
 <div
   id="channelMember"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="channelMembersTooltip"
-        placement="right"
-      >
-        <FormattedMessage
-          defaultMessage="Members"
-          id="channel_header.channelMembers"
-          values={Object {}}
-        />
-      </Tooltip>
-    }
-    placement="bottom"
-    trigger="hover"
+  <button
+    aria-label="members"
+    className="style--none member-popover__trigger channel-header__icon wide "
+    id="member_popover"
+    onClick={[Function]}
   >
-    <button
-      aria-label="members"
-      className="style--none member-popover__trigger channel-header__icon wide "
-      id="member_popover"
-      onClick={[Function]}
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="channelMembersTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Members"
+            id="channel_header.channelMembers"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
       <div>
         <span
@@ -246,8 +265,8 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
           id="channelMemberIcon"
         />
       </div>
-    </button>
-  </OverlayTrigger>
+    </OverlayTrigger>
+  </button>
   <Overlay
     animation={[Function]}
     onHide={[Function]}
@@ -285,6 +304,8 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       >
         <div
           className="more-modal__list"
+          role="presentation"
+          tabIndex="-1"
         >
           <PopoverListMembersItem
             key="member_id_1"
@@ -319,30 +340,35 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
 <div
   id="channelMember"
 >
-  <OverlayTrigger
-    defaultOverlayShown={false}
-    delayShow={400}
-    overlay={
-      <Tooltip
-        bsClass="tooltip"
-        id="channelMembersTooltip"
-        placement="right"
-      >
-        <FormattedMessage
-          defaultMessage="Members"
-          id="channel_header.channelMembers"
-          values={Object {}}
-        />
-      </Tooltip>
-    }
-    placement="bottom"
-    trigger="hover"
+  <button
+    aria-label="members"
+    className="style--none member-popover__trigger channel-header__icon wide "
+    id="member_popover"
+    onClick={[Function]}
   >
-    <button
-      aria-label="members"
-      className="style--none member-popover__trigger channel-header__icon wide "
-      id="member_popover"
-      onClick={[Function]}
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="channelMembersTooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Members"
+            id="channel_header.channelMembers"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
       <div>
         <span
@@ -357,8 +383,8 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
           id="channelMemberIcon"
         />
       </div>
-    </button>
-  </OverlayTrigger>
+    </OverlayTrigger>
+  </button>
   <Overlay
     animation={[Function]}
     onHide={[Function]}
@@ -387,6 +413,8 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
       >
         <div
           className="more-modal__list"
+          role="presentation"
+          tabIndex="-1"
         >
           <PopoverListMembersItem
             key="member_id_1"

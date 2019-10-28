@@ -58,6 +58,7 @@ export default class RemovedFromChannelModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
@@ -95,6 +96,7 @@ export default class RemovedFromChannelModal extends React.PureComponent {
                         type='button'
                         className='btn btn-primary'
                         onClick={this.onHide}
+                        id='removedChannelBtn'
                     >
                         <FormattedMessage
                             id='removed_channel.okay'

@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import ToggleModalButton from 'components/toggle_modal_button';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import GroupList from '../../group';
@@ -18,7 +18,7 @@ export const ChannelGroups = ({onGroupRemoved, onAddCallback, totalGroups, group
         titleId={synced ? t('admin.channel_settings.channel_detail.syncedGroupsTitle') : t('admin.channel_settings.channel_detail.groupsTitle')}
         titleDefault={synced ? 'Synced Groups' : 'Groups'}
         subtitleId={synced ? t('admin.channel_settings.channel_detail.syncedGroupsDescription') : t('admin.channel_settings.channel_detail.groupsDescription')}
-        subtitleDefault={synced ? 'Add and remove channel members based on their group membership.' : 'Group members will be added to the channel.'}
+        subtitleDefault={synced ? 'Add and remove team members based on their group membership on the next scheduled sync.' : 'Group members will be added to the channel based on your sync schedule.'}
         button={
             <ToggleModalButton
                 className='btn btn-primary'

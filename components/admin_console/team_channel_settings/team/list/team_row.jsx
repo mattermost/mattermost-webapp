@@ -7,8 +7,7 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils';
-
-import TeamImage from '../details/team_image.jsx';
+import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 export default class TeamRow extends React.Component {
     static propTypes = {
@@ -29,22 +28,16 @@ export default class TeamRow extends React.Component {
                 onClick={this.handleRowClick}
             >
                 <div className='group-row group-row-large'>
-                    <div className='group-name'>
-                        <div className='col-sm-auto'>
-                            <TeamImage
-                                small={true}
-                                teamIconUrl={teamIconUrl}
-                                displayName={team.display_name}
-                            />
-
-                        </div>
-                        <div className='col-sm-auto'>
+                    <div className='group-name adjusted center-row row-content'>
+                        <TeamIcon
+                            size='sm'
+                            url={teamIconUrl}
+                            name={team.display_name}
+                        />
+                        <div>
                             <b>{team.display_name}</b>
                             {team.description && (
-                                <div
-                                    className='overflow--ellipsis text-nowrap'
-                                    style={{maxWidth: 500}}
-                                >
+                                <div className='overflow--ellipsis text-nowrap team-descr-list-column'>
                                     {team.description}
                                 </div>)}
 
@@ -52,7 +45,7 @@ export default class TeamRow extends React.Component {
 
                     </div>
 
-                    <span className='group-description'>
+                    <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.team_settings.team_row.managementMethod.${team.group_constrained ? 'group' : 'manual'}`}
                             defaultMessage={team.group_constrained ? 'Group Sync' : 'Manual Invites'}

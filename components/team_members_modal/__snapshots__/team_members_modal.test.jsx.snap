@@ -7,9 +7,10 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="more-modal"
+  dialogClassName="a11y__modal more-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="teamMembersModal"
   keyboard={true}
   manager={
     ModalManager {

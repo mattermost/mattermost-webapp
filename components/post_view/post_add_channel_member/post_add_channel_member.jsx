@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 import AtMention from 'components/at_mention';
 

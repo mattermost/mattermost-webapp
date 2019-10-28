@@ -7,7 +7,6 @@ import PopoverBar from 'components/view_image/popover_bar/popover_bar.jsx';
 
 describe('components/view_image/popover_bar/PopoverBar', () => {
     const defaultProps = {
-        show: true,
         isDesktopApp: true,
         enablePublicLink: false,
         canDownloadFiles: true,

@@ -2,34 +2,16 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
-
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getTeamByName} from 'mattermost-redux/selectors/entities/teams';
+import {getTeamByName, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 
-import {
-    checkAndSetMobileView,
-    increasePostVisibility,
-    loadInitialPosts,
-    syncPostsInChannel,
-} from 'actions/views/channel';
-import {Constants} from 'utils/constants.jsx';
-import {disableVirtList} from 'utils/utils.jsx';
+import {Constants} from 'utils/constants';
 
-import IePostList from './post_list_ie';
-import VirtPostList from './post_list_virtualized';
+import PostView from './post_view.jsx';
 
-let PostList = VirtPostList;
-if (disableVirtList()) {
-    PostList = IePostList;
-}
-
-// This function is added as a fail safe for the channel sync issue we have.
-// When the user switches to a team for the first time we show the channel of previous team and then settle for the right channel after that
-// This causes the scroll correction etc an issue because post_list is not mounted for new channel instead it is updated
-const isChannelLoading = (params, channel, team, teammate) => {
+export const isChannelLoading = (params, channel, team, teammate, teamMemberships) => {
     if (params.postid) {
         return false;
     }
@@ -41,7 +23,8 @@ const isChannelLoading = (params, channel, team, teammate) => {
             return true;
         }
 
-        if (channel.team_id && channel.team_id !== team.id) {
+        const teamId = team.id;
+        if ((channel.team_id && channel.team_id !== teamId) || (teamMemberships && !teamMemberships[teamId])) {
             return true;
         }
 
@@ -53,34 +36,27 @@ const isChannelLoading = (params, channel, team, teammate) => {
 
 function makeMapStateToProps() {
     return function mapStateToProps(state, ownProps) {
-        const postVisibility = state.views.channel.postVisibility[ownProps.channelId];
-
-        const channel = getChannel(state, ownProps.channelId);
         const team = getTeamByName(state, ownProps.match.params.team);
         let teammate;
-        if (channel && channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
-            teammate = getUser(state, channel.teammate_id);
+
+        const channel = getChannel(state, ownProps.channelId);
+        let lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
+        if (channel) {
+            if (channel.type === Constants.DM_CHANNEL && channel.teammate_id) {
+                teammate = getUser(state, channel.teammate_id);
+            }
+            lastViewedAt = channel.last_post_at ? lastViewedAt : channel.last_post_at;
         }
 
-        const channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate);
+        const teamMemberships = getTeamMemberships(state);
+        const channelLoading = isChannelLoading(ownProps.match.params, channel, team, teammate, teamMemberships);
 
         return {
-            channel,
-            postVisibility,
+            lastViewedAt,
             channelLoading,
+            channel,
         };
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators({
-            loadInitialPosts,
-            increasePostVisibility,
-            checkAndSetMobileView,
-            syncPostsInChannel,
-        }, dispatch),
-    };
-}
-
-export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(PostList));
+export default withRouter(connect(makeMapStateToProps)(PostView));

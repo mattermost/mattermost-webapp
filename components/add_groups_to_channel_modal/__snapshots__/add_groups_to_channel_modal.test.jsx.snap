@@ -6,7 +6,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="more-modal more-direct-channels"
+  dialogClassName="a11y__modal more-modal more-direct-channels"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   id="addGroupsToChannelModal"
@@ -56,6 +56,7 @@ exports[`components/AddGroupsToChannelModal should match snapshot 1`] = `
     componentClass="div"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Adding..."
       buttonSubmitText="Add"
       handleAdd={[Function]}
@@ -111,10 +112,12 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
     <div
       className="more-modal__name"
     >
-       
+       
       -
-       
-      <span>
+       
+      <span
+        className="more-modal__name_sub"
+      >
         <FormattedMessage
           defaultMessage="{num, number} {num, plural, one {member} other {members}}"
           id="numMembers"
@@ -157,10 +160,12 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
     <div
       className="more-modal__name"
     >
-       
+       
       -
-       
-      <span>
+       
+      <span
+        className="more-modal__name_sub"
+      >
         <FormattedMessage
           defaultMessage="{num, number} {num, plural, one {member} other {members}}"
           id="numMembers"
@@ -203,10 +208,12 @@ exports[`components/AddGroupsToChannelModal should match when renderOption is ca
     <div
       className="more-modal__name"
     >
-       
+       
       -
-       
-      <span>
+       
+      <span
+        className="more-modal__name_sub"
+      >
         <FormattedMessage
           defaultMessage="{num, number} {num, plural, one {member} other {members}}"
           id="numMembers"

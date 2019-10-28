@@ -8,9 +8,9 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -19,13 +19,12 @@ import {t} from 'utils/i18n';
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 export default class SearchableChannelList extends React.Component {
+    static getDerivedStateFromProps(props, state) {
+        return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
+    }
+
     constructor(props) {
         super(props);
-
-        this.createChannelRow = this.createChannelRow.bind(this);
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
-        this.doSearch = this.doSearch.bind(this);
 
         this.nextTimeoutId = 0;
 
@@ -43,18 +42,6 @@ export default class SearchableChannelList extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.page !== this.state.page) {
-            $(this.refs.channelList).scrollTop(0);
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.isSearch && !this.props.isSearch) {
-            this.setState({page: 0});
-        }
-    }
-
     handleJoin(channel) {
         this.setState({joiningChannel: channel.id});
         this.props.handleJoin(
@@ -65,14 +52,22 @@ export default class SearchableChannelList extends React.Component {
         );
     }
 
-    createChannelRow(channel) {
+    createChannelRow = (channel) => {
+        const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
+
         return (
             <div
                 className='more-modal__row'
                 key={channel.id}
             >
                 <div className='more-modal__details'>
-                    <p className='more-modal__name'>{channel.display_name}</p>
+                    <button
+                        onClick={this.handleJoin.bind(this, channel)}
+                        aria-label={ariaLabel}
+                        className='style--none more-modal__name'
+                    >
+                        {channel.display_name}
+                    </button>
                     <p className='more-modal__description'>{channel.purpose}</p>
                 </div>
                 <div className='more-modal__actions'>
@@ -96,7 +91,7 @@ export default class SearchableChannelList extends React.Component {
         );
     }
 
-    nextPage(e) {
+    nextPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page + 1, nextDisabled: true});
         this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT_MILLISECONDS);
@@ -104,13 +99,13 @@ export default class SearchableChannelList extends React.Component {
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
-    previousPage(e) {
+    previousPage = (e) => {
         e.preventDefault();
         this.setState({page: this.state.page - 1});
         $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
-    doSearch() {
+    doSearch = () => {
         const term = this.refs.filter.value;
         this.props.search(term);
         if (term === '') {
@@ -213,6 +208,7 @@ export default class SearchableChannelList extends React.Component {
             <div className='filtered-user-list'>
                 {input}
                 <div
+                    role='application'
                     ref='channelList'
                     className='more-modal__list'
                 >

@@ -18,6 +18,11 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
         post: PropTypes.object.isRequired,
 
         /**
+         * Plugin post will render embed
+         */
+        pluginPostWillRenderEmbedComponents: PropTypes.arrayOf(PropTypes.object),
+
+        /**
          * The post's message
          */
         children: PropTypes.element,
@@ -51,10 +56,25 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
     }
 
     isEmbedToggleable = (embed) => {
+        const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
+        for (const c of postWillRenderEmbedComponents) {
+            if (c.match(embed)) {
+                return Boolean(c.toggleable);
+            }
+        }
+
         return embed.type === 'image' || (embed.type === 'opengraph' && YoutubeVideo.isYoutubeLink(embed.url));
     }
 
     renderEmbed = (embed) => {
+        const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
+        for (const c of postWillRenderEmbedComponents) {
+            if (c.match(embed)) {
+                const Component = c.component;
+                return this.props.isEmbedVisible && <Component embed={embed}/>;
+            }
+        }
+
         switch (embed.type) {
         case 'image':
             if (!this.props.isEmbedVisible) {
@@ -93,7 +113,6 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
                 return (
                     <YoutubeVideo
-                        channelId={this.props.post.channel_id}
                         link={embed.url}
                         show={this.props.isEmbedVisible}
                     />
@@ -116,9 +135,9 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     renderToggle = (prependToggle) => {
         return (
-            <a
+            <button
                 key='toggle'
-                className={`post__embed-visibility ${prependToggle ? 'pull-left' : ''}`}
+                className={`style--none post__embed-visibility color--link ${prependToggle ? 'pull-left' : ''}`}
                 data-expanded={this.props.isEmbedVisible}
                 aria-label='Toggle Embed Visibility'
                 onClick={this.toggleEmbedVisibility}

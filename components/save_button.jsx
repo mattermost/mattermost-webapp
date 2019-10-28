@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {intlShape} from 'react-intl';
 
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 export default class SaveButton extends React.PureComponent {
     static propTypes = {
@@ -63,7 +63,7 @@ export default class SaveButton extends React.PureComponent {
                     loading={saving}
                     text={savingMessageComponent}
                 >
-                    {defaultMessageComponent}
+                    <span>{defaultMessageComponent}</span>
                 </LoadingWrapper>
             </button>
         );

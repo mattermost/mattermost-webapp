@@ -6,7 +6,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 export default class SidebarChannelButtonOrLinkCloseButton extends React.PureComponent {
     static propTypes = {
@@ -16,8 +16,6 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
         teammateId: PropTypes.string,
         badge: PropTypes.bool,
     }
-
-    overlayTriggerAttr = ['hover', 'focus']
 
     handleClose = (e) => {
         e.stopPropagation();
@@ -51,7 +49,6 @@ export default class SidebarChannelButtonOrLinkCloseButton extends React.PureCom
 
             closeButton = (
                 <OverlayTrigger
-                    trigger={this.overlayTriggerAttr}
                     delayShow={1000}
                     placement='top'
                     overlay={removeTooltip}

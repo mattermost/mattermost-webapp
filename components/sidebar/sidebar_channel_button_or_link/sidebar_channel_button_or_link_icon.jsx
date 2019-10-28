@@ -4,14 +4,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
-import ArchiveIcon from 'components/svg/archive_icon';
-import DraftIcon from 'components/svg/draft_icon';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
+import DraftIcon from 'components/widgets/icons/draft_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
 import StatusIcon from 'components/status_icon.jsx';
-import BotIcon from 'components/svg/bot_icon.jsx';
+import BotIcon from 'components/widgets/icons/bot_icon.jsx';
 
 export default class SidebarChannelButtonOrLinkIcon extends React.PureComponent {
     static propTypes = {

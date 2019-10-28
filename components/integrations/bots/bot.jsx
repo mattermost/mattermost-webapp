@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import Markdown from 'components/markdown';
 import SaveButton from 'components/save_button.jsx';
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import * as Utils from 'utils/utils.jsx';
 
 export function matchesFilter(bot, filter, owner) {
@@ -456,7 +456,7 @@ export default class Bot extends React.PureComponent {
                     />
                 </div>
                 <div className='item-details'>
-                    <div className='item-details__row d-flex justify-content-between'>
+                    <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {displayName + ' (@' + username + ')'}
                         </strong>

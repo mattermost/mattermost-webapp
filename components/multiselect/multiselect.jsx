@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants, A11yCustomEventTypes} from 'utils/constants';
 import SaveButton from 'components/save_button.jsx';
 
 import MultiSelectList from './multiselect_list.jsx';
@@ -21,6 +21,7 @@ export default class MultiSelect extends React.Component {
         optionRenderer: PropTypes.func,
         values: PropTypes.arrayOf(PropTypes.object),
         valueRenderer: PropTypes.func,
+        ariaLabelRenderer: PropTypes.func.isRequired,
         handleInput: PropTypes.func,
         handleDelete: PropTypes.func,
         perPage: PropTypes.number,
@@ -38,6 +39,10 @@ export default class MultiSelect extends React.Component {
         placeholderText: PropTypes.string,
     }
 
+    static defaultProps = {
+        ariaLabelRenderer: defaultAriaLabelRenderer,
+    }
+
     constructor(props) {
         super(props);
 
@@ -52,12 +57,26 @@ export default class MultiSelect extends React.Component {
     componentDidMount() {
         document.addEventListener('keydown', this.handleEnterPress);
         if (this.refs.reactSelect) {
+            this.refs.reactSelect.select.inputRef.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            this.refs.reactSelect.select.inputRef.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
             this.refs.reactSelect.focus();
         }
     }
 
     componentWillUnmount() {
+        this.refs.reactSelect.select.inputRef.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.refs.reactSelect.select.inputRef.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
         document.removeEventListener('keydown', this.handleEnterPress);
+    }
+
+    handleA11yActivateEvent = () => {
+        this.setState({a11yActive: true});
+    }
+
+    handleA11yDeactivateEvent = () => {
+        this.setState({a11yActive: false});
     }
 
     nextPage = () => {
@@ -312,6 +331,7 @@ export default class MultiSelect extends React.Component {
                             }}
                             isClearable={false}
                             openMenuOnFocus={false}
+                            menuIsOpen={false}
                             onInputChange={this.onInput}
                             onKeyDown={this.onInputKeyDown}
                             onChange={this.onChange}
@@ -319,6 +339,9 @@ export default class MultiSelect extends React.Component {
                             placeholder={this.props.placeholderText}
                             inputValue={this.state.input}
                             getOptionValue={(option) => option.id}
+                            getOptionLabel={(option) => this.props.ariaLabelRenderer(option)}
+                            aria-label={this.props.placeholderText}
+                            className={this.state.a11yActive ? 'multi-select__focused' : ''}
                         />
                         <SaveButton
                             id='saveItems'
@@ -341,6 +364,7 @@ export default class MultiSelect extends React.Component {
                     ref='list'
                     options={optionsToDisplay}
                     optionRenderer={this.props.optionRenderer}
+                    ariaLabelRenderer={this.props.ariaLabelRenderer}
                     page={this.state.page}
                     perPage={this.props.perPage}
                     onPageChange={this.props.handlePageChange}
@@ -355,6 +379,13 @@ export default class MultiSelect extends React.Component {
             </div>
         );
     }
+}
+
+function defaultAriaLabelRenderer(option) {
+    if (!option) {
+        return null;
+    }
+    return option.label;
 }
 
 const nullComponent = () => null;

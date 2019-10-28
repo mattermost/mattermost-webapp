@@ -10,11 +10,11 @@ import * as Utils from 'utils/utils';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import LoadingScreen from 'components/loading_screen.jsx';
-import LoadingWrapper from 'components/widgets/loading/loading_wrapper.jsx';
+import LoadingScreen from 'components/loading_screen';
+import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
-import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_with_link.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import AdminPanelWithLink from 'components/widgets/admin_console/admin_panel_with_link';
 
 import PermissionsSchemeSummary from './permissions_scheme_summary';
 
@@ -334,6 +334,8 @@ t('admin.permissions.permission.view_team.description');
 t('admin.permissions.permission.view_team.name');
 t('admin.permissions.permission.edit_others_posts.description');
 t('admin.permissions.permission.edit_others_posts.name');
+t('admin.permissions.permission.invite_guest.name');
+t('admin.permissions.permission.invite_guest.description');
 t('admin.permissions.roles.all_users.name');
 t('admin.permissions.roles.channel_admin.name');
 t('admin.permissions.roles.channel_user.name');

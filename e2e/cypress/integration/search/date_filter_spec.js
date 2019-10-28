@@ -2,21 +2,20 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [number] indicates a test step (e.g. 1. Go to a page)
+// - [number] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
 import users from '../../fixtures/users.json';
+import TIMEOUTS from '../../fixtures/timeouts';
 
 function searchAndValidate(query, expectedResults = []) {
     // # Enter in search query, and hit enter
-    cy.get('#searchBox').clear().type(query).type('{enter}');
+    cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
 
-    if (expectedResults.length > 0) {
-        // * Verify that there's search item before querying by test ID
-        cy.get('.search-item__container').should('be.visible');
-    }
+    cy.get('#loadingSpinner').should('not.be.visible');
+    cy.get('#search-items-container', {timeout: TIMEOUTS.HUGE}).should('be.visible');
 
     // * Verify the amount of results matches the amount of our expected results
     cy.queryAllByTestId('search-item-container').should('have.length', expectedResults.length).then((results) => {
@@ -30,6 +29,9 @@ function searchAndValidate(query, expectedResults = []) {
             cy.get('#noResultsMessage').should('be.visible').and('have.text', 'No results found. Try again?');
         }
     });
+
+    cy.get('#searchResultsCloseButton').click();
+    cy.get('.search-item__container').should('not.exist');
 }
 
 function getMsAndQueryForDate(date) {
@@ -40,12 +42,7 @@ function getMsAndQueryForDate(date) {
 }
 
 function changeTimezone(timezone) {
-    cy.request({
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: '/api/v4/users/me/patch',
-        method: 'PUT',
-        body: {timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}},
-    });
+    cy.apiPatchMe({timezone: {automaticTimezone: '', manualTimezone: timezone, useAutomaticTimezone: 'false'}});
 }
 
 describe('SF15699 Search Date Filter', () => {
@@ -93,7 +90,7 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         // # Create a post from today
-        cy.get('#postListContent').should('be.visible');
+        cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
         cy.postMessage(todayMessage);
 
         // # Create another admin user so we can create posts from another user
@@ -104,20 +101,18 @@ describe('SF15699 Search Date Filter', () => {
         // # Set user to be a sysadmin, so it can access the system console
         cy.get('@newAdmin').then((user) => {
             newAdmin = user;
-            cy.task('externalRequest', {user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}}).
-                its('status').
-                should('be.equal', 200);
+            cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
         });
 
         // # Create messages at specific dates in Town Square
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as new admin to Town Square
             cy.get('@newAdmin').then((user) => {
-                cy.task('postMessageAs', {sender: user, message: firstMessage, channelId, createAt: firstDateEarly.ms, baseUrl});
+                cy.postMessageAs({sender: user, message: firstMessage, channelId, createAt: firstDateEarly.ms});
             });
 
             // Post message as sysadmin to Town Square
-            cy.task('postMessageAs', {sender: users.sysadmin, message: secondMessage, channelId, createAt: secondDateEarly.ms, baseUrl});
+            cy.postMessageAs({sender: users.sysadmin, message: secondMessage, channelId, createAt: secondDateEarly.ms});
         });
 
         // # Create messages at same dates in Off Topic channel
@@ -127,11 +122,11 @@ describe('SF15699 Search Date Filter', () => {
 
         cy.getCurrentChannelId().then((channelId) => {
             // Post message as sysadmin to off topic
-            cy.task('postMessageAs', {sender: users.sysadmin, message: firstOffTopicMessage, channelId, createAt: firstDateLater.ms, baseUrl});
+            cy.postMessageAs({sender: users.sysadmin, message: firstOffTopicMessage, channelId, createAt: firstDateLater.ms});
 
             // Post message as new admin to off topic
             cy.get('@newAdmin').then((user) => {
-                cy.task('postMessageAs', {sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms, baseUrl});
+                cy.postMessageAs({sender: user, message: secondOffTopicMessage, channelId, createAt: secondDateLater.ms});
             });
         });
     });
@@ -195,17 +190,16 @@ describe('SF15699 Search Date Filter', () => {
         });
 
         describe('works without leading 0 in', () => {
-            before(() => {
-                // # Close the search side bar
-                cy.get('#searchResultsCloseButton').should('be.visible').click();
-            });
-
             // These must match the date of the firstMessage, only altering leading zeroes
             const tests = [
                 {name: 'day', date: '2018-06-5'},
                 {name: 'month', date: '2018-6-05'},
                 {name: 'month and date', date: '2018-6-5'},
             ];
+
+            before(() => {
+                cy.reload();
+            });
 
             tests.forEach((test) => {
                 it(test.name, () => {
@@ -218,12 +212,16 @@ describe('SF15699 Search Date Filter', () => {
             const queryString = `on:${Cypress.moment().format('YYYY-MM-DD')} ${timestamp}`;
 
             it('with keyboard', () => {
-                searchAndValidate(queryString, [todayMessage]);
-                cy.get('#searchBox').focus().type('{backspace}'.repeat(queryString.length)).should('have.value', '');
+                cy.get('#searchBox').
+                    clear().
+                    wait(500).
+                    type(queryString).
+                    type('{backspace}'.repeat(queryString.length)).
+                    should('have.value', '');
             });
 
             it('with "x"', () => {
-                searchAndValidate(queryString, [todayMessage]);
+                cy.get('#searchBox').clear().wait(500).type(queryString);
                 cy.get('#searchClearButton').click();
                 cy.get('#searchBox').should('have.value', '');
             });
@@ -301,10 +299,10 @@ describe('SF15699 Search Date Filter', () => {
 
             // Post same message at different times
             cy.getCurrentChannelId().then((channelId) => {
-                cy.task('postMessageAs', {sender: users.sysadmin, message: 'pretarget ' + identifier, channelId, createAt: preTarget.ms, baseUrl});
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetAMMessage, channelId, createAt: targetAM.ms, baseUrl});
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetPMMessage, channelId, createAt: targetPM.ms, baseUrl});
-                cy.task('postMessageAs', {sender: users.sysadmin, message: 'postTarget' + identifier, channelId, createAt: postTarget.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: 'pretarget ' + identifier, channelId, createAt: preTarget.ms});
+                cy.postMessageAs({sender: users.sysadmin, message: targetAMMessage, channelId, createAt: targetAM.ms});
+                cy.postMessageAs({sender: users.sysadmin, message: targetPMMessage, channelId, createAt: targetPM.ms});
+                cy.postMessageAs({sender: users.sysadmin, message: 'postTarget' + identifier, channelId, createAt: postTarget.ms});
             });
 
             // * Verify we only see messages from the expected date, and not outside of it
@@ -352,7 +350,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetMessage, channelId, createAt: targetDate.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: targetDate.ms});
             });
 
             // # Set clock to custom date, reload page for it to take effect
@@ -377,9 +375,12 @@ describe('SF15699 Search Date Filter', () => {
                 focus().
                 type(`${targetMessage}{enter}`);
 
+            cy.get('#loadingSpinner').should('not.be.visible');
+
             // * Verify we see our single result
             cy.queryAllByTestId('search-item-container').
-                should('have.length', 1).
+                should('be.visible').
+                and('have.length', 1).
                 find('.post-message').
                 should('have.text', targetMessage);
 
@@ -402,6 +403,8 @@ describe('SF15699 Search Date Filter', () => {
                 should('have.value', `on:2019-01-16  ${targetMessage}`).
                 type('{enter}');
 
+            cy.get('#loadingSpinner').should('not.be.visible');
+
             // * There should be no results
             cy.queryAllByTestId('search-item-container').should('have.length', 0);
         });
@@ -415,7 +418,7 @@ describe('SF15699 Search Date Filter', () => {
 
             // # Post message with unique text
             cy.getCurrentChannelId().then((channelId) => {
-                cy.task('postMessageAs', {sender: users.sysadmin, message: targetMessage, channelId, createAt: target.ms, baseUrl});
+                cy.postMessageAs({sender: users.sysadmin, message: targetMessage, channelId, createAt: target.ms});
             });
 
             // * Verify result appears in current timezone

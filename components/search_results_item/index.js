@@ -18,9 +18,12 @@ import {
     setRhsExpanded,
 } from 'actions/views/rhs';
 
+import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+
 import SearchResultsItem from './search_results_item.jsx';
 
 function mapStateToProps() {
+    const createAriaLabelForPost = makeCreateAriaLabelForPost();
     const getCommentCountForPost = makeGetCommentCountForPost();
 
     return (state, ownProps) => {
@@ -29,9 +32,14 @@ function mapStateToProps() {
         const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
         const {post} = ownProps;
         const user = getUser(state, post.user_id);
+        const channel = getChannel(state, post.channel_id) || {delete_at: 0};
 
         return {
-            channel: getChannel(state, post.channel_id),
+            createAriaLabel: createAriaLabelForPost(state, post),
+            channelId: channel.id,
+            channelName: channel.display_name,
+            channelType: channel.type,
+            channelIsArchived: channel.delete_at !== 0,
             currentTeamName: getCurrentTeam(state).name,
             commentCountForPost: getCommentCountForPost(state, {post}),
             enablePostUsernameOverride,

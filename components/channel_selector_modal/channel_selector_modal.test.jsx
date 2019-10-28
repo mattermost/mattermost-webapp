@@ -46,7 +46,7 @@ describe('components/ChannelSelectorModal', () => {
         onChannelsSelected: jest.fn(),
         groupID: '',
         actions: {
-            loadChannels: jest.fn(() => Promise.resolve({})),
+            loadChannels: jest.fn(() => Promise.resolve({data: []})),
             setModalSearchTerm: jest.fn(() => Promise.resolve()),
             searchChannels: jest.fn(() => Promise.resolve({})),
         },

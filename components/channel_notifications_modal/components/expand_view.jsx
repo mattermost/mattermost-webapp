@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants.jsx';
+import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 
@@ -25,11 +25,12 @@ export default function ExpandView({
     const inputs = [(
         <div key='channel-notification-level-radio'>
             {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
-            <div>
+            <fieldset>
                 <div className='radio'>
                     <label className=''>
                         <input
                             id='channelNotificationGlobalDefault'
+                            name='channelDesktopNotifications'
                             type='radio'
                             value={NotificationLevels.DEFAULT}
                             checked={memberNotifyLevel === NotificationLevels.DEFAULT}
@@ -46,6 +47,7 @@ export default function ExpandView({
                     <label className=''>
                         <input
                             id='channelNotificationAllActivity'
+                            name='channelDesktopNotifications'
                             type='radio'
                             value={NotificationLevels.ALL}
                             checked={memberNotifyLevel === NotificationLevels.ALL}
@@ -61,6 +63,7 @@ export default function ExpandView({
                     <label className=''>
                         <input
                             id='channelNotificationMentions'
+                            name='channelDesktopNotifications'
                             type='radio'
                             value={NotificationLevels.MENTION}
                             checked={memberNotifyLevel === NotificationLevels.MENTION}
@@ -76,6 +79,7 @@ export default function ExpandView({
                     <label>
                         <input
                             id='channelNotificationNever'
+                            name='channelDesktopNotifications'
                             type='radio'
                             value={NotificationLevels.NONE}
                             checked={memberNotifyLevel === NotificationLevels.NONE}
@@ -87,14 +91,15 @@ export default function ExpandView({
                         />
                     </label>
                 </div>
-            </div>
+            </fieldset>
             }
             {section === NotificationSections.IGNORE_CHANNEL_MENTIONS &&
-                <div>
+                <fieldset>
                     <div className='radio'>
                         <label>
                             <input
                                 id='ignoreChannelMentionsOn'
+                                name='ignoreChannelMentions'
                                 type='radio'
                                 value={IgnoreChannelMentions.ON}
                                 checked={ignoreChannelMentions === IgnoreChannelMentions.ON}
@@ -112,6 +117,7 @@ export default function ExpandView({
                         <label>
                             <input
                                 id='ignoreChannelMentionsOff'
+                                name='ignoreChannelMentions'
                                 type='radio'
                                 value={IgnoreChannelMentions.OFF}
                                 checked={ignoreChannelMentions === IgnoreChannelMentions.OFF}
@@ -125,14 +131,15 @@ export default function ExpandView({
                             />
                         </label>
                     </div>
-                </div>
+                </fieldset>
             }
             {section === NotificationSections.MARK_UNREAD &&
-            <div>
+            <fieldset>
                 <div className='radio'>
                     <label className=''>
                         <input
                             id='channelNotificationUnmute'
+                            name='channelNotificationMute'
                             type='radio'
                             value={NotificationLevels.MENTION}
                             checked={memberNotifyLevel === NotificationLevels.MENTION}
@@ -148,6 +155,7 @@ export default function ExpandView({
                     <label className=''>
                         <input
                             id='channelNotificationMute'
+                            name='channelNotificationMute'
                             type='radio'
                             value={NotificationLevels.ALL}
                             checked={memberNotifyLevel === NotificationLevels.ALL}
@@ -159,7 +167,7 @@ export default function ExpandView({
                         />
                     </label>
                 </div>
-            </div>
+            </fieldset>
             }
         </div>
     )];

@@ -20,7 +20,6 @@ function mapStateToProps(state, ownProps) {
     return {
         currentUserId: getCurrentUserId(state),
         enableLinkPreviews: config.EnableLinkPreviews === 'true',
-        hasImageProxy: config.HasImageProxy === 'true',
         openGraphData: getOpenGraphMetadataForUrl(state, ownProps.link),
         previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, true),
     };

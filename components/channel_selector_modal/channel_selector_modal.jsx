@@ -6,15 +6,15 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {localizeMessage, compareChannels} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
 
 const CHANNELS_PER_PAGE = 50;
 
@@ -191,7 +191,7 @@ export default class ChannelSelectorModal extends React.Component {
 
         return (
             <Modal
-                dialogClassName={'more-modal more-direct-channels channel-selector-modal'}
+                dialogClassName={'a11y__modal more-modal more-direct-channels channel-selector-modal'}
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}

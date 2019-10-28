@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 
 const allShortcuts = defineMessages({
@@ -302,7 +302,7 @@ class ShortcutsModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='shortcuts-modal'
+                dialogClassName='a11y__modal shortcuts-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHide}

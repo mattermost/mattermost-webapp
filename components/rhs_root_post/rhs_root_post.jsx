@@ -3,12 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations} from 'utils/constants.jsx';
+import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
@@ -19,8 +19,8 @@ import ReactionList from 'components/post_view/reaction_list';
 import PostTime from 'components/post_view/post_time';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
@@ -31,6 +31,8 @@ export default class RhsRootPost extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
+        author: PropTypes.string,
+        reactions: PropTypes.object,
         isFlagged: PropTypes.bool,
         previewCollapsed: PropTypes.string,
         previewEnabled: PropTypes.bool,
@@ -46,6 +48,10 @@ export default class RhsRootPost extends React.PureComponent {
         handleCardClick: PropTypes.func.isRequired,
     };
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     static defaultProps = {
         commentCount: 0,
     };
@@ -57,6 +63,7 @@ export default class RhsRootPost extends React.PureComponent {
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
+            currentAriaLabel: '',
         };
     }
 
@@ -120,6 +127,11 @@ export default class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handlePostFocus = () => {
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+    }
+
     getDotMenuRef = () => {
         return this.refs.dotMenu;
     };
@@ -127,6 +139,7 @@ export default class RhsRootPost extends React.PureComponent {
     render() {
         const {post, isReadOnly, teamId, channelIsArchived, channelType, channelDisplayName} = this.props;
 
+        const isPostDeleted = post && post.state === Posts.POST_DELETED;
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
 
@@ -248,7 +261,7 @@ export default class RhsRootPost extends React.PureComponent {
         );
 
         let dotMenuContainer;
-        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
                     ref='dotMenu'
@@ -261,7 +274,8 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let postFlagIcon;
-        if (this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
+        const showFlagIcon = !isEphemeral && !post.failed && !isSystemMessage;
+        if (showFlagIcon) {
             postFlagIcon = (
                 <PostFlagIcon
                     location={Locations.RHS_ROOT}
@@ -275,7 +289,6 @@ export default class RhsRootPost extends React.PureComponent {
         if (this.props.post.props && this.props.post.props.card) {
             postInfoIcon = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={
@@ -308,10 +321,15 @@ export default class RhsRootPost extends React.PureComponent {
                 role='listitem'
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
-                className={'thread__root ' + this.getClassName(post, isSystemMessage)}
+                className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
+                aria-label={this.state.currentAriaLabel}
+                onFocus={this.handlePostFocus}
             >
                 <div className='post-right-channel__name'>{channelName}</div>
-                <div className='post__content'>
+                <div
+                    role='application'
+                    className='post__content'
+                >
                     <div className='post__img'>
                         <PostProfilePicture
                             compactDisplay={this.props.compactDisplay}

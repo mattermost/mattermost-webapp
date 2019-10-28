@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 
 export default class DeletePostModal extends React.PureComponent {
     static propTypes = {
@@ -101,6 +101,7 @@ export default class DeletePostModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onEntered={this.handleEntered}
                 onHide={this.onHide}

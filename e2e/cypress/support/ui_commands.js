@@ -11,8 +11,8 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username, {otherUsername, otherPassword, otherURL} = {}) => {
-    cy.apiLogin('user-1', {otherUsername, otherPassword, otherURL});
+Cypress.Commands.add('toMainChannelView', (username, password) => {
+    cy.apiLogin('user-1', password);
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -37,9 +37,9 @@ Cypress.Commands.add('getSubpath', () => {
 // ***********************************************************
 
 // Go to Account Settings modal
-Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false, {otherUsername, otherPassword, otherURL} = {}) => {
+Cypress.Commands.add('toAccountSettingsModal', (username = 'user-1', isLoggedInAlready = false) => {
     if (!isLoggedInAlready) {
-        cy.apiLogin(username, {otherUsername, otherPassword, otherURL});
+        cy.apiLogin(username);
     }
 
     cy.visit('/');
@@ -125,38 +125,44 @@ function isMac() {
 Cypress.Commands.add('postMessage', (message) => {
     cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).clear().type(message).type('{enter}');
     cy.wait(TIMEOUTS.TINY);
+    cy.get('#post_textbox').should('have.value', '');
 });
 
 Cypress.Commands.add('postMessageReplyInRHS', (message) => {
-    cy.get('#reply_textbox').clear().type(message).type('{enter}');
+    cy.get('#reply_textbox').should('be.visible').clear().type(message).type('{enter}');
     cy.wait(TIMEOUTS.TINY);
 });
 
+function waitUntilPermanentPost() {
+    cy.get('#postListContent').should('be.visible');
+    cy.waitUntil(() => cy.getAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
+}
+
 Cypress.Commands.add('getLastPost', () => {
-    cy.get('#post-list', {timeout: TIMEOUTS.HUGE}).should('be.visible');
-    return cy.get('#postListContent #postContent', {timeout: TIMEOUTS.HUGE}).last().scrollIntoView().should('be.visible');
+    waitUntilPermanentPost();
+
+    cy.getAllByTestId('postView').last();
 });
 
-Cypress.Commands.add('getLastPostId', (opts = {force: false}) => {
-    cy.getLastPost().parent().as('parent');
+Cypress.Commands.add('getLastPostId', () => {
+    waitUntilPermanentPost();
 
-    if (opts.force) {
-        cy.get('@parent').should('have.attr', 'id').invoke('replace', 'post_', '');
-    } else {
-        cy.get('@parent').should('have.attr', 'id').and('not.include', ':').
-            invoke('replace', 'post_', '');
-    }
+    cy.getAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'post_', '');
 });
 
 /**
-* Get post ID for nth newest post
-* .eq() is 0-based index, hence nthPost-2 to get the nth post
-@param {Integer} nthPost - nth newest post
+* Get post ID based on index of post list
+* @param {Integer} index
+* zero (0)         : oldest post
+* positive number  : from old to latest post
+* negative number  : from new to oldest post
 */
-Cypress.Commands.add('getNthPostId', (nthPost) => {
-    return cy.get('#postListContent [id^=post]:first').parent().parent().siblings().eq(nthPost - 2).find('[id^=post]:first').invoke('attr', 'id').then((nthPostId) => {
-        return nthPostId.replace('post_', '');
-    });
+Cypress.Commands.add('getNthPostId', (index = 0) => {
+    waitUntilPermanentPost();
+
+    cy.getAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'post_', '');
 });
 
 /**
@@ -167,7 +173,7 @@ Cypress.Commands.add('getNthPostId', (nthPost) => {
  */
 Cypress.Commands.add('postMessageFromFile', (file, target = '#post_textbox') => {
     cy.fixture(file, 'utf-8').then((text) => {
-        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.MEDIUM).type(' {backspace}{enter}').should('have.text', '');
+        cy.get(target).clear().invoke('val', text).wait(TIMEOUTS.TINY).type(' {backspace}{enter}').should('have.text', '');
     });
 });
 
@@ -346,7 +352,7 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 // ************************************************************
 
 Cypress.Commands.add('getCurrentChannelId', () => {
-    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+    return cy.get('#channel-header', {timeout: TIMEOUTS.LARGE}).invoke('attr', 'data-channelid');
 });
 
 /**
@@ -354,7 +360,7 @@ Cypress.Commands.add('getCurrentChannelId', () => {
  * @param {String} text - Text to set the header to
  */
 Cypress.Commands.add('updateChannelHeader', (text) => {
-    cy.get('#channelHeaderDropdownButton').
+    cy.get('#channelHeaderDropdownIcon').
         should('be.visible').
         click();
     cy.get('#channelHeaderDropdownMenu').
@@ -366,4 +372,44 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.TINY);
+});
+
+/**
+ * On default "ad-1" team, create and visit a new channel
+ */
+Cypress.Commands.add('createAndVisitNewChannel', () => {
+    cy.visit('/ad-1/channels/town-square');
+
+    cy.getCurrentTeamId().then((teamId) => {
+        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+            const channel = res.body;
+
+            // # Visit the new channel
+            cy.visit(`/ad-1/channels/${channel.name}`);
+
+            // * Verify channel's display name
+            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+            cy.wrap(channel);
+        });
+    });
+});
+
+// ***********************************************************
+// File Upload
+// ************************************************************
+
+/**
+ * Upload a file on target input given a filename and mime type
+ * @param {String} targetInput - Target input to upload a file
+ * @param {String} fileName - Filename to upload from the fixture
+ * @param {String} mimeType - Mime type of a file
+ */
+Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png', mimeType = 'image/png') => {
+    cy.fixture(fileName).then((fileContent) => {
+        cy.get(targetInput).upload(
+            {fileContent, fileName, mimeType},
+            {subjectType: 'input', force: true},
+        );
+    });
 });

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import PopoverListMembers from 'components/popover_list_members/popover_list_members.jsx';
 
 jest.mock('utils/browser_history', () => {
@@ -34,7 +34,7 @@ describe('components/PopoverListMembers', () => {
     };
 
     const actions = {
-        getProfilesInChannel: jest.fn(),
+        loadProfilesAndStatusesInChannel: jest.fn(),
         openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'channelname'}}),
         openModal: jest.fn(),
     };

@@ -7,7 +7,9 @@ import {Client4} from 'mattermost-redux/client';
 import {autocompleteUsers} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-import BotBadge from 'components/widgets/badges/bot_badge.jsx';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -38,19 +40,20 @@ class UserSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >
-                <img
-                    alt={''}
-                    className='admin-setting-user__image'
-                    src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
+                <Avatar
+                    size='xs'
+                    username={username}
+                    url={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
                 />
                 <span className='admin-setting-user--align'>
                     {'@' + username}
                 </span>
-                <BotBadge show={Boolean(item.is_bot)}/>
                 <span className='admin-setting-user__fullname'>
                     {' '}
                     {description}
                 </span>
+                <BotBadge show={Boolean(item.is_bot)}/>
+                <GuestBadge show={Utils.isGuest(item)}/>
             </div>
         );
     }

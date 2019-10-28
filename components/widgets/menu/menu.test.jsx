@@ -6,6 +6,11 @@ import {shallow} from 'enzyme';
 
 import Menu from './menu.jsx';
 
+global.MutationObserver = class {
+    disconnect() {}
+    observe() {}
+};
+
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
@@ -19,14 +24,18 @@ describe('components/Menu', () => {
         const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu"
   role="menu"
-  style={Object {}}
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -41,15 +50,19 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu"
   id="test-id"
   role="menu"
-  style={Object {}}
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -68,14 +81,18 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu"
   role="menu"
-  style={Object {}}
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -94,21 +111,225 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="Menu dropdown-menu"
+  className="a11y__popup Menu"
   role="menu"
-  style={
-    Object {
-      "bottom": "100%",
-      "left": "inherit",
-      "right": 0,
-      "top": "auto",
-    }
-  }
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={
+      Object {
+        "bottom": "100%",
+        "left": "inherit",
+        "right": 0,
+        "top": "auto",
+      }
+    }
+  >
+    text
+  </ul>
+</div>
 `);
+    });
+
+    test('should hide the correct dividers', () => {
+        const utils = require('utils/utils'); //eslint-disable-line global-require
+        utils.isMobile.mockReturnValue(false);
+        const pseudoMenu = document.createElement('div');
+        const listOfItems = [
+            'menu-divider', 'menu-divider', 'menu-divider', 'menu-divider',
+            'other', 'other',
+            'menu-divider', 'menu-divider',
+            'other',
+            'menu-divider', 'menu-divider', 'menu-divider',
+            'other', 'other', 'other',
+            'menu-divider', 'menu-divider', 'menu-divider', 'menu-divider',
+        ];
+        for (const className of listOfItems) {
+            const element = document.createElement('div');
+            element.classList.add(className);
+            pseudoMenu.append(element);
+        }
+
+        const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
+        const instance = wrapper.instance();
+        instance.node.current = pseudoMenu;
+        instance.hideUnneededDividers();
+
+        expect(instance.node.current).toMatchInlineSnapshot(`
+        <div>
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="menu-divider"
+            style="display: block;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="menu-divider"
+            style="display: block;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="menu-divider"
+            style="display: none;"
+          />
+        </div>
+        `);
+    });
+
+    test('should hide the correct dividers on mobile', () => {
+        const utils = require('utils/utils'); //eslint-disable-line global-require
+        utils.isMobile.mockReturnValue(false);
+        const pseudoMenu = document.createElement('div');
+        const listOfItems = [
+            'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider',
+            'other', 'other',
+            'mobile-menu-divider', 'mobile-menu-divider',
+            'other',
+            'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider',
+            'other', 'other', 'other',
+            'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider', 'mobile-menu-divider',
+        ];
+        for (const className of listOfItems) {
+            const element = document.createElement('div');
+            element.classList.add(className);
+            pseudoMenu.append(element);
+        }
+
+        const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
+        const instance = wrapper.instance();
+        instance.node.current = pseudoMenu;
+        instance.hideUnneededDividers();
+
+        expect(instance.node.current).toMatchInlineSnapshot(`
+        <div>
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: block;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: block;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="other"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+          <div
+            class="mobile-menu-divider"
+            style="display: none;"
+          />
+        </div>
+        `);
     });
 });

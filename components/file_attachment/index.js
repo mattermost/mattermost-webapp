@@ -13,6 +13,7 @@ function mapStateToProps(state) {
 
     return {
         canDownloadFiles: canDownloadFiles(config),
+        enableSVGs: config.EnableSVGs === 'true',
     };
 }
 

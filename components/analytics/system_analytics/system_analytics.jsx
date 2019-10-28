@@ -6,22 +6,22 @@ import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import DoughnutChart from '../doughnut_chart.jsx';
-import LineChart from '../line_chart.jsx';
-import StatisticCount from '../statistic_count.jsx';
+import DoughnutChart from '../doughnut_chart';
+import LineChart from '../line_chart';
+import StatisticCount from '../statistic_count';
 
 import {
     formatPostsPerDayData,
     formatUsersWithPostsPerDayData,
     formatChannelDoughtnutData,
     formatPostDoughtnutData,
-} from '../format.jsx';
+} from '../format';
 
 const StatTypes = Constants.StatTypes;
 
@@ -34,6 +34,7 @@ export default class SystemAnalytics extends React.PureComponent {
     componentDidMount() {
         AdminActions.getStandardAnalytics();
         AdminActions.getPostsPerDayAnalytics();
+        AdminActions.getBotPostsPerDayAnalytics();
         AdminActions.getUsersPerDayAnalytics();
 
         if (this.props.isLicensed) {
@@ -46,11 +47,13 @@ export default class SystemAnalytics extends React.PureComponent {
         const isLicensed = this.props.isLicensed;
         const skippedIntensiveQueries = stats[StatTypes.TOTAL_POSTS] === -1;
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
+        const botPostCountsDay = formatPostsPerDayData(stats[StatTypes.BOT_POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
 
         let banner;
         let postCount;
         let postTotalGraph;
+        let botPostTotalGraph;
         let activeUserGraph;
         if (skippedIntensiveQueries) {
             banner = (
@@ -75,6 +78,22 @@ export default class SystemAnalytics extends React.PureComponent {
                     icon='fa-comment'
                     count={stats[StatTypes.TOTAL_POSTS]}
                 />
+            );
+
+            botPostTotalGraph = (
+                <div className='row'>
+                    <LineChart
+                        title={
+                            <FormattedMessage
+                                id='analytics.system.totalBotPosts'
+                                defaultMessage='Total Posts from Bots'
+                            />
+                        }
+                        data={botPostCountsDay}
+                        width={740}
+                        height={225}
+                    />
+                </div>
             );
 
             postTotalGraph = (
@@ -379,6 +398,7 @@ export default class SystemAnalytics extends React.PureComponent {
                         </div>
                         {advancedGraphs}
                         {postTotalGraph}
+                        {botPostTotalGraph}
                         {activeUserGraph}
                     </div>
                 </div>

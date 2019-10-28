@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import TeamList from 'components/admin_console/team_channel_settings/team/list';
-import AdminPanel from 'components/widgets/admin_console/admin_panel.jsx';
+import AdminPanel from 'components/widgets/admin_console/admin_panel';
 
 export class TeamsSettings extends React.Component {
     static propTypes = {
@@ -45,7 +45,7 @@ export class TeamsSettings extends React.Component {
                             titleId={t('admin.team_settings.title')}
                             titleDefault='Teams'
                             subtitleId={t('admin.team_settings.description')}
-                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} teams. Search for and [manage team settings](www.mattermost.com/pl/default-team-management.html).'}
+                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} teams. Manage team settings.'}
                             subtitleValues={{...this.state}}
                         >
                             <TeamList onPageChangedCallback={this.onPageChangedCallback}/>

@@ -5,18 +5,16 @@ import {batchActions} from 'redux-batched-actions';
 
 import {
     createDirectChannel,
+    fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
-    getMyChannelMember,
-    markChannelAsRead,
-    markChannelAsViewed,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -24,7 +22,7 @@ import {handleNewPost} from 'actions/post_actions.jsx';
 import {stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {closeRightHandSide, closeMenu as closeRhsMenu, updateRhsState} from 'actions/views/rhs';
-import {clearUserCookie} from 'actions/views/root';
+import {clearUserCookie} from 'actions/views/cookie';
 import {close as closeLhs} from 'actions/views/lhs';
 import * as WebsocketActions from 'actions/websocket_actions.jsx';
 import AppDispatcher from 'dispatcher/app_dispatcher.jsx';
@@ -35,9 +33,12 @@ import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
+import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
+
+import {openModal} from './views/modals';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -56,21 +57,13 @@ export function emitChannelClickEvent(channel) {
     }
     function switchToChannel(chan) {
         const state = getState();
-        const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
-        const oldChannelId = getCurrentChannelId(state);
         const userId = getCurrentUserId(state);
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
-        const member = selectMyChannelMember(state, chan.id);
+        const member = getMyChannelMember(state, chan.id);
 
-        getMyChannelMemberPromise.then(() => {
-            dispatch(getChannelStats(chan.id));
-
-            // Mark previous and next channel as read
-            dispatch(markChannelAsRead(chan.id, oldChannelId));
-            dispatch(markChannelAsViewed(chan.id, oldChannelId));
-        });
+        dispatch(getChannelStats(chan.id));
 
         if (chan.delete_at === 0) {
             const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
@@ -169,6 +162,18 @@ export function showLeavePrivateChannelModal(channel) {
         type: ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL,
         value: channel,
     });
+}
+
+export function showMobileSubMenuModal(elements) {
+    const submenuModalData = {
+        ModalId: ModalIdentifiers.MOBILE_SUBMENU,
+        dialogType: SubMenuModal,
+        dialogProps: {
+            elements,
+        },
+    };
+
+    dispatch(openModal(submenuModalData));
 }
 
 export function sendEphemeralPost(message, channelId, parentId) {
@@ -282,9 +287,9 @@ export async function redirectUserToDefaultTeam() {
 
     state = getState();
 
-    const userId = getCurrentUserId(state);
+    const user = getCurrentUser(state);
     const locale = getCurrentLocale(state);
-    const teamId = LocalStorageStore.getPreviousTeamId(userId);
+    const teamId = LocalStorageStore.getPreviousTeamId(user.id);
 
     let team = getTeam(state, teamId);
     const myMember = getMyTeamMember(state, teamId);
@@ -301,9 +306,15 @@ export async function redirectUserToDefaultTeam() {
         }
     }
 
-    if (userId && team) {
-        let channelName = LocalStorageStore.getPreviousChannelName(userId, team.id);
+    if (user.id && team) {
+        if (Utils.isGuest(user)) {
+            await dispatch(fetchMyChannelsAndMembers(team.id));
+            state = getState();
+        }
+
+        let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
         const channel = getChannelByName(state, channelName);
+
         if (channel && channel.team_id === team.id) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
@@ -315,7 +326,7 @@ export async function redirectUserToDefaultTeam() {
         }
 
         browserHistory.push(`/${team.name}/channels/${channelName}`);
-    } else {
+    } else if (user.id) {
         browserHistory.push('/select_team');
     }
 }

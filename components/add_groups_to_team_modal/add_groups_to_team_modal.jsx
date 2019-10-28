@@ -8,12 +8,12 @@ import {FormattedMessage} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
 import groupsAvatar from 'images/groups-avatar.png';
-import AddIcon from 'components/icon/add_icon';
+import AddIcon from 'components/widgets/icons/fa_add_icon';
 
 const GROUPS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 10;
@@ -188,7 +188,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                     className='more-modal__details'
                 >
                     <div className='more-modal__name'>
-                        {option.display_name} {'-'} <span>
+                        {option.display_name}&nbsp;{'-'}&nbsp;<span className='more-modal__name_sub'>
                             <FormattedMessage
                                 id='numMembers'
                                 defaultMessage='{num, number} {num, plural, one {member} other {members}}'
@@ -235,16 +235,18 @@ export default class AddGroupsToTeamModal extends React.Component {
 
         let groupsToShow = this.props.groups;
         if (this.props.excludeGroups) {
-            groupsToShow = groupsToShow.filter((g) => !this.props.excludeGroups.includes(g));
+            const hasGroup = (og) => !this.props.excludeGroups.find((g) => g.id === og.id);
+            groupsToShow = groupsToShow.filter(hasGroup);
         }
         if (this.props.includeGroups) {
-            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter((g) => !groupsToShow.includes(g))];
+            const hasGroup = (og) => this.props.includeGroups.find((g) => g.id === og.id);
+            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
         }
 
         return (
             <Modal
                 id='addGroupsToTeamModal'
-                dialogClassName={'more-modal more-direct-channels'}
+                dialogClassName={'a11y__modal more-modal more-direct-channels'}
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}

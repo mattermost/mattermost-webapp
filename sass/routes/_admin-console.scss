@@ -69,7 +69,7 @@
     }
 
     .filtered-user-list {
-        height: calc(100vh - 120px);
+        height: calc(100vh - 160px);
     }
 
     .Select-value-label {
@@ -502,22 +502,13 @@
     width: 100%;
 }
 
-.job-table__panel {
-}
-
-
-.brand-img {
-    margin-bottom: 1.5em;
-    max-width: 150px;
-}
-
 .admin-console__disabled-text {
     color: #777;
     margin: 10px 0 0 15px;
 }
 
 .admin-sidebar {
-    background: #333;
+    background: #111;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -549,7 +540,6 @@
 
     .nav-pills__container {
         @include font-smoothing(initial);
-        background: #111;
         height: calc(100% - 68px);
         margin-top: 1px;
         padding-bottom: 20px;
@@ -827,12 +817,6 @@
         }
     }
 
-    .manage-teams__profile-picture {
-        border-radius: 20px;
-        height: 40px;
-        width: 40px;
-    }
-
     .manage-teams__info {
         flex: 1;
         margin-left: 10px;
@@ -919,26 +903,6 @@
         right: 11px;
         top: 15px;
         width: 0;
-    }
-}
-
-.admin-setting-user__image {
-    @include border-radius(20px);
-    display: block;
-    font-size: 15px;
-    height: 16px;
-    line-height: 16px;
-    margin-right: 7px;
-    margin-top: 3px;
-    text-align: center;
-    width: 16px;
-
-    .admin-setting-user--align {
-        display: inline-block;
-        max-width: 80%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
 

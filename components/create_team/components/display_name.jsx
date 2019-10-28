@@ -8,9 +8,9 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants.jsx';
-import {cleanUpUrlable} from 'utils/url.jsx';
+import {cleanUpUrlable} from 'utils/url';
 import logoImage from 'images/logo.png';
-import NextIcon from 'components/icon/next_icon';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
 
 export default class TeamSignupDisplayNamePage extends React.PureComponent {
     static propTypes = {

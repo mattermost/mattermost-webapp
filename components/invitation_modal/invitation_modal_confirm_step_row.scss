@@ -1,0 +1,62 @@
+@import 'utils/variables';
+
+.InvitationModalConfirmStepRow {
+    display: flex;
+    .username-or-icon {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        .email {
+            margin: 0 4px 0 8px;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+        .name {
+            margin: 0 4px 0 8px;
+        }
+        .mail-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            background: var(--button-bg);
+            padding: 3px;
+            margin: 12px 0 12px 12px;
+            display: inline-block;
+            svg {
+                width: 24px;
+                height: 24px;
+                fill: var(--button-color);
+                margin: 3px;
+            }
+        }
+        .alert-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            background: var(--dnd-indicator);
+            padding: 3px;
+            margin: 12px 0 12px 12px;
+            display: inline-block;
+            svg {
+                width: 28.8px;
+                height: 28.8px;
+                fill: var(--button-color);
+                margin: .6px;
+            }
+        }
+        .Avatar {
+            margin: 12px 0 12px 12px;
+        }
+        .Badge {
+            margin-top: 2px;
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+    .reason {
+        display: flex;
+        align-items: center;
+        width: 50%;
+        padding: 12px;
+    }
+}

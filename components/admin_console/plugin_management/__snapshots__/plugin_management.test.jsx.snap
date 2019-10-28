@@ -120,56 +120,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -181,15 +131,15 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -202,7 +152,30 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -359,56 +332,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -420,15 +343,15 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -441,7 +364,30 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -632,56 +578,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -693,15 +589,15 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -714,7 +610,30 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -910,56 +829,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -971,15 +840,15 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -993,6 +862,29 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1183,58 +1075,8 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
-            disabled={false}
+            disabled={true}
             falseText={
               <FormattedMessage
                 defaultMessage="false"
@@ -1244,15 +1086,15 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -1265,7 +1107,30 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={true}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
         </SettingsGroup>
       </div>
@@ -1429,56 +1294,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value="https://pluginsite.com/plugin.tar.gz"
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={false}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -1490,15 +1305,15 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -1511,7 +1326,30 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1702,56 +1540,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -1763,15 +1551,15 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -1784,7 +1572,30 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -1975,56 +1786,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -2036,15 +1797,15 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -2057,7 +1818,30 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2311,56 +2095,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -2372,15 +2106,15 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -2393,7 +2127,30 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2615,56 +2372,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -2676,15 +2383,15 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -2697,7 +2404,30 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -2919,56 +2649,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -2980,15 +2660,15 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -3001,7 +2681,30 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"
@@ -3223,56 +2926,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               </p>
             </div>
           </div>
-          <div
-            className="form-group"
-          >
-            <label
-              className="control-label col-sm-4"
-            >
-              <FormattedMessage
-                defaultMessage="Install Plugin from URL: "
-                id="admin.plugin.installTitle"
-                values={Object {}}
-              />
-            </label>
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <input
-                  onChange={[Function]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="text"
-                  value=""
-                />
-              </p>
-            </div>
-            <div
-              className="col-sm-4"
-            />
-            <div
-              className="col-sm-8"
-            >
-              <p>
-                <button
-                  className="btn"
-                  disabled={true}
-                  id="installPluginButton"
-                  onClick={[Function]}
-                >
-                  <FormattedMessage
-                    defaultMessage="Install"
-                    id="admin.plugin.install"
-                    values={Object {}}
-                  />
-                </button>
-              </p>
-            </div>
-          </div>
           <BooleanSetting
             disabled={false}
             falseText={
@@ -3284,15 +2937,15 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When false, URLs provided must use the HTTPS protocol."
-                id="admin.plugins.settings.allowInsecureUrlDesc"
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
               />
             }
-            id="allowInsecureDownloadUrl"
+            id="enableMarketplace"
             label={
               <FormattedMessage
-                defaultMessage="Allow Insecure Install URL:"
-                id="admin.plugins.settings.allowInsecureUrl"
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
                 values={Object {}}
               />
             }
@@ -3305,7 +2958,30 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 values={Object {}}
               />
             }
-            value={false}
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
           />
           <div
             className="form-group"

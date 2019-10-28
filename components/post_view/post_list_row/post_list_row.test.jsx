@@ -18,7 +18,7 @@ import PostListRow from './post_list_row.jsx';
 
 describe('components/post_view/post_list_row', () => {
     test('should render more messages loading indicator', () => {
-        const listId = PostListRowListIds.MORE_MESSAGES_LOADER;
+        const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
         const props = {
             listId,
         };
@@ -29,18 +29,18 @@ describe('components/post_view/post_list_row', () => {
     });
 
     test('should render manual load messages trigger', () => {
-        const listId = PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES;
-        const loadMorePosts = jest.fn();
+        const listId = PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER;
+        const loadOlderPosts = jest.fn();
         const props = {
             listId,
-            loadMorePosts,
+            loadOlderPosts,
         };
         const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
         wrapper.prop('onClick')();
-        expect(loadMorePosts).toHaveBeenCalledTimes(1);
+        expect(loadOlderPosts).toHaveBeenCalledTimes(1);
     });
 
     test('should render channel intro message', () => {

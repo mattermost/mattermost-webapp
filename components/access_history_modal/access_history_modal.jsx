@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isMobile} from 'utils/utils.jsx';
 import AuditTable from 'components/audit_table';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 export default class AccessHistoryModal extends React.PureComponent {
     static propTypes = {
@@ -76,7 +76,7 @@ export default class AccessHistoryModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='modal--scroll'
+                dialogClassName='a11y__modal modal--scroll'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}

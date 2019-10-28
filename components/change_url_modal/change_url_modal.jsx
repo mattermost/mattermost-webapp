@@ -76,14 +76,14 @@ export default class ChangeURLModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    static getDerivedStateFromProps(props, state) {
         // This check prevents the url being deleted when we re-render
         // because of user status check
-        if (!this.state.userEdit) {
-            this.setState({
-                currentURL: nextProps.currentURL,
-            });
+        if (!state.userEdit) {
+            return {currentURL: props.currentURL};
         }
+
+        return null;
     }
 
     onURLChanged = (e) => {
@@ -177,6 +177,7 @@ export default class ChangeURLModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.onCancel}
                 onExited={this.props.onModalExited}
@@ -212,7 +213,6 @@ export default class ChangeURLModal extends React.PureComponent {
                             <div className='col-sm-9'>
                                 <div className={urlClass}>
                                     <OverlayTrigger
-                                        trigger={['hover', 'focus']}
                                         delayShow={Constants.OVERLAY_TIME_DELAY}
                                         placement='top'
                                         overlay={urlTooltip}

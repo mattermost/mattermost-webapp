@@ -67,7 +67,7 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
       autoFocus={true}
       backdrop={true}
       bsClass="modal"
-      dialogClassName="shortcuts-modal"
+      dialogClassName="a11y__modal shortcuts-modal"
       dialogComponentClass={[Function]}
       enforceFocus={true}
       keyboard={true}
@@ -190,7 +190,7 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
       autoFocus={true}
       backdrop={true}
       bsClass="modal"
-      dialogClassName="shortcuts-modal"
+      dialogClassName="a11y__modal shortcuts-modal"
       dialogComponentClass={[Function]}
       enforceFocus={true}
       keyboard={true}

@@ -7,7 +7,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="modal--overflow"
+  dialogClassName="a11y__modal modal--overflow"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -85,6 +85,7 @@ exports[`components/AddUserToChannelModal should match snapshot 1`] = `
         providers={
           Array [
             SearchChannelWithPermissionsProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",

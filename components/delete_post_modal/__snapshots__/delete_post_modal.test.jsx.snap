@@ -7,6 +7,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={false}
   id="deletePostModal"
@@ -115,6 +116,7 @@ exports[`components/delete_post_modal should match snapshot for delete_post_moda
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={false}
   id="deletePostModal"
@@ -232,6 +234,7 @@ exports[`components/delete_post_modal should match snapshot for post with 1 comm
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={false}
   id="deletePostModal"

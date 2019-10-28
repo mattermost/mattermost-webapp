@@ -14,10 +14,10 @@ import BotDefaultIcon from 'images/bot_default_icon.png';
 
 import {browserHistory} from 'utils/browser_history';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import SpinnerButton from 'components/spinner_button.jsx';
+import SpinnerButton from 'components/spinner_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import FormError from 'components/form_error.jsx';
-import {AcceptedProfileImageTypes, OVERLAY_TIME_DELAY} from 'utils/constants.jsx';
+import FormError from 'components/form_error';
+import {AcceptedProfileImageTypes, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';
 
@@ -243,7 +243,7 @@ export default class AddBot extends React.Component {
         });
 
         const bot = {
-            username: this.state.username.toLowerCase(),
+            username: this.state.username.toLowerCase().trim(),
             display_name: this.state.displayName,
             description: this.state.description,
         };
@@ -263,7 +263,7 @@ export default class AddBot extends React.Component {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
                     const imageResult = await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
                     error = imageResult.error;
-                } else {
+                } else if (this.state.pictureFile && this.state.pictureFile === 'default') {
                     await this.props.actions.setDefaultProfileImage(data.user_id);
                 }
             }
@@ -380,8 +380,7 @@ export default class AddBot extends React.Component {
         let imageURL = '';
         let removeImageIcon = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={OVERLAY_TIME_DELAY}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='right'
                 overlay={(
                     <Tooltip id='removeIcon'>

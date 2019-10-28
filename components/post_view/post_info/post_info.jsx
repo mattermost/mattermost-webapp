@@ -11,13 +11,13 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
-import InfoSmallIcon from 'components/svg/info_small_icon';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
@@ -236,7 +236,6 @@ export default class PostInfo extends React.PureComponent {
         if (post.props && post.props.card) {
             postInfoIcon = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='top'
                     overlay={

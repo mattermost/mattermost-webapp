@@ -31,6 +31,8 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         actions: {
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
             revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
+            promoteGuestToUser: jest.fn().mockResolvedValue({data: true}),
+            demoteUserToGuest: jest.fn().mockResolvedValue({data: true}),
             loadBots: jest.fn(() => Promise.resolve({})),
         },
         config: {
@@ -145,7 +147,7 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
         expect(modal.prop('message')).toMatchSnapshot();
     });
 
-    test('renderDeactivateMemberModal should render the bot accounts warning in case the user do has any bot accounts', async () => {
+    test('renderDeactivateMemberModal should render the bot accounts warning. owner_id has enabled bot accounts', async () => {
         const overrideProps = {
             config: {
                 ServiceSettings: {
@@ -153,12 +155,33 @@ describe('components/admin_console/system_users/system_users_dropdown/system_use
                 },
             },
             bots: {
-                1: {owner_id: '1'},
-                2: {owner_id: '1'},
-                3: {owner_id: 'user_id'},
+                1: {owner_id: '1', delete_at: 0},
+                2: {owner_id: '1', delete_at: 0},
+                3: {owner_id: 'user_id', delete_at: 0},
             },
         };
         const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+        wrapper.setState({showDeactivateMemberModal: true});
+
+        const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
+        expect(modal.prop('message')).toMatchSnapshot();
+    });
+
+    test('renderDeactivateMemberModal should not render the bot accounts warning. owner_id has no enabled bot accounts', async () => {
+        const overrideProps = {
+            config: {
+                ServiceSettings: {
+                    DisableBotsWhenOwnerIsDeactivated: true,
+                },
+            },
+            bots: {
+                1: {owner_id: '1', delete_at: 0},
+                2: {owner_id: '1', delete_at: 0},
+                3: {owner_id: 'user_id', delete_at: 1234},
+            },
+        };
+        const wrapper = shallow(<SystemUsersDropdown {...{...requiredProps, ...overrideProps}}/>);
+        wrapper.setState({showDeactivateMemberModal: true});
 
         const modal = wrapper.wrap(wrapper.instance().renderDeactivateMemberModal());
         expect(modal.prop('message')).toMatchSnapshot();

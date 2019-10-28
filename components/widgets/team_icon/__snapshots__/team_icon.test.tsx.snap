@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/team-icon basic icon 1`] = `
+<div
+  className="TeamIcon no-hover TeamIcon__md"
+>
+  <div
+    className="TeamIcon__content no-hover"
+  >
+    <div
+      aria-label="Team Initials"
+      className="TeamIcon__initials TeamIcon__initials__md"
+    >
+      te
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/widgets/team-icon icon with hover 1`] = `
+<div
+  className="TeamIcon  TeamIcon__md"
+>
+  <div
+    className="TeamIcon__content "
+  >
+    <div
+      aria-label="Team Initials"
+      className="TeamIcon__initials TeamIcon__initials__md"
+    >
+      te
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/widgets/team-icon image icon 1`] = `
+<div
+  className="TeamIcon no-hover TeamIcon__md"
+>
+  <div
+    className="TeamIcon__content no-hover"
+  >
+    <div
+      aria-label="Team Icon"
+      className="TeamIcon__image TeamIcon__md"
+      style={
+        Object {
+          "backgroundImage": "url('http://example.com/image.png')",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`components/widgets/team-icon small icon 1`] = `
+<div
+  className="TeamIcon no-hover TeamIcon__sm"
+>
+  <div
+    className="TeamIcon__content no-hover"
+  >
+    <div
+      aria-label="Team Initials"
+      className="TeamIcon__initials TeamIcon__initials__sm"
+    >
+      te
+    </div>
+  </div>
+</div>
+`;

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -26,11 +26,6 @@ const testCases = [
 
 describe('Markdown message', () => {
     before(() => {
-        // # Disable fetch so requests fall back to XHR so we can listen to routes
-        cy.on('window:before:load', (win) => {
-            win.fetch = null;
-        });
-
         // # Enable local image proxy so our expected URLs match
         const newSettings = {
             ImageProxySettings: {
@@ -42,22 +37,19 @@ describe('Markdown message', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as "user-1"
-        cy.apiLogin('user-1');
-
-        // # Start cypress server, and listen for request to get posts
-        cy.server();
-        cy.route('GET', 'api/v4/channels/**/posts*').as('getPosts');
-
-        // # Navigate to app and wait for posts request to finish
-        cy.visit('/');
-        cy.wait('@getPosts', {timeout: TIMEOUTS.HUGE}).should('have.property', 'status', 200);
+        // # Login as new user
+        cy.loginAsNewUser().then(() => {
+            // # Create new team and visit its URL
+            cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
+                cy.visit(`/${response.body.name}`);
+            });
+        });
     });
 
     testCases.forEach((testCase) => {
         it(testCase.name, () => {
             // #  Post markdown message
-            cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`);
+            cy.postMessageFromFile(`markdown/${testCase.fileKey}.md`).wait(TIMEOUTS.SMALL);
 
             // * Verify that HTML Content is correct
             cy.compareLastPostHTMLContentFromFile(`markdown/${testCase.fileKey}.html`);
@@ -73,7 +65,7 @@ describe('Markdown message', () => {
 </blockquote>`;
 
         // #  Post markdown message
-        cy.postMessageFromFile('markdown/markdown_block_quotes_2.md');
+        cy.postMessageFromFile('markdown/markdown_block_quotes_2.md').wait(TIMEOUTS.SMALL);
 
         // * Verify that HTML Content is correct
         cy.getLastPostId().then((postId) => {

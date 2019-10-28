@@ -26,9 +26,6 @@ export default class ResetPasswordModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.doSubmit = this.doSubmit.bind(this);
-        this.doCancel = this.doCancel.bind(this);
-
         this.state = {
             serverErrorNewPass: null,
             serverErrorCurrentPass: null,
@@ -42,7 +39,7 @@ export default class ResetPasswordModal extends React.Component {
         });
     }
 
-    doSubmit(e) {
+    doSubmit = (e) => {
         e.preventDefault();
         let currentPassword = '';
         if (this.refs.currentPassword) {
@@ -83,7 +80,7 @@ export default class ResetPasswordModal extends React.Component {
         );
     }
 
-    doCancel() {
+    doCancel = () => {
         this.setState({
             serverErrorNewPass: null,
             serverErrorCurrentPass: null,
@@ -159,6 +156,7 @@ export default class ResetPasswordModal extends React.Component {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.doCancel}
                 role='dialog'

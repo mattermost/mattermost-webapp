@@ -3,7 +3,7 @@
 
 import emojiRegex from 'emoji-regex';
 
-import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji} from 'utils/text_formatting.jsx';
+import {formatText, autolinkAtMentions, highlightSearchTerms, handleUnicodeEmoji, parseSearchTerms} from 'utils/text_formatting.jsx';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 import LinkOnlyRenderer from 'utils/markdown/link_only_renderer';
@@ -119,7 +119,7 @@ describe('handleUnicodeEmoji', () => {
         const UNICODE_EMOJI_REGEX = emojiRegex();
 
         const output = handleUnicodeEmoji(text, emojiMap, UNICODE_EMOJI_REGEX);
-        expect(output).toBe('<img class="emoticon" draggable="false" alt="👍" src="/static/emoji/1f44d.png">');
+        expect(output).toBe('<span data-emoticon="+1">👍</span>');
     });
     test('unicode emoji without image support should get wrapped in a span tag', () => {
         const text = '🤟'; // note, this test will fail as soon as this emoji gets a corresponding image
@@ -154,4 +154,71 @@ describe('linkOnlyMarkdown', () => {
             'Do you like <a class="theme markdown__link" href="https://www.mattermost.com" target="_blank">' +
             'Mattermost</a>?');
     });
+});
+
+describe('parseSearchTerms', () => {
+    const tests = [
+        {
+            description: 'no input',
+            input: undefined,
+            expected: [],
+        },
+        {
+            description: 'empty input',
+            input: '',
+            expected: [],
+        },
+        {
+            description: 'simple word',
+            input: 'someword',
+            expected: ['someword'],
+        },
+        {
+            description: 'simple phrase',
+            input: '"some phrase"',
+            expected: ['some phrase'],
+        },
+        {
+            description: 'empty phrase',
+            input: '""',
+            expected: [],
+        },
+        {
+            description: 'phrase before word',
+            input: '"some phrase" someword',
+            expected: ['some phrase', 'someword'],
+        },
+        {
+            description: 'word before phrase',
+            input: 'someword "some phrase"',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'words and phrases',
+            input: 'someword "some phrase" otherword "other phrase"',
+            expected: ['someword', 'some phrase', 'otherword', 'other phrase'],
+        },
+        {
+            description: 'with search flags after',
+            input: 'someword "some phrase" from:someone in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with search flags before',
+            input: 'from:someone in: channel someword "some phrase"',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with search flags before and after',
+            input: 'from:someone someword "some phrase" in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+    ];
+
+    for (const t of tests) {
+        test(t.description, () => {
+            const output = parseSearchTerms(t.input);
+            expect(output).toStrictEqual(t.expected);
+        });
+    }
 });
