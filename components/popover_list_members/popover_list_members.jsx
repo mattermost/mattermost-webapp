@@ -57,7 +57,7 @@ export default class PopoverListMembers extends React.Component {
             return {
                 users: nextProps.users,
                 statuses: nextProps.statuses,
-                sortUsers: this.constructor.sortUsers(nextProps.users, nextProps.statuses),
+                sortUsers: Utils.sortUsersByStatusAndDisplayName(nextProps.users, nextProps.statuses),
             };
         }
         return null;

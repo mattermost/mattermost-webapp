@@ -38,7 +38,6 @@ export default class MemberListChannel extends React.PureComponent {
 
         this.state = {
             loading: true,
-            searchTerm: props.searchTerm,
         };
     }
 
@@ -60,13 +59,6 @@ export default class MemberListChannel extends React.PureComponent {
 
     componentWillUnmount() {
         this.props.actions.setModalSearchTerm('');
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.searchTerm !== prevState.searchTerm) {
-            return {searchTerm: nextProps.searchTerm};
-        }
-        return null;
     }
 
     componentDidUpdate(prevProps) {
