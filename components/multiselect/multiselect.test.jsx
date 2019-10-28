@@ -3,9 +3,11 @@
 
 import React from 'react';
 
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 
 import MultiSelect from 'components/multiselect/multiselect.jsx';
+import {MultiSelectList} from 'components/multiselect/multiselect_list.jsx';
+import MenuWrapperAnimation from 'components/widgets/menu/menu_wrapper_animation';
 
 describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
@@ -41,5 +43,19 @@ describe('components/multiselect/multiselect', () => {
         wrapper.update();
         expect(wrapper.state('page')).toEqual(1);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call setSelected on page change', () => {
+        const wrapper = shallow(
+            <MultiSelect {...baseProps}/>
+        );
+
+        wrapper.instance().refs = {list: {setSelected: jest.fn()}};
+        const spy = jest.spyOn(wrapper.instance().refs.list, 'setSelected');
+
+        wrapper.find('.filter-control__next').simulate('click');
+        wrapper.update();
+
+        expect(spy).toHaveBeenCalled();
     });
 });
