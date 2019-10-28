@@ -8,7 +8,7 @@ import debounce from 'lodash/debounce';
 
 type Props = {
     filter : string;
-    children : JSX.Element;
+    children : React.ReactNode;
 }
 
 export default class Highlight extends React.Component<Props> {
