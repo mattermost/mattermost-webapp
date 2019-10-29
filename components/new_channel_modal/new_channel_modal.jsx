@@ -241,6 +241,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'O'}
                                 onChange={this.handlePublicTypeSelect}
+                                aria-labelledby='channel_modal.type'
                             />
                             {publicChannelDesc}
                         </label>
@@ -253,6 +254,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'P'}
                                 onChange={this.handlePrivateTypeSelect}
+                                aria-labelledby='channel_modal.type'
                             />
                             {privateChannelDesc}
                         </label>
