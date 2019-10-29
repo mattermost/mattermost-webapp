@@ -2,20 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Mark from 'mark.js';
 import debounce from 'lodash/debounce';
 
 type Props = {
-    filter : string;
-    children : React.ReactNode;
+    filter: string;
+    children: React.ReactNode;
 }
 
 export default class Highlight extends React.Component<Props> {
     private markInstance? : Mark;
-    private ref : React.RefObject<HTMLDivElement>;
+    private ref: React.RefObject<HTMLDivElement>;
 
-    public constructor(props : Props) {
+    public constructor(props: Props) {
         super(props);
         this.ref = React.createRef<HTMLDivElement>();
     }
