@@ -1,33 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {intlShape} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-export default class SaveButton extends React.PureComponent {
-    static propTypes = {
-        saving: PropTypes.bool.isRequired,
-        disabled: PropTypes.bool,
-        savingMessage: PropTypes.node,
-        defaultMessage: PropTypes.node,
-        btnClass: PropTypes.string,
-        extraClasses: PropTypes.string,
-    }
+type Props = {
+    saving: boolean;
+    disabled?: boolean;
+    savingMessage?: React.ReactNode;
+    defaultMessage?: React.ReactNode;
+    btnClass?: string;
+    extraClasses?: string;
+}
 
-    static defaultProps = {
+export default class SaveButton extends React.PureComponent<Props> {
+    public static defaultProps: Partial<Props> = {
         disabled: false,
         btnClass: 'btn-primary',
         extraClasses: '',
     }
 
-    static contextTypes = {
+    public static contextTypes = {
         intl: intlShape,
     };
 
-    render() {
+    public render() {
         const {formatMessage} = this.context.intl;
         const {
             saving,
