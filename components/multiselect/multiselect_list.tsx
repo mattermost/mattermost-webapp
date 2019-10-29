@@ -84,6 +84,10 @@ export default class MultiSelectList extends React.Component<Props, State> {
         }
     }
 
+    public setSelected = (selected: number) => {
+        this.toSelect = selected;
+    }
+
     private handleArrowPress = (e: KeyboardEvent) => {
         if (cmdOrCtrlPressed(e) && e.shiftKey) {
             return;

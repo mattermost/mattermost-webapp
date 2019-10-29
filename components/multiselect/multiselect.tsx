@@ -218,7 +218,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         }
     }
 
-    private handleOnClick = (e: Event) => {
+    private handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         this.props.handleSubmit();
     }
