@@ -14,12 +14,12 @@ type Props = {
     label: React.ReactNode;
     helpText?: React.ReactNode;
     value: string;
-    onChange?: (id:string, color:string) => void;
+    onChange?: (id: string, color: string) => void;
     disabled?: boolean;
 }
 
 export default class ColorSetting extends React.PureComponent<Props, State> {
-    public constructor(props:Props) {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -35,13 +35,13 @@ export default class ColorSetting extends React.PureComponent<Props, State> {
         document.removeEventListener('click', this.closePicker);
     }
 
-    public handleChange = (color: ColorResult) => {
+    private handleChange = (color: ColorResult) => {
         if (this.props.onChange) {
             this.props.onChange(this.props.id, color.hex);
         }
     }
 
-    togglePicker = () => {
+    private togglePicker = () => {
         if (this.props.disabled) {
             this.setState({showPicker: false});
         } else {
@@ -49,23 +49,23 @@ export default class ColorSetting extends React.PureComponent<Props, State> {
         }
     }
 
-    closePicker = (e: MouseEvent) => {
+    private closePicker = (e: MouseEvent) => {
         if (e.target && (e.target as HTMLElement).closest('.' + this.getPickerClass())) {
             this.setState({showPicker: false});
         }
     }
 
-    onTextInput = (e : React.ChangeEvent<HTMLInputElement>) => {
+    private onTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (this.props.onChange) {
             this.props.onChange(this.props.id, e.target.value);
         }
     }
 
-    getPickerClass = () => {
+    private getPickerClass = () => {
         return this.props.id ? 'picker-' + this.props.id.replace('.', '-') : '';
     }
 
-    render() {
+    public render() {
         let picker;
         if (this.state.showPicker) {
             picker = (
