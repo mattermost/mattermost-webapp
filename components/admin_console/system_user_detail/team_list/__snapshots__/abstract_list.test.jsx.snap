@@ -54,43 +54,6 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       />
     </div>
   </div>
-  <div
-    className="AbstractList__footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.team_channel_settings.list.paginatorCount"
-        values={
-          Object {
-            "endCount": 0,
-            "startCount": 1,
-            "total": 0,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
-  </div>
 </div>
 `;
 
@@ -149,43 +112,6 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
         values={Object {}}
       />
     </div>
-  </div>
-  <div
-    className="AbstractList__footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.team_channel_settings.list.paginatorCount"
-        values={
-          Object {
-            "endCount": 0,
-            "startCount": 1,
-            "total": 0,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
   </div>
 </div>
 `;

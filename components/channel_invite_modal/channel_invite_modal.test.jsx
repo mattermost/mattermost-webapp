@@ -42,6 +42,7 @@ describe('components/channel_invite_modal', () => {
     const baseProps = {
         channel,
         profilesNotInCurrentChannel: [],
+        profilesNotInCurrentTeam: [],
         actions: {
             addUsersToChannel: jest.fn().mockImplementation(() => {
                 const error = {

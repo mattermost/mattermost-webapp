@@ -32,19 +32,10 @@ export default class AtMention extends React.PureComponent {
         super(props);
 
         this.state = {
-            user: this.getUserFromMentionName(props),
             show: false,
         };
 
         this.overlayRef = React.createRef();
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.mentionName !== this.props.mentionName || nextProps.usersByUsername !== this.props.usersByUsername) {
-            this.setState({
-                user: this.getUserFromMentionName(nextProps),
-            });
-        }
     }
 
     handleClick = (e) => {
@@ -79,11 +70,11 @@ export default class AtMention extends React.PureComponent {
     }
 
     render() {
-        if (!this.state.user) {
+        const user = this.getUserFromMentionName(this.props);
+        if (!user) {
             return <React.Fragment>{this.props.children}</React.Fragment>;
         }
 
-        const user = this.state.user;
         const suffix = this.props.mentionName.substring(user.username.length);
 
         let className = 'mention-link';

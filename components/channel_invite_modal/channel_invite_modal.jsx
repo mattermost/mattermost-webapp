@@ -16,7 +16,7 @@ import AddIcon from 'components/widgets/icons/fa_add_icon';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
@@ -24,6 +24,7 @@ const MAX_SELECTABLE_VALUES = 20;
 export default class ChannelInviteModal extends React.Component {
     static propTypes = {
         profilesNotInCurrentChannel: PropTypes.array.isRequired,
+        profilesNotInCurrentTeam: PropTypes.array.isRequired,
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
@@ -213,8 +214,9 @@ export default class ChannelInviteModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term);
-        users = users.filter((user) => user.delete_at === 0);
+        const users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+            return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user);
+        });
 
         const content = (
             <MultiSelect

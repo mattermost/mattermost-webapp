@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {getOptionValue} from 'react-select/src/builtins';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen';
@@ -48,8 +48,6 @@ export default class MultiSelectList extends React.Component<Props, State> {
     public constructor(props: Props) {
         super(props);
 
-        this.toSelect = -1;
-
         this.state = {
             selected: -1,
         };
@@ -63,17 +61,12 @@ export default class MultiSelectList extends React.Component<Props, State> {
         document.removeEventListener('keydown', this.handleArrowPress);
     }
 
-    public UNSAFE_componentWillReceiveProps(nextProps: Props) { // eslint-disable-line camelcase
-        this.setState({selected: this.toSelect});
-
-        const options = nextProps.options;
-
-        if (options && options.length > 0 && this.toSelect >= 0) {
-            this.props.onSelect(options[this.toSelect]);
-        }
-    }
-
     public componentDidUpdate(_: Props, prevState: State) {
+        const options = this.props.options;
+        if (options && options.length > 0 && this.state.selected >= 0) {
+            this.props.onSelect(options[this.state.selected]);
+        }
+
         if (prevState.selected === this.state.selected) {
             return;
         }
@@ -89,10 +82,6 @@ export default class MultiSelectList extends React.Component<Props, State> {
                 this.selectedRef.current.scrollIntoView(true);
             }
         }
-    }
-
-    public setSelected = (selected: number) => {
-        this.toSelect = selected;
     }
 
     private handleArrowPress = (e: KeyboardEvent) => {
@@ -127,7 +116,6 @@ export default class MultiSelectList extends React.Component<Props, State> {
 
         e.preventDefault();
         this.setState({selected});
-        this.setSelected(selected);
         this.props.onSelect(options[selected]);
     }
 

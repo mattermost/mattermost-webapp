@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage, intlShape} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
-import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants.jsx';
+import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants';
 
 import {t} from 'utils/i18n';
 

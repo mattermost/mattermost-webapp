@@ -9,7 +9,7 @@ import {getCurrentTeamId, getMyTeamsCount} from 'mattermost-redux/selectors/enti
 
 import {saveTheme, deleteTeamSpecificThemes} from 'mattermost-redux/actions/preferences';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import UserSettingsTheme from './user_settings_theme.jsx';
 
