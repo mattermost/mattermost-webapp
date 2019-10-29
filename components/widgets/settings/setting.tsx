@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-type SettingsPropsInterface = {
+type Props = {
     inputId?: string;
     label: React.ReactNode;
     labelClassName?: string;
@@ -13,7 +13,7 @@ type SettingsPropsInterface = {
     footer?: React.ReactNode;
 }
 
-const Setting: React.FunctionComponent<SettingsPropsInterface> = ({
+const Setting: React.FunctionComponent<Props> = ({
     inputId,
     label,
     labelClassName,

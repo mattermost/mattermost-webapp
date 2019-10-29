@@ -5,9 +5,9 @@ import React from 'react';
 
 import Setting from './setting';
 
-type InputTypes = 'input' |'textarea'| 'number'| 'email'| 'tel'| 'url'| 'password'
+type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
 
-type TextSettingProps = {
+type Props = {
     id: string;
     label: React.ReactNode;
     labelClassName: string;
@@ -26,12 +26,12 @@ type TextSettingProps = {
 // Since handle change is read from input and textarea element
 type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
 
-export default class TextSetting extends React.Component<TextSettingProps> {
-    public static defaultProps: Partial<TextSettingProps> = {
+export default class TextSetting extends React.Component<Props> {
+    public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',
         type: 'input',
-        maxLength: -1, // A negative number allows for values of any lenght
+        maxLength: -1, // A negative number allows for values of any length
         resizable: true,
     };
 

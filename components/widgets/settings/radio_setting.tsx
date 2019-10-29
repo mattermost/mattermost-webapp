@@ -5,7 +5,7 @@ import React from 'react';
 
 import Setting from './setting';
 
-type RadioSettingProps = {
+type Props = {
     id: string;
     options: {text: string;value: string}[];
     label: React.ReactNode;
@@ -17,8 +17,8 @@ type RadioSettingProps = {
 
 }
 
-export default class RadioSetting extends React.Component<RadioSettingProps> {
-    public static defaultProps: Partial<RadioSettingProps> = {
+export default class RadioSetting extends React.Component<Props> {
+    public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',
         options: [],

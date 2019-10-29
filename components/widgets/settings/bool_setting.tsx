@@ -5,7 +5,7 @@ import React from 'react';
 
 import Setting from './setting';
 
-type BoolSettingProps = {
+type Props = {
     id: string;
     label: React.ReactNode;
     labelClassName: string;
@@ -16,8 +16,8 @@ type BoolSettingProps = {
     onChange(name: string, value: any): void; // value is any since onChange is a common func for inputs and checkboxes
 }
 
-export default class BoolSetting extends React.Component<BoolSettingProps> {
-    public static defaultProps: Partial<BoolSettingProps> = {
+export default class BoolSetting extends React.Component<Props> {
+    public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',
     };
