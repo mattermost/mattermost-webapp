@@ -27,6 +27,8 @@ type Props = {
 type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
 
 export default class TextSetting extends React.Component<Props> {
+    public static validTypes: string[] = ['input', 'textarea', 'number', 'email', 'tel', 'url', 'password'];
+
     public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',
