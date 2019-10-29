@@ -13,7 +13,7 @@ type Props = {
     footer?: React.ReactNode;
 }
 
-const Setting: React.FunctionComponent<Props> = ({
+const Setting: React.FC<Props> = ({
     inputId,
     label,
     labelClassName,
@@ -21,7 +21,7 @@ const Setting: React.FunctionComponent<Props> = ({
     children,
     footer,
     helpText,
-}) => {
+}: Props) => {
     return (
         <div className='form-group'>
             <label
