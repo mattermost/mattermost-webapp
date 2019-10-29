@@ -20,32 +20,33 @@ export default class Toast extends React.PureComponent {
         onDismiss: PropTypes.func,
         order: PropTypes.number,
         children: PropTypes.element,
+        show: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            show: true,
+            hide: false,
         };
     }
 
     handleJump = () => {
         this.props.jumpTo();
-        this.setState({show: false});
+        this.setState({hide: true});
 
         // TODO: telemetry
     }
 
     handleDismiss = () => {
         this.props.onDismiss();
-        this.setState({show: false});
+        this.setState({hide: true});
 
         // TODO: add telemetry
     }
 
     render() {
         let classes = 'toast';
-        if (this.state.show) {
+        if (this.props.show && !this.state.hide) {
             classes += ' toast__visible';
         }
 
