@@ -28,7 +28,6 @@ jobs:
       - *restore_cache
       - run: |
           npm ci
-          cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
 
   lint:
