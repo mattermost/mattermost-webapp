@@ -28,7 +28,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          npm i
+          npm i --no-save
       - *save_cache
 
   lint:
