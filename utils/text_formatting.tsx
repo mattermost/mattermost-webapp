@@ -2,9 +2,6 @@
 // See LICENSE.txt for license information.
 
 import XRegExp from 'xregexp';
-
-// @ts-ignore TODO! PR in progress https://github.com/mattermost/mattermost-redux/pull/936
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
 import {Renderer} from 'marked';
@@ -187,17 +184,15 @@ export function formatText(
     }
 
     let output = text;
-
     const options = Object.assign({}, inputOptions);
+    const hasPhrases = (/"([^"]*)"/).test(options.searchTerm);
 
-    if (options.searchMatches) {
-        options.searchPatterns = options.searchMatches.map(
-            convertSearchTermToRegex
-        );
+    if (options.searchMatches && !hasPhrases) {
+        options.searchPatterns = options.searchMatches.map(convertSearchTermToRegex);
     } else {
-        options.searchPatterns = parseSearchTerms(options.searchTerm).map(
-            convertSearchTermToRegex
-        );
+        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex).sort((a, b) => {
+            return b.term.length - a.term.length;
+        });
     }
 
     if (options.renderer) {
@@ -611,7 +606,7 @@ function autolinkHashtags(
 const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
 const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
 
-function parseSearchTerms(searchTerm?: string) {
+export function parseSearchTerms(searchTerm) {
     let terms = [];
 
     let termString = searchTerm;
@@ -793,30 +788,23 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(
-    text: string,
-    supportedEmoji: EmojiMap,
-    searchPattern: RegExp
-) {
+export function handleUnicodeEmoji(text, emojiMap, searchPattern) {
     let output = text;
 
-    // replace all occurrences of unicode emoji with additional markup
-    output = output.replace(searchPattern, (emoji: string = '') => {
-        const emojiUnicode = emoji.codePointAt(0);
-
+    // replace all occurances of unicode emoji with additional markup
+    output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
-        const emojiCode = typeof emojiUnicode !== 'undefined' && emojiUnicode.toString(16);
+        const emojiCode = emojiMatch.codePointAt(0).toString(16);
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
-        if (supportedEmoji.hasUnicode(emojiCode)) {
-            // build image tag to replace supported unicode emoji
-            return `<img class="emoticon" draggable="false" alt="${emoji}" src="${getEmojiImageUrl(
-                supportedEmoji.getUnicode(emojiCode)
-            )}">`;
+        if (emojiMap.hasUnicode(emojiCode)) {
+            const emoji = emojiMap.getUnicode(emojiCode);
+
+            return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);
         }
 
         // wrap unsupported unicode emoji in span to style as needed
-        return `<span class="emoticon emoticon--unicode">${emoji}</span>`;
+        return `<span class="emoticon emoticon--unicode">${emojiMatch}</span>`;
     });
     return output;
 }
