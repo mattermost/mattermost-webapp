@@ -9,7 +9,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {showGetPostLinkModal} from 'actions/global_actions.jsx';
-import {Locations, ModalIdentifiers, UNSET_POST_EDIT_TIME_LIMIT} from 'utils/constants.jsx';
+import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -100,7 +100,7 @@ export default class DotMenu extends Component {
         const canEdit = PostUtils.canEditPost(post);
 
         if (canEdit && isLicensed) {
-            if (String(postEditTimeLimit) !== String(UNSET_POST_EDIT_TIME_LIMIT)) {
+            if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
                 const milliseconds = 1000;
                 const timeLeft = (post.create_at + (postEditTimeLimit * milliseconds)) - Utils.getTimestamp();
                 if (timeLeft > 0) {

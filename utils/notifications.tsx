@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as UserAgent from 'utils/user_agent.jsx';
-import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent';
+import Constants from 'utils/constants';
 import icon50 from 'images/icon50x50.png';
 import iconWS from 'images/icon_WS.png';
 
@@ -14,7 +14,29 @@ let requestedNotificationPermission = false;
 // notification. Notifications that do not require interaction will be closed automatically after
 // the Constants.DEFAULT_NOTIFICATION_DURATION. Not all platforms support all features, and may
 // choose different semantics for the notifications.
-export async function showNotification({title, body, requireInteraction, silent, onClick} = {}) {
+
+export interface ShowNotificationParams {
+    title: string;
+    body: string;
+    requireInteraction: boolean;
+    silent: boolean;
+    onClick?: (this: Notification, e: Event) => any | null;
+}
+
+export async function showNotification(
+    {
+        title,
+        body,
+        requireInteraction,
+        silent,
+        onClick,
+    }: ShowNotificationParams = {
+        title: '',
+        body: '',
+        requireInteraction: false,
+        silent: false,
+    },
+) {
     let icon = icon50;
     if (UserAgent.isEdge()) {
         icon = iconWS;

@@ -16,8 +16,8 @@ import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
 import {localizeMessage, getUserIdFromChannelName} from 'utils/utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';

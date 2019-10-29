@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {oauthToEmail} from 'actions/admin_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';

@@ -3,7 +3,7 @@
 
 import exif2css from 'exif2css';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 
 export function canUploadFiles(config) {

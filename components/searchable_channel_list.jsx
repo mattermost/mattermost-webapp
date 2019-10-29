@@ -10,7 +10,7 @@ import {FormattedMessage} from 'react-intl';
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -19,6 +19,10 @@ import {t} from 'utils/i18n';
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 export default class SearchableChannelList extends React.Component {
+    static getDerivedStateFromProps(props, state) {
+        return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
+    }
+
     constructor(props) {
         super(props);
 
@@ -35,18 +39,6 @@ export default class SearchableChannelList extends React.Component {
         // only focus the search box on desktop so that we don't cause the keyboard to open on mobile
         if (!UserAgent.isMobile() && this.refs.filter) {
             this.refs.filter.focus();
-        }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.page !== this.state.page) {
-            $(this.refs.channelList).scrollTop(0);
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.isSearch && !this.props.isSearch) {
-            this.setState({page: 0});
         }
     }
 

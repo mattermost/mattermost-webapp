@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {PostRequestTypes} from 'utils/constants.jsx';
+import {PostRequestTypes} from 'utils/constants';
 
 import PostList, {MAX_EXTRA_PAGES_LOADED} from './post_list.jsx';
 import VirtPostList from './post_list_virtualized.jsx';
@@ -16,6 +16,8 @@ const actionsProp = {
     syncPostsInChannel: jest.fn().mockResolvedValue({}),
     loadLatestPosts: jest.fn().mockImplementation(() => Promise.resolve({atLatestMessage: true, atOldestmessage: true})),
     checkAndSetMobileView: jest.fn(),
+    markChannelAsViewed: jest.fn(),
+    markChannelAsRead: jest.fn(),
 };
 
 const lastViewedAt = 1532345226632;
@@ -39,6 +41,7 @@ const baseProps = {
     isFirstLoad: true,
     atLatestPost: false,
     formattedPostIds: [],
+    prevChannelId: 'prevChannelId',
 };
 
 describe('components/post_view/post_list', () => {
@@ -219,6 +222,31 @@ describe('components/post_view/post_list', () => {
             await loadPosts();
             expect(wrapper.state('loadingOlderPosts')).toBe(false);
             expect(loadPosts).toHaveBeenCalledTimes(3);
+        });
+    });
+
+    describe('markChannelAsReadAndViewed', () => {
+        test('Should call markChannelAsReadAndViewed on postsOnLoad', async () => {
+            const emptyPostList = [];
+
+            const wrapper = shallow(
+                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId'}}/>
+            );
+
+            await wrapper.instance().postsOnLoad();
+            expect(actionsProp.markChannelAsRead).toHaveBeenCalledWith(baseProps.channelId, 'prevChannelId');
+            expect(actionsProp.markChannelAsViewed).toHaveBeenCalledWith(baseProps.channelId, 'prevChannelId');
+        });
+        test('Should not call markChannelAsReadAndViewed as it is a permalink', async () => {
+            const emptyPostList = [];
+            const focusedPostId = 'new';
+            shallow(
+                <PostList {...{...baseProps, postListIds: emptyPostList, prevChannelId: 'prevChannelId', focusedPostId}}/>
+            );
+
+            await actionsProp.loadPostsAround();
+            expect(actionsProp.markChannelAsRead).not.toHaveBeenCalled();
+            expect(actionsProp.markChannelAsViewed).not.toHaveBeenCalled();
         });
     });
 });

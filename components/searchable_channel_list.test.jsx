@@ -23,4 +23,15 @@ describe('components/SearchableChannelList', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should set page to 0 when starting search', () => {
+        const wrapper = shallow(
+            <SearchableChannelList {...baseProps}/>
+        );
+
+        wrapper.setState({page: 10});
+        wrapper.setProps({isSearch: true});
+
+        expect(wrapper.state('page')).toEqual(0);
+    });
 });
