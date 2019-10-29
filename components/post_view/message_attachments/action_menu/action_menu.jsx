@@ -14,6 +14,7 @@ export default class ActionMenu extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         action: PropTypes.object.isRequired,
         selected: PropTypes.object,
+        disabled: PropTypes.bool,
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
             selectAttachmentMenuAction: PropTypes.func.isRequired,
@@ -86,7 +87,7 @@ export default class ActionMenu extends React.PureComponent {
     }
 
     render() {
-        const {action} = this.props;
+        const {action, disabled} = this.props;
 
         return (
             <AutocompleteSelector
@@ -94,6 +95,7 @@ export default class ActionMenu extends React.PureComponent {
                 onSelected={this.handleSelected}
                 placeholder={action.name}
                 inputClassName='post-attachment-dropdown'
+                disabled={disabled}
                 value={this.state.value}
             />
         );
