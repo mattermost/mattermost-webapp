@@ -451,6 +451,7 @@ export default class PostList extends React.PureComponent {
                 jumpTo={this.scrollToBottom}
                 jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Scroll to bottom')}
                 order={0}
+                show={false}
             >
                 {'This is history'}
             </Toast>
@@ -458,6 +459,7 @@ export default class PostList extends React.PureComponent {
                 jumpTo={this.scrollToLatestMessages}
                 jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Scroll to latest messages')}
                 order={1}
+                show={!this.state.atBottom}
             >
                 {'There are new messages'}
             </Toast>
