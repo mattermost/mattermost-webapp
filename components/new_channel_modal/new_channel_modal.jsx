@@ -239,9 +239,10 @@ export default class NewChannelModal extends React.PureComponent {
                                 id='public'
                                 type='radio'
                                 name='channelType'
+                                role='radiogroup'
                                 checked={this.props.channelType === 'O'}
                                 onChange={this.handlePublicTypeSelect}
-                                aria-labelledby='channel_modal.type'
+                                aria-labelledby='channel_modal_type_label'
                             />
                             {publicChannelDesc}
                         </label>
@@ -252,9 +253,10 @@ export default class NewChannelModal extends React.PureComponent {
                                 id='private'
                                 type='radio'
                                 name='channelType'
+                                role='radiogroup'
                                 checked={this.props.channelType === 'P'}
                                 onChange={this.handlePrivateTypeSelect}
-                                aria-labelledby='channel_modal.type'
+                                aria-labelledby='channel_modal_type_label'
                             />
                             {privateChannelDesc}
                         </label>
@@ -312,7 +314,10 @@ export default class NewChannelModal extends React.PureComponent {
                     >
                         <Modal.Body>
                             <div className='form-group'>
-                                <label className='col-sm-3 form__label control-label'>
+                                <label
+                                    className='col-sm-3 form__label control-label'
+                                    id='channel_modal_type_label'
+                                >
                                     <FormattedMessage
                                         id='channel_modal.type'
                                         defaultMessage='Type'
