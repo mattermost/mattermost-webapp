@@ -8,7 +8,7 @@ import {ErrorPageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 type Props = {
-    type?: string;
+    type?: string | null;
     title: string;
 }
 

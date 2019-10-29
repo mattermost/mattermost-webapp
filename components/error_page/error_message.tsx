@@ -10,7 +10,7 @@ import {t} from 'utils/i18n';
 import ErrorLink from './error_link';
 
 type Props = {
-    type?: string;
+    type?: string | null;
     message?: string;
     service?: string;
 }
