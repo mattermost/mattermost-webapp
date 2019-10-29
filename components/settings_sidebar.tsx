@@ -2,23 +2,35 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 
-export default class SettingsSidebar extends React.Component {
-    handleClick = (tab, e) => {
+export type Tab = {
+    icon: string;
+    iconTitle: string;
+    name: string;
+    uiName: string;
+}
+
+export type Props = {
+    activeTab?: string;
+    tabs: Tab[];
+    updateTab: (name: string) => void;
+}
+
+export default class SettingsSidebar extends React.Component<Props> {
+    public handleClick = (tab: Tab, e: React.MouseEvent) => {
         e.preventDefault();
         this.props.updateTab(tab.name);
         $(e.target).closest('.settings-modal').addClass('display--content');
     }
-    componentDidMount() {
+    public componentDidMount() {
         if (UserAgent.isFirefox()) {
             $('.settings-modal .settings-table .nav').addClass('position--top');
         }
     }
-    render() {
+    public render() {
         const tabList = this.props.tabs.map((tab) => {
             const key = `${tab.name}_li`;
             let className = '';
@@ -60,13 +72,3 @@ export default class SettingsSidebar extends React.Component {
         );
     }
 }
-
-SettingsSidebar.propTypes = {
-    tabs: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        uiName: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-    })).isRequired,
-    activeTab: PropTypes.string,
-    updateTab: PropTypes.func.isRequired,
-};

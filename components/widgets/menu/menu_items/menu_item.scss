@@ -7,6 +7,12 @@
         display: flex;
         align-items: center;
 
+        .MenuItem__icon {
+            text-align: center;
+            width: 20px;
+            margin-right: 8px;
+        }
+
         > a {
             text-decoration: none;
 

@@ -53,7 +53,10 @@ class SearchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
-                <span className='search-autocomplete__name'>
+                <span
+                    data-testid='listItem'
+                    className='search-autocomplete__name'
+                >
                     {name}
                 </span>
                 {tag}
