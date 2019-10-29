@@ -3,7 +3,7 @@
 
 import React, {FormEvent, ChangeEvent, createRef, RefObject} from 'react';
 
-interface Props {
+type Props = {
     id?: string;
     disabled?: boolean;
     value?: string;
@@ -11,20 +11,15 @@ interface Props {
     onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
     onHeightChange?: (height: number, maxHeight: number) => void;
     onInput?: (e: FormEvent<HTMLTextAreaElement>) => void;
-}
-
-interface DefaultProps {
     placeholder?: string;
 }
 
-type AutosizeTextareaProps = DefaultProps & Props;
-
-export default class AutosizeTextarea extends React.Component<AutosizeTextareaProps> {
+export default class AutosizeTextarea extends React.Component<Props> {
     private height: number;
     private textareaRef: RefObject<HTMLTextAreaElement>
     private referenceRef: RefObject<HTMLTextAreaElement>
 
-    public constructor(props: AutosizeTextareaProps) {
+    public constructor(props: Props) {
         super(props);
 
         this.height = 0;
