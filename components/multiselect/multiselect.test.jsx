@@ -5,7 +5,10 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+
+import MultiSelect from './multiselect.jsx';
+import MultiSelectList from './multiselect_list.jsx';
 
 describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
@@ -43,17 +46,36 @@ describe('components/multiselect/multiselect', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should call setSelected on page change', () => {
-        const wrapper = shallow(
-            <MultiSelect {...baseProps}/>
+    test('MultiSelectList should match state on next page', () => {
+        function renderOption(option, isSelected, onAdd) {
+            return (
+                <p
+                    key={option.id}
+                    ref={isSelected ? 'selected' : option.id}
+                    onClick={() => onAdd(option)}
+                >
+                    {option.id}
+                </p>
+            );
+        }
+
+        function renderValue(props) {
+            return props.data.value;
+        }
+
+        const wrapper = mountWithIntl(
+            <MultiSelect
+                {...baseProps}
+                optionRenderer={renderOption}
+                valueRenderer={renderValue}
+            />
         );
 
-        wrapper.instance().refs = {list: {setSelected: jest.fn()}};
-        const spy = jest.spyOn(wrapper.instance().refs.list, 'setSelected');
+        const listRef = wrapper.ref('list');
+        expect(listRef.setSelected).toBeTruthy();
 
+        expect(wrapper.find(MultiSelectList).state('selected')).toEqual(-1);
         wrapper.find('.filter-control__next').simulate('click');
-        wrapper.update();
-
-        expect(spy).toHaveBeenCalled();
+        expect(wrapper.find(MultiSelectList).state('selected')).toEqual(0);
     });
 });
