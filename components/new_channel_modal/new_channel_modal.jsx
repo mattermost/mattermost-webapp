@@ -325,6 +325,7 @@ export default class NewChannelModal extends React.PureComponent {
                                     <FormattedMessage
                                         id='channel_modal.name'
                                         defaultMessage='Name'
+                                        for='newChannelName'
                                     />
                                 </label>
                                 <div className='col-sm-9'>
@@ -362,6 +363,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         <FormattedMessage
                                             id='channel_modal.purpose'
                                             defaultMessage='Purpose'
+                                            for='newChannelPurpose'
                                         />
                                     </label>
                                     <label className='form__label light'>
@@ -396,6 +398,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         <FormattedMessage
                                             id='channel_modal.header'
                                             defaultMessage='Header'
+                                            for='newChannelHeader'
                                         />
                                     </label>
                                     <label className='form__label light'>
