@@ -105,6 +105,39 @@ Cypress.Commands.add('apiCreateChannel', (teamId, name, displayName, type = 'O',
 });
 
 /**
+ * Creates a new Direct channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} userids - array of userids
+ * All parameters required
+ */
+Cypress.Commands.add('apiCreateDirectChannel', (userids) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/direct',
+        method: 'POST',
+        body: userids,
+    });
+});
+
+/**
+ * Creates a group channel directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} userIds - IDs of users as member of the group
+ * All parameters required except purpose and header
+ */
+Cypress.Commands.add('apiCreateGroupChannel', (userIds = []) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/group',
+        method: 'POST',
+        body: userIds,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
+    });
+});
+
+/**
  * Deletes a channel directly via API
  * This API assume that the user is logged in and has cookie to access
  * @param {String} channelId - The channel ID to be deleted
@@ -332,6 +365,9 @@ Cypress.Commands.add('apiGetUsersNotInTeam', (teamId, page = 0, perPage = 60) =>
         method: 'GET',
         url: `/api/v4/users?not_in_team=${teamId}&page=${page}&per_page=${perPage}`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
     });
 });
 
@@ -347,6 +383,9 @@ Cypress.Commands.add('apiAddUsersToTeam', (teamId, teamMembers) => {
         url: `/api/v4/teams/${teamId}/members/batch`,
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         body: teamMembers,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        cy.wrap(response);
     });
 });
 
@@ -453,6 +492,15 @@ Cypress.Commands.add('apiGetUserByEmail', (email) => {
     }).then((response) => {
         expect(response.status).to.equal(200);
         cy.wrap(response);
+    });
+});
+
+Cypress.Commands.add('apiGetUsers', (usernames = []) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/users/usernames',
+        method: 'POST',
+        body: usernames,
     });
 });
 
@@ -640,6 +688,18 @@ Cypress.Commands.add('apiGetConfig', () => {
     });
 });
 
+/**
+ * Get some analytics data about the system.
+ */
+Cypress.Commands.add('apiGetAnalytics', () => {
+    cy.apiLogin('sysadmin');
+
+    return cy.request('/api/v4/analytics/old').then((response) => {
+        expect(response.status).to.equal(200);
+        cy.wrap(response);
+    });
+});
+
 // *****************************************************************************
 // Webhooks
 // https://api.mattermost.com/#tag/webhooks
@@ -747,3 +807,4 @@ Cypress.Commands.add('promoteUser', (userId) => {
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
+

@@ -4,7 +4,7 @@
 import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
@@ -142,6 +142,14 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>
         );
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
@@ -151,23 +159,27 @@ describe('components/CreateComment', () => {
         );
         expect(wrapper.state().draft.message).toBe(':smile: ');
 
-        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test'.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test :smile:  ');
 
-        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test '.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test  :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test  :smile:  ');
 
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
@@ -325,7 +337,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
     });
 
-    test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
+    test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
@@ -338,10 +350,8 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>
         );
 
-        const showPostDeletedModal = jest.fn();
-        wrapper.instance().showPostDeletedModal = showPostDeletedModal;
         wrapper.setProps({createPostErrorId: 'api.post.create_post.root_id.app_error'});
-        expect(showPostDeletedModal).toHaveBeenCalled();
+        expect(wrapper.state('showPostDeletedModal')).toBe(true);
     });
 
     describe('focusTextbox', () => {

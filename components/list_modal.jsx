@@ -6,7 +6,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 export const DEFAULT_NUM_PER_PAGE = 50;
 

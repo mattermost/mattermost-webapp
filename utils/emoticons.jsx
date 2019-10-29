@@ -53,7 +53,7 @@ export function handleEmoticons(text, tokens) {
         const alias = `$MM_EMOTICON${index}$`;
 
         tokens.set(alias, {
-            value: `<span data-emoticon="${name}">${matchText}</span>`,
+            value: renderEmoji(name, matchText),
             originalText: fullMatch,
         });
 
@@ -73,4 +73,8 @@ export function handleEmoticons(text, tokens) {
     }
 
     return output;
+}
+
+export function renderEmoji(name, matchText) {
+    return `<span data-emoticon="${name}">${matchText}</span>`;
 }

@@ -51,6 +51,7 @@ export default class ChannelHeader extends React.PureComponent {
         channel: PropTypes.object,
         channelMember: PropTypes.object,
         dmUser: PropTypes.object,
+        gmMembers: PropTypes.array,
         isFavorite: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         isMuted: PropTypes.bool,
@@ -65,8 +66,8 @@ export default class ChannelHeader extends React.PureComponent {
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
+            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
-            updateRhsState: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
@@ -187,7 +188,8 @@ export default class ChannelHeader extends React.PureComponent {
 
     searchButtonClick = (e) => {
         e.preventDefault();
-        this.props.actions.updateRhsState(RHSStates.SEARCH);
+
+        this.props.actions.openRHSSearch();
     };
 
     handleShortcut = (e) => {
@@ -256,6 +258,7 @@ export default class ChannelHeader extends React.PureComponent {
         const {
             teamId,
             currentUser,
+            gmMembers,
             channel,
             channelMember,
             isMuted: channelMuted,
@@ -327,14 +330,16 @@ export default class ChannelHeader extends React.PureComponent {
         }
 
         if (isGroup) {
-            const usernames = channel.display_name.split(',');
             const nodes = [];
-            for (const username of usernames) {
-                const user = Utils.getUserByUsername(username.trim());
+            for (const user of gmMembers) {
+                if (user.id === currentUser.id) {
+                    continue;
+                }
+                const userDisplayName = Utils.getDisplayNameByUserId(user.id);
                 nodes.push((
-                    <React.Fragment key={username}>
+                    <React.Fragment key={userDisplayName}>
                         {nodes.length !== 0 && ', '}
-                        {username}
+                        {userDisplayName}
                         <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
                 ));

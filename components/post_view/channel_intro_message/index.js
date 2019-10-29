@@ -9,7 +9,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getProfilesInCurrentChannel, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import ChannelIntroMessage from './channel_intro_message.jsx';

@@ -6,7 +6,7 @@ import assert from 'assert';
 import {IntlProvider} from 'react-intl';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {PostListRowListIds} from 'utils/constants.jsx';
+import {PostListRowListIds} from 'utils/constants';
 
 const enMessages = require('../i18n/en');
 
@@ -671,5 +671,18 @@ describe('PostUtils.createAriaLabelForPost', () => {
         assert.ok(ariaLabel.indexOf('non-potable water emoji'));
         assert.ok(ariaLabel.indexOf(':space emoji:'));
         assert.ok(ariaLabel.indexOf(':not_an_emoji:'));
+    });
+});
+
+describe('PostUtils.splitMessageBasedOnCaretPosition', () => {
+    const state = {
+        caretPosition: 2,
+    };
+
+    const message = 'Test Message';
+    it('should return an object with two strings when given context and message', () => {
+        const stringPieces = PostUtils.splitMessageBasedOnCaretPosition(state.caretPosition, message);
+        assert.equal('Te', stringPieces.firstPiece);
+        assert.equal('st Message', stringPieces.lastPiece);
     });
 });

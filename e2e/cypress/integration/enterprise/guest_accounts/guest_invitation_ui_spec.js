@@ -18,11 +18,12 @@ let testTeam;
 let newUser;
 const user1 = users['user-1'];
 
-function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true) {
+function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
     // # Update Guest Account Settings
     cy.apiUpdateConfig({
         GuestAccountsSettings: {
             Enable: featureFlag,
+            RestrictCreationToDomains: whitelistedDomains,
         },
         ServiceSettings: {
             EnableEmailInvitations: emailInvitation,
@@ -41,16 +42,16 @@ function invitePeople(typeText, resultsCount, verifyText) {
     cy.getByTestId('inviteGuestLink').find('.arrow').click();
 
     // # Search and add a user
-    cy.getByTestId('emailPlaceholder').should('be.visible').within(($el) => {
-        cy.wrap($el).get('input').type(typeText, {force: true});
-        cy.wrap($el).get('.users-emails-input__menu').
+    cy.getByTestId('emailPlaceholder').should('be.visible').within(() => {
+        cy.get('input').type(typeText, {force: true});
+        cy.get('.users-emails-input__menu').
             children().should('have.length', resultsCount).eq(0).should('contain', verifyText).click();
     });
 
     // # Search and add a Channel
-    cy.getByTestId('channelPlaceholder').should('be.visible').within(($el) => {
-        cy.wrap($el).get('input').type(channelName, {force: true});
-        cy.wrap($el).get('.channels-input__menu').
+    cy.getByTestId('channelPlaceholder').should('be.visible').within(() => {
+        cy.get('input').type(channelName, {force: true});
+        cy.get('.channels-input__menu').
             children().should('have.length', 1).
             eq(0).should('contain', channelName).click();
     });
@@ -61,21 +62,21 @@ function invitePeople(typeText, resultsCount, verifyText) {
 
 function verifyInvitationError(user, errorText, verifyGuestBadge = false) {
     // * Verify the content and error message in the Invitation Modal
-    cy.getByTestId('invitationModal').within(($el) => {
-        cy.wrap($el).find('h1').should('have.text', `Guests Invited to ${testTeam.display_name}`);
-        cy.wrap($el).find('h2.subtitle > span').should('have.text', '1 invitation was not sent');
-        cy.wrap($el).find('div.invitation-modal-confirm-sent').should('not.exist');
-        cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('be.visible').within(($subel) => {
-            cy.wrap($subel).find('h2 > span').should('have.text', 'Invitations Not Sent');
-            cy.wrap($subel).find('.people-header').should('have.text', 'People');
-            cy.wrap($subel).find('.details-header').should('have.text', 'Details');
-            cy.wrap($subel).find('.username-or-icon').should('contain', user);
-            cy.wrap($subel).find('.reason').should('have.text', errorText);
+    cy.getByTestId('invitationModal').within(() => {
+        cy.get('h1').should('have.text', `Guests Invited to ${testTeam.display_name}`);
+        cy.get('h2.subtitle > span').should('have.text', '1 invitation was not sent');
+        cy.get('div.invitation-modal-confirm-sent').should('not.exist');
+        cy.get('div.invitation-modal-confirm-not-sent').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Invitations Not Sent');
+            cy.get('.people-header').should('have.text', 'People');
+            cy.get('.details-header').should('have.text', 'Details');
+            cy.get('.username-or-icon').should('contain', user);
+            cy.get('.reason').should('have.text', errorText);
             if (verifyGuestBadge) {
-                cy.wrap($subel).find('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
+                cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
             }
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.get('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -84,21 +85,21 @@ function verifyInvitationError(user, errorText, verifyGuestBadge = false) {
 
 function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
     // * Verify the content and success message in the Invitation Modal
-    cy.getByTestId('invitationModal').within(($el) => {
-        cy.wrap($el).find('h1').should('have.text', `Guests Invited to ${testTeam.display_name}`);
-        cy.wrap($el).find('h2.subtitle > span').should('have.text', '1 person has been invited');
-        cy.wrap($el).find('div.invitation-modal-confirm-not-sent').should('not.exist');
-        cy.wrap($el).find('div.invitation-modal-confirm-sent').should('be.visible').within(($subel) => {
-            cy.wrap($subel).find('h2 > span').should('have.text', 'Successful Invites');
-            cy.wrap($subel).find('.people-header').should('have.text', 'People');
-            cy.wrap($subel).find('.details-header').should('have.text', 'Details');
-            cy.wrap($subel).find('.username-or-icon').should('contain', user);
-            cy.wrap($subel).find('.reason').should('have.text', successText);
+    cy.getByTestId('invitationModal').within(() => {
+        cy.get('h1').should('have.text', `Guests Invited to ${testTeam.display_name}`);
+        cy.get('h2.subtitle > span').should('have.text', '1 person has been invited');
+        cy.get('div.invitation-modal-confirm-not-sent').should('not.exist');
+        cy.get('div.invitation-modal-confirm-sent').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Successful Invites');
+            cy.get('.people-header').should('have.text', 'People');
+            cy.get('.details-header').should('have.text', 'Details');
+            cy.get('.username-or-icon').should('contain', user);
+            cy.get('.reason').should('have.text', successText);
             if (verifyGuestBadge) {
-                cy.wrap($subel).find('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
+                cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
             }
         });
-        cy.wrap($el).find('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
+        cy.get('.confirm-done > button').should('be.visible').and('not.be.disabled').click();
     });
 
     // * Verify if Invitation Modal was closed
@@ -133,6 +134,9 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     after(() => {
+        // # Reset Guest Feature settings
+        changeGuestFeatureSettings();
+
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
             cy.apiLogin('sysadmin');
@@ -146,69 +150,69 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#invitePeople').should('be.visible').click();
 
         // *Verify Invite Guest link
-        cy.getByTestId('inviteGuestLink').should('be.visible').within(($el) => {
-            cy.wrap($el).find('h2 > span').should('have.text', 'Invite Guests');
-            cy.wrap($el).find('div > span').should('have.text', 'Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of.');
-            cy.wrap($el).find('.arrow').click();
+        cy.getByTestId('inviteGuestLink').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Invite Guests');
+            cy.get('div > span').should('have.text', 'Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of.');
+            cy.get('.arrow').click();
         });
 
         // * Verify the header has changed in the modal
-        cy.getByTestId('invitationModal').within(($el) => {
-            cy.wrap($el).find('h1').should('have.text', 'Invite Guests');
+        cy.getByTestId('invitationModal').within(() => {
+            cy.get('h1').should('have.text', 'Invite Guests');
         });
 
         // *Verify Invite Guests button is disabled by default
         cy.get('#inviteGuestButton').scrollIntoView().should('be.visible').and('be.disabled');
 
         // *Verify Invite People field
-        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
-        cy.getByTestId('addPeople').should('be.visible').within(($el) => {
-            cy.wrap($el).find('h2 > span').should('have.text', 'Invite People');
-            cy.wrap($el).find('.help-text > span').should('have.text', 'Search and add guests or email invite new users.');
+        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
+        cy.getByTestId('addPeople').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Invite People');
+            cy.get('.help-text > span').should('have.text', 'Search and add guests or email invite new users.');
         });
-        cy.getByTestId('emailPlaceholder').should('be.visible').within(($el) => {
+        cy.getByTestId('emailPlaceholder').should('be.visible').within(() => {
             // * Verify the input placeholder text
-            cy.wrap($el).get('.users-emails-input__placeholder').should('have.text', 'Add guests or email addresses');
+            cy.get('.users-emails-input__placeholder').should('have.text', 'Add guests or email addresses');
 
             // # Type the email of the new user
-            cy.wrap($el).get('input').type(email, {force: true});
-            cy.wrap($el).get('.users-emails-input__menu').
+            cy.get('input').type(email, {force: true});
+            cy.get('.users-emails-input__menu').
                 children().should('have.length', 1).
                 eq(0).should('contain', `Invite ${email} as a guest`).click();
         });
 
         // *Verify Search and Add Channels
-        cy.getByTestId('channelPlaceholder').should('be.visible').within(($el) => {
-            cy.wrap($el).find('h2 > span').should('have.text', 'Search and Add Channels');
-            cy.wrap($el).find('.help-text > span').should('have.text', 'Specify the channels the guests have access to.');
+        cy.getByTestId('channelPlaceholder').should('be.visible').within(() => {
+            cy.get('h2 > span').should('have.text', 'Search and Add Channels');
+            cy.get('.help-text > span').should('have.text', 'Specify the channels the guests have access to.');
         });
-        cy.getByTestId('channelPlaceholder').should('be.visible').within(($el) => {
+        cy.getByTestId('channelPlaceholder').should('be.visible').within(() => {
             // * Verify the input placeholder text
-            cy.wrap($el).get('.channels-input__placeholder').should('have.text', 'Search and add channels');
+            cy.get('.channels-input__placeholder').should('have.text', 'Search and add channels');
 
             // # Type the channel name
-            cy.wrap($el).get('input').type('town sq', {force: true});
-            cy.wrap($el).get('.channels-input__menu').
+            cy.get('input').type('town sq', {force: true});
+            cy.get('.channels-input__menu').
                 children().should('have.length', 1).
                 eq(0).should('contain', 'Town Square').click();
         });
 
         // *Verify Set Custom Message before clicking on the link
-        cy.getByTestId('customMessage').should('be.visible').within(($el) => {
-            cy.wrap($el).get('#customMessageHeader').should('not.exist');
-            cy.wrap($el).get('textarea').should('not.exist');
-            cy.wrap($el).get('.help-text').should('have.text', 'Create a custom message to make your invite more personal.');
+        cy.getByTestId('customMessage').should('be.visible').within(() => {
+            cy.get('#customMessageHeader').should('not.exist');
+            cy.get('textarea').should('not.exist');
+            cy.get('.help-text').should('have.text', 'Create a custom message to make your invite more personal.');
 
             // #Verify link text and click on it
-            cy.wrap($el).get('a').should('have.text', 'Set a custom message').click();
+            cy.get('a').should('have.text', 'Set a custom message').click();
         });
 
         // *Verify Set Custom Message after clicking on the link
-        cy.getByTestId('customMessage').should('be.visible').within(($el) => {
-            cy.wrap($el).get('a').should('not.exist');
-            cy.wrap($el).find('div > span').first().should('be.visible').and('have.text', 'Custom message');
-            cy.wrap($el).get('textarea').should('be.visible');
-            cy.wrap($el).get('.help-text').should('have.text', 'Create a custom message to make your invite more personal.');
+        cy.getByTestId('customMessage').should('be.visible').within(() => {
+            cy.get('a').should('not.exist');
+            cy.get('div > span').first().should('be.visible').and('have.text', 'Custom message');
+            cy.get('textarea').should('be.visible');
+            cy.get('.help-text').should('have.text', 'Create a custom message to make your invite more personal.');
         });
 
         // * Verify the confirmation message when users clicks on the Close button
@@ -271,7 +275,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
 
         // # Search and add a new guest by email, who is not part of the team
-        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
@@ -309,10 +313,51 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.apiLogin('sysadmin');
         cy.visit(`/${testTeam.name}`);
 
-        const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
+        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
         verifyInvitationError(email, 'Error: Email invitations are disabled.');
+    });
+
+    it('MM-18047 Verify Guest User whitelisted domains', () => {
+        // #Configure a whitelisted domain
+        changeGuestFeatureSettings(true, true, 'example.com');
+
+        // # Login as sysadmin and visit to newly created team
+        cy.apiLogin('sysadmin');
+        cy.visit(`/${testTeam.name}`);
+
+        // # Invite a Guest by email
+        const email = `temp-${getRandomInt(9999)}@mattermost.com`;
+        invitePeople(email, 1, email);
+
+        // * Verify the content and message in next screen
+        const expectedError = `Error: The following email addresses do not belong to an accepted domain: ${email}. Please contact your System Administrator for details.`;
+        verifyInvitationError(email, expectedError);
+
+        // # From System Console try to update email of guest user
+        cy.createNewUser().then((user) => {
+            // # Demote the user from member to guest
+            cy.demoteUser(user.id);
+
+            // # Navigate to System Console Users listing page
+            cy.visit('/admin_console/user_management/users');
+
+            // # Search for User by username and select the option to update email
+            cy.get('#searchUsers').should('be.visible').type(user.username);
+
+            // # Click on the option to update email
+            cy.getByTestId('userListRow').find('.MenuWrapper a').should('be.visible').click();
+            cy.getByText('Update Email').should('be.visible').click();
+
+            // * Update email outside whitelisted domain and verify error message
+            cy.getByTestId('resetEmailModal').should('be.visible').within(() => {
+                cy.getByTestId('resetEmailForm').should('be.visible').get('input').type(email);
+                cy.getByTestId('resetEmailButton').click();
+                cy.get('.error').should('be.visible').and('have.text', 'The email you provided does not belong to an accepted domain for guest accounts. Please contact your administrator or sign up with a different email.');
+                cy.get('.close').click();
+            });
+        });
     });
 });

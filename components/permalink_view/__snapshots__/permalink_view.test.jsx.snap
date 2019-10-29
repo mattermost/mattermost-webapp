@@ -16,6 +16,13 @@ exports[`components/PermalinkView should match snapshot 1`] = `
     id="archive-link-home"
   >
     <Link
+      className="a11y__region"
+      data-a11y-sort-order="2"
+      innerRef={
+        Object {
+          "current": null,
+        }
+      }
       to="/team_name/channels/channel_name"
     >
       <FormattedMessage
@@ -48,6 +55,13 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
     id="archive-link-home"
   >
     <Link
+      className="a11y__region"
+      data-a11y-sort-order="2"
+      innerRef={
+        Object {
+          "current": null,
+        }
+      }
       to="/team_name/channels/channel_name"
     >
       <InjectIntl(FormattedMarkdownMessage)

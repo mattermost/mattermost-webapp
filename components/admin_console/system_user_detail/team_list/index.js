@@ -4,7 +4,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getTeamsForUser, getTeamMembersForUser} from 'mattermost-redux/actions/teams';
+import {
+    getTeamsForUser,
+    getTeamMembersForUser,
+    removeUserFromTeam,
+    updateTeamMemberSchemeRoles,
+} from 'mattermost-redux/actions/teams';
 
 import {getCurrentLocale} from 'selectors/i18n';
 
@@ -21,6 +26,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTeamsData: getTeamsForUser,
             getTeamMembersForUser,
+            removeUserFromTeam,
+            updateTeamMemberSchemeRoles,
         }, dispatch),
     };
 }

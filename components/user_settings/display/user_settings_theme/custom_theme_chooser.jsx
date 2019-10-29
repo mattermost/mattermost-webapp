@@ -10,8 +10,8 @@ import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
 import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
 
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 
 import ColorChooser from './color_chooser.jsx';
 
