@@ -212,7 +212,7 @@
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",
-    "test": "jest --forceExit --detectOpenHandles -u",
+    "test": "jest --forceExit --detectOpenHandles",
     "test-ci": "jest --forceExit --detectOpenHandles --maxWorkers=2",
     "stats": "cross-env NODE_ENV=production webpack --profile --json > webpack_stats.json",
     "updatesnapshot": "jest --updateSnapshot",

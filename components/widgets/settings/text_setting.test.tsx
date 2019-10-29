@@ -17,22 +17,22 @@ describe('components/widgets/settings/TextSetting', () => {
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<Setting
-  inputClassName=""
-  inputId="string.id"
-  label="some label"
-  labelClassName=""
->
-  <input
-    className="form-control"
-    id="string.id"
-    maxLength={null}
-    onChange={[Function]}
-    type="input"
-    value="some value"
-  />
-</Setting>
-`);
+          <Setting
+            inputClassName=""
+            inputId="string.id"
+            label="some label"
+            labelClassName=""
+          >
+            <input
+              className="form-control"
+              id="string.id"
+              maxLength={-1}
+              onChange={[Function]}
+              type="input"
+              value="some value"
+            />
+          </Setting>
+        `);
     });
 
     test('render with textarea type', () => {
@@ -47,23 +47,23 @@ describe('components/widgets/settings/TextSetting', () => {
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<Setting
-  inputClassName=""
-  inputId="string.id"
-  label="some label"
-  labelClassName=""
->
-  <textarea
-    className="form-control"
-    id="string.id"
-    maxLength={null}
-    onChange={[Function]}
-    rows="5"
-    style={Object {}}
-    value="some value"
-  />
-</Setting>
-`);
+          <Setting
+            inputClassName=""
+            inputId="string.id"
+            label="some label"
+            labelClassName=""
+          >
+            <textarea
+              className="form-control"
+              id="string.id"
+              maxLength={-1}
+              onChange={[Function]}
+              rows={5}
+              style={Object {}}
+              value="some value"
+            />
+          </Setting>
+        `);
     });
 
     // This test is disabled as TSC will not allow to pass any other value to `type`
