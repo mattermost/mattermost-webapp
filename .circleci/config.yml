@@ -14,8 +14,6 @@ aliases:
     restore_cache:
       keys: 
         - dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
-        - dependencies-{{ .Branch }}-
-        - dependencies-
   - &save_cache
     save_cache:
       key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
