@@ -12,7 +12,7 @@ type Props = {
     id: string;
     label: React.ReactNode;
     value: boolean;
-    onChange: (id : string, foo : boolean) => void;
+    onChange: (id: string, foo: boolean) => void;
     trueText?: React.ReactNode;
     falseText?: React.ReactNode;
     disabled: boolean;
@@ -22,7 +22,7 @@ type Props = {
 }
 
 export default class BooleanSetting extends React.Component<Props> {
-    static defaultProps = {
+    public static defaultProps = {
         trueText: (
             <FormattedMessage
                 id='admin.true'
@@ -38,11 +38,11 @@ export default class BooleanSetting extends React.Component<Props> {
         disabled: false,
     };
 
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(this.props.id, e.target.value === 'true');
     }
 
-    render() {
+    public render() {
         let helpText;
         if (this.props.disabled && this.props.disabledText) {
             helpText = (
