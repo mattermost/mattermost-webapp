@@ -6,12 +6,14 @@ import {shallow} from 'enzyme';
 import GeneralTab from 'components/team_general_tab/team_general_tab.jsx';
 
 describe('components/TeamSettings', () => {
+    const getTeam = jest.fn().mockResolvedValue({data: true});
     const patchTeam = jest.fn().mockReturnValue({data: true});
     const regenerateTeamInviteId = jest.fn().mockReturnValue({data: true});
     const removeTeamIcon = jest.fn().mockReturnValue({data: true});
     const setTeamIcon = jest.fn().mockReturnValue({data: true});
 
     const baseActions = {
+        getTeam,
         patchTeam,
         regenerateTeamInviteId,
         removeTeamIcon,
@@ -178,5 +180,18 @@ describe('components/TeamSettings', () => {
         const wrapper = shallow(<GeneralTab {...props}/>);
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call actions.getTeam on handleUpdateSection if invite_id is empty', () => {
+        const actions = {...baseActions};
+        const props = {...defaultProps, actions};
+        props.team.invite_id = '';
+
+        const wrapper = shallow(<GeneralTab {...props}/>);
+
+        wrapper.instance().handleUpdateSection('invite_id');
+
+        expect(actions.getTeam).toHaveBeenCalledTimes(1);
+        expect(actions.getTeam).toHaveBeenCalledWith(props.team.id);
     });
 });
