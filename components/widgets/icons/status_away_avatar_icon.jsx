@@ -19,7 +19,7 @@ export default class StatusAwayAvatarIcon extends React.PureComponent {
                             height='13px'
                             viewBox='0 0 12 12'
                             style={style}
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <path

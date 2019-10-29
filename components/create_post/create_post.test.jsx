@@ -542,7 +542,6 @@ describe('components/create_post', () => {
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
-        expect(wrapper.state('enableSendButton')).toBe(true);
     });
 
     it('check for handleUploadError callback', () => {
@@ -615,7 +614,6 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledTimes(1);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
-        expect(wrapper.state('enableSendButton')).toBe(false);
     });
 
     it('Should call Shortcut modal on FORWARD_SLASH+cntrl/meta', () => {
@@ -912,5 +910,26 @@ describe('components/create_post', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(expectedMessage);
+    });
+
+    it('should not enable the save button when message empty', () => {
+        const wrapper = shallowWithIntl(createPost());
+        const saveButton = wrapper.find('.post-body__actions a');
+
+        expect(saveButton.hasClass('disabled')).toBe(true);
+    });
+
+    it('should enable the save button when message not empty', () => {
+        const wrapper = shallowWithIntl(createPost({draft: {...draftProp, message: 'a message'}}));
+        const saveButton = wrapper.find('.post-body__actions a');
+
+        expect(saveButton.hasClass('disabled')).toBe(false);
+    });
+
+    it('should enable the save button when a file is available for upload', () => {
+        const wrapper = shallowWithIntl(createPost({draft: {...draftProp, fileInfos: [{id: '1'}]}}));
+        const saveButton = wrapper.find('.post-body__actions a');
+
+        expect(saveButton.hasClass('disabled')).toBe(false);
     });
 });

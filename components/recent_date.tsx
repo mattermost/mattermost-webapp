@@ -1,19 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedMessage, DateSource} from 'react-intl';
 
-export default class RecentDate extends React.PureComponent {
-    static propTypes = {
-        value: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.instanceOf(Date),
-        ]).isRequired,
-    }
+type Props = {
+    value: DateSource;
+    children?(val: string): React.ReactElement | null;
+}
 
-    render() {
+export default class RecentDate extends React.PureComponent<Props> {
+    public render() {
         const {value, ...otherProps} = this.props;
         const date = new Date(value);
 
@@ -46,17 +43,17 @@ export default class RecentDate extends React.PureComponent {
     }
 }
 
-export function isSameDay(a, b) {
+export function isSameDay(a: Date, b: Date) {
     return a.getDate() === b.getDate() && a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
 }
 
-export function isToday(date) {
+export function isToday(date: Date) {
     const now = new Date();
 
     return isSameDay(date, now);
 }
 
-export function isYesterday(date) {
+export function isYesterday(date: Date) {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
 
