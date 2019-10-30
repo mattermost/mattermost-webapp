@@ -53,28 +53,35 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
     }
 
     public render(): JSX.Element {
-        const helpText = this.props.helpText && (
-            <p>
-                {this.props.helpText}
-                <br/>
-                <br/>
-            </p>
-        );
+        let helpText = null;
+        if (this.props.helpText) {
+            helpText = (
+                <p>
+                    {this.props.helpText}
+                    <br/>
+                    <br/>
+                </p>
+            );
+        }
 
-        const copyLink = document.queryCommandSupported('copy') && (
-            <button
-                id='linkModalCopyLink'
-                data-copy-btn='true'
-                type='button'
-                className='btn btn-primary pull-left'
-                onClick={this.copyLink}
-            >
-                <FormattedMessage
-                    id='get_link.copy'
-                    defaultMessage='Copy Link'
-                />
-            </button>
-        );
+        let copyLink = null;
+
+        if (document.queryCommandSupported('copy')) {
+            copyLink = (
+                <button
+                    id='linkModalCopyLink'
+                    data-copy-btn='true'
+                    type='button'
+                    className='btn btn-primary pull-left'
+                    onClick={this.copyLink}
+                >
+                    <FormattedMessage
+                        id='get_link.copy'
+                        defaultMessage='Copy Link'
+                    />
+                </button>
+            );
+        }
 
         const linkText = (
             <textarea
@@ -87,15 +94,18 @@ export default class GetLinkModal extends React.PureComponent<Props, State> {
             />
         );
 
-        const copyLinkConfirm = this.state.copiedLink && (
-            <p className='alert alert-success alert--confirm'>
-                <SuccessIcon/>
-                <FormattedMessage
-                    id='get_link.clipboard'
-                    defaultMessage=' Link copied'
-                />
-            </p>
-        );
+        let copyLinkConfirm = null;
+        if (this.state.copiedLink) {
+            copyLinkConfirm = (
+                <p className='alert alert-success alert--confirm'>
+                    <SuccessIcon/>
+                    <FormattedMessage
+                        id='get_link.clipboard'
+                        defaultMessage=' Link copied'
+                    />
+                </p>
+            );
+        }
 
         return (
             <Modal
