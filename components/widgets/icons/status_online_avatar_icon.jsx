@@ -20,7 +20,7 @@ export default class StatusOnlineAvatarIcon extends React.PureComponent {
                             height='13px'
                             viewBox='-243 245 12 12'
                             style={style}
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g>

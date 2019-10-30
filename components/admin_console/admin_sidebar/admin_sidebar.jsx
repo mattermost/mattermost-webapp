@@ -15,7 +15,7 @@ import {browserHistory} from 'utils/browser_history';
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
-import Highlight from 'components/admin_console/highlight.jsx';
+import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon.jsx';
 
 const renderScrollView = (props) => (

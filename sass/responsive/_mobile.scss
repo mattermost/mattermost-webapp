@@ -1,6 +1,15 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .app__body {
+        .MenuWrapper {
+            .MenuItem__divider {
+                margin: 0;
+                border: none;
+            }
+        }
+    }
+
     .line-switch__toggle {
         margin: 8px 0;
     }
@@ -228,10 +237,20 @@
                 z-index: 9999;
                 display: flex;
                 margin: 0;
-                padding: 0 2em;
+                padding: 6em 2em 4em;
                 background: transparent;
-                flex-direction: column;
-                justify-content: center;
+                flex-wrap: wrap;
+                align-items: center;
+                overflow: auto;
+
+                .Menu__content {
+                    width: 100%;
+                    max-height: inherit;
+                    max-width: inherit;
+                    position: relative;
+                    top: 0;
+                    padding: 0;
+                }
 
                 &:after {
                     background: alpha-color($black, .3);
@@ -1723,15 +1742,6 @@
         >span {
             &:first-child {
                 margin-bottom: 1rem;
-            }
-        }
-    }
-
-    .app__body {
-        .MenuWrapper {
-            .MenuItem__divider {
-                margin: 0;
-                border: none;
             }
         }
     }

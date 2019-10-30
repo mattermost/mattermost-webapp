@@ -9,6 +9,7 @@ import {getMyChannels} from 'mattermost-redux/selectors/entities/channels';
 import {haveIChannelPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
+import {getTeam} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {closeModal} from 'actions/views/modals';
@@ -61,6 +62,7 @@ function mapDispatchToProps(dispatch) {
             sendGuestsInvites,
             sendMembersInvites,
             searchProfiles,
+            getTeam,
         }, dispatch),
     };
 }
