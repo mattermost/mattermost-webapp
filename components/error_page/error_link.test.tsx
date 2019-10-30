@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ErrorLink from 'components/error_page/error_link.jsx';
+import ErrorLink from 'components/error_page/error_link';
 
 describe('components/error_page/ErrorLink', () => {
     const baseProps = {
