@@ -239,7 +239,6 @@ export default class NewChannelModal extends React.PureComponent {
                                 id='public'
                                 type='radio'
                                 name='channelType'
-                                role='radiogroup'
                                 checked={this.props.channelType === 'O'}
                                 onChange={this.handlePublicTypeSelect}
                                 aria-labelledby='channel_modal_type_label'
@@ -253,7 +252,6 @@ export default class NewChannelModal extends React.PureComponent {
                                 id='private'
                                 type='radio'
                                 name='channelType'
-                                role='radiogroup'
                                 checked={this.props.channelType === 'P'}
                                 onChange={this.handlePrivateTypeSelect}
                                 aria-labelledby='channel_modal_type_label'
