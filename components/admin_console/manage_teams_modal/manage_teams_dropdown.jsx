@@ -45,7 +45,7 @@ export default class ManageTeamsDropdown extends React.Component {
     render() {
         const isTeamAdmin = Utils.isAdmin(this.props.teamMember.roles) || this.props.teamMember.scheme_admin;
         const isSysAdmin = Utils.isSystemAdmin(this.props.user.roles);
-        const isGuest = Utils.isGuest(this.props.user) || this.props.teamMember.scheme_guest;
+        const isGuest = Utils.isGuest(this.props.user);
 
         const {team} = this.props;
         let title;
