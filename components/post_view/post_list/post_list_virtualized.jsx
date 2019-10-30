@@ -7,6 +7,7 @@ import {injectIntl} from 'react-intl';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
+import {countCurrentChannelUnreadMessages} from 'mattermost-redux/selectors/entities/channels';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -462,7 +463,7 @@ class PostList extends React.PureComponent {
                 order={1}
                 show={!this.state.atBottom}
             >
-                {'There are new messages'}
+                {`There are ${countCurrentChannelUnreadMessages()} new messages`}
             </Toast>
         </React.Fragment>
     )
