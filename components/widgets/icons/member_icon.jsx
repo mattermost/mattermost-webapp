@@ -17,7 +17,7 @@ export default class MemberIcon extends React.PureComponent {
                             width='14px'
                             height='14px'
                             viewBox='0 0 16 16'
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g
