@@ -149,7 +149,6 @@ export default class Renderer extends marked.Renderer {
             const scheme = getScheme(href);
             if (!scheme) {
                 outHref = `http://${outHref}`;
-            // eslint-disable-next-line prefer-rest-params
             } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
                 const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(
                     scheme.toLowerCase()
@@ -233,7 +232,6 @@ export default class Renderer extends marked.Renderer {
     }
 
     public listitem(text: string, bullet: string = '') {
-        // eslint-disable-next-line prefer-rest-params
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
 
