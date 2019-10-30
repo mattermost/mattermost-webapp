@@ -1,6 +1,15 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    .app__body {
+        .MenuWrapper {
+            .MenuItem__divider {
+                margin: 0;
+                border: none;
+            }
+        }
+    }
+
     .line-switch__toggle {
         margin: 8px 0;
     }
@@ -228,10 +237,20 @@
                 z-index: 9999;
                 display: flex;
                 margin: 0;
-                padding: 0 2em;
+                padding: 6em 2em 4em;
                 background: transparent;
-                flex-direction: column;
-                justify-content: center;
+                flex-wrap: wrap;
+                align-items: center;
+                overflow: auto;
+
+                .Menu__content {
+                    width: 100%;
+                    max-height: inherit;
+                    max-width: inherit;
+                    position: relative;
+                    top: 0;
+                    padding: 0;
+                }
 
                 &:after {
                     background: alpha-color($black, .3);
@@ -1152,7 +1171,7 @@
         }
     }
 
-    #navbar {
+    #navbar_wrapper {
         .browser--ie & {
             .navbar-default {
                 .dropdown-menu {
@@ -1727,15 +1746,6 @@
         }
     }
 
-    .app__body {
-        .MenuWrapper {
-            .MenuItem__divider {
-                margin: 0;
-                border: none;
-            }
-        }
-    }
-
     .filtered-user-list {
         height: calc(100vh - 80px);
     }
@@ -2251,7 +2261,7 @@
 }
 
 @media screen and (max-width: 380px) and (max-height: 580px) {
-    #navbar {
+    #navbar_wrapper {
         .navbar-default {
             .dropdown-menu {
                 padding-top: 1em;

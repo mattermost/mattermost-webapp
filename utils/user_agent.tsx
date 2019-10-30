@@ -48,86 +48,86 @@ iOS App:
 
 const userAgent = window.navigator.userAgent;
 
-export function isChrome() {
+export function isChrome(): boolean {
     return userAgent.indexOf('Chrome') > -1;
 }
 
-export function isSafari() {
+export function isSafari(): boolean {
     return userAgent.indexOf('Safari') !== -1 && userAgent.indexOf('Chrome') === -1;
 }
 
-export function isIosSafari() {
+export function isIosSafari(): boolean {
     return (userAgent.indexOf('iPhone') !== -1 || userAgent.indexOf('iPad') !== -1) && userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('CriOS') === -1;
 }
 
-export function isIosChrome() {
+export function isIosChrome(): boolean {
     return userAgent.indexOf('CriOS') !== -1;
 }
 
-export function isIosWeb() {
+export function isIosWeb(): boolean {
     return isIosSafari() || isIosChrome();
 }
 
-export function isIos() {
+export function isIos(): boolean {
     return userAgent.indexOf('iPhone') !== -1 || userAgent.indexOf('iPad') !== -1;
 }
 
-export function isAndroid() {
+export function isAndroid(): boolean {
     return userAgent.indexOf('Android') !== -1;
 }
 
-export function isAndroidChrome() {
+export function isAndroidChrome(): boolean {
     return userAgent.indexOf('Android') !== -1 && userAgent.indexOf('Chrome') !== -1 && userAgent.indexOf('Version') === -1;
 }
 
-export function isAndroidFirefox() {
+export function isAndroidFirefox(): boolean {
     return userAgent.indexOf('Android') !== -1 && userAgent.indexOf('Firefox') !== -1;
 }
 
-export function isAndroidWeb() {
+export function isAndroidWeb(): boolean {
     return isAndroidChrome() || isAndroidFirefox();
 }
 
-export function isIosClassic() {
+export function isIosClassic(): boolean {
     return isMobileApp() && isIos();
 }
 
 // Returns true if and only if the user is using a Mattermost mobile app. This will return false if the user is using the
 // web browser on a mobile device.
-export function isMobileApp() {
+export function isMobileApp(): boolean {
     return isMobile() && !isIosWeb() && !isAndroidWeb();
 }
 
 // Returns true if and only if the user is using Mattermost from either the mobile app or the web browser on a mobile device.
-export function isMobile() {
+export function isMobile(): boolean {
     return isIos() || isAndroid();
 }
 
-export function isFirefox() {
+export function isFirefox(): boolean {
     return userAgent.indexOf('Firefox') !== -1;
 }
 
-export function isInternetExplorer() {
+export function isInternetExplorer(): boolean {
     return userAgent.indexOf('Trident') !== -1;
 }
 
-export function isEdge() {
+export function isEdge(): boolean {
     return userAgent.indexOf('Edge') !== -1;
 }
 
-export function isDesktopApp() {
+export function isDesktopApp(): boolean {
     return userAgent.indexOf('Mattermost') !== -1 && userAgent.indexOf('Electron') !== -1;
 }
 
-export function isWindowsApp() {
+export function isWindowsApp(): boolean {
     return isDesktopApp() && userAgent.indexOf('Windows') !== -1;
 }
 
-export function isMacApp() {
+export function isMacApp(): boolean {
     return isDesktopApp() && userAgent.indexOf('Macintosh') !== -1;
 }
 
-export function isWindows7() {
+export function isWindows7(): boolean {
     const appVersion = navigator.appVersion;
 
     if (!appVersion) {

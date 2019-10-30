@@ -24,14 +24,18 @@ describe('components/Menu', () => {
         const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
+  className="a11y__popup Menu"
   role="menu"
-  style={Object {}}
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -46,15 +50,19 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
+  className="a11y__popup Menu"
   id="test-id"
   role="menu"
-  style={Object {}}
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -73,14 +81,18 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
+  className="a11y__popup Menu"
   role="menu"
-  style={Object {}}
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={Object {}}
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
@@ -99,21 +111,25 @@ describe('components/Menu', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<ul
+<div
   aria-label="test-label"
-  className="a11y__popup Menu dropdown-menu"
+  className="a11y__popup Menu"
   role="menu"
-  style={
-    Object {
-      "bottom": "100%",
-      "left": "inherit",
-      "right": 0,
-      "top": "auto",
-    }
-  }
 >
-  text
-</ul>
+  <ul
+    className="Menu__content dropdown-menu"
+    style={
+      Object {
+        "bottom": "100%",
+        "left": "inherit",
+        "right": 0,
+        "top": "auto",
+      }
+    }
+  >
+    text
+  </ul>
+</div>
 `);
     });
 
