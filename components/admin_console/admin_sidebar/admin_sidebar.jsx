@@ -305,7 +305,6 @@ export default class AdminSidebar extends React.Component {
                             <ul className='nav nav-pills nav-stacked'>
                                 <li className='filter-container'>
                                     <SearchIcon
-                                        id='searchIcon'
                                         className='search__icon'
                                         aria-hidden='true'
                                     />

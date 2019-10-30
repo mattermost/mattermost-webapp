@@ -395,7 +395,6 @@ export default class GroupsList extends React.PureComponent {
                             value={this.state.searchString}
                         />
                         <SearchIcon
-                            id='searchIcon'
                             className='search__icon'
                             aria-hidden='true'
                         />
