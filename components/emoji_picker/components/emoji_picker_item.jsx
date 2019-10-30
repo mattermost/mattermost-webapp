@@ -49,11 +49,11 @@ export default class EmojiPickerItem extends React.Component {
         });
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.isSelected && nextProps.isSelected) {
+    componentDidUpdate(prevProps) {
+        if (!prevProps.isSelected && this.props.isSelected) {
             const topOfTheEmojiItem = this.emojiItem.offsetTop;
             const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;
-            const {containerRef, containerTop, containerBottom} = nextProps;
+            const {containerRef, containerTop, containerBottom} = this.props;
             if (topOfTheEmojiItem < containerTop) {
                 containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDITIONAL_VISUAL_SPACING;
             } else if (bottomOfTheEmojiItem > containerBottom) {

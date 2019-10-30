@@ -132,16 +132,16 @@ describe('Actions.User', () => {
     });
 
     test('loadProfilesAndTeamMembers', async () => {
-        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_TEAM', args: ['team_1', 0, 60]}];
+        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_TEAM', args: ['team_1', 0, 60, {}]}];
 
         let testStore = await mockStore({});
-        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, 'team_1'));
+        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, 'team_1', {}));
         let actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);
 
         testStore = await mockStore(initialState);
-        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60));
+        await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, undefined, {}));
         actualActions = testStore.getActions();
         expect(actualActions[0].args).toEqual(expectedActions[0].args);
         expect(actualActions[0].type).toEqual(expectedActions[0].type);

@@ -12,8 +12,8 @@ import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import LocalizedInput from 'components/localized_input/localized_input';
 import Constants from 'utils/constants.jsx';
-import {getShortenedURL} from 'utils/url.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import {getShortenedURL} from 'utils/url';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 
@@ -91,20 +91,20 @@ export default class NewChannelModal extends React.PureComponent {
         canCreatePrivateChannel: PropTypes.bool.isRequired,
     }
 
+    static getDerivedStateFromProps(props) {
+        if (props.show === false) {
+            return {displayNameError: ''};
+        }
+
+        return null;
+    }
+
     constructor(props) {
         super(props);
 
         this.state = {
             displayNameError: '',
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.show === true && this.props.show === false) {
-            this.setState({
-                displayNameError: '',
-            });
-        }
     }
 
     componentDidMount() {

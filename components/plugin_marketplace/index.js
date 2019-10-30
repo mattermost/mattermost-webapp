@@ -9,6 +9,7 @@ import {getMarketplaceInstalledPlugins} from 'mattermost-redux/selectors/entitie
 
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
+import {getSiteURL} from 'utils/url';
 
 import {closeModal} from 'actions/views/modals';
 
@@ -19,6 +20,8 @@ function mapStateToProps(state) {
         show: isModalOpen(state, ModalIdentifiers.PLUGIN_MARKETPLACE),
         installedPlugins: getMarketplaceInstalledPlugins(state),
         marketplacePlugins: state.entities.plugins.marketplacePlugins,
+        siteURL: getSiteURL(state),
+        pluginStatuses: state.entities.admin.pluginStatuses,
     };
 }
 

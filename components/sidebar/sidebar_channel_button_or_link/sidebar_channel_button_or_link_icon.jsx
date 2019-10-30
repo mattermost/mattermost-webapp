@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import DraftIcon from 'components/widgets/icons/draft_icon';

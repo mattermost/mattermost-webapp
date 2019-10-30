@@ -10,13 +10,12 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 import {AsyncComponent} from 'components/async_load';
-import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.jsx';
+import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.tsx';
 
 import TeamSettings from 'components/team_settings';
 
 export default class TeamSettingsModal extends React.Component {
     static propTypes = {
-        show: PropTypes.bool,
         onHide: PropTypes.func,
     };
 
@@ -26,6 +25,7 @@ export default class TeamSettingsModal extends React.Component {
         this.state = {
             activeTab: 'general',
             activeSection: '',
+            show: true,
         };
     }
 
@@ -54,10 +54,6 @@ export default class TeamSettingsModal extends React.Component {
         this.setState({activeSection: section});
     }
 
-    closeModal = () => {
-        this.props.onHide();
-    }
-
     collapseModal = () => {
         $(ReactDOM.findDOMNode(this.refs.modalBody)).closest('.modal-dialog').removeClass('display--content');
 
@@ -68,7 +64,7 @@ export default class TeamSettingsModal extends React.Component {
     }
 
     handleHide = () => {
-        this.props.onHide();
+        this.setState({show: false});
     }
 
     // called after the dialog is fully hidden and faded out
@@ -77,6 +73,7 @@ export default class TeamSettingsModal extends React.Component {
             activeTab: 'general',
             activeSection: '',
         });
+        this.props.onHide();
     }
 
     render() {
@@ -87,7 +84,7 @@ export default class TeamSettingsModal extends React.Component {
         return (
             <Modal
                 dialogClassName='a11y__modal settings-modal settings-modal--action'
-                show={this.props.show}
+                show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
                 role='dialog'
@@ -119,7 +116,7 @@ export default class TeamSettingsModal extends React.Component {
                                 activeTab={this.state.activeTab}
                                 activeSection={this.state.activeSection}
                                 updateSection={this.updateSection}
-                                closeModal={this.closeModal}
+                                closeModal={this.handleHide}
                                 collapseModal={this.collapseModal}
                             />
                         </div>

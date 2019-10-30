@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
 class LeaveTeamModal extends React.PureComponent {

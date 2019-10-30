@@ -6,9 +6,12 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
+import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -52,18 +55,23 @@ export default class EditPostModal extends React.PureComponent {
         this.state = {
             preview: false,
             editText: '',
+            caretPosition: ''.length,
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
+            prevShowState: props.editingPost.show,
         };
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.editingPost.show && nextProps.editingPost.show) {
-            this.setState({
-                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
-            });
+    static getDerivedStateFromProps(props, state) {
+        if (props.editingPost.show && !state.prevShowState) {
+            return {
+                editText: props.editingPost.post.message_source || props.editingPost.post.message,
+                prevShowState: props.editingPost.show,
+            };
         }
+
+        return null;
     }
 
     updatePreview = (newState) => {
@@ -99,11 +107,23 @@ export default class EditPostModal extends React.PureComponent {
         if (this.state.editText === '') {
             this.setState({editText: ':' + emojiAlias + ': '});
         } else {
-            //check whether there is already a blank at the end of the current message
-            const newMessage = ((/\s+$/).test(this.state.editText)) ?
-                this.state.editText + ':' + emojiAlias + ': ' : this.state.editText + ' :' + emojiAlias + ': ';
+            const {editText} = this.state;
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, editText);
 
-            this.setState({editText: newMessage});
+            // check whether the first piece of the message is empty when cursor
+            // is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
+
+            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
+
+            const textbox = this.editbox.getInputBox();
+
+            this.setState({
+                editText: newMessage,
+                caretPosition: newCaretPosition,
+            }, () => {
+                Utils.setCaretPosition(textbox, newCaretPosition);
+            });
         }
 
         this.setState({showEmojiPicker: false});
@@ -207,6 +227,13 @@ export default class EditPostModal extends React.PureComponent {
         }
     }
 
+    handleMouseUpKeyUp = (e) => {
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.setState({
+            caretPosition,
+        });
+    }
+
     handleKeyDown = (e) => {
         if (this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && e.ctrlKey === true) {
             this.handleEdit();
@@ -243,7 +270,7 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false});
+        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     }
 
     setEditboxRef = (ref) => {
@@ -349,6 +376,8 @@ export default class EditPostModal extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.handleEditKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onMouseUp={this.handleMouseUpKeyUp}
+                                onKeyUp={this.handleMouseUpKeyUp}
                                 handlePostError={this.handlePostError}
                                 value={this.state.editText}
                                 channelId={this.props.editingPost.post && this.props.editingPost.post.channel_id}

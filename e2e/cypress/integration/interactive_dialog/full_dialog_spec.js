@@ -59,7 +59,7 @@ describe('ID15888 Interactive Dialog', () => {
                 icon_url: '',
                 method: 'P',
                 team_id: team.id,
-                trigger: 'dialog',
+                trigger: 'dialog' + Date.now(),
                 url: `${webhookBaseUrl}/dialog_request`,
                 username: '',
             };
@@ -73,6 +73,7 @@ describe('ID15888 Interactive Dialog', () => {
 
     it('UI check', () => {
         // # Post a slash command
+        cy.get('#postListContent').should('be.visible');
         cy.postMessage(`/${createdCommand.trigger}`);
 
         // * Verify that the interactive dialog modal open up
@@ -104,6 +105,14 @@ describe('ID15888 Interactive Dialog', () => {
 
                     // * Verify that the default value is the first element of the list
                     cy.wrap($elForm).find('input').first().should('have.value', 'engineering').and('have.attr', 'checked');
+                } else if (element.name === 'boolean_input') {
+                    cy.wrap($elForm).find('.checkbox').should('be.visible').within(() => {
+                        cy.get('#boolean_input').
+                            should('be.visible').
+                            and('be.checked');
+
+                        cy.get('span').should('have.text', element.placeholder);
+                    });
                 } else {
                     cy.wrap($elForm).find(`#${element.name}`).should('be.visible').and('have.value', element.default).and('have.attr', 'placeholder', element.placeholder);
                 }

@@ -7,7 +7,7 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 
-import PostEmoji from './post_emoji.jsx';
+import PostEmoji from './post_emoji.tsx';
 
 function mapStateToProps(state, ownProps) {
     const emojiMap = getEmojiMap(state);
