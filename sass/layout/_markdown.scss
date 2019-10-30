@@ -57,11 +57,24 @@ h6 {
         margin: 5px 0;
         max-height: 500px;
     }
-    div.markdown-inline-img {
+
+    div .markdown-inline-img {
+        min-width: 50px;
         display: inline-block;
-        width: 100%;
-        max-width: 960px;
+        width: auto;
         vertical-align: middle;
+    }
+
+    .markdown-inline-img--hover {
+        max-width: calc(100% - 5px);
+        border: 1px solid transparent;
+
+        &:hover {
+            @include border-radius(4px);
+            @include single-transition(all, .1s, linear);
+            @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
+            z-index: 2;
+        }
     }
 }
 
