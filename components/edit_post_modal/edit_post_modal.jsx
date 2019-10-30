@@ -59,15 +59,19 @@ export default class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
+            prevShowState: props.editingPost.show,
         };
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.editingPost.show && nextProps.editingPost.show) {
-            this.setState({
-                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
-            });
+    static getDerivedStateFromProps(props, state) {
+        if (props.editingPost.show && !state.prevShowState) {
+            return {
+                editText: props.editingPost.post.message_source || props.editingPost.post.message,
+                prevShowState: props.editingPost.show,
+            };
         }
+
+        return null;
     }
 
     updatePreview = (newState) => {
@@ -266,7 +270,7 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false});
+        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     }
 
     setEditboxRef = (ref) => {
