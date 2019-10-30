@@ -18,7 +18,7 @@ export default class TeamInfoIcon extends React.PureComponent {
                             height='100%'
                             viewBox='0 0 20 20'
                             style={style}
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g transform='matrix(1.17647,0,0,1.17647,-1.55431e-15,-1.00573e-14)'>
