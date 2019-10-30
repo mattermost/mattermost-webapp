@@ -27,6 +27,7 @@ describe('components/invitation_modal/InvitationModal', () => {
             sendGuestsInvites: jest.fn(),
             sendMembersInvites: jest.fn(),
             searchProfiles: jest.fn(),
+            getTeam: jest.fn(),
         },
     };
 
@@ -69,5 +70,18 @@ describe('components/invitation_modal/InvitationModal', () => {
             {context}
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call actions.getTeam if invite_id is empty', () => {
+        const props = {...defaultProps};
+        props.currentTeam.invite_id = '';
+        const wrapper = shallow(
+            <InvitationModal {...props}/>,
+            {context}
+        );
+        wrapper.instance().goToMembers();
+
+        expect(props.actions.getTeam).toHaveBeenCalledTimes(1);
+        expect(props.actions.getTeam).toHaveBeenCalledWith(props.currentTeam.id);
     });
 });
