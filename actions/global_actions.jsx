@@ -14,7 +14,7 @@ import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -298,15 +298,21 @@ export async function redirectUserToDefaultTeam() {
         }
 
         let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
-        const channel = getChannelByName(state, channelName);
+        let channel = getChannelByName(state, channelName);
+        const channelMember = getMyChannelMember(state, channelName);
 
-        if (channel && channel.team_id === team.id) {
+        if (channel && channel.team_id === team.id && channelMember) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
         } else {
             const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
+
             if (data) {
                 dispatch(selectChannel(data.id));
+            } else {
+                channelName = getRedirectChannelNameForTeam(state, team.id);
+                channel = getChannelByName(state, channelName);
+                dispatch(selectChannel(channel.id));
             }
         }
 
