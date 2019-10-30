@@ -8,7 +8,7 @@ import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import Confirm from 'components/mfa/confirm.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 jest.mock('actions/global_actions.jsx', () => ({
     redirectUserToDefaultTeam: jest.fn(),

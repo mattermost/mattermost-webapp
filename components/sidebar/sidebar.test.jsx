@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import Sidebar from 'components/sidebar/sidebar.jsx';
 
 jest.mock('utils/utils', () => {

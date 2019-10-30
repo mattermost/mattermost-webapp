@@ -6,7 +6,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 export default class SidebarChannelButtonOrLinkCloseButton extends React.PureComponent {
     static propTypes = {

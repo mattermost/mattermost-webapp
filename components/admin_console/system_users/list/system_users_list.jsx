@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ManageRolesModal from 'components/admin_console/manage_roles_modal';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal';

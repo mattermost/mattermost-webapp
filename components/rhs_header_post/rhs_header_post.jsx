@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {RHSStates} from 'utils/constants.jsx';
+import Constants, {RHSStates} from 'utils/constants';
 
 export default class RhsHeaderPost extends React.Component {
     static propTypes = {
