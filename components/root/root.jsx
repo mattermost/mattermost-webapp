@@ -12,7 +12,7 @@ import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
@@ -21,7 +21,7 @@ import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes} from 'utils/constants';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';

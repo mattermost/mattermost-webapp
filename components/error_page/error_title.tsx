@@ -1,14 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ErrorPageTypes} from 'utils/constants.jsx';
+import {ErrorPageTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-export default function ErrorTitle({type, title}) {
+type Props = {
+    type?: string | null;
+    title: string;
+}
+
+const ErrorTitle: React.FC<Props> = ({type, title}: Props) => {
     let errorTitle = null;
     if (type) {
         switch (type) {
@@ -76,17 +80,6 @@ export default function ErrorTitle({type, title}) {
     }
 
     return errorTitle;
-}
-
-ErrorTitle.propTypes = {
-
-    /*
-    * Error type
-    */
-    type: PropTypes.string,
-
-    /*
-    * Error title
-    */
-    title: PropTypes.string,
 };
+
+export default ErrorTitle;

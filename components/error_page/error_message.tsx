@@ -1,16 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ErrorPageTypes} from 'utils/constants.jsx';
+import {ErrorPageTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-import ErrorLink from './error_link.jsx';
+import ErrorLink from './error_link';
 
-export default function ErrorMessage({type, message, service}) {
+type Props = {
+    type?: string | null;
+    message?: string;
+    service?: string;
+}
+
+const ErrorMessage: React.FC<Props> = ({type, message, service}: Props) => {
     let errorMessage = null;
     if (type) {
         switch (type) {
@@ -191,22 +196,6 @@ export default function ErrorMessage({type, message, service}) {
     }
 
     return errorMessage;
-}
-
-ErrorMessage.propTypes = {
-
-    /*
-    * Error type
-    */
-    type: PropTypes.string,
-
-    /*
-    * Error message
-    */
-    message: PropTypes.string,
-
-    /*
-    * Service provider
-    */
-    service: PropTypes.string,
 };
+
+export default ErrorMessage;

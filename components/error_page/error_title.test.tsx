@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ErrorPageTypes} from 'utils/constants.jsx';
-import ErrorTitle from 'components/error_page/error_title.jsx';
+import ErrorTitle from 'components/error_page/error_title';
+
+import {ErrorPageTypes} from 'utils/constants';
 
 describe('components/error_page/ErrorTitle', () => {
     const baseProps = {

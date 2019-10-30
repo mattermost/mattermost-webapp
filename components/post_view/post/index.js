@@ -11,7 +11,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
 import {selectPost, selectPostCard} from 'actions/views/rhs';
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
 
 import Post from './post.jsx';

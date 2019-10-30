@@ -3,36 +3,39 @@
 
 import crypto from 'crypto';
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {ErrorPageTypes, Constants} from 'utils/constants.jsx';
+import {ErrorPageTypes, Constants} from 'utils/constants';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
-import ErrorTitle from './error_title.jsx';
-import ErrorMessage from './error_message.jsx';
+import ErrorTitle from './error_title';
+import ErrorMessage from './error_message';
 
-export default class ErrorPage extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        asymmetricSigningPublicKey: PropTypes.string,
-        siteName: PropTypes.string,
-        isGuest: PropTypes.bool,
-    };
+type Location = {
+    search: string;
+}
 
-    componentDidMount() {
+type Props = {
+    location: Location;
+    asymmetricSigningPublicKey?: string;
+    siteName?: string;
+    isGuest?: boolean;
+}
+
+export default class ErrorPage extends React.PureComponent<Props> {
+    public componentDidMount() {
         document.body.setAttribute('class', 'sticky error');
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         document.body.removeAttribute('class');
     }
 
-    render() {
+    public render() {
         const {isGuest} = this.props;
-        const params = new URLSearchParams(this.props.location.search);
+        const params: URLSearchParams = new URLSearchParams(this.props.location.search);
         const signature = params.get('s');
 
         var trustParams = false;
@@ -77,7 +80,7 @@ export default class ErrorPage extends React.PureComponent {
             );
         } else if (type === ErrorPageTypes.CHANNEL_NOT_FOUND && isGuest) {
             backButton = (
-                <Link to={params.get('returnTo')}>
+                <Link to={params.get('returnTo') as string}>
                     <FormattedMessage
                         id='error.channelNotFound.guest_link'
                         defaultMessage='Back'
@@ -86,7 +89,7 @@ export default class ErrorPage extends React.PureComponent {
             );
         } else if (type === ErrorPageTypes.CHANNEL_NOT_FOUND) {
             backButton = (
-                <Link to={params.get('returnTo')}>
+                <Link to={params.get('returnTo') as string}>
                     <FormattedMessage
                         id='error.channelNotFound.link'
                         defaultMessage='Back to {defaultChannelName}'
