@@ -1205,7 +1205,7 @@ export function isValidBotUsername(name) {
     }
 
     if (name.endsWith('.')) {
-        error = "Must not end with '.' symbol.";
+        error = "Username must not end with '.' symbol.";
     }
 
     return error;
