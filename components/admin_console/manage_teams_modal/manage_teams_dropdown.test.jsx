@@ -88,7 +88,6 @@ describe('ManageTeamsDropdown', () => {
 
         const teamMember = {
             ...baseProps.teamMember,
-            scheme_guest: true,
         };
 
         const props = {
