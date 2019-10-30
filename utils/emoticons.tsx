@@ -87,6 +87,6 @@ export function handleEmoticons(
     return output;
 }
 
-export function renderEmoji(name, matchText) {
+export function renderEmoji(name: string, matchText: string) {
     return `<span data-emoticon="${name}">${matchText}</span>`;
 }
