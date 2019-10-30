@@ -8,6 +8,10 @@
     width: 65px;
     z-index: 13;
 
+    body.announcement-bar--fixed & {
+        height: calc(100% - #{$announcement-bar-height});
+    }
+
     .fa {
         @include single-transition(all, .15s, ease);
         @include opacity(.6);

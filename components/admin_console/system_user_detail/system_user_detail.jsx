@@ -21,7 +21,7 @@ import AdminButtonOutline from 'components/admin_console/admin_button_outline/ad
 import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';
 
