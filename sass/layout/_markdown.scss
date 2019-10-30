@@ -66,6 +66,15 @@ h6 {
         vertical-align: middle;
     }
 
+    .post {
+        &.post--system {
+            .markdown-inline-img {
+                max-width: 200px;
+                width: auto;
+            }
+        }
+    }
+
     .markdown-inline-img--hover {
         max-width: calc(100% - 5px);
         border: 1px solid transparent;
