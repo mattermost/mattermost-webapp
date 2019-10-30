@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ColorSetting from 'components/admin_console/color_setting.jsx';
+import ColorSetting from 'components/admin_console/color_setting';
 
 describe('components/ColorSetting', () => {
     test('should match snapshot, all', () => {
