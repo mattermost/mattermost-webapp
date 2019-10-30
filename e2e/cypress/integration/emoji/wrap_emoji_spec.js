@@ -11,34 +11,18 @@ describe('Wrap emojis', () => {
     before(() => {
         cy.apiLogin('user-1');
         cy.visit('/');
+        cy.clearLocalStorage();
     });
 
     it('MM-18712 Large number of emoji reactions wrap into multiple lines', async () => {
         //cy.get('#post_textbox').type(':cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: :cowboy_hat_face: {enter}')
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.postMessage(':dog:');
-        cy.get('.post__img').should('have.css', 'height', '64');
-    });
+        cy.postMessage(':dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog: :dog:');
+
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).
+               should('have.css', 'height', '64px');
+        });
+    }
+    )
+    ;
 });
