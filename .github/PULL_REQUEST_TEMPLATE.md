@@ -29,5 +29,5 @@ List all PRs related to resolving a ticket. For instance, if you submitted a PR 
 
 #### Screenshots
 <!--
-[If the PR includes UI changes, include screenshots/GIFs.]
+If the PR includes UI changes, include screenshots/GIFs.
 -->
