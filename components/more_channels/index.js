@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
 import {getChannels, joinChannel} from 'mattermost-redux/actions/channels';
-import {getOtherChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getOtherChannels, getArchivedChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
@@ -20,11 +20,20 @@ const getNotArchivedOtherChannels = createSelector(
     (channels) => channels && channels.filter((c) => c.delete_at === 0)
 );
 
+const getAllArchivedChannels = createSelector(
+    getArchivedChannels,
+    (channels) => {
+        window.console.log('ARCHIVED:', channels);
+        return channels;
+    }
+);
+
 function mapStateToProps(state) {
     const team = getCurrentTeam(state) || {};
 
     return {
         channels: getNotArchivedOtherChannels(state) || [],
+        archivedChannels: getAllArchivedChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,
         teamName: team.name,

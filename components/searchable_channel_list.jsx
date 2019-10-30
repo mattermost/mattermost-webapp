@@ -14,7 +14,12 @@ import * as UserAgent from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
+
 import {t} from 'utils/i18n';
+
+import MenuWrapper from './widgets/menu/menu_wrapper';
+import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
@@ -54,6 +59,15 @@ export default class SearchableChannelList extends React.Component {
 
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
+        let archiveIcon;
+
+        if (this.props.showArchived) {
+            archiveIcon = (
+                <div className='more-modal__icon-container'>
+                    <ArchiveIcon className='icon icon__archive'/>
+                </div>
+            );
+        }
 
         return (
             <div
@@ -66,6 +80,7 @@ export default class SearchableChannelList extends React.Component {
                         aria-label={ariaLabel}
                         className='style--none more-modal__name'
                     >
+                        {archiveIcon}
                         {channel.display_name}
                     </button>
                     <p className='more-modal__description'>{channel.purpose}</p>
@@ -81,8 +96,8 @@ export default class SearchableChannelList extends React.Component {
                             text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
-                                id='more_channels.join'
-                                defaultMessage='Join'
+                                id={this.props.showArchived ? 'more_channels.view' : 'more_channels.join'}
+                                defaultMessage={this.props.showArchived ? 'View' : 'Join'}
                             />
                         </LoadingWrapper>
                     </button>
@@ -204,9 +219,37 @@ export default class SearchableChannelList extends React.Component {
             );
         }
 
+        const channelDropdown = (
+            
+            <MenuWrapper className='more-modal__dropdown'>
+                <a>
+                    <span>{this.props.showArchived ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
+                    <span className='caret'/>
+                </a>
+                <Menu
+                    openLeft={false}
+                    ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                >
+                    <Menu.ItemAction
+                        onClick={() => {
+                            this.props.showArchivedChannels(false);
+                        }}
+                        text={localizeMessage('suggestion.search.public', 'Public Channels')}
+                    />
+                    <Menu.ItemAction
+                        onClick={() => {
+                            this.props.showArchivedChannels(true);
+                        }}
+                        text={localizeMessage('suggestion.archive', 'Archived Channels')}
+                    />
+                </Menu>
+            </MenuWrapper>
+        );
+
         return (
             <div className='filtered-user-list'>
                 {input}
+                {channelDropdown}
                 <div
                     role='application'
                     ref='channelList'
@@ -240,4 +283,6 @@ SearchableChannelList.propTypes = {
     noResultsText: PropTypes.object,
     loading: PropTypes.bool,
     createChannelButton: PropTypes.element,
+    showArchivedChannels: PropTypes.func.isRequired,
+    showArchived: PropTypes.bool.isRequired,
 };

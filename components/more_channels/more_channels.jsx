@@ -21,6 +21,7 @@ const SEARCH_TIMEOUT_MILLISECONDS = 100;
 export default class MoreChannels extends React.Component {
     static propTypes = {
         channels: PropTypes.array.isRequired,
+        archivedChannels: PropTypes.array.isRequired,
         currentUserId: PropTypes.string.isRequired,
         teamId: PropTypes.string.isRequired,
         teamName: PropTypes.string.isRequired,
@@ -42,6 +43,7 @@ export default class MoreChannels extends React.Component {
 
         this.state = {
             show: true,
+            showArchived: false,
             search: false,
             searchedChannels: [],
             serverError: null,
@@ -137,6 +139,10 @@ export default class MoreChannels extends React.Component {
         this.setState({searchedChannels: channels.filter((c) => c.delete_at === 0), searching: false});
     };
 
+    showArchivedChannels = (showArchivedChannels) => {
+        this.setState({showArchived: showArchivedChannels});
+    };
+
     render() {
         const {
             channels,
@@ -144,6 +150,14 @@ export default class MoreChannels extends React.Component {
             channelsRequestStarted,
             bodyOnly,
         } = this.props;
+
+        let activeChannels;
+
+        if (this.state.showArchived) {
+            activeChannels = this.props.archivedChannels;
+        } else {
+            activeChannels = channels;
+        }
 
         const {
             search,
@@ -194,7 +208,7 @@ export default class MoreChannels extends React.Component {
         const body = (
             <React.Fragment>
                 <SearchableChannelList
-                    channels={search ? searchedChannels : channels}
+                    channels={search ? searchedChannels : activeChannels}
                     channelsPerPage={CHANNELS_PER_PAGE}
                     nextPage={this.nextPage}
                     isSearch={search}
@@ -203,6 +217,8 @@ export default class MoreChannels extends React.Component {
                     noResultsText={createChannelHelpText}
                     loading={search ? searching : channelsRequestStarted}
                     createChannelButton={bodyOnly && createNewChannelButton}
+                    showArchivedChannels={this.showArchivedChannels}
+                    showArchived={this.state.showArchived}
                 />
                 {serverError}
             </React.Fragment>
