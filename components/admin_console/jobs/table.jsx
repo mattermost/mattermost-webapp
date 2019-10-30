@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
-import {JobStatuses} from 'utils/constants.jsx';
+import {JobStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {

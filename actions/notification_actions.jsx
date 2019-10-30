@@ -10,8 +10,8 @@ import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import Constants, {NotificationLevels, UserStatuses} from 'utils/constants.jsx';
-import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent.jsx';
+import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
+import {isMacApp, isMobileApp, isWindowsApp} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
 

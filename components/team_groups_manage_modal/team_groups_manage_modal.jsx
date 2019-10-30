@@ -11,7 +11,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 

@@ -17,7 +17,7 @@ export default class CloseCircleIcon extends React.PureComponent {
                             width='24px'
                             height='24px'
                             viewBox='0 0 24 24'
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <path

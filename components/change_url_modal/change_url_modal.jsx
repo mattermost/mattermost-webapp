@@ -76,14 +76,14 @@ export default class ChangeURLModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    static getDerivedStateFromProps(props, state) {
         // This check prevents the url being deleted when we re-render
         // because of user status check
-        if (!this.state.userEdit) {
-            this.setState({
-                currentURL: nextProps.currentURL,
-            });
+        if (!state.userEdit) {
+            return {currentURL: props.currentURL};
         }
+
+        return null;
     }
 
     onURLChanged = (e) => {

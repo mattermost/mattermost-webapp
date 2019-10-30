@@ -26,7 +26,7 @@ import {
     closeMenu,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {ActionTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, RHSStates} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 
 const mockStore = configureStore([thunk]);
@@ -283,10 +283,6 @@ describe('rhs view actions', () => {
                     },
                     payload: [
                         {
-                            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                            terms: '',
-                        },
-                        {
                             type: ActionTypes.UPDATE_RHS_STATE,
                             channelId: currentChannelId,
                             state: RHSStates.PIN,
@@ -339,10 +335,6 @@ describe('rhs view actions', () => {
                         batch: true,
                     },
                     payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                            terms: '',
-                        },
                         {
                             type: ActionTypes.UPDATE_RHS_STATE,
                             channelId,

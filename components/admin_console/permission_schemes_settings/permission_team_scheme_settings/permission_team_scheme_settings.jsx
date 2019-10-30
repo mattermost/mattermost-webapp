@@ -7,11 +7,11 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {PermissionsScope, ModalIdentifiers} from 'utils/constants.jsx';
+import {PermissionsScope, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 import LoadingScreen from 'components/loading_screen';
 import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';

@@ -11,7 +11,7 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {adminResetMfa, adminResetEmail} from 'actions/admin_actions.jsx';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -21,7 +21,7 @@ import AdminButtonOutline from 'components/admin_console/admin_button_outline/ad
 import AdminUserCard from 'components/admin_console/admin_user_card/admin_user_card';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
 import TeamSelectorModal from 'components/team_selector_modal';
 
