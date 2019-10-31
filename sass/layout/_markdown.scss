@@ -60,9 +60,19 @@ h6 {
     }
 
     div .markdown-inline-img {
+        min-width: 50px;
         display: inline-block;
-        width: 100%;
+        width: auto;
         vertical-align: middle;
+    }
+
+    .post {
+        &.post--system {
+            .markdown-inline-img {
+                max-width: 200px;
+                width: auto;
+            }
+        }
     }
 
     .markdown-inline-img--hover {

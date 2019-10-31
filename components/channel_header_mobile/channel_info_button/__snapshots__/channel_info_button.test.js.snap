@@ -93,7 +93,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             <svg
               aria-label="Info Icon"
               height="18px"
-              role="icon"
+              role="img"
               viewBox="0 0 22 22"
               width="18px"
             >
@@ -243,7 +243,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
             <svg
               aria-label="Info Icon"
               height="18px"
-              role="icon"
+              role="img"
               viewBox="0 0 22 22"
               width="18px"
             >
