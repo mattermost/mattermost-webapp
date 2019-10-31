@@ -13,7 +13,6 @@ import {
     getUser,
 } from 'mattermost-redux/actions/users';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
-import {redirectUserToDefaultTeam} from 'actions/global_actions';
 
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -114,8 +113,8 @@ const mockState = {
                 currentTeamId: {
                     id: 'currentTeamId',
                     name: 'test',
-                }
-            }
+                },
+            },
         },
         posts: {
             posts: {
@@ -185,7 +184,7 @@ describe('handlePostEditEvent', () => {
 describe('handleUserRemovedEvent', () => {
     let redirectUserToDefaultTeam;
     beforeEach(async () => {
-        const globalActions = require('actions/global_actions');
+        const globalActions = require('actions/global_actions'); // eslint-disable-line global-require
         redirectUserToDefaultTeam = globalActions.redirectUserToDefaultTeam;
         redirectUserToDefaultTeam.mockReset();
     });
