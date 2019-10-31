@@ -66,6 +66,8 @@ export default class PostList extends React.PureComponent {
          */
         changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
+        countUnread: PropTypes.number,
+
         prevChannelId: PropTypes.string.isRequired,
         actions: PropTypes.shape({
 
@@ -100,9 +102,10 @@ export default class PostList extends React.PureComponent {
              */
             loadLatestPosts: PropTypes.func.isRequired,
 
-            markChannelAsViewed: PropTypes.func.isRequred,
+            markChannelAsViewed: PropTypes.func.isRequired,
 
-            markChannelAsRead: PropTypes.func.isRequred,
+            markChannelAsRead: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
@@ -297,6 +300,7 @@ export default class PostList extends React.PureComponent {
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             latestAriaLabelFunc={this.props.latestAriaLabelFunc}
+                            countUnread={this.props.countUnread}
                         />
                     </div>
                 </div>

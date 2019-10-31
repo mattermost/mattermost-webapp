@@ -7,7 +7,6 @@ import {injectIntl} from 'react-intl';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
-import {countCurrentChannelUnreadMessages} from 'mattermost-redux/selectors/entities/channels';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -85,6 +84,8 @@ class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
+        countUnread: PropTypes.number,
+
         actions: PropTypes.shape({
 
             /**
@@ -111,6 +112,7 @@ class PostList extends React.PureComponent {
              * Function to change the post selected for postList
              */
             changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
+
         }).isRequired,
     }
 
@@ -451,19 +453,19 @@ class PostList extends React.PureComponent {
         <React.Fragment>
             <Toast
                 jumpTo={this.scrollToBottom}
-                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Scroll to bottom')}
+                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
                 order={0}
-                show={false}
+                show={!this.state.atBottom && this.props.countUnread === 0}
             >
-                {'This is history'}
+                <span>{'This is history'}</span>
             </Toast>
             <Toast
                 jumpTo={this.scrollToLatestMessages}
-                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Scroll to latest messages')}
+                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
                 order={1}
-                show={!this.state.atBottom}
+                show={!this.state.atBottom && this.props.countUnread > 0}
             >
-                {`There are ${countCurrentChannelUnreadMessages()} new messages`}
+                <span>{`There are ${this.props.countUnread} new messages`}</span>
             </Toast>
         </React.Fragment>
     )
