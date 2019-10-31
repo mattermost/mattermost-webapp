@@ -59,7 +59,7 @@ import {syncPostsInChannel} from 'actions/views/channel';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
@@ -567,7 +567,7 @@ function handleLeaveTeamEvent(msg) {
         // if they are on the team being removed redirect them to default team
         if (getCurrentTeamId(state) === msg.data.team_id) {
             if (!global.location.pathname.startsWith('/admin_console')) {
-                GlobalActions.redirectUserToDefaultTeam();
+                redirectUserToDefaultTeam();
             }
         }
     }
@@ -667,7 +667,7 @@ export async function handleUserRemovedEvent(msg) {
     const currentUserId = getCurrentUserId(state);
 
     if (msg.broadcast.user_id === currentUserId) {
-        dispatch(loadChannelsForCurrentUser());
+        await dispatch(loadChannelsForCurrentUser());
 
         const rhsChannelId = getSelectedChannelId(state);
         if (msg.data.channel_id === rhsChannelId) {
@@ -692,6 +692,7 @@ export async function handleUserRemovedEvent(msg) {
                         remover: user.username,
                     },
                 }));
+                await redirectUserToDefaultTeam();
             }
         }
 
@@ -926,7 +927,7 @@ function handleUserRoleUpdated(msg) {
         store.dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...user, roles}});
 
         if (demoted && global.location.pathname.startsWith('/admin_console')) {
-            GlobalActions.redirectUserToDefaultTeam();
+            redirectUserToDefaultTeam();
         }
     }
 }
