@@ -1,47 +1,25 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-import {ChromePicker} from 'react-color';
+import {ChromePicker, ColorResult} from 'react-color';
 
 import Setting from './setting.jsx';
 
-export default class ColorSetting extends React.PureComponent {
-    static propTypes = {
+type State = {
+    showPicker: boolean;
+}
+type Props = {
+    id: string;
+    label: React.ReactNode;
+    helpText?: React.ReactNode;
+    value: string;
+    onChange?: (id: string, color: string) => void;
+    disabled?: boolean;
+}
 
-        /*
-         * The unique identifer for the admin console setting
-         */
-        id: PropTypes.string.isRequired,
-
-        /*
-         * The text/jsx display name for the setting
-         */
-        label: PropTypes.node.isRequired,
-
-        /*
-         * The text/jsx help text to display underneath the setting
-         */
-        helpText: PropTypes.node,
-
-        /*
-         * The hex color value
-         */
-        value: PropTypes.string.isRequired,
-
-        /*
-         * Function called when the input changes
-         */
-        onChange: PropTypes.func,
-
-        /*
-         * Set to disable the setting
-         */
-        disabled: PropTypes.bool,
-    }
-
-    constructor(props) {
+export default class ColorSetting extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -49,19 +27,21 @@ export default class ColorSetting extends React.PureComponent {
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         document.addEventListener('click', this.closePicker);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         document.removeEventListener('click', this.closePicker);
     }
 
-    handleChange = (color) => {
-        this.props.onChange(this.props.id, color.hex);
+    private handleChange = (color: ColorResult) => {
+        if (this.props.onChange) {
+            this.props.onChange(this.props.id, color.hex);
+        }
     }
 
-    togglePicker = () => {
+    private togglePicker = () => {
         if (this.props.disabled) {
             this.setState({showPicker: false});
         } else {
@@ -69,21 +49,23 @@ export default class ColorSetting extends React.PureComponent {
         }
     }
 
-    closePicker = (e) => {
-        if (!e.target.closest('.' + this.getPickerClass())) {
+    private closePicker = (e: MouseEvent) => {
+        if (e.target && (e.target as HTMLElement).closest('.' + this.getPickerClass())) {
             this.setState({showPicker: false});
         }
     }
 
-    onTextInput = (e) => {
-        this.props.onChange(this.props.id, e.target.value);
+    private onTextInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (this.props.onChange) {
+            this.props.onChange(this.props.id, e.target.value);
+        }
     }
 
-    getPickerClass = () => {
+    private getPickerClass = () => {
         return this.props.id ? 'picker-' + this.props.id.replace('.', '-') : '';
     }
 
-    render() {
+    public render() {
         let picker;
         if (this.state.showPicker) {
             picker = (
