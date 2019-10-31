@@ -27,6 +27,7 @@
   ],
   "exclude": [
     "dist",
-    "!node_modules/@types"
+    "!node_modules/@types",
+    "node_modules/mattermost-redux/src"
   ]
 }
