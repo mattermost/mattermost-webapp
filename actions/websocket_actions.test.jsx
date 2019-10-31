@@ -36,6 +36,7 @@ import {
     handlePostEditEvent,
     handleUserRemovedEvent,
     handleUserTypingEvent,
+    handleLeaveTeamEvent,
     reconnect,
 } from './websocket_actions';
 
@@ -103,6 +104,9 @@ const mockState = {
                     id: 'otherChannel',
                     team_id: 'otherTeam',
                 },
+            },
+            channelsInTeam: {
+                team: ['channel1', 'channel2'],
             },
         },
         preferences: {
@@ -832,3 +836,36 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
     });
 });
 
+describe('handleLeaveTeam', () => {
+    test('when a user leave a team', () => {
+        const msg = {data: {team_id: 'team', user_id: 'member1'}};
+
+        handleLeaveTeamEvent(msg);
+
+        const expectedAction = {
+            meta: {
+                batch: true,
+            },
+            payload: [
+                {
+                    data: {id: 'team', user_id: 'member1'},
+                    type: 'RECEIVED_PROFILE_NOT_IN_TEAM',
+                },
+                {
+                    data: {team_id: 'team', user_id: 'member1'},
+                    type: 'REMOVE_MEMBER_FROM_TEAM',
+                },
+                {
+                    data: {id: 'channel1', user_id: 'member1'},
+                    type: 'REMOVE_MEMBER_FROM_CHANNEL',
+                },
+                {
+                    data: {id: 'channel2', user_id: 'member1'},
+                    type: 'REMOVE_MEMBER_FROM_CHANNEL',
+                },
+            ],
+            type: 'BATCHING_REDUCER.BATCH',
+        };
+        expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+});
