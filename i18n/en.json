@@ -1618,6 +1618,7 @@
   "admin.user_item.authServiceNotEmail": "**Sign-in Method:** {service}",
   "admin.user_item.demoteToGuest": "Demote to Guest",
   "admin.user_item.emailTitle": "**Email:** {email}",
+  "admin.user_item.guest": "Guest",
   "admin.user_item.inactive": "Inactive",
   "admin.user_item.makeActive": "Activate",
   "admin.user_item.makeInactive": "Deactivate",

@@ -14,14 +14,13 @@ export default class StatusOnlineAvatarIcon extends React.PureComponent {
                 >
                     {(ariaLabel) => (
                         <svg
-                            id='Layer_1'
                             x='0px'
                             y='0px'
                             width='13px'
                             height='13px'
                             viewBox='-243 245 12 12'
                             style={style}
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g>
