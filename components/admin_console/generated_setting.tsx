@@ -18,7 +18,7 @@ type Props = {
     setByEnv: boolean;
     disabledText?: React.ReactNode;
     helpText: React.ReactNode;
-    regenerateText?: React.ReactNode;
+    regenerateText: React.ReactNode;
     regenerateHelpText?: React.ReactNode;
 }
 
