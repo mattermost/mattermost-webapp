@@ -270,7 +270,11 @@
         .group-row {
             .group-name {
                 min-width: 276px;
-                max-width: 559px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 539px;
+                margin-right: 20px;
             }
         }
     }
