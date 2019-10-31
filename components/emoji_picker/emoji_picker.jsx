@@ -243,6 +243,11 @@ export default class EmojiPicker extends React.PureComponent {
         if (this.emojiPickerContainer) {
             this.divHeight = this.emojiPickerContainer.offsetHeight;
         }
+
+        const rootComponent = document.getElementById('root');
+        if (rootComponent) {
+            rootComponent.classList.add('emoji-picker--active');
+        }
     }
 
     updateEmojisToShow(divTopOffset) {
@@ -265,6 +270,11 @@ export default class EmojiPicker extends React.PureComponent {
     componentWillUnmount() {
         if (this.renderAllCategoriesFrame) {
             window.cancelAnimationFrame(this.renderAllCategoriesFrame);
+        }
+
+        const rootComponent = document.getElementById('root');
+        if (rootComponent) {
+            rootComponent.classList.remove('emoji-picker--active');
         }
     }
 
