@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
-import isEqual from 'lodash/isEqual';
 import {Tabs, Tab} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
@@ -61,7 +60,8 @@ export default class MarketplaceModal extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!isEqual(this.props.pluginStatuses, prevProps.pluginStatuses)) {
+        // Automatically refresh the component when a plugin is installed or uninstalled.
+        if (this.props.pluginStatuses !== prevProps.pluginStatuses) {
             this.getMarketplacePlugins();
         }
     }
