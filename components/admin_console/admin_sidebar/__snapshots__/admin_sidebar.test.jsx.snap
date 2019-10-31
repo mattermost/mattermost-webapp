@@ -779,7 +779,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
             <SearchIcon
               aria-hidden="true"
               className="search__icon"
-              id="searchIcon"
             />
             <input
               className="filter "
@@ -1382,7 +1381,6 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
             <SearchIcon
               aria-hidden="true"
               className="search__icon"
-              id="searchIcon"
             />
             <input
               className="filter "
@@ -1978,7 +1976,6 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
             <SearchIcon
               aria-hidden="true"
               className="search__icon"
-              id="searchIcon"
             />
             <input
               className="filter "
@@ -2574,7 +2571,6 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
             <SearchIcon
               aria-hidden="true"
               className="search__icon"
-              id="searchIcon"
             />
             <input
               className="filter "
@@ -3406,7 +3402,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
             <SearchIcon
               aria-hidden="true"
               className="search__icon"
-              id="searchIcon"
             />
             <input
               className="filter "

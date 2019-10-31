@@ -20,7 +20,7 @@ export default class DraftIcon extends React.PureComponent {
                             width='14px'
                             height='14px'
                             viewBox='0 0 50 51'
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g
