@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 
 import {installPluginFromUrl} from 'mattermost-redux/actions/admin';
 
-import MarketplaceItem from './marketplace_item.jsx';
+import MarketplaceItem from './marketplace_item';
 
 function mapDispatchToProps(dispatch) {
     return {

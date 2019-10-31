@@ -13,7 +13,7 @@ import {getSiteURL} from 'utils/url';
 
 import {closeModal} from 'actions/views/modals';
 
-import MarketplaceModal from './marketplace_modal.jsx';
+import MarketplaceModal from './marketplace_modal';
 
 function mapStateToProps(state) {
     return {
