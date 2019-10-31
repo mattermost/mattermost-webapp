@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
-import {intlShape} from 'react-intl';
+import {intlShape, FormattedMessage} from 'react-intl';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -80,6 +80,8 @@ export default class PostList extends React.PureComponent {
         latestAriaLabelFunc: PropTypes.func,
 
         countUnread: PropTypes.number,
+
+        isFirstLoad: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -448,27 +450,59 @@ export default class PostList extends React.PureComponent {
         this.listRef.current.scrollToItem(0, 'end');
     }
 
-    renderToasts = () => (
-        <React.Fragment>
-            <Toast
-                jumpTo={this.scrollToBottom}
-                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
-                order={0}
-                show={!this.state.atBottom && this.props.countUnread === 0}
-            >
-                <span>{'This is history'}</span>
-            </Toast>
-            <Toast
-                jumpTo={this.scrollToLatestMessages}
-                jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
-                order={1}
-                show={!this.state.atBottom && this.props.countUnread > 0}
-            >
-                <span>{`There are ${this.props.countUnread} new messages`}</span>
-            </Toast>
-        </React.Fragment>
+    newMessagesToastText = (count) => (
+        <FormattedMessage
+            id='postlist.toast.newMessages'
+            // eslint-disable-next-line quotes
+            defaultMessage={`{count, number} new {count, plural, one {message} other {messages}}`}
+            values={{count}}
+        />
     )
-
+    renderToasts = () => {
+        let newMessagesToast;
+        if (this.props.isFirstLoad) {
+            // are we in the channel for the first time and there are unreads?
+            newMessagesToast = (
+                <Toast
+                    jumpTo={this.scrollToBottom}
+                    jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to recents')}
+                    order={1}
+                    show={!this.state.atBottom && this.props.countUnread > 0}
+                >
+                    {this.newMessagesToastText(this.props.countUnread)}
+                </Toast>
+            );
+        } else {
+            newMessagesToast = (
+                <Toast
+                    jumpTo={this.scrollToLatestMessages}
+                    jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
+                    jumpFadeOutDelay={7000}
+                    order={1}
+                    show={!this.state.atBottom && this.props.countUnread > 0}
+                >
+                    {this.newMessagesToastText(this.props.countUnread)}
+                </Toast>
+            );
+        }
+        return (
+            <React.Fragment>
+                <Toast
+                    jumpTo={this.scrollToBottom}
+                    jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
+                    order={0}
+                    show={!this.state.atBottom && this.props.countUnread === 0}
+                    extraClasses={'toast__history'}
+                >
+                    <FormattedMessage
+                        id='postlist.toast.history'
+                        defaultMessage='Viewing message history'
+                    />
+                </Toast>
+                {newMessagesToast}
+            </React.Fragment>
+        );
+    }
     render() {
         const channelId = this.props.channelId;
         let ariaLabel;

@@ -2118,7 +2118,7 @@
     font-size: 14px;
     line-height: 28px;
     text-align: center;
-    @include border-radius(14px);
+    @include border-radius(4px);
     z-index: 1;
     cursor: pointer;
     transform: translateX(-50%);
@@ -2164,4 +2164,11 @@
             @include transition-delay(0s);
             @include transition-timing-function(ease-out, step-start);
         }
+}
+.toast__history {
+    background-color: #BBB;
+    color: #222222;
+    .svg {
+        fill: #555 !important;
+    }
 }
