@@ -836,31 +836,6 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 });
 
 describe('handleLeaveTeam', () => {
-    const initialState = {
-        entities: {
-            channels: {
-                currentChannelId: 'channel',
-                membersInChannel: {
-                    channel1: {member1: 'member1-data'},
-                    channel2: {member2: 'member2-data'},
-                },
-                channelsInTeam: {
-                    team: ['channel1', 'channel2'],
-                },
-            },
-            teams: {
-                currentTeamId: 'team',
-                teams: {
-                    team: {id: 'team', name: 'team'},
-                },
-                membersInTeam: {
-                    team1: {member1: 'member1-data'},
-                    team2: {member2: 'member2-data'},
-                },
-            },
-        },
-    };
-
     test('when a user leave a team', () => {
         const msg = {data: {team_id: 'team', user_id: 'member1'}};
 
@@ -889,8 +864,7 @@ describe('handleLeaveTeam', () => {
                 },
             ],
             type: 'BATCHING_REDUCER.BATCH',
-        }
-;
+        };
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 });
