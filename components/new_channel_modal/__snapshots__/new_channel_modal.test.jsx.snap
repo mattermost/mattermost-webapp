@@ -77,6 +77,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
         >
           <label
             className="col-sm-3 form__label control-label"
+            id="channelModalTypeLabel"
           >
             <FormattedMessage
               defaultMessage="Type"
@@ -119,6 +120,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
         >
           <label
             className="col-sm-3 form__label control-label"
+            htmlFor="newChannelName"
           >
             <FormattedMessage
               defaultMessage="Name"
@@ -171,6 +173,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelPurpose"
             >
               <FormattedMessage
                 defaultMessage="Purpose"
@@ -219,6 +222,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelHeader"
             >
               <FormattedMessage
                 defaultMessage="Header"
@@ -372,6 +376,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
         >
           <label
             className="col-sm-3 form__label control-label"
+            id="channelModalTypeLabel"
           >
             <FormattedMessage
               defaultMessage="Type"
@@ -414,6 +419,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
         >
           <label
             className="col-sm-3 form__label control-label"
+            htmlFor="newChannelName"
           >
             <FormattedMessage
               defaultMessage="Name"
@@ -466,6 +472,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelPurpose"
             >
               <FormattedMessage
                 defaultMessage="Purpose"
@@ -514,6 +521,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelHeader"
             >
               <FormattedMessage
                 defaultMessage="Header"
@@ -667,6 +675,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         >
           <label
             className="col-sm-3 form__label control-label"
+            id="channelModalTypeLabel"
           >
             <FormattedMessage
               defaultMessage="Type"
@@ -686,6 +695,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={true}
                     id="public"
                     name="channelType"
@@ -716,6 +726,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={false}
                     id="private"
                     name="channelType"
@@ -749,6 +760,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
         >
           <label
             className="col-sm-3 form__label control-label"
+            htmlFor="newChannelName"
           >
             <FormattedMessage
               defaultMessage="Name"
@@ -801,6 +813,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelPurpose"
             >
               <FormattedMessage
                 defaultMessage="Purpose"
@@ -849,6 +862,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelHeader"
             >
               <FormattedMessage
                 defaultMessage="Header"
@@ -1002,6 +1016,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         >
           <label
             className="col-sm-3 form__label control-label"
+            id="channelModalTypeLabel"
           >
             <FormattedMessage
               defaultMessage="Type"
@@ -1021,6 +1036,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={true}
                     id="public"
                     name="channelType"
@@ -1051,6 +1067,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={false}
                     id="private"
                     name="channelType"
@@ -1084,6 +1101,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
         >
           <label
             className="col-sm-3 form__label control-label"
+            htmlFor="newChannelName"
           >
             <FormattedMessage
               defaultMessage="Name"
@@ -1136,6 +1154,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelPurpose"
             >
               <FormattedMessage
                 defaultMessage="Purpose"
@@ -1184,6 +1203,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelHeader"
             >
               <FormattedMessage
                 defaultMessage="Header"
@@ -1337,6 +1357,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         >
           <label
             className="col-sm-3 form__label control-label"
+            id="channelModalTypeLabel"
           >
             <FormattedMessage
               defaultMessage="Type"
@@ -1356,6 +1377,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={true}
                     id="public"
                     name="channelType"
@@ -1386,6 +1408,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={false}
                     id="private"
                     name="channelType"
@@ -1419,6 +1442,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
         >
           <label
             className="col-sm-3 form__label control-label"
+            htmlFor="newChannelName"
           >
             <FormattedMessage
               defaultMessage="Name"
@@ -1481,6 +1505,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelPurpose"
             >
               <FormattedMessage
                 defaultMessage="Purpose"
@@ -1529,6 +1554,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelHeader"
             >
               <FormattedMessage
                 defaultMessage="Header"
@@ -1682,6 +1708,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         >
           <label
             className="col-sm-3 form__label control-label"
+            id="channelModalTypeLabel"
           >
             <FormattedMessage
               defaultMessage="Type"
@@ -1701,6 +1728,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={true}
                     id="public"
                     name="channelType"
@@ -1731,6 +1759,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={false}
                     id="private"
                     name="channelType"
@@ -1764,6 +1793,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
         >
           <label
             className="col-sm-3 form__label control-label"
+            htmlFor="newChannelName"
           >
             <FormattedMessage
               defaultMessage="Name"
@@ -1816,6 +1846,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelPurpose"
             >
               <FormattedMessage
                 defaultMessage="Purpose"
@@ -1864,6 +1895,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelHeader"
             >
               <FormattedMessage
                 defaultMessage="Header"
@@ -2031,6 +2063,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         >
           <label
             className="col-sm-3 form__label control-label"
+            id="channelModalTypeLabel"
           >
             <FormattedMessage
               defaultMessage="Type"
@@ -2050,6 +2083,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={false}
                     id="public"
                     name="channelType"
@@ -2080,6 +2114,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
               >
                 <label>
                   <input
+                    aria-labelledby="channelModalTypeLabel"
                     checked={true}
                     id="private"
                     name="channelType"
@@ -2113,6 +2148,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
         >
           <label
             className="col-sm-3 form__label control-label"
+            htmlFor="newChannelName"
           >
             <FormattedMessage
               defaultMessage="Name"
@@ -2165,6 +2201,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelPurpose"
             >
               <FormattedMessage
                 defaultMessage="Purpose"
@@ -2213,6 +2250,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           >
             <label
               className="form__label control-label"
+              htmlFor="newChannelHeader"
             >
               <FormattedMessage
                 defaultMessage="Header"
