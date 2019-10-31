@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {ChromePicker} from 'react-color';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
 export default class ColorSetting extends React.PureComponent {
     static propTypes = {
