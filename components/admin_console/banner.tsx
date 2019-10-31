@@ -1,11 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default function Banner(props) {
+type Props = {
+    title?: JSX.Element;
+    description: JSX.Element;
+}
+
+const Banner: React.FC<Props> = (props: Props) => {
     let title = (
         <FormattedMessage
             id='admin.banner.heading'
@@ -29,11 +33,6 @@ export default function Banner(props) {
             </div>
         </div>
     );
-}
+};
 
-Banner.defaultProps = {
-};
-Banner.propTypes = {
-    title: PropTypes.node,
-    description: PropTypes.node.isRequired,
-};
+export default Banner;

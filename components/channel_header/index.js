@@ -33,8 +33,8 @@ import {
     showFlaggedPosts,
     showPinnedPosts,
     showMentions,
+    openRHSSearch,
     closeRightHandSide,
-    updateRhsState,
 } from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
@@ -83,8 +83,8 @@ const mapDispatchToProps = (dispatch) => ({
         showFlaggedPosts,
         showPinnedPosts,
         showMentions,
+        openRHSSearch,
         closeRightHandSide,
-        updateRhsState,
         getCustomEmojisInText,
         updateChannelNotifyProps,
         goToLastViewedChannel,

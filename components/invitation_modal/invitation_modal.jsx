@@ -35,6 +35,7 @@ export default class InvitationModal extends React.Component {
             sendGuestsInvites: PropTypes.func.isRequired,
             sendMembersInvites: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -65,6 +66,12 @@ export default class InvitationModal extends React.Component {
             invitesSent: [],
             invitesNotSent: [],
         };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.step === STEPS_INVITE_MEMBERS && prevState.step !== STEPS_INVITE_MEMBERS && !this.props.currentTeam.invite_id) {
+            this.props.actions.getTeam(this.props.currentTeam.id);
+        }
     }
 
     goToInitialStep = () => {
