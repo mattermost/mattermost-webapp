@@ -25,22 +25,22 @@ export default class TeamRow extends React.Component {
         if (team.group_constrained) {
             return (
                 <FormattedMessage
-                    id="admin.team_settings.team_row.managementMethod.groupSync"
-                    defaultMessage="Group Sync"
+                    id='admin.team_settings.team_row.managementMethod.groupSync'
+                    defaultMessage='Group Sync'
                 />
             );
         } else if (team.allow_open_invite) {
             return (
                 <FormattedMessage
-                    id="admin.team_settings.team_row.managementMethod.anyoneCanJoin"
-                    defaultMessage="Anyone Can Join"
+                    id='admin.team_settings.team_row.managementMethod.anyoneCanJoin'
+                    defaultMessage='Anyone Can Join'
                 />
             );
         }
         return (
             <FormattedMessage
-                id="admin.team_settings.team_row.managementMethod.inviteOnly"
-                defaultMessage="Invite Only"
+                id='admin.team_settings.team_row.managementMethod.inviteOnly'
+                defaultMessage='Invite Only'
             />
         );
     }
