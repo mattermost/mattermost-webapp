@@ -5,7 +5,7 @@ import {stripMarkdown} from 'utils/markdown';
 import getEnablePluginSetting from 'components/admin_console/custom_plugin_settings/enable_plugin_setting';
 
 function extractTextsFromPlugin(plugin) {
-    const texts = [];
+    const texts = extractTextFromSetting(getEnablePluginSetting(plugin));
     if (plugin.name) {
         texts.push(plugin.name);
     }
@@ -22,23 +22,29 @@ function extractTextsFromPlugin(plugin) {
 
         if (plugin.settings_schema.settings) {
             const settings = Object.values(plugin.settings_schema.settings);
-            settings.unshift(getEnablePluginSetting(plugin));
 
             for (const setting of settings) {
-                if (setting.label) {
-                    texts.push(setting.label);
-                }
-                if (setting.display_name) {
-                    texts.push(setting.display_name);
-                }
-                if (setting.help_text) {
-                    texts.push(stripMarkdown(setting.help_text));
-                }
-                if (setting.key) {
-                    texts.push(setting.key);
-                }
+                const settingsTexts = extractTextFromSetting(setting, texts);
+                texts.push(...settingsTexts);
             }
         }
+    }
+    return texts;
+}
+
+function extractTextFromSetting(setting) {
+    const texts = [];
+    if (setting.label) {
+        texts.push(setting.label);
+    }
+    if (setting.display_name) {
+        texts.push(setting.display_name);
+    }
+    if (setting.help_text) {
+        texts.push(stripMarkdown(setting.help_text));
+    }
+    if (setting.key) {
+        texts.push(setting.key);
     }
     return texts;
 }
