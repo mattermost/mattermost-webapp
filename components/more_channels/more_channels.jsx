@@ -54,6 +54,7 @@ export default class MoreChannels extends React.Component {
 
     componentDidMount() {
         this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
+        this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
     }
 
     handleHide = () => {
