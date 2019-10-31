@@ -856,41 +856,39 @@ describe('handleLeaveTeam', () => {
                 membersInTeam: {
                     team1: {member1: 'member1-data'},
                     team2: {member2: 'member2-data'},
-                }
+                },
             },
         },
     };
 
     test('when a user leave a team', () => {
-        const testStore = configureStore(initialState);
-
         const msg = {data: {team_id: 'team', user_id: 'member1'}};
 
         handleLeaveTeamEvent(msg);
 
         const expectedAction = {
             meta: {
-              batch: true,
+                batch: true,
             },
             payload: [
                 {
-                    data: {id: "team", user_id: "member1"},
-                    type: "RECEIVED_PROFILE_NOT_IN_TEAM",
+                    data: {id: 'team', user_id: 'member1'},
+                    type: 'RECEIVED_PROFILE_NOT_IN_TEAM',
                 },
                 {
-                    data: {team_id: "team", user_id: "member1"},
-                    type: "REMOVE_MEMBER_FROM_TEAM",
+                    data: {team_id: 'team', user_id: 'member1'},
+                    type: 'REMOVE_MEMBER_FROM_TEAM',
                 },
                 {
-                    data: {id: "channel1", user_id: "member1"},
-                    type: "REMOVE_MEMBER_FROM_CHANNEL",
+                    data: {id: 'channel1', user_id: 'member1'},
+                    type: 'REMOVE_MEMBER_FROM_CHANNEL',
                 },
                 {
-                    data: {id: "channel2", user_id: "member1"},
-                    type: "REMOVE_MEMBER_FROM_CHANNEL",
+                    data: {id: 'channel2', user_id: 'member1'},
+                    type: 'REMOVE_MEMBER_FROM_CHANNEL',
                 },
             ],
-            type: "BATCHING_REDUCER.BATCH",
+            type: 'BATCHING_REDUCER.BATCH',
         }
 ;
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

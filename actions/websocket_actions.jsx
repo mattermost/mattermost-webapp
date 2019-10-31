@@ -562,7 +562,7 @@ export function handleLeaveTeamEvent(msg) {
     ];
 
     const channelsPerTeam = getChannelsInTeam(state);
-    const channels = channelsPerTeam && channelsPerTeam[msg.data.team_id] || [];
+    const channels = (channelsPerTeam && channelsPerTeam[msg.data.team_id]) || [];
 
     for (const channel of channels) {
         actions.push({
