@@ -30,16 +30,97 @@ const MarketplaceTabs = {
 
 const SEARCH_TIMEOUT_MILLISECONDS = 200;
 
-export default class MarketplaceModal extends React.Component {
+// Plugins renders the list of plugins in a tab.
+export const Plugins = ({plugins}) => (
+    <div className='more-modal__list'>{plugins.map((p) => (
+        <MarketplaceItem
+            key={p.manifest.id}
+            id={p.manifest.id}
+            name={p.manifest.name}
+            description={p.manifest.description}
+            version={p.manifest.version}
+            isPrepackaged={false}
+            downloadUrl={p.download_url}
+            homepageUrl={p.homepage_url}
+            iconData={p.icon_data}
+            installedVersion={p.installed_version}
+        />
+    ))}</div>
+);
+
+Plugins.propTypes = {
+    plugins: PropTypes.array.isRequired,
+};
+
+// AllPlugins renders the contents of the all plugins tab.
+export const AllPlugins = ({plugins}) => {
+    if (plugins.length === 0) {
+        return (
+            <div className='no_plugins_div'>
+                <br/>
+                <PluginIcon className='icon__plugin'/>
+                <div className='margin-top x2 light'>
+                    <FormattedMessage
+                        id='marketplace_modal.no_plugins'
+                        defaultMessage='There are no plugins available at this time.'
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    return <Plugins plugins={plugins}/>;
+};
+
+AllPlugins.propTypes = {
+    plugins: PropTypes.array.isRequired,
+};
+
+// InstalledPlugins renders the contents of the installed plugins tab.
+export const InstalledPlugins = ({installedPlugins}) => {
+    if (installedPlugins.length === 0) {
+        return (
+            <div className='no_plugins_div'>
+                <br/>
+                <PluginIcon className='icon__plugin'/>
+                <div className='margin-top x2 light'>
+                    <FormattedMessage
+                        id='marketplace_modal.no_plugins_installed'
+                        defaultMessage='You do not have any plugins installed.'
+                    />
+                </div>
+                <button
+                    className='margin-top x3 style--none color--link'
+                    onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                >
+                    <FormattedMessage
+                        id='marketplace_modal.install_plugins'
+                        defaultMessage='Install Plugins'
+                    />
+                </button>
+            </div>
+        );
+    }
+
+    return <Plugins plugins={installedPlugins}/>;
+};
+
+InstalledPlugins.propTypes = {
+    installedPlugins: PropTypes.array.isRequired,
+};
+
+// MarketplaceModal is the plugin marketplace.
+export class MarketplaceModal extends React.Component {
     static propTypes = {
         show: PropTypes.bool,
+        plugins: PropTypes.array.isRequired,
         installedPlugins: PropTypes.array.isRequired,
-        marketplacePlugins: PropTypes.array.isRequired,
         siteURL: PropTypes.string.isRequired,
         pluginStatuses: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             closeModal: PropTypes.func.isRequired,
-            getMarketplacePlugins: PropTypes.func.isRequired,
+            fetchPlugins: PropTypes.func.isRequired,
+            filterPlugins: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -56,25 +137,20 @@ export default class MarketplaceModal extends React.Component {
     componentDidMount() {
         trackEvent('plugins', 'ui_marketplace_opened');
 
-        this.getMarketplacePlugins();
+        this.fetchPlugins();
     }
 
     componentDidUpdate(prevProps) {
         // Automatically refresh the component when a plugin is installed or uninstalled.
         if (this.props.pluginStatuses !== prevProps.pluginStatuses) {
-            this.getMarketplacePlugins();
+            this.fetchPlugins();
         }
     }
 
-    getMarketplacePlugins = async () => {
-        const filter = this.refs.filter ? this.refs.filter.value : null;
-        const {error} = await this.props.actions.getMarketplacePlugins(filter);
+    fetchPlugins = async () => {
+        const {error} = await this.props.actions.fetchPlugins();
 
         this.setState({loading: false, serverError: error});
-    }
-
-    handleSelect = (key) => {
-        this.setState({tabKey: key});
     }
 
     close = () => {
@@ -86,76 +162,9 @@ export default class MarketplaceModal extends React.Component {
         this.setState({tabKey});
     }
 
-    trackSearch = () => {
-        trackEvent('plugins', 'ui_marketplace_search');
-    }
-
     doSearch = () => {
-        this.trackSearch();
-        this.getMarketplacePlugins();
-    }
-
-    getPluginsListContent = (pluginsArray, installedList) => {
-        if (pluginsArray.length === 0) {
-            let noPluginsMessage = (
-                <FormattedMessage
-                    id='marketplace_modal.no_plugins'
-                    defaultMessage='There are no plugins available at this time.'
-                />);
-            if (installedList) {
-                noPluginsMessage = (
-                    <FormattedMessage
-                        id='marketplace_modal.no_plugins_installed'
-                        defaultMessage='You do not have any plugins installed.'
-                    />);
-            }
-
-            let installLink = null;
-            if (installedList) {
-                installLink = (
-                    <button
-                        className='margin-top x3 style--none color--link'
-                        onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}
-                    >
-                        <FormattedMessage
-                            id='marketplace_modal.install_plugins'
-                            defaultMessage='Install Plugins'
-                        />
-                    </button>
-                );
-            }
-
-            return (<div className='no_plugins_div'>
-                <br/>
-                <PluginIcon className='icon__plugin'/>
-                <div className='margin-top x2 light'>
-                    {noPluginsMessage}
-                </div>
-                {installLink}
-            </div>);
-        }
-
-        return (<div className='more-modal__list'>
-            {
-                pluginsArray.map((p) => {
-                    return (
-                        <MarketplaceItem
-                            key={p.manifest.id}
-                            id={p.manifest.id}
-                            name={p.manifest.name}
-                            description={p.manifest.description}
-                            version={p.manifest.version}
-                            isPrepackaged={false}
-                            downloadUrl={p.download_url}
-                            homepageUrl={p.homepage_url}
-                            iconData={p.icon_data}
-                            installed={p.installed_version !== ''}
-                            onConfigure={this.close}
-                            onInstalled={this.getMarketplacePlugins}
-                        />);
-                })
-            }
-        </div>);
+        trackEvent('plugins', 'ui_marketplace_search');
+        this.props.actions.filterPlugins(this.refs.filter ? this.refs.filter.value : null);
     }
 
     render() {
@@ -193,7 +202,7 @@ export default class MarketplaceModal extends React.Component {
         return (
             <RootPortal>
                 <FullScreenModal
-                    show={Boolean(this.props.show)}
+                    show={this.props.show}
                     onClose={this.close}
                 >
                     {errorBanner}
@@ -215,24 +224,20 @@ export default class MarketplaceModal extends React.Component {
                             className='tabs'
                             defaultActiveKey='allPlugins'
                             activeKey={this.state.tabKey}
-                            onSelect={this.handleSelect}
+                            onSelect={this.changeTab}
                             unmountOnExit={true}
                         >
                             <Tab
                                 eventKey={MarketplaceTabs.ALL_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.all_plugins', 'All Plugins')}
                             >
-                                {this.state.loading ?
-                                    <LoadingScreen/> : (
-                                        this.getPluginsListContent(this.props.marketplacePlugins, false)
-                                    )
-                                }
+                                {this.state.loading ? <LoadingScreen/> : <AllPlugins plugins={this.props.plugins}/>}
                             </Tab>
                             <Tab
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.installed_plugins', `Installed (${this.props.installedPlugins.length})`)}
                             >
-                                {this.getPluginsListContent(this.props.installedPlugins, true)}
+                                <InstalledPlugins installedPlugins={this.props.installedPlugins}/>
                             </Tab>
                         </Tabs>
                     </div>

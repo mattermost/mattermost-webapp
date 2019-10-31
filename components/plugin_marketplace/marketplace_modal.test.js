@@ -5,10 +5,10 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-import MarketplaceModal from './marketplace_modal';
+import {Plugins, AllPlugins, InstalledPlugins, MarketplaceModal} from './marketplace_modal.js';
 
-describe('components/MarketplaceModal', () => {
-    const marketplacePluginsSample = [{
+describe('components/marketplace/', () => {
+    const samplePlugin = {
         homepage_url: 'https://github.com/mattermost/mattermost-plugin-nps',
         download_url: 'https://github.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
         manifest: {
@@ -19,75 +19,150 @@ describe('components/MarketplaceModal', () => {
             minServerVersion: '5.14.0',
         },
         installed_version: '',
-    }];
+    };
 
-    const installedPlugins = [];
-    let defaultProps;
+    const sampleInstalledPlugin = {
+        homepage_url: 'https://github.com/mattermost/mattermost-test',
+        download_url: 'https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
+        manifest: {
+            id: 'com.mattermost.test',
+            name: 'Test',
+            description: 'This plugin is to test',
+            version: '1.0.3',
+            minServerVersion: '5.14.0',
+        },
+        installed_version: '1.0.3',
+    };
 
-    beforeEach(async () => {
-        defaultProps = {
+    describe('Plugins', () => {
+        it('should render with no plugins', () => {
+            const wrapper = shallowWithIntl(
+                <Plugins plugins={[]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render with one plugin', () => {
+            const wrapper = shallowWithIntl(
+                <Plugins plugins={[samplePlugin]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render with multiple plugins', () => {
+            const wrapper = shallowWithIntl(
+                <Plugins plugins={[samplePlugin, sampleInstalledPlugin]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('AllPlugins', () => {
+        it('should render with no plugins', () => {
+            const wrapper = shallowWithIntl(
+                <AllPlugins plugins={[]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render with one plugin', () => {
+            const wrapper = shallowWithIntl(
+                <AllPlugins plugins={[samplePlugin]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render with plugins', () => {
+            const wrapper = shallowWithIntl(
+                <AllPlugins plugins={[samplePlugin, sampleInstalledPlugin]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('InstalledPlugins', () => {
+        it('should render with no plugins', () => {
+            const wrapper = shallowWithIntl(
+                <InstalledPlugins installedPlugins={[]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render with one plugin', () => {
+            const wrapper = shallowWithIntl(
+                <InstalledPlugins installedPlugins={[sampleInstalledPlugin]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render with multiple plugins', () => {
+            const wrapper = shallowWithIntl(
+                <InstalledPlugins installedPlugins={[sampleInstalledPlugin, sampleInstalledPlugin]}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('MarketplaceModal', () => {
+        const baseProps = {
             show: true,
-            installedPlugins,
-            marketplacePlugins: marketplacePluginsSample,
+            plugins: [samplePlugin],
+            installedPlugins: [],
             pluginStatuses: {},
             siteURL: 'http://example.com',
             actions: {
                 closeModal: jest.fn(),
-                getMarketplacePlugins: jest.fn(),
+                fetchPlugins: jest.fn(() => ({})),
+                filterPlugins: jest.fn(() => ({})),
             },
         };
-    });
 
-    test('should match the snapshot, no plugins installed', () => {
-        const wrapper = shallowWithIntl(
-            <MarketplaceModal {...defaultProps}/>
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
+        test('should render with no plugins installed', () => {
+            const wrapper = shallowWithIntl(
+                <MarketplaceModal {...baseProps}/>
+            );
+            expect(wrapper).toMatchSnapshot();
+        });
 
-    test('should match the snapshot, with plugins installed', () => {
-        const installedPlugin = {
-            homepage_url: 'https://github.com/mattermost/mattermost-test',
-            download_url: 'https://github.com/mattermost/mattermost-test/releases/download/v1.0.3/com.mattermost.nps-1.0.3.tar.gz',
-            manifest: {
-                id: 'com.mattermost.test',
-                name: 'Test',
-                description: 'This plugin is to test',
-                version: '1.0.3',
-                minServerVersion: '5.14.0',
-            },
-            installed_version: '1.0.3',
-        };
+        test('should render with plugins installed', () => {
+            const props = {
+                ...baseProps,
+                plugins: [
+                    ...baseProps.plugins,
+                    sampleInstalledPlugin,
+                ],
+                installedPlugins: [
+                    sampleInstalledPlugin,
+                ],
+            };
 
-        marketplacePluginsSample.push(installedPlugin);
-        installedPlugins.push(installedPlugin);
+            const wrapper = shallowWithIntl(
+                <MarketplaceModal {...props}/>
+            );
 
-        const wrapper = shallowWithIntl(
-            <MarketplaceModal {...defaultProps}/>
-        );
+            expect(wrapper).toMatchSnapshot();
+        });
 
-        expect(wrapper).toMatchSnapshot();
-    });
+        test('should fetch plugins when plugin status is changed', () => {
+            const fetchPlugins = baseProps.actions.fetchPlugins;
+            const wrapper = shallowWithIntl(<MarketplaceModal {...baseProps}/>);
 
-    test('should fetch marketplace plugins when plugin status is changed', () => {
-        const getMarketplacePlugins = defaultProps.actions.getMarketplacePlugins;
-        const wrapper = shallowWithIntl(<MarketplaceModal {...defaultProps}/>);
+            expect(fetchPlugins).toBeCalledTimes(1);
+            wrapper.setProps({...baseProps});
+            expect(fetchPlugins).toBeCalledTimes(1);
 
-        expect(getMarketplacePlugins).toBeCalledTimes(1);
-        wrapper.setProps({...defaultProps});
-        expect(getMarketplacePlugins).toBeCalledTimes(1);
+            wrapper.setProps({...baseProps, pluginStatuses: {test: 'test'}});
+            expect(fetchPlugins).toBeCalledTimes(2);
+        });
 
-        wrapper.setProps({...defaultProps, pluginStatuses: {test: 'test'}});
-        expect(getMarketplacePlugins).toBeCalledTimes(2);
-    });
+        test('should render with error banner', () => {
+            const wrapper = shallowWithIntl(
+                <MarketplaceModal {...baseProps}/>
+            );
 
-    test('should match the snapshot, error banner is shown', () => {
-        const wrapper = shallowWithIntl(
-            <MarketplaceModal {...defaultProps}/>
-        );
+            wrapper.setState({serverError: {message: 'Error test'}});
 
-        wrapper.setState({serverError: {message: 'Error test'}});
-
-        expect(wrapper).toMatchSnapshot();
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });

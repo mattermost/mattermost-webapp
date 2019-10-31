@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MarketplaceItem from 'components/plugin_marketplace/marketplace_item/marketplace_item';
+import MarketplaceItem from './marketplace_item.js';
 
 describe('components/MarketplaceItem', () => {
     const baseProps = {
@@ -15,16 +15,17 @@ describe('components/MarketplaceItem', () => {
         downloadUrl: 'http://example.com/download',
         signatureUrl: 'http://example.com/signature',
         homepageUrl: 'http://example.com',
+        installedVersion: '',
         iconUrl: '',
-        installed: false,
-        onConfigure: () => {}, // eslint-disable-line no-empty-function
-        onInstalled: () => {}, // eslint-disable-line no-empty-function
+        iconData: 'icon',
+        installing: false,
         actions: {
-            installPluginFromUrl: () => {}, // eslint-disable-line no-empty-function
+            installPlugin: () => {}, // eslint-disable-line no-empty-function
+            closeMarketplaceModal: () => {}, // eslint-disable-line no-empty-function
         },
     };
 
-    test('should match snapshot, no plugin icon', () => {
+    test('should render', () => {
         const wrapper = shallow(
             <MarketplaceItem {...baseProps}/>
         );
@@ -32,11 +33,10 @@ describe('components/MarketplaceItem', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, with plugin icon', () => {
-        const props = {
-            ...baseProps,
-            iconData: 'icon',
-        };
+    test('should render with no plugin icon', () => {
+        const props = {...baseProps};
+        delete props.iconData;
+
         const wrapper = shallow(
             <MarketplaceItem {...props}/>
         );
@@ -44,18 +44,8 @@ describe('components/MarketplaceItem', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, with homepage url', () => {
-        const wrapper = shallow(
-            <MarketplaceItem {...baseProps}/>
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot, no homepage url', () => {
-        const props = {
-            ...baseProps,
-        };
+    test('should render wtih no homepage url', () => {
+        const props = {...baseProps};
         delete props.homepageUrl;
 
         const wrapper = shallow(
@@ -65,17 +55,41 @@ describe('components/MarketplaceItem', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot, with server error', () => {
+    test('should render with server error', () => {
         const props = {
             ...baseProps,
+            error: 'An error occurred.',
         };
 
         const wrapper = shallow(
             <MarketplaceItem {...props}/>
         );
-        wrapper.setState({
-            serverError: true,
-        });
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render installed plugin', () => {
+        const props = {
+            ...baseProps,
+            installedVersion: '1.0.0',
+        };
+
+        const wrapper = shallow(
+            <MarketplaceItem {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render with update available', () => {
+        const props = {
+            ...baseProps,
+            installedVersion: '0.9.9',
+        };
+
+        const wrapper = shallow(
+            <MarketplaceItem {...props}/>
+        );
 
         expect(wrapper).toMatchSnapshot();
     });

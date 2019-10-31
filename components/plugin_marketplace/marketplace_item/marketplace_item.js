@@ -24,86 +24,63 @@ export default class MarketplaceItem extends React.Component {
         downloadUrl: PropTypes.string,
         homepageUrl: PropTypes.string,
         iconData: PropTypes.string,
-        installed: PropTypes.bool.isRequired,
-        onConfigure: PropTypes.func.isRequired,
-        onInstalled: PropTypes.func.isRequired,
+        installedVersion: PropTypes.string.isRequired,
+        installing: PropTypes.bool.isRequired,
+        error: PropTypes.string,
         actions: PropTypes.shape({
-            installPluginFromUrl: PropTypes.func.isRequired,
+            installPlugin: PropTypes.func.isRequired,
+            closeMarketplaceModal: PropTypes.func.isRequired,
         }).isRequired,
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            installing: false,
-            serverError: null,
-        };
-    }
-
-    installPlugin = async (force) => {
-        const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, true);
-
-        if (error) {
-            this.setState({
-                installing: false,
-            });
-
-            if (error.server_error_id === 'app.plugin.extract.app_error') {
-                this.setState({serverError: localizeMessage('admin.plugin.error.extract', 'Encountered an error when extracting the plugin.')});
-            } else {
-                this.setState({serverError: error.message});
-            }
-            return;
-        }
-
-        this.setState({
-            serverError: null,
-        });
-
-        this.props.onInstalled();
-    }
-
     onInstall = () => {
-        this.setState({installing: true});
         trackEvent('plugins', 'ui_marketplace_download');
+        this.props.actions.installPlugin(this.props.id);
+    }
 
-        this.installPlugin(false);
+    onUpdate = () => {
+        trackEvent('plugins', 'ui_marketplace_download_update');
+        this.props.actions.installPlugin(this.props.id);
     }
 
     onConfigure = () => {
         trackEvent('plugins', 'ui_marketplace_configure');
-
-        this.props.onConfigure();
+        this.props.actions.closeMarketplaceModal();
     }
 
     getItemButton() {
+        let actionButton = (
+            <FormattedMessage
+                id='marketplace_modal.list.Install'
+                defaultMessage='Install'
+            />
+        );
+        if (this.props.error) {
+            actionButton = (
+                <FormattedMessage
+                    id='marketplace_modal.list.try_again'
+                    defaultMessage='Try Again'
+                />
+            );
+        }
+
         let button = (
             <button
                 onClick={this.onInstall}
                 className='btn btn-primary'
-                disabled={this.state.installing || this.props.downloadUrl === ''}
+                disabled={this.props.installing || this.props.downloadUrl === ''}
             >
                 <LoadingWrapper
-                    loading={this.state.installing}
+                    loading={this.props.installing}
                     text={localizeMessage('marketplace_modal.installing', 'Installing...')}
                 >
-                    {this.state.serverError ?
-                        <FormattedMessage
-                            id='marketplace_modal.list.try_again'
-                            defaultMessage='Try Again'
-                        /> :
-                        <FormattedMessage
-                            id='marketplace_modal.list.Install'
-                            defaultMessage='Install'
-                        />
-                    }
+                    {actionButton}
                 </LoadingWrapper>
 
             </button>
         );
 
-        if (this.props.installed) {
+        if (this.props.installedVersion !== '' && !this.props.installing && !this.props.error) {
             button = (
                 <Link
                     to={'/admin_console/plugins/plugin_' + this.props.id}
@@ -117,7 +94,8 @@ export default class MarketplaceItem extends React.Component {
                             defaultMessage='Configure'
                         />
                     </button>
-                </Link>);
+                </Link>
+            );
         }
 
         return button;
@@ -125,7 +103,10 @@ export default class MarketplaceItem extends React.Component {
 
     render() {
         const ariaLabel = `${this.props.name}, ${this.props.description}`.toLowerCase();
-        const versionLabel = `(${this.props.version})`;
+        let versionLabel = `(${this.props.version})`;
+        if (this.props.installedVersion !== '') {
+            versionLabel = `(${this.props.installedVersion})`;
+        }
 
         let pluginIcon;
         if (this.props.iconData) {
@@ -141,8 +122,8 @@ export default class MarketplaceItem extends React.Component {
         let pluginDetails = (
             <>
                 {this.props.name} <span className='light subtitle'>{versionLabel}</span>
-                <p className={classNames('more-modal__description', {error_text: this.state.serverError})}>
-                    {this.state.serverError ? this.state.serverError : this.props.description}
+                <p className={classNames('more-modal__description', {error_text: this.props.error})}>
+                    {this.props.error ? this.props.error : this.props.description}
                 </p>
             </>
         );
@@ -170,19 +151,51 @@ export default class MarketplaceItem extends React.Component {
             );
         }
 
+        var update;
+        if (this.props.installedVersion !== '' && this.props.installedVersion !== this.props.version) {
+            update = (
+                <>
+                    <div className={classNames('more-modal__subrow')}>
+                        <div className='more-modal__subdetails'>
+                            <FormattedMessage
+                                id='marketplace_modal.list.update_available'
+                                defaultMessage='Update available: {version}'
+                                values={{
+                                    version: this.props.version,
+                                }}
+                            />
+                            {' - '}
+                            <b>
+                                <a onClick={this.onInstall}>
+                                    <FormattedMessage
+                                        id='marketplace_modal.list.update'
+                                        defaultMessage='Update'
+                                    />
+                                </a>
+                            </b>
+                        </div>
+                    </div>
+                </>
+            );
+        }
+
         return (
-            <div
-                className={classNames('more-modal__row', 'more-modal__row--link', {item_error: this.state.serverError})}
-                key={this.props.id}
-            >
-                {pluginIcon}
-                <div className='more-modal__details'>
-                    {pluginDetails}
+            <>
+                <div
+                    className={classNames('more-modal__row', 'more-modal__row--link', {item_error: this.props.error})}
+                    key={this.props.id}
+                    id={'marketplace-plugin-' + this.props.id}
+                >
+                    {pluginIcon}
+                    <div className='more-modal__details'>
+                        {pluginDetails}
+                    </div>
+                    <div className='more-modal__actions'>
+                        {this.getItemButton()}
+                    </div>
                 </div>
-                <div className='more-modal__actions'>
-                    {this.getItemButton()}
-                </div>
-            </div>
+                {update}
+            </>
         );
     }
 }
