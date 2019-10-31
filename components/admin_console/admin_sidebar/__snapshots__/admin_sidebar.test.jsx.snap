@@ -37,7 +37,6 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
             <SearchIcon
               aria-hidden="true"
               className="search__icon"
-              id="searchIcon"
             />
             <input
               className="filter active"
@@ -149,7 +148,6 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
             <SearchIcon
               aria-hidden="true"
               className="search__icon"
-              id="searchIcon"
             />
             <input
               className="filter "
