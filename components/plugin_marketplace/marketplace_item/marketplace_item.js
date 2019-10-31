@@ -10,7 +10,6 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
-import ConfirmModal from 'components/confirm_modal.jsx';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -38,33 +37,14 @@ export default class MarketplaceItem extends React.Component {
 
         this.state = {
             installing: false,
-            confirmOverwriteInstallModal: false,
             serverError: null,
         };
     }
 
-    onClickOverwriteModal = () => {
-        this.setState({confirmOverwriteInstallModal: false});
-        return this.installPlugin(true);
-    }
-
-    onCancelOverwriteModal = () => {
-        this.setState({
-            confirmOverwriteInstallModal: false,
-            installing: false,
-            serverError: null,
-        });
-    }
-
     installPlugin = async (force) => {
-        const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, force);
+        const {error} = await this.props.actions.installPluginFromUrl(this.props.downloadUrl, true);
 
         if (error) {
-            if (error.server_error_id === 'app.plugin.install_id.app_error' && !force) {
-                this.setState({confirmOverwriteInstallModal: true});
-                return;
-            }
-
             this.setState({
                 installing: false,
             });
@@ -202,27 +182,6 @@ export default class MarketplaceItem extends React.Component {
                 <div className='more-modal__actions'>
                     {this.getItemButton()}
                 </div>
-                <ConfirmModal
-                    show={this.state.confirmOverwriteInstallModal}
-                    title={
-                        <FormattedMessage
-                            id='admin.plugin.upload.overwrite_modal.title'
-                            defaultMessage='Overwrite existing plugin?'
-                        />}
-                    message={
-                        <FormattedMessage
-                            id='admin.plugin.upload.overwrite_modal.desc'
-                            defaultMessage='A plugin with this ID already exists. Would you like to overwrite it?'
-                        />}
-                    confirmButtonClass='btn btn-danger'
-                    confirmButtonText={
-                        <FormattedMessage
-                            id='admin.plugin.upload.overwrite_modal.overwrite'
-                            defaultMessage='Overwrite'
-                        />}
-                    onConfirm={this.onClickOverwriteModal}
-                    onCancel={this.onCancelOverwriteModal}
-                />
             </div>
         );
     }
