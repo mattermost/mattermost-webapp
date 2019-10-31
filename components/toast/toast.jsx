@@ -17,10 +17,12 @@ export default class Toast extends React.PureComponent {
     static propTypes = {
         jumpTo: PropTypes.func.isRequired, // required?
         jumpToMessage: PropTypes.string,
+        jumpFadeOutDelay: PropTypes.number,
         onDismiss: PropTypes.func,
         order: PropTypes.number,
         children: PropTypes.element,
         show: PropTypes.bool.isRequired,
+        extraClasses: PropTypes.string,
     }
 
     constructor(props) {
@@ -34,7 +36,7 @@ export default class Toast extends React.PureComponent {
 
     handleJump = () => {
         this.props.jumpTo();
-        this.setState({hide: true});
+        setTimeout(() => this.setState({hide: true}), this.props.jumpFadeOutDelay);
 
         // TODO: telemetry
     }
@@ -47,7 +49,7 @@ export default class Toast extends React.PureComponent {
     }
 
     render() {
-        let classes = 'toast';
+        let classes = `toast ${this.props.extraClasses}`;
         if (this.props.show && !this.state.hide) {
             classes += ' toast__visible';
         }
@@ -82,4 +84,5 @@ Toast.defaultProps = {
     onDismiss: empty,
     jumpToMessage: 'Jump',
     order: someBigNum,
+    jumpFadeOutDelay: 0,
 };
