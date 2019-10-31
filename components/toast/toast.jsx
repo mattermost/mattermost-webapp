@@ -26,6 +26,8 @@ export default class Toast extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+
+            //once hide is set to true, only a rerender from the caller will show it again. This way, once we have used one button the toast doesn't show up again.
             hide: false,
         };
     }
@@ -66,7 +68,10 @@ export default class Toast extends React.PureComponent {
                     className='toast__dismiss'
                     onClick={this.handleDismiss}
                 >
-                    <CloseIcon className='close-x' id='dismissToast'/>
+                    <CloseIcon
+                        className='close-x'
+                        id='dismissToast'
+                    />
                 </div>
             </div>
         );
