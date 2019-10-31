@@ -109,6 +109,8 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
         </Connect(TeamPermissionGate)>
       }
       search={[Function]}
+      showArchivedChannels={false}
+      toggleArchivedChannels={[Function]}
     />
   </ModalBody>
 </Modal>

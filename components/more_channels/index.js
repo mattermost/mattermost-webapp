@@ -23,7 +23,6 @@ const getNotArchivedOtherChannels = createSelector(
 const getAllArchivedChannels = createSelector(
     getArchivedChannels,
     (channels) => {
-        window.console.log('ARCHIVED:', channels);
         return channels;
     }
 );

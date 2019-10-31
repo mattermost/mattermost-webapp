@@ -43,7 +43,7 @@ export default class MoreChannels extends React.Component {
 
         this.state = {
             show: true,
-            showArchived: false,
+            showArchivedChannels: false,
             search: false,
             searchedChannels: [],
             serverError: null,
@@ -139,8 +139,8 @@ export default class MoreChannels extends React.Component {
         this.setState({searchedChannels: channels.filter((c) => c.delete_at === 0), searching: false});
     };
 
-    showArchivedChannels = (showArchivedChannels) => {
-        this.setState({showArchived: showArchivedChannels});
+    toggleArchivedChannels = (showArchivedChannels) => {
+        this.setState({showArchivedChannels});
     };
 
     render() {
@@ -153,7 +153,7 @@ export default class MoreChannels extends React.Component {
 
         let activeChannels;
 
-        if (this.state.showArchived) {
+        if (this.state.showArchivedChannels) {
             activeChannels = this.props.archivedChannels;
         } else {
             activeChannels = channels;
@@ -217,8 +217,8 @@ export default class MoreChannels extends React.Component {
                     noResultsText={createChannelHelpText}
                     loading={search ? searching : channelsRequestStarted}
                     createChannelButton={bodyOnly && createNewChannelButton}
-                    showArchivedChannels={this.showArchivedChannels}
-                    showArchived={this.state.showArchived}
+                    toggleArchivedChannels={this.toggleArchivedChannels}
+                    showArchivedChannels={this.state.showArchivedChannels}
                 />
                 {serverError}
             </React.Fragment>

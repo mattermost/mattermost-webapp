@@ -67,6 +67,7 @@ describe('components/MoreChannels', () => {
 
     const baseProps = {
         channels: [{id: 'channel_id_1', delete_at: 0, name: 'channel-1'}],
+        archivedChannels: [{id: 'channel_id_2', delete_at: 0, name: 'channel-2'}],
         currentUserId: 'user-1',
         teamId: 'team_id',
         teamName: 'team_name',
@@ -88,6 +89,7 @@ describe('components/MoreChannels', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.state('searchedChannels')).toEqual([]);
         expect(wrapper.state('show')).toEqual(true);
+        expect(wrapper.state('showArchivedChannels')).toEqual(false);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('serverError')).toBeNull();
         expect(wrapper.state('searching')).toEqual(false);

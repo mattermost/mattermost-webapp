@@ -26,6 +26,34 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
       />
     </div>
   </div>
+  <MenuWrapper
+    animationComponent={[Function]}
+    className="more-modal__dropdown"
+  >
+    <a>
+      <span>
+        Show: Public Channels
+      </span>
+      <span
+        className="caret"
+      />
+    </a>
+    <Menu
+      ariaLabel="Team member role change"
+      openLeft={false}
+    >
+      <MenuItemAction
+        onClick={[Function]}
+        show={true}
+        text="Public Channels"
+      />
+      <MenuItemAction
+        onClick={[Function]}
+        show={true}
+        text="Archived Channels"
+      />
+    </Menu>
+  </MenuWrapper>
   <div
     className="more-modal__list"
     role="application"

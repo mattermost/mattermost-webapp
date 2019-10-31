@@ -61,7 +61,7 @@ export default class SearchableChannelList extends React.Component {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
         let archiveIcon;
 
-        if (this.props.showArchived) {
+        if (this.props.showArchivedChannels) {
             archiveIcon = (
                 <div className='more-modal__icon-container'>
                     <ArchiveIcon className='icon icon__archive'/>
@@ -96,8 +96,8 @@ export default class SearchableChannelList extends React.Component {
                             text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
-                                id={this.props.showArchived ? 'more_channels.view' : 'more_channels.join'}
-                                defaultMessage={this.props.showArchived ? 'View' : 'Join'}
+                                id={this.props.showArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
+                                defaultMessage={this.props.showArchivedChannels ? 'View' : 'Join'}
                             />
                         </LoadingWrapper>
                     </button>
@@ -223,7 +223,7 @@ export default class SearchableChannelList extends React.Component {
             
             <MenuWrapper className='more-modal__dropdown'>
                 <a>
-                    <span>{this.props.showArchived ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
+                    <span>{this.props.showArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
                     <span className='caret'/>
                 </a>
                 <Menu
@@ -232,13 +232,13 @@ export default class SearchableChannelList extends React.Component {
                 >
                     <Menu.ItemAction
                         onClick={() => {
-                            this.props.showArchivedChannels(false);
+                            this.props.toggleArchivedChannels(false);
                         }}
                         text={localizeMessage('suggestion.search.public', 'Public Channels')}
                     />
                     <Menu.ItemAction
                         onClick={() => {
-                            this.props.showArchivedChannels(true);
+                            this.props.toggleArchivedChannels(true);
                         }}
                         text={localizeMessage('suggestion.archive', 'Archived Channels')}
                     />
@@ -283,6 +283,6 @@ SearchableChannelList.propTypes = {
     noResultsText: PropTypes.object,
     loading: PropTypes.bool,
     createChannelButton: PropTypes.element,
-    showArchivedChannels: PropTypes.func.isRequired,
-    showArchived: PropTypes.bool.isRequired,
+    toggleArchivedChannels: PropTypes.func.isRequired,
+    showArchivedChannels: PropTypes.bool.isRequired,
 };
