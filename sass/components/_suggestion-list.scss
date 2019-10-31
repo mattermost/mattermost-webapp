@@ -43,6 +43,10 @@
     padding-bottom: 5px;
     width: 100%;
 
+    .modal & {
+        max-height: 205px;
+    }
+
     .command {
         border-bottom: 1px solid $light-gray;
         font-size: .95em;

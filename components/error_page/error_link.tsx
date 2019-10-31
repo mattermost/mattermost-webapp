@@ -1,11 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-export default function ErrorLink({url, messageId, defaultMessage}) {
+type Props = {
+    url: string;
+    messageId: string;
+    defaultMessage: string;
+}
+
+const ErrorLink: React.FC<Props> = ({url, messageId, defaultMessage}: Props) => {
     return (
         <a
             href={url}
@@ -18,12 +23,6 @@ export default function ErrorLink({url, messageId, defaultMessage}) {
             />
         </a>
     );
-}
-
-ErrorLink.propTypes = {
-    url: PropTypes.string.isRequired,
-    messageId: PropTypes.string.isRequired,
-    defaultMessage: PropTypes.string.isRequired,
 };
 
 ErrorLink.defaultProps = {
@@ -31,3 +30,5 @@ ErrorLink.defaultProps = {
     messageId: '',
     defaultMessage: '',
 };
+
+export default ErrorLink;

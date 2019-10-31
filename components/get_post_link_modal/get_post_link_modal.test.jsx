@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import GetPostLinkModal from 'components/get_post_link_modal/get_post_link_modal.jsx';
-import GetLinkModal from 'components/get_link_modal.jsx';
+import GetLinkModal from 'components/get_link_modal';
 
 describe('components/GetPostLinkModal', () => {
     const requiredProps = {
