@@ -259,7 +259,6 @@ export default class SearchBar extends React.Component {
                         autoComplete='off'
                     >
                         <SearchIcon
-                            id='searchIcon'
                             className='search__icon'
                             aria-hidden='true'
                         />

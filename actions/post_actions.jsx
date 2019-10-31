@@ -21,7 +21,7 @@ import {
     RHSStates,
     StoragePrefixes,
 } from 'utils/constants';
-import {matchEmoticons} from 'utils/emoticons.jsx';
+import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
 
 import {completePostReceive} from './post_utils';

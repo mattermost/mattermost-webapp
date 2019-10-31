@@ -1,51 +1,58 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import SuccessIcon from 'components/widgets/icons/fa_success_icon';
 
-export default class GetLinkModal extends React.PureComponent {
-    static propTypes = {
-        show: PropTypes.bool.isRequired,
-        onHide: PropTypes.func.isRequired,
-        title: PropTypes.string.isRequired,
-        helpText: PropTypes.string,
-        link: PropTypes.string.isRequired,
-    };
+type Props = {
+    show: boolean;
+    onHide: () => void;
+    title: string;
+    helpText?: string;
+    link: string;
+}
 
-    static defaultProps = {
+type State = {
+    copiedLink: boolean;
+}
+
+export default class GetLinkModal extends React.PureComponent<Props, State> {
+    private textAreaRef = React.createRef<HTMLTextAreaElement>();
+    public static defaultProps = {
         helpText: null,
     };
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
         this.state = {
             copiedLink: false,
         };
     }
 
-    onHide = () => {
+    public onHide = (): void => {
         this.setState({copiedLink: false});
         this.props.onHide();
     }
 
-    copyLink = () => {
-        const textarea = this.refs.textarea;
-        textarea.focus();
-        textarea.setSelectionRange(0, this.props.link.length);
+    public copyLink = (): void => {
+        const textarea = this.textAreaRef.current;
 
-        try {
-            this.setState({copiedLink: document.execCommand('copy')});
-        } catch (err) {
-            this.setState({copiedLink: false});
+        if (textarea) {
+            textarea.focus();
+            textarea.setSelectionRange(0, this.props.link.length);
+
+            try {
+                this.setState({copiedLink: document.execCommand('copy')});
+            } catch (err) {
+                this.setState({copiedLink: false});
+            }
         }
     }
 
-    render() {
+    public render(): JSX.Element {
         let helpText = null;
         if (this.props.helpText) {
             helpText = (
@@ -80,7 +87,7 @@ export default class GetLinkModal extends React.PureComponent {
             <textarea
                 id='linkModalTextArea'
                 className='form-control no-resize min-height'
-                ref='textarea'
+                ref={this.textAreaRef}
                 value={this.props.link}
                 onClick={this.copyLink}
                 readOnly={true}

@@ -20,7 +20,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -107,7 +106,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -274,7 +272,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -399,7 +396,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -524,7 +520,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -649,7 +644,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -811,7 +805,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1078,7 +1071,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1345,7 +1337,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1507,7 +1498,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1596,7 +1586,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
