@@ -8,7 +8,7 @@ describe('Notifications.showNotification', () => {
 
     beforeEach(() => {
         jest.resetModules();
-        Notifications = require('utils/notifications.jsx');
+        Notifications = require('utils/notifications.tsx');
     });
 
     it('should throw an exception if Notification is not defined on window', async () => {

@@ -5,7 +5,7 @@ import {RequestStatus} from 'mattermost-redux/constants';
 import {shallow} from 'enzyme';
 
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal/edit_channel_purpose_modal.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 describe('comoponents/EditChannelPurposeModal', () => {
     const channel = {
