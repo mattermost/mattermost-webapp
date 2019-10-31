@@ -31,6 +31,7 @@ export default class MoreChannels extends React.Component {
         bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
+            getArchivedChannels: PropTypes.func.isRequired,
             joinChannel: PropTypes.func.isRequired,
             searchMoreChannels: PropTypes.func.isRequired,
         }).isRequired,
@@ -113,7 +114,7 @@ export default class MoreChannels extends React.Component {
 
         const searchTimeoutId = setTimeout(
             () => {
-                this.props.actions.searchMoreChannels(term).
+                this.props.actions.searchMoreChannels(term, this.state.showArchivedChannels).
                     then((result) => {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
@@ -136,10 +137,12 @@ export default class MoreChannels extends React.Component {
     };
 
     setSearchResults = (channels) => {
-        this.setState({searchedChannels: channels.filter((c) => c.delete_at === 0), searching: false});
+        this.setState({searchedChannels: this.state.showArchivedChannels ? channels : channels.filter((c) => c.delete_at === 0), searching: false});
     };
 
     toggleArchivedChannels = (showArchivedChannels) => {
+        // clear search results, so other channels don't appear in list
+        this.setSearchResults([]);
         this.setState({showArchivedChannels});
     };
 
@@ -151,14 +154,6 @@ export default class MoreChannels extends React.Component {
             bodyOnly,
         } = this.props;
 
-        let activeChannels;
-
-        if (this.state.showArchivedChannels) {
-            activeChannels = this.props.archivedChannels;
-        } else {
-            activeChannels = channels;
-        }
-
         const {
             search,
             searchedChannels,
@@ -166,6 +161,14 @@ export default class MoreChannels extends React.Component {
             show,
             searching,
         } = this.state;
+
+        let activeChannels;
+
+        if (this.state.showArchivedChannels) {
+            activeChannels = search ? searchedChannels : this.props.archivedChannels;
+        } else {
+            activeChannels = search ? searchedChannels : channels;
+        }
 
         let serverError;
         if (serverErrorState) {
@@ -208,7 +211,7 @@ export default class MoreChannels extends React.Component {
         const body = (
             <React.Fragment>
                 <SearchableChannelList
-                    channels={search ? searchedChannels : activeChannels}
+                    channels={activeChannels}
                     channelsPerPage={CHANNELS_PER_PAGE}
                     nextPage={this.nextPage}
                     isSearch={search}
