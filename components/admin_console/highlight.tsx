@@ -2,24 +2,25 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Mark from 'mark.js';
 import debounce from 'lodash/debounce';
 
-export default class Highlight extends React.Component {
-    static propTypes = {
-        filter: PropTypes.string.isRequired,
-        children: PropTypes.node.isRequired,
-    }
+type Props = {
+    filter: string;
+    children: React.ReactNode;
+}
 
-    constructor(props) {
+export default class Highlight extends React.Component<Props> {
+    private markInstance? : Mark;
+    private ref: React.RefObject<HTMLDivElement>;
+
+    public constructor(props: Props) {
         super(props);
-        this.markInstance = null;
-        this.ref = React.createRef();
+        this.ref = React.createRef<HTMLDivElement>();
     }
 
-    redrawHighlight = debounce(() => {
-        if (this.markInstance !== null) {
+    private redrawHighlight = debounce(() => {
+        if (this.markInstance) {
             this.markInstance.unmark();
         }
 
@@ -36,7 +37,7 @@ export default class Highlight extends React.Component {
         this.markInstance.mark(this.props.filter, {accuracy: 'complementary'});
     }, 100, {leading: true, trailing: true});
 
-    render() {
+    public render() {
         // Run on next frame
         setTimeout(this.redrawHighlight, 0);
         return (

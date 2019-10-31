@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 
 describe('components/SaveButton', () => {
     const baseProps = {
@@ -20,7 +20,7 @@ describe('components/SaveButton', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('button').first().props().disabled).toBe(false);
 
-        wrapper.setProps({defaultMessage: 'Go'});
+        wrapper.setProps({defaultMessage: 'Go'} as any);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -33,7 +33,7 @@ describe('components/SaveButton', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('button').first().props().disabled).toBe(true);
 
-        wrapper.setProps({savingMessage: 'Saving Config...'});
+        wrapper.setProps({savingMessage: 'Saving Config...'} as any);
         expect(wrapper).toMatchSnapshot();
     });
 

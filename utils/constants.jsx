@@ -542,6 +542,11 @@ export const SidebarChannelGroups = {
     FAVORITE: 'favorite',
 };
 
+export const AboutLinks = {
+    TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
+    PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+};
+
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
     [Permissions.INVITE_GUEST]: 'team_scope',
