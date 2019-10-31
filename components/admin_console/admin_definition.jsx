@@ -2351,7 +2351,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.baseTitle'),
                         label_default: 'BaseDN:',
                         help_text: t('admin.ldap.baseDesc'),
-                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the AD/LDAP tree.',
+                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
                         isDisabled: it.both(

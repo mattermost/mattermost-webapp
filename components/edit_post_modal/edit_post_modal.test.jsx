@@ -330,13 +330,14 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallowWithIntl(createEditPost({actions}));
+        const editingPost = {show: false};
+        const wrapper = shallowWithIntl(createEditPost({actions, editingPost}));
         const instance = wrapper.instance();
 
         wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', preview: true, showEmojiPicker: true});
         instance.handleExited();
 
-        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, preview: false, showEmojiPicker: false});
+        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     });
 
     it('should focus element on exit based on refocusId', () => {
