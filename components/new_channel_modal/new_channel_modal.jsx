@@ -241,7 +241,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'O'}
                                 onChange={this.handlePublicTypeSelect}
-                                aria-labelledby='channel_modal_type_label'
+                                aria-labelledby='ChannelModalTypeLabel'
                             />
                             {publicChannelDesc}
                         </label>
@@ -254,7 +254,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'P'}
                                 onChange={this.handlePrivateTypeSelect}
-                                aria-labelledby='channel_modal_type_label'
+                                aria-labelledby='ChannelModalTypeLabel'
                             />
                             {privateChannelDesc}
                         </label>
@@ -314,7 +314,7 @@ export default class NewChannelModal extends React.PureComponent {
                             <div className='form-group'>
                                 <label
                                     className='col-sm-3 form__label control-label'
-                                    id='channel_modal_type_label'
+                                    id='ChannelModalTypeLabel'
                                 >
                                     <FormattedMessage
                                         id='channel_modal.type'
