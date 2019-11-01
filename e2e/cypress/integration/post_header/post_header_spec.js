@@ -15,7 +15,7 @@ function pinAndFlagTenPosts() {
     for (let i = 0; i < 10; i++) {
         // Post a message
         cy.postMessage('Post');
-        
+
         //Pin and flag the message and add postID to pinnedFlaggedPosts
         cy.getLastPostId().then((postId) => {
             cy.clickPostDotMenu(postId);
