@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getMarketplacePlugins} from 'mattermost-redux/actions/plugins';
+import {Client4} from 'mattermost-redux/client';
 import {installPluginFromUrl} from 'mattermost-redux/actions/admin';
 
 import {getFilter, getPlugin} from 'selectors/views/marketplace';
@@ -13,7 +13,18 @@ export function fetchPlugins() {
         const state = getState();
         const filter = getFilter(state);
 
-        return dispatch(getMarketplacePlugins(filter));
+        try {
+            const plugins = await Client4.getMarketplacePlugins(filter);
+
+            dispatch({
+                type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
+                plugins,
+            });
+
+            return {plugins};
+        } catch (error) {
+            return {error};
+        }
     };
 }
 

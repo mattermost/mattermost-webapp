@@ -27,7 +27,7 @@ describe('marketplace', () => {
         };
         const action = {
             type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
-            data: [{id: 'plugin1'}, {id: 'plugin2'}],
+            plugins: [{id: 'plugin1'}, {id: 'plugin2'}],
         };
         const expectedState = {
             plugins: [{id: 'plugin1'}, {id: 'plugin2'}],

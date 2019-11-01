@@ -3,15 +3,13 @@
 
 import {combineReducers} from 'redux';
 
-import {PluginTypes} from 'mattermost-redux/action_types';
-
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
 // plugins tracks the set of marketplace plugins returned by the server
 function plugins(state = [], action) {
     switch (action.type) {
-    case PluginTypes.RECEIVED_MARKETPLACE_PLUGINS:
-        return action.data ? action.data : [];
+    case ActionTypes.RECEIVED_MARKETPLACE_PLUGINS:
+        return action.plugins ? action.plugins : [];
 
     case ActionTypes.MODAL_CLOSE:
         if (action.modalId !== ModalIdentifiers.PLUGIN_MARKETPLACE) {
