@@ -6,6 +6,8 @@ import React from 'react';
 
 import {isMobile} from 'utils/utils';
 
+import SubMenuItem from './menu_items/submenu_item.jsx';
+
 import MenuGroup from './menu_group';
 import MenuItemAction from './menu_items/menu_item_action';
 import MenuItemExternalLink from './menu_items/menu_item_external_link';
@@ -20,6 +22,7 @@ export default class Menu extends React.PureComponent {
     static ItemExternalLink = MenuItemExternalLink
     static ItemLink = MenuItemLink
     static ItemToggleModalRedux = MenuItemToggleModalRedux
+    static ItemSubMenu = SubMenuItem
 
     static propTypes = {
         children: PropTypes.node,
@@ -108,16 +111,20 @@ export default class Menu extends React.PureComponent {
         }
 
         return (
-            <ul
-                id={id}
-                className='a11y__popup Menu dropdown-menu'
-                ref={this.node}
-                style={styles}
-                role='menu'
+            <div
                 aria-label={ariaLabel}
+                className='a11y__popup Menu'
+                id={id}
+                role='menu'
             >
-                {children}
-            </ul>
+                <ul
+                    ref={this.node}
+                    style={styles}
+                    className='Menu__content dropdown-menu'
+                >
+                    {children}
+                </ul>
+            </div>
         );
     }
 }

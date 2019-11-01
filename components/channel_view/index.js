@@ -11,7 +11,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {withRouter} from 'react-router-dom';
 
 import {getDirectTeammate} from 'utils/utils.jsx';
-import {TutorialSteps, Preferences} from 'utils/constants.jsx';
+import {TutorialSteps, Preferences} from 'utils/constants';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
 

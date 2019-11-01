@@ -6,10 +6,12 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
+
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -57,15 +59,19 @@ export default class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
+            prevShowState: props.editingPost.show,
         };
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.editingPost.show && nextProps.editingPost.show) {
-            this.setState({
-                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
-            });
+    static getDerivedStateFromProps(props, state) {
+        if (props.editingPost.show && !state.prevShowState) {
+            return {
+                editText: props.editingPost.post.message_source || props.editingPost.post.message,
+                prevShowState: props.editingPost.show,
+            };
         }
+
+        return null;
     }
 
     updatePreview = (newState) => {
@@ -264,7 +270,7 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false});
+        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     }
 
     setEditboxRef = (ref) => {

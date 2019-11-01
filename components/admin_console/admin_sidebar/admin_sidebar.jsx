@@ -8,14 +8,14 @@ import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
-import Highlight from 'components/admin_console/highlight.jsx';
+import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon.jsx';
 
 const renderScrollView = (props) => (
@@ -305,7 +305,6 @@ export default class AdminSidebar extends React.Component {
                             <ul className='nav nav-pills nav-stacked'>
                                 <li className='filter-container'>
                                     <SearchIcon
-                                        id='searchIcon'
                                         className='search__icon'
                                         aria-hidden='true'
                                     />

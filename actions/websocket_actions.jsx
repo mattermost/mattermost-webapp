@@ -40,6 +40,7 @@ import {
     getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
+    getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -58,16 +59,16 @@ import {syncPostsInChannel} from 'actions/views/channel';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {fromAutoResponder} from 'utils/post_utils';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
@@ -566,7 +567,7 @@ function handleLeaveTeamEvent(msg) {
         // if they are on the team being removed redirect them to default team
         if (getCurrentTeamId(state) === msg.data.team_id) {
             if (!global.location.pathname.startsWith('/admin_console')) {
-                GlobalActions.redirectUserToDefaultTeam();
+                redirectUserToDefaultTeam();
             }
         }
     }
@@ -660,13 +661,13 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export function handleUserRemovedEvent(msg) {
+export async function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUserId = getCurrentUserId(state);
 
     if (msg.broadcast.user_id === currentUserId) {
-        dispatch(loadChannelsForCurrentUser());
+        await dispatch(loadChannelsForCurrentUser());
 
         const rhsChannelId = getSelectedChannelId(state);
         if (msg.data.channel_id === rhsChannelId) {
@@ -677,7 +678,11 @@ export function handleUserRemovedEvent(msg) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
-                const user = getUser(state, msg.data.remover_id) || {};
+                let user = getUser(state, msg.data.remover_id);
+                if (!user) {
+                    await dispatch(loadUser(msg.data.remover_id));
+                    user = getUser(state, msg.data.remover_id) || {};
+                }
 
                 dispatch(openModal({
                     modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
@@ -687,6 +692,7 @@ export function handleUserRemovedEvent(msg) {
                         remover: user.username,
                     },
                 }));
+                await redirectUserToDefaultTeam();
             }
         }
 
@@ -921,7 +927,7 @@ function handleUserRoleUpdated(msg) {
         store.dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...user, roles}});
 
         if (demoted && global.location.pathname.startsWith('/admin_console')) {
-            GlobalActions.redirectUserToDefaultTeam();
+            redirectUserToDefaultTeam();
         }
     }
 }

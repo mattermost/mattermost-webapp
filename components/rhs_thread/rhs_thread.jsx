@@ -8,10 +8,10 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -61,6 +61,15 @@ export default class RhsThread extends React.Component {
         }).isRequired,
     }
 
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {selected: props.selected};
+        if (state.selected && props.selected && state.selected.id !== props.selected.id) {
+            updatedState = {...updatedState, openTime: (new Date()).getTime()};
+        }
+
+        return updatedState;
+    }
+
     constructor(props) {
         super(props);
 
@@ -84,18 +93,6 @@ export default class RhsThread extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleResize);
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.selected || !nextProps.selected) {
-            return;
-        }
-
-        if (this.props.selected.id !== nextProps.selected.id) {
-            this.setState({
-                openTime: (new Date()).getTime(),
-            });
-        }
     }
 
     componentDidUpdate(prevProps) {

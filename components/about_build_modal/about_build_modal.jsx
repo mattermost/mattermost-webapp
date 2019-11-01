@@ -9,17 +9,14 @@ import {FormattedMessage} from 'react-intl';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
+import {AboutLinks} from 'utils/constants';
+
 export default class AboutBuildModal extends React.PureComponent {
     static defaultProps = {
         show: false,
     };
 
     static propTypes = {
-
-        /**
-         * Determines whether modal is shown or not
-         */
-        show: PropTypes.bool.isRequired,
 
         /**
          * Function that is called when the modal is dismissed
@@ -42,7 +39,19 @@ export default class AboutBuildModal extends React.PureComponent {
         webappBuildHash: PropTypes.string,
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            show: true,
+        };
+    }
+
     doHide = () => {
+        this.setState({show: false});
+    }
+
+    handleExit = () => {
         this.props.onHide();
     }
 
@@ -131,37 +140,33 @@ export default class AboutBuildModal extends React.PureComponent {
             }
         }
 
-        let termsOfService;
-        if (config.TermsOfServiceLink) {
-            termsOfService = (
-                <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={config.TermsOfServiceLink}
-                >
-                    <FormattedMessage
-                        id='about.tos'
-                        defaultMessage='Terms of Service'
-                    />
-                </a>
-            );
-        }
+        const termsOfService = (
+            <a
+                target='_blank'
+                id='tosLink'
+                rel='noopener noreferrer'
+                href={AboutLinks.TERMS_OF_SERVICE}
+            >
+                <FormattedMessage
+                    id='about.tos'
+                    defaultMessage='Terms of Service'
+                />
+            </a>
+        );
 
-        let privacyPolicy;
-        if (config.PrivacyPolicyLink) {
-            privacyPolicy = (
-                <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={config.PrivacyPolicyLink}
-                >
-                    <FormattedMessage
-                        id='about.privacy'
-                        defaultMessage='Privacy Policy'
-                    />
-                </a>
-            );
-        }
+        const privacyPolicy = (
+            <a
+                target='_blank'
+                id='privacyLink'
+                rel='noopener noreferrer'
+                href={AboutLinks.PRIVACY_POLICY}
+            >
+                <FormattedMessage
+                    id='about.privacy'
+                    defaultMessage='Privacy Policy'
+                />
+            </a>
+        );
 
         let tosPrivacyHyphen;
         if (config.TermsOfServiceLink && config.PrivacyPolicyLink) {
@@ -194,8 +199,9 @@ export default class AboutBuildModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='a11y__modal about-modal'
-                show={this.props.show}
+                show={this.state.show}
                 onHide={this.doHide}
+                onExited={this.handleExit}
                 role='dialog'
                 aria-labelledby='aboutModalLabel'
             >

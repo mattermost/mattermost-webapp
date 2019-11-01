@@ -6,7 +6,7 @@ import marked from 'marked';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
 import * as TextFormatting from 'utils/text_formatting.jsx';
-import {getScheme, isUrlSafe} from 'utils/url.jsx';
+import {getScheme, isUrlSafe} from 'utils/url';
 
 export default class Renderer extends marked.Renderer {
     constructor(options, formattingOptions = {}) {
@@ -33,8 +33,10 @@ export default class Renderer extends marked.Renderer {
         }
 
         let className = 'post-code';
+        let codeClassName = 'hljs hljs-ln';
         if (!usedLanguage) {
             className += ' post-code--wrap';
+            codeClassName = 'hljs';
         }
 
         let header = '';
@@ -72,7 +74,7 @@ export default class Renderer extends marked.Renderer {
         return (
             '<div class="' + className + '">' +
                 header +
-                '<code class="hljs">' +
+                '<code class="' + codeClassName + '">' +
                     searchedContent +
                     content +
                 '</code>' +

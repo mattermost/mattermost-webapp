@@ -33,8 +33,8 @@ import {
     showFlaggedPosts,
     showPinnedPosts,
     showMentions,
+    openRHSSearch,
     closeRightHandSide,
-    updateRhsState,
 } from 'actions/views/rhs';
 import {getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
@@ -55,7 +55,7 @@ function makeMapStateToProps() {
             const dmUserId = getUserIdFromChannelName(user.id, channel.name);
             dmUser = getUser(state, dmUserId);
         } else if (channel && channel.type === General.GM_CHANNEL) {
-            gmMembers = doGetProfilesInChannel(state, channel.id, true);
+            gmMembers = doGetProfilesInChannel(state, channel.id, false);
         }
         const stats = getCurrentChannelStats(state) || {member_count: 0, guest_count: 0};
 
@@ -83,8 +83,8 @@ const mapDispatchToProps = (dispatch) => ({
         showFlaggedPosts,
         showPinnedPosts,
         showMentions,
+        openRHSSearch,
         closeRightHandSide,
-        updateRhsState,
         getCustomEmojisInText,
         updateChannelNotifyProps,
         goToLastViewedChannel,

@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {NotificationSections} from 'utils/constants.jsx';
+import {NotificationSections} from 'utils/constants';
 
 import CollapseView from './collapse_view.jsx';
 import ExpandView from './expand_view.jsx';
