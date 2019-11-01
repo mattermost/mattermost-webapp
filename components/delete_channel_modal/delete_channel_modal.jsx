@@ -73,6 +73,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                 onExited={this.props.onHide}
                 role='dialog'
                 aria-labelledby='deleteChannelModalLabel'
+                id='deleteChannelModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
@@ -122,6 +123,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                         data-dismiss='modal'
                         onClick={this.handleDelete}
                         autoFocus={true}
+                        id='deleteChannelModalDeleteButton'
                     >
                         <FormattedMessage
                             id='delete_channel.del'

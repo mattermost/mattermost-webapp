@@ -73,6 +73,7 @@ export default class SearchableChannelList extends React.Component {
             <div
                 className='more-modal__row'
                 key={channel.id}
+                id={`ChannelRow-${channel.name}`}
             >
                 <div className='more-modal__details'>
                     <button
@@ -221,7 +222,10 @@ export default class SearchableChannelList extends React.Component {
 
         const channelDropdown = (
             
-            <MenuWrapper className='more-modal__dropdown'>
+            <MenuWrapper
+                id='ChannelsMoreDropdown'
+                className='more-modal__dropdown'
+            >
                 <a>
                     <span>{this.props.showArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
                     <span className='caret'/>
@@ -231,12 +235,14 @@ export default class SearchableChannelList extends React.Component {
                     ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
                 >
                     <Menu.ItemAction
+                        id='ChannelsMoreDropdownPublic'
                         onClick={() => {
                             this.props.toggleArchivedChannels(false);
                         }}
                         text={localizeMessage('suggestion.search.public', 'Public Channels')}
                     />
                     <Menu.ItemAction
+                        id='ChannelsMoreDropdownArchived'
                         onClick={() => {
                             this.props.toggleArchivedChannels(true);
                         }}
@@ -255,7 +261,10 @@ export default class SearchableChannelList extends React.Component {
                     ref='channelList'
                     className='more-modal__list'
                 >
-                    <div ref='channelListScroll'>
+                    <div
+                        id='MoreChannelsList' 
+                        ref='channelListScroll'
+                    >
                         {listContent}
                     </div>
                 </div>
