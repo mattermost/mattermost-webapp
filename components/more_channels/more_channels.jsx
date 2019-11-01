@@ -31,7 +31,7 @@ export default class MoreChannels extends React.Component {
         bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
-            getArchivedChannels: PropTypes.func.isRequired,
+            getTeamArchivedChannels: PropTypes.func.isRequired,
             joinChannel: PropTypes.func.isRequired,
             searchMoreChannels: PropTypes.func.isRequired,
         }).isRequired,
@@ -54,7 +54,7 @@ export default class MoreChannels extends React.Component {
 
     componentDidMount() {
         this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
-        this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
+        this.props.actions.getTeamArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
     }
 
     handleHide = () => {
@@ -138,7 +138,7 @@ export default class MoreChannels extends React.Component {
     };
 
     setSearchResults = (channels) => {
-        this.setState({searchedChannels: this.state.showArchivedChannels ? channels : channels.filter((c) => c.delete_at === 0), searching: false});
+        this.setState({searchedChannels: this.state.showArchivedChannels ? channels.filter((c) => c.delete_at !== 0) : channels.filter((c) => c.delete_at === 0), searching: false});
     };
 
     toggleArchivedChannels = (showArchivedChannels) => {

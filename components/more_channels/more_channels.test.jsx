@@ -50,7 +50,7 @@ describe('components/MoreChannels', () => {
                 return {data: true};
             });
         },
-        searchMoreChannels: (term) => {
+        searchMoreChannels: (term, showArchivedChannels) => {
             return new Promise((resolve) => {
                 if (term === 'fail') {
                     return resolve({
@@ -76,6 +76,7 @@ describe('components/MoreChannels', () => {
         handleNewChannel: jest.fn(),
         actions: {
             getChannels: jest.fn(),
+            getTeamArchivedChannels: jest.fn(),
             joinChannel: jest.spyOn(channelActions, 'joinChannelAction'),
             searchMoreChannels: jest.spyOn(channelActions, 'searchMoreChannels'),
         },
@@ -251,7 +252,7 @@ describe('components/MoreChannels', () => {
 
         jest.runAllTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('fail');
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
@@ -279,11 +280,39 @@ describe('components/MoreChannels', () => {
 
         jest.runAllTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel');
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
             expect(wrapper.state('searchedChannels')).toEqual([searchResults.data[0]]);
+            done();
+        });
+    });
+
+    test('should perform search on archived channels and set the correct state', (done) => {
+        const wrapper = shallow(
+            <MoreChannels {...baseProps}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.onChange = jest.fn();
+        instance.setState({showArchivedChannels: true});
+        instance.search('channel');
+        expect(clearTimeout).toHaveBeenCalledTimes(1);
+        expect(instance.onChange).not.toHaveBeenCalled();
+        expect(wrapper.state('search')).toEqual(true);
+        expect(wrapper.state('searching')).toEqual(true);
+        expect(instance.searchTimeoutId).not.toEqual('');
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+
+        jest.runAllTimers();
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true);
+        process.nextTick(() => {
+            expect(wrapper.state('search')).toEqual(true);
+            expect(wrapper.state('searching')).toEqual(false);
+            expect(wrapper.state('searchedChannels')).toEqual([searchResults.data[1]]);
             done();
         });
     });

@@ -5,8 +5,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
-import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
-import {getOtherChannels, getOtherArchivedChannels} from 'mattermost-redux/selectors/entities/channels';
+import {getChannels, getTeamArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
+import {getOtherChannels, getArchivedChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
@@ -25,7 +25,7 @@ function mapStateToProps(state) {
 
     return {
         channels: getNotArchivedOtherChannels(state) || [],
-        archivedChannels: getOtherArchivedChannels(state) || [],
+        archivedChannels: getArchivedChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,
         teamName: team.name,
@@ -37,7 +37,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getChannels,
-            getArchivedChannels,
+            getTeamArchivedChannels,
             joinChannel,
             searchMoreChannels,
         }, dispatch),
