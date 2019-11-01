@@ -61,6 +61,40 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -273,6 +307,40 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
           id="PluginSettings"
           show={true}
         >
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -304,6 +372,286 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
                 <input
                   accept=".gz"
                   disabled={false}
+                  onChange={[Function]}
+                  type="file"
+                />
+              </div>
+              <button
+                className="btn"
+                disabled={true}
+                onClick={[Function]}
+              >
+                <FormattedMessage
+                  defaultMessage="Upload"
+                  id="admin.plugin.upload"
+                  values={Object {}}
+                />
+              </button>
+              <div
+                className="help-text no-margin"
+              />
+              <p
+                className="help-text"
+              >
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
+                  id="admin.plugin.uploadDesc"
+                />
+              </p>
+            </div>
+          </div>
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
+                id="admin.plugins.settings.enableMarketplaceDesc"
+              />
+            }
+            id="enableMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Marketplace:"
+                id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <AdminTextSetting
+            disabled={false}
+            helpText={
+              <div>
+                <InjectIntl(FormattedMarkdownMessage)
+                  defaultMessage="URL of the marketplace server."
+                  id="admin.plugins.settings.marketplaceUrlDesc"
+                />
+              </div>
+            }
+            id="marketplaceUrl"
+            label={
+              <FormattedMessage
+                defaultMessage="Marketplace URL:"
+                id="admin.plugins.settings.marketplaceUrl"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            type="input"
+            value="marketplace.example.com"
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Installed Plugins: "
+                id="admin.plugin.installedTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <p
+                className="help-text"
+              >
+                <FormattedHTMLMessage
+                  defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
+                  id="admin.plugin.installedDesc"
+                  values={Object {}}
+                />
+              </p>
+              <br />
+            </div>
+          </div>
+        </SettingsGroup>
+      </div>
+    </div>
+    <div
+      className="admin-console-save"
+    >
+      <SaveButton
+        btnClass="btn-primary"
+        disabled={true}
+        extraClasses=""
+        onClick={[Function]}
+        saving={false}
+        savingMessage="Saving Config..."
+      />
+      <div
+        className="error-message"
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        <FormError
+          error={null}
+          errors={Array []}
+        />
+      </div>
+      <Overlay
+        animation={[Function]}
+        delayShow={400}
+        placement="top"
+        rootClose={false}
+        show={false}
+      >
+        <Tooltip
+          bsClass="tooltip"
+          id="error-tooltip"
+          placement="right"
+        />
+      </Overlay>
+    </div>
+  </div>
+</form>
+`;
+
+exports[`components/PluginManagement should match snapshot when \`Require Signature Plugin\` is true 1`] = `
+<form
+  className="form-horizontal"
+  onSubmit={[Function]}
+  role="form"
+>
+  <div
+    className="wrapper--fixed"
+  >
+    <AdminHeader>
+      <FormattedMessage
+        defaultMessage="Management"
+        id="admin.plugin.management.title"
+        values={Object {}}
+      />
+    </AdminHeader>
+    <div
+      className="admin-console__wrapper"
+    >
+      <div
+        className="admin-console__content"
+      >
+        <SettingsGroup
+          container={false}
+          id="PluginSettings"
+          show={true}
+        >
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
+                id="admin.plugins.settings.enableDesc"
+              />
+            }
+            id="enable"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Plugins: "
+                id="admin.plugins.settings.enable"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <div
+            className="form-group"
+          >
+            <label
+              className="control-label col-sm-4"
+            >
+              <FormattedMessage
+                defaultMessage="Upload Plugin: "
+                id="admin.plugin.uploadTitle"
+                values={Object {}}
+              />
+            </label>
+            <div
+              className="col-sm-8"
+            >
+              <div
+                className="file__upload"
+              >
+                <button
+                  className="btn btn-primary"
+                  disabled={true}
+                >
+                  <FormattedMessage
+                    defaultMessage="Choose File"
+                    id="admin.plugin.choose"
+                    values={Object {}}
+                  />
+                </button>
+                <input
+                  accept=".gz"
+                  disabled={true}
                   onChange={[Function]}
                   type="file"
                 />
@@ -518,6 +866,40 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
           />
           <div
             className="form-group"
@@ -770,6 +1152,40 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -1016,6 +1432,40 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             value={false}
           />
+          <BooleanSetting
+            disabled={true}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -1234,6 +1684,40 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
           />
           <div
             className="form-group"
@@ -1481,6 +1965,40 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -1726,6 +2244,40 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
           />
           <div
             className="form-group"
@@ -2036,6 +2588,40 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -2312,6 +2898,40 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
           />
           <div
             className="form-group"
@@ -2590,6 +3210,40 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
+          />
           <div
             className="form-group"
           >
@@ -2866,6 +3520,40 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization."
+                id="admin.plugins.settings.requirePluginSignatureDesc"
+              />
+            }
+            id="requirePluginSignature"
+            label={
+              <FormattedMessage
+                defaultMessage="Require Plugin Signature:"
+                id="admin.plugins.settings.requirePluginSignature"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={false}
           />
           <div
             className="form-group"
