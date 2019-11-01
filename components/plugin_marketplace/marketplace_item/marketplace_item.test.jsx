@@ -43,4 +43,40 @@ describe('components/MarketplaceItem', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, with homepage url', () => {
+        const wrapper = shallow(
+            <MarketplaceItem {...baseProps}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, no homepage url', () => {
+        const props = {
+            ...baseProps,
+        };
+        delete props.homepageUrl;
+
+        const wrapper = shallow(
+            <MarketplaceItem {...props}/>
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with server error', () => {
+        const props = {
+            ...baseProps,
+        };
+
+        const wrapper = shallow(
+            <MarketplaceItem {...props}/>
+        );
+        wrapper.setState({
+            serverError: true,
+        });
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

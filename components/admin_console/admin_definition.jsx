@@ -289,7 +289,6 @@ const AdminDefinition = {
             url: 'user_management/groups/:group_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'GroupDetail',
@@ -302,7 +301,6 @@ const AdminDefinition = {
             title_default: 'Groups',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'Groups',
@@ -313,7 +311,6 @@ const AdminDefinition = {
             url: 'user_management/teams/:team_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'TeamDetail',
@@ -326,7 +323,6 @@ const AdminDefinition = {
             title_default: 'Teams',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'Teams',
@@ -337,7 +333,6 @@ const AdminDefinition = {
             url: 'user_management/channels/:channel_id',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'ChannelDetail',
@@ -350,7 +345,6 @@ const AdminDefinition = {
             title_default: 'Channels',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
-                it.configIsFalse('ServiceSettings', 'ExperimentalLdapGroupSync'),
             ),
             schema: {
                 id: 'Channels',
@@ -1982,6 +1976,14 @@ const AdminDefinition = {
                         help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableLatex',
+                        label: t('admin.customization.enableLatexTitle'),
+                        label_default: 'Enable Latex Rendering:',
+                        help_text: t('admin.customization.enableLatexDesc'),
+                        help_text_default: 'Enable rending of Latex code. If false, Latex code will be highlighted only.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
@@ -2349,7 +2351,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.baseTitle'),
                         label_default: 'BaseDN:',
                         help_text: t('admin.ldap.baseDesc'),
-                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the AD/LDAP tree.',
+                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
                         isDisabled: it.both(
@@ -2397,6 +2399,20 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.GuestFilter',
+                        label: t('admin.ldap.guestFilterTitle'),
+                        label_default: 'Guest Filter:',
+                        help_text: t('admin.ldap.guestFilterFilterDesc'),
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.',
+                        placeholder: t('admin.ldap.guestFilterEx'),
+                        placeholder_default: 'E.g.: "(objectClass=guests)"',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.GroupFilter',
                         label: t('admin.ldap.groupFilterTitle'),
                         label_default: 'Group Filter:',
@@ -2407,7 +2423,6 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2419,7 +2434,6 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2432,7 +2446,6 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupIdAttributeEx'),
                         placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
-                        isHidden: (config) => it.isnt(it.licensedForFeature('LDAPGroups')) && !config.ServiceSettings.ExperimentalLdapGroupSync,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -3530,19 +3543,6 @@ const AdminDefinition = {
                         key: 'GuestAccountsSettings.EnforceMultifactorAuthentication',
                         label: t('admin.guest_access.mfaTitle'),
                         label_default: 'Enforce Multi-factor Authentication: ',
-                        help_text: t('admin.guest_access.mfaDescription'),
-                        help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
-                        help_text_markdown: true,
-                        isHidden: it.either(
-                            it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
-                            it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
-                        ),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'GuestAccountsSettings.EnforceMultifactorAuthentication',
-                        label: t('admin.guest_access.mfaTitle'),
-                        label_default: 'Enforce Multi-factor Authentication: ',
                         help_text: t('admin.guest_access.mfaDescriptionMFANotEnabled'),
                         help_text_default: '[Multi-factor authentication](./mfa) is currently not enabled.',
                         help_text_markdown: true,
@@ -3561,6 +3561,19 @@ const AdminDefinition = {
                         isHidden: it.either(
                             it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
                             it.configIsTrue('ServiceSettings', 'EnforceMultifactorAuthentication'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'GuestAccountsSettings.EnforceMultifactorAuthentication',
+                        label: t('admin.guest_access.mfaTitle'),
+                        label_default: 'Enforce Multi-factor Authentication: ',
+                        help_text: t('admin.guest_access.mfaDescription'),
+                        help_text_default: 'When true, [multi-factor authentication](!https://docs.mattermost.com/deployment/auth.html) for guests is required for login. New guest users will be required to configure MFA on signup. Logged in guest users without MFA configured are redirected to the MFA setup page until configuration is complete.\n \nIf your system has guest users with login methods other than AD/LDAP and email, MFA must be enforced with the authentication provider outside of Mattermost.',
+                        help_text_markdown: true,
+                        isHidden: it.either(
+                            it.configIsFalse('ServiceSettings', 'EnableMultifactorAuthentication'),
+                            it.configIsFalse('ServiceSettings', 'EnforceMultifactorAuthentication'),
                         ),
                     },
                 ],
@@ -3708,7 +3721,7 @@ const AdminDefinition = {
                         label: t('admin.service.enableBotTitle'),
                         label_default: 'Enable Bot Account Creation: ',
                         help_text: t('admin.service.enableBotAccountCreation'),
-                        help_text_default: 'When true, users can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](!https://mattermost.com/pl/default-bot-accounts) to learn more.',
+                        help_text_default: 'When true, System Admins can create bot accounts for integrations in [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). Bot accounts are similar to user accounts except they cannot be used to log in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.',
                         help_text_markdown: true,
                         help_text_values: {siteURL: getSiteURL()},
                     },
@@ -4147,16 +4160,6 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.experimentalEnableHardenedMode.desc'),
                         help_text_default: 'Enables a hardened mode for Mattermost that makes user experience trade-offs in the interest of security. See [documentation](!https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental) to learn more.',
                         help_text_markdown: true,
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ExperimentalLdapGroupSync',
-                        label: t('admin.experimental.experimentalLdapGroupSync.title'),
-                        label_default: 'Enable AD/LDAP Group Sync:',
-                        help_text: t('admin.experimental.experimentalLdapGroupSync.desc'),
-                        help_text_default: 'When true, enables **AD/LDAP Group Sync** configurable under **User Management > Groups**. See [documentation](!https://mattermost.com/pl/default-ldap-group-sync) to learn more.',
-                        help_text_markdown: true,
-                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups')),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

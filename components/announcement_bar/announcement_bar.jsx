@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
-import {Constants, AnnouncementBarTypes} from 'utils/constants.jsx';
+import {Constants, AnnouncementBarTypes} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class AnnouncementBar extends React.PureComponent {

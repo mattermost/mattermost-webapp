@@ -9,7 +9,7 @@ import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-int
 import LocalizedInput from 'components/localized_input/localized_input';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
-import {cleanUpUrlable, getShortenedURL} from 'utils/url.jsx';
+import {cleanUpUrlable, getShortenedURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 

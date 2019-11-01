@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
-import {saveConfig} from 'actions/admin_actions.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 
@@ -30,11 +29,16 @@ export default class AdminSettings extends React.Component {
          * Action for whether a save is needed
          */
         setNavigationBlocked: PropTypes.func,
-    }
+
+        /*
+         * Action to save config file
+         */
+        updateConfig: PropTypes.func,
+
+    };
 
     constructor(props) {
         super(props);
-
         this.state = Object.assign(this.getStateFromConfig(props.config), {
             saveNeeded: false,
             saving: false,
@@ -68,7 +72,7 @@ export default class AdminSettings extends React.Component {
         this.doSubmit();
     }
 
-    doSubmit = (callback) => {
+    doSubmit = async (callback) => {
         this.setState({
             saving: true,
             serverError: null,
@@ -78,42 +82,40 @@ export default class AdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        saveConfig(
-            config,
-            (savedConfig) => {
-                this.setState(this.getStateFromConfig(savedConfig));
+        const {data, error} = await this.props.updateConfig(config);
 
-                this.setState({
-                    saveNeeded: false,
-                    saving: false,
-                });
+        if (data) {
+            this.setState(this.getStateFromConfig(data));
 
-                this.props.setNavigationBlocked(false);
+            this.setState({
+                saveNeeded: false,
+                saving: false,
+            });
 
-                if (callback) {
-                    callback();
-                }
+            this.props.setNavigationBlocked(false);
 
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
-            },
-            (err) => {
-                this.setState({
-                    saving: false,
-                    serverError: err.message,
-                    serverErrorId: err.id,
-                });
-
-                if (callback) {
-                    callback();
-                }
-
-                if (this.handleSaved) {
-                    this.handleSaved(config);
-                }
+            if (callback) {
+                callback();
             }
-        );
+
+            if (this.handleSaved) {
+                this.handleSaved(config);
+            }
+        } else if (error) {
+            this.setState({
+                saving: false,
+                serverError: error.message,
+                serverErrorId: error.server_error_id,
+            });
+
+            if (callback) {
+                callback();
+            }
+
+            if (this.handleSaved) {
+                this.handleSaved(config);
+            }
+        }
     };
 
     parseInt = (str, defaultValue) => {

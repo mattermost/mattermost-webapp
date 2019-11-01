@@ -10,10 +10,10 @@ import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
 import {
     getMissingProfilesByIds,
     getStatusesByIds,
+    getUser,
 } from 'mattermost-redux/actions/users';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
-import {ActionTypes} from 'utils/constants.jsx';
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
@@ -23,7 +23,7 @@ import store from 'stores/redux_store.jsx';
 import configureStore from 'tests/test_store';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants, {SocketEvents, UserStatuses} from 'utils/constants';
+import Constants, {SocketEvents, UserStatuses, ActionTypes} from 'utils/constants';
 
 import {
     handleChannelUpdatedEvent,
@@ -47,11 +47,17 @@ jest.mock('mattermost-redux/actions/posts', () => ({
 jest.mock('mattermost-redux/actions/users', () => ({
     getMissingProfilesByIds: jest.fn(() => ({type: 'GET_MISSING_PROFILES_BY_IDS'})),
     getStatusesByIds: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
+    getUser: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
 }));
 
 jest.mock('actions/post_actions', () => ({
     ...jest.requireActual('actions/post_actions'),
     handleNewPost: jest.fn(() => ({type: 'HANDLE_NEW_POST'})),
+}));
+
+jest.mock('actions/global_actions', () => ({
+    ...jest.requireActual('actions/global_actions'),
+    redirectUserToDefaultTeam: jest.fn(),
 }));
 
 jest.mock('actions/views/channel', () => ({
@@ -103,6 +109,12 @@ const mockState = {
         },
         teams: {
             currentTeamId: 'currentTeamId',
+            teams: {
+                currentTeamId: {
+                    id: 'currentTeamId',
+                    name: 'test',
+                },
+            },
         },
         posts: {
             posts: {
@@ -170,6 +182,13 @@ describe('handlePostEditEvent', () => {
 });
 
 describe('handleUserRemovedEvent', () => {
+    let redirectUserToDefaultTeam;
+    beforeEach(async () => {
+        const globalActions = require('actions/global_actions'); // eslint-disable-line global-require
+        redirectUserToDefaultTeam = globalActions.redirectUserToDefaultTeam;
+        redirectUserToDefaultTeam.mockReset();
+    });
+
     test('should close RHS', async () => {
         const msg = {
             data: {
@@ -180,7 +199,7 @@ describe('handleUserRemovedEvent', () => {
             },
         };
 
-        handleUserRemovedEvent(msg);
+        await handleUserRemovedEvent(msg);
         expect(closeRightHandSide).toHaveBeenCalled();
     });
 
@@ -202,7 +221,7 @@ describe('handleUserRemovedEvent', () => {
             },
         };
 
-        handleUserRemovedEvent(msg);
+        await handleUserRemovedEvent(msg);
         expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
     });
 
@@ -225,9 +244,94 @@ describe('handleUserRemovedEvent', () => {
         };
 
         mockState.entities.roles.roles = {system_guest: {permissions: []}};
-        handleUserRemovedEvent(msg);
+        await handleUserRemovedEvent(msg);
         mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+
+    test('should load the remover_id user if is not available in the store', async () => {
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+                remover_id: 'otherUser',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+
+        await handleUserRemovedEvent(msg);
+        expect(getUser).toHaveBeenCalledWith('otherUser');
+    });
+
+    test('should not load the remover_id user if is available in the store', async () => {
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+                remover_id: 'user',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+
+        await handleUserRemovedEvent(msg);
+        expect(getUser).not.toHaveBeenCalled();
+    });
+
+    test('should redirect if the user removed is the current user from the current channel', async () => {
+        const msg = {
+            data: {
+                channel_id: 'otherChannel',
+                remover_id: 'user',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+        await handleUserRemovedEvent(msg);
+        expect(redirectUserToDefaultTeam).toHaveBeenCalled();
+    });
+
+    test('should not redirect if the user removed is not the current user or the channel is not the current channel, or the remover and the user is equal', async () => {
+        let msg = {
+            data: {
+                channel_id: 'otherChannel',
+                remover_id: 'user',
+            },
+            broadcast: {
+                user_id: 'guestId',
+            },
+        };
+
+        await handleUserRemovedEvent(msg);
+        expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
+
+        msg = {
+            data: {
+                channel_id: 'channel1',
+                remover_id: 'otherUser',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+
+        await handleUserRemovedEvent(msg);
+        expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
+
+        msg = {
+            data: {
+                channel_id: 'otherChannel',
+                remover_id: 'currentUserId',
+            },
+            broadcast: {
+                user_id: 'currentUserId',
+            },
+        };
+
+        await handleUserRemovedEvent(msg);
+        expect(redirectUserToDefaultTeam).not.toHaveBeenCalled();
     });
 });
 

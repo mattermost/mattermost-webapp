@@ -171,4 +171,27 @@ describe('components/ChangeURLModal', () => {
             'URL can not contain two underscores in a row.'
         );
     });
+
+    test('should update current url when not editing', () => {
+        const wrapper = mountWithIntl(
+            <ChangeURLModal {...baseProps}/>
+        );
+
+        const url = 'url_1';
+        wrapper.setProps({...baseProps, currentURL: url});
+
+        expect(wrapper.state('currentURL')).toEqual(url);
+    });
+
+    test('should not update current url when editing', () => {
+        const wrapper = mountWithIntl(
+            <ChangeURLModal {...baseProps}/>
+        );
+
+        const url = 'url_1';
+        wrapper.setState({userEdit: true});
+        wrapper.setProps({...baseProps, currentURL: url});
+
+        expect(wrapper.state('currentURL')).toEqual('');
+    });
 });
