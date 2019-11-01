@@ -13,7 +13,7 @@ import LoadingScreen from 'components/loading_screen';
 
 import {Value} from './multiselect';
 
-type Props = {
+export type Props = {
     ariaLabelRenderer: getOptionValue<Value>;
     loading?: boolean;
     onAdd: (value: Value) => void;

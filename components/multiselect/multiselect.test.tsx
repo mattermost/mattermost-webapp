@@ -4,11 +4,12 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
+import {StateManager} from 'react-select/src/stateManager';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
 import MultiSelect from './multiselect';
-import MultiSelectList from './multiselect_list'
+import MultiSelectList, {Props as MultiSelectProps} from './multiselect_list';
 
 const element = (props: any) => <div/>;
 
@@ -56,7 +57,7 @@ describe('components/multiselect/multiselect', () => {
     });
 
     test('MultiSelectList should match state on next page', () => {
-        function renderOption(option, isSelected, onAdd) {
+        const renderOption: MultiSelectProps['optionRenderer'] = (option, isSelected, onAdd) => {
             return (
                 <p
                     key={option.id}
@@ -66,22 +67,22 @@ describe('components/multiselect/multiselect', () => {
                     {option.id}
                 </p>
             );
-        }
+        };
 
-        function renderValue(props) {
+        const renderValue = (props: {data: {value: unknown}}) => {
             return props.data.value;
-        }
+        };
 
         const wrapper = mountWithIntl(
             <MultiSelect
                 {...baseProps}
                 optionRenderer={renderOption}
-                valueRenderer={renderValue}
+                valueRenderer={renderValue as unknown as typeof StateManager}
             />
         );
 
-        const listRef = wrapper.ref('list');
-        expect(listRef.setSelected).toBeTruthy();
+        const listRef = wrapper.ref('list') as unknown as React.RefObject<MultiSelectList>;
+        expect(listRef.current!.setSelected).toBeTruthy();
 
         expect(wrapper.find(MultiSelectList).state('selected')).toEqual(-1);
         wrapper.find('.filter-control__next').simulate('click');
