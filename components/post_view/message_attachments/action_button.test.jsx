@@ -18,6 +18,12 @@ describe('components/post_view/message_attachments/action_button.jsx', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    baseProps.action.style = {border: 'none'};
+    test('styles should work', () => {
+        const wrapper = shallow(<ActionButton {...baseProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should call handleAction on click', () => {
         const wrapper = shallow(<ActionButton {...baseProps}/>);
 

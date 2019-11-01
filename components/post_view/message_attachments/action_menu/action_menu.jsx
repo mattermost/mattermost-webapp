@@ -93,7 +93,8 @@ export default class ActionMenu extends React.PureComponent {
                 providers={this.providers}
                 onSelected={this.handleSelected}
                 placeholder={action.name}
-                inputClassName='post-attachment-dropdown'
+                inputClassName={'post-attachment-dropdown'}
+                style={action.style}
                 value={this.state.value}
             />
         );

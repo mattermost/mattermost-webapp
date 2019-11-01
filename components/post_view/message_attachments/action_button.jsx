@@ -20,6 +20,7 @@ export default class ActionButton extends React.PureComponent {
                 data-action-cookie={action.cookie}
                 key={action.id}
                 onClick={handleAction}
+                style={action.style}
             >
                 <Markdown
                     message={action.name}

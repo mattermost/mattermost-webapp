@@ -21,6 +21,9 @@ describe('components/post_view/message_attachments/ActionMenu', () => {
                     value: '2',
                 },
             ],
+            style: {
+                border: 'none',
+            },
         },
         actions: {
             autocompleteChannels: jest.fn(),
