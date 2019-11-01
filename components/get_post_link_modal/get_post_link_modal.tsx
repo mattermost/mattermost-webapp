@@ -2,57 +2,73 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import GetLinkModal from 'components/get_link_modal';
 
-export default class GetPostLinkModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    currentTeamUrl: string;
+}
 
-        /**
-         * URL of current team
-         */
-        currentTeamUrl: PropTypes.string.isRequired,
+type State = {
+    show: boolean;
+    post: {
+        id?: string;
     };
+}
 
-    constructor(props) {
+type HandleToggle={
+    (value: boolean, args: any): void;
+}
+
+export default class GetPostLinkModal extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
             show: false,
-            post: {},
+            post: {
+                id: '',
+            },
         };
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_GET_POST_LINK_MODAL, this.handleToggle);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_GET_POST_LINK_MODAL, this.handleToggle);
     }
 
-    handleToggle = (value, args) => {
+    private handleToggle: HandleToggle = (value, args) => {
         this.setState({
             show: value,
-            post: args.post,
+            post: Object.assign(this.state.post, args.post),
         });
     }
 
-    hide = () => {
+    private hide = (): void => {
         this.setState({
             show: false,
         });
     }
 
-    render() {
-        const postUrl = this.props.currentTeamUrl + '/pl/' + this.state.post.id;
+    public render(): JSX.Element {
+        const {post,post:{id},show} = this.state;
+        const {currentTeamUrl} = this.props
+
+        let postID = "undefined"
+        if(post && id && id.length !== 0){
+            postID = id
+        }
+        const postUrl = `${currentTeamUrl}/pl/${postID}`;
+
         return (
             <GetLinkModal
-                show={this.state.show}
+                show={show}
                 onHide={this.hide}
                 title={Utils.localizeMessage('get_post_link_modal.title', 'Copy Permalink')}
                 helpText={Utils.localizeMessage('get_post_link_modal.help', 'The link below allows authorized users to see your post.')}
