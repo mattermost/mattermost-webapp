@@ -1141,7 +1141,7 @@
   "admin.plugins.settings.marketplaceUrlDesc": "URL of the marketplace server.",
   "admin.plugins.settings.marketplaceUrlDesc.empty": " Marketplace URL is a required field.",
   "admin.plugins.settings.requirePluginSignature": "Require Plugin Signature:",
-  "admin.plugins.settings.requirePluginSignatureDesc": "When true, uploading plugins is disabled and plugins are always verified during Mattermost server startup and initialization.",
+  "admin.plugins.settings.requirePluginSignatureDesc": "When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more.",
   "admin.privacy.showEmailDescription": "When false, hides the email address of members from everyone except System Administrators.",
   "admin.privacy.showEmailTitle": "Show Email Address: ",
   "admin.privacy.showFullNameDescription": "When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.",
