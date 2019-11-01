@@ -8,6 +8,24 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+const pinnedFlaggedPosts = [];
+
+// Post 10 messages, pin and flag them, add the postIds to pinnedFlaggedPosts
+function pinAndFlagTenPosts() {
+    for (let i = 0; i < 10; i++) {
+        // Post a message
+        cy.postMessage('Post');
+    
+        //Pin and flag the message and add postID to pinnedFlaggedPosts
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostDotMenu(postId);
+            cy.get(`#pin_post_${postId}`).click();
+            cy.clickPostFlagIcon(postId);
+            pinnedFlaggedPosts.push(postId);
+        });
+    }
+}
+
 describe('Post Header', () => {
     before(() => {
         // # Go to Main Channel View with "user-1"
@@ -218,20 +236,37 @@ describe('Post Header', () => {
         });
     });
 
-    it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+   it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
         // # Go to Town-Square channel
         cy.visit('/ad-1/channels/town-square');
+
+        // Pin and flag ten posts before clicking on Pinned and Flagged post icons
+        pinAndFlagTenPosts();
 
         // # Click on the "Pinned Posts" icon to the left of the "Search" box
         cy.get('#channelHeaderPinButton').click();
 
-        // * Check before pinned posts are loaded, a "Searching..." animation appears on the top of the RHS
-        cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+        // * Verify that the RHS for pinned posts is opened.
+        cy.get('#searchContainer').should('be.visible').within(() => {
+            // * Check that searching indicator appears before the pinned posts are loaded
+            cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+            cy.get('#search-items-container').should('be.visible');
+
+            // # Close the RHS
+            cy.get('#searchResultsCloseButton').should('be.visible').click();
+        });
 
         // # Click on the "Flagged Posts" icon to the right of the "Search" box
         cy.get('#channelHeaderFlagButton').click();
 
-        // * Check before flagged posts are loaded, a "Searching..." animation appears on the top of the RHS
-        cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+        // * Verify that the RHS for pinned posts is opened.
+        cy.get('#searchContainer').should('be.visible').within(() => {
+            // * Check that searching indicator appears before the pinned posts are loaded
+            cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+            cy.get('#search-items-container').should('be.visible');
+
+            // # Close the RHS
+            cy.get('#searchResultsCloseButton').should('be.visible').click();
+        });
     });
 });
