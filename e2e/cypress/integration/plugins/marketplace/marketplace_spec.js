@@ -222,11 +222,11 @@ describe('Plugin Marketplace', () => {
             // # filter to webex plugin only
             cy.get('#searchMarketplaceTextbox').type('webex');
 
-            // * webex plugin should be visible
-            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').scrollIntoView().should('be.visible');
-
             // * no other plugins should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
+
+            // * webex plugin should be visible
+            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').scrollIntoView().should('be.visible');
 
             // # install the webex plugin
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').click();
