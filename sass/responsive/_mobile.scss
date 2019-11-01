@@ -129,7 +129,7 @@
     }
 
     .MenuWrapper {
-        .Menu {
+        .Menu__content {
             &.dropdown-menu {
                 max-height: 100%;
                 max-width: 100%;
@@ -156,7 +156,7 @@
     }
 
     .mobile-main-menu {
-        .Menu {
+        .Menu__content {
             &.dropdown-menu {
                 width: 100%;
                 position: relative;
@@ -180,6 +180,7 @@
                 .MenuItem {
                     > button,
                     > a {
+                        height: auto;
                         padding: 3px 16px;
                         font-size: 15px;
                         line-height: 32px;
@@ -1743,7 +1744,7 @@
     .modal-body {
         .MenuWrapper {
             .Menu {
-                &.dropdown-menu {
+                .dropdown-menu {
                     max-height: none;
                     max-width: none;
                     right: 0;
