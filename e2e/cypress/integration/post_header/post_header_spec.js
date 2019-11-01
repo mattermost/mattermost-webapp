@@ -15,7 +15,7 @@ function pinAndFlagTenPosts() {
     for (let i = 0; i < 10; i++) {
         // Post a message
         cy.postMessage('Post');
-    
+        
         //Pin and flag the message and add postID to pinnedFlaggedPosts
         cy.getLastPostId().then((postId) => {
             cy.clickPostDotMenu(postId);
@@ -236,7 +236,7 @@ describe('Post Header', () => {
         });
     });
 
-   it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+    it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
         // # Go to Town-Square channel
         cy.visit('/ad-1/channels/town-square');
 
