@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -14,6 +15,7 @@ import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {localizeMessage} from 'utils/utils';
+import {Constants} from 'utils/constants';
 
 // UpdateVersion renders the version text in the update details, linking out to release notes if available.
 export const UpdateVersion = ({version, releaseNotesUrl}) => {
@@ -180,9 +182,37 @@ export class MarketplaceItem extends React.Component {
             pluginIcon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
         }
 
+        let localTag;
+        if (!this.props.downloadUrl) {
+            const localTooltip = (
+                <Tooltip id='plugin-marketplace__local-tooltop'>
+                    <FormattedMessage
+                        id='marketplace_modal.list.local.tooltip'
+                        defaultMessage='This plugin is not listed in the marketplace but was installed manually.'
+                    />
+                </Tooltip>
+            );
+
+            localTag = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={localTooltip}
+                >
+                    <span className='tag'>
+                        <FormattedMessage
+                            id='marketplace_modal.list.local'
+                            defaultMessage='Local'
+                        />
+                    </span>
+                </OverlayTrigger>
+            );
+        }
+
         let pluginDetails = (
             <>
                 {this.props.name} <span className='light subtitle'>{versionLabel}</span>
+                {localTag}
                 <p className={classNames('more-modal__description', {error_text: this.props.error})}>
                     {this.props.error ? this.props.error : this.props.description}
                 </p>

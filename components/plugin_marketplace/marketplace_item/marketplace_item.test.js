@@ -179,5 +179,18 @@ describe('components/MarketplaceItem', () => {
 
             expect(wrapper).toMatchSnapshot();
         });
+
+        test('should render when not from the marketplace', () => {
+            const props = {
+                ...baseProps,
+                downloadUrl: '',
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });

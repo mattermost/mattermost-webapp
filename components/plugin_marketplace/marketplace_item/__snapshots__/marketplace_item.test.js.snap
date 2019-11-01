@@ -134,6 +134,108 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
 </Fragment>
 `;
 
+exports[`components/MarketplaceItem MarketplaceItem should render when not from the marketplace 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <a
+        aria-label="name, test plugin"
+        className="style--none more-modal__row--link"
+        href="http://example.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        name
+         
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="plugin-marketplace__local-tooltop"
+              placement="right"
+            >
+              <FormattedMessage
+                defaultMessage="This plugin is not listed in the marketplace but was installed manually."
+                id="marketplace_modal.list.local.tooltip"
+                values={Object {}}
+              />
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <span
+            className="tag"
+          >
+            <FormattedMessage
+              defaultMessage="Local"
+              id="marketplace_modal.list.local"
+              values={Object {}}
+            />
+          </span>
+        </OverlayTrigger>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </a>
+      <UpdateDetails
+        availableVersion="1.0.0"
+        installedVersion=""
+        isInstalling={false}
+        onUpdate={[Function]}
+      />
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+            values={Object {}}
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+  </div>
+</Fragment>
+`;
+
 exports[`components/MarketplaceItem MarketplaceItem should render with no plugin icon 1`] = `
 <Fragment>
   <div
