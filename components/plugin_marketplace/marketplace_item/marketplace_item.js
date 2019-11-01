@@ -152,7 +152,7 @@ export default class MarketplaceItem extends React.Component {
         }
 
         var update;
-        if (this.props.installedVersion !== '' && this.props.installedVersion !== this.props.version) {
+        if (this.props.installedVersion !== '' && this.props.installedVersion !== this.props.version && !this.props.installing) {
             update = (
                 <div className={classNames('update')}>
                     <FormattedMessage

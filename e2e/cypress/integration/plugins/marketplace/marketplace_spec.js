@@ -251,6 +251,9 @@ describe('Plugin Marketplace', () => {
             // # update GitHub plugin
             cy.get('#marketplace-plugin-github .update a').click();
 
+            // * github plugin should not be visible
+            cy.get('#marketplace-plugin-github .update').should('not.be.visible');
+
             // * should show "Configure" after installation
             cy.get('#marketplace-plugin-github .more-modal__actions .btn.btn-outline').should('be.visible').and('have.text', 'Configure');
 
