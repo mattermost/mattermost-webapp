@@ -243,13 +243,13 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
 
             // * github plugin should have update prompt
-            cy.get('#marketplace-plugin-github + .more-modal__subrow').should('be.visible').and('to.contain', 'Update available');
+            cy.get('#marketplace-plugin-github .update').should('be.visible').and('to.contain', 'Update available');
 
             // * github plugin should have update link
-            cy.get('#marketplace-plugin-github + .more-modal__subrow a').should('be.visible').and('have.text', 'Update');
+            cy.get('#marketplace-plugin-github .update a').should('be.visible').and('have.text', 'Update');
 
             // # update GitHub plugin
-            cy.get('#marketplace-plugin-github + .more-modal__subrow a').click();
+            cy.get('#marketplace-plugin-github .update a').click();
 
             // * should show "Configure" after installation
             cy.get('#marketplace-plugin-github .more-modal__actions .btn.btn-outline').should('be.visible').and('have.text', 'Configure');

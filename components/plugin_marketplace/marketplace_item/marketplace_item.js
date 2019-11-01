@@ -154,28 +154,24 @@ export default class MarketplaceItem extends React.Component {
         var update;
         if (this.props.installedVersion !== '' && this.props.installedVersion !== this.props.version) {
             update = (
-                <>
-                    <div className={classNames('more-modal__subrow')}>
-                        <div className='more-modal__subdetails'>
+                <div className={classNames('update')}>
+                    <FormattedMessage
+                        id='marketplace_modal.list.update_available'
+                        defaultMessage='Update available: {version}'
+                        values={{
+                            version: this.props.version,
+                        }}
+                    />
+                    {' - '}
+                    <b>
+                        <a onClick={this.onInstall}>
                             <FormattedMessage
-                                id='marketplace_modal.list.update_available'
-                                defaultMessage='Update available: {version}'
-                                values={{
-                                    version: this.props.version,
-                                }}
+                                id='marketplace_modal.list.update'
+                                defaultMessage='Update'
                             />
-                            {' - '}
-                            <b>
-                                <a onClick={this.onInstall}>
-                                    <FormattedMessage
-                                        id='marketplace_modal.list.update'
-                                        defaultMessage='Update'
-                                    />
-                                </a>
-                            </b>
-                        </div>
-                    </div>
-                </>
+                        </a>
+                    </b>
+                </div>
             );
         }
 
@@ -189,12 +185,12 @@ export default class MarketplaceItem extends React.Component {
                     {pluginIcon}
                     <div className='more-modal__details'>
                         {pluginDetails}
+                        {update}
                     </div>
                     <div className='more-modal__actions'>
                         {this.getItemButton()}
                     </div>
                 </div>
-                {update}
             </>
         );
     }

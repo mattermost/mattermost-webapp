@@ -763,11 +763,6 @@
         padding-left: 8px;
     }
 
-    .more-modal__subactions {
-        margin-left: 100px;
-        border-bottom: 1px solid $light-gray;
-    }
-
     .more-modal__name {
         display: flex;
         font-weight: 600;
@@ -803,7 +798,7 @@
     }
 
     .more-modal__row {
-        border-top: 1px solid $light-gray;
+        border-bottom: 1px solid $light-gray;
         display: flex;
         padding: 10px 15px;
         align-items: center;
@@ -819,26 +814,6 @@
                 opacity: .5;
             }
         }
-
-        &:first-child {
-            border-top: 0;
-        }
-        &:last-child {
-            border-bottom: 1px solid $light-gray;
-        }
-    }
-
-    .more-modal__subrow {
-        border-top: 1px solid $light-gray;
-        display: flex;
-        padding: 10px 15px 10px 0;
-        margin-left: 72px;
-        align-items: center;
-        font-size: .9em;
-    }
-
-    .more-modal__subdetails {
-        font-size: .9em;
     }
 
     .more-modal__placeholder-row {

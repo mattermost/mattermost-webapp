@@ -279,6 +279,31 @@ exports[`components/MarketplaceItem should render with update available 1`] = `
           test plugin
         </p>
       </a>
+      <div
+        className="update"
+      >
+        <FormattedMessage
+          defaultMessage="Update available: {version}"
+          id="marketplace_modal.list.update_available"
+          values={
+            Object {
+              "version": "1.0.0",
+            }
+          }
+        />
+         - 
+        <b>
+          <a
+            onClick={[Function]}
+          >
+            <FormattedMessage
+              defaultMessage="Update"
+              id="marketplace_modal.list.update"
+              values={Object {}}
+            />
+          </a>
+        </b>
+      </div>
     </div>
     <div
       className="more-modal__actions"
@@ -297,35 +322,6 @@ exports[`components/MarketplaceItem should render with update available 1`] = `
           />
         </button>
       </Link>
-    </div>
-  </div>
-  <div
-    className="more-modal__subrow"
-  >
-    <div
-      className="more-modal__subdetails"
-    >
-      <FormattedMessage
-        defaultMessage="Update available: {version}"
-        id="marketplace_modal.list.update_available"
-        values={
-          Object {
-            "version": "1.0.0",
-          }
-        }
-      />
-       - 
-      <b>
-        <a
-          onClick={[Function]}
-        >
-          <FormattedMessage
-            defaultMessage="Update"
-            id="marketplace_modal.list.update"
-            values={Object {}}
-          />
-        </a>
-      </b>
     </div>
   </div>
 </Fragment>
