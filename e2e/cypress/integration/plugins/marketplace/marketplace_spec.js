@@ -208,9 +208,6 @@ describe('Plugin Marketplace', () => {
             // # install the webex plugin
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').click();
 
-            // * should show "Installing..."
-            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').should('be.visible').and('have.text', 'Installing...');
-
             // * should show "Configure" after installation
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline').should('be.visible').and('have.text', 'Configure');
         });
@@ -230,9 +227,6 @@ describe('Plugin Marketplace', () => {
 
             // # install the webex plugin
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').click();
-
-            // * should show "Installing..."
-            cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').should('be.visible').and('have.text', 'Installing...');
 
             // * should show "Configure" after installation
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline').should('be.visible').and('have.text', 'Configure');
@@ -256,9 +250,6 @@ describe('Plugin Marketplace', () => {
 
             // # update GitHub plugin
             cy.get('#marketplace-plugin-github + .more-modal__subrow a').click();
-
-            // * should show "Installing..."
-            cy.get('#marketplace-plugin-github .more-modal__actions .btn.btn-primary').should('be.visible').and('have.text', 'Installing...');
 
             // * should show "Configure" after installation
             cy.get('#marketplace-plugin-github .more-modal__actions .btn.btn-outline').should('be.visible').and('have.text', 'Configure');
