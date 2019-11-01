@@ -10,14 +10,31 @@ export async function copyPostData(e, getPostForCopy) {
     if (selection.rangeCount) {
         const nodes = selection.getRangeAt(0).getNodes();
         const postIds = new Set(nodes.map((node) => getSelectedNodePostIds(node)).filter((node) => node !== null));
-        const postData = Array.from(postIds).map((postId) => getPostForCopy(postId));
-        const resolved = await Promise.all(postData);
+        const showUserAndTime = doesContainPostHeader(nodes);
 
-        e.clipboardData.setData('text/markdown', resolved.map((post) => post.content).join('\n\r'));
-        e.clipboardData.setData('text/html', getHtmlFormat(resolved));
-        e.clipboardData.setData('text/plain', getRichTextFormat(resolved));
-        e.preventDefault();
+        if (postIds.size > 0) {
+            const postData = Array.from(postIds).map((postId) => getPostForCopy(postId));
+            const resolvedPostData = await Promise.all(postData);
+            const nonNullPostData = resolvedPostData.filter((data) => data !== null);
+
+            if (nonNullPostData.length > 0) {
+                e.clipboardData.setData('text/markdown', nonNullPostData.map((post) => post.content).join('\n\r'));
+                e.clipboardData.setData('text/html', getHtmlFormat(nonNullPostData));
+                e.clipboardData.setData('text/plain', getRichTextFormat(nonNullPostData, showUserAndTime));
+                e.preventDefault();
+            }
+        }
     }
+}
+
+function doesContainPostHeader(nodes) {
+    for (const node of nodes) {
+        const classList = node.classList || [];
+        if (Array.from(classList).includes('post__header')) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function getSelectedNodePostIds(node) {
@@ -50,8 +67,8 @@ function getHtmlFormat(copyData) {
     return content;
 }
 
-function getRichTextFormat(copyData) {
-    const NEW_LINE = '\n\r';
+function getRichTextFormat(copyData, showUserAndTime = false) {
+    const NEW_LINE = '\n';
     const DOUBLE_DIGIT_MONTH = 10;
 
     const dateMap = new Map();
@@ -68,16 +85,46 @@ function getRichTextFormat(copyData) {
         }
     });
 
-    let content = '';
+    const contentGroups = [];
     for (const [date, posts] of dateMap.entries()) {
+        let previousUser;
+        let previousTime;
         const dateString = getDateSeperatorFormat(new Date(date));
-        content += `${dateString}${NEW_LINE}`;
-        for (const post of posts) {
-            content += `${post.user} - ${getDateTwelveHourFormat(post.date)}${NEW_LINE}`;
-            content += `${removeMd(post.content)}${NEW_LINE}${NEW_LINE}`;
+        const userGroups = [];
+
+        let content = '';
+        if (showUserAndTime) {
+            content += `${dateString}${NEW_LINE}`;
         }
+
+        for (const post of posts) {
+            const time = getDateTwelveHourFormat(post.date);
+            const user = post.user;
+            const isSameUserAndTime = !(user === previousUser && previousTime === time);
+
+            if (previousUser && isSameUserAndTime) {
+                userGroups.push(content);
+                content = '';
+            }
+
+            if (isSameUserAndTime && showUserAndTime) {
+                content += `${user} - ${time}${NEW_LINE}`;
+            }
+
+            const postContent = removeMd(post.content);
+            const postSplit = postContent.split(/\n/g);
+            const fullContent = postSplit.map((item) => `${item.replace(/[\n,\r]/g, '')}\n`);
+            content += fullContent.join('');
+
+            previousUser = user;
+            previousTime = time;
+        }
+        if (content !== '') {
+            userGroups.push(content);
+        }
+        contentGroups.push(userGroups.join(`${NEW_LINE}`));
     }
-    return content;
+    return contentGroups.join(`${NEW_LINE}`);
 }
 
 function getDateSeperatorFormat(date) {

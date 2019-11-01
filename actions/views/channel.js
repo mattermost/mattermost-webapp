@@ -309,6 +309,9 @@ export function getPostForCopy(postId) {
     return async (dispatch, getState) => {
         const state = getState();
         const post = await getPost(state, postId);
+        if (!post) {
+            return null;
+        }
         const user = await getUser(state, post.user_id);
 
         return {
