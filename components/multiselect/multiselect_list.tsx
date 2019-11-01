@@ -84,8 +84,10 @@ export default class MultiSelectList extends React.Component<Props, State> {
         }
     }
 
+    // setSelected updates the selected index and is referenced
+    // externally by the MultiSelect component.
     public setSelected = (selected: number) => {
-        this.toSelect = selected;
+        this.setState({selected});
     }
 
     private handleArrowPress = (e: KeyboardEvent) => {

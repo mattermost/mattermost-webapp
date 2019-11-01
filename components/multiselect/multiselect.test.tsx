@@ -5,7 +5,10 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import MultiSelect from 'components/multiselect/multiselect';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+
+import MultiSelect from './multiselect';
+import MultiSelectList from './multiselect_list'
 
 const element = (props: any) => <div/>;
 
@@ -50,5 +53,38 @@ describe('components/multiselect/multiselect', () => {
         wrapper.update();
         expect(wrapper.state('page')).toEqual(1);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('MultiSelectList should match state on next page', () => {
+        function renderOption(option, isSelected, onAdd) {
+            return (
+                <p
+                    key={option.id}
+                    ref={isSelected ? 'selected' : option.id}
+                    onClick={() => onAdd(option)}
+                >
+                    {option.id}
+                </p>
+            );
+        }
+
+        function renderValue(props) {
+            return props.data.value;
+        }
+
+        const wrapper = mountWithIntl(
+            <MultiSelect
+                {...baseProps}
+                optionRenderer={renderOption}
+                valueRenderer={renderValue}
+            />
+        );
+
+        const listRef = wrapper.ref('list');
+        expect(listRef.setSelected).toBeTruthy();
+
+        expect(wrapper.find(MultiSelectList).state('selected')).toEqual(-1);
+        wrapper.find('.filter-control__next').simulate('click');
+        expect(wrapper.find(MultiSelectList).state('selected')).toEqual(0);
     });
 });

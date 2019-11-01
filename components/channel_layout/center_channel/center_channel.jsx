@@ -46,7 +46,7 @@ export default class CenterChannel extends React.PureComponent {
                 })}
             >
                 <div className='row header'>
-                    <div id='navbar'>
+                    <div id='navbar_wrapper'>
                         <ChannelHeaderMobile/>
                     </div>
                 </div>
