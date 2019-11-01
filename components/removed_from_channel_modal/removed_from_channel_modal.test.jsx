@@ -4,7 +4,6 @@
 import React from 'react';
 
 import {shallow} from 'enzyme';
-import {Modal} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
@@ -16,9 +15,6 @@ describe('components/RemoveFromChannelModal', () => {
         channelName: 'test-channel',
         remover: 'Administrator',
         onHide: jest.fn(),
-        actions: {
-            goToLastViewedChannel: jest.fn(),
-        },
     };
 
     test('should match snapshot', () => {
@@ -56,14 +52,5 @@ describe('components/RemoveFromChannelModal', () => {
 
         expect(wrapper.find('.modal-title').text()).toBe('Removed from the channel');
         expect(wrapper.find('.modal-body').text()).toBe('Someone removed you from the channel');
-    });
-
-    test('should run goToLastViewedChannel after modal exited', () => {
-        const wrapper = shallow(
-            <RemovedFromChannelModal {...baseProps}/>
-        );
-
-        wrapper.find(Modal).first().props().onHide();
-        expect(baseProps.actions.goToLastViewedChannel).toHaveBeenCalledTimes(1);
     });
 });

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export const emoticonPatterns = {
+export const emoticonPatterns: { [key: string]: RegExp } = {
     slightly_smiling_face: /(^|\B)(:-?\))($|\B)/g, // :)
     wink: /(^|\B)(;-?\))($|\B)/g, // ;)
     open_mouth: /(^|\B)(:o)($|\b)/gi, // :o
@@ -26,7 +26,7 @@ export const emoticonPatterns = {
 
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_-]+):)/g;
 
-export function matchEmoticons(text) {
+export function matchEmoticons(text: string): RegExpMatchArray | null {
     let emojis = text.match(EMOJI_PATTERN);
 
     for (const name of Object.keys(emoticonPatterns)) {
@@ -45,15 +45,23 @@ export function matchEmoticons(text) {
     return emojis;
 }
 
-export function handleEmoticons(text, tokens) {
+export function handleEmoticons(
+    text: string,
+    tokens: Map<string, {value: string; originalText: string}>
+): string {
     let output = text;
 
-    function replaceEmoticonWithToken(fullMatch, prefix, matchText, name) {
+    function replaceEmoticonWithToken(
+        fullMatch: string,
+        prefix: string,
+        matchText: string,
+        name: string
+    ): string {
         const index = tokens.size;
         const alias = `$MM_EMOTICON${index}$`;
 
         tokens.set(alias, {
-            value: `<span data-emoticon="${name}">${matchText}</span>`,
+            value: renderEmoji(name, matchText),
             originalText: fullMatch,
         });
 
@@ -61,7 +69,11 @@ export function handleEmoticons(text, tokens) {
     }
 
     // match named emoticons like :goat:
-    output = output.replace(EMOJI_PATTERN, (fullMatch, matchText, name) => replaceEmoticonWithToken(fullMatch, '', matchText, name));
+    output = output.replace(
+        EMOJI_PATTERN,
+        (fullMatch: string, matchText: string, name: string): string =>
+            replaceEmoticonWithToken(fullMatch, '', matchText, name)
+    );
 
     // match text smilies like :D
     for (const name of Object.keys(emoticonPatterns)) {
@@ -73,4 +85,8 @@ export function handleEmoticons(text, tokens) {
     }
 
     return output;
+}
+
+export function renderEmoji(name: string, matchText: string) {
+    return `<span data-emoticon="${name}">${matchText}</span>`;
 }
