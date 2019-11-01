@@ -6,11 +6,6 @@ exports[`components/post_view/message_attachments/action_button.jsx should match
   data-action-id="action_id_1"
   key="action_id_1"
   onClick={[MockFunction]}
-  style={
-    Object {
-      "border": "none",
-    }
-  }
 >
   <Connect(Markdown)
     message="action_name_1"
