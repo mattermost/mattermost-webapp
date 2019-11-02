@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MenuWrapper from './menu_wrapper.jsx';
+import MenuWrapper from './menu_wrapper';
 
 describe('components/MenuWrapper', () => {
     test('should match snapshot', () => {

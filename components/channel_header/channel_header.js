@@ -23,7 +23,7 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 

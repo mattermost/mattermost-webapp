@@ -11,7 +11,7 @@ import InfoIcon from '../icons/info_icon';
 import MenuIcon from '../icons/menu_icon';
 
 import Menu from './menu.jsx';
-import MenuWrapper from './menu_wrapper.jsx';
+import MenuWrapper from './menu_wrapper';
 
 storiesOf('Menus', module).
     addDecorator(withKnobs).
