@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import hlJS from 'highlight.js/lib/highlight.js';
-import hljsActionscript from 'highlight.js/lib/languages/actionscript.js';
+import hlJS from 'highlight.js';
+import hljsActionscript from 'highlight.js/lib/languages/actionscript.js'
 import hljsApplescript from 'highlight.js/lib/languages/applescript.js';
 import hljsBash from 'highlight.js/lib/languages/bash.js';
 import hljsClojure from 'highlight.js/lib/languages/clojure.js';
