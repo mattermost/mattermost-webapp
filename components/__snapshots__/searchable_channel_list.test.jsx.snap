@@ -29,6 +29,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
   <MenuWrapper
     animationComponent={[Function]}
     className="more-modal__dropdown"
+    id="ChannelsMoreDropdown"
   >
     <a>
       <span>
@@ -43,11 +44,13 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
       openLeft={false}
     >
       <MenuItemAction
+        id="ChannelsMoreDropdownPublic"
         onClick={[Function]}
         show={true}
         text="Public Channels"
       />
       <MenuItemAction
+        id="ChannelsMoreDropdownArchived"
         onClick={[Function]}
         show={true}
         text="Archived Channels"
@@ -58,7 +61,9 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     className="more-modal__list"
     role="application"
   >
-    <div>
+    <div
+      id="MoreChannelsList"
+    >
       <LoadingScreen
         position="relative"
         style={

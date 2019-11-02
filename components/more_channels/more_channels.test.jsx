@@ -50,6 +50,7 @@ describe('components/MoreChannels', () => {
                 return {data: true};
             });
         },
+        // eslint-disable-next-line
         searchMoreChannels: (term, showArchivedChannels) => {
             return new Promise((resolve) => {
                 if (term === 'fail') {

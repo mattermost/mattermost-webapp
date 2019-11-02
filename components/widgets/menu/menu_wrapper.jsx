@@ -16,7 +16,7 @@ export default class MenuWrapper extends React.PureComponent {
         className: PropTypes.string,
         onToggle: PropTypes.func,
         animationComponent: PropTypes.any.isRequired,
-        id: PropTypes.id
+        id: PropTypes.string,
     };
 
     static defaultProps = {

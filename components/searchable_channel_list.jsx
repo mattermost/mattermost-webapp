@@ -221,7 +221,6 @@ export default class SearchableChannelList extends React.Component {
         }
 
         const channelDropdown = (
-            
             <MenuWrapper
                 id='ChannelsMoreDropdown'
                 className='more-modal__dropdown'
@@ -262,7 +261,7 @@ export default class SearchableChannelList extends React.Component {
                     className='more-modal__list'
                 >
                     <div
-                        id='MoreChannelsList' 
+                        id='MoreChannelsList'
                         ref='channelListScroll'
                     >
                         {listContent}
