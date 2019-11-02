@@ -57,12 +57,12 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
     }
 
     public render(): JSX.Element {
-        const {post,post:{id},show} = this.state;
-        const {currentTeamUrl} = this.props
+        const {post, post: {id}, show} = this.state;
+        const {currentTeamUrl} = this.props;
 
-        let postID = "undefined"
-        if(post && id && id.length !== 0){
-            postID = id
+        let postID = 'undefined';
+        if (post && id && id.length !== 0) {
+            postID = id;
         }
         const postUrl = `${currentTeamUrl}/pl/${postID}`;
 
