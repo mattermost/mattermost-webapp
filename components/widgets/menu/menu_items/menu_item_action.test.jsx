@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MenuItemActionImpl} from './menu_item_action.jsx';
+import {MenuItemActionImpl} from './menu_item_action';
 
 describe('components/MenuItemAction', () => {
     test('should match snapshot', () => {
