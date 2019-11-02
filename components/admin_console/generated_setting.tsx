@@ -60,12 +60,11 @@ export default class GeneratedSetting extends React.Component<Props> {
             );
         }
 
-        let text = this.props.value;
+        let text: React.ReactNode = this.props.value;
         if (!text) {
-            const htmlText = (
+            text = (
                 <span className='placeholder-text'>{this.props.placeholder}</span>
             );
-            text = htmlText.toString();
         }
 
         return (
