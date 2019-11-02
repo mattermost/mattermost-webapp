@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Locations} from 'utils/constants.jsx';
+import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';

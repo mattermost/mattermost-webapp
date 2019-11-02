@@ -3,9 +3,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TableChart from 'components/analytics/table_chart.jsx';
+import TableChart from 'components/analytics/table_chart';
 
-describe('components/analytics/table_chart.jsx', () => {
+describe('components/analytics/table_chart.tsx', () => {
     test('should match snapshot, loaded without data', () => {
         const data = [];
 

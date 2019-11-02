@@ -18,13 +18,13 @@ import {getEmojiMap} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
-import Constants, {PostListRowListIds, Preferences} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import * as Utils from 'utils/utils.jsx';
-import {isMobile} from 'utils/user_agent.jsx';
+import {isMobile} from 'utils/user_agent';
 
-import * as Emoticons from './emoticons.jsx';
+import * as Emoticons from './emoticons';
 
 const CHANNEL_SWITCH_IGNORE_ENTER_THRESHOLD_MS = 500;
 

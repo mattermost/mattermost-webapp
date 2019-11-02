@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import TutorialTip from 'components/tutorial/tutorial_tip/tutorial_tip.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences} from 'utils/constants';
 
 describe('components/tutorial/tutorial_tip/tutorial_tip.jsx', () => {
     jest.mock('actions/diagnostics_actions.jsx');

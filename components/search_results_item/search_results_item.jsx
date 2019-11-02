@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -23,17 +23,22 @@ import {browserHistory} from 'utils/browser_history';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
-import Constants, {Locations} from 'utils/constants.jsx';
+import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class SearchResultsItem extends React.PureComponent {
+class SearchResultsItem extends React.PureComponent {
     static propTypes = {
 
         /**
         *  Data used for rendering post
         */
         post: PropTypes.object,
+
+        /**
+         * The function to create an aria-label
+         */
+        createAriaLabel: PropTypes.func,
 
         /**
         * An array of strings in this post that were matched by the search
@@ -94,6 +99,11 @@ export default class SearchResultsItem extends React.PureComponent {
             selectPostCard: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
+
+        /**
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -168,21 +178,29 @@ export default class SearchResultsItem extends React.PureComponent {
         return className;
     };
 
-    render() {
-        const {post, channelIsArchived, channelId, channelType} = this.props;
+    handleSearchItemFocus = () => {
+        this.setState({currentAriaLabel: `${this.getChannelName()}, ${this.props.createAriaLabel(this.props.intl)}`});
+    }
+
+    getChannelName = () => {
+        const {channelId, channelType} = this.props;
         let {channelName} = this.props;
 
         if (channelType === Constants.DM_CHANNEL) {
-            channelName = (
-                <FormattedMessage
-                    id='search_item.direct'
-                    defaultMessage='Direct Message (with {username})'
-                    values={{
-                        username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
-                    }}
-                />
-            );
+            channelName = this.props.intl.formatMessage({
+                id: 'search_item.direct',
+                defaultMessage: 'Direct Message (with {username})',
+            }, {
+                username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+            });
         }
+
+        return channelName;
+    }
+
+    render() {
+        const {post, channelIsArchived} = this.props;
+        const channelName = this.getChannelName();
 
         let overrideUsername;
         let disableProfilePopover = false;
@@ -340,8 +358,15 @@ export default class SearchResultsItem extends React.PureComponent {
                 className='search-item__container'
             >
                 <DateSeparator date={currentPostDay}/>
-                <div className={`a11y__section ${this.getClassName()}`}>
-                    <div className='search-channel__name'>
+                <div
+                    className={`a11y__section ${this.getClassName()}`}
+                    aria-label={this.state.currentAriaLabel}
+                    onFocus={this.handleSearchItemFocus}
+                >
+                    <div
+                        className='search-channel__name'
+                        aria-hidden='true'
+                    >
                         {channelName}
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
@@ -390,3 +415,5 @@ export default class SearchResultsItem extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(SearchResultsItem);

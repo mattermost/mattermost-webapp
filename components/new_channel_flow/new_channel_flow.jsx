@@ -70,6 +70,25 @@ export default class NewChannelFlow extends React.Component {
         channelType: Constants.OPEN_CHANNEL,
     };
 
+    static getDerivedStateFromProps(props, state) {
+        // If we are being shown, grab channel type from props and clear
+        if (props.show === true && state.show === false) {
+            return {
+                serverError: '',
+                channelType: getChannelTypeFromProps(props),
+                flowState: SHOW_NEW_CHANNEL,
+                channelDisplayName: '',
+                channelName: '',
+                channelPurpose: '',
+                channelHeader: '',
+                nameModified: false,
+                show: props.show,
+            };
+        }
+
+        return {show: props.show};
+    }
+
     constructor(props) {
         super(props);
 
@@ -82,23 +101,8 @@ export default class NewChannelFlow extends React.Component {
             channelPurpose: '',
             channelHeader: '',
             nameModified: false,
+            show: props.show,
         };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        // If we are being shown, grab channel type from props and clear
-        if (nextProps.show === true && this.props.show === false) {
-            this.setState({
-                serverError: '',
-                channelType: getChannelTypeFromProps(nextProps),
-                flowState: SHOW_NEW_CHANNEL,
-                channelDisplayName: '',
-                channelName: '',
-                channelPurpose: '',
-                channelHeader: '',
-                nameModified: false,
-            });
-        }
     }
 
     onSubmit = () => {

@@ -14,7 +14,7 @@ import {Preferences, Posts} from 'mattermost-redux/constants';
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {

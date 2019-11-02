@@ -7,7 +7,7 @@ import {FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape} from 'rea
 import {Overlay, Tooltip} from 'react-bootstrap';
 
 import {generateId} from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 export class PermissionDescription extends React.Component {
     static propTypes = {
