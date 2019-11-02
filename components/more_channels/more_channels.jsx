@@ -31,7 +31,7 @@ export default class MoreChannels extends React.Component {
         bodyOnly: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
-            getTeamArchivedChannels: PropTypes.func.isRequired,
+            getArchivedChannels: PropTypes.func.isRequired,
             joinChannel: PropTypes.func.isRequired,
             searchMoreChannels: PropTypes.func.isRequired,
         }).isRequired,
@@ -54,7 +54,7 @@ export default class MoreChannels extends React.Component {
 
     componentDidMount() {
         this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
-        this.props.actions.getTeamArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
+        this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
     }
 
     handleHide = () => {
