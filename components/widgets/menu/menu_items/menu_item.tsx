@@ -17,6 +17,8 @@ export default function menuItem(Component: React.ComponentType<any>) {
             show: true,
         };
 
+        public static displayName?: string;
+
         public render() {
             const {id, show, icon, text, ...props} = this.props;
             if (!show) {

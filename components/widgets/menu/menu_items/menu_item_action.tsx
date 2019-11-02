@@ -2,11 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import menuItem from './menu_item';
 
-export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, buttonClass}) => (
+type Props = {
+    onClick: (e: React.MouseEvent) => void;
+    ariaLabel?: string;
+    text: React.ReactNode;
+    extraText?: string;
+    id?: string;
+    buttonClass?: string;
+}
+export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, buttonClass}: Props) => (
     <button
         id={id}
         aria-label={ariaLabel}
@@ -17,14 +24,6 @@ export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, but
         {extraText && <span className='extra-text'>{extraText}</span>}
     </button>
 );
-MenuItemActionImpl.propTypes = {
-    onClick: PropTypes.func.isRequired,
-    ariaLabel: PropTypes.string,
-    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-    extraText: PropTypes.string,
-    id: PropTypes.string,
-    buttonClass: PropTypes.string,
-};
 
 const MenuItemAction = menuItem(MenuItemActionImpl);
 MenuItemAction.displayName = 'MenuItemAction';
