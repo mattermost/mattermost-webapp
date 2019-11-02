@@ -6,7 +6,7 @@ import {mount} from 'enzyme';
 
 import SubMenuItem from './submenu_item';
 
-describe('components/widgets/menu/menu_items/submenu_item.jsx', () => {
+describe('components/widgets/menu/menu_items/submenu_item', () => {
     test('empty subMenu should match snapshot', () => {
         const wrapper = mount(
             <SubMenuItem
