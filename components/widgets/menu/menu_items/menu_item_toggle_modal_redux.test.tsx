@@ -11,7 +11,7 @@ describe('components/MenuItemToggleModalRedux', () => {
         const wrapper = shallow(
             <MenuItemToggleModalReduxImpl
                 modalId='test'
-                dialogType={jest.fn}
+                dialogType={jest.fn()}
                 dialogProps={{test: 'test'}}
                 text='Whatever'
             />
@@ -25,7 +25,7 @@ describe('components/MenuItemToggleModalRedux', () => {
       "test": "test",
     }
   }
-  dialogType={[Function]}
+  dialogType={[MockFunction]}
   modalId="test"
 >
   Whatever
