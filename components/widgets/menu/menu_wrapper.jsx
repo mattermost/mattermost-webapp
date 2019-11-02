@@ -6,7 +6,7 @@ import React from 'react';
 
 import Constants from 'utils/constants';
 
-import MenuWrapperAnimation from './menu_wrapper_animation.jsx';
+import MenuWrapperAnimation from './menu_wrapper_animation';
 
 import './menu_wrapper.scss';
 
