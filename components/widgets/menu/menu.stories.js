@@ -10,7 +10,7 @@ import {action} from '@storybook/addon-actions';
 import InfoIcon from '../icons/info_icon';
 import MenuIcon from '../icons/menu_icon';
 
-import Menu from './menu.jsx';
+import Menu from './menu';
 import MenuWrapper from './menu_wrapper';
 
 storiesOf('Menus', module).

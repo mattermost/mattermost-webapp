@@ -26,7 +26,7 @@ import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
 
-import Menu from 'components/widgets/menu/menu.jsx';
+import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
 export default class MainMenu extends React.PureComponent {
