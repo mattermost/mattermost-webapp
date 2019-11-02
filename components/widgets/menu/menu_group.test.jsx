@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MenuGroup from './menu_group.jsx';
+import MenuGroup from './menu_group';
 
 describe('components/MenuItem', () => {
     test('should match snapshot with default divider', () => {
