@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MenuItemToggleModalReduxImpl} from './menu_item_toggle_modal_redux.jsx';
+import {MenuItemToggleModalReduxImpl} from './menu_item_toggle_modal_redux';
 
 describe('components/MenuItemToggleModalRedux', () => {
     test('should match snapshot', () => {
