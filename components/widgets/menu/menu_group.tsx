@@ -10,17 +10,17 @@ type Props = {
     children?: React.ReactNode;
 }
 
-const MenuGroup: React.FC<Props> = (props: Props) => {
-    const {children} = props;
+export default class MenuGroup extends React.PureComponent<Props> {
+    public render() {
+        const {children} = this.props;
 
-    const divider = props.divider || <li className='MenuGroup menu-divider'/>;
+        const divider = this.props.divider || <li className='MenuGroup menu-divider'/>;
 
-    return (
-        <React.Fragment>
-            {divider}
-            {children}
-        </React.Fragment>
-    );
-};
-
-export default MenuGroup;
+        return (
+            <React.Fragment>
+                {divider}
+                {children}
+            </React.Fragment>
+        );
+    }
+}
