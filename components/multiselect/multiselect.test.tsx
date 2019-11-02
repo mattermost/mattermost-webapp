@@ -81,9 +81,6 @@ describe('components/multiselect/multiselect', () => {
             />
         );
 
-        const listRef = wrapper.ref('list') as unknown as React.RefObject<MultiSelectList>;
-        expect(listRef.current!.setSelected).toBeTruthy();
-
         expect(wrapper.find(MultiSelectList).state('selected')).toEqual(-1);
         wrapper.find('.filter-control__next').simulate('click');
         expect(wrapper.find(MultiSelectList).state('selected')).toEqual(0);
