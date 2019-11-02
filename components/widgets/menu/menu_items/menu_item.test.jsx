@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import menuItem from './menu_item.jsx';
+import menuItem from './menu_item';
 
 describe('components/MenuItem', () => {
     const TestComponent = menuItem(() => null);

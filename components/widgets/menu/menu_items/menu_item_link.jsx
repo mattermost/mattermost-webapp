@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-import menuItem from './menu_item.jsx';
+import menuItem from './menu_item';
 
 export const MenuItemLinkImpl = ({to, text}) => <Link to={to}>{text}</Link>;
 MenuItemLinkImpl.propTypes = {

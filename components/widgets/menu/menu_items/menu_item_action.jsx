@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import menuItem from './menu_item.jsx';
+import menuItem from './menu_item';
 
 export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, buttonClass}) => (
     <button

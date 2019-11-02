@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
-import menuItem from './menu_item.jsx';
+import menuItem from './menu_item';
 
 export const MenuItemToggleModalReduxImpl = ({modalId, dialogType, dialogProps, text}) => (
     <ToggleModalButtonRedux
