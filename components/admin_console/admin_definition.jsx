@@ -1976,6 +1976,14 @@ const AdminDefinition = {
                         help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableLatex',
+                        label: t('admin.customization.enableLatexTitle'),
+                        label_default: 'Enable Latex Rendering:',
+                        help_text: t('admin.customization.enableLatexDesc'),
+                        help_text_default: 'Enable rending of Latex code. If false, Latex code will be highlighted only.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
@@ -2343,7 +2351,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.baseTitle'),
                         label_default: 'BaseDN:',
                         help_text: t('admin.ldap.baseDesc'),
-                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the AD/LDAP tree.',
+                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
                         isDisabled: it.both(

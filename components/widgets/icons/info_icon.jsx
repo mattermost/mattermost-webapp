@@ -17,7 +17,7 @@ export default class InfoIcon extends React.PureComponent {
                             width='18px'
                             height='18px'
                             viewBox='0 0 22 22'
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g
