@@ -14,13 +14,12 @@ type Props = {
 
 type State = {
     show: boolean;
-    post: {
-        id?: string;
-    };
+    postId: string;
 }
 
-type HandleToggle={
-    (value: boolean, args: any): void;
+type Post = {
+    id: string;
+    message?: string;
 }
 
 export default class GetPostLinkModal extends React.PureComponent<Props, State> {
@@ -29,9 +28,7 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
 
         this.state = {
             show: false,
-            post: {
-                id: '',
-            },
+            postId: 'undefined',
         };
     }
 
@@ -43,10 +40,13 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_GET_POST_LINK_MODAL, this.handleToggle);
     }
 
-    private handleToggle: HandleToggle = (value, args) => {
+    public handleToggle = (value: boolean, args: {post: Post}): void => {
+        const {post, post: {id}} = args;
+        const postId = post && id && typeof id === 'string' && id.length !== 0 ? id : 'undefined';
+
         this.setState({
             show: value,
-            post: Object.assign(this.state.post, args.post),
+            postId,
         });
     }
 
@@ -57,14 +57,10 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
     }
 
     public render(): JSX.Element {
-        const {post, post: {id}, show} = this.state;
+        const {postId, show} = this.state;
         const {currentTeamUrl} = this.props;
 
-        let postID = 'undefined';
-        if (post && id && id.length !== 0) {
-            postID = id;
-        }
-        const postUrl = `${currentTeamUrl}/pl/${postID}`;
+        const postUrl = `${currentTeamUrl}/pl/${postId}`;
 
         return (
             <GetLinkModal

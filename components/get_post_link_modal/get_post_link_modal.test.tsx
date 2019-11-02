@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, mount, ReactWrapper} from 'enzyme';
+import {IntlProvider, intlShape} from 'react-intl';
 
 import GetPostLinkModal from 'components/get_post_link_modal/get_post_link_modal';
 import GetLinkModal from 'components/get_link_modal';
@@ -24,7 +25,7 @@ describe('components/GetPostLinkModal', () => {
         expect(wrapper.find(GetLinkModal).prop('title')).toEqual('Copy Permalink');
         expect(wrapper.find(GetLinkModal).prop('link')).toEqual(requiredProps.currentTeamUrl + '/pl/undefined');
 
-        wrapper.setState({post: {id: 'post_id'}});
+        wrapper.setState({postId: 'post_id'});
         expect(wrapper.find(GetLinkModal).prop('link')).toEqual(requiredProps.currentTeamUrl + '/pl/post_id');
     });
 
@@ -37,20 +38,20 @@ describe('components/GetPostLinkModal', () => {
         expect(wrapper.state('show')).toBe(false);
     });
 
-    // Disabling since this test wont matter after TS migration
-    // test('should pass handleToggle', () => {
-    //     const wrapper = shallow(
-    //         <GetPostLinkModal {...requiredProps}/>
-    //     );
+    test('should pass handleToggle', () => {
+        const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
+        const {intl} = intlProvider.getChildContext();
+        const wrapper = mount(<GetPostLinkModal {...requiredProps}/>,
+            {context: {intl}, childContextTypes: {intl: intlShape}}) as ReactWrapper<{}, {}, GetPostLinkModal>;
 
-    //     const args = {post: {id: 'post_id'}};
-    //     wrapper.instance().handleToggle(true, args);
-    //     expect(wrapper.state('show')).toEqual(true);
-    //     expect(wrapper.state('post')).toEqual(args.post);
+        const args = {post: {id: 'post_id', message: 'post message'}};
 
-    //     args.post.message = 'post message';
-    //     wrapper.instance().handleToggle(false, args);
-    //     expect(wrapper.state('show')).toEqual(false);
-    //     expect(wrapper.state('post')).toEqual(args.post);
-    // });
+        wrapper.instance().handleToggle(true, args);
+        expect(wrapper.state('show')).toEqual(true);
+        expect(wrapper.state('postId')).toEqual(args.post.id);
+
+        wrapper.instance().handleToggle(false, args);
+        expect(wrapper.state('show')).toEqual(false);
+        expect(wrapper.state('postId')).toEqual(args.post.id);
+    });
 });
