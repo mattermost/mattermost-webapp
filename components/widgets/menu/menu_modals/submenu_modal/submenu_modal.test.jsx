@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 
 import {browserHistory} from 'utils/browser_history';
 
-import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal.jsx';
+import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
 global.MutationObserver = class {
     disconnect() {}
