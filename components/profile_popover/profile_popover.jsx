@@ -12,7 +12,7 @@ import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 

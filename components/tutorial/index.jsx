@@ -8,7 +8,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import TutorialView from './tutorial_view.jsx';
 

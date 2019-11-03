@@ -5,9 +5,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import GetLinkModal from 'components/get_link_modal.jsx';
+import GetLinkModal from 'components/get_link_modal';
 
 export default class GetPublicLinkModal extends React.PureComponent {
     static propTypes = {

@@ -45,7 +45,7 @@
     }
 
     .separator__hr {
-        border-color: #cccccc;
+        border-color: v(center-channel-color-20);
         margin: 0;
         position: relative;
         top: 1em;
@@ -54,8 +54,8 @@
 
     .separator__text {
         @include border-radius(50px);
-        background: #ffffff;
-        color: #555555;
+        background: v(center-channel-bg);
+        color: v(center-channel-color);
         display: inline-block;
         font-size: 13px;
         font-weight: 700;

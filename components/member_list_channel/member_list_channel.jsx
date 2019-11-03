@@ -4,12 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
-
+import LoadingScreen from 'components/loading_screen';
 const USERS_PER_PAGE = 50;
 
 export default class MemberListChannel extends React.PureComponent {
@@ -109,6 +109,9 @@ export default class MemberListChannel extends React.PureComponent {
     }
 
     render() {
+        if (this.state.loading) {
+            return (<LoadingScreen/>);
+        }
         const channelIsArchived = this.props.channel.delete_at !== 0;
         return (
             <SearchableUserList
