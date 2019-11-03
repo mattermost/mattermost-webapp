@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import {isMobile} from 'utils/utils';
@@ -16,36 +15,39 @@ import MenuItemToggleModalRedux from './menu_items/menu_item_toggle_modal_redux'
 
 import './menu.scss';
 
-export default class Menu extends React.PureComponent {
-    static Group = MenuGroup
-    static ItemAction = MenuItemAction
-    static ItemExternalLink = MenuItemExternalLink
-    static ItemLink = MenuItemLink
-    static ItemToggleModalRedux = MenuItemToggleModalRedux
-    static ItemSubMenu = SubMenuItem
+type Props = {
+    children?: React.ReactNode;
+    openLeft?: boolean;
+    openUp?: boolean;
+    id?: string;
+    ariaLabel: string;
+    customStyles?: object;
+}
 
-    static propTypes = {
-        children: PropTypes.node,
-        openLeft: PropTypes.bool,
-        openUp: PropTypes.bool,
-        id: PropTypes.string,
-        ariaLabel: PropTypes.string.isRequired,
-        customStyles: PropTypes.object,
-    };
+export default class Menu extends React.PureComponent<Props> {
+    public static Group = MenuGroup
+    public static ItemAction = MenuItemAction
+    public static ItemExternalLink = MenuItemExternalLink
+    public static ItemLink = MenuItemLink
+    public static ItemToggleModalRedux = MenuItemToggleModalRedux
+    public static ItemSubMenu = SubMenuItem
 
-    constructor(props) {
+    public node: React.RefObject<HTMLDivElement>; //Public because it is used by tests
+    private observer: MutationObserver;
+
+    public constructor(props: Props) {
         super(props);
         this.node = React.createRef();
         this.observer = new MutationObserver(this.hideUnneededDividers);
     }
 
-    hideUnneededDividers = () => {
+    public hideUnneededDividers = () => { //Public because it is used by tests
         if (this.node.current === null) {
             return;
         }
 
         this.observer.disconnect();
-        const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length);
+        const children = Object.values(this.node.current.children).slice(0, this.node.current.children.length) as HTMLElement[];
 
         // Hiding dividers at beginning and duplicated ones
         let prevWasDivider = false;
@@ -74,29 +76,29 @@ export default class Menu extends React.PureComponent {
         this.observer.observe(this.node.current, {attributes: true, childList: true, subtree: true});
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.hideUnneededDividers();
     }
 
-    componentDidUpdate() {
+    public componentDidUpdate() {
         this.hideUnneededDividers();
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         this.observer.disconnect();
     }
 
     // Used from DotMenu component to know in which direction show the menu
-    rect() {
+    public rect() {
         if (this.node && this.node.current) {
             return this.node.current.getBoundingClientRect();
         }
         return null;
     }
 
-    render() {
+    public render() {
         const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
-        let styles = {};
+        let styles: React.CSSProperties = {};
         if (customStyles) {
             styles = customStyles;
         } else {
@@ -116,9 +118,9 @@ export default class Menu extends React.PureComponent {
                 className='a11y__popup Menu'
                 id={id}
                 role='menu'
+                ref={this.node}
             >
                 <ul
-                    ref={this.node}
                     style={styles}
                     className='Menu__content dropdown-menu'
                 >

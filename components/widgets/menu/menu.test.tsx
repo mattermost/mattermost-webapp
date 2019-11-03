@@ -6,9 +6,9 @@ import {shallow} from 'enzyme';
 
 import Menu from './menu';
 
-global.MutationObserver = class {
-    disconnect() {}
-    observe() {}
+(global as any).MutationObserver = class {
+    public disconnect() {}
+    public observe() {}
 };
 
 jest.mock('utils/utils', () => {
@@ -152,9 +152,9 @@ describe('components/Menu', () => {
             pseudoMenu.append(element);
         }
 
-        const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
+        const wrapper = shallow<Menu>(<Menu ariaLabel='test-label'>{'text'}</Menu>);
         const instance = wrapper.instance();
-        instance.node.current = pseudoMenu;
+        Object.assign(instance.node, {current: pseudoMenu});
         instance.hideUnneededDividers();
 
         expect(instance.node.current).toMatchInlineSnapshot(`
@@ -252,9 +252,9 @@ describe('components/Menu', () => {
             pseudoMenu.append(element);
         }
 
-        const wrapper = shallow(<Menu ariaLabel='test-label'>{'text'}</Menu>);
+        const wrapper = shallow<Menu>(<Menu ariaLabel='test-label'>{'text'}</Menu>);
         const instance = wrapper.instance();
-        instance.node.current = pseudoMenu;
+        Object.assign(instance.node, {current: pseudoMenu});
         instance.hideUnneededDividers();
 
         expect(instance.node.current).toMatchInlineSnapshot(`
