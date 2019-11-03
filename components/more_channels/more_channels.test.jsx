@@ -77,7 +77,7 @@ describe('components/MoreChannels', () => {
         handleNewChannel: jest.fn(),
         actions: {
             getChannels: jest.fn(),
-            getTeamArchivedChannels: jest.fn(),
+            getArchivedChannels: jest.fn(),
             joinChannel: jest.spyOn(channelActions, 'joinChannelAction'),
             searchMoreChannels: jest.spyOn(channelActions, 'searchMoreChannels'),
         },
