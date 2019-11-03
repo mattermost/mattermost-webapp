@@ -12,10 +12,9 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
-import {AsyncComponent} from 'components/async_load';
 
-import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.tsx';
+const UserSettings = React.lazy(() => import('components/user_settings'));
+const SettingsSidebar = React.lazy(() => import('../../settings_sidebar.tsx'));
 
 const holders = defineMessages({
     general: {
@@ -279,30 +278,32 @@ class UserSettingsModal extends React.Component {
                 <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <AsyncComponent
-                                doLoad={loadSettingsSidebar}
-                                tabs={tabs}
-                                activeTab={this.state.active_tab}
-                                updateTab={this.updateTab}
-                            />
+                            <React.Suspense fallback={null}>
+                                <SettingsSidebar
+                                    tabs={tabs}
+                                    activeTab={this.state.active_tab}
+                                    updateTab={this.updateTab}
+                                />
+                            </React.Suspense>
                         </div>
                         <div className='settings-content minimize-settings'>
-                            <AsyncComponent
-                                doLoad={loadUserSettings}
-                                activeTab={this.state.active_tab}
-                                activeSection={this.state.active_section}
-                                updateSection={this.updateSection}
-                                updateTab={this.updateTab}
-                                closeModal={this.closeModal}
-                                collapseModal={this.collapseModal}
-                                setEnforceFocus={(enforceFocus) => this.setState({enforceFocus})}
-                                setRequireConfirm={
-                                    (requireConfirm, customConfirmAction) => {
-                                        this.requireConfirm = requireConfirm;
-                                        this.customConfirmAction = customConfirmAction;
+                            <React.Suspense fallback={null}>
+                                <UserSettings
+                                    activeTab={this.state.active_tab}
+                                    activeSection={this.state.active_section}
+                                    updateSection={this.updateSection}
+                                    updateTab={this.updateTab}
+                                    closeModal={this.closeModal}
+                                    collapseModal={this.collapseModal}
+                                    setEnforceFocus={(enforceFocus) => this.setState({enforceFocus})}
+                                    setRequireConfirm={
+                                        (requireConfirm, customConfirmAction) => {
+                                            this.requireConfirm = requireConfirm;
+                                            this.customConfirmAction = customConfirmAction;
+                                        }
                                     }
-                                }
-                            />
+                                />
+                            </React.Suspense>
                         </div>
                     </div>
                 </Modal.Body>
