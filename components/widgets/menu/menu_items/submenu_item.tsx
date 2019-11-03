@@ -40,6 +40,7 @@ type Props = {
     xOffset?: number;
     ariaLabel?: string;
     root?: boolean;
+    show?: boolean;
 }
 
 type State = {
@@ -48,6 +49,10 @@ type State = {
 
 export default class SubMenuItem extends React.PureComponent<Props, State> {
     private node: React.RefObject<any>;
+
+    public static defaultProps = {
+        show: true,
+    };
 
     public constructor(props: Props) {
         super(props);
