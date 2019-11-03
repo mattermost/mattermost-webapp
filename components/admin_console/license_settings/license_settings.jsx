@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -99,7 +99,13 @@ export default class LicenseSettings extends React.Component {
         let licenseType;
         let licenseKey;
 
-        const issued = <React.Fragment><FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>{' '}{Utils.displayTime(parseInt(license.IssuedAt, 10), true)}</React.Fragment>;
+        const issued = (
+            <React.Fragment>
+                <FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>
+                {' '}
+                <FormattedTime value={new Date(parseInt(license.IssuedAt, 10))}/>
+            </React.Fragment>
+        );
         const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
         const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
