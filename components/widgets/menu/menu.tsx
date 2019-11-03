@@ -32,7 +32,7 @@ export default class Menu extends React.PureComponent<Props> {
     public static ItemToggleModalRedux = MenuItemToggleModalRedux
     public static ItemSubMenu = SubMenuItem
 
-    public node: React.RefObject<HTMLDivElement>; //Public because it is used by tests
+    public node: React.RefObject<HTMLUListElement>; //Public because it is used by tests
     private observer: MutationObserver;
 
     public constructor(props: Props) {
@@ -118,9 +118,9 @@ export default class Menu extends React.PureComponent<Props> {
                 className='a11y__popup Menu'
                 id={id}
                 role='menu'
-                ref={this.node}
             >
                 <ul
+                    ref={this.node}
                     style={styles}
                     className='Menu__content dropdown-menu'
                 >
