@@ -14,7 +14,7 @@ import {SpringSystem, MathUtil} from 'rebound';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -589,7 +589,6 @@ export default class Sidebar extends React.PureComponent {
                             <ul
                                 key={section.type}
                                 aria-label={ariaLabel}
-                                role='presentation'
                                 className='nav nav-pills nav-stacked a11y__section'
                                 id={sectionId + 'List'}
                                 tabIndex='-1'

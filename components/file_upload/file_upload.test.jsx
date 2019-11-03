@@ -98,6 +98,21 @@ describe('components/FileUpload', () => {
         expect(baseProps.onClick).toHaveBeenCalledTimes(1);
     });
 
+    test('should call onClick on fileInput when button is touched', () => {
+        const wrapper = shallowWithIntl(
+            <FileUpload {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.handleLocalFileUploaded = jest.fn();
+        instance.fileInput = {
+            current: {
+                click: () => instance.handleLocalFileUploaded(),
+            },
+        };
+        wrapper.find('button').simulate('touchend');
+        expect(instance.handleLocalFileUploaded).toHaveBeenCalledTimes(1);
+    });
+
     test('should match state and call handleMaxUploadReached or props.onClick on handleLocalFileUploaded', () => {
         const wrapper = shallowWithIntl(
             <FileUpload

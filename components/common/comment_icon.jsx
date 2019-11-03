@@ -6,7 +6,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Locations} from 'utils/constants.jsx';
+import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import ReplyIcon from 'components/widgets/icons/reply_icon';

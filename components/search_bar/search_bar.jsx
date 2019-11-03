@@ -6,7 +6,7 @@ import React from 'react';
 import {Popover, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
@@ -259,7 +259,6 @@ export default class SearchBar extends React.Component {
                         autoComplete='off'
                     >
                         <SearchIcon
-                            id='searchIcon'
                             className='search__icon'
                             aria-hidden='true'
                         />

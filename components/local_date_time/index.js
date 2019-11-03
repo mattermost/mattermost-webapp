@@ -10,7 +10,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import LocalDateTime from './local_date_time';
 
