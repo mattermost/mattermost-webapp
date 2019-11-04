@@ -7,10 +7,16 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
+
 const timestamp = Date.now();
 
 function verifyChannel(res, verifyExistence = true) {
     const channel = res.body;
+
+    // # Wait for Channel to be c
+    cy.wait(TIMEOUTS.TINY);
 
     // # Hover on the channel name
     cy.get(`#sidebarItem_${channel.name}`).should('be.visible').trigger('mouseover');
