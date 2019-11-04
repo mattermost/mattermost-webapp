@@ -29,7 +29,6 @@ export default class MoreChannels extends React.Component {
         handleNewChannel: PropTypes.func,
         channelsRequestStarted: PropTypes.bool,
         bodyOnly: PropTypes.bool,
-        canShowArchivedChannels: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
             getArchivedChannels: PropTypes.func.isRequired,
@@ -116,7 +115,7 @@ export default class MoreChannels extends React.Component {
 
         const searchTimeoutId = setTimeout(
             () => {
-                this.props.actions.searchMoreChannels(term, this.state.showArchivedChannels && this.props.canShowArchivedChannels).
+                this.props.actions.searchMoreChannels(term, this.state.showArchivedChannels).
                     then((result) => {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
@@ -155,7 +154,6 @@ export default class MoreChannels extends React.Component {
             teamId,
             channelsRequestStarted,
             bodyOnly,
-            canShowArchivedChannels,
         } = this.props;
 
         const {
@@ -169,7 +167,7 @@ export default class MoreChannels extends React.Component {
 
         let activeChannels;
 
-        if (showArchivedChannels && canShowArchivedChannels) {
+        if (showArchivedChannels) {
             activeChannels = search ? searchedChannels : archivedChannels;
         } else {
             activeChannels = search ? searchedChannels : channels;
@@ -227,7 +225,6 @@ export default class MoreChannels extends React.Component {
                     createChannelButton={bodyOnly && createNewChannelButton}
                     toggleArchivedChannels={this.toggleArchivedChannels}
                     showArchivedChannels={this.state.showArchivedChannels}
-                    canShowArchivedChannels={this.props.canShowArchivedChannels}
                 />
                 {serverError}
             </React.Fragment>

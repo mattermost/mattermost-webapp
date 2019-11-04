@@ -60,9 +60,9 @@ export default class SearchableChannelList extends React.Component {
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
         let archiveIcon;
-        const {showArchivedChannels, canShowArchivedChannels} = this.props;
+        const {showArchivedChannels} = this.props;
 
-        if (showArchivedChannels && canShowArchivedChannels) {
+        if (showArchivedChannels) {
             archiveIcon = (
                 <div className='more-modal__icon-container'>
                     <ArchiveIcon className='icon icon__archive'/>
@@ -221,39 +221,36 @@ export default class SearchableChannelList extends React.Component {
             );
         }
 
-        let channelDropdown;
-        if (this.props.canShowArchivedChannels) {
-            channelDropdown = (
-                <MenuWrapper
-                    id='ChannelsMoreDropdown'
-                    className='more-modal__dropdown'
+        const channelDropdown = (
+            <MenuWrapper
+                id='ChannelsMoreDropdown'
+                className='more-modal__dropdown'
+            >
+                <a>
+                    <span>{this.props.showArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
+                    <span className='caret'/>
+                </a>
+                <Menu
+                    openLeft={false}
+                    ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
                 >
-                    <a>
-                        <span>{this.props.showArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
-                        <span className='caret'/>
-                    </a>
-                    <Menu
-                        openLeft={false}
-                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
-                    >
-                        <Menu.ItemAction
-                            id='ChannelsMoreDropdownPublic'
-                            onClick={() => {
-                                this.props.toggleArchivedChannels(false);
-                            }}
-                            text={localizeMessage('suggestion.search.public', 'Public Channels')}
-                        />
-                        <Menu.ItemAction
-                            id='ChannelsMoreDropdownArchived'
-                            onClick={() => {
-                                this.props.toggleArchivedChannels(true);
-                            }}
-                            text={localizeMessage('suggestion.archive', 'Archived Channels')}
-                        />
-                    </Menu>
-                </MenuWrapper>
-            );
-        }
+                    <Menu.ItemAction
+                        id='ChannelsMoreDropdownPublic'
+                        onClick={() => {
+                            this.props.toggleArchivedChannels(false);
+                        }}
+                        text={localizeMessage('suggestion.search.public', 'Public Channels')}
+                    />
+                    <Menu.ItemAction
+                        id='ChannelsMoreDropdownArchived'
+                        onClick={() => {
+                            this.props.toggleArchivedChannels(true);
+                        }}
+                        text={localizeMessage('suggestion.archive', 'Archived Channels')}
+                    />
+                </Menu>
+            </MenuWrapper>
+        );
 
         return (
             <div className='filtered-user-list'>
@@ -297,5 +294,4 @@ SearchableChannelList.propTypes = {
     createChannelButton: PropTypes.element,
     toggleArchivedChannels: PropTypes.func.isRequired,
     showArchivedChannels: PropTypes.bool.isRequired,
-    canShowArchivedChannels: PropTypes.bool,
 };

@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-
 import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
 import {getOtherChannels, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -37,7 +35,6 @@ function mapStateToProps(state) {
         teamId: team.id,
         teamName: team.name,
         channelsRequestStarted: state.requests.channels.getChannels.status === RequestStatus.STARTED,
-        canShowArchivedChannels: isMinimumServerVersion(state.entities.general.serverVersion, 5, 18),
     };
 }
 
