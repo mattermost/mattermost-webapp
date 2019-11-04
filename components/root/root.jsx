@@ -18,7 +18,6 @@ import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
-import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
 import Constants, {StoragePrefixes} from 'utils/constants';
@@ -196,20 +195,13 @@ export default class Root extends React.Component {
         }
         /*eslint-enable */
 
-        const afterIntl = () => {
-            if (this.props.location.pathname === '/' && this.props.noAccounts) {
-                this.props.history.push('/signup_user_complete');
-            }
-
-            initializePlugins().then(() => {
-                this.setState({configLoaded: true});
-            });
-        };
-        if (global.Intl) {
-            afterIntl();
-        } else {
-            I18n.safariFix(afterIntl);
+        if (this.props.location.pathname === '/' && this.props.noAccounts) {
+            this.props.history.push('/signup_user_complete');
         }
+
+        initializePlugins().then(() => {
+            this.setState({configLoaded: true});
+        });
 
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
 
