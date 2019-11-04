@@ -10,7 +10,7 @@ import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 
 const dispatch = store.dispatch;
 const getState = store.getState;

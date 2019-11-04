@@ -14,6 +14,7 @@ describe('components/post_view/post_view', () => {
         channelLoading: false,
         channelId: '1234',
         focusedPostId: '12345',
+        prevChannelId: '',
     };
     jest.useFakeTimers();
 

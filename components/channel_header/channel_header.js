@@ -66,8 +66,8 @@ export default class ChannelHeader extends React.PureComponent {
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
+            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
-            updateRhsState: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
@@ -188,7 +188,8 @@ export default class ChannelHeader extends React.PureComponent {
 
     searchButtonClick = (e) => {
         e.preventDefault();
-        this.props.actions.updateRhsState(RHSStates.SEARCH);
+
+        this.props.actions.openRHSSearch();
     };
 
     handleShortcut = (e) => {
@@ -681,6 +682,7 @@ export default class ChannelHeader extends React.PureComponent {
                                     aria-hidden='true'
                                 />
                             }
+                            ariaLabel={true}
                             buttonId={'channelHeaderSearchButton'}
                             onClick={this.searchButtonClick}
                             tooltipKey={'search'}

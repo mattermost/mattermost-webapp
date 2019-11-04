@@ -7,7 +7,7 @@ import React from 'react';
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 
-import {PostTypes} from 'utils/constants.jsx';
+import {PostTypes} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 

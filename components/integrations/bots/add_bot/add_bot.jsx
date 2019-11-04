@@ -17,7 +17,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import SpinnerButton from 'components/spinner_button';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import FormError from 'components/form_error';
-import {AcceptedProfileImageTypes, OVERLAY_TIME_DELAY} from 'utils/constants.jsx';
+import {AcceptedProfileImageTypes, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';
 
@@ -277,7 +277,7 @@ export default class AddBot extends React.Component {
                 return;
             }
         } else {
-            const usernameError = Utils.isValidUsername(bot.username);
+            const usernameError = Utils.isValidBotUsername(bot.username);
             if (usernameError) {
                 this.setState({
                     adding: false,
@@ -380,7 +380,7 @@ export default class AddBot extends React.Component {
         let imageURL = '';
         let removeImageIcon = (
             <OverlayTrigger
-                delayShow={OVERLAY_TIME_DELAY}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='right'
                 overlay={(
                     <Tooltip id='removeIcon'>

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, FormattedDate} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -28,6 +28,7 @@ export default class GeneralTab extends React.Component {
         collapseModal: PropTypes.func.isRequired,
         maxFileSize: PropTypes.number.isRequired,
         actions: PropTypes.shape({
+            getTeam: PropTypes.func.isRequired,
             patchTeam: PropTypes.func.isRequired,
             regenerateTeamInviteId: PropTypes.func.isRequired,
             removeTeamIcon: PropTypes.func.isRequired,
@@ -38,7 +39,6 @@ export default class GeneralTab extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = this.setupInitialState(props);
     }
 
@@ -74,6 +74,27 @@ export default class GeneralTab extends React.Component {
             allowed_domains: nextProps.team.allowed_domains,
             invite_id: nextProps.team.invite_id,
             allow_open_invite: nextProps.team.allow_open_invite,
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (!prevState.shouldFetchTeam && this.state.shouldFetchTeam) {
+            this.fetchTeam();
+        }
+    }
+
+    fetchTeam() {
+        if (this.state.serverError) {
+            return;
+        }
+        this.props.actions.getTeam(this.props.team.id).then(({error}) => {
+            const state = {
+                shouldFetchTeam: false,
+            };
+            if (error) {
+                state.serverError = error.message;
+            }
+            this.setState(state);
         });
     }
 
@@ -270,6 +291,13 @@ export default class GeneralTab extends React.Component {
     }
 
     handleUpdateSection = (section) => {
+        if (section === 'invite_id' && this.props.activeSection !== section && !this.props.team.invite_id) {
+            this.setState({shouldFetchTeam: true}, () => {
+                this.updateSection(section);
+            });
+            return;
+        }
+
         this.updateSection(section);
     }
 
