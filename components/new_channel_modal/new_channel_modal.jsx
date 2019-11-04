@@ -241,6 +241,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'O'}
                                 onChange={this.handlePublicTypeSelect}
+                                aria-labelledby='channelModalTypeLabel'
                             />
                             {publicChannelDesc}
                         </label>
@@ -253,6 +254,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'P'}
                                 onChange={this.handlePrivateTypeSelect}
+                                aria-labelledby='channelModalTypeLabel'
                             />
                             {privateChannelDesc}
                         </label>
@@ -310,7 +312,10 @@ export default class NewChannelModal extends React.PureComponent {
                     >
                         <Modal.Body>
                             <div className='form-group'>
-                                <label className='col-sm-3 form__label control-label'>
+                                <label
+                                    className='col-sm-3 form__label control-label'
+                                    id='channelModalTypeLabel'
+                                >
                                     <FormattedMessage
                                         id='channel_modal.type'
                                         defaultMessage='Type'
@@ -321,7 +326,10 @@ export default class NewChannelModal extends React.PureComponent {
                                 </div>
                             </div>
                             <div className={displayNameClass}>
-                                <label className='col-sm-3 form__label control-label'>
+                                <label
+                                    className='col-sm-3 form__label control-label'
+                                    htmlFor='newChannelName'
+                                >
                                     <FormattedMessage
                                         id='channel_modal.name'
                                         defaultMessage='Name'
@@ -358,7 +366,10 @@ export default class NewChannelModal extends React.PureComponent {
                             </div>
                             <div className='form-group'>
                                 <div className='col-sm-3'>
-                                    <label className='form__label control-label'>
+                                    <label
+                                        className='form__label control-label'
+                                        htmlFor='newChannelPurpose'
+                                    >
                                         <FormattedMessage
                                             id='channel_modal.purpose'
                                             defaultMessage='Purpose'
@@ -392,7 +403,10 @@ export default class NewChannelModal extends React.PureComponent {
                             </div>
                             <div className='form-group less'>
                                 <div className='col-sm-3'>
-                                    <label className='form__label control-label'>
+                                    <label
+                                        className='form__label control-label'
+                                        htmlFor='newChannelHeader'
+                                    >
                                         <FormattedMessage
                                             id='channel_modal.header'
                                             defaultMessage='Header'

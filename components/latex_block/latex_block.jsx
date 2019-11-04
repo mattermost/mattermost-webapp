@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 export default class LatexBlock extends React.Component {
     static propTypes = {
         content: PropTypes.string.isRequired,
+        enableLatex: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
@@ -25,7 +26,7 @@ export default class LatexBlock extends React.Component {
     }
 
     render() {
-        if (this.state.katex == null) {
+        if (this.state.katex == null || !this.props.enableLatex) {
             return (
                 <div
                     className='post-body--code tex'
@@ -58,3 +59,7 @@ export default class LatexBlock extends React.Component {
         }
     }
 }
+
+LatexBlock.defaultProps = {
+    enableLatex: false,
+};
