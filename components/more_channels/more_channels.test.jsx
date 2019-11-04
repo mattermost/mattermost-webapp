@@ -75,6 +75,7 @@ describe('components/MoreChannels', () => {
         channelsRequestStarted: false,
         onModalDismissed: jest.fn(),
         handleNewChannel: jest.fn(),
+        canShowArchivedChannels: true,
         actions: {
             getChannels: jest.fn(),
             getArchivedChannels: jest.fn(),

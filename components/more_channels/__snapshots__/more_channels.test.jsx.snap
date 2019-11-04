@@ -75,6 +75,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
     componentClass="div"
   >
     <SearchableChannelList
+      canShowArchivedChannels={true}
       channels={
         Array [
           Object {

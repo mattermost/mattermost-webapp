@@ -29,6 +29,7 @@ export default class MoreChannels extends React.Component {
         handleNewChannel: PropTypes.func,
         channelsRequestStarted: PropTypes.bool,
         bodyOnly: PropTypes.bool,
+        canShowArchivedChannels: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
             getArchivedChannels: PropTypes.func.isRequired,
@@ -115,7 +116,7 @@ export default class MoreChannels extends React.Component {
 
         const searchTimeoutId = setTimeout(
             () => {
-                this.props.actions.searchMoreChannels(term, this.state.showArchivedChannels).
+                this.props.actions.searchMoreChannels(term, this.state.showArchivedChannels && this.props.canShowArchivedChannels).
                     then((result) => {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
@@ -150,9 +151,11 @@ export default class MoreChannels extends React.Component {
     render() {
         const {
             channels,
+            archivedChannels,
             teamId,
             channelsRequestStarted,
             bodyOnly,
+            canShowArchivedChannels,
         } = this.props;
 
         const {
@@ -161,12 +164,13 @@ export default class MoreChannels extends React.Component {
             serverError: serverErrorState,
             show,
             searching,
+            showArchivedChannels,
         } = this.state;
 
         let activeChannels;
 
-        if (this.state.showArchivedChannels) {
-            activeChannels = search ? searchedChannels : this.props.archivedChannels;
+        if (showArchivedChannels && canShowArchivedChannels) {
+            activeChannels = search ? searchedChannels : archivedChannels;
         } else {
             activeChannels = search ? searchedChannels : channels;
         }
@@ -223,6 +227,7 @@ export default class MoreChannels extends React.Component {
                     createChannelButton={bodyOnly && createNewChannelButton}
                     toggleArchivedChannels={this.toggleArchivedChannels}
                     showArchivedChannels={this.state.showArchivedChannels}
+                    canShowArchivedChannels={this.props.canShowArchivedChannels}
                 />
                 {serverError}
             </React.Fragment>
