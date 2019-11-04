@@ -3,9 +3,10 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
+import {shallow} from 'enzyme';
 
 import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import GetLinkModal from 'components/get_link_modal.jsx';
+import GetLinkModal from 'components/get_link_modal';
 
 describe('components/GetLinkModal', () => {
     const onHide = jest.fn();
@@ -39,7 +40,7 @@ describe('components/GetLinkModal', () => {
         const newOnHide = jest.fn();
         const props = {...requiredProps, onHide: newOnHide};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <GetLinkModal {...props}/>
         );
 
@@ -62,8 +63,7 @@ describe('components/GetLinkModal', () => {
         const wrapper = mountWithIntl(
             <GetLinkModal {...requiredProps}/>
         );
-
-        wrapper.instance().copyLink();
+        wrapper.find('#linkModalTextArea').simulate('click');
         expect(wrapper.state('copiedLink')).toBe(true);
     });
 });
