@@ -14,7 +14,7 @@ type Props = {
 
 type State = {
     show: boolean;
-    postId: string;
+    postId?: string;
 }
 
 type Post = {
@@ -28,7 +28,6 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
 
         this.state = {
             show: false,
-            postId: 'undefined',
         };
     }
 
@@ -42,7 +41,7 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
 
     public handleToggle = (value: boolean, args: {post: Post}): void => {
         const {post, post: {id}} = args;
-        const postId = post && id && typeof id === 'string' && id.length !== 0 ? id : 'undefined';
+        const postId = post && id && typeof id === 'string' && id.length !== 0 ? id : '';
 
         this.setState({
             show: value,
@@ -56,20 +55,24 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
         });
     }
 
-    public render(): JSX.Element {
+    public render(): JSX.Element|null {
         const {postId, show} = this.state;
         const {currentTeamUrl} = this.props;
 
-        const postUrl = `${currentTeamUrl}/pl/${postId}`;
+        if (postId && typeof postId === 'string' && postId.length !== 0) {
+            const postUrl = `${currentTeamUrl}/pl/${postId}`;
 
-        return (
-            <GetLinkModal
-                show={show}
-                onHide={this.hide}
-                title={Utils.localizeMessage('get_post_link_modal.title', 'Copy Permalink')}
-                helpText={Utils.localizeMessage('get_post_link_modal.help', 'The link below allows authorized users to see your post.')}
-                link={postUrl}
-            />
-        );
+            return (
+                <GetLinkModal
+                    show={show}
+                    onHide={this.hide}
+                    title={Utils.localizeMessage('get_post_link_modal.title', 'Copy Permalink')}
+                    helpText={Utils.localizeMessage('get_post_link_modal.help', 'The link below allows authorized users to see your post.')}
+                    link={postUrl}
+                />
+            );
+        }
+        // Dont show model if ID of post doesnt exists
+        return null;
     }
 }
