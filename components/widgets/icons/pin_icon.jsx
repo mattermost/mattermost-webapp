@@ -22,7 +22,6 @@ export default class PinIcon extends React.PureComponent {
                             aria-label={ariaLabel}
                         >
                             <g
-                                id='Symbols'
                                 stroke='inherit'
                                 strokeWidth='1'
                                 fill='inherit'
