@@ -9,7 +9,6 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-
 const timestamp = Date.now();
 
 function verifyChannel(res, verifyExistence = true) {
