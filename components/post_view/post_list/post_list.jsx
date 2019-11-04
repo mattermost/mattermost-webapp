@@ -148,7 +148,7 @@ export default class PostList extends React.PureComponent {
         } else if (this.props.isFirstLoad) {
             await this.props.actions.loadUnreads(channelId);
         } else if (this.props.latestPostTimeStamp) {
-            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp);
+            await this.props.actions.syncPostsInChannel(channelId, this.props.latestPostTimeStamp, false);
         } else {
             await this.props.actions.loadLatestPosts(channelId);
         }

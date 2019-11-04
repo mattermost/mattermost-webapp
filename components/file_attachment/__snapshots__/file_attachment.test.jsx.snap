@@ -10,8 +10,17 @@ exports[`FileAttachment should match snapshot, after change from file to image 1
     href="#"
     onClick={[Function]}
   >
-    <div
-      className="post-image__load"
+    <Connect(FileThumbnail)
+      fileInfo={
+        Object {
+          "extension": "png",
+          "height": 400,
+          "id": 2,
+          "name": "test.png",
+          "size": 100,
+          "width": 600,
+        }
+      }
     />
   </a>
   <div
