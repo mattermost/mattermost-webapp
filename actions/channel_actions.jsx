@@ -101,6 +101,8 @@ export function searchMoreChannels(term, showArchivedChannels) {
         const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term, showArchivedChannels));
         if (data) {
             const myMembers = getMyChannelMemberships(state);
+
+            // When searching public channels, only get channels user is not a member of
             const channels = showArchivedChannels ? data : data.filter((c) => !myMembers[c.id]);
             return {data: channels};
         }
