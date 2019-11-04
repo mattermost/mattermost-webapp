@@ -87,7 +87,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -140,7 +139,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -193,7 +191,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -358,7 +355,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -411,7 +407,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -464,7 +459,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -629,7 +623,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -682,7 +675,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -735,7 +727,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -900,7 +891,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -953,7 +943,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1006,7 +995,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1179,7 +1167,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1232,7 +1219,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1285,7 +1271,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1450,7 +1435,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1503,7 +1487,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1556,7 +1539,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1725,7 +1707,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1778,7 +1759,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1831,7 +1811,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -1996,7 +1975,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2049,7 +2027,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2102,7 +2079,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2267,7 +2243,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2320,7 +2295,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2373,7 +2347,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2538,7 +2511,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="publicChannelList"
           key="public"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2591,7 +2563,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="privateChannelList"
           key="private"
-          role="presentation"
           tabIndex="-1"
         >
           <li
@@ -2644,7 +2615,6 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
           className="nav nav-pills nav-stacked a11y__section"
           id="directChannelList"
           key="direct"
-          role="presentation"
           tabIndex="-1"
         >
           <li
