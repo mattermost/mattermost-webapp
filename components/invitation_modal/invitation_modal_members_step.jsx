@@ -16,6 +16,7 @@ import BackIcon from 'components/widgets/icons/back_icon';
 import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
+import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 
 import './invitation_modal_members_step.scss';
@@ -150,6 +151,7 @@ export default class InvitationModalMembersStep extends React.Component {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
+                            aria-label={localizeMessage('invitation_modal.members.share_link.input', 'team invite link')}
                             data-testid='shareLinkInput'
                         />
                         <button
