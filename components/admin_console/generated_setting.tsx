@@ -3,30 +3,27 @@
 
 import crypto from 'crypto';
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import SetByEnv from './set_by_env';
 
-export default class GeneratedSetting extends React.Component {
-    static get propTypes() {
-        return {
-            id: PropTypes.string.isRequired,
-            label: PropTypes.node.isRequired,
-            placeholder: PropTypes.string,
-            value: PropTypes.string.isRequired,
-            onChange: PropTypes.func.isRequired,
-            disabled: PropTypes.bool.isRequired,
-            setByEnv: PropTypes.bool.isRequired,
-            disabledText: PropTypes.node,
-            helpText: PropTypes.node.isRequired,
-            regenerateText: PropTypes.node,
-            regenerateHelpText: PropTypes.node,
-        };
-    }
+type Props = {
+    id: string;
+    label: React.ReactNode;
+    placeholder?: string;
+    value: string;
+    onChange: (id: string, s: string) => void;
+    disabled: boolean;
+    setByEnv: boolean;
+    disabledText?: React.ReactNode;
+    helpText: React.ReactNode;
+    regenerateText: React.ReactNode;
+    regenerateHelpText?: React.ReactNode;
+}
 
-    static get defaultProps() {
+export default class GeneratedSetting extends React.Component<Props> {
+    public static get defaultProps() {
         return {
             disabled: false,
             regenerateText: (
@@ -38,13 +35,13 @@ export default class GeneratedSetting extends React.Component {
         };
     }
 
-    regenerate = (e) => {
+    private regenerate = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.props.onChange(this.props.id, crypto.randomBytes(256).toString('base64').substring(0, 32));
     }
 
-    render() {
+    public render() {
         let disabledText = null;
         if (this.props.disabled && this.props.disabledText) {
             disabledText = (
@@ -63,7 +60,7 @@ export default class GeneratedSetting extends React.Component {
             );
         }
 
-        let text = this.props.value;
+        let text: React.ReactNode = this.props.value;
         if (!text) {
             text = (
                 <span className='placeholder-text'>{this.props.placeholder}</span>

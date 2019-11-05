@@ -17,7 +17,7 @@ describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
     const optionsNumber = 8;
     const users = [];
-    for (var i = 0; i < optionsNumber; i++) {
+    for (let i = 0; i < optionsNumber; i++) {
         users.push({id: `${i}`, label: `${i}`, value: `${i}`});
     }
 
