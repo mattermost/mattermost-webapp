@@ -25,8 +25,6 @@ describe('components/widgets/admin_console/AdminHeader', () => {
         const originalError = console.error;
         console.error = jest.fn();
 
-        // Ignoring since this is a prop check which will go away with TS conversion
-        // @ts-ignore
         shallow(<AdminHeader/>);
 
         expect(console.error).toBeCalledTimes(1);
