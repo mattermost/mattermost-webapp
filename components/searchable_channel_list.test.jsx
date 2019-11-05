@@ -16,7 +16,8 @@ describe('components/SearchableChannelList', () => {
         handleJoin: () => {}, // eslint-disable-line no-empty-function
         loading: true,
         toggleArchivedChannels: () => {}, // eslint-disable-line no-empty-function
-        showArchivedChannels: false,
+        shouldShowArchivedChannels: false,
+        canShowArchivedChannels: false,
     };
 
     test('should match init snapshot', () => {

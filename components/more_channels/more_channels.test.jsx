@@ -51,7 +51,7 @@ describe('components/MoreChannels', () => {
             });
         },
         // eslint-disable-next-line
-        searchMoreChannels: (term, showArchivedChannels) => {
+        searchMoreChannels: (term, shouldShowArchivedChannels) => {
             return new Promise((resolve) => {
                 if (term === 'fail') {
                     return resolve({
@@ -75,6 +75,7 @@ describe('components/MoreChannels', () => {
         channelsRequestStarted: false,
         onModalDismissed: jest.fn(),
         handleNewChannel: jest.fn(),
+        canShowArchivedChannels: true,
         actions: {
             getChannels: jest.fn(),
             getArchivedChannels: jest.fn(),
@@ -91,7 +92,7 @@ describe('components/MoreChannels', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.state('searchedChannels')).toEqual([]);
         expect(wrapper.state('show')).toEqual(true);
-        expect(wrapper.state('showArchivedChannels')).toEqual(false);
+        expect(wrapper.state('shouldShowArchivedChannels')).toEqual(false);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('serverError')).toBeNull();
         expect(wrapper.state('searching')).toEqual(false);
@@ -297,7 +298,7 @@ describe('components/MoreChannels', () => {
 
         const instance = wrapper.instance();
         instance.onChange = jest.fn();
-        instance.setState({showArchivedChannels: true});
+        instance.setState({shouldShowArchivedChannels: true});
         instance.search('channel');
         expect(clearTimeout).toHaveBeenCalledTimes(1);
         expect(instance.onChange).not.toHaveBeenCalled();

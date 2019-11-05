@@ -29,6 +29,7 @@ export default class MoreChannels extends React.Component {
         handleNewChannel: PropTypes.func,
         channelsRequestStarted: PropTypes.bool,
         bodyOnly: PropTypes.bool,
+        canShowArchivedChannels: PropTypes.bool,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
             getArchivedChannels: PropTypes.func.isRequired,
@@ -44,7 +45,7 @@ export default class MoreChannels extends React.Component {
 
         this.state = {
             show: true,
-            showArchivedChannels: false,
+            shouldShowArchivedChannels: false,
             search: false,
             searchedChannels: [],
             serverError: null,
@@ -54,7 +55,9 @@ export default class MoreChannels extends React.Component {
 
     componentDidMount() {
         this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
-        this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
+        if (this.props.canShowArchivedChannels) {
+            this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
+        }
     }
 
     handleHide = () => {
@@ -115,7 +118,7 @@ export default class MoreChannels extends React.Component {
 
         const searchTimeoutId = setTimeout(
             () => {
-                this.props.actions.searchMoreChannels(term, this.state.showArchivedChannels).
+                this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels).
                     then((result) => {
                         if (searchTimeoutId !== this.searchTimeoutId) {
                             return;
@@ -138,13 +141,13 @@ export default class MoreChannels extends React.Component {
     };
 
     setSearchResults = (channels) => {
-        this.setState({searchedChannels: this.state.showArchivedChannels ? channels.filter((c) => c.delete_at !== 0) : channels.filter((c) => c.delete_at === 0), searching: false});
+        this.setState({searchedChannels: this.state.shouldShowArchivedChannels ? channels.filter((c) => c.delete_at !== 0) : channels.filter((c) => c.delete_at === 0), searching: false});
     };
 
-    toggleArchivedChannels = (showArchivedChannels) => {
+    toggleArchivedChannels = (shouldShowArchivedChannels) => {
         // clear search results, so other channels don't appear in list
         this.setSearchResults([]);
-        this.setState({showArchivedChannels});
+        this.setState({shouldShowArchivedChannels});
     };
 
     render() {
@@ -162,12 +165,12 @@ export default class MoreChannels extends React.Component {
             serverError: serverErrorState,
             show,
             searching,
-            showArchivedChannels,
+            shouldShowArchivedChannels,
         } = this.state;
 
         let activeChannels;
 
-        if (showArchivedChannels) {
+        if (shouldShowArchivedChannels) {
             activeChannels = search ? searchedChannels : archivedChannels;
         } else {
             activeChannels = search ? searchedChannels : channels;
@@ -224,7 +227,8 @@ export default class MoreChannels extends React.Component {
                     loading={search ? searching : channelsRequestStarted}
                     createChannelButton={bodyOnly && createNewChannelButton}
                     toggleArchivedChannels={this.toggleArchivedChannels}
-                    showArchivedChannels={this.state.showArchivedChannels}
+                    shouldShowArchivedChannels={this.state.shouldShowArchivedChannels}
+                    canShowArchivedChannels={this.props.canShowArchivedChannels}
                 />
                 {serverError}
             </React.Fragment>

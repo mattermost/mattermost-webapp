@@ -11,6 +11,8 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+
 import {searchMoreChannels} from 'actions/channel_actions.jsx';
 
 import MoreChannels from './more_channels.jsx';
@@ -35,6 +37,7 @@ function mapStateToProps(state) {
         teamId: team.id,
         teamName: team.name,
         channelsRequestStarted: state.requests.channels.getChannels.status === RequestStatus.STARTED,
+        canShowArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true'),
     };
 }
 
