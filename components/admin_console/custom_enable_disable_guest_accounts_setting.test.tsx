@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CustomEnableDisableGuestAccountsSetting from 'components/admin_console/custom_enable_disable_guest_accounts_setting';
+import CustomEnableDisableGuestAccountsSetting from './custom_enable_disable_guest_accounts_setting';
 
 describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () => {
     const baseProps = {
@@ -72,13 +72,13 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
                 onChange: jest.fn(),
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<CustomEnableDisableGuestAccountsSetting>(
                 <CustomEnableDisableGuestAccountsSetting {...props}/>
             );
 
             wrapper.instance().handleChange('MySetting', true);
             expect(props.onChange).toBeCalledWith(baseProps.id, true);
-            expect(wrapper.state().showConfirm).toBe(false)
+            expect(wrapper.state().showConfirm).toBe(false);
         });
 
         test('should show confirmation modal on disable without confirm', () => {
@@ -87,7 +87,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
                 onChange: jest.fn(),
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<CustomEnableDisableGuestAccountsSetting>(
                 <CustomEnableDisableGuestAccountsSetting {...props}/>
             );
 
@@ -102,7 +102,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
                 onChange: jest.fn(),
             };
 
-            const wrapper = shallow(
+            const wrapper = shallow<CustomEnableDisableGuestAccountsSetting>(
                 <CustomEnableDisableGuestAccountsSetting {...props}/>
             );
 
