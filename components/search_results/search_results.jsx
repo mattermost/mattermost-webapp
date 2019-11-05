@@ -234,7 +234,7 @@ class SearchResults extends React.Component {
                 sortedResults = results;
             }
 
-            ctls = sortedResults.map((post) => {
+            ctls = sortedResults.map((post, index) => {
                 return (
                     <SearchResultsItem
                         key={post.id}
@@ -243,6 +243,7 @@ class SearchResults extends React.Component {
                         matches={this.props.matches[post.id]}
                         term={(!this.props.isFlaggedPosts && !this.props.isPinnedPosts && !this.props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={this.props.isMentionSearch}
+                        a11yIndex={index}
                     />
                 );
             }, this);
