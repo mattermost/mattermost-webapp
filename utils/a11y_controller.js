@@ -588,8 +588,8 @@ export default class A11yController {
             return [];
         }
         return Array.from(elements).sort((elementA, elementB) => {
-            const elementAOrder = parseInt(elementA.getAttribute(A11yAttributeNames.SORT_ORDER));
-            const elementBOrder = parseInt(elementB.getAttribute(A11yAttributeNames.SORT_ORDER));
+            const elementAOrder = parseInt(elementA.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
+            const elementBOrder = parseInt(elementB.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
 
             if (isNaN(elementAOrder) && isNaN(elementBOrder)) {
                 return 0;
