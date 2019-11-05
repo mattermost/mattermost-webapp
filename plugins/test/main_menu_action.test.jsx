@@ -36,6 +36,7 @@ describe('plugins/MainMenuActions', () => {
                 showFlaggedPosts: jest.fn(),
                 closeRightHandSide: jest.fn(),
                 closeRhsMenu: jest.fn(),
+                logUserOut: jest.fn(),
             },
         };
 

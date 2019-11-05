@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {ModalIdentifiers} from 'utils/constants';
@@ -24,7 +22,8 @@ export default class AdminNavbarDropdown extends React.Component {
         navigationBlocked: PropTypes.bool,
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
         actions: PropTypes.shape({
-            deferNavigation: PropTypes.func,
+            deferNavigation: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -35,9 +34,9 @@ export default class AdminNavbarDropdown extends React.Component {
     handleLogout = (e) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
-            this.props.actions.deferNavigation(GlobalActions.emitUserLoggedOutEvent);
+            this.props.actions.deferNavigation(this.props.actions.logUserOut);
         } else {
-            GlobalActions.emitUserLoggedOutEvent();
+            this.props.actions.logUserOut();
         }
     };
 

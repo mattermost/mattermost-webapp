@@ -18,6 +18,8 @@ describe('components/logged_in/LoggedIn', () => {
         enableTimezone: false,
         actions: {
             autoUpdateTimezone: jest.fn(),
+            browserChangedFocus: jest.fn(),
+            logUserOut: jest.fn(),
         },
         showTermsOfService: false,
         location: {

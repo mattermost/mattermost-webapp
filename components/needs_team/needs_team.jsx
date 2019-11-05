@@ -8,7 +8,6 @@ import iNoBounce from 'inobounce';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -41,6 +40,7 @@ export default class NeedsTeam extends React.Component {
             setPreviousTeamId: PropTypes.func.isRequired,
             loadStatusesForChannelAndSidebar: PropTypes.func.isRequired,
             loadProfilesForDirect: PropTypes.func.isRequired,
+            closeRightHandSide: PropTypes.func.isRequired,
         }).isRequired,
         theme: PropTypes.object.isRequired,
         mfaRequired: PropTypes.bool.isRequired,
@@ -178,7 +178,7 @@ export default class NeedsTeam extends React.Component {
         this.props.actions.getMyTeamUnreads();
         this.props.actions.selectTeam(team);
         this.props.actions.setPreviousTeamId(team.id);
-        GlobalActions.emitCloseRightHandSide();
+        this.props.actions.closeRightHandSide();
 
         if (Utils.isGuest(this.props.currentUser)) {
             this.setState({finishedFetchingChannels: false});

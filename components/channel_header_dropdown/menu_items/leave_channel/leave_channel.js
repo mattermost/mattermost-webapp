@@ -4,7 +4,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {showLeavePrivateChannelModal} from 'actions/global_actions';
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
@@ -42,6 +41,11 @@ export default class LeaveChannel extends React.PureComponent {
              * Action creator to leave channel
              */
             leaveChannel: PropTypes.func.isRequired,
+
+            /**
+             * Action creator to show modal to leave private channel
+             */
+            showLeavePrivateChannelModal: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -60,7 +64,7 @@ export default class LeaveChannel extends React.PureComponent {
         } = this.props;
 
         if (channel.type === Constants.PRIVATE_CHANNEL) {
-            showLeavePrivateChannelModal(channel);
+            this.props.actions.showLeavePrivateChannelModal(channel);
         } else {
             leaveChannel(channel.id);
         }

@@ -6,12 +6,6 @@ import {shallow} from 'enzyme';
 
 import SelectTeam from 'components/select_team/select_team.jsx';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-
-jest.mock('actions/global_actions.jsx', () => ({
-    emitUserLoggedOutEvent: jest.fn(),
-}));
-
 jest.mock('utils/policy_roles_adapter', () => ({
     mappingValueFromRoles: jest.fn(),
 }));
@@ -36,6 +30,7 @@ describe('components/select_team/SelectTeam', () => {
             getTeams: jest.fn(),
             loadRolesIfNeeded: jest.fn(),
             addUserToTeam,
+            logUserOut: jest.fn(),
         },
     };
 
@@ -87,11 +82,11 @@ describe('components/select_team/SelectTeam', () => {
         expect(addUserToTeam).toHaveBeenCalledTimes(1);
     });
 
-    test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {
+    test('should call logUserOut action on handleLogoutClick', () => {
         const wrapper = shallow(<SelectTeam {...baseProps}/>);
         wrapper.instance().handleLogoutClick({preventDefault: jest.fn()});
-        expect(emitUserLoggedOutEvent).toHaveBeenCalledTimes(1);
-        expect(emitUserLoggedOutEvent).toHaveBeenCalledWith('/login');
+        expect(baseProps.actions.logUserOut).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.logUserOut).toHaveBeenCalledWith('/login');
     });
 
     test('should match state on clearError', () => {

@@ -4,7 +4,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 
@@ -33,11 +32,6 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         pluginMenuItems: [],
     };
 
-    toggleShortcutsModal = (e) => {
-        e.preventDefault();
-        GlobalActions.toggleShortcutsModal();
-    }
-
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
     }
@@ -50,10 +44,6 @@ export default class SidebarHeaderDropdown extends React.PureComponent {
         if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.A)) {
             this.props.actions.openModal({ModalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal});
         }
-    }
-
-    handleEmitUserLoggedOutEvent = () => {
-        GlobalActions.emitUserLoggedOutEvent();
     }
 
     render() {

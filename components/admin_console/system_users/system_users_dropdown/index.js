@@ -11,6 +11,8 @@ import {loadBots} from 'mattermost-redux/actions/bots';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
+import {logUserOut} from 'actions/global_actions.jsx';
+
 import SystemUsersDropdown from './system_users_dropdown.jsx';
 
 function mapStateToProps(state) {
@@ -30,6 +32,7 @@ function mapDispatchToProps(dispatch) {
             promoteGuestToUser,
             demoteUserToGuest,
             loadBots,
+            logUserOut,
         }, dispatch),
     };
 }

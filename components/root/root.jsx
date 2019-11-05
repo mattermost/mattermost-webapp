@@ -15,7 +15,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
 import {initializePlugins} from 'plugins';
@@ -90,6 +89,8 @@ export default class Root extends React.Component {
         showTermsOfService: PropTypes.bool,
         actions: PropTypes.shape({
             loadMeAndConfig: PropTypes.func.isRequired,
+            redirectUserToDefaultTeam: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -113,7 +114,7 @@ export default class Root extends React.Component {
                 }
 
                 console.log('detected logout from a different tab'); //eslint-disable-line no-console
-                GlobalActions.emitUserLoggedOutEvent('/', false, false);
+                this.props.actions.logUserOut('/', false, false);
             }
 
             if (e.originalEvent.key === StoragePrefixes.LOGIN && e.originalEvent.storageArea === localStorage && e.originalEvent.newValue) {
@@ -237,7 +238,7 @@ export default class Root extends React.Component {
     componentDidMount() {
         this.props.actions.loadMeAndConfig().then((response) => {
             if (this.props.location.pathname === '/' && response[2] && response[2].data) {
-                GlobalActions.redirectUserToDefaultTeam();
+                this.props.actions.redirectUserToDefaultTeam();
             }
             this.onConfigLoaded();
         });

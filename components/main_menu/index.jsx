@@ -14,6 +14,7 @@ import {RHSStates} from 'utils/constants';
 
 import {showMentions, showFlaggedPosts, closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {openModal} from 'actions/views/modals';
+import {logUserOut} from 'actions/global_actions.jsx';
 import {getRhsState} from 'selectors/rhs';
 
 import MainMenu from './main_menu.jsx';
@@ -86,6 +87,7 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             closeRightHandSide,
             closeRhsMenu,
+            logUserOut,
         }, dispatch),
     };
 }

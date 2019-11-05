@@ -3,17 +3,22 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils.jsx';
-
-import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
 export default class Confirm extends React.Component {
+    static propTypes = {
+        actions: PropTypes.shape({
+            redirectUserToDefaultTeam: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
     componentDidMount() {
         document.body.addEventListener('keydown', this.onKeyPress);
     }
@@ -24,7 +29,7 @@ export default class Confirm extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        redirectUserToDefaultTeam();
+        this.props.actions.redirectUserToDefaultTeam();
     }
 
     onKeyPress = (e) => {

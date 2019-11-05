@@ -7,6 +7,8 @@ import {bindActionCreators} from 'redux';
 import {getTermsOfService, updateMyTermsOfServiceStatus} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
+import {redirectUserToDefaultTeam, logUserOut} from 'actions/global_actions.jsx';
+
 import TermsOfService from './terms_of_service';
 
 function mapStateToProps(state) {
@@ -21,6 +23,8 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getTermsOfService,
             updateMyTermsOfServiceStatus,
+            redirectUserToDefaultTeam,
+            logUserOut,
         }, dispatch),
     };
 }

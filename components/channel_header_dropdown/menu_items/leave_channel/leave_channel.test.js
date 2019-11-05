@@ -10,10 +10,6 @@ import Menu from 'components/widgets/menu/menu';
 
 import LeaveChannel from './leave_channel';
 
-jest.mock('actions/global_actions', () => ({
-    showLeavePrivateChannelModal: jest.fn(),
-}));
-
 describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
     const baseProps = {
         channel: {
@@ -23,6 +19,7 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
         isDefault: false,
         actions: {
             leaveChannel: jest.fn(),
+            showLeavePrivateChannelModal: jest.fn(),
         },
     };
 
@@ -60,14 +57,13 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             channel: {...baseProps.channel},
             actions: {...baseProps.actions},
         };
-        const {showLeavePrivateChannelModal} = require('actions/global_actions'); //eslint-disable-line global-require
         const wrapper = shallow(<LeaveChannel {...props}/>);
 
         wrapper.find(Menu.ItemAction).simulate('click', {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).toHaveBeenCalledWith(props.channel.id);
-        expect(showLeavePrivateChannelModal).not.toHaveBeenCalled();
+        expect(props.actions.showLeavePrivateChannelModal).not.toHaveBeenCalled();
 
         props.channel.type = Constants.PRIVATE_CHANNEL;
         props.actions.leaveChannel = jest.fn();
@@ -75,6 +71,6 @@ describe('components/ChannelHeaderDropdown/MenuItem.LeaveChannel', () => {
             preventDefault: jest.fn(),
         });
         expect(props.actions.leaveChannel).not.toHaveBeenCalled();
-        expect(showLeavePrivateChannelModal).toHaveBeenCalledWith(props.channel);
+        expect(props.actions.showLeavePrivateChannelModal).toHaveBeenCalledWith(props.channel);
     });
 });

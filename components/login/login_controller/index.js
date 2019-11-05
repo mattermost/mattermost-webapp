@@ -10,6 +10,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
 import {addUserToTeamFromInvite} from 'actions/team_actions';
+import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 
 import {login} from 'actions/views/login';
 
@@ -80,6 +81,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             login,
             addUserToTeamFromInvite,
+            redirectUserToDefaultTeam,
         }, dispatch),
     };
 }

@@ -33,6 +33,7 @@ import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
+import {sendLocalUserTyping, showShortcutsModal} from 'actions/global_actions.jsx';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap} from 'selectors/emojis';
@@ -120,6 +121,8 @@ function mapDispatchToProps(dispatch) {
             runMessageWillBePostedHooks,
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
+            sendLocalUserTyping,
+            showShortcutsModal,
         }, dispatch),
     };
 }

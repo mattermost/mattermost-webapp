@@ -2,7 +2,11 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+
+import {logUserOut} from 'actions/global_actions.jsx';
 
 import MFAController from './mfa_controller.jsx';
 
@@ -21,4 +25,12 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(MFAController);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            logUserOut,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MFAController);

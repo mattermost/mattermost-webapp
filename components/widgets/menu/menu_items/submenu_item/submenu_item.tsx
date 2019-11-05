@@ -4,9 +4,9 @@
 import React from 'react';
 
 import * as Utils from 'utils/utils.jsx';
-import {showMobileSubMenuModal} from 'actions/global_actions';
 
-import './menu_item.scss';
+import ConnectedSubMenuItem from './index';
+import '../menu_item.scss';
 
 // Requires an object conforming to a submenu structure passed to registerPostDropdownSubMenuAction
 // of the form:
@@ -29,7 +29,11 @@ import './menu_item.scss';
 // }
 // Submenus can contain Submenus as well
 
-type Props = {
+type Actions = {
+    showMobileSubMenuModal: (subMenu: Props[]) => {};
+}
+
+export type Props = {
     id?: string;
     postId?: string;
     text: React.ReactNode;
@@ -41,13 +45,14 @@ type Props = {
     ariaLabel?: string;
     root?: boolean;
     show?: boolean;
+    actions?: Actions;
 }
 
 type State = {
     show: boolean;
 }
 
-export default class SubMenuItem extends React.PureComponent<Props, State> {
+export class SubMenuItem extends React.PureComponent<Props, State> {
     private node: React.RefObject<any>;
 
     public static defaultProps = {
@@ -80,11 +85,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
             path = pathPair[1];
         }
         if (isMobile) {
-            if (subMenu && subMenu.length) { // if contains a submenu, call openModal with it
+            if (subMenu && subMenu.length && this.props.actions) { // if contains a submenu, call openModal with it
                 if (!root) { //required to close only the original menu
                     event.stopPropagation();
                 }
-                showMobileSubMenuModal(subMenu);
+                this.props.actions.showMobileSubMenuModal(subMenu);
             } else if (action) { // leaf node in the tree handles action only
                 action(postId);
             }
@@ -136,7 +141,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
                         return (
-                            <SubMenuItem
+                            <ConnectedSubMenuItem
                                 key={s.id}
                                 id={s.id}
                                 postId={postId}

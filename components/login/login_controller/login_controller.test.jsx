@@ -35,6 +35,7 @@ describe('components/login/LoginController', () => {
         actions: {
             login: jest.fn(),
             addUserToTeamFromInvite: jest.fn(),
+            redirectUserToDefaultTeam: jest.fn(),
         },
     };
 

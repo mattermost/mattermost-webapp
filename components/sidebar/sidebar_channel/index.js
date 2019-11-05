@@ -27,6 +27,7 @@ import {Constants, NotificationLevels, StoragePrefixes} from 'utils/constants';
 import {leaveChannel} from 'actions/views/channel';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {getPostDraft} from 'selectors/rhs';
+import {showLeavePrivateChannelModal} from 'actions/global_actions.jsx';
 
 import SidebarChannel from './sidebar_channel.jsx';
 
@@ -135,6 +136,7 @@ function mapDispatchToProps(dispatch) {
             savePreferences,
             leaveChannel,
             openLhs,
+            showLeavePrivateChannelModal,
         }, dispatch),
     };
 }

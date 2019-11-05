@@ -21,6 +21,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {switchToChannelById} from 'actions/views/channel';
 import {openModal} from 'actions/views/modals';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {close} from 'actions/views/lhs';
 import {getIsLhsOpen} from 'selectors/lhs';
 
@@ -77,6 +78,7 @@ function mapDispatchToProps(dispatch) {
             close,
             switchToChannelById,
             openModal,
+            redirectUserToDefaultTeam,
         }, dispatch),
     };
 }

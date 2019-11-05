@@ -4,14 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
 import PostAddChannelMember from 'components/post_view/post_add_channel_member/post_add_channel_member.jsx';
-
-jest.mock('actions/global_actions.jsx', () => {
-    return {
-        sendAddToChannelEphemeralPost: jest.fn(),
-    };
-});
 
 describe('components/post_view/PostAddChannelMember', () => {
     const post = {
@@ -31,6 +24,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         actions: {
             removePost: jest.fn(),
             addChannelMember: jest.fn(),
+            sendAddToChannelEphemeralPost: jest.fn(),
         },
         noGroupsUsernames: [],
     };
@@ -72,6 +66,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         const actions = {
             removePost: jest.fn(),
             addChannelMember: jest.fn(),
+            sendAddToChannelEphemeralPost: jest.fn(),
         };
         const props = {...requiredProps, actions};
         const wrapper = shallow(
@@ -82,8 +77,8 @@ describe('components/post_view/PostAddChannelMember', () => {
 
         expect(actions.addChannelMember).toHaveBeenCalledTimes(1);
         expect(actions.addChannelMember).toHaveBeenCalledWith(post.channel_id, requiredProps.userIds[0]);
-        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledTimes(1);
-        expect(sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], props.userIds[0], post.channel_id, post.root_id, 2);
+        expect(actions.sendAddToChannelEphemeralPost).toHaveBeenCalledTimes(1);
+        expect(actions.sendAddToChannelEphemeralPost).toHaveBeenCalledWith(props.currentUser, props.usernames[0], props.userIds[0], post.channel_id, post.root_id, 2);
         expect(actions.removePost).toHaveBeenCalledTimes(1);
         expect(actions.removePost).toHaveBeenCalledWith(post);
     });
@@ -94,6 +89,7 @@ describe('components/post_view/PostAddChannelMember', () => {
         const actions = {
             removePost: jest.fn(),
             addChannelMember: jest.fn(),
+            sendAddToChannelEphemeralPost: jest.fn(),
         };
         const props = {...requiredProps, userIds, usernames, actions};
         const wrapper = shallow(

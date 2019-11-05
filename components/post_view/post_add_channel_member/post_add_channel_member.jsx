@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
 import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 import AtMention from 'components/at_mention';
@@ -56,6 +55,11 @@ export default class PostAddChannelMember extends React.PureComponent {
             * Function to remove post (ephemeral)
             */
             removePost: PropTypes.func.isRequired,
+
+            /*
+            * Function to add to channel (ephemeral)
+            */
+            sendAddToChannelEphemeralPost: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -67,7 +71,7 @@ export default class PostAddChannelMember extends React.PureComponent {
             userIds.forEach((userId, index) => {
                 createAt++;
                 this.props.actions.addChannelMember(post.channel_id, userId);
-                sendAddToChannelEphemeralPost(currentUser, usernames[index], userId, post.channel_id, post.root_id, createAt);
+                this.props.actions.sendAddToChannelEphemeralPost(currentUser, usernames[index], userId, post.channel_id, post.root_id, createAt);
             });
 
             this.props.actions.removePost(post);

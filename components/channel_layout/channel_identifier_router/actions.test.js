@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 import {joinChannel} from 'mattermost-redux/actions/channels';
 import {getUserByEmail} from 'mattermost-redux/actions/users';
 
-import {emitChannelClickEvent} from 'actions/global_actions.jsx';
+import {channelClicked} from 'actions/global_actions.jsx';
 import {
     goToChannelByChannelName,
     goToDirectChannelByUserId,
@@ -17,7 +17,7 @@ import {
 } from 'components/channel_layout/channel_identifier_router/actions';
 
 jest.mock('actions/global_actions.jsx', () => ({
-    emitChannelClickEvent: jest.fn(),
+    channelClicked: jest.fn(() => ({type: ''})),
 }));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
@@ -81,7 +81,7 @@ describe('Actions', () => {
             const testStore = await mockStore(initialState);
 
             await testStore.dispatch(goToChannelByChannelName({params: {team: 'team2', identifier: 'achannel'}}, {}));
-            expect(emitChannelClickEvent).toHaveBeenCalledWith(channel2);
+            expect(channelClicked).toHaveBeenCalledWith(channel2);
         });
 
         test('switch to public channel we have locally but need to join', async () => {
@@ -89,7 +89,7 @@ describe('Actions', () => {
 
             await testStore.dispatch(goToChannelByChannelName({params: {team: 'team1', identifier: 'achannel3'}}, {}));
             expect(joinChannel).toHaveBeenCalledWith('current_user_id', 'team_id1', null, 'achannel3');
-            expect(emitChannelClickEvent).toHaveBeenCalledWith(channel3);
+            expect(channelClicked).toHaveBeenCalledWith(channel3);
         });
     });
 

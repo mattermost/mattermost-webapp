@@ -18,6 +18,7 @@ import {setPreviousTeamId} from 'actions/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
+import {closeRightHandSide} from 'actions/views/rhs';
 import {checkIfMFARequired} from 'utils/route';
 
 import NeedsTeam from './needs_team.jsx';
@@ -50,6 +51,7 @@ function mapDispatchToProps(dispatch) {
             selectTeam,
             loadStatusesForChannelAndSidebar,
             loadProfilesForDirect,
+            closeRightHandSide,
         }, dispatch),
     };
 }

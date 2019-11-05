@@ -8,8 +8,6 @@ import {FormattedMessage, intlShape} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -186,6 +184,11 @@ export default class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+
+        /**
+         * Called when user is typing a comment
+         */
+        sendLocalUserTyping: PropTypes.func.isRequired,
     }
 
     static contextTypes = {
@@ -532,7 +535,7 @@ export default class CreateComment extends React.PureComponent {
 
     emitTypingEvent = () => {
         const {channelId, rootId} = this.props;
-        GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
+        this.props.sendLocalUserTyping(channelId, rootId);
     }
 
     scrollToBottom = () => {

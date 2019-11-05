@@ -8,7 +8,6 @@ import {FormattedMessage, intlShape} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {
     containsAtChannel,
@@ -248,6 +247,10 @@ export default class CreatePost extends React.Component {
             getChannelTimezones: PropTypes.func.isRequired,
 
             scrollPostListToBottom: PropTypes.func.isRequired,
+
+            sendLocalUserTyping: PropTypes.func.isRequired,
+
+            showShortcutsModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -578,12 +581,6 @@ export default class CreatePost extends React.Component {
             return;
         }
 
-        if (!isDirectOrGroup && trimRight(this.state.message) === '/rename') {
-            GlobalActions.showChannelNameUpdateModal(updateChannel);
-            this.setState({message: ''});
-            return;
-        }
-
         await this.doSubmit(e);
     }
 
@@ -683,7 +680,7 @@ export default class CreatePost extends React.Component {
 
     emitTypingEvent = () => {
         const channelId = this.props.currentChannel.id;
-        GlobalActions.emitLocalUserTypingEvent(channelId, '');
+        this.props.actions.sendLocalUserTyping(channelId, '');
     }
 
     handleChange = (e) => {
@@ -862,8 +859,7 @@ export default class CreatePost extends React.Component {
     documentKeyHandler = (e) => {
         if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
             e.preventDefault();
-
-            GlobalActions.toggleShortcutsModal();
+            this.props.actions.showShortcutsModal();
             return;
         }
 

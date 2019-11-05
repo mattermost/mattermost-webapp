@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import AnnouncementBar from 'components/announcement_bar';
 import LoadingScreen from 'components/loading_screen';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -27,6 +26,8 @@ export default class TermsOfService extends React.PureComponent {
         actions: PropTypes.shape({
             getTermsOfService: PropTypes.func.isRequired,
             updateMyTermsOfServiceStatus: PropTypes.func.isRequired,
+            redirectUserToDefaultTeam: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -49,7 +50,7 @@ export default class TermsOfService extends React.PureComponent {
         if (this.props.termsEnabled) {
             this.getTermsOfService();
         } else {
-            GlobalActions.redirectUserToDefaultTeam();
+            this.props.actions.redirectUserToDefaultTeam();
         }
     }
 
@@ -67,13 +68,13 @@ export default class TermsOfService extends React.PureComponent {
                 loading: false,
             });
         } else {
-            GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.GET_TERMS_ERROR}`);
+            this.props.actions.logUserOut(`/login?extra=${Constants.GET_TERMS_ERROR}`);
         }
     };
 
     handleLogoutClick = (e) => {
         e.preventDefault();
-        GlobalActions.emitUserLoggedOutEvent('/login');
+        this.props.actions.logUserOut('/login');
     };
 
     handleAcceptTerms = () => {
@@ -89,7 +90,7 @@ export default class TermsOfService extends React.PureComponent {
                 if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
                     browserHistory.push(redirectTo);
                 } else {
-                    GlobalActions.redirectUserToDefaultTeam();
+                    this.props.actions.redirectUserToDefaultTeam();
                 }
             }
         );
@@ -103,7 +104,7 @@ export default class TermsOfService extends React.PureComponent {
         this.registerUserAction(
             false,
             () => {
-                GlobalActions.emitUserLoggedOutEvent(`/login?extra=${Constants.TERMS_REJECTED}`);
+                this.props.actions.logUserOut(`/login?extra=${Constants.TERMS_REJECTED}`);
             }
         );
     };

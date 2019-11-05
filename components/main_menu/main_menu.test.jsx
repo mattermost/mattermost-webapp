@@ -38,6 +38,7 @@ describe('components/Menu', () => {
             showFlaggedPosts: jest.fn(),
             closeRightHandSide: jest.fn(),
             closeRhsMenu: jest.fn(),
+            logUserOut: jest.fn(),
         },
         teamIsGroupConstrained: false,
     };

@@ -8,6 +8,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
+
 import DoVerifyEmail from './do_verify_email.jsx';
 
 function mapStateToProps(state) {
@@ -27,6 +29,7 @@ function mapDispatchToProps(dispatch) {
             getMe,
             logError,
             clearErrors,
+            redirectUserToDefaultTeam,
         }, dispatch),
     };
 }

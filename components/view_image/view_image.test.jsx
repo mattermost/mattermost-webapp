@@ -19,6 +19,9 @@ describe('components/ViewImageModal', () => {
         canDownloadFiles: true,
         enablePublicLink: true,
         post: {},
+        actions: {
+            showGetPublicLinkModal: jest.fn(),
+        }
     };
 
     test('should match snapshot, modal not shown', () => {

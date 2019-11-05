@@ -8,9 +8,9 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {showGetPostLinkModal} from 'actions/global_actions.jsx';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
+import GetPostLinkModal from 'components/get_post_link_modal';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -158,11 +158,6 @@ export default class DotMenu extends React.PureComponent {
         if (this.props.handleAddReactionClick) {
             this.props.handleAddReactionClick();
         }
-    }
-
-    handlePermalinkMenuItemActivated = (e) => {
-        e.preventDefault();
-        showGetPostLinkModal(this.props.post);
     }
 
     handlePinMenuItemActivated = () => {
@@ -327,11 +322,15 @@ export default class DotMenu extends React.PureComponent {
                         text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                         onClick={this.handleUnreadMenuItemActivated}
                     />
-                    <Menu.ItemAction
+                    <Menu.ItemToggleModalRedux
                         id={`permalink_${this.props.post.id}`}
                         show={!isSystemMessage}
+                        modalId={ModalIdentifiers.GET_POST_LINK}
+                        dialogType={GetPostLinkModal}
+                        dialogProps={{
+                            postId: this.props.post.id,
+                        }}
                         text={Utils.localizeMessage('post_info.permalink', 'Permalink')}
-                        onClick={this.handlePermalinkMenuItemActivated}
                     />
                     <Menu.ItemAction
                         show={isMobile && !isSystemMessage && this.props.isFlagged}

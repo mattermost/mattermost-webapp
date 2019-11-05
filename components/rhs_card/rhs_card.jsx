@@ -14,7 +14,6 @@ import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import UserProfile from 'components/user_profile';
 import PostProfilePicture from 'components/post_profile_picture';
-import * as GlobalActions from 'actions/global_actions.jsx';
 
 export function renderView(props) {
     return (
@@ -47,6 +46,9 @@ export default class RhsCard extends React.Component {
         previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
         enablePostUsernameOverride: PropTypes.bool,
         teamUrl: PropTypes.string,
+        actions: PropTypes.shape({
+            closeRightHandSide: PropTypes.func.isRequired,
+        }).isRequired,
     }
 
     static defaultProps = {
@@ -96,7 +98,7 @@ export default class RhsCard extends React.Component {
 
     handleClick = () => {
         if (Utils.isMobile()) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         }
     };
 

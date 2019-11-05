@@ -599,7 +599,7 @@ export function handleLeaveTeamEvent(msg) {
         // if they are on the team being removed redirect them to default team
         if (getCurrentTeamId(state) === msg.data.team_id) {
             if (!global.location.pathname.startsWith('/admin_console')) {
-                redirectUserToDefaultTeam();
+                dispatch(redirectUserToDefaultTeam());
             }
         }
     }
@@ -728,7 +728,7 @@ export function handleUserRemovedEvent(msg) {
                         removerId: msg.data.remover_id,
                     },
                 }));
-                redirectUserToDefaultTeam();
+                dispatch(redirectUserToDefaultTeam());
             }
         }
 
@@ -980,7 +980,7 @@ function handleUserRoleUpdated(msg) {
         dispatch(loadRolesIfNeeded(newRoles));
 
         if (demoted && global.location.pathname.startsWith('/admin_console')) {
-            redirectUserToDefaultTeam();
+            store.dispatch(redirectUserToDefaultTeam());
         }
     }
 }

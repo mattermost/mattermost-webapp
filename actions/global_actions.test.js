@@ -63,7 +63,7 @@ describe('actions/global_actions', () => {
             getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
-            await redirectUserToDefaultTeam();
+            await redirectUserToDefaultTeam()(store.dispatch, store.getState);
             expect(browserHistory.push).toHaveBeenCalledWith('/select_team');
         });
 
@@ -139,7 +139,7 @@ describe('actions/global_actions', () => {
             getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
-            await redirectUserToDefaultTeam();
+            await redirectUserToDefaultTeam()(store.dispatch, store.getState);
             expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
         });
 
@@ -214,7 +214,7 @@ describe('actions/global_actions', () => {
             getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
-            await redirectUserToDefaultTeam();
+            await redirectUserToDefaultTeam()(store.dispatch, store.getState);
             expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
         });
 
@@ -288,7 +288,7 @@ describe('actions/global_actions', () => {
             getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
-            await redirectUserToDefaultTeam();
+            await redirectUserToDefaultTeam()(store.dispatch, store.getState);
             expect(browserHistory.push).toHaveBeenCalledWith('/select_team');
         });
 
@@ -322,7 +322,7 @@ describe('actions/global_actions', () => {
             getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
-            await redirectUserToDefaultTeam();
+            await redirectUserToDefaultTeam()(store.dispatch, store.getState);
             expect(browserHistory.push).not.toHaveBeenCalled();
         });
 
@@ -384,7 +384,7 @@ describe('actions/global_actions', () => {
             getState.mockImplementation(store.getState);
 
             browserHistory.push = jest.fn();
-            await redirectUserToDefaultTeam();
+            await redirectUserToDefaultTeam()(store.dispatch, store.getState);
             expect(browserHistory.push).toHaveBeenCalledWith('/team1/channels/channel-in-team-1');
         });
     });

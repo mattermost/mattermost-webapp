@@ -11,7 +11,7 @@ import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {isFavoriteChannel} from 'mattermost-redux/utils/channel_utils';
 
 import {openModal} from 'actions/views/modals';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import {sendEphemeralPost, logUserOut, showShortcutsModal, showLeavePrivateChannelModal} from 'actions/global_actions.jsx';
 import * as PostActions from 'actions/post_actions.jsx';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
@@ -45,17 +45,17 @@ export function executeCommand(message, args) {
                 return {error};
             }
 
-            GlobalActions.toggleShortcutsModal();
+            dispatch(showShortcutsModal());
             return {data: true};
         case '/leave': {
         // /leave command not supported in reply threads.
             if (args.channel_id && (args.root_id || args.parent_id)) {
-                GlobalActions.sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id);
+                dispatch(sendEphemeralPost('/leave is not supported in reply threads. Use it in the center channel instead.', args.channel_id, args.parent_id));
                 return {data: true};
             }
             const channel = getCurrentChannel(state);
             if (channel.type === Constants.PRIVATE_CHANNEL) {
-                GlobalActions.showLeavePrivateChannelModal(channel);
+                dispatch(showLeavePrivateChannelModal(channel));
                 return {data: true};
             } else if (
                 channel.type === Constants.DM_CHANNEL ||
@@ -103,7 +103,7 @@ export function executeCommand(message, args) {
         const hasGotoLocation = data.goto_location && isUrlSafe(data.goto_location);
 
         if (msg.trim() === '/logout') {
-            GlobalActions.emitUserLoggedOutEvent(hasGotoLocation ? data.goto_location : '/');
+            dispatch(logUserOut(hasGotoLocation ? data.goto_location : '/'));
             return {data: true};
         }
 

@@ -4,12 +4,18 @@
 import React from 'react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import ShortcutsModal from 'components/shortcuts_modal.jsx';
+
+import ShortcutsModal from './shortcuts_modal.jsx';
 
 describe('components/ShortcutsModal', () => {
+    const onHide = () => {};
     test('should match snapshot modal for Mac', () => {
         const wrapper = mountWithIntl(
-            <ShortcutsModal isMac={true}/>
+            <ShortcutsModal
+                isMac={true}
+                show={false}
+                onHide={onHide}
+            />
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -17,7 +23,11 @@ describe('components/ShortcutsModal', () => {
 
     test('should match snapshot modal for non-Mac like Windows/Linux', () => {
         const wrapper = mountWithIntl(
-            <ShortcutsModal isMac={false}/>
+            <ShortcutsModal
+                isMac={false}
+                show={false}
+                onHide={onHide}
+            />
         );
 
         expect(wrapper).toMatchSnapshot();

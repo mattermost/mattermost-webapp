@@ -4,9 +4,19 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import {isModalOpen} from 'selectors/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
 import {leaveChannel} from 'actions/views/channel';
 
 import LeavePrivateChannelModal from './leave_private_channel_modal.jsx';
+
+function mapStateToProps(state) {
+    const modalId = ModalIdentifiers.LEAVE_PRIVATE_CHANNEL;
+    const show = isModalOpen(state, modalId);
+    return {
+        show,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -16,4 +26,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(LeavePrivateChannelModal);
+export default connect(mapStateToProps, mapDispatchToProps)(LeavePrivateChannelModal);

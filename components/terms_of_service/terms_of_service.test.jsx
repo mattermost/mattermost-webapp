@@ -6,21 +6,17 @@ import {shallow} from 'enzyme';
 
 import TermsOfService from 'components/terms_of_service/terms_of_service.jsx';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-
-jest.mock('actions/global_actions.jsx', () => ({
-    emitUserLoggedOutEvent: jest.fn(),
-    redirectUserToDefaultTeam: jest.fn(),
-}));
-
 describe('components/terms_of_service/TermsOfService', () => {
     const getTermsOfService = jest.fn().mockResolvedValue({data: {id: 'tos_id', text: 'tos_text'}});
     const updateMyTermsOfServiceStatus = jest.fn().mockResolvedValue({data: true});
+    const redirectUserToDefaultTeam = jest.fn();
 
     const baseProps = {
         actions: {
             getTermsOfService,
             updateMyTermsOfServiceStatus,
+            redirectUserToDefaultTeam,
+            logUserOut: jest.fn(),
         },
         location: {search: ''},
         termsEnabled: true,
@@ -81,10 +77,10 @@ describe('components/terms_of_service/TermsOfService', () => {
         expect(baseProps.actions.updateMyTermsOfServiceStatus).toHaveBeenCalledTimes(1);
     });
 
-    test('should call emitUserLoggedOutEvent on handleLogoutClick', () => {
+    test('should call logUserOut on handleLogoutClick', () => {
         const wrapper = shallow(<TermsOfService {...baseProps}/>);
         wrapper.instance().handleLogoutClick({preventDefault: jest.fn()});
-        expect(emitUserLoggedOutEvent).toHaveBeenCalledTimes(1);
-        expect(emitUserLoggedOutEvent).toHaveBeenCalledWith('/login');
+        expect(baseProps.actions.logUserOut).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.logUserOut).toHaveBeenCalledWith('/login');
     });
 });

@@ -9,7 +9,8 @@ import {getChannelByName, getOtherChannels, getChannel, getChannelsNameMapInTeam
 
 import {Constants} from 'utils/constants';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import {channelClicked} from 'actions/global_actions';
+
 import * as Utils from 'utils/utils.jsx';
 
 const LENGTH_OF_ID = 26;
@@ -131,7 +132,7 @@ export function goToChannelByChannelName(match, history) {
         } else if (channel.type === Constants.GM_CHANNEL) {
             history.replace(`/${team}/messages/${channel.name}`);
         } else {
-            doChannelChange(channel);
+            dispatch(channelClicked(channel));
         }
     };
 }
@@ -161,7 +162,7 @@ function goToDirectChannelByUsername(match, history) {
             return;
         }
 
-        doChannelChange(data);
+        dispatch(channelClicked(data));
     };
 }
 
@@ -252,12 +253,8 @@ function goToGroupChannelByGroupId(match, history) {
 
         dispatch(markGroupChannelOpen(channel.id));
 
-        doChannelChange(channel);
+        dispatch(channelClicked(channel));
     };
-}
-
-function doChannelChange(channel) {
-    GlobalActions.emitChannelClickEvent(channel);
 }
 
 function handleError(match, history, defaultChannel) {

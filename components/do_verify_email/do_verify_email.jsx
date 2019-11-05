@@ -12,8 +12,6 @@ import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
 import LoadingScreen from 'components/loading_screen';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
-
 export default class DoVerifyEmail extends React.PureComponent {
     static propTypes = {
 
@@ -43,6 +41,7 @@ export default class DoVerifyEmail extends React.PureComponent {
             getMe: PropTypes.func.isRequired,
             logError: PropTypes.func.isRequired,
             clearErrors: PropTypes.func.isRequired,
+            redirectUserToDefaultTeam: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -70,7 +69,7 @@ export default class DoVerifyEmail extends React.PureComponent {
 
     handleRedirect() {
         if (this.props.isLoggedIn) {
-            GlobalActions.redirectUserToDefaultTeam();
+            this.props.actions.redirectUserToDefaultTeam();
         } else {
             browserHistory.push('/login?extra=verified&email=' + encodeURIComponent((new URLSearchParams(this.props.location.search)).get('email')));
         }

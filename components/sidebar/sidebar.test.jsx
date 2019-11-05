@@ -136,6 +136,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             close: jest.fn(),
             switchToChannelById: jest.fn(),
             openModal: jest.fn(),
+            redirectUserToDefaultTeam: jest.fn(),
         },
         redirectChannel: 'default-channel',
         canCreatePublicChannel: true,

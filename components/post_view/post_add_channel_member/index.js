@@ -9,6 +9,8 @@ import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
+import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
+
 import PostAddChannelMember from './post_add_channel_member.jsx';
 
 function mapStateToProps(state, ownProps) {
@@ -33,6 +35,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             addChannelMember,
             removePost,
+            sendAddToChannelEphemeralPost,
         }, dispatch),
     };
 }

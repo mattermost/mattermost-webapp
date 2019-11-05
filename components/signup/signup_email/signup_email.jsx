@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -36,6 +35,7 @@ export default class SignupEmail extends React.Component {
             loginById: PropTypes.func.isRequired,
             setGlobalItem: PropTypes.func.isRequired,
             getTeamInviteInfo: PropTypes.func.isRequired,
+            redirectUserToDefaultTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -136,7 +136,7 @@ export default class SignupEmail extends React.Component {
             if (redirectTo) {
                 browserHistory.push(redirectTo);
             } else {
-                GlobalActions.redirectUserToDefaultTeam();
+                this.props.actions.redirectUserToDefaultTeam();
             }
         });
     }

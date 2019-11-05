@@ -8,6 +8,8 @@ import {createUser} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
+
 import {setGlobalItem} from 'actions/storage';
 import {loginById} from 'actions/views/login';
 import {getPasswordConfig} from 'utils/utils.jsx';
@@ -40,6 +42,7 @@ function mapDispatchToProps(dispatch) {
             loginById,
             setGlobalItem,
             getTeamInviteInfo,
+            redirectUserToDefaultTeam,
         }, dispatch),
     };
 }

@@ -20,11 +20,16 @@ describe('comoponents/rhs_card/RhsCard', () => {
         display_name: 'Town Square',
     };
 
+    const actions = {
+        closeRightHandSide: jest.fn(),
+    };
+
     it('should match when no post is selected', () => {
         const wrapper = shallow(
             <RhsCard
                 selected={null}
                 channel={currentChannel}
+                actions={actions}
             />,
         );
 
@@ -36,6 +41,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
             <RhsCard
                 selected={post}
                 channel={currentChannel}
+                actions={actions}
             />,
         );
 
@@ -48,6 +54,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
                 selected={post}
                 pluginPostCardTypes={{notMatchingType: {component: () => <i/>}}}
                 channel={currentChannel}
+                actions={actions}
             />,
         );
 
@@ -60,6 +67,7 @@ describe('comoponents/rhs_card/RhsCard', () => {
                 selected={post}
                 pluginPostCardTypes={{test: {component: () => <i/>}}}
                 channel={currentChannel}
+                actions={actions}
             />,
         );
 

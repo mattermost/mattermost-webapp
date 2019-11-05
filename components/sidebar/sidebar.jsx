@@ -12,7 +12,6 @@ import Scrollbars from 'react-custom-scrollbars';
 import {SpringSystem, MathUtil} from 'rebound';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
@@ -142,6 +141,7 @@ export default class Sidebar extends React.PureComponent {
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
+            redirectUserToDefaultTeam: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -210,7 +210,7 @@ export default class Sidebar extends React.PureComponent {
             this.channelIdIsDisplayedForProps(prevProps.orderedChannelIds, this.props.currentChannel.id)
         ) {
             this.closedDirectChannel = true;
-            redirectUserToDefaultTeam();
+            this.props.actions.redirectUserToDefaultTeam();
             return;
         }
 

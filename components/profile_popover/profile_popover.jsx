@@ -11,7 +11,6 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
@@ -104,6 +103,7 @@ class ProfilePopover extends React.PureComponent {
             getMembershipForCurrentEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
+            closeRightHandSide: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -151,7 +151,7 @@ class ProfilePopover extends React.PureComponent {
         actions.openDirectChannelToUserId(user.id).then((result) => {
             if (!result.error) {
                 if (Utils.isMobile()) {
-                    GlobalActions.emitCloseRightHandSide();
+                    this.props.actions.closeRightHandSide();
                 }
                 this.setState({loadingDMChannel: -1});
                 if (this.props.hide) {

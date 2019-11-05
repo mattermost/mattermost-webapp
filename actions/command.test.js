@@ -49,7 +49,10 @@ const initialState = {
 };
 
 jest.mock('utils/user_agent');
-jest.mock('actions/global_actions.jsx');
+
+jest.mock('actions/global_actions.jsx', () => ({
+    showShortcutsModal: jest.fn(() => ({type: ''})),
+}));
 
 describe('executeCommand', () => {
     let store;
@@ -85,12 +88,12 @@ describe('executeCommand', () => {
             });
         });
 
-        test('should call toggleShortcutsModal in case of no mobile', async () => {
+        test('should call showShortcutsModal in case of no mobile', async () => {
             UserAgent.isMobile.mockReturnValueOnce(false);
 
             const result = await store.dispatch(executeCommand('/shortcuts', []));
 
-            expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+            expect(GlobalActions.showShortcutsModal).toHaveBeenCalled();
             expect(result).toEqual({data: true});
         });
     });

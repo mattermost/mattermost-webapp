@@ -6,8 +6,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, injectIntl, intlShape} from 'react-intl';
 
-import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 
 const allShortcuts = defineMessages({
@@ -251,33 +249,8 @@ class ShortcutsModal extends React.PureComponent {
     static propTypes = {
         intl: intlShape.isRequired,
         isMac: PropTypes.bool.isRequired,
-    }
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            show: false,
-        };
-    }
-
-    componentDidMount() {
-        ModalStore.addModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, this.handleToggle);
-    }
-
-    componentWillUnmount() {
-        ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_SHORTCUTS_MODAL, this.handleToggle);
-    }
-
-    handleToggle = () => {
-        //toggles the state of shortcut dialog
-        this.setState({
-            show: !this.state.show,
-        });
-    }
-
-    handleHide = () => {
-        this.setState({show: false});
+        onHide: PropTypes.func.isRequired,
+        show: PropTypes.bool.isRequired,
     }
 
     getShortcuts() {
@@ -303,9 +276,8 @@ class ShortcutsModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='a11y__modal shortcuts-modal'
-                show={this.state.show}
-                onHide={this.handleHide}
-                onExited={this.handleHide}
+                show={this.props.show}
+                onHide={this.props.onHide}
                 role='dialog'
                 aria-labelledby='shortcutsModalLabel'
             >

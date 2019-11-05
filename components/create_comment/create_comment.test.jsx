@@ -49,6 +49,7 @@ describe('components/CreateComment', () => {
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
         selectedPostFocussedAt: 0,
+        sendLocalUserTyping: jest.fn(),
     };
 
     test('should match snapshot, empty comment', () => {

@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Root from 'components/root/root';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import * as Utils from 'utils/utils';
 
 jest.mock('fastclick', () => ({
@@ -14,10 +13,6 @@ jest.mock('fastclick', () => ({
 
 jest.mock('actions/diagnostics_actions', () => ({
     trackLoadTime: () => {}, // eslint-disable-line no-empty-function
-}));
-
-jest.mock('actions/global_actions', () => ({
-    redirectUserToDefaultTeam: jest.fn(),
 }));
 
 jest.mock('utils/utils', () => ({
@@ -34,6 +29,8 @@ describe('components/Root', () => {
         showTermsOfService: false,
         actions: {
             loadMeAndConfig: async () => [{}, {}, {data: true}], // eslint-disable-line no-empty-function
+            redirectUserToDefaultTeam: jest.fn(),
+            logUserOut: jest.fn(),
         },
         location: {
             pathname: '/',
@@ -74,7 +71,7 @@ describe('components/Root', () => {
         class MockedRoot extends Root {
             onConfigLoaded = jest.fn(() => {
                 expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
-                expect(GlobalActions.redirectUserToDefaultTeam).toHaveBeenCalledTimes(1);
+                expect(props.actions.redirectUserToDefaultTeam).toHaveBeenCalledTimes(1);
                 done();
             });
         }
@@ -96,7 +93,7 @@ describe('components/Root', () => {
         class MockedRoot extends Root {
             onConfigLoaded = jest.fn(() => {
                 expect(this.onConfigLoaded).toHaveBeenCalledTimes(1);
-                expect(GlobalActions.redirectUserToDefaultTeam).not.toHaveBeenCalled();
+                expect(props.actions.redirectUserToDefaultTeam).not.toHaveBeenCalled();
                 done();
             });
         }

@@ -5,7 +5,6 @@ import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import EmojiMap from 'utils/emoji_map';
 
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
@@ -15,10 +14,7 @@ import CreatePost from 'components/create_post/create_post.jsx';
 import FileUpload from 'components/file_upload';
 
 jest.mock('actions/global_actions.jsx', () => ({
-    emitLocalUserTypingEvent: jest.fn(),
     emitUserPostedEvent: jest.fn(),
-    showChannelNameUpdateModal: jest.fn(),
-    toggleShortcutsModal: jest.fn(),
 }));
 
 jest.mock('react-dom', () => ({
@@ -73,6 +69,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
+    sendLocalUserTyping: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -84,6 +81,7 @@ const actionsProp = {
         return {data: {message, args}};
     },
     scrollPostListToBottom: jest.fn(),
+    showShortcutsModal: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -248,7 +246,7 @@ describe('components/create_post', () => {
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draft);
     });
 
-    it('onKeyPress textbox should call emitLocalUserTypingEvent', () => {
+    it('onKeyPress textbox should call sendLocalUserTyping', () => {
         const wrapper = shallowWithIntl(createPost());
         wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({blur: jest.fn()})}};
 
@@ -258,7 +256,7 @@ describe('components/create_post', () => {
 
         const postTextbox = wrapper.find('#post_textbox');
         postTextbox.simulate('KeyPress', {key: KeyCodes.ENTER[0], preventDefault: jest.fn(), persist: jest.fn()});
-        expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
+        expect(actionsProp.sendLocalUserTyping).toHaveBeenCalledWith(currentChannelProp.id, '');
     });
 
     it('onSubmit test for @all', () => {
@@ -392,7 +390,8 @@ describe('components/create_post', () => {
 
         const form = wrapper.find('#create_post');
         form.simulate('Submit', {preventDefault: jest.fn()});
-        expect(GlobalActions.showChannelNameUpdateModal).toHaveBeenCalledWith(currentChannelProp);
+
+        // TODO add check here for expected behavior
     });
 
     it('onSubmit test for "/unknown" message ', async () => {
@@ -620,13 +619,13 @@ describe('components/create_post', () => {
         const wrapper = shallowWithIntl(createPost());
         const instance = wrapper.instance();
         instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.BACK_SLASH[0], keyCode: Constants.KeyCodes.BACK_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).not.toHaveBeenCalled();
+        expect(actionsProp.showShortcutsModal).not.toHaveBeenCalled();
         instance.documentKeyHandler({ctrlKey: true, key: 'ù', keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+        expect(actionsProp.showShortcutsModal).toHaveBeenCalled();
         instance.documentKeyHandler({ctrlKey: true, key: '/', keyCode: Constants.KeyCodes.SEVEN[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+        expect(actionsProp.showShortcutsModal).toHaveBeenCalled();
         instance.documentKeyHandler({ctrlKey: true, key: Constants.KeyCodes.FORWARD_SLASH[0], keyCode: Constants.KeyCodes.FORWARD_SLASH[1], preventDefault: jest.fn()});
-        expect(GlobalActions.toggleShortcutsModal).toHaveBeenCalled();
+        expect(actionsProp.showShortcutsModal).toHaveBeenCalled();
     });
 
     it('Should just return as ctrlSend is enabled and its ctrl+enter', () => {
@@ -639,7 +638,7 @@ describe('components/create_post', () => {
 
         instance.handleKeyDown({ctrlKey: true, key: Constants.KeyCodes.ENTER[0], keyCode: Constants.KeyCodes.ENTER[1], preventDefault: jest.fn(), persist: jest.fn()});
         setTimeout(() => {
-            expect(GlobalActions.emitLocalUserTypingEvent).toHaveBeenCalledWith(currentChannelProp.id, '');
+            expect(actionsProp.sendLocalUserTyping).toHaveBeenCalledWith(currentChannelProp.id, '');
         }, 0);
     });
 

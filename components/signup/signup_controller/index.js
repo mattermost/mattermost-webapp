@@ -11,6 +11,7 @@ import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
 import {getGlobalItem} from 'selectors/storage';
 import {removeGlobalItem} from 'actions/storage';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
 
 import SignupController from './signup_controller.jsx';
 
@@ -65,6 +66,7 @@ function mapDispatchToProps(dispatch) {
             removeGlobalItem,
             getTeamInviteInfo,
             addUserToTeamFromInvite,
+            redirectUserToDefaultTeam,
         }, dispatch),
     };
 }

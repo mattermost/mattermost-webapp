@@ -120,16 +120,9 @@ export const ActionTypes = keyMirror({
     CANCEL_NAVIGATION: null,
     CONFIRM_NAVIGATION: null,
 
-    TOGGLE_SHORTCUTS_MODAL: null,
     TOGGLE_IMPORT_THEME_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
-    TOGGLE_GET_POST_LINK_MODAL: null,
-    TOGGLE_GET_TEAM_INVITE_LINK_MODAL: null,
-    TOGGLE_GET_PUBLIC_LINK_MODAL: null,
     TOGGLE_QUICK_SWITCH_MODAL: null,
-    TOGGLE_CHANNEL_PURPOSE_UPDATE_MODAL: null,
-    TOGGLE_CHANNEL_NAME_UPDATE_MODAL: null,
-    TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL: null,
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
@@ -226,6 +219,10 @@ export const ModalIdentifiers = {
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
+    SHORTCUTS: 'shortcuts',
+    GET_POST_LINK: 'get_post_link',
+    GET_PUBLIC_LINK: 'get_public_link',
+    LEAVE_PRIVATE_CHANNEL: 'leave_private_channel',
 };
 
 export const UserStatuses = {

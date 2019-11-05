@@ -43,21 +43,19 @@ exports[`components/submenu_modal should match snapshot 1`] = `
         ariaLabel="mobile submenu"
         openLeft={true}
       >
-        <SubMenuItem
+        <Connect(SubMenuItem)
           action={[MockFunction]}
           id="A"
           key="A"
           root={false}
-          show={true}
           text="Text A"
           xOffset={0}
         />
-        <SubMenuItem
+        <Connect(SubMenuItem)
           action={[MockFunction]}
           id="B"
           key="B"
           root={false}
-          show={true}
           subMenu={
             Array [
               Object {

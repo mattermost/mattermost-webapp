@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
@@ -31,6 +30,13 @@ export default class PostTime extends React.PureComponent {
          */
         postId: PropTypes.string,
         teamUrl: PropTypes.string,
+
+        /**
+         * @internal
+         */
+        actions: PropTypes.shape({
+            closeRightHandSide: PropTypes.func.isRequired,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -40,7 +46,7 @@ export default class PostTime extends React.PureComponent {
 
     handleClick = () => {
         if (isMobileView()) {
-            GlobalActions.emitCloseRightHandSide();
+            this.props.actions.closeRightHandSide();
         }
     };
 

@@ -8,6 +8,7 @@ import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {deferNavigation} from 'actions/admin_actions.jsx';
+import {logUserOut} from 'actions/global_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getNavigationBlocked} from 'selectors/views/admin';
 
@@ -26,6 +27,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             deferNavigation,
+            logUserOut,
         }, dispatch),
     };
 }

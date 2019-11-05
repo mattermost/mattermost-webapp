@@ -7,7 +7,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
 import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
+import {logUserOut} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
@@ -134,7 +134,7 @@ export async function oauthToEmail(currentService, email, password, success, err
     const {data, error: err} = await UserActions.switchOAuthToEmail(currentService, email, password)(dispatch, getState);
     if (data) {
         if (data.follow_link) {
-            emitUserLoggedOutEvent(data.follow_link);
+            dispatch(logUserOut(data.follow_link));
         }
         if (success) {
             success(data);

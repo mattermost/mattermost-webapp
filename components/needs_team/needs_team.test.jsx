@@ -6,10 +6,6 @@ import {shallow} from 'enzyme';
 
 import NeedsTeam from 'components/needs_team/needs_team.jsx';
 
-jest.mock('actions/global_actions.jsx', () => ({
-    emitCloseRightHandSide: jest.fn(),
-}));
-
 jest.mock('actions/post_actions.jsx', () => ({
     stopPeriodicStatusUpdates: jest.fn(),
     startPeriodicStatusUpdates: jest.fn(),
@@ -63,6 +59,7 @@ describe('components/needs_team', () => {
         setPreviousTeamId: jest.fn(),
         loadStatusesForChannelAndSidebar: jest.fn().mockResolvedValue({data: true}),
         loadProfilesForDirect: jest.fn().mockResolvedValue({data: true}),
+        closeRightHandSide: jest.fn(),
     };
     const baseProps = {
         actions,

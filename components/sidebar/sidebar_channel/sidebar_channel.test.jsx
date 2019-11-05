@@ -34,14 +34,6 @@ jest.mock('utils/utils.jsx', () => {
     };
 });
 
-jest.mock('actions/global_actions.jsx', () => {
-    const original = require.requireActual('actions/global_actions.jsx');
-    return {
-        ...original,
-        showLeavePrivateChannelModal: jest.fn(),
-    };
-});
-
 describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     const defaultProps = {
         config: {},
@@ -71,6 +63,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             savePreferences: jest.fn(),
             leaveChannel: jest.fn(),
             openLhs: jest.fn(),
+            showLeavePrivateChannelModal: jest.fn(),
         },
         channelIsArchived: false,
     };
@@ -431,7 +424,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
 
     test('should leave the private channel', () => {
         const trackEvent = require('actions/diagnostics_actions.jsx').trackEvent;
-        const showLeavePrivateChannelModal = require('actions/global_actions.jsx').showLeavePrivateChannelModal;
         const props = {
             ...defaultProps,
             channelId: 'test-channel-id',
@@ -440,7 +432,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
 
         const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
         wrapper.instance().handleLeavePrivateChannel();
-        expect(showLeavePrivateChannelModal).toBeCalledWith({id: 'test-channel-id', display_name: 'Channel display name'});
+        expect(props.actions.showLeavePrivateChannelModal).toBeCalledWith({id: 'test-channel-id', display_name: 'Channel display name'});
         expect(trackEvent).toBeCalledWith('ui', 'ui_private_channel_x_button_clicked');
         expect(props.actions.openLhs).not.toBeCalled();
     });

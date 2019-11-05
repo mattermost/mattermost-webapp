@@ -10,6 +10,7 @@ import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferen
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
 
+import {logUserOut} from 'actions/global_actions.jsx';
 import {Preferences} from 'utils/constants';
 
 import AdvancedSettingsDisplay from './user_settings_advanced.jsx';
@@ -42,6 +43,7 @@ function mapDispatchToProps(dispatch) {
             savePreferences,
             updateUserActive,
             revokeAllSessionsForUser,
+            logUserOut,
         }, dispatch),
     };
 }

@@ -12,6 +12,8 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {getChannelTimezones} from 'mattermost-redux/actions/channels';
 import {Preferences, Posts} from 'mattermost-redux/constants';
 
+import {sendLocalUserTyping} from 'actions/global_actions.jsx';
+
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {Constants, StoragePrefixes} from 'utils/constants';
@@ -120,6 +122,7 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
+            sendLocalUserTyping,
         }, dispatch);
     };
 }

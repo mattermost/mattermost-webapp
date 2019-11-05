@@ -9,39 +9,42 @@ import GetPostLinkModal from 'components/get_post_link_modal/get_post_link_modal
 import GetLinkModal from 'components/get_link_modal';
 
 describe('components/GetPostLinkModal', () => {
-    const requiredProps = {
+    const baseProps = {
         currentTeamUrl: 'http://localhost:8065/current-team',
+        show: true,
+        onHide: () => {},
     };
 
     test('should not render any model when no post\'s id is present', () => {
-        const wrapper = shallow(<GetPostLinkModal {...requiredProps}/>);
+        const wrapper = shallow(<GetPostLinkModal {...baseProps}/>);
         expect(wrapper).toEqual({});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should not render any model when no post\'s id is invalid', () => {
-        const wrapper = shallow(<GetPostLinkModal {...requiredProps}/>);
-
         // if post id is undefined
-        wrapper.setState({postId: undefined});
-        expect(wrapper).toEqual({});
+        const props1 = {...baseProps, postId: undefined};
+        const wrapper1 = shallow(<GetPostLinkModal {...props1}/>);
+        expect(wrapper1).toEqual({});
 
         // if post id is empty
-        wrapper.setState({postId: ''});
-        expect(wrapper).toEqual({});
+        const props2 = {...baseProps, postId: ''};
+        const wrapper2 = shallow(<GetPostLinkModal {...props2}/>);
+        expect(wrapper2).toEqual({});
 
         // if post id is number
-        wrapper.setState({postId: 12345});
-        expect(wrapper).toEqual({});
+        const props3 = {...baseProps, postId: 12345};
+        const wrapper3 = shallow(<GetPostLinkModal {...props3}/>);
+        expect(wrapper3).toEqual({});
     });
 
     test('should match snapshot with currentTeamUrl and post\'s id present', () => {
+        const props = {...baseProps, show: false, postId: 'sample_post_id'};
         const wrapper = shallow(
-            <GetPostLinkModal {...requiredProps}/>
+            <GetPostLinkModal {...props}/>
         );
 
-        wrapper.setState({postId: 'sample_post_id'});
-        expect(wrapper.find(GetLinkModal).prop('link')).toEqual(requiredProps.currentTeamUrl + '/pl/sample_post_id');
+        expect(wrapper.find(GetLinkModal).prop('link')).toEqual(baseProps.currentTeamUrl + '/pl/sample_post_id');
 
         const helpText = 'The link below allows authorized users to see your post.';
         expect(wrapper.find(GetLinkModal).prop('helpText')).toEqual(helpText);
@@ -49,33 +52,5 @@ describe('components/GetPostLinkModal', () => {
         expect(wrapper.find(GetLinkModal).prop('title')).toEqual('Copy Permalink');
 
         expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should call hide on GetLinkModal\'s onHide', () => {
-        const wrapper = shallow(
-            <GetPostLinkModal {...requiredProps}/>
-        );
-
-        // Showing the modal initially to close it later onHide
-        wrapper.setState({postId: 'sample_post_id', show: true});
-        wrapper.find(GetLinkModal).first().props().onHide();
-
-        expect(wrapper.state('show')).toBe(false);
-    });
-
-    test('should pass handleToggle', () => {
-        const wrapper = mountWithIntl(<GetPostLinkModal {...requiredProps}/>) as unknown as ReactWrapper<{}, {}, GetPostLinkModal>;
-
-        const args = {post: {id: 'sample_post_id', message: 'some post message'}};
-
-        // Opening the model with handleToggle
-        wrapper.instance().handleToggle(true, args);
-        expect(wrapper.state('show')).toEqual(true);
-        expect(wrapper.state('postId')).toEqual(args.post.id);
-
-        // Closing the model with handleToggle
-        wrapper.instance().handleToggle(false, args);
-        expect(wrapper.state('show')).toEqual(false);
-        expect(wrapper.state('postId')).toEqual(args.post.id);
     });
 });

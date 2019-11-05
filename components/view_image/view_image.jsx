@@ -6,7 +6,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {getFilePreviewUrl, getFileUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
 
-import * as GlobalActions from 'actions/global_actions';
 import Constants, {FileTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import AudioVideoPreview from 'components/audio_video_preview';
@@ -51,6 +50,10 @@ export default class ViewImageModal extends React.PureComponent {
         canDownloadFiles: PropTypes.bool.isRequired,
         enablePublicLink: PropTypes.bool.isRequired,
         pluginFilePreviewComponents: PropTypes.arrayOf(PropTypes.object),
+
+        actions: PropTypes.shape({
+            showGetPublicLinkModal: PropTypes.func.isRequred,
+        }).isRequired,
     };
 
     static defaultProps = {
@@ -191,7 +194,7 @@ export default class ViewImageModal extends React.PureComponent {
     handleGetPublicLink = () => {
         this.props.onModalDismissed();
 
-        GlobalActions.showGetPublicLinkModal(this.props.fileInfos[this.state.imageIndex].id);
+        this.props.actions.showGetPublicLinkModal(this.props.fileInfos[this.state.imageIndex].id);
     }
 
     onMouseEnterImage = () => {

@@ -248,9 +248,15 @@ exports[`components/Menu should match snapshot with id 1`] = `
       text="Help"
       url={null}
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={true}
       text="Keyboard Shortcuts"
     />
@@ -536,9 +542,15 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       text="Help"
       url={null}
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={true}
       text="Keyboard Shortcuts"
     />
@@ -878,9 +890,15 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       text="Help"
       url={null}
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={false}
       text="Keyboard Shortcuts"
     />
@@ -1182,9 +1200,15 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       text="Help"
       url="test-link-help"
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={true}
       text="Keyboard Shortcuts"
     />
@@ -1524,9 +1548,15 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       text="Help"
       url="test-link-help"
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={false}
       text="Keyboard Shortcuts"
     />
@@ -1845,9 +1875,15 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       text="Help"
       url={null}
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={true}
       text="Keyboard Shortcuts"
     />
@@ -2204,9 +2240,15 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       text="Help"
       url={null}
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={false}
       text="Keyboard Shortcuts"
     />

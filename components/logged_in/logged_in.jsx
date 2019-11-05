@@ -8,7 +8,6 @@ import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
 import semver from 'semver';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
@@ -32,6 +31,8 @@ export default class LoggedIn extends React.PureComponent {
         enableTimezone: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             autoUpdateTimezone: PropTypes.func.isRequired,
+            browserChangedFocus: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
         showTermsOfService: PropTypes.bool.isRequired,
     }
@@ -95,7 +96,7 @@ export default class LoggedIn extends React.PureComponent {
 
         if (!this.props.currentUser) {
             $('#root').attr('class', '');
-            GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
+            this.props.actions.logUserOut('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
         $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post', function mouseOver(ev) {
@@ -172,12 +173,12 @@ export default class LoggedIn extends React.PureComponent {
         return this.props.children;
     }
 
-    onFocusListener() {
-        GlobalActions.emitBrowserFocus(true);
+    onFocusListener = () => {
+        this.props.actions.browserChangedFocus(true);
     }
 
-    onBlurListener() {
-        GlobalActions.emitBrowserFocus(false);
+    onBlurListener = () => {
+        this.props.actions.browserChangedFocus(false);
     }
 
     // listen for messages from the desktop app

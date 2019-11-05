@@ -18,7 +18,6 @@ import FormattedAdminHeader from 'components/widgets/admin_console/formatted_adm
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import ConfirmModal from 'components/confirm_modal.jsx';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
 import SystemUsersList from './list';
 
@@ -94,6 +93,11 @@ export default class SystemUsers extends React.Component {
             *  Function to log errors
             */
             logError: PropTypes.func.isRequired,
+
+            /*
+            *  Function to log out user
+            */
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -166,7 +170,7 @@ export default class SystemUsers extends React.Component {
     handleRevokeAllSessions = async () => {
         const {data} = await this.props.actions.revokeSessionsForAllUsers();
         if (data) {
-            emitUserLoggedOutEvent();
+            this.props.actions.logUserOut();
         } else {
             this.props.actions.logError({type: 'critical', message: 'Can\'t revoke all sessions'});
         }

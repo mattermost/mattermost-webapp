@@ -8,6 +8,8 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
+import {browserChangedFocus, logUserOut} from 'actions/global_actions.jsx';
+
 import {checkIfMFARequired} from 'utils/route';
 
 import LoggedIn from './logged_in.jsx';
@@ -30,6 +32,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             autoUpdateTimezone,
+            browserChangedFocus,
+            logUserOut,
         }, dispatch),
     };
 }

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
@@ -35,6 +34,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             savePreferences: PropTypes.func.isRequired,
             updateUserActive: PropTypes.func.isRequired,
             revokeAllSessionsForUser: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -151,7 +151,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
 
         const {data, error} = await this.props.actions.revokeAllSessionsForUser(userId);
         if (data) {
-            emitUserLoggedOutEvent();
+            this.props.actions.logUserOut();
         } else if (error) {
             this.setState({serverError: error.message});
         }

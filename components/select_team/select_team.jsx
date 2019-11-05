@@ -8,8 +8,6 @@ import {Link} from 'react-router-dom';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
-
 import * as UserAgent from 'utils/user_agent';
 import Constants from 'utils/constants';
 
@@ -48,6 +46,7 @@ export default class SelectTeam extends React.Component {
             getTeams: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -104,7 +103,7 @@ export default class SelectTeam extends React.Component {
 
     handleLogoutClick = (e) => {
         e.preventDefault();
-        emitUserLoggedOutEvent('/login');
+        this.props.actions.logUserOut('/login');
     };
 
     clearError = (e) => {

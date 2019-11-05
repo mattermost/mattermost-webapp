@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
 import {shallow, mount} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
@@ -15,6 +17,9 @@ import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/subm
 };
 
 describe('components/submenu_modal', () => {
+    const mockStore = configureStore();
+    const store = mockStore({});
+
     const action1 = jest.fn().mockReturnValueOnce('default');
     const action2 = jest.fn().mockReturnValueOnce('default');
     const action3 = jest.fn().mockReturnValueOnce('default');
@@ -63,22 +68,25 @@ describe('components/submenu_modal', () => {
         const props = {
             ...baseProps,
         };
-        const wrapper = mount(
-            <SubMenuModal {...props}/>
+        const reduxWrapper = mount(
+            <Provider store={store}>
+                <SubMenuModal {...props}/>
+            </Provider>
         );
+        const wrapper = reduxWrapper.childAt(0);
 
         wrapper.setState({show: true});
-        await wrapper.find('#A').at(1).simulate('click');
+        await wrapper.find('#A').at(2).simulate('click');
         expect(action1).toHaveBeenCalledTimes(1);
         expect(wrapper.state('show')).toEqual(false);
 
         wrapper.setState({show: true});
-        await wrapper.find('#B').at(1).simulate('click');
+        await wrapper.find('#B').at(2).simulate('click');
         expect(action2).toHaveBeenCalledTimes(1);
         expect(wrapper.state('show')).toEqual(false);
 
         wrapper.setState({show: true});
-        await wrapper.find('#C').at(1).simulate('click');
+        await wrapper.find('#C').at(2).simulate('click');
         expect(action3).toHaveBeenCalledTimes(1);
         expect(wrapper.state('show')).toEqual(false);
     });
@@ -86,10 +94,12 @@ describe('components/submenu_modal', () => {
     test('should have called props.onHide when Modal.onExited is called', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
-        const wrapper = shallow(
-            <SubMenuModal {...props}/>
+        const reduxWrapper = mount(
+            <Provider store={store}>
+                <SubMenuModal {...props}/>
+            </Provider>
         );
-
+        const wrapper = reduxWrapper.childAt(0);
         wrapper.find(Modal).props().onExited!(document.createElement('div'));
         expect(onHide).toHaveBeenCalledTimes(1);
     });

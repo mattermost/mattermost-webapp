@@ -20,6 +20,7 @@ describe('components/DoVerifyEmail', () => {
             getMe: jest.fn().mockResolvedValue({data: true}),
             logError: jest.fn(),
             clearErrors: jest.fn(),
+            redirectUserToDefaultTeam: jest.fn(),
         },
         isLoggedIn: false,
     };

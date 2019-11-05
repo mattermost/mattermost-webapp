@@ -255,9 +255,15 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
       show={false}
       text="Help"
     />
-    <MenuItemAction
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
+          "isMac": false,
+        }
+      }
+      dialogType={[Function]}
       id="keyboardShortcuts"
-      onClick={[Function]}
+      modalId="shortcuts"
       show={true}
       text="Keyboard Shortcuts"
     />

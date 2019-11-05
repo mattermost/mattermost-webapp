@@ -27,6 +27,7 @@ describe('components/ProfilePopover', () => {
             openDirectChannelToUserId: jest.fn(),
             openModal: jest.fn(),
             loadBot: jest.fn(),
+            closeRightHandSide: jest.fn(),
         },
     };
 

@@ -6,11 +6,11 @@ import React from 'react';
 import {Permissions} from 'mattermost-redux/constants';
 import {intlShape} from 'react-intl';
 
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed, localizeMessage} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
+import {isMac} from 'utils/utils.jsx';
 import InvitationModal from 'components/invitation_modal';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
@@ -25,6 +25,7 @@ import TeamSettingsModal from 'components/team_settings_modal';
 import AboutBuildModal from 'components/about_build_modal';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 import MarketplaceModal from 'components/plugin_marketplace';
+import ShortcutsModal from 'components/shortcuts_modal';
 
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
@@ -61,6 +62,7 @@ export default class MainMenu extends React.PureComponent {
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func.isRequired,
             closeRhsMenu: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -73,11 +75,6 @@ export default class MainMenu extends React.PureComponent {
     static contextTypes = {
         intl: intlShape.isRequired,
     };
-
-    toggleShortcutsModal = (e) => {
-        e.preventDefault();
-        GlobalActions.toggleShortcutsModal();
-    }
 
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown);
@@ -94,7 +91,7 @@ export default class MainMenu extends React.PureComponent {
     }
 
     handleEmitUserLoggedOutEvent = () => {
-        GlobalActions.emitUserLoggedOutEvent();
+        this.props.actions.logUserOut();
     }
 
     getFlagged = (e) => {
@@ -331,10 +328,14 @@ export default class MainMenu extends React.PureComponent {
                         text={localizeMessage('navbar_dropdown.help', 'Help')}
                         icon={this.props.mobile && <i className='fa fa-question'/>}
                     />
-                    <Menu.ItemAction
+                    <Menu.ItemToggleModalRedux
                         id='keyboardShortcuts'
                         show={!this.props.mobile}
-                        onClick={this.toggleShortcutsModal}
+                        modalId={ModalIdentifiers.SHORTCUTS}
+                        dialogType={ShortcutsModal}
+                        dialogProps={{
+                            isMac: isMac(),
+                        }}
                         text={localizeMessage('navbar_dropdown.keyboardShortcuts', 'Keyboard Shortcuts')}
                     />
                     <Menu.ItemExternalLink

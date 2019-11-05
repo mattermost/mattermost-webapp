@@ -13,7 +13,6 @@ import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import {getSiteURL} from 'utils/url';
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
@@ -83,6 +82,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
             promoteGuestToUser: PropTypes.func.isRequired,
             demoteUserToGuest: PropTypes.func.isRequired,
             loadBots: PropTypes.func.isRequired,
+            logUserOut: PropTypes.func.isRequired,
         }).isRequired,
         config: PropTypes.object.isRequired,
         bots: PropTypes.object.isRequired,
@@ -274,7 +274,7 @@ export default class SystemUsersDropdown extends React.PureComponent {
 
         const {data, error} = await this.props.actions.revokeAllSessionsForUser(this.props.user.id);
         if (data && this.props.user.id === me.id) {
-            emitUserLoggedOutEvent();
+            this.props.actions.logUserOut();
         } else if (error) {
             this.props.onError(error);
         }

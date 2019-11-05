@@ -6,7 +6,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Route, Switch} from 'react-router-dom';
 
-import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
@@ -31,7 +30,7 @@ export default class MFAController extends React.Component {
 
     handleOnClick = (e) => {
         e.preventDefault();
-        emitUserLoggedOutEvent('/login');
+        this.props.actions.logUserOut('/login');
     }
 
     render() {
@@ -118,5 +117,9 @@ MFAController.propTypes = {
      */
     match: PropTypes.shape({
         url: PropTypes.string.isRequired,
+    }).isRequired,
+
+    actions: PropTypes.shape({
+        logUserOut: PropTypes.func.isRequired,
     }).isRequired,
 };

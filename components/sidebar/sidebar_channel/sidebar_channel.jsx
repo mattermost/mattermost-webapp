@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
@@ -148,6 +147,7 @@ export default class SidebarChannel extends React.PureComponent {
             savePreferences: PropTypes.func.isRequired,
             leaveChannel: PropTypes.func.isRequired,
             openLhs: PropTypes.func.isRequired,
+            showLeavePrivateChannelModal: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -163,7 +163,7 @@ export default class SidebarChannel extends React.PureComponent {
     }
 
     handleLeavePrivateChannel = () => {
-        GlobalActions.showLeavePrivateChannelModal({id: this.props.channelId, display_name: this.props.channelDisplayName});
+        this.props.actions.showLeavePrivateChannelModal({id: this.props.channelId, display_name: this.props.channelDisplayName});
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
     }
 

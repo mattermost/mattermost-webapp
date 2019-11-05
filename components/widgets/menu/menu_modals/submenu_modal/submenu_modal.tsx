@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 
 import MenuWrapper from '../../menu_wrapper';
 import Menu from '../../menu';
-import SubMenuItem from '../../menu_items/submenu_item';
+import SubMenuItem from '../../menu_items/submenu_item/';
 
 import * as Utils from 'utils/utils.jsx';
 

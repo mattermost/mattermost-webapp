@@ -8,6 +8,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
 import {loadMeAndConfig} from 'actions/views/root';
+import {redirectUserToDefaultTeam, logUserOut} from 'actions/global_actions.jsx';
 
 import Root from './root.jsx';
 
@@ -27,6 +28,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             loadMeAndConfig,
+            redirectUserToDefaultTeam,
+            logUserOut,
         }, dispatch),
     };
 }
