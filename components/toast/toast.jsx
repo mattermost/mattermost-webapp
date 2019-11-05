@@ -23,27 +23,36 @@ export default class Toast extends React.PureComponent {
         children: PropTypes.element,
         show: PropTypes.bool.isRequired,
         extraClasses: PropTypes.string,
+        showOnlyOnce: PropTypes.bool.isRequired,
     }
 
     constructor(props) {
         super(props);
         this.state = {
 
-            //once hide is set to true, only a rerender from the caller will show it again. This way, once we have used one button the toast doesn't show up again.
-            hide: false,
+            //once hide is set to true, only mounting again from the caller will show it again. This way, once we have used one button the toast doesn't show up again.
+            // if it should only be shown once, we set it to the value of show.
+            hide: this.props.showOnlyOnce ? !this.props.show : false,
         };
+    }
+
+    shouldNeverShowAgain = () => {
+        // if it should never be seen again, hide it
+        if (this.props.showOnlyOnce) {
+            this.setState({hide: true});
+        }
     }
 
     handleJump = () => {
         this.props.jumpTo();
-        setTimeout(() => this.setState({hide: true}), this.props.jumpFadeOutDelay);
+        setTimeout(() => this.shouldNeverShowAgain(), this.props.jumpFadeOutDelay);
 
         // TODO: telemetry
     }
 
     handleDismiss = () => {
         this.props.onDismiss();
-        this.setState({hide: true});
+        this.shouldNeverShowAgain();
 
         // TODO: add telemetry
     }
@@ -55,7 +64,10 @@ export default class Toast extends React.PureComponent {
         }
 
         return (
-            <div className={classes}>
+            <div
+                className={classes}
+                style={{zIndex: this.props.order}}
+            >
                 <div
                     className='toast__jump'
                     onClick={this.handleJump}
@@ -85,4 +97,5 @@ Toast.defaultProps = {
     jumpToMessage: 'Jump',
     order: someBigNum,
     jumpFadeOutDelay: 0,
+    showOnlyOnce: false,
 };
