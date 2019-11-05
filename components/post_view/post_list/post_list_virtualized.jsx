@@ -20,6 +20,7 @@ import NewMessagesBelow from 'components/post_view/new_messages_below';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
 import Toast from 'components/toast/toast';
+import UnreadToast from 'components/toast/unreadToast';
 
 const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
@@ -133,6 +134,7 @@ export default class PostList extends React.PureComponent {
             dynamicListStyle: {
                 willChange: 'transform',
             },
+            renderUnreadChannelToast: this.props.countUnread !== 0,
         };
 
         this.listRef = React.createRef();
@@ -369,9 +371,12 @@ export default class PostList extends React.PureComponent {
                 lastViewedBottom = this.props.latestPostTimeStamp;
             }
 
+            // if we hit the bottom, we haven't just landed on the unread channel
+            const renderUnreadChannelToast = (this.state.renderUnreadChannelToast && !atBottom);
             this.setState({
                 atBottom,
                 lastViewedBottom,
+                renderUnreadChannelToast,
             });
         }
     }
@@ -402,6 +407,21 @@ export default class PostList extends React.PureComponent {
         this.updateFloatingTimestamp(visibleStartIndex);
     }
 
+    getNewMessageIndex = () => {
+        return this.state.postListIds.findIndex(
+            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
+        );
+    }
+
+    countNewMessages = () => {
+        const mark = this.getNewMessageIndex();
+        if (mark <= 0) {
+            return 0;
+        }
+        const newMessages = this.state.postListIds.slice(0, mark);
+        return newMessages.filter((id) => !(id.startsWith('date-') || id.startsWith('user-') || id.startsWith('CHANNEL'))).length;
+    }
+
     initScrollToIndex = () => {
         if (this.props.focusedPostId) {
             const index = this.state.postListIds.findIndex(
@@ -413,9 +433,7 @@ export default class PostList extends React.PureComponent {
             };
         }
 
-        const newMessagesSeparatorIndex = this.state.postListIds.findIndex(
-            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
-        );
+        const newMessagesSeparatorIndex = this.getNewMessageIndex();
 
         if (newMessagesSeparatorIndex > 0) {
             // if there is a dateLine above START_OF_NEW_MESSAGES then scroll to date line
@@ -431,7 +449,7 @@ export default class PostList extends React.PureComponent {
             };
         }
 
-        this.setState({atBottom: true});
+        this.setState({atBottom: true, renderUnreadChannelToast: false});
         return {
             index: 0,
             position: 'end',
@@ -448,6 +466,7 @@ export default class PostList extends React.PureComponent {
 
     scrollToBottom = () => {
         this.listRef.current.scrollToItem(0, 'end');
+        this.setState({renderUnreadChannelToast: false});
     }
 
     newMessagesToastText = (count) => (
@@ -459,32 +478,6 @@ export default class PostList extends React.PureComponent {
         />
     )
     renderToasts = () => {
-        let newMessagesToast;
-        if (this.props.isFirstLoad) {
-            // are we in the channel for the first time and there are unreads?
-            newMessagesToast = (
-                <Toast
-                    jumpTo={this.scrollToBottom}
-                    jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to recents')}
-                    order={1}
-                    show={!this.state.atBottom && this.props.countUnread > 0}
-                >
-                    {this.newMessagesToastText(this.props.countUnread)}
-                </Toast>
-            );
-        } else {
-            newMessagesToast = (
-                <Toast
-                    jumpTo={this.scrollToLatestMessages}
-                    jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
-                    jumpFadeOutDelay={7000}
-                    order={1}
-                    show={!this.state.atBottom && this.props.countUnread > 0}
-                >
-                    {this.newMessagesToastText(this.props.countUnread)}
-                </Toast>
-            );
-        }
         return (
             <React.Fragment>
                 <Toast
@@ -493,13 +486,35 @@ export default class PostList extends React.PureComponent {
                     order={0}
                     show={!this.state.atBottom && this.props.countUnread === 0}
                     extraClasses={'toast__history'}
+
+                    showOnlyOnce={true}
                 >
                     <FormattedMessage
                         id='postlist.toast.history'
                         defaultMessage='Viewing message history'
                     />
                 </Toast>
-                {newMessagesToast}
+                <UnreadToast
+                    jumpTo={this.scrollToBottom}
+                    jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to recents')}
+                    order={1}
+                    show={this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
+                    showOnlyOnce={true}
+                    countUnread={this.countNewMessages()}
+                >
+                    {this.newMessagesToastText(this.countNewMessages())}
+                </UnreadToast>
+                <UnreadToast
+                    jumpTo={this.scrollToLatestMessages}
+                    jumpToMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
+                    jumpFadeOutDelay={7000}
+                    order={2}
+                    show={!this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
+                    showOnlyOnce={false}
+                    countUnread={this.countNewMessages()}
+                >
+                    {this.newMessagesToastText(this.countNewMessages())}
+                </UnreadToast>
             </React.Fragment>
         );
     }
@@ -547,9 +562,8 @@ export default class PostList extends React.PureComponent {
                             onClick={this.scrollToBottom}
                         />
                     </React.Fragment>
-                )}
+                ) && newMessagesBelow}
                 {!this.state.isMobile && (this.renderToasts())}
-                {newMessagesBelow}
                 <div
                     role='presentation'
                     className='post-list-holder-by-time'
