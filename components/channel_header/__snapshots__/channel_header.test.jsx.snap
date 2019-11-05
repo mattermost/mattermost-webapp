@@ -109,6 +109,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
       tooltipKey="pinnedPosts"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
         <SearchIcon
@@ -343,6 +344,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
       tooltipKey="pinnedPosts"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
         <SearchIcon
@@ -548,6 +550,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
       tooltipKey="pinnedPosts"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
         <SearchIcon
@@ -764,6 +767,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
       tooltipKey="pinnedPosts"
     />
     <HeaderIconWrapper
+      ariaLabel={true}
       buttonId="channelHeaderSearchButton"
       iconComponent={
         <SearchIcon

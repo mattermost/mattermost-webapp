@@ -14,7 +14,7 @@ function verifyFocusInAddChannelMemberModal() {
     cy.get('#channelHeaderTitle').click();
 
     // * The dropdown menu of the channel header should be visible;
-    cy.get('#channelHeaderDropdownMenu').should('be.visible');
+    cy.get('#channelLeaveChannel').should('be.visible');
 
     // # Click 'Add Members'
     cy.get('#channelAddMembers').click();

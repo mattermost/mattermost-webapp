@@ -682,6 +682,7 @@ export default class ChannelHeader extends React.PureComponent {
                                     aria-hidden='true'
                                 />
                             }
+                            ariaLabel={true}
                             buttonId={'channelHeaderSearchButton'}
                             onClick={this.searchButtonClick}
                             tooltipKey={'search'}
