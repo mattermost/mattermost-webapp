@@ -9,6 +9,8 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 type Props = {
     saving: boolean;
     disabled?: boolean;
+    id?: string;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     savingMessage?: React.ReactNode;
     defaultMessage?: React.ReactNode;
     btnClass?: string;

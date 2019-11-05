@@ -1,21 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 
 import SetByEnv from './set_by_env';
 
-export default class Settings extends PureComponent {
-    static propTypes = {
-        inputId: PropTypes.string,
-        label: PropTypes.node.isRequired,
-        children: PropTypes.node.isRequired,
-        helpText: PropTypes.node,
-        setByEnv: PropTypes.bool,
-    };
+type Props = {
+    inputId?: string;
+    label: React.ReactNode;
+    children: React.ReactNode;
+    helpText?: React.ReactNode;
+    setByEnv?: boolean;
+}
 
-    render() {
+export default class Settings extends PureComponent<Props> {
+    public render() {
         const {
             children,
             setByEnv,
