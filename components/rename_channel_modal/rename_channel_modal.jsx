@@ -98,15 +98,6 @@ export class RenameChannelModal extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!Utils.areObjectsEqual(nextProps.channel, this.props.channel)) {
-            this.setState({
-                displayName: nextProps.channel.display_name,
-                channelName: nextProps.channel.name,
-            });
-        }
-    }
-
     setError = (err) => {
         this.setState({serverError: err.message});
     }

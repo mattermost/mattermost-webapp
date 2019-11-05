@@ -589,7 +589,6 @@ export default class Sidebar extends React.PureComponent {
                             <ul
                                 key={section.type}
                                 aria-label={ariaLabel}
-                                role='presentation'
                                 className='nav nav-pills nav-stacked a11y__section'
                                 id={sectionId + 'List'}
                                 tabIndex='-1'
