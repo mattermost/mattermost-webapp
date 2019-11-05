@@ -4,7 +4,7 @@
 import React from 'react';
 import {ChromePicker, ColorResult} from 'react-color';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
 type State = {
     showPicker: boolean;

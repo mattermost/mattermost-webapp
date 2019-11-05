@@ -14,8 +14,12 @@ describe('components/channel_invite_modal', () => {
 
     const users = [{
         id: 'user-1',
+        label: 'user-1',
+        value: 'user-1',
     }, {
         id: 'user-2',
+        label: 'user-2',
+        value: 'user-2',
     }];
 
     const channel = {
