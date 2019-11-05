@@ -34,6 +34,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="share-link-input-block"
     >
       <input
+        aria-label="team invite link"
         className="share-link-input"
         data-testid="shareLinkInput"
         readOnly={true}
