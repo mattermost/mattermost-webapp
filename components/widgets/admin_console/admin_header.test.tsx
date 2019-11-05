@@ -20,5 +20,4 @@ describe('components/widgets/admin_console/AdminHeader', () => {
 `
         );
     });
-
 });
