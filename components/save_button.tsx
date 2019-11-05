@@ -15,7 +15,6 @@ type Props = {
     defaultMessage?: React.ReactNode;
     btnClass?: string;
     extraClasses?: string;
-    onClick?: (e: React.SyntheticEvent) => void;
 }
 
 export default class SaveButton extends React.PureComponent<Props> {
