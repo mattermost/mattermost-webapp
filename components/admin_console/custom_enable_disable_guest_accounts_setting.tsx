@@ -6,13 +6,14 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import BooleanSetting from './boolean_setting';
 import ConfirmModal from 'components/confirm_modal.jsx';
+
+import BooleanSetting from './boolean_setting';
 
 type Props = {
     id: string;
-    value: string | boolean;
-    onChange: (id: string, value: string) => void;
+    value: boolean | string;
+    onChange: (id: string, value: any) => void;
     disabled?: boolean;
     setByEnv: boolean;
 }
@@ -30,11 +31,11 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
         };
     }
 
-    private handleChange = (id: string, value: boolean, confirm?: boolean) => {
+    public handleChange = (id: string, value: boolean, confirm?: boolean) => {
         if (!value && !confirm) {
             this.setState({showConfirm: true});
         } else {
-            this.props.onChange(id, value.toString());
+            this.props.onChange(id, value);
         }
     };
 
@@ -52,11 +53,11 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
             />
         );
 
-        let value: boolean;
-        if (typeof this.props.value === 'boolean') {
-            value = this.props.value;
-        } else {
+        let value;
+        if (typeof this.props.value === 'string') {
             value = this.props.value === 'true';
+        } else {
+            value = this.props.value;
         }
 
         return (
