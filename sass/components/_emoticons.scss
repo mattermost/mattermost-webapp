@@ -11,6 +11,7 @@
 }
 
 .emoticon {
+    border: none !important;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: contain;
@@ -18,8 +19,8 @@
     align-items: end;
     justify-content: space-between;
     height: 21px;
-    min-height: 1em;
-    min-width: 1em;
+    min-height: 21px;
+    min-width: 21px;
     vertical-align: middle;
     width: 21px;
 

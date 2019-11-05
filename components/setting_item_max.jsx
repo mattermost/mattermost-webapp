@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import SaveButton from 'components/save_button.jsx';
-import Constants from 'utils/constants.jsx';
+import SaveButton from 'components/save_button';
+import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils.jsx';
 
 export default class SettingItemMax extends React.PureComponent {

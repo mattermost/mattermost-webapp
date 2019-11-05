@@ -7,6 +7,7 @@ import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 import AboutBuildModal from 'components/about_build_modal/about_build_modal.jsx';
+import {AboutLinks} from 'utils/constants';
 
 describe('components/AboutBuildModal', () => {
     const RealDate = Date;
@@ -40,8 +41,8 @@ describe('components/AboutBuildModal', () => {
             BuildHash: 'abcdef1234567890',
             BuildHashEnterprise: '0123456789abcdef',
             BuildDate: '21 January 2017',
-            TermsOfServiceLink: 'https://about.mattermost.com/default-terms/',
-            PrivacyPolicyLink: 'https://mattermost.com/privacy-policy/',
+            TermsOfServiceLink: 'https://about.custom.com/default-terms/',
+            PrivacyPolicyLink: 'https://about.custom.com/privacy-policy/',
         };
         license = {
             IsLicensed: 'true',
@@ -100,10 +101,8 @@ describe('components/AboutBuildModal', () => {
         expect(wrapper.find('#buildnumberString').text()).toBe('\u00a0123');
     });
 
-    test('should call onHide callback when the modal is hidden', (done) => {
-        function onHide() {
-            done();
-        }
+    test('should call onHide callback when the modal is hidden', () => {
+        const onHide = jest.fn();
 
         const wrapper = mountWithIntl(
             <AboutBuildModal
@@ -115,7 +114,25 @@ describe('components/AboutBuildModal', () => {
             />
         );
 
-        wrapper.find(Modal).first().props().onHide();
+        wrapper.find(Modal).first().props().onExited();
+        expect(onHide).toHaveBeenCalledTimes(1);
+    });
+
+    test('should show default tos and privacy policy links and not the config links', () => {
+        const wrapper = mountWithIntl(
+            <AboutBuildModal
+                config={config}
+                license={license}
+                show={true}
+                onHide={jest.fn()}
+            />
+        );
+
+        expect(wrapper.find('#tosLink').props().href).toBe(AboutLinks.TERMS_OF_SERVICE);
+        expect(wrapper.find('#privacyLink').props().href).toBe(AboutLinks.PRIVACY_POLICY);
+
+        expect(wrapper.find('#tosLink').props().href).not.toBe(config.TermsOfServiceLink);
+        expect(wrapper.find('#privacyLink').props().href).not.toBe(config.PrivacyPolicyLink);
     });
 
     function shallowAboutBuildModal(props = {}) {

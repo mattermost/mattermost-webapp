@@ -8,7 +8,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import store from 'stores/redux_store.jsx';
 
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 
 import Suggestion from './suggestion.jsx';
 import Provider from './provider.jsx';

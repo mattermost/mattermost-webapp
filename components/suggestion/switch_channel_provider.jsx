@@ -44,7 +44,7 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
