@@ -8,7 +8,7 @@ import {Overlay, Tooltip} from 'react-bootstrap';
 
 import * as I18n from 'i18n/i18n.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
@@ -18,7 +18,7 @@ import TextSetting from 'components/admin_console/text_setting.jsx';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
 import MultiSelectSetting from 'components/admin_console/multiselect_settings.jsx';
 import RadioSetting from 'components/admin_console/radio_setting.jsx';
-import ColorSetting from 'components/admin_console/color_setting.jsx';
+import ColorSetting from 'components/admin_console/color_setting';
 import GeneratedSetting from 'components/admin_console/generated_setting.jsx';
 import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
@@ -26,7 +26,7 @@ import JobsTable from 'components/admin_console/jobs';
 import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx';
 import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx';
 import SchemaText from 'components/admin_console/schema_text';
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';

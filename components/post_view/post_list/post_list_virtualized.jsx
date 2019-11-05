@@ -10,7 +10,7 @@ import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
+import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -468,6 +468,7 @@ export default class PostList extends React.PureComponent {
         return (
             <div
                 id='post-list'
+                role='list'
                 className='a11y__region'
                 data-a11y-sort-order='1'
                 data-a11y-focus-child={true}

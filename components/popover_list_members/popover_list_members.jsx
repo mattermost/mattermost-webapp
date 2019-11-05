@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {canManageMembers} from 'utils/channel_utils.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
@@ -42,6 +42,8 @@ export default class PopoverListMembers extends React.Component {
             showTeamMembersModal: false,
             showChannelMembersModal: false,
             showChannelInviteModal: false,
+            users: props.users,
+            statuses: props.statuses,
             sortedUsers: this.sortUsers(props.users, props.statuses),
         };
     }
@@ -50,12 +52,15 @@ export default class PopoverListMembers extends React.Component {
         $('.member-list__popover .popover-content .more-modal__body').perfectScrollbar();
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.users !== nextProps.users || this.props.statuses !== nextProps.statuses) {
-            const sortedUsers = this.sortUsers(nextProps.users, nextProps.statuses);
-
-            this.setState({sortedUsers});
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.users !== prevState.users || nextProps.statuses !== prevState.statuses) {
+            return {
+                users: nextProps.users,
+                statuses: nextProps.statuses,
+                sortedUsers: Utils.sortUsersByStatusAndDisplayName(nextProps.users, nextProps.statuses),
+            };
         }
+        return null;
     }
 
     sortUsers = (users, statuses) => {

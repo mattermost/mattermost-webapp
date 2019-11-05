@@ -20,7 +20,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -84,43 +83,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
   </div>
-  <div
-    className="groups-list--footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.group_settings.groups_list.paginatorCount"
-        values={
-          Object {
-            "endCount": 0,
-            "startCount": 1,
-            "total": 0,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
-  </div>
 </div>
 `;
 
@@ -144,7 +106,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -288,43 +249,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
   </div>
-  <div
-    className="groups-list--footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.group_settings.groups_list.paginatorCount"
-        values={
-          Object {
-            "endCount": 0,
-            "startCount": 1,
-            "total": 0,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
-  </div>
 </div>
 `;
 
@@ -348,7 +272,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -473,7 +396,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -598,7 +520,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -723,7 +644,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -885,7 +805,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1152,7 +1071,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1419,7 +1337,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1581,7 +1498,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
@@ -1647,43 +1563,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
   </div>
-  <div
-    className="groups-list--footer"
-  >
-    <div
-      className="counter"
-    >
-      <FormattedMessage
-        defaultMessage="{startCount, number} - {endCount, number} of {total, number}"
-        id="admin.group_settings.groups_list.paginatorCount"
-        values={
-          Object {
-            "endCount": 0,
-            "startCount": 1,
-            "total": 0,
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-link prev disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <PreviousIcon
-        additionalClassName={null}
-      />
-    </button>
-    <button
-      className="btn btn-link next disabled"
-      disabled={true}
-      onClick={null}
-    >
-      <NextIcon
-        additionalClassName={null}
-      />
-    </button>
-  </div>
 </div>
 `;
 
@@ -1707,7 +1586,6 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <i
         className="fa fa-times-circle group-filter-action hidden"
