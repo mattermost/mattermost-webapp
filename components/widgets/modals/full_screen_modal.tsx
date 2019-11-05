@@ -20,12 +20,34 @@ type Props = {
 };
 
 export default class FullScreenModal extends React.Component<Props> {
+    private modal = React.createRef<HTMLDivElement>();
+
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
+        document.addEventListener('focus', this.enforceFocus);
+        this.resetFocus();
     }
 
     public componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeypress);
+        document.removeEventListener('focus', this.enforceFocus);
+    }
+
+    private enforceFocus = () => {
+        setTimeout(() => {
+            const currentActiveElement = document.activeElement;
+            if (this.modal && this.modal.current && !this.modal.current.contains(currentActiveElement)) {
+                this.modal.current.focus();
+            }
+        });
+    }
+
+    public resetFocus = () => {
+        setTimeout(() => {
+            if (this.modal && this.modal.current) {
+                this.modal.current.focus();
+            }
+        });
     }
 
     private handleKeypress = (e: KeyboardEvent) => {
@@ -64,7 +86,11 @@ export default class FullScreenModal extends React.Component<Props> {
                 timeout={ANIMATION_DURATION}
                 appear={true}
             >
-                <div className='FullScreenModal'>
+                <div
+                    className='FullScreenModal'
+                    ref={this.modal}
+                    tabIndex={-1}
+                >
                     {this.props.onGoBack &&
                         <BackIcon
                             tabIndex='0'

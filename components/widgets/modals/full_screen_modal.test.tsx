@@ -30,6 +30,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 >
   <div
     className="FullScreenModal"
+    tabIndex={-1}
   >
     <CloseIcon
       className="close-x"
@@ -63,6 +64,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 >
   <div
     className="FullScreenModal"
+    tabIndex={-1}
   >
     <CloseIcon
       className="close-x"
@@ -97,6 +99,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 >
   <div
     className="FullScreenModal"
+    tabIndex={-1}
   >
     <BackIcon
       className="back"
