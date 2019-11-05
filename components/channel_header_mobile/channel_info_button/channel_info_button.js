@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover} from 'react-bootstrap';
+import {OverlayTrigger} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ModalIdentifiers} from 'utils/constants';
@@ -11,7 +11,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import InfoIcon from 'components/widgets/icons/info_icon';
-
+import Popover from 'components/widgets/popover/popover';
 const headerMarkdownOptions = {mentionHighlight: false};
 
 export default class NavbarInfoButton extends React.PureComponent {
@@ -94,7 +94,7 @@ export default class NavbarInfoButton extends React.PureComponent {
 
         const popover = (
             <Popover
-                bsStyle='info'
+                popoverStyle='info'
                 placement='bottom'
                 className='navbar__popover'
                 id='header-popover'
