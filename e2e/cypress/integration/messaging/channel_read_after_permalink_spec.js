@@ -64,7 +64,7 @@ describe('Channel is removed from Unreads section if user navigates out of it vi
             // # create public channel to post permalink
             cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
                 const testChannel = response.body;
-                
+
                 // # post the message on the channel
                 postMessageOnChannel(testChannel);
 
@@ -93,22 +93,28 @@ function checkUnreadsGroupSeparately() {
     // # click header area to get the dropdown menu
     cy.get('#sidebarHeaderDropdownButton').click({force: true});
     cy.wait(TIMEOUTS.TINY);
+
     // # click account settings menu
     cy.get('#accountSettings').find('button').click({force: true});
     cy.wait(TIMEOUTS.TINY);
+
     // # click on sidebar submenu
     cy.get('#sidebarButton').click({force: true});
     cy.wait(TIMEOUTS.TINY);
+
     // # click on edit to edit the channel grouping
     cy.get('#groupChannelsEdit').click({force: true});
     cy.wait(TIMEOUTS.TINY);
+
     // # check the option so unread channels are grouped
     // * also make sure it is checked
     cy.get('#unreadAtTopOption').check().should('be.checked');
     cy.wait(TIMEOUTS.TINY);
+
     // # save the configuration
     cy.get('#saveSetting').click({force: true});
     cy.wait(TIMEOUTS.TINY);
+
     // # close the modal
     cy.get('#accountSettingsHeader').find('.close').click({force: true});
 }
@@ -121,6 +127,7 @@ function postMessageOnChannel(testChannel) {
     // # paste link on postlist area and mention the other user
     cy.get('@linkText').then((linkText) => {
         cy.postMessage('@sysadmin ' + linkText);
+
         // # we add the mentioned user to the channel
         cy.get('#add_channel_member_link').click({force: true});
     });
