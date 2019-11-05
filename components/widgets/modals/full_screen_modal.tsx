@@ -35,7 +35,7 @@ export default class FullScreenModal extends React.Component<Props> {
     }
 
     private onBackKeyDown = (e: KeyboardEvent) => {
-        var code = e.which;
+        const code = e.which;
         if ((code === 13) || (code === 32)) {
             if (this.props.onGoBack) {
                 this.props.onGoBack();
@@ -44,7 +44,7 @@ export default class FullScreenModal extends React.Component<Props> {
     }
 
     private onCloseKeyDown = (e: KeyboardEvent) => {
-        var code = e.which;
+        const code = e.which;
         if ((code === 13) || (code === 32)) {
             this.close();
         }

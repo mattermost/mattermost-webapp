@@ -14,7 +14,6 @@ import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-
 import './invitation_modal_guests_step.scss';
 
 import {t} from 'utils/i18n.jsx';
