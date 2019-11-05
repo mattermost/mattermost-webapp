@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
 export default class FileUploadSetting extends Setting {
     static get propTypes() {
