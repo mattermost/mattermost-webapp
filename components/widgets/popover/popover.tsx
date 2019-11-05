@@ -1,8 +1,10 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React from 'react';
-import { Popover as BSPopover } from 'react-bootstrap';
+import {Popover as BSPopover} from 'react-bootstrap';
 
 export type Sizes = 'xs' | 'xsmall' | 'sm' | 'small' | 'medium' | 'lg' | 'large';
-
 
 interface Props {
     id: string;
@@ -13,20 +15,22 @@ interface Props {
     placement?: 'bottom' | 'top' | 'right' | 'left';
 }
 
-const Popover: React.FC<Props> = (props: Props) => (<BSPopover
-    bsStyle={props.popoverStyle}
-    placement={props.placement}
-    bsClass="popover"
-    bsSize={props.popoverSize}
-    {...props}
->
-    {props.children}
-</BSPopover>);
+const Popover: React.FC<Props> = (props: Props) => (
+    <BSPopover
+        bsStyle={props.popoverStyle}
+        placement={props.placement}
+        bsClass='popover'
+        bsSize={props.popoverSize}
+        {...props}
+    >
+        {props.children}
+    </BSPopover>
+);
 
 Popover.defaultProps = {
     placement: 'right',
     popoverStyle: 'info',
     popoverSize: 'small'
-    
-}
+
+};
 export default Popover;
