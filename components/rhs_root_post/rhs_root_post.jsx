@@ -324,6 +324,7 @@ export default class RhsRootPost extends React.PureComponent {
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 aria-label={this.state.currentAriaLabel}
                 onFocus={this.handlePostFocus}
+                data-a11y-sort-order='0'
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div

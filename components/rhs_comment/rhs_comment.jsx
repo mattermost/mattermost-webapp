@@ -50,6 +50,7 @@ export default class RhsComment extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
+        a11yIndex: PropTypes.number,
     };
 
     static contextTypes = {
@@ -436,6 +437,7 @@ export default class RhsComment extends React.PureComponent {
                 onMouseLeave={this.unsetHover}
                 aria-label={this.state.currentAriaLabel}
                 onFocus={this.handlePostFocus}
+                data-a11y-sort-order={this.props.a11yIndex}
             >
                 <div
                     role='application'
