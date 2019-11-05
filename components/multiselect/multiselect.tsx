@@ -1,95 +1,126 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import ReactSelect from 'react-select';
 
-import {Constants, A11yCustomEventTypes} from 'utils/constants';
-import SaveButton from 'components/save_button.jsx';
+import {ActionMeta} from 'react-select/src/types';
+import {getOptionValue} from 'react-select/src/builtins';
+import {StateManager} from 'react-select/src/stateManager';
 
-import MultiSelectList from './multiselect_list.jsx';
+import {Constants, A11yCustomEventTypes} from 'utils/constants';
+import SaveButton from 'components/save_button';
+
+import MultiSelectList from './multiselect_list';
+
+export type Value = {
+    deleteAt?: number;
+    display_name?: string;
+    id: string;
+    label: string;
+    scheme_id?: string;
+    value: string;
+};
+
+export type Props = {
+    ariaLabelRenderer: getOptionValue<Value>;
+    buttonSubmitLoadingText?: JSX.Element | string;
+    buttonSubmitText?: JSX.Element | string;
+    handleAdd: (value: Value) => void;
+    handleDelete: (values: Value[]) => void;
+    handleInput: (input: string, multiselect: MultiSelect) => void;
+    handlePageChange?: (newPage: number, currentPage: number) => void;
+    handleSubmit: (value?: Value[]) => void;
+    loading?: boolean;
+    maxValues?: number;
+    noteText?: JSX.Element;
+    numRemainingText?: JSX.Element;
+    optionRenderer: (
+        option: Value,
+        isSelected: boolean,
+        onAdd: (value: Value) => void
+    ) => void;
+    options: Value[];
+    perPage: number;
+    placeholderText?: string;
+    saving?: boolean;
+    submitImmediatelyOn?: (value: Value) => void;
+    totalCount?: number;
+    users?: unknown[];
+    valueRenderer: typeof StateManager;
+    values: Value[];
+}
+
+export type State = {
+    a11yActive: boolean;
+    input: string;
+    page: number;
+}
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class MultiSelect extends React.Component {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        totalCount: PropTypes.number,
-        options: PropTypes.arrayOf(PropTypes.object),
-        optionRenderer: PropTypes.func,
-        values: PropTypes.arrayOf(PropTypes.object),
-        valueRenderer: PropTypes.func,
-        ariaLabelRenderer: PropTypes.func.isRequired,
-        handleInput: PropTypes.func,
-        handleDelete: PropTypes.func,
-        perPage: PropTypes.number,
-        handlePageChange: PropTypes.func,
-        handleAdd: PropTypes.func,
-        handleSubmit: PropTypes.func,
-        noteText: PropTypes.node,
-        maxValues: PropTypes.number,
-        numRemainingText: PropTypes.node,
-        buttonSubmitText: PropTypes.node,
-        buttonSubmitLoadingText: PropTypes.node,
-        submitImmediatelyOn: PropTypes.func,
-        saving: PropTypes.bool,
-        loading: PropTypes.bool,
-        placeholderText: PropTypes.string,
-    }
+export default class MultiSelect extends React.Component<Props, State> {
+    private listRef = React.createRef<MultiSelectList>()
+    private reactSelectRef = React.createRef<ReactSelect>()
+    private selected: Value | null = null
 
-    static defaultProps = {
+    public static defaultProps = {
         ariaLabelRenderer: defaultAriaLabelRenderer,
     }
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
 
-        this.selected = null;
-
         this.state = {
+            a11yActive: false,
             page: 0,
             input: '',
         };
     }
 
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleEnterPress);
-        if (this.refs.reactSelect) {
-            this.refs.reactSelect.select.inputRef.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-            this.refs.reactSelect.select.inputRef.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    public componentDidMount() {
+        const inputRef: unknown = this.reactSelectRef.current && this.reactSelectRef.current.select.inputRef;
 
-            this.refs.reactSelect.focus();
+        document.addEventListener<'keydown'>('keydown', this.handleEnterPress);
+        if (inputRef && typeof (inputRef as HTMLElement).addEventListener === 'function') {
+            (inputRef as HTMLElement).addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            (inputRef as HTMLElement).addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
+            this.reactSelectRef.current!.focus(); // known from ternary definition of inputRef
         }
     }
 
-    componentWillUnmount() {
-        this.refs.reactSelect.select.inputRef.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
-        this.refs.reactSelect.select.inputRef.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    public componentWillUnmount() {
+        const inputRef: unknown = this.reactSelectRef.current && this.reactSelectRef.current.select.inputRef;
+
+        if (inputRef && typeof (inputRef as HTMLElement).addEventListener === 'function') {
+            (inputRef as HTMLElement).removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+            (inputRef as HTMLElement).removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+        }
 
         document.removeEventListener('keydown', this.handleEnterPress);
     }
 
-    handleA11yActivateEvent = () => {
+    private handleA11yActivateEvent = () => {
         this.setState({a11yActive: true});
     }
 
-    handleA11yDeactivateEvent = () => {
+    private handleA11yDeactivateEvent = () => {
         this.setState({a11yActive: false});
     }
 
-    nextPage = () => {
+    private nextPage = () => {
         if (this.props.handlePageChange) {
             this.props.handlePageChange(this.state.page + 1, this.state.page);
         }
-        if (this.refs.list) {
-            this.refs.list.setSelected(0);
+        if (this.listRef.current) {
+            this.listRef.current.setSelected(0);
         }
         this.setState({page: this.state.page + 1});
     }
 
-    prevPage = () => {
+    private prevPage = () => {
         if (this.state.page === 0) {
             return;
         }
@@ -97,19 +128,22 @@ export default class MultiSelect extends React.Component {
         if (this.props.handlePageChange) {
             this.props.handlePageChange(this.state.page - 1, this.state.page);
         }
-        this.refs.list.setSelected(0);
+
+        if (this.listRef.current) {
+            this.listRef.current.setSelected(0);
+        }
         this.setState({page: this.state.page - 1});
     }
 
-    resetPaging = () => {
+    private resetPaging = () => {
         this.setState({page: 0});
     }
 
-    onSelect = (selected) => {
+    private onSelect = (selected: Value | null) => {
         this.selected = selected;
     }
 
-    onAdd = (value) => {
+    private onAdd = (value: Value) => {
         if (this.props.maxValues && this.props.values.length >= this.props.maxValues) {
             return;
         }
@@ -123,9 +157,13 @@ export default class MultiSelect extends React.Component {
         this.props.handleAdd(value);
         this.selected = null;
 
-        this.refs.reactSelect.select.handleInputChange({currentTarget: {value: ''}});
-        this.onInput('');
-        this.refs.reactSelect.focus();
+        if (this.reactSelectRef.current) {
+            this.reactSelectRef.current.select.handleInputChange(
+                {currentTarget: {value: ''}} as React.KeyboardEvent<HTMLInputElement>
+            );
+            this.onInput('');
+            this.reactSelectRef.current.focus();
+        }
 
         const submitImmediatelyOn = this.props.submitImmediatelyOn;
         if (submitImmediatelyOn && submitImmediatelyOn(value)) {
@@ -133,7 +171,11 @@ export default class MultiSelect extends React.Component {
         }
     }
 
-    onInput = (input, change = {}) => {
+    private onInput = (input: string, change: ActionMeta | { action: string } = {action: ''}) => {
+        if (!change) {
+            return;
+        }
+
         if (change.action === 'input-blur' || change.action === 'menu-close') {
             return;
         }
@@ -144,17 +186,19 @@ export default class MultiSelect extends React.Component {
 
         this.setState({input});
 
-        if (input === '') {
-            this.refs.list.setSelected(-1);
-        } else {
-            this.refs.list.setSelected(0);
+        if (this.listRef.current) {
+            if (input === '') {
+                this.listRef.current.setSelected(-1);
+            } else {
+                this.listRef.current.setSelected(0);
+            }
         }
         this.selected = null;
 
         this.props.handleInput(input, this);
     }
 
-    onInputKeyDown = (e) => {
+    private onInputKeyDown = (e: React.KeyboardEvent) => {
         switch (e.key) {
         case KeyCodes.ENTER[0]:
             e.preventDefault();
@@ -162,7 +206,7 @@ export default class MultiSelect extends React.Component {
         }
     }
 
-    handleEnterPress = (e) => {
+    private handleEnterPress = (e: KeyboardEvent) => {
         switch (e.key) {
         case KeyCodes.ENTER[0]:
             if (this.selected == null) {
@@ -174,19 +218,20 @@ export default class MultiSelect extends React.Component {
         }
     }
 
-    handleOnClick = (e) => {
+    private handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         this.props.handleSubmit();
     }
 
-    onChange = (_, change) => {
+    private onChange: ReactSelect['onChange'] = (_, change) => {
         if (change.action !== 'remove-value' && change.action !== 'pop-value') {
             return;
         }
 
         const values = [...this.props.values];
         for (let i = 0; i < values.length; i++) {
-            if (values[i].id === change.removedValue.id) {
+            // Types of ReactSelect do not match the behavior here,
+            if (values[i].id === (change as any).removedValue.id) {
                 values.splice(i, 1);
                 break;
             }
@@ -195,8 +240,8 @@ export default class MultiSelect extends React.Component {
         this.props.handleDelete(values);
     }
 
-    render() {
-        const options = Object.assign([], this.props.options);
+    public render() {
+        const options = Object.assign([...this.props.options]);
         const {totalCount, users, values} = this.props;
 
         let numRemainingText;
@@ -242,7 +287,7 @@ export default class MultiSelect extends React.Component {
                             {(title) => (
                                 <span
                                     className='fa fa-info'
-                                    title={title}
+                                    title={title as string}
                                 />
                             )}
                         </FormattedMessage>
@@ -252,7 +297,7 @@ export default class MultiSelect extends React.Component {
             );
         }
 
-        const valueMap = {};
+        const valueMap: Record<string, boolean> = {};
         for (let i = 0; i < values.length; i++) {
             valueMap[values[i].id] = true;
         }
@@ -320,7 +365,7 @@ export default class MultiSelect extends React.Component {
                     <div className='multi-select__container'>
                         <ReactSelect
                             id='selectItems'
-                            ref='reactSelect'
+                            ref={this.reactSelectRef as React.RefObject<any>} // type of ref on @types/react-select is outdated
                             isMulti={true}
                             options={this.props.options}
                             styles={styles}
@@ -333,13 +378,13 @@ export default class MultiSelect extends React.Component {
                             openMenuOnFocus={false}
                             menuIsOpen={false}
                             onInputChange={this.onInput}
-                            onKeyDown={this.onInputKeyDown}
+                            onKeyDown={this.onInputKeyDown as React.KeyboardEventHandler}
                             onChange={this.onChange}
                             value={this.props.values}
                             placeholder={this.props.placeholderText}
                             inputValue={this.state.input}
-                            getOptionValue={(option) => option.id}
-                            getOptionLabel={(option) => this.props.ariaLabelRenderer(option)}
+                            getOptionValue={(option: Value) => option.id}
+                            getOptionLabel={this.props.ariaLabelRenderer}
                             aria-label={this.props.placeholderText}
                             className={this.state.a11yActive ? 'multi-select__focused' : ''}
                         />
@@ -361,7 +406,7 @@ export default class MultiSelect extends React.Component {
                     </div>
                 </div>
                 <MultiSelectList
-                    ref='list'
+                    ref={this.listRef}
                     options={optionsToDisplay}
                     optionRenderer={this.props.optionRenderer}
                     ariaLabelRenderer={this.props.ariaLabelRenderer}
@@ -381,7 +426,7 @@ export default class MultiSelect extends React.Component {
     }
 }
 
-function defaultAriaLabelRenderer(option) {
+function defaultAriaLabelRenderer(option: Value) {
     if (!option) {
         return null;
     }
@@ -390,8 +435,8 @@ function defaultAriaLabelRenderer(option) {
 
 const nullComponent = () => null;
 
-const paddedComponent = (WrappedComponent) => {
-    return (props) => {
+const paddedComponent = (WrappedComponent: typeof ReactSelect) => {
+    return (props: Props) => {
         return (
             <div style={{paddingRight: '5px', paddingLeft: '5px', borderRight: '1px solid rgba(0, 126, 255, 0.24)'}}>
                 <WrappedComponent {...props}/>
@@ -409,7 +454,7 @@ const styles = {
             width: '100%',
         };
     },
-    control: (base) => {
+    control: (base: React.CSSProperties) => {
         return {
             ...base,
             borderRadius: '1px',
@@ -420,7 +465,7 @@ const styles = {
             backgroundColor: 'hsl(0,0%,100%)',
         };
     },
-    multiValue: (base) => {
+    multiValue: (base: React.CSSProperties): React.CSSProperties => {
         return {
             ...base,
             whiteSpace: 'nowrap',
@@ -429,7 +474,7 @@ const styles = {
             color: '#007eff',
         };
     },
-    multiValueRemove: (base) => {
+    multiValueRemove: (base: React.CSSProperties) => {
         return {
             ...base,
             ':hover': {

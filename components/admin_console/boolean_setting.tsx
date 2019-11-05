@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
 type Props = {
     id: string;

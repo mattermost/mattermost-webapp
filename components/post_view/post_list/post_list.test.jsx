@@ -141,7 +141,7 @@ describe('components/post_view/post_list', () => {
         test('should call getPostsSince on channel switch', () => {
             const postIds = createFakePosIds(2);
             shallow(<PostList {...{...baseProps, isFirstLoad: false, postListIds: postIds, latestPostTimeStamp: 1234}}/>);
-            expect(actionsProp.syncPostsInChannel).toHaveBeenCalledWith(baseProps.channelId, 1234);
+            expect(actionsProp.syncPostsInChannel).toHaveBeenCalledWith(baseProps.channelId, 1234, false);
         });
     });
 
