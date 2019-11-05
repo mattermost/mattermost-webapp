@@ -12,34 +12,49 @@ describe('Messaging', () => {
         // # Login and navigate to town-square
         cy.toMainChannelView('user-1');
 
-        // # Make sure that input box is clear
-        getInputBox().clear();
+        // # Add two posts
+        getInputBox().type('test post 1{enter}');
+        getInputBox().type('test post 2{enter}');
     });
 
     it('M18700 - Leave a long draft in reply input box', async () => {
-        // # Make sure that input box has initial height
-        getInputBox().should('have.css', 'height', '46px');
+        // # Get latest post id
+        cy.getLastPostId().then((latestPostId) => {
+            // # Click reply icon
+            cy.clickPostCommentIcon(latestPostId);
 
-        // # Write a long text in input
-        getInputBox().type('test\n\n\n\n\n\n');
+            // # Make sure that text box has initial height
+            getTextBox().should('have.css', 'height', '100px');
 
-        // # Check that input box is taller than before
-        getInputBox().should('have.css', 'height', '166px');
+            // // # Write a long text in text box
+            getTextBox().type('test\n\n\n\n\n\n');
 
-        // # Go to another channel
-        cy.get('#sidebarItem_suscipit-4').click();
+            // # Check that input box is taller than before
+            getTextBox().should('have.css', 'height', '166px');
 
-        // # Check that input box has initial height
-        getInputBox().should('have.css', 'height', '46px');
+            // # Get second latest post id
+            const secondLatestPostIndex = -2;
+            cy.getNthPostId(secondLatestPostIndex).then((secondLatestPostId) => {
+                // # Click reply icon on the second latest post
+                cy.clickPostCommentIcon(secondLatestPostId);
 
-        // # Return to town-square channel
-        cy.get('#sidebarItem_town-square').click();
+                // # Make sure that text box has initial height
+                getTextBox().should('have.css', 'height', '100px');
 
-        // # Check that input box is taller again
-        getInputBox().should('have.css', 'height', '166px');
+                // # Click again reply icon on the latest post
+                cy.clickPostCommentIcon(latestPostId);
+
+                // # Check that input box is taller again
+                getTextBox().should('have.css', 'height', '166px');
+            });
+        });
     });
 
     const getInputBox = () => {
         return cy.get('#post_textbox');
+    };
+
+    const getTextBox = () => {
+        return cy.get('#reply_textbox');
     };
 });
