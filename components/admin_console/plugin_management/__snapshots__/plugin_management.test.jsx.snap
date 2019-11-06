@@ -230,7 +230,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -442,7 +441,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -693,7 +691,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -939,7 +936,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -1158,7 +1154,6 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -1404,7 +1399,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -1650,7 +1644,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -1959,7 +1952,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -2236,7 +2228,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -2513,7 +2504,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -2790,7 +2780,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -3099,7 +3088,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
