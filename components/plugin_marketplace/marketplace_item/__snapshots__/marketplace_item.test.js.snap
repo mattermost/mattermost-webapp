@@ -122,6 +122,65 @@ exports[`components/MarketplaceItem should render installed plugin 1`] = `
 </Fragment>
 `;
 
+exports[`components/MarketplaceItem should render with no homepage url 1`] = `
+<Fragment>
+  <div
+    className="more-modal__row more-modal__row--link"
+    id="marketplace-plugin-id"
+    key="id"
+  >
+    <div
+      className="icon__plugin icon__plugin--background"
+    >
+      <img
+        src="icon"
+      />
+    </div>
+    <div
+      className="more-modal__details"
+    >
+      <span
+        aria-label="name, test plugin"
+        className="style--none"
+      >
+        name
+         
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
+      </span>
+    </div>
+    <div
+      className="more-modal__actions"
+    >
+      <button
+        className="btn btn-primary"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <LoadingWrapper
+          loading={false}
+          text="Installing..."
+        >
+          <FormattedMessage
+            defaultMessage="Install"
+            id="marketplace_modal.list.Install"
+            values={Object {}}
+          />
+        </LoadingWrapper>
+      </button>
+    </div>
+  </div>
+</Fragment>
+`;
+
 exports[`components/MarketplaceItem should render with no plugin icon 1`] = `
 <Fragment>
   <div
