@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import Popover from './popover';
+import Popover from '.';
 
 describe('components/widgets/popover', () => {
     test('plain', () => {

@@ -19,7 +19,7 @@ import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
-import Popover from 'components/widgets/popover/popover';
+import Popover from 'components/widgets/popover';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking

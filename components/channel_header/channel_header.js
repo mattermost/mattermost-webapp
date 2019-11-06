@@ -26,7 +26,7 @@ import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
-import Popover from 'components/widgets/popover/popover';
+import Popover from 'components/widgets/popover';
 import {
     Constants,
     ModalIdentifiers,

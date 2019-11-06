@@ -13,7 +13,7 @@ import 'bootstrap-colorpicker';
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 
-import Popover from 'components/widgets/popover/popover';
+import Popover from 'components/widgets/popover';
 
 import ColorChooser from './color_chooser.jsx';
 

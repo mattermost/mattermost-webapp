@@ -5,8 +5,9 @@ import React from 'react';
 
 import {storiesOf} from '@storybook/react';
 import {text, withKnobs} from '@storybook/addon-knobs';
+import {OverlayTrigger} from 'react-bootstrap';
 
-import Popover from './popover';
+import Popover from '.';
 
 storiesOf('Popover', module).
     addDecorator(withKnobs).
@@ -20,5 +21,24 @@ storiesOf('Popover', module).
         'basic popover with title',
         () => {
             return (<Popover title={text('title', 'some text')}>{text('text', 'some text')}</Popover>);
+        },
+    ).
+    add(
+        'popover on button',
+        () => {
+            return (
+                <OverlayTrigger
+                    placement='bottom'
+                    overlay={(
+                        <Popover
+                            title={text('title', 'some text')}
+                        >
+                            {text('text', 'some text')}
+                        </Popover>
+                    )}
+                >
+                    <button>{'trigger'}</button>
+                </OverlayTrigger>
+            );
         },
     );

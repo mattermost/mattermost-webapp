@@ -11,7 +11,7 @@ import {ModalIdentifiers} from 'utils/constants';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
 import InfoIcon from 'components/widgets/icons/info_icon';
-import Popover from 'components/widgets/popover/popover';
+import Popover from 'components/widgets/popover';
 const headerMarkdownOptions = {mentionHighlight: false};
 
 export default class NavbarInfoButton extends React.PureComponent {
