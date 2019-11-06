@@ -238,7 +238,7 @@ export default class Post extends React.PureComponent {
             className += ' post--pinned';
         }
 
-        if (this.state.alt && this.state.hover) {
+        if (this.state.alt) {
             className += ' cursor--pointer';
         }
 
@@ -250,11 +250,7 @@ export default class Post extends React.PureComponent {
     }
 
     unsetHover = () => {
-        this.setState({hover: false, alt: false});
-    }
-
-    handleAlt = (e) => {
-        this.setState({alt: e.altKey});
+        this.setState({hover: false});
     }
 
     handleAlt = (e) => {
