@@ -135,7 +135,7 @@ export default class LicenseSettings extends React.Component {
                     <a
                         rel='noopener noreferrer'
                         target='_blank'
-                        href='https://about.mattermost.com/privacy/'
+                        href='https://about.mattermost.com/default-privacy-policy/'
                     >{'Privacy Policy.'}</a>
                 </div>
             );
