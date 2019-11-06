@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('System Console', () => {
+describe('System Console - Enterprise', () => {
     before(() => {
         const newSettings = {
             TeamSettings: {SiteName: 'Mattermost'},
@@ -126,7 +126,7 @@ describe('System Console', () => {
 
             // * Verify that the header is correct
             cy.get('.admin-console').should('be.visible').within(() => {
-                cy.get('.admin-console__header').should('be.visible').and(testCase.headerContains ? 'contain' : 'have.text', testCase.header);
+                cy.get('.admin-console__header').should('be.visible').and('have.text', testCase.header);
             });
 
             // # Visit other URL and click the link on the sidebar
@@ -138,7 +138,7 @@ describe('System Console', () => {
             // * Verify that it redirects to the URL and matches with the header
             cy.url().should('include', testCase.url);
             cy.get('.admin-console').should('be.visible').within(() => {
-                cy.get('.admin-console__header').should('be.visible').and(testCase.headerContains ? 'contain' : 'have.text', testCase.header);
+                cy.get('.admin-console__header').should('be.visible').and('have.text', testCase.header);
             });
         });
     });
