@@ -35,7 +35,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
 export default class SchemaAdminSettings extends React.Component {
     static propTypes = {
