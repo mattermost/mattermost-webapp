@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MarketplaceItem from './marketplace_item.js';
+import MarketplaceItem from './marketplace_item';
 
 describe('components/MarketplaceItem', () => {
     const baseProps = {

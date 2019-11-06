@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
 
-import {Plugins, AllPlugins, InstalledPlugins, MarketplaceModal} from './marketplace_modal.js';
+import {Plugins, AllPlugins, InstalledPlugins, MarketplaceModal} from './marketplace_modal';
 
 describe('components/marketplace/', () => {
     const samplePlugin = {
