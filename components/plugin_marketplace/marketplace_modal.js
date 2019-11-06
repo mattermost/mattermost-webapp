@@ -162,9 +162,12 @@ export class MarketplaceModal extends React.Component {
         this.setState({tabKey});
     }
 
-    doSearch = () => {
+    doSearch = async () => {
         trackEvent('plugins', 'ui_marketplace_search');
-        this.props.actions.filterPlugins(this.refs.filter ? this.refs.filter.value : null);
+
+        const {error} = await this.props.actions.filterPlugins(this.refs.filter ? this.refs.filter.value : null);
+
+        this.setState({serverError: error});
     }
 
     render() {

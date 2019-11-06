@@ -77,6 +77,6 @@ export function filterPlugins(filter) {
             filter,
         });
 
-        await dispatch(fetchPlugins());
+        return dispatch(fetchPlugins());
     };
 }

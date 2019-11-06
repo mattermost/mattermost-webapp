@@ -87,7 +87,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: true,
                 EnableMarketplace: true,
-                MarketplaceUrl: 'some_site.com',
+                MarketplaceUrl: 'example.com',
             },
         };
         cy.apiUpdateConfig(newSettings);
@@ -196,6 +196,24 @@ describe('Plugin Marketplace', () => {
 
             // * no other plugins should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
+        });
+
+        it('should show an error bar on failing to filter', () => {
+            // # Set ServiceSettings to expected values
+            const newSettings = {
+                PluginSettings: {
+                    Enable: true,
+                    EnableMarketplace: true,
+                    MarketplaceUrl: 'example.com',
+                },
+            };
+            cy.apiUpdateConfig(newSettings);
+
+            // # filter to jira plugin only
+            cy.get('#searchMarketplaceTextbox').type('jira');
+
+            // * Should be an error connecting to the marketplace server
+            cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
 
         it('should install a plugin on demand', () => {
