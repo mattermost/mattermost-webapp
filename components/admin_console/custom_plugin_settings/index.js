@@ -15,6 +15,7 @@ import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
 import CustomPluginSettings from './custom_plugin_settings.jsx';
+import getEnablePluginSetting from './enable_plugin_setting';
 
 function makeGetPluginSchema() {
     return createSelector(
@@ -64,14 +65,7 @@ function makeGetPluginSchema() {
                 });
             }
 
-            settings.unshift({
-                type: Constants.SettingsTypes.TYPE_BOOL,
-                key: pluginEnabledConfigKey,
-                label: t('admin.plugin.enable_plugin'),
-                label_default: 'Enable Plugin: ',
-                help_text: t('admin.plugin.enable_plugin.help'),
-                help_text_default: 'When true, this plugin is enabled.',
-            });
+            settings.unshift(getEnablePluginSetting(plugin));
 
             return {
                 ...plugin.settings_schema,

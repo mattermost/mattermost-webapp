@@ -1976,6 +1976,14 @@ const AdminDefinition = {
                         help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableLatex',
+                        label: t('admin.customization.enableLatexTitle'),
+                        label_default: 'Enable Latex Rendering:',
+                        help_text: t('admin.customization.enableLatexDesc'),
+                        help_text_default: 'Enable rending of Latex code. If false, Latex code will be highlighted only.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
@@ -2343,7 +2351,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.baseTitle'),
                         label_default: 'BaseDN:',
                         help_text: t('admin.ldap.baseDesc'),
-                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the AD/LDAP tree.',
+                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
                         isDisabled: it.both(
@@ -2395,7 +2403,8 @@ const AdminDefinition = {
                         label: t('admin.ldap.guestFilterTitle'),
                         label_default: 'Guest Filter:',
                         help_text: t('admin.ldap.guestFilterFilterDesc'),
-                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.',
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this filter is removed/changed, active guests will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_markdown: true,
                         placeholder: t('admin.ldap.guestFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=guests)"',
                         isDisabled: it.both(
@@ -3061,6 +3070,18 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Id"',
                         help_text: t('admin.saml.idAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.',
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.GuestAttribute',
+                        label: t('admin.saml.guestAttrTitle'),
+                        label_default: 'Guest Attribute:',
+                        placeholder: t('admin.saml.guestAttrEx'),
+                        placeholder_default: 'E.g.: "usertype=Guest" or "isGuest=true"',
+                        help_text: t('admin.saml.guestAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this attribute is removed/changed from your guest user in SAML and the user is still active, they will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_markdown: true,
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {

@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {isDesktopApp} from 'utils/user_agent.jsx';
+import {isDesktopApp} from 'utils/user_agent';
 
 import PopoverBar from './popover_bar.jsx';
 

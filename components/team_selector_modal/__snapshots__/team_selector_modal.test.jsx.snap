@@ -102,13 +102,17 @@ exports[`components/TeamSelectorModal should match snapshot 1`] = `
             "delete_at": 0,
             "display_name": "Team 3",
             "id": "id3",
+            "label": "label3",
             "scheme_id": "test",
+            "value": "value3",
           },
           Object {
             "delete_at": 0,
             "display_name": "Team 4",
             "id": "id4",
+            "label": "label4",
             "scheme_id": "",
+            "value": "value4",
           },
         ]
       }

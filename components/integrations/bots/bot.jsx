@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import Markdown from 'components/markdown';
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import * as Utils from 'utils/utils.jsx';
 

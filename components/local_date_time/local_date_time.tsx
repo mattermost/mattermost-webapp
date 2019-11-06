@@ -54,7 +54,6 @@ export default class LocalDateTime extends React.PureComponent<Props> {
                 className='post__time'
                 dateTime={date.toISOString()}
                 title={titleString}
-                id='localDateTime'
             >
                 <FormattedTime
                     {...timezoneProps}

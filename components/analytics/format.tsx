@@ -36,7 +36,7 @@ export function formatPostDoughtnutData(filePosts: any, hashtagPosts: any, total
 }
 
 export function formatPostsPerDayData(data: any) {
-    var chartData = {
+    const chartData = {
         labels: [] as any,
         datasets: [{
             fillColor: 'rgba(151,187,205,0.2)',
@@ -49,9 +49,9 @@ export function formatPostsPerDayData(data: any) {
         }],
     };
 
-    for (var index in data) {
+    for (const index in data) {
         if (data[index]) {
-            var row = data[index];
+            const row = data[index];
             chartData.labels.push(row.name);
             chartData.datasets[0].data.push(row.value);
         }
@@ -61,7 +61,7 @@ export function formatPostsPerDayData(data: any) {
 }
 
 export function formatUsersWithPostsPerDayData(data: any) {
-    var chartData = {
+    const chartData = {
         labels: [] as any,
         datasets: [{
             label: '',
@@ -75,9 +75,9 @@ export function formatUsersWithPostsPerDayData(data: any) {
         }],
     };
 
-    for (var index in data) {
+    for (const index in data) {
         if (data[index]) {
-            var row = data[index];
+            const row = data[index];
             chartData.labels.push(row.name);
             chartData.datasets[0].data.push(row.value);
         }
