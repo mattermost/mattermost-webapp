@@ -161,7 +161,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -443,7 +442,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -620,7 +618,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -902,7 +899,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}

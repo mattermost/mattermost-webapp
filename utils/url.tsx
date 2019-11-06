@@ -14,7 +14,7 @@ type WindowObject = {
 }
 
 export function cleanUpUrlable(input: string): string {
-    var cleaned: string = latinise(input);
+    let cleaned: string = latinise(input);
     cleaned = cleaned.trim().replace(/-/g, ' ').replace(/[^\w\s]/gi, '').toLowerCase().replace(/\s/g, '-');
     cleaned = cleaned.replace(/^-+/, '');
     cleaned = cleaned.replace(/-+$/, '');

@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
+import isEqual from 'lodash/isEqual';
 
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
@@ -90,6 +91,14 @@ export default class AdminSidebar extends React.Component {
         this.updateTitle();
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.idx !== null &&
+            (!isEqual(this.props.plugins, prevProps.plugins) ||
+                !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
+        }
+    }
+
     onFilterChange = (e) => {
         const filter = e.target.value;
         if (filter === '') {
@@ -99,7 +108,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -203,18 +212,18 @@ export default class AdminSidebar extends React.Component {
                 ));
             });
 
-            // If no visible items, don't display this section
-            if (sidebarItems.length === 0) {
-                return null;
-            }
-
             // Special case for plugins entries
-            let moreSidebarItems;
+            let moreSidebarItems = [];
             if (section.id === 'plugins') {
                 moreSidebarItems = this.renderPluginsMenu();
             }
 
-            if (sidebarItems.length) {
+            // If no visible items, don't display this section
+            if (sidebarItems.length === 0 && moreSidebarItems.length === 0) {
+                return null;
+            }
+
+            if (sidebarItems.length || moreSidebarItems.length) {
                 sidebarSections.push((
                     <AdminSidebarCategory
                         key={sectionIndex}
@@ -262,6 +271,9 @@ export default class AdminSidebar extends React.Component {
                     }
                 }
 
+                if (this.state.sections !== null && this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
+                    return;
+                }
                 customPlugins.push(
                     <AdminSidebarSection
                         key={'customplugin' + p.id}
@@ -315,6 +327,7 @@ export default class AdminSidebar extends React.Component {
                                         value={this.state.filter}
                                         placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
                                         ref={this.searchRef}
+                                        id='adminSidebarFilter'
                                     />
                                     {this.state.filter &&
                                         <div
