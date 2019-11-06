@@ -14,13 +14,20 @@ storiesOf('Popover', module).
     add(
         'basic popover',
         () => {
-            return (<Popover>{text('text', 'some text')}</Popover>);
+            return (<Popover id='popover'>{text('text', 'some text')}</Popover>);
         },
     ).
     add(
         'basic popover with title',
         () => {
-            return (<Popover title={text('title', 'some text')}>{text('text', 'some text')}</Popover>);
+            return (
+                <Popover
+                    id='popover'
+                    title={text('title', 'some text')}
+                >
+                    {text('text', 'some text')}
+                </Popover>
+            );
         },
     ).
     add(
@@ -31,6 +38,7 @@ storiesOf('Popover', module).
                     placement='bottom'
                     overlay={(
                         <Popover
+                            id='popover'
                             title={text('title', 'some text')}
                         >
                             {text('text', 'some text')}

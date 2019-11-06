@@ -18,18 +18,21 @@ describe('Widgets - Popover', () => {
     before(() => {
         // # Go to widget story and verify that it renders regular badge
         cy.toWidgetStory('/story/popover--basic-popover');
-
-        cy.queryByText('some').should('exist');
+        cy.get('.sidebar-container').should('be.visible').within(() => {
+            cy.queryByText('basic popover').should('exist');
+        });
     });
-
     it('verify UI', () => {
         // # Get the root of the iframe where the component is rendered
-        cy.iframe('#storybook-preview-iframe', '#root').as('iframeRoot');
-
-        cy.get('@iframeRoot').should('be.visible').within(() => {
-            // * Verify .popover is visible and its CSS properties
-            cy.get('.popover').should('be.visible').
-                and('have.css', 'margin-left', '10px');
+        cy.iframe('#storybook-preview-iframe', '#popover').as('iframePopover');
+        cy.get('@iframePopover').
+            should('be.visible').
+            and('have.class', 'popover popover-sm popover-info right').
+            and('have.css', 'margin-left', '10px');
+        cy.get('@iframePopover').within(() => {
+            cy.get('.popover-content').
+                should('be.visible').
+                and('have.text', 'some text');
         });
     });
 });
