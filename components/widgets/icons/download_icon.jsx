@@ -17,7 +17,7 @@ export default class DownloadIcon extends React.PureComponent {
                             width='40px'
                             height='40px'
                             viewBox='0 0 42 42'
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g
