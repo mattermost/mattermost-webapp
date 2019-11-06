@@ -69,7 +69,7 @@ export function installPlugin(id) {
     };
 }
 
-// filterMarketplacePlugins sets a search filter for marketplace plugins, fetching the latest data.
+// filterPlugins sets a search filter for marketplace plugins, fetching the latest data.
 export function filterPlugins(filter) {
     return async (dispatch) => {
         dispatch({
