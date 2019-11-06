@@ -7,7 +7,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 
 import {isGuest} from 'utils/utils.jsx';
 
-import ErrorPage from './error_page.jsx';
+import ErrorPage from './error_page';
 
 function mapStateToProps(state) {
     const config = getConfig(state);

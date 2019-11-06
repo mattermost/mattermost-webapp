@@ -467,7 +467,7 @@ export default class PostList extends React.PureComponent {
 
         return (
             <div
-                id='post-list'
+                role='list'
                 className='a11y__region'
                 data-a11y-sort-order='1'
                 data-a11y-focus-child={true}
@@ -512,7 +512,6 @@ export default class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
-                                        role='listbox'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}
