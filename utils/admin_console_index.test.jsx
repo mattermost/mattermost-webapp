@@ -78,8 +78,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
     });
 
     it('should generate a index including the plugin settings', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const idx = generateIndex(AdminDefinition, {[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2}, intl);
 
