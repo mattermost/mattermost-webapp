@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import AdminSettings from 'components/admin_console/admin_settings.jsx';
+import AdminSettings from 'components/admin_console/admin_settings';
 
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
