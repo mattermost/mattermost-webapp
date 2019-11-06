@@ -16,7 +16,7 @@
 
 describe('Widgets - Popover', () => {
     before(() => {
-        // # Go to widget story and verify that it renders regular badge
+        // # Go to widget story and verify that it renders regular popup
         cy.toWidgetStory('/story/popover--basic-popover');
         cy.get('.sidebar-container').should('be.visible').within(() => {
             cy.queryByText('basic popover').should('exist');
