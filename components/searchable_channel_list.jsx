@@ -129,6 +129,9 @@ export default class SearchableChannelList extends React.Component {
             this.setState({page: 0});
         }
     }
+    toggleArchivedChannels = (value) => {
+        this.props.toggleArchivedChannels(value);
+    }
 
     render() {
         const channels = this.props.channels;
@@ -239,16 +242,12 @@ export default class SearchableChannelList extends React.Component {
                     >
                         <Menu.ItemAction
                             id='ChannelsMoreDropdownPublic'
-                            onClick={() => {
-                                this.props.toggleArchivedChannels(false);
-                            }}
+                            onClick={this.toggleArchivedChannels(false)}
                             text={localizeMessage('suggestion.search.public', 'Public Channels')}
                         />
                         <Menu.ItemAction
                             id='ChannelsMoreDropdownArchived'
-                            onClick={() => {
-                                this.props.toggleArchivedChannels(true);
-                            }}
+                            onClick={this.toggleArchivedChannels(true)}
                             text={localizeMessage('suggestion.archive', 'Archived Channels')}
                         />
                     </Menu>
