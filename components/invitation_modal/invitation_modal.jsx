@@ -43,7 +43,7 @@ export default class InvitationModal extends React.Component {
         intl: intlShape.isRequired,
     };
 
-    private modal = React.createRef<FullScreenModal>();
+    modal = React.createRef();
 
     constructor(props) {
         super(props);
