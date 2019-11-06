@@ -23,19 +23,6 @@ import DownloadIcon from './download_icon';
 import DraftIcon from './draft_icon';
 import EmailIcon from './email_icon';
 import EmojiIcon from './emoji_icon';
-import FaAddIcon from './fa_add_icon';
-import FaBackIcon from './fa_back_icon';
-import FaDropdownIcon from './fa_dropdown_icon';
-import FaEditIcon from './fa_edit_icon';
-import FaLogoutIcon from './fa_logout_icon';
-import FaNextIcon from './fa_next_icon';
-import FaPreviousIcon from './fa_previous_icon';
-import FaReloadIcon from './fa_reload_icon';
-import FaRemoveIcon from './fa_remove_icon';
-import FaSearchIcon from './fa_search_icon';
-import FaSelectIcon from './fa_select_icon';
-import FaSuccessIcon from './fa_success_icon';
-import FaWarningIcon from './fa_warning_icon';
 import FlagIconFilled from './flag_icon_filled';
 import FlagIcon from './flag_icon';
 import GfycatIcon from './gfycat_icon';
@@ -73,13 +60,33 @@ import StatusOnlineIcon from './status_online_icon';
 import TeamInfoIcon from './team_info_icon';
 import UnreadBelowIcon from './unread_below_icon';
 
+import FaAddIcon from './fa_add_icon';
+import FaBackIcon from './fa_back_icon';
+import FaDropdownIcon from './fa_dropdown_icon';
+import FaEditIcon from './fa_edit_icon';
+import FaLogoutIcon from './fa_logout_icon';
+import FaNextIcon from './fa_next_icon';
+import FaPreviousIcon from './fa_previous_icon';
+import FaReloadIcon from './fa_reload_icon';
+import FaRemoveIcon from './fa_remove_icon';
+import FaSearchIcon from './fa_search_icon';
+import FaSelectIcon from './fa_select_icon';
+import FaSuccessIcon from './fa_success_icon';
+import FaWarningIcon from './fa_warning_icon';
+
+import MMAttachmentIcon from './mm_attachment_icon';
+import MMArchiveIcon from './mm_archive_icon';
+import MMGfycatIcon from './mm_gfycat_icon';
+import MMPinIcon from './mm_pin_icon';
+import MMBotIcon from './mm_bot_icon';
+import MMMailIcon from './mm_mail_icon';
+import MMFlagIcon from './mm_flag_icon';
+
 const icons = [
     AccordionToggleIcon, AlertIcon, ArchiveIcon, AtIcon, ArrowRightIcon,
     AttachmentIcon, BackIcon, BotIcon, CheckboxCheckedIcon,
     CheckboxPartialIcon, CloseCircleIcon, CloseCircleSolidIcon, CloseIcon,
-    DownloadIcon, DraftIcon, EmailIcon, EmojiIcon, FaAddIcon, FaBackIcon, FaDropdownIcon,
-    FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon,
-    FaRemoveIcon, FaSearchIcon, FaSelectIcon, FaSuccessIcon, FaWarningIcon,
+    DownloadIcon, DraftIcon, EmailIcon, EmojiIcon,
     FlagIconFilled, FlagIcon, GfycatIcon, GifReactionsIcon,
     GifSearchClearIcon, GifSearchIcon, GifTrendingIcon, GlobeIcon, InfoIcon,
     InfoSmallIcon, InviteIcon, LeaveTeamIcon, LinkIcon, LockIcon, MailIcon,
@@ -90,20 +97,59 @@ const icons = [
     StatusOnlineIcon, TeamInfoIcon, UnreadBelowIcon,
 ];
 
+const fontAwesomeIcons = [
+    FaAddIcon, FaBackIcon, FaDropdownIcon,
+    FaEditIcon, FaLogoutIcon, FaNextIcon, FaPreviousIcon, FaReloadIcon,
+    FaRemoveIcon, FaSearchIcon, FaSelectIcon, FaSuccessIcon, FaWarningIcon,
+];
+
+const mattermostFontIcons = [
+    MMArchiveIcon, MMAttachmentIcon, MMBotIcon, MMFlagIcon, MMGfycatIcon, MMMailIcon, MMPinIcon,
+];
+
 const stories = storiesOf('Icons', module).addDecorator(withKnobs);
 
 stories.add('Icons', () => {
     return (
-        <div style={{display: 'flex', width: '100%', flexWrap: 'wrap'}}>
-            {icons.map((Icon, index) => (
-                <div
-                    key={index}
-                    style={{width: 128, height: 128, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', border: '1px solid #eeeeee', borderRadius: 5, margin: 10}}
-                >
-                    <Icon/>
-                    <div>{Icon.displayName}</div>
-                </div>
-            ))}
+        <div>
+            <h2>{'SVG Icons'}</h2>
+            <div style={{display: 'flex', width: '100%', flexWrap: 'wrap'}}>
+                {icons.map((Icon, index) => (
+                    <div
+                        key={index}
+                        style={{width: 128, height: 128, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', border: '1px solid #eeeeee', borderRadius: 5, margin: 10}}
+                    >
+                        <Icon/>
+                        <div>{Icon.displayName}</div>
+                    </div>
+                ))}
+            </div>
+
+            <h2>{'Font Awesome Icons'}</h2>
+            <div style={{display: 'flex', width: '100%', flexWrap: 'wrap'}}>
+                {fontAwesomeIcons.map((Icon, index) => (
+                    <div
+                        key={index}
+                        style={{width: 128, height: 128, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', border: '1px solid #eeeeee', borderRadius: 5, margin: 10}}
+                    >
+                        <span style={{fontSize: 48}}><Icon/></span>
+                        <div>{Icon.displayName}</div>
+                    </div>
+                ))}
+            </div>
+
+            <h2>{'Mattermost Font Icons'}</h2>
+            <div style={{display: 'flex', width: '100%', flexWrap: 'wrap'}}>
+                {mattermostFontIcons.map((Icon, index) => (
+                    <div
+                        key={index}
+                        style={{width: 128, height: 128, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', border: '1px solid #eeeeee', borderRadius: 5, margin: 10}}
+                    >
+                        <Icon size={'xl'}/>
+                        <div>{Icon.displayName}</div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 });
