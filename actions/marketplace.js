@@ -7,7 +7,7 @@ import {installPluginFromUrl} from 'mattermost-redux/actions/admin';
 import {getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
 
-// getPlugins fetches the latest marketplace plugins, subject to any existing search filter.
+// fetchPlugins fetches the latest marketplace plugins, subject to any existing search filter.
 export function fetchPlugins() {
     return async (dispatch, getState) => {
         const state = getState();
