@@ -44,7 +44,7 @@ describe('components/MarketplaceItem', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should render wtih no homepage url', () => {
+    test('should render with no homepage url', () => {
         const props = {...baseProps};
         delete props.homepageUrl;
 
