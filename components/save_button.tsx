@@ -8,7 +8,7 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 type Props = {
     intl: IntlShape;
-    saving: boolean;
+    saving?: boolean;
     disabled?: boolean;
     id?: string;
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;

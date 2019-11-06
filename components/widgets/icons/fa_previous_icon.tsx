@@ -11,7 +11,6 @@ type Props = {
 
 type DefaultProps = {
     additionalClassName: string | null;
-    intl: IntlShape;
 }
 
 class PreviousIcon extends React.PureComponent<Props> {
