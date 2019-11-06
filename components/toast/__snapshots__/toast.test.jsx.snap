@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Toast should match snapshot 1`] = `
+<div
+  className="toast undefined toast__visible"
+  style={
+    Object {
+      "zIndex": 1000,
+    }
+  }
+>
+  <div
+    className="toast__jump"
+    onClick={[Function]}
+  >
+    <UnreadBelowIcon />
+    Jump
+  </div>
+  <div
+    className="toast__message"
+  >
+    <span>
+      child
+    </span>
+  </div>
+  <div
+    className="toast__dismiss"
+    onClick={[Function]}
+  >
+    <CloseIcon
+      className="close-x"
+      id="dismissToast"
+    />
+  </div>
+</div>
+`;
