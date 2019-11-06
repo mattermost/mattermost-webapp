@@ -7,14 +7,14 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Message permalink', () => {
+describe('Compact view: Markdown quotation', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
-    it('M13675-Copy a permalink and paste into another channel', () => {
+    it('M18704-Compact view: Markdown quotation', () => {
         const message = '>Hello' + Date.now();
 
         // # Create new DM channel with user's email
