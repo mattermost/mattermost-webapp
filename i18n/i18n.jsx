@@ -177,45 +177,6 @@ export function isLanguageAvailable(locale) {
     return Boolean(getLanguages()[locale]);
 }
 
-export function safariFix(callback) {
-    require.ensure([
-        'intl',
-        'intl/locale-data/jsonp/de.js',
-        'intl/locale-data/jsonp/en.js',
-        'intl/locale-data/jsonp/es.js',
-        'intl/locale-data/jsonp/fr.js',
-        'intl/locale-data/jsonp/it.js',
-        'intl/locale-data/jsonp/ja.js',
-        'intl/locale-data/jsonp/ko.js',
-        'intl/locale-data/jsonp/nl.js',
-        'intl/locale-data/jsonp/pl.js',
-        'intl/locale-data/jsonp/pt.js',
-        'intl/locale-data/jsonp/ro.js',
-        'intl/locale-data/jsonp/ru.js',
-        'intl/locale-data/jsonp/tr.js',
-        'intl/locale-data/jsonp/uk.js',
-        'intl/locale-data/jsonp/zh.js',
-    ], (require) => {
-        require('intl');
-        require('intl/locale-data/jsonp/de.js');
-        require('intl/locale-data/jsonp/en.js');
-        require('intl/locale-data/jsonp/es.js');
-        require('intl/locale-data/jsonp/fr.js');
-        require('intl/locale-data/jsonp/it.js');
-        require('intl/locale-data/jsonp/ja.js');
-        require('intl/locale-data/jsonp/ko.js');
-        require('intl/locale-data/jsonp/nl.js');
-        require('intl/locale-data/jsonp/pl.js');
-        require('intl/locale-data/jsonp/pt.js');
-        require('intl/locale-data/jsonp/ro.js');
-        require('intl/locale-data/jsonp/ru.js');
-        require('intl/locale-data/jsonp/tr.js');
-        require('intl/locale-data/jsonp/uk.js');
-        require('intl/locale-data/jsonp/zh.js');
-        callback();
-    });
-}
-
 export function doAddLocaleData() {
     addLocaleData(enLocaleData);
     addLocaleData(deLocaleData);
