@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
@@ -36,7 +36,7 @@ import LoginMfa from '../login_mfa.jsx';
 
 class LoginController extends React.Component {
     static propTypes = {
-        intl: intlShape.isRequired,
+        intl: PropTypes.any,
 
         location: PropTypes.object.isRequired,
         isLicensed: PropTypes.bool.isRequired,
