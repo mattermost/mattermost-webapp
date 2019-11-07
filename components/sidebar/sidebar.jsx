@@ -133,6 +133,11 @@ class Sidebar extends React.PureComponent {
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
 
+        /**
+         * Setting that enables user to view archived channels
+         */
+        viewArchivedChannels: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
@@ -620,6 +625,7 @@ class Sidebar extends React.PureComponent {
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
+                                    viewArchivedChannels={this.props.viewArchivedChannels}
                                 />
                             </ul>
                         );
