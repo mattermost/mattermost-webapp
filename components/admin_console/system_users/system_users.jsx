@@ -137,10 +137,10 @@ export default class SystemUsers extends React.Component {
                 getStandardAnalytics(),
             ]);
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
-            await loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE, options);
+            await loadProfilesWithoutTeam(0, Constants.PROFILE_CHUNK_SIZE);
         } else {
             await Promise.all([
-                loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId, options),
+                loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, teamId),
                 getTeamStats(teamId),
             ]);
         }
@@ -193,9 +193,9 @@ export default class SystemUsers extends React.Component {
         if (teamId === SearchUserTeamFilter.ALL_USERS) {
             await getProfiles(page + 1, USERS_PER_PAGE, options);
         } else if (teamId === SearchUserTeamFilter.NO_TEAM) {
-            await loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE, options);
+            await loadProfilesWithoutTeam(page + 1, USERS_PER_PAGE);
         } else {
-            await loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, teamId, options);
+            await loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE, teamId);
         }
         this.setState({loading: false});
     }

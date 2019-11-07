@@ -35,10 +35,10 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
     };
 }
 
-export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
+export function loadProfilesAndTeamMembers(page, perPage, teamId) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, options));
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage));
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
@@ -90,9 +90,9 @@ export function loadTeamMembersForProfilesList(profiles, teamId) {
     };
 }
 
-export function loadProfilesWithoutTeam(page, perPage, options) {
+export function loadProfilesWithoutTeam(page, perPage) {
     return async (doDispatch) => {
-        const {data} = await doDispatch(UserActions.getProfilesWithoutTeam(page, perPage, options));
+        const {data} = await doDispatch(UserActions.getProfilesWithoutTeam(page, perPage));
 
         doDispatch(loadStatusesForProfilesMap(data));
 
