@@ -10,8 +10,8 @@ export default class UnreadToast extends React.PureComponent {
     static propTypes = {
         countUnread: PropTypes.number.isRequired,
         children: PropTypes.element,
-        jumpTo: PropTypes.func.isRequired, // required?
-        jumpToMessage: PropTypes.string,
+        onClick: PropTypes.func.isRequired, // required?
+        onClickMessage: PropTypes.string,
         jumpFadeOutDelay: PropTypes.number,
         onDismiss: PropTypes.func,
         order: PropTypes.number,
@@ -33,13 +33,15 @@ export default class UnreadToast extends React.PureComponent {
     handleDismiss = () => {
         // set the unread count to the same as we currently have so it doesn't display
         this.setState({lastUnread: this.props.countUnread});
-        this.props.onDismiss();
+        if (typeof this.props.onDismiss == 'function') {
+            this.props.onDismiss();
+        }
     }
 
-    handleJump = () => {
+    handleClick = () => {
         // set the unread count to the same as we currently have so it doesn't display
         this.setState({lastUnread: this.props.countUnread});
-        this.props.jumpTo();
+        this.props.onClick();
     }
 
     static getDerivedStateFromProps(newProps, oldState) {
@@ -56,17 +58,18 @@ export default class UnreadToast extends React.PureComponent {
         delete passAlong.countUnread;
         passAlong.show = this.unreadShow();
         passAlong.onDismiss = this.handleDismiss;
-        passAlong.jumpTo = this.handleJump;
+        passAlong.onClick = this.handleClick;
         return (
-            <Toast {...passAlong}/>
+            <Toast
+                {...this.props}
+                show={this.unreadShow()}
+                onDismiss={this.handleDismiss}
+                onClick={this.handleClick}
+            />
         );
     }
 }
 
-function empty() {
-    // do nothing
-}
-
 UnreadToast.defaultProps = {
-    onDismiss: empty,
+    onDismiss: null,
 };
