@@ -38,10 +38,10 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
         </p>
       </a>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion=""
         isInstalling={false}
         onUpdate={[Function]}
+        version="1.0.0"
       />
     </div>
     <div
@@ -64,6 +64,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
         </LoadingWrapper>
       </button>
     </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
@@ -106,10 +114,10 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
         </p>
       </a>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion="1.0.0"
         isInstalling={false}
         onUpdate={[Function]}
+        version="1.0.0"
       />
     </div>
     <div
@@ -130,6 +138,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
         </button>
       </Link>
     </div>
+    <UpdateConfirmationModal
+      installedVersion="1.0.0"
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
@@ -206,10 +222,10 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         </p>
       </a>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion=""
         isInstalling={false}
         onUpdate={[Function]}
+        version="1.0.0"
       />
     </div>
     <div
@@ -232,6 +248,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         </LoadingWrapper>
       </button>
     </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
@@ -270,10 +294,10 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         </p>
       </a>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion=""
         isInstalling={false}
         onUpdate={[Function]}
+        version="1.0.0"
       />
     </div>
     <div
@@ -296,6 +320,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         </LoadingWrapper>
       </button>
     </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
@@ -338,10 +370,10 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
         </p>
       </a>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion=""
         isInstalling={false}
         onUpdate={[Function]}
+        version="1.0.0"
       />
     </div>
     <div
@@ -364,6 +396,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
         </LoadingWrapper>
       </button>
     </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
@@ -406,11 +446,11 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
         </p>
       </a>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion="0.9.9"
         isInstalling={false}
         onUpdate={[Function]}
         releaseNotesUrl="http://example.com/release"
+        version="1.0.0"
       />
     </div>
     <div
@@ -431,6 +471,15 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
         </button>
       </Link>
     </div>
+    <UpdateConfirmationModal
+      installedVersion="0.9.9"
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      releaseNotesUrl="http://example.com/release"
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
@@ -473,10 +522,10 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
         </p>
       </a>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion="0.9.9"
         isInstalling={false}
         onUpdate={[Function]}
+        version="1.0.0"
       />
     </div>
     <div
@@ -497,6 +546,14 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
         </button>
       </Link>
     </div>
+    <UpdateConfirmationModal
+      installedVersion="0.9.9"
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
@@ -536,10 +593,10 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
         </p>
       </span>
       <UpdateDetails
-        availableVersion="1.0.0"
         installedVersion=""
         isInstalling={false}
         onUpdate={[Function]}
+        version="1.0.0"
       />
     </div>
     <div
@@ -562,13 +619,225 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
         </LoadingWrapper>
       </button>
     </div>
+    <UpdateConfirmationModal
+      installedVersion=""
+      name="name"
+      onCancel={[Function]}
+      onUpdate={[Function]}
+      show={false}
+      version="1.0.0"
+    />
   </div>
 </Fragment>
 `;
 
+exports[`components/MarketplaceItem UpdateConfirmationModal should add extra warning for major version change 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-primary"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Update"
+      id="marketplace_modal.list.update_confirmation.confirm_button"
+      values={Object {}}
+    />
+  }
+  message={
+    Array [
+      <FormattedHTMLMessage
+        defaultMessage="<p>Are you sure you want to update the pluginName plugin to 1.0.0?</p>"
+        id="marketplace_modal.list.update_confirmation.message.intro"
+        values={
+          Object {
+            "name": "pluginName",
+            "version": "1.0.0",
+          }
+        }
+      />,
+      <FormattedHTMLMessage
+        defaultMessage="<p>You currently have 0.0.1. View the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.</p>"
+        id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
+        values={
+          Object {
+            "installedVersion": "0.0.1",
+            "releaseNotesUrl": "http://example.com/release",
+          }
+        }
+      />,
+      <FormattedHTMLMessage
+        defaultMessage="<p class='alert alert-warning'>This update may contain breaking changes. Consult the release notes above before upgrading.</p>"
+        id="marketplace_modal.list.update_confirmation.message.warning_major_version"
+        values={Object {}}
+      />,
+    ]
+  }
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={true}
+  title={
+    <FormattedMessage
+      defaultMessage="Confirm Plugin Update"
+      id="marketplace_modal.list.update_confirmation.title"
+      values={Object {}}
+    />
+  }
+/>
+`;
+
+exports[`components/MarketplaceItem UpdateConfirmationModal should add extra warning for major version change, even without release notes 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-primary"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Update"
+      id="marketplace_modal.list.update_confirmation.confirm_button"
+      values={Object {}}
+    />
+  }
+  message={
+    Array [
+      <FormattedHTMLMessage
+        defaultMessage="<p>Are you sure you want to update the pluginName plugin to 1.0.0?</p>"
+        id="marketplace_modal.list.update_confirmation.message.intro"
+        values={
+          Object {
+            "name": "pluginName",
+            "version": "1.0.0",
+          }
+        }
+      />,
+      <FormattedHTMLMessage
+        defaultMessage="<p>You currently have 0.0.1.</p>"
+        id="marketplace_modal.list.update_confirmation.message.current"
+        values={
+          Object {
+            "installedVersion": "0.0.1",
+          }
+        }
+      />,
+      <FormattedHTMLMessage
+        defaultMessage="<p class='alert alert-warning'>This update may contain breaking changes.</p>"
+        id="marketplace_modal.list.update_confirmation.message.warning_major_version"
+        values={Object {}}
+      />,
+    ]
+  }
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={true}
+  title={
+    <FormattedMessage
+      defaultMessage="Confirm Plugin Update"
+      id="marketplace_modal.list.update_confirmation.title"
+      values={Object {}}
+    />
+  }
+/>
+`;
+
+exports[`components/MarketplaceItem UpdateConfirmationModal should avoid exception on invalid semver 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-primary"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Update"
+      id="marketplace_modal.list.update_confirmation.confirm_button"
+      values={Object {}}
+    />
+  }
+  message={
+    Array [
+      <FormattedHTMLMessage
+        defaultMessage="<p>Are you sure you want to update the pluginName plugin to not-a-version?</p>"
+        id="marketplace_modal.list.update_confirmation.message.intro"
+        values={
+          Object {
+            "name": "pluginName",
+            "version": "not-a-version",
+          }
+        }
+      />,
+      <FormattedHTMLMessage
+        defaultMessage="<p>You currently have 0.0.1. View the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.</p>"
+        id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
+        values={
+          Object {
+            "installedVersion": "0.0.1",
+            "releaseNotesUrl": "http://example.com/release",
+          }
+        }
+      />,
+      <FormattedHTMLMessage
+        defaultMessage="<p class='alert alert-warning'>This update may contain breaking changes. Consult the release notes above before upgrading.</p>"
+        id="marketplace_modal.list.update_confirmation.message.warning_major_version"
+        values={Object {}}
+      />,
+    ]
+  }
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={true}
+  title={
+    <FormattedMessage
+      defaultMessage="Confirm Plugin Update"
+      id="marketplace_modal.list.update_confirmation.title"
+      values={Object {}}
+    />
+  }
+/>
+`;
+
+exports[`components/MarketplaceItem UpdateConfirmationModal should render without release notes url 1`] = `
+<ConfirmModal
+  confirmButtonClass="btn btn-primary"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Update"
+      id="marketplace_modal.list.update_confirmation.confirm_button"
+      values={Object {}}
+    />
+  }
+  message={
+    Array [
+      <FormattedHTMLMessage
+        defaultMessage="<p>Are you sure you want to update the pluginName plugin to 0.0.2?</p>"
+        id="marketplace_modal.list.update_confirmation.message.intro"
+        values={
+          Object {
+            "name": "pluginName",
+            "version": "0.0.2",
+          }
+        }
+      />,
+      <FormattedHTMLMessage
+        defaultMessage="<p>You currently have 0.0.1.</p>"
+        id="marketplace_modal.list.update_confirmation.message.current"
+        values={
+          Object {
+            "installedVersion": "0.0.1",
+          }
+        }
+      />,
+    ]
+  }
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={true}
+  title={
+    <FormattedMessage
+      defaultMessage="Confirm Plugin Update"
+      id="marketplace_modal.list.update_confirmation.title"
+      values={Object {}}
+    />
+  }
+/>
+`;
+
 exports[`components/MarketplaceItem UpdateDetails should render without release notes url 1`] = `
 <UpdateDetails
-  availableVersion="0.0.2"
   installedVersion="0.0.1"
   intl={
     Object {
@@ -600,6 +869,7 @@ exports[`components/MarketplaceItem UpdateDetails should render without release 
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl=""
+  version="0.0.2"
 >
   <div
     className="update"
@@ -642,7 +912,6 @@ exports[`components/MarketplaceItem UpdateDetails should render without release 
 
 exports[`components/MarketplaceItem UpdateDetails should render without release notes url 2`] = `
 <UpdateDetails
-  availableVersion="0.0.2"
   installedVersion="0.0.1"
   intl={
     Object {
@@ -674,6 +943,7 @@ exports[`components/MarketplaceItem UpdateDetails should render without release 
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl="http://example.com/release"
+  version="0.0.2"
 >
   <div
     className="update"

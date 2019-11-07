@@ -5,11 +5,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import semver from 'semver';
 
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 import {Link} from 'react-router-dom';
 
+import ConfirmModal from 'components/confirm_modal.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
@@ -40,8 +42,8 @@ UpdateVersion.propTypes = {
 };
 
 // UpdateDetails renders an inline update prompt for plugins, when available.
-export const UpdateDetails = ({availableVersion, releaseNotesUrl, installedVersion, isInstalling, onUpdate}) => {
-    if (!installedVersion || installedVersion === availableVersion || isInstalling) {
+export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isInstalling, onUpdate}) => {
+    if (!installedVersion || installedVersion === version || isInstalling) {
         return null;
     }
 
@@ -53,7 +55,7 @@ export const UpdateDetails = ({availableVersion, releaseNotesUrl, installedVersi
             />
             {' '}
             <UpdateVersion
-                version={availableVersion}
+                version={version}
                 releaseNotesUrl={releaseNotesUrl}
             />
             {' - '}
@@ -70,11 +72,105 @@ export const UpdateDetails = ({availableVersion, releaseNotesUrl, installedVersi
 };
 
 UpdateDetails.propTypes = {
-    availableVersion: PropTypes.string.isRequired,
+    version: PropTypes.string.isRequired,
     releaseNotesUrl: PropTypes.string,
     installedVersion: PropTypes.string,
     isInstalling: PropTypes.bool.isRequired,
     onUpdate: PropTypes.func.isRequired,
+};
+
+// UpdateConfirmationModal prompts before allowing upgrade, specially handling major version changes.
+export const UpdateConfirmationModal = ({show, name, version, installedVersion, releaseNotesUrl, onUpdate, onCancel}) => {
+    if (!installedVersion || installedVersion === version) {
+        return null;
+    }
+
+    const messages = [(
+        <FormattedHTMLMessage
+            id='marketplace_modal.list.update_confirmation.message.intro'
+            key='intro'
+            defaultMessage={`<p>Are you sure you want to update the ${name} plugin to ${version}?</p>`}
+            values={{name, version}}
+        />
+    )];
+
+    if (releaseNotesUrl) {
+        messages.push(
+            <FormattedHTMLMessage
+                id='marketplace_modal.list.update_confirmation.message.current_with_release_notes'
+                key='current'
+                defaultMessage={`<p>You currently have ${installedVersion}. View the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.</p>`}
+                values={{installedVersion, releaseNotesUrl}}
+            />
+        );
+    } else {
+        messages.push(
+            <FormattedHTMLMessage
+                id='marketplace_modal.list.update_confirmation.message.current'
+                key='current'
+                defaultMessage={`<p>You currently have ${installedVersion}.</p>`}
+                values={{installedVersion}}
+            />
+        );
+    }
+
+    let sameMajorVersion = false;
+    try {
+        sameMajorVersion = semver.major(version) === semver.major(installedVersion);
+    } catch (e) {
+        // If we fail to parse the version, assume a potentially breaking change.
+    }
+
+    if (!sameMajorVersion) {
+        if (releaseNotesUrl) {
+            messages.push(
+                <FormattedHTMLMessage
+                    id='marketplace_modal.list.update_confirmation.message.warning_major_version'
+                    key='warning'
+                    defaultMessage={'<p class=\'alert alert-warning\'>This update may contain breaking changes. Consult the release notes above before upgrading.</p>'}
+                />
+            );
+        } else {
+            messages.push(
+                <FormattedHTMLMessage
+                    id='marketplace_modal.list.update_confirmation.message.warning_major_version'
+                    key='warning'
+                    defaultMessage={'<p class=\'alert alert-warning\'>This update may contain breaking changes.</p>'}
+                />
+            );
+        }
+    }
+
+    return (
+        <ConfirmModal
+            show={show}
+            title={
+                <FormattedMessage
+                    id='marketplace_modal.list.update_confirmation.title'
+                    defaultMessage={'Confirm Plugin Update'}
+                />
+            }
+            message={messages}
+            confirmButtonText={
+                <FormattedMessage
+                    id='marketplace_modal.list.update_confirmation.confirm_button'
+                    defaultMessage='Update'
+                />
+            }
+            onConfirm={onUpdate}
+            onCancel={onCancel}
+        />
+    );
+};
+
+UpdateConfirmationModal.propTypes = {
+    show: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    version: PropTypes.string.isRequired,
+    releaseNotesUrl: PropTypes.string,
+    installedVersion: PropTypes.string,
+    onUpdate: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 };
 
 export class MarketplaceItem extends React.Component {
@@ -96,13 +192,30 @@ export class MarketplaceItem extends React.Component {
         }).isRequired,
     };
 
+    constructor() {
+        super();
+
+        this.state = {
+            showUpdateConfirmationModal: false,
+        };
+    }
+
     onInstall = () => {
         trackEvent('plugins', 'ui_marketplace_download');
         this.props.actions.installPlugin(this.props.id);
     }
 
+    showUpdateConfirmationModal = () => {
+        this.setState({showUpdateConfirmationModal: true});
+    }
+
+    hideUpdateConfirmationModal = () => {
+        this.setState({showUpdateConfirmationModal: false});
+    }
+
     onUpdate = () => {
         trackEvent('plugins', 'ui_marketplace_download_update');
+        this.hideUpdateConfirmationModal();
         this.props.actions.installPlugin(this.props.id);
     }
 
@@ -253,16 +366,25 @@ export class MarketplaceItem extends React.Component {
                     <div className='more-modal__details'>
                         {pluginDetails}
                         <UpdateDetails
-                            availableVersion={this.props.version}
+                            version={this.props.version}
                             installedVersion={this.props.installedVersion}
                             releaseNotesUrl={this.props.releaseNotesUrl}
                             isInstalling={this.props.installing}
-                            onUpdate={this.onUpdate}
+                            onUpdate={this.showUpdateConfirmationModal}
                         />
                     </div>
                     <div className='more-modal__actions'>
                         {this.getItemButton()}
                     </div>
+                    <UpdateConfirmationModal
+                        show={this.state.showUpdateConfirmationModal}
+                        name={this.props.name}
+                        version={this.props.version}
+                        installedVersion={this.props.installedVersion}
+                        releaseNotesUrl={this.props.releaseNotesUrl}
+                        onUpdate={this.onUpdate}
+                        onCancel={this.hideUpdateConfirmationModal}
+                    />
                 </div>
             </>
         );

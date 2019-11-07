@@ -4,14 +4,15 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import ConfirmModal from 'components/confirm_modal.jsx';
 import {mountWithIntl as mount} from 'tests/helpers/intl-test-helper.jsx';
 
-import {MarketplaceItem, UpdateDetails} from './marketplace_item';
+import {MarketplaceItem, UpdateDetails, UpdateConfirmationModal} from './marketplace_item';
 
 describe('components/MarketplaceItem', () => {
     describe('UpdateDetails', () => {
         const baseProps = {
-            availableVersion: '0.0.2',
+            version: '0.0.2',
             releaseNotesUrl: 'http://example.com/release',
             installedVersion: '0.0.1',
             isInstalling: false,
@@ -75,6 +76,94 @@ describe('components/MarketplaceItem', () => {
             );
 
             expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('UpdateConfirmationModal', () => {
+        const baseProps = {
+            show: true,
+            name: 'pluginName',
+            version: '0.0.2',
+            releaseNotesUrl: 'http://example.com/release',
+            installedVersion: '0.0.1',
+            onUpdate: () => {},
+            onCancel: () => {},
+        };
+
+        it('should render nothing if not installed', () => {
+            const props = {
+                ...baseProps,
+            };
+            delete props.installedVersion;
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+            expect(wrapper.isEmptyRender()).toBe(true);
+        });
+
+        it('should propogate show to ConfirmModal', () => {
+            const props = {
+                ...baseProps,
+                show: false,
+            };
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+
+            const modal = wrapper.find(ConfirmModal);
+            expect(modal.exists()).toBe(true);
+            expect(modal.props().show).toBe(false);
+        });
+
+        it('should render without release notes url', () => {
+            const props = {
+                ...baseProps,
+            };
+            delete props.releaseNotesUrl;
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
+        });
+
+        it('should add extra warning for major version change', () => {
+            const props = {
+                ...baseProps,
+                version: '1.0.0',
+            };
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
+        });
+
+        it('should add extra warning for major version change, even without release notes', () => {
+            const props = {
+                ...baseProps,
+                version: '1.0.0',
+            };
+            delete props.releaseNotesUrl;
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
+        });
+
+        it('should avoid exception on invalid semver', () => {
+            const props = {
+                ...baseProps,
+                version: 'not-a-version',
+            };
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
         });
     });
 
