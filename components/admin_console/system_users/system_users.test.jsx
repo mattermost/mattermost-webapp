@@ -67,13 +67,13 @@ describe('components/admin_console/system_users', () => {
         await wrapper.instance().loadDataForTeam(SearchUserTeamFilter.NO_TEAM, '');
 
         expect(loadProfilesWithoutTeam).toHaveBeenCalled();
-        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(0, Constants.PROFILE_CHUNK_SIZE, {});
+        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(0, Constants.PROFILE_CHUNK_SIZE);
         expect(wrapper.state().loading).toEqual(false);
 
         await wrapper.instance().loadDataForTeam(SearchUserTeamFilter.NO_TEAM, UserFilters.INACTIVE);
 
         expect(loadProfilesWithoutTeam).toHaveBeenCalled();
-        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(0, Constants.PROFILE_CHUNK_SIZE, {inactive: true});
+        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(0, Constants.PROFILE_CHUNK_SIZE);
     });
 
     test('nextPage() should have called getProfiles', async () => {
