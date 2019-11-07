@@ -202,6 +202,39 @@ export default class InvitationModal extends React.Component {
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
     }
 
+    getPageTitle = () => {
+        if (this.state.step === STEPS_INITIAL) {
+            return (
+                <FormattedMarkdownMessage
+                    id='invitation_modal.title'
+                    defaultMessage='Invite people to **{teamName}**'
+                    values={{teamName: this.props.currentTeam.display_name}}
+                />
+            );
+        } else if (this.state.step === STEPS_INVITE_MEMBERS) {
+            return (
+                <FormattedMarkdownMessage
+                    id='invitation_modal.members.title'
+                    defaultMessage='Invite **Members**'
+                />
+            );
+        } else if (this.state.step === STEPS_INVITE_GUESTS) {
+            return (
+                <FormattedMarkdownMessage
+                    id='invitation_modal.guests.title'
+                    defaultMessage='Invite **Guests**'
+                />
+            );
+        } else {
+            return (
+                <FormattedMarkdownMessage
+                    id='invitation_modal.confirm.title'
+                    defaultMessage='**People** Invited to **{teamName}**'
+                />
+            );
+        }
+    }
+
     render() {
         return (
             <RootPortal>
@@ -210,6 +243,7 @@ export default class InvitationModal extends React.Component {
                     onClose={this.close}
                     onGoBack={this.getBackFunction()}
                     ref={this.modal}
+                    ariaLabel={this.getPageTitle().toString()}
                 >
                     <div
                         data-testid='invitationModal'

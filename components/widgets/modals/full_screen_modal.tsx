@@ -17,6 +17,7 @@ type Props = {
     onClose: () => void;
     onGoBack?: () => void;
     children: React.ReactNode;
+    ariaLabel: string;
 };
 
 export default class FullScreenModal extends React.Component<Props> {
@@ -24,13 +25,13 @@ export default class FullScreenModal extends React.Component<Props> {
 
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
-        document.addEventListener('focus', this.enforceFocus);
+        document.addEventListener('focus', this.enforceFocus, true);
         this.resetFocus();
     }
 
     public componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeypress);
-        document.removeEventListener('focus', this.enforceFocus);
+        document.removeEventListener('focus', this.enforceFocus, true);
     }
 
     private enforceFocus = () => {
@@ -86,28 +87,37 @@ export default class FullScreenModal extends React.Component<Props> {
                 timeout={ANIMATION_DURATION}
                 appear={true}
             >
-                <div
-                    className='FullScreenModal'
-                    ref={this.modal}
-                    tabIndex={-1}
-                >
-                    {this.props.onGoBack &&
-                        <BackIcon
+                <>
+                    <div
+                        className='FullScreenModal'
+                        ref={this.modal}
+                        tabIndex={-1}
+                        aria-modal={true}
+                        aria-label={this.props.ariaLabel}
+                        role='dialog'
+                    >
+                        {this.props.onGoBack &&
+                            <BackIcon
+                                tabIndex='0'
+                                className='back'
+                                onKeyDown={this.onBackKeyDown}
+                                id='backIcon'
+                                onClick={this.props.onGoBack}
+                            />}
+                        <CloseIcon
                             tabIndex='0'
-                            className='back'
-                            onKeyDown={this.onBackKeyDown}
-                            id='backIcon'
-                            onClick={this.props.onGoBack}
-                        />}
-                    <CloseIcon
-                        tabIndex='0'
-                        className='close-x'
-                        onClick={this.close}
-                        onKeyDown={this.onCloseKeyDown}
-                        id='closeIcon'
+                            className='close-x'
+                            onClick={this.close}
+                            onKeyDown={this.onCloseKeyDown}
+                            id='closeIcon'
+                        />
+                        {this.props.children}
+                    </div>
+                    <div
+                        tabIndex={0}
+                        style={{display: 'none'}}
                     />
-                    {this.props.children}
-                </div>
+                </>
             </CSSTransition>
         );
     }

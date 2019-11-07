@@ -2583,6 +2583,7 @@
   "invitation_modal.confirm.members_subtitle_without_sent_and_not_sent": "No invitation sent",
   "invitation_modal.confirm.members_title": "**Members** Invited to **{teamName}**",
   "invitation_modal.confirm.not-sent-header": "Invitations Not Sent",
+  "invitation_modal.confirm.title": "**People** Invited to **{teamName}**",
   "invitation_modal.confirm.sent-header": "Successful Invites",
   "invitation_modal.guests.add_channels.placeholder": "Search and add channels",
   "invitation_modal.guests.add_channels.title": "Search and Add Channels",
