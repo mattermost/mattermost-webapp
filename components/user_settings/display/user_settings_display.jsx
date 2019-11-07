@@ -59,6 +59,7 @@ export default class UserSettingsDisplay extends React.Component {
         messageDisplay: PropTypes.string,
         collapseDisplay: PropTypes.string,
         linkPreviewDisplay: PropTypes.string,
+        lockTeammateNameDisplay: PropTypes.bool,
         actions: PropTypes.shape({
             getSupportedTimezones: PropTypes.func.isRequired,
             autoUpdateTimezone: PropTypes.func.isRequired,
@@ -361,7 +362,6 @@ export default class UserSettingsDisplay extends React.Component {
                     </div>
                 </div>,
             ];
-
 
             if (display === 'teammateNameDisplay' && disabled) {
                 extraInfo = (
