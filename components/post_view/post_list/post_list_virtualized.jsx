@@ -495,12 +495,11 @@ export default class PostList extends React.PureComponent {
 
         const unreadMessagesToast = (this.state.renderUnreadChannelToast &&
             <UnreadToast
-                onClick={this.scrollToLatestMessages}
-                onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
-                onClickFadeOutDelay={7000}
-                order={2}
-                show={!this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
-                showOnlyOnce={false}
+                onClick={this.scrollToBottom}
+                onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to recents')}
+                order={1}
+                show={this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
+                showOnlyOnce={true}
                 countUnread={this.countNewMessages()}
             >
                 {this.newMessagesToastText(this.countNewMessages())}
@@ -510,11 +509,12 @@ export default class PostList extends React.PureComponent {
             <React.Fragment>
                 {historyToast}
                 <UnreadToast
-                    onClick={this.scrollToBottom}
-                    onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to recents')}
-                    order={1}
-                    show={this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
-                    showOnlyOnce={true}
+                    onClick={this.scrollToLatestMessages}
+                    onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
+                    onClickFadeOutDelay={7000}
+                    order={2}
+                    show={!this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
+                    showOnlyOnce={false}
                     countUnread={this.countNewMessages()}
                 >
                     {this.newMessagesToastText(this.countNewMessages())}
