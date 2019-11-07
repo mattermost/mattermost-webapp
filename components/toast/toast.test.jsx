@@ -9,7 +9,7 @@ import Toast from './toast.jsx';
 
 describe('components/Toast', () => {
     const defaultProps = {
-        jumpTo: jest.fn(),
+        onClick: jest.fn(),
         show: true,
         showOnlyOnce: false,
     };
@@ -19,11 +19,11 @@ describe('components/Toast', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should jump', () => {
+    test('should click', () => {
         const wrapper = mountWithIntl(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
         const toast = wrapper.find(Toast).instance();
 
-        toast.handleJump();
+        toast.handleClick();
         expect(defaultProps.jumpTo).toHaveBeenCalledTimes(1);
     });
 
