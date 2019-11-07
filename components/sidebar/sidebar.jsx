@@ -165,6 +165,7 @@ export default class Sidebar extends React.PureComponent {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
+            morePublicChannelsModalType: 'public',
         };
 
         this.animate = new SpringSystem();
@@ -495,8 +496,8 @@ export default class Sidebar extends React.PureComponent {
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
     }
 
-    showMoreChannelsModal = () => {
-        this.setState({showMoreChannelsModal: true});
+    showMoreChannelsModal = (type) => {
+        this.setState({showMoreChannelsModal: true, morePublicChannelsModalType: type});
         trackEvent('ui', 'ui_channels_more_public');
     }
 
@@ -683,6 +684,7 @@ export default class Sidebar extends React.PureComponent {
                         this.hideMoreChannelsModal();
                         this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
+                    morePublicChannelsModalType={this.state.morePublicChannelsModalType}
                 />
             );
         }

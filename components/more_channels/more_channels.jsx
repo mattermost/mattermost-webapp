@@ -30,6 +30,7 @@ export default class MoreChannels extends React.Component {
         channelsRequestStarted: PropTypes.bool,
         bodyOnly: PropTypes.bool,
         canShowArchivedChannels: PropTypes.bool,
+        morePublicChannelsModalType: PropTypes.string,
         actions: PropTypes.shape({
             getChannels: PropTypes.func.isRequired,
             getArchivedChannels: PropTypes.func.isRequired,
@@ -45,7 +46,7 @@ export default class MoreChannels extends React.Component {
 
         this.state = {
             show: true,
-            shouldShowArchivedChannels: false,
+            shouldShowArchivedChannels: this.props.morePublicChannelsModalType === 'private',
             search: false,
             searchedChannels: [],
             serverError: null,
