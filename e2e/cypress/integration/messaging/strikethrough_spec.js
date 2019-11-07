@@ -18,7 +18,6 @@ describe('Edit post with "strikethrough', () => {
 
     it('M18710-Edit post with "strikethrough" and ensure channel auto-complete closes after second tilde (~~)', () => {
         const message = 'Hello' + Date.now();
-        const channelName = 'test-message-channel-1';
 
         // # Create new DM channel with user's email
         cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
