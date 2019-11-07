@@ -3,8 +3,7 @@
 
 import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallow} from 'enzyme';
 
 import RecentDate, {
     isToday,
@@ -19,7 +18,7 @@ describe('RecentDate', () => {
             value: today,
         };
 
-        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+        const wrapper = shallow(<RecentDate {...props}/>);
 
         expect(wrapper.find(FormattedMessage).exists()).toBe(true);
         expect(wrapper.find(FormattedMessage).prop('id')).toBe('date_separator.today');
@@ -33,7 +32,7 @@ describe('RecentDate', () => {
             value: yesterday,
         };
 
-        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+        const wrapper = shallow(<RecentDate {...props}/>);
 
         expect(wrapper.find(FormattedMessage).exists()).toBe(true);
         expect(wrapper.find(FormattedMessage).prop('id')).toBe('date_separator.yesterday');
@@ -47,7 +46,7 @@ describe('RecentDate', () => {
             value: twoDaysAgo,
         };
 
-        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+        const wrapper = shallow(<RecentDate {...props}/>);
 
         expect(wrapper.find(FormattedDate).exists()).toBe(true);
     });
