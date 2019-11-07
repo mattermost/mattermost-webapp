@@ -478,22 +478,38 @@ class PostList extends React.PureComponent {
         />
     )
     renderToasts = () => {
+        const historyToast = (this.props.focusedPostId !== 0) && (
+            <Toast
+                onClick={this.scrollToBottom}
+                onClickMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
+                order={0}
+                show={!this.state.atBottom && this.props.focusedPostId === 0}
+                extraClasses={'toast__history'}
+
+                showOnlyOnce={true}
+            >
+                <FormattedMessage
+                    id='postlist.toast.history'
+                    defaultMessage='Viewing message history'
+                />
+            </Toast>);
+
+        const unreadMessagesToast = (this.state.renderUnreadChannelToast &&
+            <UnreadToast
+                onClick={this.scrollToLatestMessages}
+                onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
+                onClickFadeOutDelay={7000}
+                order={2}
+                show={!this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
+                showOnlyOnce={false}
+                countUnread={this.countNewMessages()}
+            >
+                {this.newMessagesToastText(this.countNewMessages())}
+            </UnreadToast>);
+
         return (
             <React.Fragment>
-                <Toast
-                    onClick={this.scrollToBottom}
-                    onClickMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
-                    order={0}
-                    show={!this.state.atBottom && this.props.focusedPostId === 0}
-                    extraClasses={'toast__history'}
-
-                    showOnlyOnce={true}
-                >
-                    <FormattedMessage
-                        id='postlist.toast.history'
-                        defaultMessage='Viewing message history'
-                    />
-                </Toast>
+                {historyToast}
                 <UnreadToast
                     onClick={this.scrollToBottom}
                     onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to recents')}
@@ -504,17 +520,7 @@ class PostList extends React.PureComponent {
                 >
                     {this.newMessagesToastText(this.countNewMessages())}
                 </UnreadToast>
-                <UnreadToast
-                    onClick={this.scrollToLatestMessages}
-                    onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
-                    onClickFadeOutDelay={7000}
-                    order={2}
-                    show={!this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
-                    showOnlyOnce={false}
-                    countUnread={this.countNewMessages()}
-                >
-                    {this.newMessagesToastText(this.countNewMessages())}
-                </UnreadToast>
+                {unreadMessagesToast}
             </React.Fragment>
         );
     }
