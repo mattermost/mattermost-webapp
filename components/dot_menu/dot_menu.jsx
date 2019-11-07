@@ -304,7 +304,7 @@ export default class DotMenu extends Component {
                         </ChannelPermissionGate>
                         <Menu.ItemAction
                             id={`unread_post_${this.props.post.id}`}
-                            show={!isSystemMessage && this.props.location === Locations.CENTER}
+                            show={!isSystemMessage}
                             text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                             onClick={this.handleUnreadMenuItemActivated}
                         />
