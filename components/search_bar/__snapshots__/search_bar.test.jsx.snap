@@ -39,7 +39,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
@@ -174,7 +173,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
@@ -282,7 +280,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
@@ -390,7 +387,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"

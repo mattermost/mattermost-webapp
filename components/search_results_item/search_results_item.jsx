@@ -90,6 +90,8 @@ class SearchResultsItem extends React.PureComponent {
          */
         isBot: PropTypes.bool.isRequired,
 
+        a11yIndex: PropTypes.number,
+
         /**
         *  Function used for closing LHS
         */
@@ -362,6 +364,7 @@ class SearchResultsItem extends React.PureComponent {
                     className={`a11y__section ${this.getClassName()}`}
                     aria-label={this.state.currentAriaLabel}
                     onFocus={this.handleSearchItemFocus}
+                    data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
                         className='search-channel__name'
