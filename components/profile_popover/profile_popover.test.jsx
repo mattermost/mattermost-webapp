@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ProfilePopover from 'components/profile_popover/profile_popover';
 import Pluggable from '../../plugins/pluggable';
 
@@ -35,7 +35,7 @@ describe('components/ProfilePopover', () => {
 
         const wrapper = shallowWithIntl(
             <ProfilePopover {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -50,7 +50,7 @@ describe('components/ProfilePopover', () => {
 
         const wrapper = shallowWithIntl(
             <ProfilePopover {...props}/>
-        ).dive();
+        );
         expect(wrapper.containsMatchingElement(
             <div
                 key='bot-description'
@@ -66,7 +66,7 @@ describe('components/ProfilePopover', () => {
 
         const wrapper = shallowWithIntl(
             <ProfilePopover {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -77,7 +77,7 @@ describe('components/ProfilePopover', () => {
 
         const wrapper = shallowWithIntl(
             <ProfilePopover {...props}/>
-        ).dive();
+        );
 
         const pluggableProps = {
             hide,
