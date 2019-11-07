@@ -24,7 +24,7 @@ describe('components/Toast', () => {
         const toast = wrapper.find(Toast).instance();
 
         toast.handleClick();
-        expect(defaultProps.jumpTo).toHaveBeenCalledTimes(1);
+        expect(defaultProps.onClick).toHaveBeenCalledTimes(1);
     });
 
     test('should dismiss', () => {
