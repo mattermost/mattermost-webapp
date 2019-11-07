@@ -39,9 +39,9 @@ export default class Toast extends React.PureComponent {
         }
     }
 
-    handleJump = () => {
+    handleClick = () => {
         this.props.onClick();
-        setTimeout(() => this.shouldNeverShowAgain(), this.props.jumpFadeOutDelay);
+        setTimeout(() => this.shouldNeverShowAgain(), this.props.onClickFadeOutDelay);
 
         // TODO: telemetry
     }
@@ -68,7 +68,7 @@ export default class Toast extends React.PureComponent {
             >
                 <div
                     className='toast__jump'
-                    onClick={this.handleJump}
+                    onClick={this.handleClick}
                 >
                     <UnreadBelowIcon/>
                     {this.props.onClickMessage}
