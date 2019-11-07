@@ -11,6 +11,8 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
 import NewMessagesBelow from 'components/post_view/new_messages_below';
+import Toast from 'components/toast/toast';
+import UnreadToast from 'components/toast/unreadToast';
 import PostListRow from 'components/post_view/post_list_row';
 
 import PostList from './post_list_virtualized';
@@ -96,20 +98,41 @@ describe('PostList', () => {
         });
     });
 
-    describe('new messages below', () => {
+    describe('new messages toast below', () => {
         test('should mount outside of permalink view', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
 
-            expect(wrapper.find(NewMessagesBelow).exists()).toBe(true);
+            expect(wrapper.find(Toast).exists()).toBe(true);
+            expect(wrapper.find(UnreadToast).exists()).toBe(true);
         });
 
-        test('should not mount when in permalink view', () => {
+        test('should mount the history one when in permalink view', () => {
             const props = {
                 ...baseProps,
                 focusedPostId: '1234',
             };
 
             const wrapper = shallowWithIntl(<PostList {...props}/>);
+            expect(wrapper.find(Toast).exists()).toBe(true);
+            expect(wrapper.find(Toast).props().extraClasses).toBe('toast__history');
+        });
+    });
+
+    describe('new messages below', () => {
+        test('should mount outside of permalink view on mobile', () => {
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
+            wrapper.setState({isMobile: true});
+            expect(wrapper.find(NewMessagesBelow).exists()).toBe(true);
+        });
+
+        test('should not mount when in permalink view on mobile', () => {
+            const props = {
+                ...baseProps,
+                focusedPostId: '1234',
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            wrapper.setState({isMobile: true});
             expect(wrapper.find(NewMessagesBelow).exists()).toBe(false);
         });
     });

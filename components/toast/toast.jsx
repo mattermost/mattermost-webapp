@@ -7,17 +7,13 @@ import PropTypes from 'prop-types';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 
-function empty() {
-    // do nothing
-}
-
 const someBigNum = 1000;
 
 export default class Toast extends React.PureComponent {
     static propTypes = {
-        jumpTo: PropTypes.func.isRequired, // required?
-        jumpToMessage: PropTypes.string,
-        jumpFadeOutDelay: PropTypes.number,
+        onClick: PropTypes.func.isRequired, // required?
+        onClickMessage: PropTypes.string,
+        onClickFadeOutDelay: PropTypes.number,
         onDismiss: PropTypes.func,
         order: PropTypes.number,
         children: PropTypes.element,
@@ -44,14 +40,16 @@ export default class Toast extends React.PureComponent {
     }
 
     handleJump = () => {
-        this.props.jumpTo();
+        this.props.onClick();
         setTimeout(() => this.shouldNeverShowAgain(), this.props.jumpFadeOutDelay);
 
         // TODO: telemetry
     }
 
     handleDismiss = () => {
-        this.props.onDismiss();
+        if (typeof this.props.onDismiss == 'function') {
+            this.props.onDismiss();
+        }
         this.shouldNeverShowAgain();
 
         // TODO: add telemetry
@@ -73,7 +71,7 @@ export default class Toast extends React.PureComponent {
                     onClick={this.handleJump}
                 >
                     <UnreadBelowIcon/>
-                    {this.props.jumpToMessage}
+                    {this.props.onClickMessage}
                 </div>
                 <div className='toast__message'>
                     {this.props.children}
@@ -93,8 +91,8 @@ export default class Toast extends React.PureComponent {
 }
 
 Toast.defaultProps = {
-    onDismiss: empty,
-    jumpToMessage: 'Jump',
+    onDismiss: null,
+    onClickMessage: 'Jump',
     order: someBigNum,
     jumpFadeOutDelay: 0,
     showOnlyOnce: false,
