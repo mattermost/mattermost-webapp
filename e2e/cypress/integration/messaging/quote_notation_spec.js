@@ -35,7 +35,7 @@ describe('Compact view: Markdown quotation', () => {
 
                 cy.getLastPostId().then((postId) => {
                     // * Check if the message is the same sent
-                    cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', message.slice(1));
+                    cy.get(`#postMessageText_${postId} > blockquote > p`).should('be.visible').and('have.text', message.slice(1));
                     cy.get(`#post_${postId}`).find('.user-popover').then((userElement) => {
                         // # Get the username bounding rect
                         const userRect = userElement[0].getBoundingClientRect();
