@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 import ChannelHeader from 'components/channel_header';
 import PostView from 'components/post_view';
@@ -102,7 +102,9 @@ class PermalinkView extends React.PureComponent {
                 />
             );
         }
-
+        if (!Utils.isMobile()) {
+            return (<Redirect to={`/${teamName}/channels/${channelName}/${this.props.match.params.postid}`}/>);
+        }
         return (
             <div
                 id='app-content'
