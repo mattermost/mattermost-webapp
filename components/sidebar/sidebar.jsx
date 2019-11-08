@@ -136,7 +136,7 @@ class Sidebar extends React.PureComponent {
         /**
          * Setting that enables user to view archived channels
          */
-        viewArchivedChannels: PropTypes.bool.isRequired,
+        viewArchivedChannels: PropTypes.bool,
 
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
