@@ -568,7 +568,7 @@ class LoginController extends React.Component {
                                 id='loginPassword'
                                 type='password'
                                 className='form-control'
-                                ref='password'
+                                forwardedRef='password'
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}
