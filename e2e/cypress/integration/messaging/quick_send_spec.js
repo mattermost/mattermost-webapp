@@ -9,14 +9,14 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Message permalink', () => {
+describe('Posts change order when being sent quickly', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
     });
 
-    it('M13675-Copy a permalink and paste into another channel', () => {
+    it('M18698-Posts change order when being sent quickly', () => {
         // # Create new DM channel with user's email
         cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
             const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
