@@ -108,7 +108,7 @@ describe('components/admin_console/system_users', () => {
         await wrapper.instance().nextPage(0);
 
         expect(loadProfilesWithoutTeam).toHaveBeenCalled();
-        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(1, USERS_PER_PAGE);
+        expect(loadProfilesWithoutTeam).toHaveBeenCalledWith(1, USERS_PER_PAGE, {});
         expect(wrapper.state().loading).toEqual(false);
     });
 
