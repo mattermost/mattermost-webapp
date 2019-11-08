@@ -60,7 +60,6 @@ describe('components/FileUpload', () => {
 
         baseProps = {
             currentChannelId: 'channel_id',
-            intl: {},
             fileCount: 1,
             getTarget: emptyFunction,
             locale: General.DEFAULT_LOCALE,

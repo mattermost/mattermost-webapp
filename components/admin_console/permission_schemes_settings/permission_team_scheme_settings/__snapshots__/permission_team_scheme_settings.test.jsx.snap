@@ -32,7 +32,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
               id="admin.permissions.teamScheme.introBanner"
             />
@@ -62,7 +62,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <LocalizedInput
+            <forwardRef(injectIntl(input))
               className="form-control"
               id="scheme-name"
               onChange={[Function]}
@@ -220,10 +220,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <div
     className="admin-console-save"
   >
-    <SaveButton
-      btnClass="btn-primary"
+    <injectIntl(SaveButton)
       disabled={true}
-      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -305,7 +303,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
               id="admin.permissions.teamScheme.introBanner"
             />
@@ -335,7 +333,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <LocalizedInput
+            <forwardRef(injectIntl(input))
               className="form-control"
               id="scheme-name"
               onChange={[Function]}
@@ -480,10 +478,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <div
     className="admin-console-save"
   >
-    <SaveButton
-      btnClass="btn-primary"
+    <injectIntl(SaveButton)
       disabled={true}
-      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -558,7 +554,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
               id="admin.permissions.teamScheme.introBanner"
             />
@@ -588,7 +584,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <LocalizedInput
+            <forwardRef(injectIntl(input))
               className="form-control"
               id="scheme-name"
               onChange={[Function]}
@@ -746,10 +742,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <div
     className="admin-console-save"
   >
-    <SaveButton
-      btnClass="btn-primary"
+    <injectIntl(SaveButton)
       disabled={true}
-      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -841,7 +835,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <InjectIntl(FormattedMarkdownMessage)
+            <injectIntl(FormattedMarkdownMessage)
               defaultMessage="[Team Override Schemes](!https://about.mattermost.com/default-team-override-scheme) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://about.mattermost.com/default-system-scheme)."
               id="admin.permissions.teamScheme.introBanner"
             />
@@ -871,7 +865,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <LocalizedInput
+            <forwardRef(injectIntl(input))
               className="form-control"
               id="scheme-name"
               onChange={[Function]}
@@ -1016,10 +1010,8 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
   <div
     className="admin-console-save"
   >
-    <SaveButton
-      btnClass="btn-primary"
+    <injectIntl(SaveButton)
       disabled={true}
-      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
