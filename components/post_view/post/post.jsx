@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
-import {intlShape} from 'react-intl';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -14,8 +14,13 @@ import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
 import PostContext from 'components/post_view/post_context';
 
-export default class Post extends React.PureComponent {
+class Post extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * react-intl API
+         */
+        intl: PropTypes.any,
 
         /**
          * The post to render
@@ -82,10 +87,6 @@ export default class Post extends React.PureComponent {
             selectPostCard: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     static defaultProps = {
         post: {},
@@ -251,7 +252,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        this.setState({currentAriaLabel: this.props.createAriaLabel(this.context.intl)});
+        this.setState({currentAriaLabel: this.props.createAriaLabel(this.props.intl)});
     }
 
     render() {
@@ -344,3 +345,5 @@ export default class Post extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(Post);

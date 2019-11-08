@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {shallow} from 'enzyme';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PasswordResetForm from './password_reset_form';
 
@@ -25,7 +26,7 @@ describe('components/PasswordResetForm', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<PasswordResetForm {...baseProps}/>);
+        const wrapper = shallow(<PasswordResetForm {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -38,7 +39,7 @@ describe('components/PasswordResetForm', () => {
         };
 
         const wrapper = mountWithIntl(<PasswordResetForm {...props}/>);
-        wrapper.ref('password').value = 'PASSWORD';
+        wrapper.instance().passwordInput.current.value = 'PASSWORD';
         wrapper.find('form').simulate('submit', {preventDefault: () => {}});
 
         expect(props.actions.resetUserPassword).toHaveBeenCalledWith('TOKEN', 'PASSWORD');

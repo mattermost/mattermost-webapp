@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {intlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 type Props = {
     placeholder: {
@@ -10,30 +10,11 @@ type Props = {
         defaultMessage: string;
     };
     value?: string;
-}
+    intl: IntlShape;
+    forwardedRef?: React.RefObject<HTMLInputElement>;
+};
 
-export default class LocalizedInput extends React.Component<Props> {
-    public static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-    public input: React.RefObject<HTMLInputElement> = React.createRef<HTMLInputElement>();
-
-    public get value(): string {
-        return this.input.current ? this.input.current.value : '';
-    }
-
-    public set value(value: string) {
-        if (this.input.current) {
-            this.input.current.value = value;
-        }
-    }
-
-    public focus = (): void => {
-        if (this.input.current) {
-            this.input.current.focus();
-        }
-    };
-
+class LocalizedInput extends React.Component<Props> {
     public shouldComponentUpdate(nextProps: Props): boolean {
         return nextProps.value !== this.props.value ||
             nextProps.placeholder.id !== this.props.placeholder.id ||
@@ -41,16 +22,21 @@ export default class LocalizedInput extends React.Component<Props> {
     }
 
     public render(): JSX.Element {
-        const {formatMessage} = this.context.intl;
-        const {placeholder, ...otherProps} = this.props;
+        const {formatMessage} = this.props.intl;
+        const {placeholder, forwardedRef, ...otherProps} = this.props;
         const placeholderString: string = formatMessage(placeholder);
 
         return (
             <input
-                ref={this.input}
                 {...otherProps}
+                ref={forwardedRef}
                 placeholder={placeholderString}
             />
         );
     }
 }
+
+const Component = injectIntl(LocalizedInput, {forwardRef: true});
+Component.displayName = 'forwardRef(injectIntl(input))';
+
+export default Component;

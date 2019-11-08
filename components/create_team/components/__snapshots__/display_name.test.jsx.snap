@@ -56,9 +56,7 @@ exports[`/components/create_team/components/display_name should match snapshot 1
         id="create_team.display_name.next"
         values={Object {}}
       />
-      <NextIcon
-        additionalClassName={null}
-      />
+      <injectIntl(NextIcon) />
     </button>
   </form>
 </div>

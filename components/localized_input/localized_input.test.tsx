@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 
