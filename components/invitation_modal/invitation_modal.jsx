@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -35,12 +35,9 @@ export default class InvitationModal extends React.Component {
             sendGuestsInvites: PropTypes.func.isRequired,
             sendMembersInvites: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     constructor(props) {
         super(props);
@@ -65,6 +62,12 @@ export default class InvitationModal extends React.Component {
             invitesSent: [],
             invitesNotSent: [],
         };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.step === STEPS_INVITE_MEMBERS && prevState.step !== STEPS_INVITE_MEMBERS && !this.props.currentTeam.invite_id) {
+            this.props.actions.getTeam(this.props.currentTeam.id);
+        }
     }
 
     goToInitialStep = () => {

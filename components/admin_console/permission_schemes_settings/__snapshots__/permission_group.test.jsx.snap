@@ -24,7 +24,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -84,7 +84,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -144,7 +144,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -204,7 +204,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -264,7 +264,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -324,7 +324,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -398,7 +398,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -458,7 +458,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -518,7 +518,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -584,7 +584,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -644,7 +644,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
@@ -704,7 +704,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_group s
         values={Object {}}
       />
     </span>
-    <InjectIntl(PermissionDescription)
+    <injectIntl(PermissionDescription)
       id="name"
       inherited={null}
       rowType="group"
