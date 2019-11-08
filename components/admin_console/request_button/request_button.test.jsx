@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {shallow} from 'enzyme';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import RequestButton from 'components/admin_console/request_button/request_button.jsx';
 
 describe('components/admin_console/request_button/request_button.jsx', () => {
