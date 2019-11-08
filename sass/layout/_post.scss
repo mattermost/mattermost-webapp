@@ -2115,8 +2115,8 @@
     margin-left: 50%;
     margin-top: 20px;
     width: 80%;
-    font-size: 14px;
-    line-height: 28px;
+    font-size: 13px;
+    line-height: 18px;
     text-align: center;
     @include border-radius(4px);
     cursor: default;
@@ -2125,6 +2125,7 @@
     visibility: hidden;
     background-color: var(--button-bg-90);
     color: var(--button-color-90);
+    height: 32px;
 
     svg {
         fill: var(--button-color-90);
@@ -2168,8 +2169,8 @@
 }
 .toast__history {
     background-color: rgba(0,0,0,0.2);
-    color: #222222;
+    color: rgba(61, 60, 64, 0.90);
     svg {
-        fill: #555 !important;
+        fill: rgba(61, 60, 64, 0.90);
     }
 }
