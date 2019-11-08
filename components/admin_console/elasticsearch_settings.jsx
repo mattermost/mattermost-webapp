@@ -9,7 +9,7 @@ import {JobStatuses, JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import AdminSettings from './admin_settings.jsx';
+import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting.jsx';
 import JobsTable from './jobs';
 import RequestButton from './request_button/request_button.jsx';
