@@ -530,6 +530,7 @@
     position: relative;
     max-height: inherit;
     overflow: hidden;
+    width: fit-content;
 
     &.markdown-inline-img svg {
         margin: 5px 0px;
