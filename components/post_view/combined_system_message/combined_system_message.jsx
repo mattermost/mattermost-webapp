@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
@@ -165,8 +165,9 @@ const postTypeMessage = {
     },
 };
 
-export default class CombinedSystemMessage extends React.PureComponent {
+class CombinedSystemMessage extends React.PureComponent {
     static propTypes = {
+        intl: PropTypes.any,
         allUserIds: PropTypes.array.isRequired,
         allUsernames: PropTypes.array.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -183,10 +184,6 @@ export default class CombinedSystemMessage extends React.PureComponent {
     static defaultProps = {
         allUserIds: [],
         allUsernames: [],
-    };
-
-    static contextTypes = {
-        intl: intlShape,
     };
 
     componentDidMount() {
@@ -218,7 +215,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
             currentUsername,
             userProfiles,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const usernames = userProfiles.reduce((acc, user) => {
             acc[user.id] = user.username;
             acc[user.username] = user.username;
@@ -239,7 +236,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
         const {currentUserId, currentUsername} = this.props;
         const allUsernames = this.getAllUsernames();
 
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const someone = formatMessage({id: t('channel_loader.someone'), defaultMessage: 'Someone'});
 
         const usernames = userIds.
@@ -262,7 +259,7 @@ export default class CombinedSystemMessage extends React.PureComponent {
     }
 
     renderFormattedMessage(postType, userIds, actorId) {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const {currentUserId, currentUsername} = this.props;
         const usernames = this.getUsernamesByIds(userIds);
         let actor = actorId ? this.getUsernamesByIds([actorId])[0] : '';
@@ -373,3 +370,5 @@ export default class CombinedSystemMessage extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(CombinedSystemMessage);
