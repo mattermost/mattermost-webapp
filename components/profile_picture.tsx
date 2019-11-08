@@ -38,7 +38,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
     };
 
     public hideProfilePopover = () => {
-        if (this.overlay){
+        if (this.overlay) {
             this.overlay.hide!();
         }
     }
