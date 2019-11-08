@@ -67,7 +67,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
             values={Object {}}
           />
         </label>
-        <forwardRef(injectIntl(input))
+        <LocalizedInput
           className="form-control"
           id="display_name"
           maxLength={64}
@@ -119,7 +119,7 @@ exports[`components/RenameChannelModal should match snapshot 1`] = `
               fake-channel/channels/
             </span>
           </OverlayTrigger>
-          <forwardRef(injectIntl(input))
+          <LocalizedInput
             className="form-control"
             id="channel_name"
             maxLength={64}
