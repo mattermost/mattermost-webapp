@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 
-const someBigNum = 1000;
+const MIN_TOAST_HEIGHT = 1000;
 
 export default class Toast extends React.PureComponent {
     static propTypes = {
@@ -64,7 +64,7 @@ export default class Toast extends React.PureComponent {
         return (
             <div
                 className={classes}
-                style={{zIndex: this.props.order}}
+                style={{zIndex: this.props.order + MIN_TOAST_HEIGHT}}
             >
                 <div
                     className='toast__jump'
@@ -93,7 +93,7 @@ export default class Toast extends React.PureComponent {
 Toast.defaultProps = {
     onDismiss: null,
     onClickMessage: 'Jump',
-    order: someBigNum,
+    order: 0,
     jumpFadeOutDelay: 0,
     showOnlyOnce: false,
 };

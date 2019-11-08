@@ -478,12 +478,12 @@ class PostList extends React.PureComponent {
         />
     )
     renderToasts = () => {
-        const historyToast = (this.props.focusedPostId !== 0) && (
+        const historyToast = (typeof this.props.focusedPostId !== 'undefined' && this.props.focusedPostId !== 0) && (
             <Toast
                 onClick={this.scrollToBottom}
                 onClickMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
                 order={0}
-                show={!this.state.atBottom && this.props.focusedPostId === 0}
+                show={!this.state.atBottom && typeof this.props.focusedPostId !== 'undefined' && this.props.focusedPostId !== 0}
                 extraClasses={'toast__history'}
 
                 showOnlyOnce={true}
