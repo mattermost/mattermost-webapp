@@ -33,7 +33,13 @@ export default class ProfilePicture extends React.PureComponent {
     };
 
     hideProfilePopover = () => {
-        this.refs.overlay.hide();
+        if (this.overlay) {
+            this.overlay.hide();
+        }
+    }
+
+    setOverlayRef = (ref) => {
+        this.overlay = ref;
     }
 
     render() {
@@ -48,7 +54,7 @@ export default class ProfilePicture extends React.PureComponent {
         if (this.props.userId) {
             return (
                 <OverlayTrigger
-                    ref='overlay'
+                    ref={this.setOverlayRef}
                     trigger='click'
                     placement='right'
                     rootClose={true}
