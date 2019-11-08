@@ -7,8 +7,8 @@ const PostContext = React.createContext({
 
     // Post component event handler that should be
     // called when any child component opens/closes a
-    // menu type component.
-    handleMenuOpened: null,
+    // popup type component.
+    handlePopupOpened: null,
 });
 
 export default PostContext;

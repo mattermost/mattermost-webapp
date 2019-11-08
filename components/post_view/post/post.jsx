@@ -293,7 +293,7 @@ class Post extends React.PureComponent {
         }
 
         return (
-            <PostContext.Provider value={{handleMenuOpened: this.handleDropdownOpened}}>
+            <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <div
                     ref={this.postRef}
                     id={'post_' + post.id}
