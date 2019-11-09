@@ -323,7 +323,9 @@ export async function completeUserData() {
             }
         }
 
-        await dispatch(fetchMyChannelsAndMembers(team.id));
+        if (team) {
+            await dispatch(fetchMyChannelsAndMembers(team.id));
+        }
     }
 }
 
