@@ -97,6 +97,12 @@ export default class UserSettingsDisplay extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.teammateNameDisplay !== prevProps.teammateNameDisplay) {
+            this.updateState();
+        }
+    }
+
     handleSubmit = async () => {
         const userId = this.props.user.id;
 
