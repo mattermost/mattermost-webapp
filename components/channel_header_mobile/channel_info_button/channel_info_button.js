@@ -118,7 +118,10 @@ export default class NavbarInfoButton extends React.PureComponent {
                 className='description'
                 rootClose={true}
             >
-                <button className='navbar-toggle navbar-right__icon navbar-info-button pull-right'>
+                <button
+                    className='navbar-toggle navbar-right__icon navbar-info-button pull-right'
+                    aria-label='Info'
+                >
                     <InfoIcon
                         className='icon icon__info'
                         aria-hidden='true'

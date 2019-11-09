@@ -23,6 +23,7 @@ export default class ShowSearchButton extends React.PureComponent {
                 type='button'
                 className='navbar-toggle navbar-right__icon navbar-search pull-right'
                 onClick={this.handleClick}
+                aria-label='Search'
             >
                 <SearchIcon
                     className='icon icon__search'
