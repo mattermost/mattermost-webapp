@@ -97,12 +97,6 @@ export default class UserSettingsDisplay extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.teammateNameDisplay !== prevProps.teammateNameDisplay) {
-            this.updateState();
-        }
-    }
-
     handleSubmit = async () => {
         const userId = this.props.user.id;
 
@@ -511,7 +505,7 @@ export default class UserSettingsDisplay extends React.Component {
         const teammateNameDisplaySection = this.createSection({
             section: Preferences.NAME_NAME_FORMAT,
             display: 'teammateNameDisplay',
-            value: this.state.teammateNameDisplay,
+            value: this.props.lockTeammateNameDisplay ? this.props.configTeammateNameDisplay : this.state.teammateNameDisplay,
             defaultDisplay: this.props.configTeammateNameDisplay,
             title: {
                 id: t('user.settings.display.teammateNameDisplayTitle'),
