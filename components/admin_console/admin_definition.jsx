@@ -55,11 +55,7 @@ const MINIMUM_IDLE_TIMEOUT = 5;
 
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA1 = 'RSAwithSHA1';
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA256 = 'RSAwithSHA256';
-const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384 = 'RSAwithSHA384';
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA512 = 'RSAwithSHA512';
-
-const SAML_SETTINGS_DIGEST_ALGORITHM_SHA1 = 'SHA1';
-const SAML_SETTINGS_DIGEST_ALGORITHM_SHA256 = 'SHA256';
 
 const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N = 'Canonical1.0';
 const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
@@ -2957,32 +2953,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'SamlSettings.DigestAlgorithm',
-                        label: t('admin.saml.digestAlgorithmTitle'),
-                        label_default: 'Digest Algorithm',
-                        isDisabled: it.either(
-                            it.stateIsFalse('SamlSettings.Encrypt'),
-                            it.stateIsFalse('SamlSettings.SignRequest'),
-                        ),
-                        options: [
-                            {
-                                value: SAML_SETTINGS_DIGEST_ALGORITHM_SHA1,
-                                display_name: t('admin.saml.digestAlgorithmDisplay.sha1'),
-                                display_name_default: SAML_SETTINGS_DIGEST_ALGORITHM_SHA1,
-                                help_text: t('admin.saml.digestAlgorithmDescription.sha1'),
-                                help_text_default: 'Specify the SAML Message Digest algorithm (SHA1).  Please see more information provided at http://www.w3.org/2000/09/xmldsig#rsa-sha1.',
-                            },
-                            {
-                                value: SAML_SETTINGS_DIGEST_ALGORITHM_SHA256,
-                                display_name: t('admin.saml.digestAlgorithmDisplay.sha256'),
-                                display_name_default: SAML_SETTINGS_DIGEST_ALGORITHM_SHA256,
-                                help_text: t('admin.saml.digestAlgorithmDescription.sha256'),
-                                help_text_default: 'Specify the SAML Message Digest algorithm (SHA256).  Please see more information provided at http://www.w3.org/2001/04/xmlenc#sha256',
-                            },
-                        ],
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'SamlSettings.SignatureAlgorithm',
                         label: t('admin.saml.signatureAlgorithmTitle'),
                         label_default: 'Signature Algorithm',
@@ -3004,13 +2974,6 @@ const AdminDefinition = {
                                 display_name_default: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA256,
                                 help_text: t('admin.saml.signatureAlgorithmDescription.sha256'),
                                 help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA256). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha256 [section 6.4.2 RSA (PKCS#1 v1.5)]',
-                            },
-                            {
-                                value: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384,
-                                display_name: t('admin.saml.signatureAlgorithmDisplay.sha384'),
-                                display_name_default: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384,
-                                help_text: t('admin.saml.signatureAlgorithmDescription.sha384'),
-                                help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA384). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha384 [section 6.4.2 RSA (PKCS#1 v1.5)]',
                             },
                             {
                                 value: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA512,

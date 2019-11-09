@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -9,21 +8,21 @@ import * as Utils from 'utils/utils.jsx';
 
 import Setting from './setting';
 
-export default class BooleanSetting extends React.Component {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        label: PropTypes.node.isRequired,
-        value: PropTypes.bool.isRequired,
-        onChange: PropTypes.func.isRequired,
-        trueText: PropTypes.node,
-        falseText: PropTypes.node,
-        disabled: PropTypes.bool.isRequired,
-        setByEnv: PropTypes.bool.isRequired,
-        disabledText: PropTypes.node,
-        helpText: PropTypes.node.isRequired,
-    };
+type Props = {
+    id: string;
+    label: React.ReactNode;
+    value: boolean;
+    onChange: (id: string, foo: boolean) => void;
+    trueText?: React.ReactNode;
+    falseText?: React.ReactNode;
+    disabled: boolean;
+    setByEnv: boolean;
+    disabledText?: React.ReactNode;
+    helpText: React.ReactNode;
+}
 
-    static defaultProps = {
+export default class BooleanSetting extends React.Component<Props> {
+    public static defaultProps = {
         trueText: (
             <FormattedMessage
                 id='admin.true'
@@ -39,11 +38,11 @@ export default class BooleanSetting extends React.Component {
         disabled: false,
     };
 
-    handleChange = (e) => {
+    private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(this.props.id, e.target.value === 'true');
     }
 
-    render() {
+    public render() {
         let helpText;
         if (this.props.disabled && this.props.disabledText) {
             helpText = (
@@ -64,7 +63,7 @@ export default class BooleanSetting extends React.Component {
                 helpText={helpText}
                 setByEnv={this.props.setByEnv}
             >
-                <a name={this.props.id}/>
+                <a id={this.props.id}/>
                 <label className='radio-inline'>
                     <input
                         type='radio'

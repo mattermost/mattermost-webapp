@@ -13,7 +13,7 @@ import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapte
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
 import LoadingScreen from 'components/loading_screen';
-import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
+import BooleanSetting from 'components/admin_console/boolean_setting';
 import TextSetting from 'components/admin_console/text_setting.jsx';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
 import MultiSelectSetting from 'components/admin_console/multiselect_settings.jsx';
@@ -28,11 +28,14 @@ import RemoveFileSetting from 'components/admin_console/remove_file_setting.jsx'
 import SchemaText from 'components/admin_console/schema_text';
 import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+
+import Setting from './setting';
 
 export default class SchemaAdminSettings extends React.Component {
     static propTypes = {
@@ -560,7 +563,10 @@ export default class SchemaAdminSettings extends React.Component {
                 key={this.props.schema.id + '_bool_' + setting.key}
             >
                 <div className='banner__content'>
-                    <span>{this.renderBanner(setting)}</span>
+                    <span>
+                        { setting.banner_type === 'warning' ? <WarningIcon additionalClassName='banner__icon'/> : null}
+                        {this.renderBanner(setting)}
+                    </span>
                 </div>
             </div>
         );
@@ -631,7 +637,7 @@ export default class SchemaAdminSettings extends React.Component {
     buildJobsTableSetting = (setting) => {
         return (
             <JobsTable
-                key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                key={this.props.schema.id + '_jobstable_' + setting.key}
                 jobType={setting.job_type}
                 getExtraInfoText={setting.render_job}
                 disabled={this.isDisabled(setting)}
@@ -717,19 +723,38 @@ export default class SchemaAdminSettings extends React.Component {
 
     buildCustomSetting = (setting) => {
         const CustomComponent = setting.component;
-        return (
+
+        const componentInstance = (
             <CustomComponent
-                key={this.props.schema.id + '_userautocomplete_' + setting.key}
+                key={this.props.schema.id + '_custom_' + setting.key}
                 id={setting.key}
-                value={this.state[setting.key] || ''}
+                label={this.renderLabel(setting)}
+                helpText={this.renderHelpText(setting)}
+                value={this.state[setting.key]}
                 disabled={this.isDisabled(setting)}
+                config={this.props.config}
+                license={this.props.license}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}
                 registerSaveAction={this.registerSaveAction}
                 setSaveNeeded={this.setSaveNeeded}
                 unRegisterSaveAction={this.unRegisterSaveAction}
-            />
-        );
+            />);
+
+        // Show the plugin custom setting title
+        // consistently as other settings with the Setting component
+        if (setting.showTitle) {
+            return (
+                <Setting
+                    label={setting.label}
+                    inputId={setting.key}
+                    helpText={setting.helpText}
+                >
+                    {componentInstance}
+                </Setting>
+            );
+        }
+        return componentInstance;
     }
 
     unRegisterSaveAction = (saveAction) => {
