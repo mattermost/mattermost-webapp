@@ -131,7 +131,7 @@ exports[`components/NewChannelModal should match snapshot, display only private 
           <div
             className="col-sm-9"
           >
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newChannelName"
@@ -430,7 +430,7 @@ exports[`components/NewChannelModal should match snapshot, display only public c
           <div
             className="col-sm-9"
           >
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newChannelName"
@@ -771,7 +771,7 @@ exports[`components/NewChannelModal should match snapshot, modal not showing 1`]
           <div
             className="col-sm-9"
           >
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newChannelName"
@@ -1112,7 +1112,7 @@ exports[`components/NewChannelModal should match snapshot, modal showing 1`] = `
           <div
             className="col-sm-9"
           >
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newChannelName"
@@ -1453,7 +1453,7 @@ exports[`components/NewChannelModal should match snapshot, on displayNameError 1
           <div
             className="col-sm-9"
           >
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newChannelName"
@@ -1804,7 +1804,7 @@ exports[`components/NewChannelModal should match snapshot, on serverError 1`] = 
           <div
             className="col-sm-9"
           >
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newChannelName"
@@ -2159,7 +2159,7 @@ exports[`components/NewChannelModal should match snapshot, private channel fille
           <div
             className="col-sm-9"
           >
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               autoFocus={true}
               className="form-control"
               id="newChannelName"
