@@ -20,6 +20,7 @@ import {
 import {
     registerAdminConsolePlugin,
     unregisterAdminConsolePlugin,
+    registerAdminConsoleCustomSetting,
 } from 'actions/admin_actions';
 
 import store from 'stores/redux_store.jsx';
@@ -500,15 +501,28 @@ export default class PluginRegistry {
         store.dispatch(registerPluginTranslationsSource(this.id, getTranslationsForLocale));
     }
 
-    // Register a admin console definitions override function (This is a
-    // low-level interface and can change in the future).
-    // - func - A function that recieve the admin console config
-    // definitions and return a new version of it, which is used for build the
-    // admin console.
-    // Each plugin can only register a function, if the plugin register
-    // multiple functions the last one will be used.
+    // Register a admin console definitions override function
+    // Note that this is a low-level interface primarily meant for internal use, and is not subject
+    // to semver guarantees. It may change in the future.
+    // Accepts the following:
+    // - func - A function that recieve the admin console config definitions and return a new
+    //          version of it, which is used for build the admin console.
+    // Each plugin can register at most one admin console plugin function, with newer registrations
+    // replacing older ones.
     registerAdminConsolePlugin(func) {
         store.dispatch(registerAdminConsolePlugin(this.id, func));
+    }
+
+    // Register a custom React component to manage the plugin configuration for the given setting key.
+    // Accepts the following:
+    // - key - A key specified in the settings_schema.settings block of the plugin's manifest.
+    // - component - A react component to render in place of the default handling.
+    // - options - Object for the following available options to display the setting:
+    //     showTitle - Optional boolean that if true the display_name of the setting will be rendered
+    // on the left column of the settings page and the registered component will be displayed on the
+    // available space in the right column.
+    registerAdminConsoleCustomSetting(key, component, {showTitle} = {}) {
+        store.dispatch(registerAdminConsoleCustomSetting(this.id, key, component, {showTitle}));
     }
 
     // Unregister a previously registered admin console definition override function.

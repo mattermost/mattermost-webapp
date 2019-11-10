@@ -83,7 +83,7 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         // * Validate if the post content in center channel is full width
         // by checking the exact class name.
         cy.get('#postListContent').should('be.visible');
-        cy.get('#postContent').first().invoke('attr', 'class').should('contain', 'post__content').should('not.contain', 'center');
+        cy.get("div[data-testid='postContent']").first().invoke('attr', 'class').should('contain', 'post__content').should('not.contain', 'center');
     });
 
     it('AS13225 Channel display mode setting to "Fixed width, centered"', () => {
@@ -121,6 +121,6 @@ describe('Account Settings > Display > Channel Display Mode', () => {
         // * Validate if the post content in center channel is fixed and centered
         // by checking the exact class name.
         cy.get('#postListContent').should('be.visible');
-        cy.get('#postContent').first().invoke('attr', 'class').should('contain', 'post__content center');
+        cy.get("div[data-testid='postContent']").first().invoke('attr', 'class').should('contain', 'post__content center');
     });
 });
