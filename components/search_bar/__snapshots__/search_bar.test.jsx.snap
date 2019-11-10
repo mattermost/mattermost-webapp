@@ -230,7 +230,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         className="search-help-popover"
         id="searchbar-help-popup"
         placement="bottom"
-        popoverSize="small"
+        popoverSize="sm"
         popoverStyle="info"
       >
         <SearchHint
@@ -338,7 +338,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         className="search-help-popover visible"
         id="searchbar-help-popup"
         placement="bottom"
-        popoverSize="small"
+        popoverSize="sm"
         popoverStyle="info"
       >
         <SearchHint

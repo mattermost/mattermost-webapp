@@ -50,7 +50,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
         className="navbar__popover"
         id="header-popover"
         placement="bottom"
-        popoverSize="small"
+        popoverSize="sm"
         popoverStyle="info"
       >
         <Connect(Markdown)
@@ -180,7 +180,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
         className="navbar__popover"
         id="header-popover"
         placement="bottom"
-        popoverSize="small"
+        popoverSize="sm"
         popoverStyle="info"
       >
         <div>

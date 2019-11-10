@@ -61,7 +61,7 @@ exports[`components/PopoverListMembers should match snapshot 1`] = `
       className="member-list__popover"
       id="member-list-popover"
       placement="right"
-      popoverSize="small"
+      popoverSize="sm"
       popoverStyle="info"
     >
       <div
@@ -171,7 +171,7 @@ exports[`components/PopoverListMembers should match snapshot with archived chann
       className="member-list__popover"
       id="member-list-popover"
       placement="right"
-      popoverSize="small"
+      popoverSize="sm"
       popoverStyle="info"
     >
       <div
@@ -281,7 +281,7 @@ exports[`components/PopoverListMembers should match snapshot with group-constrai
       className="member-list__popover"
       id="member-list-popover"
       placement="right"
-      popoverSize="small"
+      popoverSize="sm"
       popoverStyle="info"
     >
       <div
@@ -400,7 +400,7 @@ exports[`components/PopoverListMembers should match state when showChannelInvite
       className="member-list__popover"
       id="member-list-popover"
       placement="right"
-      popoverSize="small"
+      popoverSize="sm"
       popoverStyle="info"
     >
       <div
