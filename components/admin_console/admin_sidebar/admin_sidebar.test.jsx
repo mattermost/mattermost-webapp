@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
-import {shallow} from 'enzyme';
 
-import enMessages from 'i18n/en.json';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
 
@@ -24,8 +22,6 @@ jest.mock('utils/utils', () => {
 jest.mock('utils/admin_console_index');
 
 describe('components/AdminSidebar', () => {
-    const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-    const {intl} = intlProvider.getChildContext();
     const defaultProps = {
         license: {},
         config: {
@@ -64,8 +60,8 @@ describe('components/AdminSidebar', () => {
 
     test('should match snapshot', () => {
         const props = {...defaultProps};
-        const context = {router: {}, intl};
-        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        const context = {router: {}};
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -106,8 +102,8 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const context = {router: {}, intl};
-        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        const context = {router: {}};
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -144,8 +140,8 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const context = {router: {}, intl};
-        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        const context = {router: {}};
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -188,8 +184,8 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const context = {router: {}, intl};
-        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        const context = {router: {}};
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -243,8 +239,8 @@ describe('components/AdminSidebar', () => {
             },
         };
 
-        const context = {router: {}, intl};
-        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        const context = {router: {}};
+        const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -282,8 +278,7 @@ describe('components/AdminSidebar', () => {
 
         test('should refresh the index in case idx is already present and there is a change in plugins or adminDefinition prop', () => {
             generateIndex.mockReturnValue(['mocked-index']);
-            const context = {router: {}, intl};
-            const wrapper = shallow(<AdminSidebar {...props}/>, {context, lifecycleExperimental: true});
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {lifecycleExperimental: true});
             wrapper.instance().idx = ['some value'];
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
@@ -297,8 +292,7 @@ describe('components/AdminSidebar', () => {
 
         test('should not call the generate index in case of idx is not already present', () => {
             generateIndex.mockReturnValue(['mocked-index']);
-            const context = {router: {}, intl};
-            const wrapper = shallow(<AdminSidebar {...props}/>, {context, lifecycleExperimental: true});
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {lifecycleExperimental: true});
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
 
@@ -311,8 +305,7 @@ describe('components/AdminSidebar', () => {
 
         test('should not generate index in case of same props', () => {
             generateIndex.mockReturnValue(['mocked-index']);
-            const context = {router: {}, intl};
-            const wrapper = shallow(<AdminSidebar {...props}/>, {context, lifecycleExperimental: true});
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>, {lifecycleExperimental: true});
             wrapper.instance().idx = ['some value'];
 
             expect(generateIndex).toHaveBeenCalledTimes(0);
@@ -363,16 +356,13 @@ describe('components/AdminSidebar', () => {
         };
 
         test('should match snapshot', () => {
-            const context = {router: {}, intl};
-
-            const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
 
         test('should filter plugins', () => {
-            const context = {router: {}, intl};
-            const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+            const wrapper = shallowWithIntl(<AdminSidebar {...props}/>);
 
             idx.search.mockReturnValue(['plugin_mattermost-autolink']);
             wrapper.find('#adminSidebarFilter').simulate('change', {target: {value: 'autolink'}});
