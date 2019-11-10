@@ -390,7 +390,7 @@ class ChannelHeader extends React.PureComponent {
                 <Popover
                     id='header-popover'
                     popoverStyle='info'
-                    popoverSize='large'
+                    popoverSize='lg'
                     placement='bottom'
                     className='channel-header__popover'
                     onMouseOver={this.handleOnMouseOver}

@@ -656,7 +656,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               placement="bottom"
-              popoverSize="large"
+              popoverSize="lg"
               popoverStyle="info"
             >
               <Connect(Markdown)

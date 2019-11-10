@@ -7,8 +7,6 @@ exports[`components/widgets/popover plain 1`] = `
   bsStyle="info"
   id="test"
   placement="right"
-  popoverSize="sm"
-  popoverStyle="info"
 >
   Some text
 </Popover>
