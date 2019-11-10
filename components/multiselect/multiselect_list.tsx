@@ -41,7 +41,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         onAction: () => null,
     };
 
-    private toSelect: number = -1
+    private toSelect = -1
     private listRef = React.createRef<HTMLDivElement>()
     private selectedRef = React.createRef<HTMLDivElement>()
 
@@ -126,7 +126,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
     }
 
     private defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd']) => {
-        var rowSelected = '';
+        let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
         }
