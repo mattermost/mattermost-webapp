@@ -8,7 +8,7 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import {Permissions} from 'mattermost-redux/constants';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import Constants from 'utils/constants';
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal.jsx';
 
@@ -91,9 +91,6 @@ describe('components/NewChannelModal', () => {
     });
 
     test('should match when handleChange is called', () => {
-        const newOnDataChanged = jest.fn();
-        const props = {...baseProps, onDataChanged: newOnDataChanged};
-
         const state = {
             entities: {
                 channels: {
@@ -127,30 +124,22 @@ describe('components/NewChannelModal', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <NewChannelModal {...props}/>
+                <NewChannelModal {...baseProps}/>
             </Provider>
         );
         const modal = wrapper.find(NewChannelModal).instance();
 
-        const refDisplayName = modal.refs.display_name;
-        refDisplayName.value = 'new display_name';
-
-        const refChannelHeader = modal.refs.channel_header;
-        refChannelHeader.value = 'new channel_header';
-
-        const refChannelPurpose = modal.refs.channel_purpose;
-        refChannelPurpose.value = 'new channel_purpose';
+        wrapper.find('input#newChannelName').instance().value = 'new display_name';
+        wrapper.find('textarea#newChannelHeader').instance().value = 'new channel_header';
+        wrapper.find('textarea#newChannelPurpose').instance().value = 'new channel_purpose';
 
         modal.handleChange();
 
-        expect(newOnDataChanged).toHaveBeenCalledTimes(1);
-        expect(newOnDataChanged).toHaveBeenCalledWith({displayName: 'new display_name', header: 'new channel_header', purpose: 'new channel_purpose'});
+        expect(baseProps.onDataChanged).toHaveBeenCalledTimes(1);
+        expect(baseProps.onDataChanged).toHaveBeenCalledWith({displayName: 'new display_name', header: 'new channel_header', purpose: 'new channel_purpose'});
     });
 
     test('should match when handleSubmit is called', () => {
-        const newOnSubmitChannel = jest.fn();
-        const props = {...baseProps, onSubmitChannel: newOnSubmitChannel};
-
         const state = {
             entities: {
                 channels: {
@@ -178,13 +167,13 @@ describe('components/NewChannelModal', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <NewChannelModal {...props}/>
+                <NewChannelModal {...baseProps}/>
             </Provider>
         );
         const modal = wrapper.find(NewChannelModal).instance();
         modal.handleSubmit({preventDefault: jest.fn()});
 
-        expect(newOnSubmitChannel).toHaveBeenCalledTimes(1);
+        expect(baseProps.onSubmitChannel).toHaveBeenCalledTimes(1);
         expect(modal.state.displayNameError).toEqual('');
     });
 
