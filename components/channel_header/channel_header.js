@@ -82,7 +82,7 @@ class ChannelHeader extends React.PureComponent {
         super(props);
         this.toggleFavoriteRef = React.createRef();
 
-        this.state = {showSearchBar: this.getShowSearchBar()};
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props)};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -111,17 +111,18 @@ class ChannelHeader extends React.PureComponent {
         if (header !== prevHeader) {
             this.props.actions.getCustomEmojisInText(header);
         }
-        if (this.props.rhsOpen !== prevProps.rhsOpen) {
-            this.handleResize();
-        }
     }
 
-    getShowSearchBar = () => {
-        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || this.props.rhsOpen;
+    static getDerivedStateFromProps(nextProps) {
+        return {showSearchBar: ChannelHeader.getShowSearchBar(nextProps)};
+    }
+
+    static getShowSearchBar(props) {
+        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || props.rhsOpen;
     }
 
     handleResize = () => {
-        this.setState({showSearchBar: this.getShowSearchBar()});
+        this.setState({showSearchBar: ChannelHeader.getShowSearchBar(this.props)});
     };
 
     handleClose = () => {
