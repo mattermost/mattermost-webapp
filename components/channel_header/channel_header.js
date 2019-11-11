@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
@@ -23,7 +23,7 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
@@ -44,8 +44,9 @@ const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMe
 
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
-export default class ChannelHeader extends React.PureComponent {
+class ChannelHeader extends React.PureComponent {
     static propTypes = {
+        intl: PropTypes.any,
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         channel: PropTypes.object,
@@ -75,10 +76,6 @@ export default class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -271,7 +268,7 @@ export default class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         let hasGuestsText = '';
@@ -685,6 +682,7 @@ export default class ChannelHeader extends React.PureComponent {
                                     aria-hidden='true'
                                 />
                             }
+                            ariaLabel={true}
                             buttonId={'channelHeaderSearchButton'}
                             onClick={this.searchButtonClick}
                             tooltipKey={'search'}
@@ -716,3 +714,5 @@ export default class ChannelHeader extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(ChannelHeader);
