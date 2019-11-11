@@ -1,33 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
-export default class BoolSetting extends React.Component {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        label: PropTypes.node.isRequired,
-        labelClassName: PropTypes.string,
-        helpText: PropTypes.node,
-        placeholder: PropTypes.string.isRequired,
-        value: PropTypes.bool.isRequired,
-        inputClassName: PropTypes.string,
-        onChange: PropTypes.func,
-    };
+type Props = {
+    id: string;
+    label: React.ReactNode;
+    labelClassName: string;
+    helpText?: React.ReactNode;
+    placeholder: string;
+    value: boolean;
+    inputClassName: string;
+    onChange(name: string, value: any): void; // value is any since onChange is a common func for inputs and checkboxes
+}
 
-    static defaultProps = {
+export default class BoolSetting extends React.Component<Props> {
+    public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',
     };
 
-    handleChange = (e) => {
+    private handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.props.onChange(this.props.id, e.target.checked);
     }
 
-    render() {
+    public render(): JSX.Element {
         return (
             <Setting
                 label={this.props.label}

@@ -3,99 +3,67 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 describe('components/widgets/settings/TextSetting', () => {
     test('render component with required props', () => {
+        const onChange = jest.fn();
         const wrapper = shallow(
             <TextSetting
                 id='string.id'
                 label='some label'
                 value='some value'
+                onChange={onChange}
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<Setting
-  inputClassName=""
-  inputId="string.id"
-  label="some label"
-  labelClassName=""
->
-  <input
-    className="form-control"
-    id="string.id"
-    maxLength={null}
-    onChange={[Function]}
-    type="input"
-    value="some value"
-  />
-</Setting>
-`);
+          <Setting
+            inputClassName=""
+            inputId="string.id"
+            label="some label"
+            labelClassName=""
+          >
+            <input
+              className="form-control"
+              id="string.id"
+              maxLength={-1}
+              onChange={[Function]}
+              type="input"
+              value="some value"
+            />
+          </Setting>
+        `);
     });
 
     test('render with textarea type', () => {
+        const onChange = jest.fn();
         const wrapper = shallow(
             <TextSetting
                 id='string.id'
                 label='some label'
                 value='some value'
                 type='textarea'
+                onChange={onChange}
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
-<Setting
-  inputClassName=""
-  inputId="string.id"
-  label="some label"
-  labelClassName=""
->
-  <textarea
-    className="form-control"
-    id="string.id"
-    maxLength={null}
-    onChange={[Function]}
-    rows="5"
-    style={Object {}}
-    value="some value"
-  />
-</Setting>
-`);
-    });
-
-    test('render with bad type', () => {
-        console.originalError = console.error;
-        console.error = jest.fn();
-
-        const wrapper = shallow(
-            <TextSetting
-                id='string.id'
-                label='some label'
-                value='some value'
-                type='junk'
+          <Setting
+            inputClassName=""
+            inputId="string.id"
+            label="some label"
+            labelClassName=""
+          >
+            <textarea
+              className="form-control"
+              id="string.id"
+              maxLength={-1}
+              onChange={[Function]}
+              rows={5}
+              style={Object {}}
+              value="some value"
             />
-        );
-
-        expect(console.error).toBeCalledTimes(1);
-
-        console.error = console.originalError;
-
-        expect(wrapper).toMatchInlineSnapshot(`
-<Setting
-  inputClassName=""
-  inputId="string.id"
-  label="some label"
-  labelClassName=""
->
-  <input
-    className="form-control"
-    id="string.id"
-    maxLength={null}
-    onChange={[Function]}
-    type="input"
-    value="some value"
-  />
-</Setting>
-`);
+          </Setting>
+        `);
     });
 
     test('onChange', () => {
