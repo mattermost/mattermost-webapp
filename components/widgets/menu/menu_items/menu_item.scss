@@ -53,6 +53,12 @@
                 align-items: flex-start;
             }
 
+            &.with-extra-text {
+                flex-direction: column;
+                align-items: flex-start;
+                height: 36px;
+            }
+
             &:hover {
                 background: alpha-color($black, .08);
             }

@@ -10,6 +10,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
     test('should match the snapshot', () => {
         const wrapper = shallow(
             <InvitationModalMembersStep
+                teamName='Test Team'
                 inviteId='123'
                 searchProfiles={jest.fn()}
                 goBack={jest.fn()}

@@ -19,4 +19,18 @@ describe('components/MenuItemToggleModalRedux', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot with extra text', () => {
+        const wrapper = shallow(
+            <MenuItemToggleModalReduxImpl
+                modalId='test'
+                dialogType={jest.fn()}
+                dialogProps={{test: 'test'}}
+                text='Whatever'
+                extraText='Extra text'
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

@@ -9,7 +9,7 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import InviteIcon from 'components/widgets/icons/invite_icon';
+import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
 import BackIcon from 'components/widgets/icons/back_icon';
@@ -22,6 +22,7 @@ import './invitation_modal_members_step.scss';
 
 export default class InvitationModalMembersStep extends React.Component {
     static propTypes = {
+        teamName: PropTypes.string.isRequired,
         inviteId: PropTypes.string.isRequired,
         goBack: PropTypes.func,
         searchProfiles: PropTypes.func.isRequired,
@@ -125,12 +126,13 @@ export default class InvitationModalMembersStep extends React.Component {
                         onClick={this.props.goBack}
                     />}
                 <div className='modal-icon'>
-                    <InviteIcon/>
+                    <InviteMembersIcon/>
                 </div>
                 <h1>
                     <FormattedMarkdownMessage
                         id='invitation_modal.members.title'
-                        defaultMessage='Invite **Members**'
+                        defaultMessage='Invite **Members** to {teamName}'
+                        values={{teamName: this.props.teamName}}
                     />
                 </h1>
                 <div
@@ -175,7 +177,7 @@ export default class InvitationModalMembersStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.description'
-                            defaultMessage='Share this link to grant member access to this team.'
+                            defaultMessage='Share this link to grant access to this team.'
                         />
                     </div>
                 </div>
@@ -196,7 +198,7 @@ export default class InvitationModalMembersStep extends React.Component {
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
-                            defaultMessage='Invite People'
+                            defaultMessage='Add or Invite People'
                         />
                     </h2>
                     <div data-testid='inputPlaceholder'>
