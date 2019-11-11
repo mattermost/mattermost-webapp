@@ -14,6 +14,7 @@ type Props = {
     className: string;
     onToggle?: (open: boolean) => void;
     animationComponent: any;
+    id?: string;
 }
 
 type State = {
