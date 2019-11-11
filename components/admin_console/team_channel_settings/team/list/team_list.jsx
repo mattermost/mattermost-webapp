@@ -92,7 +92,7 @@ export default class TeamList extends React.PureComponent {
 
         if (key === Constants.KeyCodes.ENTER[0]) {
             if (searchString.length > 1) {
-                const response = await this.props.actions.searchTeams(searchString, true, 0, PAGE_SIZE);
+                const response = await this.props.actions.searchTeams(searchString, 0, PAGE_SIZE);
                 this.setState({searchMode: true, teams: response.data.teams, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
             }
         }
@@ -104,7 +104,7 @@ export default class TeamList extends React.PureComponent {
 
     getDataBySearch = async (page, perPage) => {
         if (this.state.searchString.length > 1) {
-            const response = await this.props.actions.searchTeams(this.state.searchString, true, page, perPage);
+            const response = await this.props.actions.searchTeams(this.state.searchString, page, perPage);
             const teams = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
             return teams.concat(response.data.teams);
         }
