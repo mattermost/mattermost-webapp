@@ -173,7 +173,7 @@ export function highlight(lang: string, code: string) {
 }
 
 export function getLanguageFromFileExtension(extension: string): string | null {
-    for (var key in HighlightedLanguages) {
+    for (const key in HighlightedLanguages) {
         if (HighlightedLanguages[key].extensions.find((x: string) => x === extension)) {
             return key;
         }
