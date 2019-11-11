@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import hlJS from 'highlight.js/lib/highlight.js';
+import hlJS from 'highlight.js';
 import hljsActionscript from 'highlight.js/lib/languages/actionscript.js';
 import hljsApplescript from 'highlight.js/lib/languages/applescript.js';
 import hljsBash from 'highlight.js/lib/languages/bash.js';
@@ -62,7 +62,7 @@ import hljsVhdl from 'highlight.js/lib/languages/vhdl.js';
 import hljsXml from 'highlight.js/lib/languages/xml.js';
 import hljsYaml from 'highlight.js/lib/languages/yaml.js';
 
-import Constants from './constants';
+import Constants from './constants.jsx';
 import * as TextFormatting from './text_formatting.jsx';
 
 hlJS.registerLanguage('actionscript', hljsActionscript);
@@ -125,10 +125,18 @@ hlJS.registerLanguage('vhdl', hljsVhdl);
 hlJS.registerLanguage('xml', hljsXml);
 hlJS.registerLanguage('yaml', hljsYaml);
 
-const HighlightedLanguages = Constants.HighlightedLanguages;
+type languageObject = {
+    [key: string]: {
+        name: string;
+        extensions: string[];
+        aliases?: string[];
+    };
+}
+
+const HighlightedLanguages: languageObject = Constants.HighlightedLanguages;
 
 // This function add line numbers to code
-function formatHighLight(code) {
+function formatHighLight(code: string) {
     if (code) {
         return code.split('\n').map((str, index) => {
             if (str || str === '') {
@@ -149,7 +157,7 @@ function formatHighLight(code) {
     return code;
 }
 
-export function highlight(lang, code) {
+export function highlight(lang: string, code: string) {
     const language = getLanguageFromNameOrAlias(lang);
 
     if (language) {
@@ -164,9 +172,9 @@ export function highlight(lang, code) {
     return TextFormatting.sanitizeHtml(code);
 }
 
-export function getLanguageFromFileExtension(extension) {
-    for (var key in HighlightedLanguages) {
-        if (HighlightedLanguages[key].extensions.find((x) => x === extension)) {
+export function getLanguageFromFileExtension(extension: string): string | null {
+    for (const key in HighlightedLanguages) {
+        if (HighlightedLanguages[key].extensions.find((x: string) => x === extension)) {
             return key;
         }
     }
@@ -174,20 +182,24 @@ export function getLanguageFromFileExtension(extension) {
     return null;
 }
 
-export function canHighlight(language) {
+export function canHighlight(language: string): boolean {
     return Boolean(getLanguageFromNameOrAlias(language));
 }
 
-export function getLanguageName(language) {
+export function getLanguageName(language: string): string {
     if (canHighlight(language)) {
-        return HighlightedLanguages[getLanguageFromNameOrAlias(language)].name;
+        const name: string | undefined = getLanguageFromNameOrAlias(language);
+        if (!name) {
+            return '';
+        }
+        return HighlightedLanguages[name].name;
     }
 
     return '';
 }
 
-function getLanguageFromNameOrAlias(name) {
-    const langName = name.toLowerCase();
+function getLanguageFromNameOrAlias(name: string) {
+    const langName: string = name.toLowerCase();
     if (HighlightedLanguages[langName]) {
         return langName;
     }
