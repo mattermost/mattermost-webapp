@@ -12,7 +12,7 @@ type Props = {
 }
 
 const FileUploadOverlay: React.FC<Props> = (props: Props) => {
-    var overlayClass = 'file-overlay hidden';
+    let overlayClass = 'file-overlay hidden';
     if (props.overlayType === 'right') {
         overlayClass += ' right-file-overlay';
     } else if (props.overlayType === 'center') {
