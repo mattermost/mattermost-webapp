@@ -23,6 +23,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -170,6 +171,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -183,7 +185,8 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -200,7 +203,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
       className="about-modal__notice form-group padding-top x2"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />
@@ -271,6 +274,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -407,6 +411,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -420,7 +425,8 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -437,7 +443,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
       className="about-modal__notice form-group padding-top x2"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />
@@ -507,6 +513,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -655,6 +662,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -668,7 +676,8 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -685,7 +694,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
       className="about-modal__notice form-group padding-top x2"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />
@@ -755,6 +764,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
@@ -891,6 +901,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -904,7 +915,8 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -921,7 +933,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
       className="about-modal__notice form-group padding-top x2"
     >
       <p>
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Mattermost is made possible by the open source software used in our [server](!https://about.mattermost.com/platform-notice-txt/), [desktop](!https://about.mattermost.com/desktop-notice-txt/) and [mobile](!https://about.mattermost.com/mobile-notice-txt/) apps."
           id="about.notice"
         />

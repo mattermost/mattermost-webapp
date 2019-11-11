@@ -107,69 +107,6 @@ exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOr
 </Link>
 `;
 
-exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on group channel with tooltip 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={400}
-  onEntering={[Function]}
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="channel-displayname__tooltip"
-      placement="right"
-      style={
-        Object {
-          "maxWidth": "228px",
-          "paddingLeft": "8px",
-        }
-      }
-    >
-      test-channel-name
-    </Tooltip>
-  }
-  placement="top"
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
->
-  <div>
-    <Link
-      aria-label="test-channel-name 6 mentions"
-      className="test-class"
-      id="sidebarItem_test-channel-name"
-      onClick={[Function]}
-      to="test-link"
-    >
-      <SidebarChannelButtonOrLinkIcon
-        channelIsArchived={false}
-        channelStatus="test"
-        channelType="G"
-        hasDraft={false}
-        membersCount={3}
-        teammateDeletedAt={1}
-        teammateId="test-teammate-id"
-      />
-      <span
-        className="sidebar-item__name"
-      >
-        <span>
-          test-channel-name
-        </span>
-      </span>
-      <SidebarChannelButtonOrLinkCloseButton
-        channelId="test-channel-id"
-        channelType="G"
-        handleClose={[MockFunction]}
-        teammateId="test-teammate-id"
-      />
-    </Link>
-  </div>
-</OverlayTrigger>
-`;
-
 exports[`component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink should match snapshot, on non-desktop with mentions badge 1`] = `
 <Link
   aria-label="test-channel-name 6 mentions"

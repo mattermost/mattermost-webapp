@@ -1,19 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {injectIntl} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
-export default class SidebarChannel extends React.PureComponent {
+class SidebarChannel extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * react-intl API
+         */
+        intl: PropTypes.any,
 
         /**
          * Global config object
@@ -151,10 +156,6 @@ export default class SidebarChannel extends React.PureComponent {
         }).isRequired,
     }
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    }
-
     isLeaving = false;
 
     handleLeavePublicChannel = () => {
@@ -273,7 +274,7 @@ export default class SidebarChannel extends React.PureComponent {
 
         let displayName = '';
         if (this.props.currentUserId === this.props.channelTeammateId) {
-            displayName = this.context.intl.formatMessage({
+            displayName = this.props.intl.formatMessage({
                 id: 'sidebar.directchannel.you',
                 defaultMessage: '{displayname} (you)',
             }, {
@@ -314,3 +315,5 @@ export default class SidebarChannel extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(SidebarChannel);

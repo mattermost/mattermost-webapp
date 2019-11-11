@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -12,7 +12,7 @@ import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
@@ -108,7 +108,7 @@ class ProfilePopover extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: intlShape.isRequired,
+        intl: PropTypes.any,
 
         ...Popover.propTypes,
     }

@@ -10,7 +10,7 @@ import {getPostThread} from 'mattermost-redux/actions/posts';
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {focusPost} from 'components/permalink_view/actions';
 import PermalinkView from 'components/permalink_view/permalink_view.jsx';
 
@@ -96,6 +96,17 @@ describe('components/PermalinkView', () => {
         await wrapper.instance().doPermalinkEvent(baseProps);
         expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
         expect(baseProps.actions.focusPost).toBeCalledWith(baseProps.match.params.postid, baseProps.returnTo);
+    });
+
+    test('should call baseProps.actions.focusPost when postid changes', async () => {
+        const wrapper = shallowWithIntl(
+            <PermalinkView {...baseProps}/>
+        );
+        const newPostid = `${baseProps.match.params.postid}_new`;
+        await wrapper.setProps({...baseProps, match: {params: {postid: newPostid}}});
+
+        expect(baseProps.actions.focusPost).toHaveBeenCalledTimes(2);
+        expect(baseProps.actions.focusPost).toBeCalledWith(newPostid, baseProps.returnTo);
     });
 
     test('should match snapshot with archived channel', () => {

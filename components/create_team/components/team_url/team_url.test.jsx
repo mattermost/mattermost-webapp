@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamUrl from 'components/create_team/components/team_url/team_url.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 

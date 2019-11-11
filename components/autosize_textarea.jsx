@@ -165,6 +165,7 @@ export default class AutosizeTextarea extends React.Component {
                         rows='1'
                         {...otherProps}
                         value={value || defaultValue}
+                        aria-hidden={true}
                     />
                 </div>
             </div>

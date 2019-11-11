@@ -29,7 +29,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={true}
+  show={false}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -87,7 +87,7 @@ exports[`comoponents/EditChannelPurposeModal clear error on next 1`] = `
     </button>
     <button
       className="btn btn-primary save-button"
-      disabled={true}
+      disabled={false}
       onClick={[Function]}
       type="button"
     >
@@ -612,7 +612,7 @@ exports[`comoponents/EditChannelPurposeModal should match submitted 1`] = `
     </button>
     <button
       className="btn btn-primary save-button"
-      disabled={true}
+      disabled={false}
       onClick={[Function]}
       type="button"
     >

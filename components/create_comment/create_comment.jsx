@@ -4,14 +4,14 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste';
@@ -21,15 +21,20 @@ import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
-import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import PostDeletedModal from 'components/post_deleted_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
-export default class CreateComment extends React.PureComponent {
+class CreateComment extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * react-intl API
+         */
+        intl: PropTypes.any,
 
         /**
          * The channel for which this comment is a part of
@@ -188,9 +193,26 @@ export default class CreateComment extends React.PureComponent {
         selectedPostFocussedAt: PropTypes.number.isRequired,
     }
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {
+            createPostErrorId: props.createPostErrorId,
+            rootId: props.rootId,
+            messageInHistory: props.messageInHistory,
+            draft: state.draft || {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []},
+        };
+
+        const rootChanged = props.rootId !== state.rootId;
+        const messageInHistoryChanged = props.messageInHistory !== state.messageInHistory;
+        if (rootChanged || messageInHistoryChanged) {
+            updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
+        }
+
+        if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.createPostErrorId) {
+            updatedState = {...updatedState, showPostDeletedModal: true};
+        }
+
+        return updatedState;
+    }
 
     constructor(props) {
         super(props);
@@ -200,11 +222,6 @@ export default class CreateComment extends React.PureComponent {
             showConfirmModal: false,
             showEmojiPicker: false,
             showPreview: false,
-            draft: {
-                message: '',
-                uploadsInProgress: [],
-                fileInfos: [],
-            },
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -215,16 +232,9 @@ export default class CreateComment extends React.PureComponent {
         this.doInitialScrollToBottom = false;
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
-        this.setState({
-            draft: {...this.props.draft, uploadsInProgress: []},
-            caretPosition: this.props.draft.message.length,
-        });
-    }
-
-    componentDidMount() {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
@@ -241,19 +251,6 @@ export default class CreateComment extends React.PureComponent {
         this.props.resetCreatePostRequest();
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
-    }
-
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
-        if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
-            this.showPostDeletedModal();
-        }
-        if (newProps.rootId !== this.props.rootId) {
-            this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
-        }
-
-        if (this.props.messageInHistory !== newProps.messageInHistory) {
-            this.setState({draft: newProps.draft});
-        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -685,7 +682,11 @@ export default class CreateComment extends React.PureComponent {
             serverError = new Error(err);
         }
 
-        this.setState({serverError});
+        this.setState({serverError}, () => {
+            if (serverError) {
+                this.scrollToBottom();
+            }
+        });
     }
 
     removePreview = (id) => {
@@ -782,7 +783,7 @@ export default class CreateComment extends React.PureComponent {
     render() {
         const {draft} = this.state;
         const {readOnlyChannel} = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
         const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
@@ -1033,3 +1034,5 @@ export default class CreateComment extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(CreateComment);

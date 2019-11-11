@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting/email_notification_setting.jsx';
 
 describe('components/user_settings/notifications/EmailNotificationSetting', () => {

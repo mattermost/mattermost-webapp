@@ -9,7 +9,7 @@ import {getMarketplaceInstalledPlugins} from 'mattermost-redux/selectors/entitie
 
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 
 import {closeModal} from 'actions/views/modals';
 

@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -14,7 +14,7 @@ import {SpringSystem, MathUtil} from 'rebound';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -23,7 +23,7 @@ import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
-import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
 
 import SidebarHeader from './header';
@@ -57,7 +57,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class Sidebar extends React.PureComponent {
+class Sidebar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -138,14 +138,12 @@ export default class Sidebar extends React.PureComponent {
             switchToChannelById: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
+
+        intl: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         currentChannel: {},
-    }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -295,8 +293,8 @@ export default class Sidebar extends React.PureComponent {
             currentTeam,
             currentTeammate,
             unreads,
+            intl: {formatMessage},
         } = this.props;
-        const {formatMessage} = this.context.intl;
 
         const currentSiteName = config.SiteName || '';
 
@@ -589,7 +587,6 @@ export default class Sidebar extends React.PureComponent {
                             <ul
                                 key={section.type}
                                 aria-label={ariaLabel}
-                                role='presentation'
                                 className='nav nav-pills nav-stacked a11y__section'
                                 id={sectionId + 'List'}
                                 tabIndex='-1'
@@ -787,3 +784,5 @@ export default class Sidebar extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(Sidebar);

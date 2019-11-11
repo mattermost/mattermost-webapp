@@ -3,11 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n.jsx';
@@ -21,15 +20,13 @@ export default class PasswordResetForm extends React.PureComponent {
         }).isRequired,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {error: null};
-    }
+    passwordInput = React.createRef();
+    state = {error: null};
 
     handlePasswordReset = async (e) => {
         e.preventDefault();
 
-        const password = ReactDOM.findDOMNode(this.refs.password).value;
+        const password = this.passwordInput.current && this.passwordInput.current.value;
         if (!password || password.length < Constants.MIN_PASSWORD_LENGTH) {
             this.setState({
                 error: (
@@ -95,11 +92,11 @@ export default class PasswordResetForm extends React.PureComponent {
                         </p>
                         <div className={formClass}>
                             <LocalizedInput
+                                ref={this.passwordInput}
                                 id='resetPasswordInput'
                                 type='password'
                                 className='form-control'
                                 name='password'
-                                ref='password'
                                 placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
                                 spellCheck='false'
                                 autoFocus={true}

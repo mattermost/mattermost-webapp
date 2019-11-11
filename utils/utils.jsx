@@ -24,11 +24,11 @@ import cssVars from 'css-vars-ponyfill';
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import bing from 'images/bing.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
-import {showNotification} from 'utils/notifications.jsx';
+import {showNotification} from 'utils/notifications';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 export function isMac() {
@@ -212,49 +212,6 @@ export function hasSoundOptions() {
 
 export function getDateForUnixTicks(ticks) {
     return new Date(ticks);
-}
-
-export function displayDate(ticks) {
-    var d = new Date(ticks);
-    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    return monthNames[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-}
-
-export function displayTime(ticks, utc) {
-    const d = new Date(ticks);
-    let hours;
-    let minutes;
-    let ampm = '';
-    let timezone = '';
-
-    if (utc) {
-        hours = d.getUTCHours();
-        minutes = d.getUTCMinutes();
-        timezone = ' UTC';
-    } else {
-        hours = d.getHours();
-        minutes = d.getMinutes();
-    }
-
-    if (minutes <= 9) {
-        minutes = '0' + minutes;
-    }
-
-    const useMilitaryTime = getBool(store.getState(), Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time');
-    if (!useMilitaryTime) {
-        ampm = ' AM';
-        if (hours >= 12) {
-            ampm = ' PM';
-        }
-
-        hours %= 12;
-        if (!hours) {
-            hours = '12';
-        }
-    }
-
-    return hours + ':' + minutes + ampm + timezone;
 }
 
 // returns Unix timestamp in milliseconds
@@ -566,7 +523,7 @@ export function applyTheme(theme) {
     if (theme.sidebarHeaderBg) {
         changeCss('.app__body .MenuWrapper .status-wrapper .status, .app__body #status-dropdown .status-wrapper .status-edit, .sidebar--left .team__header, .app__body .sidebar--menu .team__header, .app__body .post-list__timestamp > div', 'background:' + theme.sidebarHeaderBg);
         changeCss('.app__body .modal .modal-header', 'background:' + theme.sidebarHeaderBg);
-        changeCss('.app__body .multi-teams .team-sidebar, .app__body #navbar .navbar-default', 'background:' + theme.sidebarHeaderBg);
+        changeCss('.app__body .multi-teams .team-sidebar, .app__body #navbar_wrapper .navbar-default', 'background:' + theme.sidebarHeaderBg);
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'background:' + theme.sidebarHeaderBg);
         changeCss('.app__body .attachment .attachment__container', 'border-left-color:' + theme.sidebarHeaderBg);
         changeCss('.emoji-picker .emoji-picker__header', 'background:' + theme.sidebarHeaderBg);
@@ -578,8 +535,8 @@ export function applyTheme(theme) {
         changeCss('.sidebar--left .team__header .user__name, .app__body .sidebar--menu .team__header .user__name', 'color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.8));
         changeCss('.sidebar--left .team__header:hover .user__name, .app__body .sidebar--menu .team__header:hover .user__name', 'color:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .modal .modal-header .modal-title, .app__body .modal .modal-header .modal-title .name', 'color:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body #navbar .navbar-default .navbar-brand', 'color:' + theme.sidebarHeaderTextColor);
-        changeCss('.app__body #navbar .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
+        changeCss('.app__body #navbar_wrapper .navbar-default .navbar-brand', 'color:' + theme.sidebarHeaderTextColor);
+        changeCss('.app__body #navbar_wrapper .navbar-default .navbar-toggle .icon-bar', 'background:' + theme.sidebarHeaderTextColor);
         changeCss('.app__body .post-list__timestamp > div, .app__body .multi-teams .team-sidebar .team-wrapper .team-container a:hover .team-btn__content, .app__body .multi-teams .team-sidebar .team-wrapper .team-container.active .team-btn__content', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.5));
         changeCss('.app__body .team-btn', 'border-color:' + changeOpacity(theme.sidebarHeaderTextColor, 0.3));
         changeCss('@media(max-width: 768px){.app__body .search-bar__container', 'color:' + theme.sidebarHeaderTextColor);
@@ -792,7 +749,7 @@ export function applyTheme(theme) {
         changeCss('.app__body .emoji-picker__category, .app__body .emoji-picker__category:focus, .app__body .emoji-picker__category:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.3));
         changeCss('.app__body .emoji-picker__category--selected, .app__body .emoji-picker__category--selected:focus, .app__body .emoji-picker__category--selected:hover', 'color:' + theme.centerChannelColor);
         changeCss('.app__body .emoji-picker__item-wrapper:hover', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
-        changeCss('.app__body .emoji-picker-items__container .emoji-picker__item.selected', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.8));
+        changeCss('.app__body .emoji-picker-items__container .emoji-picker__item.selected', 'background-color:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .icon__postcontent_picker:hover', 'color:' + changeOpacity(theme.centerChannelColor, 0.8));
         changeCss('.app__body .popover', 'border-color:' + changeOpacity(theme.centerChannelColor, 0.07));
         changeCss('.app__body .emoji-picker .nav-tabs li a', 'fill:' + theme.centerChannelColor);
@@ -934,7 +891,7 @@ export function applyTheme(theme) {
     }
 
     if (theme.linkColor) {
-        changeCss('.app__body .more-modal__list .a11y--focused, .app__body .post.a11y--focused, .app__body .channel-header.a11y--focused, .app__body .post-create.a11y--focused, .app__body .user-popover.a11y--focused, .app__body .post-message__text.a11y--focused', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', inset 0 0 0 1px ' + theme.linkColor);
+        changeCss('.app__body .more-modal__list .a11y--focused, .app__body .post.a11y--focused, .app__body .channel-header.a11y--focused, .app__body .post-create.a11y--focused, .app__body .user-popover.a11y--focused, .app__body .post-message__text.a11y--focused, #archive-link-home>a.a11y--focused', 'box-shadow: inset 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', inset 0 0 0 1px ' + theme.linkColor);
         changeCss('.multi-select__focused > div', 'box-shadow: 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', 0 0 0 1px ' + theme.linkColor);
         changeCss('.app__body .a11y--focused', 'box-shadow: 0 0 1px 3px ' + changeOpacity(theme.linkColor, 0.5) + ', 0 0 0 1px ' + theme.linkColor);
         changeCss('.app__body .DayPicker-Day--today, .app__body .channel-header .channel-header__icon.active, .app__body .channel-header .channel-header__icon:hover, .app__body .post-add-reaction:hover .post-reaction, .app__body .channel-header .channel-header__favorites.inactive:hover, .app__body .channel-header__links > a.active, .app__body a, .app__body a:focus, .app__body a:hover, .app__body .channel-header__links > .color--link.active, .app__body .color--link, .app__body a:focus, .app__body .color--link:hover, .app__body .btn, .app__body .btn:focus, .app__body .btn:hover', 'color:' + theme.linkColor);
@@ -1193,6 +1150,19 @@ export function isValidUsername(name) {
                 break;
             }
         }
+    }
+
+    return error;
+}
+
+export function isValidBotUsername(name) {
+    let error = isValidUsername(name);
+    if (error) {
+        return error;
+    }
+
+    if (name.endsWith('.')) {
+        error = "Username must not end with '.' symbol.";
     }
 
     return error;
