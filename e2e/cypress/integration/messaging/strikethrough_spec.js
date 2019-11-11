@@ -41,16 +41,16 @@ describe('Messaging', () => {
         cy.get('#suggestionList').should('not.exist');
 
         // # Go to the end of the line and type the first tilde
-        cy.get('#edit_textbox').type('{end}~');
+        cy.get('#edit_textbox').type('{end} ~');
         cy.wait(TIMEOUTS.TINY);
 
-        // # Channel autocomplete should not show
-        cy.get('#suggestionList').should('not.exist');
+        // # Channel autocomplete should show
+        cy.get('#suggestionList').should('exist');
 
         // # Write the second tilde
         cy.get('#edit_textbox').type('{end}~');
 
-        // * Channel autocomplete should still not show
+        // * Channel autocomplete should close
         cy.get('#suggestionList').should('not.exist');
 
         // # Save the changes
@@ -58,7 +58,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Message strikedthrough should be the same message we posted
-            cy.get(`#postMessageText_${postId}`).find('del').should('contain', message).
+            cy.get(`#postMessageText_${postId}`).find('del').should('contain', message + ' ').
                 and('have.css', 'text-decoration', 'line-through solid rgb(61, 60, 64)');
             cy.get(`#postEdited_${postId}`).should('be.visible').and('have.text', '(edited)');
         });
