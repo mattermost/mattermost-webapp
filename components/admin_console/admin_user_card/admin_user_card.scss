@@ -14,8 +14,12 @@
     height: 92px;
 }
 
+.AdminUserCard__header .Avatar.Avatar-xxl {
+    border: solid 2px #fff;
+}
+
 .AdminUserCard__body {
-    padding: 20px 20px 20px 178px;
+    padding: 12px 20px 20px 178px;
     background-color: #fff;
 }
 
@@ -40,6 +44,7 @@
 
 .AdminUserCard__user-id {
     color: #fff;
+    font-size: 12px;
     margin-left: auto;
     align-self: flex-end;
     opacity: .5;

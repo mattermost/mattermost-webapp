@@ -12,7 +12,8 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
     const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'};
     const userid4 = {id: 'userid4', username: 'user4', first_name: 'X', last_name: 'Y', nickname: 'Z'};
     const userid5 = {id: 'userid5', username: 'user5', first_name: 'out', last_name: 'out', nickname: 'out'};
-    const userid6 = {id: 'userid6', username: 'user.six-split', first_name: 'out Junior', last_name: 'out', nickname: 'out'};
+    const userid6 = {id: 'userid6', username: 'user6.six-split', first_name: 'out Junior', last_name: 'out', nickname: 'out'};
+    const userid7 = {id: 'userid7', username: 'xuser7', first_name: '', last_name: '', nickname: 'x'};
 
     const baseParams = {
         currentUserId: 'userid1',
@@ -104,7 +105,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@channel',
                     '@all',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -174,7 +175,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@channel',
                     '@all',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid10},
@@ -298,7 +299,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user2',
                     '@user4',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid2},
@@ -352,7 +353,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -403,7 +404,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -453,7 +454,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -504,7 +505,7 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
             expect(resultCallback).toHaveBeenNthCalledWith(3, {
                 matchedPretext,
                 terms: [
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
@@ -747,13 +748,135 @@ describe('components/suggestion/at_mention_provider/AtMentionProvider', () => {
                     '@user2',
                     '@user4',
                     '@user5',
-                    '@user.six-split',
+                    '@user6.six-split',
                 ],
                 items: [
                     {type: Constants.MENTION_MEMBERS, ...userid2},
                     {type: Constants.MENTION_MEMBERS, ...userid4},
                     {type: Constants.MENTION_NONMEMBERS, ...userid5},
                     {type: Constants.MENTION_NONMEMBERS, ...userid6},
+                ],
+                component: AtMentionSuggestion,
+            });
+        });
+    });
+
+    it('should prioritise username match over other matches for in channel users', async () => {
+        const pretext = '@x';
+        const matchedPretext = '@x';
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [userid4, userid7],
+                    out_of_channel: [],
+                }});
+            })),
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [
+                '@other',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runAllTimers();
+
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '@other',
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        await Promise.resolve().then(() => {
+            expect(resultCallback).toHaveBeenNthCalledWith(3, {
+                matchedPretext,
+                terms: [
+                    '@xuser7',
+                    '@other',
+                    '@user4',
+                ],
+                items: [
+                    {type: Constants.MENTION_MEMBERS, ...userid7},
+                    {type: Constants.MENTION_MEMBERS, ...userid3},
+                    {type: Constants.MENTION_MEMBERS, ...userid4},
+                ],
+                component: AtMentionSuggestion,
+            });
+        });
+    });
+
+    it('should prioritise username match over other matches for out of channel users', async () => {
+        const pretext = '@x';
+        const matchedPretext = '@x';
+        const params = {
+            ...baseParams,
+            autocompleteUsersInChannel: jest.fn().mockImplementation(() => new Promise((resolve) => {
+                resolve({data: {
+                    users: [],
+                    out_of_channel: [userid4, userid7],
+                }});
+            })),
+        };
+
+        const provider = new AtMentionProvider(params);
+        const resultCallback = jest.fn();
+        expect(provider.handlePretextChanged(pretext, resultCallback)).toEqual(true);
+
+        expect(resultCallback).toHaveBeenNthCalledWith(1, {
+            matchedPretext,
+            terms: [
+                '@other',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        jest.runAllTimers();
+
+        expect(resultCallback).toHaveBeenNthCalledWith(2, {
+            matchedPretext,
+            terms: [
+                '@other',
+                '',
+            ],
+            items: [
+                {type: Constants.MENTION_MEMBERS, ...userid3},
+                {type: Constants.MENTION_MORE_MEMBERS, loading: true},
+            ],
+            component: AtMentionSuggestion,
+        });
+
+        await Promise.resolve().then(() => {
+            expect(resultCallback).toHaveBeenNthCalledWith(3, {
+                matchedPretext,
+                terms: [
+                    '@other',
+                    '@xuser7',
+                    '@user4',
+                ],
+                items: [
+                    {type: Constants.MENTION_MEMBERS, ...userid3},
+                    {type: Constants.MENTION_NONMEMBERS, ...userid7},
+                    {type: Constants.MENTION_NONMEMBERS, ...userid4},
                 ],
                 component: AtMentionSuggestion,
             });
