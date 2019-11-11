@@ -5,7 +5,6 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import GlobeIcon from 'components/widgets/icons/globe_icon';
@@ -105,6 +104,10 @@ export default class NewChannelModal extends React.PureComponent {
         this.state = {
             displayNameError: '',
         };
+
+        this.channelHeaderInput = React.createRef();
+        this.channelPurposeInput = React.createRef();
+        this.displayNameInput = React.createRef();
     }
 
     componentDidMount() {
@@ -129,7 +132,7 @@ export default class NewChannelModal extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const displayName = ReactDOM.findDOMNode(this.refs.display_name).value.trim();
+        const displayName = this.displayNameInput.current.value.trim();
         if (displayName.length < Constants.MIN_CHANNELNAME_LENGTH) {
             this.setState({displayNameError: true});
             return;
@@ -140,9 +143,9 @@ export default class NewChannelModal extends React.PureComponent {
 
     handleChange = () => {
         const newData = {
-            displayName: this.refs.display_name.value,
-            header: this.refs.channel_header.value,
-            purpose: this.refs.channel_purpose.value,
+            displayName: this.displayNameInput.current.value,
+            header: this.channelHeaderInput.current.value,
+            purpose: this.channelPurposeInput.current.value,
         };
         this.props.onDataChanged(newData);
     }
@@ -241,6 +244,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'O'}
                                 onChange={this.handlePublicTypeSelect}
+                                aria-labelledby='channelModalTypeLabel'
                             />
                             {publicChannelDesc}
                         </label>
@@ -253,6 +257,7 @@ export default class NewChannelModal extends React.PureComponent {
                                 name='channelType'
                                 checked={this.props.channelType === 'P'}
                                 onChange={this.handlePrivateTypeSelect}
+                                aria-labelledby='channelModalTypeLabel'
                             />
                             {privateChannelDesc}
                         </label>
@@ -310,7 +315,10 @@ export default class NewChannelModal extends React.PureComponent {
                     >
                         <Modal.Body>
                             <div className='form-group'>
-                                <label className='col-sm-3 form__label control-label'>
+                                <label
+                                    className='col-sm-3 form__label control-label'
+                                    id='channelModalTypeLabel'
+                                >
                                     <FormattedMessage
                                         id='channel_modal.type'
                                         defaultMessage='Type'
@@ -321,7 +329,10 @@ export default class NewChannelModal extends React.PureComponent {
                                 </div>
                             </div>
                             <div className={displayNameClass}>
-                                <label className='col-sm-3 form__label control-label'>
+                                <label
+                                    className='col-sm-3 form__label control-label'
+                                    htmlFor='newChannelName'
+                                >
                                     <FormattedMessage
                                         id='channel_modal.name'
                                         defaultMessage='Name'
@@ -332,7 +343,7 @@ export default class NewChannelModal extends React.PureComponent {
                                         id='newChannelName'
                                         onChange={this.handleChange}
                                         type='text'
-                                        ref='display_name'
+                                        ref={this.displayNameInput}
                                         className='form-control'
                                         placeholder={{id: t('channel_modal.nameEx'), defaultMessage: 'E.g.: "Bugs", "Marketing", "客户支持"'}}
                                         maxLength={Constants.MAX_CHANNELNAME_LENGTH}
@@ -358,7 +369,10 @@ export default class NewChannelModal extends React.PureComponent {
                             </div>
                             <div className='form-group'>
                                 <div className='col-sm-3'>
-                                    <label className='form__label control-label'>
+                                    <label
+                                        className='form__label control-label'
+                                        htmlFor='newChannelPurpose'
+                                    >
                                         <FormattedMessage
                                             id='channel_modal.purpose'
                                             defaultMessage='Purpose'
@@ -375,7 +389,7 @@ export default class NewChannelModal extends React.PureComponent {
                                     <textarea
                                         id='newChannelPurpose'
                                         className='form-control no-resize'
-                                        ref='channel_purpose'
+                                        ref={this.channelPurposeInput}
                                         rows='4'
                                         placeholder={Utils.localizeMessage('channel_modal.purposeEx', 'E.g.: "A channel to file bugs and improvements"')}
                                         maxLength='250'
@@ -392,7 +406,10 @@ export default class NewChannelModal extends React.PureComponent {
                             </div>
                             <div className='form-group less'>
                                 <div className='col-sm-3'>
-                                    <label className='form__label control-label'>
+                                    <label
+                                        className='form__label control-label'
+                                        htmlFor='newChannelHeader'
+                                    >
                                         <FormattedMessage
                                             id='channel_modal.header'
                                             defaultMessage='Header'
@@ -409,7 +426,7 @@ export default class NewChannelModal extends React.PureComponent {
                                     <textarea
                                         id='newChannelHeader'
                                         className='form-control no-resize'
-                                        ref='channel_header'
+                                        ref={this.channelHeaderInput}
                                         rows='4'
                                         placeholder={Utils.localizeMessage('channel_modal.headerEx', 'E.g.: "[Link Title](http://example.com)"')}
                                         maxLength='1024'

@@ -26,3 +26,8 @@ List all PRs related to resolving a ticket. For instance, if you submitted a PR 
 - Has server changes (please link here)
 - Has redux changes (please link here)
 - Has mobile changes (please link here)
+
+#### Screenshots
+<!--
+If the PR includes UI changes, include screenshots/GIFs.
+-->

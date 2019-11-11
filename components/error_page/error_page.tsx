@@ -38,7 +38,7 @@ export default class ErrorPage extends React.PureComponent<Props> {
         const params: URLSearchParams = new URLSearchParams(this.props.location.search);
         const signature = params.get('s');
 
-        var trustParams = false;
+        let trustParams = false;
         if (signature) {
             params.delete('s');
 
