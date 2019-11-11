@@ -2,29 +2,30 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import './menu_item.scss';
 
-export default function menuItem(Component) {
-    class MenuItem extends React.PureComponent {
-        static propTypes= {
-            show: PropTypes.bool,
-            id: PropTypes.string,
-            icon: PropTypes.node,
-            text: PropTypes.string,
-        };
-        static defaultProps = {
+export default function menuItem(Component: React.ComponentType<any>) {
+    type Props = {
+        show: boolean;
+        id?: string;
+        icon?: React.ReactNode;
+        text?: string;
+    }
+    class MenuItem extends React.PureComponent<Props|React.ComponentProps<typeof Component>> {
+        public static defaultProps = {
             show: true,
         };
 
-        render() {
+        public static displayName?: string;
+
+        public render() {
             const {id, show, icon, text, ...props} = this.props;
             if (!show) {
                 return null;
             }
 
-            let textProp = text;
+            let textProp: React.ReactNode = text;
             if (icon) {
                 textProp = (
                     <React.Fragment>

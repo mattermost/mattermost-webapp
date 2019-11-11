@@ -4,14 +4,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MenuItemToggleModalReduxImpl} from './menu_item_toggle_modal_redux.jsx';
+import {MenuItemToggleModalReduxImpl} from './menu_item_toggle_modal_redux';
 
 describe('components/MenuItemToggleModalRedux', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <MenuItemToggleModalReduxImpl
                 modalId='test'
-                dialogType={jest.fn}
+                dialogType={jest.fn()}
                 dialogProps={{test: 'test'}}
                 text='Whatever'
             />

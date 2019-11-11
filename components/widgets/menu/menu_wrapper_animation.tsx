@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {chain, tween, styler, action} from 'popmotion';
 import {CSSTransition} from 'react-transition-group';
@@ -10,13 +9,13 @@ import {isMobile} from 'utils/utils.jsx';
 
 const ANIMATION_DURATION = 80;
 
-export default class MenuWrapperAnimation extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-        show: PropTypes.bool.isRequired,
-    };
+type Props = {
+    children?: React.ReactNode;
+    show: boolean;
+}
 
-    onEntering = (node) => {
+export default class MenuWrapperAnimation extends React.PureComponent<Props> {
+    private onEntering = (node: HTMLElement, isAppearing: boolean) => {
         const nodeStyler = styler(node);
         chain(
             action(({update, complete}) => {
@@ -27,7 +26,7 @@ export default class MenuWrapperAnimation extends React.PureComponent {
         ).start(nodeStyler.set);
     }
 
-    onExiting = (node) => {
+    private onExiting = (node: HTMLElement) => {
         const nodeStyler = styler(node);
         chain(
             tween({from: {opacity: 1}, to: {opacity: 0}, duration: ANIMATION_DURATION}),
@@ -38,7 +37,7 @@ export default class MenuWrapperAnimation extends React.PureComponent {
         ).start(nodeStyler.set);
     }
 
-    render() {
+    public render() {
         return (
             <CSSTransition
                 in={this.props.show}
@@ -47,8 +46,10 @@ export default class MenuWrapperAnimation extends React.PureComponent {
                 exit={true}
                 mountOnEnter={true}
                 unmountOnExit={true}
-                onEntering={!isMobile() && this.onEntering}
-                onExiting={!isMobile() && this.onExiting}
+                {...(isMobile() ? {} : {
+                    onEntering: this.onEntering,
+                    onExiting: this.onExiting,
+                })}
                 timeout={{
                     enter: ANIMATION_DURATION,
                     exit: ANIMATION_DURATION,

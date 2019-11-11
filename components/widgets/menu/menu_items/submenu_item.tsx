@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import * as Utils from 'utils/utils.jsx';
 import {showMobileSubMenuModal} from 'actions/global_actions';
@@ -29,24 +28,33 @@ import './menu_item.scss';
 //     "filter": () => {},
 // }
 // Submenus can contain Submenus as well
-export default class SubMenuItem extends React.PureComponent {
-    static propTypes= {
-        id: PropTypes.string,
-        postId: PropTypes.string,
-        text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-        subMenu: PropTypes.arrayOf(PropTypes.object),
-        icon: PropTypes.node,
-        action: PropTypes.func,
-        filter: PropTypes.func,
-        xOffset: PropTypes.number,
-        ariaLabel: PropTypes.string,
-        root: PropTypes.bool,
-    };
-    static defaultProps = {
+
+type Props = {
+    id?: string;
+    postId?: string;
+    text: React.ReactNode;
+    subMenu?: Props[];
+    icon?: React.ReactNode;
+    action?: (id?: string) => {};
+    filter?: (id?: string) => {};
+    xOffset?: number;
+    ariaLabel?: string;
+    root?: boolean;
+    show?: boolean;
+}
+
+type State = {
+    show: boolean;
+}
+
+export default class SubMenuItem extends React.PureComponent<Props, State> {
+    private node: React.RefObject<any>;
+
+    public static defaultProps = {
         show: true,
     };
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
         this.node = React.createRef();
 
@@ -55,17 +63,22 @@ export default class SubMenuItem extends React.PureComponent {
         };
     }
 
-    show = () => {
+    private show = () => {
         this.setState({show: true});
     }
 
-    hide = () => {
+    private hide = () => {
         this.setState({show: false});
     }
 
-    onClick = (event) => {
+    private onClick = (event: React.MouseEvent<HTMLElement>) => {
         const {id, postId, subMenu, action, root} = this.props;
         const isMobile = Utils.isMobile();
+        const pathPair = Object.entries(event.nativeEvent).find(([key, value]) => key === 'path');
+        let path: HTMLElement[] | undefined;
+        if (pathPair) {
+            path = pathPair[1];
+        }
         if (isMobile) {
             if (subMenu && subMenu.length) { // if contains a submenu, call openModal with it
                 if (!root) { //required to close only the original menu
@@ -75,18 +88,18 @@ export default class SubMenuItem extends React.PureComponent {
             } else if (action) { // leaf node in the tree handles action only
                 action(postId);
             }
-        } else if (event.nativeEvent.path && // the first 2 elements in path match original event id
-            event.nativeEvent.path.slice(0, 2).find((e) => e.id === id) &&
+        } else if (path && // the first 2 elements in path match original event id
+            path.slice(0, 2).find((e) => e.id === id) &&
             action) {
             action(postId);
-        } else if (!event.nativeEvent.path && !event.nativeEvent.composedPath && action) { //for tests only that don't contain `path` or `composedPath`
+        } else if (!path && !event.nativeEvent.composedPath && action) { //for tests only that don't contain `path` or `composedPath`
             action(postId);
-        } else if (!event.nativeEvent.path && event.nativeEvent.composedPath().slice(0, 2).find((e) => e.id === id) && action) {
+        } else if (!path && (event.nativeEvent.composedPath() as HTMLElement[]).slice(0, 2).find((e) => e.id === id) && action) {
             action(postId);
         }
     }
 
-    render() {
+    public render() {
         const {id, postId, text, subMenu, root, icon, filter, xOffset, ariaLabel} = this.props;
         const isMobile = Utils.isMobile();
 
@@ -109,11 +122,11 @@ export default class SubMenuItem extends React.PureComponent {
         const childOffset = (React.isValidElement(text)) ? 20 : 0;
         const offset = (root ? 2 : childOffset);
         const subMenuStyle = {
-            visibility: this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden',
-            right: (parseInt(xOffset, 10) - offset) + 'px',
+            visibility: (this.state.show && hasSubmenu && !isMobile ? 'visible' : 'hidden') as 'visible' | 'hidden',
+            right: (parseInt(String(xOffset), 10) - offset) + 'px',
         };
 
-        let subMenuContent = '';
+        let subMenuContent: React.ReactNode = '';
 
         if (!isMobile) {
             subMenuContent = (
@@ -121,7 +134,7 @@ export default class SubMenuItem extends React.PureComponent {
                     className={'a11y__popup Menu dropdown-menu SubMenu'}
                     style={subMenuStyle}
                 >
-                    {hasSubmenu ? subMenu.map((s) => {
+                    {hasSubmenu ? subMenu!.map((s) => {
                         return (
                             <SubMenuItem
                                 key={s.id}

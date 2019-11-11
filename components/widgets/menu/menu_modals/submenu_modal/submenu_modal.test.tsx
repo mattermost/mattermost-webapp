@@ -7,17 +7,17 @@ import {Modal} from 'react-bootstrap';
 
 import {browserHistory} from 'utils/browser_history';
 
-import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal.jsx';
+import SubMenuModal from 'components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
-global.MutationObserver = class {
-    disconnect() {}
-    observe() {}
+(global as any).MutationObserver = class {
+    public disconnect() {}
+    public observe() {}
 };
 
 describe('components/submenu_modal', () => {
-    const action1 = jest.fn().mockReturnValueOnce();
-    const action2 = jest.fn().mockReturnValueOnce();
-    const action3 = jest.fn().mockReturnValueOnce();
+    const action1 = jest.fn().mockReturnValueOnce('default');
+    const action2 = jest.fn().mockReturnValueOnce('default');
+    const action3 = jest.fn().mockReturnValueOnce('default');
     const baseProps = {
         elements: [
             {
@@ -49,7 +49,7 @@ describe('components/submenu_modal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<SubMenuModal>(
             <SubMenuModal {...baseProps}/>
         );
 
@@ -90,7 +90,7 @@ describe('components/submenu_modal', () => {
             <SubMenuModal {...props}/>
         );
 
-        wrapper.find(Modal).props().onExited();
+        wrapper.find(Modal).props().onExited!(document.createElement('div'));
         expect(onHide).toHaveBeenCalledTimes(1);
     });
 });

@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MenuWrapper from './menu_wrapper.jsx';
+import MenuWrapper from './menu_wrapper';
 
 describe('components/MenuWrapper', () => {
     test('should match snapshot', () => {
@@ -68,11 +68,11 @@ describe('components/MenuWrapper', () => {
                 <p>{'menu'}</p>
             </MenuWrapper>
         );
-        expect(wrapper.state().open).toBe(false);
+        expect(wrapper.state('open')).toBe(false);
         wrapper.simulate('click');
-        expect(wrapper.state().open).toBe(true);
+        expect(wrapper.state('open')).toBe(true);
         wrapper.simulate('click');
-        expect(wrapper.state().open).toBe(false);
+        expect(wrapper.state('open')).toBe(false);
     });
 
     test('should raise an exception on more or less than 2 children', () => {
