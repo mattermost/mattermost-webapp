@@ -50,7 +50,6 @@ export default class TeamSelectorModal extends React.Component {
     }
 
     componentDidMount() {
-        console.log('componentDidMount******************HERERe');
         this.props.actions.loadTeams(0, TEAMS_PER_PAGE + 1).then(() => {
             this.setTeamsLoadingState(false);
         });
@@ -68,7 +67,6 @@ export default class TeamSelectorModal extends React.Component {
             this.searchTimeoutId = setTimeout(
                 async () => {
                     this.setTeamsLoadingState(true);
-                    console.log('******************HERERe');
                     await this.props.actions.searchTeams(searchTerm);
                     this.setTeamsLoadingState(false);
                 },
