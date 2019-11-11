@@ -8,7 +8,7 @@ exports[`components/link_tooltip/link_tooltip should match snapshot 1`] = `
         "alignItems": "center",
         "display": "flex",
         "flexDirection": "column",
-        "zIndex": "10",
+        "zIndex": 10,
       }
     }
   >
