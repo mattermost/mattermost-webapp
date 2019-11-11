@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {shallow} from 'enzyme';
 import configureStore from 'redux-mock-store';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import UserSettingsDisplay from 'components/user_settings/display/user_settings_display.jsx';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {

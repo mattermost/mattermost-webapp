@@ -391,6 +391,7 @@ if (targetIsDevServer) {
                 context: () => true,
                 bypass(req) {
                     if (req.url.indexOf('/api') === 0 ||
+                        req.url.indexOf('/plugins') === 0 ||
                         req.url.indexOf('/static/plugins/') === 0 ||
                         req.url.indexOf('/sockjs-node/') !== -1) {
                         return null; // send through proxy to the server
