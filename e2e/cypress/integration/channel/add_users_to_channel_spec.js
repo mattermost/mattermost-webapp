@@ -19,7 +19,7 @@ function verifyMentionedUserAndProfilePopover(postId) {
         cy.get('#user-profile-popover').should('be.visible');
 
         // * The popover title  at the top of the popover should be the same as the username link for each user
-        cy.getByTestId(`profilePopoverTitle_${userName.replace('@', '')}`).should('contain', userName);
+        cy.findByTestId(`profilePopoverTitle_${userName.replace('@', '')}`).should('contain', userName);
 
         // Click anywhere to close profile popover
         cy.get('#channelHeaderInfo').click();
@@ -31,7 +31,7 @@ function addNumberOfUsersToChannel(num = 1) {
     cy.get('#channelHeaderTitle').click();
 
     // * The dropdown menu of the channel header should be visible;
-    cy.get('#channelHeaderDropdownMenu').should('be.visible');
+    cy.get('#channelLeaveChannel').should('be.visible');
 
     // # Click 'Add Members'
     cy.get('#channelAddMembers').click();
@@ -51,7 +51,8 @@ function addNumberOfUsersToChannel(num = 1) {
 
 describe('CS15445 Join/leave messages', () => {
     before(() => {
-        cy.loginAsNewUser();
+        cy.apiLogin('user-1');
+        cy.visit('/');
     });
 
     it('Single User: Usernames are links, open profile popovers', () => {

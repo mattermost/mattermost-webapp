@@ -18,7 +18,7 @@ export default class UnreadBelowIcon extends React.PureComponent {
                             width='16'
                             height='16'
                             viewBox='0 0 24 24'
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g transform='rotate(180 12 12)'>

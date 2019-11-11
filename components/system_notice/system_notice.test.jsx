@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import mattermostIcon from 'images/icon50x50.png';
 
 import SystemNotice from 'components/system_notice/system_notice.jsx';
