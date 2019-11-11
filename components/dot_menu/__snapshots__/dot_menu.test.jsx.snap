@@ -101,7 +101,15 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
         text="Pin"
       />
     </MenuGroup>
-    <MenuGroup>
+    <MenuGroup
+      divider={
+        <li
+          className="MenuItem__divider"
+          id="divider_post_post_id_1_edit"
+          role="menuitem"
+        />
+      }
+    >
       <MenuItemAction
         id="edit_post_post_id_1"
         onClick={[Function]}
@@ -225,7 +233,15 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
         text="Pin"
       />
     </MenuGroup>
-    <MenuGroup>
+    <MenuGroup
+      divider={
+        <li
+          className="MenuItem__divider"
+          id="divider_post_post_id_1_edit"
+          role="menuitem"
+        />
+      }
+    >
       <MenuItemAction
         id="edit_post_post_id_1"
         onClick={[Function]}
