@@ -89,6 +89,7 @@ function makeMapStateToProps() {
                 channelTeammateUsername = teammate.username;
                 channelTeammateIsBot = teammate.is_bot;
                 botLastIconUpdate = teammate.bot_last_icon_update;
+                botLastIconUpdate = (typeof botLastIconUpdate === 'undefined') ? 0 : botLastIconUpdate;
             }
             if (channelTeammateIsBot) {
                 if (botLastIconUpdate !== 0) {
