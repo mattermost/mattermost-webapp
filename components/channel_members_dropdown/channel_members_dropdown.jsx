@@ -106,75 +106,71 @@ export default class ChannelMembersDropdown extends React.Component {
     }
 
     render() {
-        const supportsChannelAdmin = this.props.isLicensed;
-        const isChannelAdmin = supportsChannelAdmin && (Utils.isChannelAdmin(this.props.isLicensed, this.props.channelMember.roles) || this.props.channelMember.scheme_admin);
-        const isGuest = Utils.isGuest(this.props.user);
+        const {index, totalUsers, isLicensed, channelMember, user, channel, currentUserId, canChangeMemberRoles, canRemoveMember} = this.props;
+        const { serverError } = this.state;
 
-        let serverError = null;
-        if (this.state.serverError) {
-            serverError = (
-                <div className='has-error'>
-                    <label className='has-error control-label'>{this.state.serverError}</label>
-                </div>
-            );
-        }
+        // IsChannelAdmin checks to see if it's licensed, if not , you cannot be an admin. 
+        // Having isLicensed is redundant 
+        const isChannelAdmin = Utils.isChannelAdmin(isLicensed, channelMember.roles) || channelMember.scheme_admin;
+        const isGuest = Utils.isGuest(user);
+        const isMember = !isChannelAdmin && !isGuest;
+        const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
+        const currentRole = this.renderRole(isChannelAdmin, isGuest);
 
-        if (this.props.user.id === this.props.currentUserId) {
+        if (user.id === currentUserId) {
             return null;
         }
 
-        if (this.props.canChangeMemberRoles || this.props.canRemoveMember) {
-            const role = this.renderRole(isChannelAdmin, isGuest);
+        // If user must be a channel Admin to become a member, it would be impossible for them to 
+        // be a channel admin and guest at the same time. So saying !isGuest is redundant
+        const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
+        const canMakeUserChannelAdmin = canChangeMemberRoles && isLicensed && isMember;
+        const canRemoveUserFromChannel = canRemoveMember && !channel.group_constrained && (!isDefaultChannel || isGuest);
 
-            const canRemoveFromChannel = this.props.canRemoveMember && (this.props.channel.name !== Constants.DEFAULT_CHANNEL || isGuest) && !this.props.channel.group_constrained;
-            const canMakeChannelMember = Boolean(isChannelAdmin && !isGuest && this.props.canChangeMemberRoles);
-            const canMakeChannelAdmin = Boolean(supportsChannelAdmin && !isChannelAdmin && !isGuest && this.props.canChangeMemberRoles);
 
-            if ((canMakeChannelMember || canMakeChannelAdmin || canRemoveFromChannel)) {
-                const {index, totalUsers} = this.props;
-                let openUp = false;
-                if (totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP) {
-                    openUp = true;
-                }
-
-                return (
-                    <MenuWrapper>
-                        <button
-                            className='dropdown-toggle theme color--link style--none'
-                            type='button'
-                        >
-                            <span className='sr-only'>{this.props.user.username}</span>
-                            <span>{role} </span>
-                            <DropdownIcon/>
-                        </button>
-                        <Menu
-                            openLeft={true}
-                            openUp={openUp}
-                            ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Channel member role change')}
-                        >
-                            <Menu.ItemAction
-                                show={canMakeChannelMember}
-                                onClick={this.handleMakeChannelMember}
-                                text={Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member')}
-                            />
-                            <Menu.ItemAction
-                                show={canMakeChannelAdmin}
-                                onClick={this.handleMakeChannelAdmin}
-                                text={Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Channel Admin')}
-                            />
-                            <Menu.ItemAction
-                                show={canRemoveFromChannel}
-                                onClick={this.handleRemoveFromChannel}
-                                text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove From Channel')}
-                            />
-                            {serverError}
-                        </Menu>
-                    </MenuWrapper>
-                );
-            }
+        if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
+            return (
+                <MenuWrapper>
+                    <button
+                        className='dropdown-toggle theme color--link style--none'
+                        type='button'
+                    >
+                        <span className='sr-only'>{user.username}</span>
+                        <span>{currentRole} </span>
+                        <DropdownIcon/>
+                    </button>
+                    <Menu
+                        openLeft={true}
+                        openUp={totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
+                        ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Channel member role change')}
+                    >
+                        <Menu.ItemAction
+                            show={canMakeUserChannelMember}
+                            onClick={this.handleMakeChannelMember}
+                            text={Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member')}
+                        />
+                        <Menu.ItemAction
+                            show={canMakeUserChannelAdmin}
+                            onClick={this.handleMakeChannelAdmin}
+                            text={Utils.localizeMessage('channel_members_dropdown.make_channel_admin', 'Make Channel Admin')}
+                        />
+                        <Menu.ItemAction
+                            show={canRemoveUserFromChannel}
+                            onClick={this.handleRemoveFromChannel}
+                            text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove From Channel')}
+                        />
+                        {serverError && (
+                            <div className='has-error'>
+                                <label className='has-error control-label'>{serverError}</label>
+                            </div>
+                        )}
+                    </Menu>
+                </MenuWrapper>
+            );
         }
+        
 
-        if (this.props.channel.name === Constants.DEFAULT_CHANNEL) {
+        if (isDefaultChannel) {
             return (
                 <div/>
             );
@@ -182,7 +178,7 @@ export default class ChannelMembersDropdown extends React.Component {
 
         return (
             <div>
-                {this.renderRole(isChannelAdmin, isGuest)}
+                {currentRole}
             </div>
         );
     }
