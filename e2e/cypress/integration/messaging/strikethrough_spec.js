@@ -53,12 +53,18 @@ describe('Messaging', () => {
         // * Channel autocomplete should close
         cy.get('#suggestionList').should('not.exist');
 
+        // # Remove the whitespace
+        cy.get('#edit_textbox').type('{end}{leftarrow}{leftarrow}{backspace}');
+
+        // * Channel autocomplete should still not exist
+        cy.get('#suggestionList').should('not.exist');
+
         // # Save the changes
         cy.get('#editButton').click({force: true});
 
         cy.getLastPostId().then((postId) => {
             // * Message strikedthrough should be the same message we posted
-            cy.get(`#postMessageText_${postId}`).find('del').should('contain', message + ' ').
+            cy.get(`#postMessageText_${postId}`).find('del').should('contain', message).
                 and('have.css', 'text-decoration', 'line-through solid rgb(61, 60, 64)');
             cy.get(`#postEdited_${postId}`).should('be.visible').and('have.text', '(edited)');
         });
