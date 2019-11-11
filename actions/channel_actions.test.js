@@ -96,6 +96,8 @@ const initialState = {
     },
 };
 
+const realDateNow = Date.now;
+
 jest.mock('mattermost-redux/actions/channels', () => ({
     fetchMyChannelsAndMembers: (...args) => ({type: 'MOCK_FETCH_CHANNELS_AND_MEMBERS', args}),
     searchChannels: () => {
@@ -111,7 +113,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
         };
     },
     addChannelMember: (...args) => ({type: 'MOCK_ADD_CHANNEL_MEMBER', args}),
-    createDirectChannel: (... args) => ({type: 'MOCK_CREATE_DIRECT_CHANNEL', args}),
+    createDirectChannel: (...args) => ({type: 'MOCK_CREATE_DIRECT_CHANNEL', args}),
 }));
 
 jest.mock('actions/user_actions.jsx', () => ({
@@ -185,80 +187,79 @@ describe('Actions.Channel', () => {
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
-    test('openDirectChannelToUserId Existing', async() => {
-        let realDateNow = Date.now;
-        Date.now = ()=> new Date(0).getMilliseconds();
+    test('openDirectChannelToUserId Existing', async () => {
+        Date.now = () => new Date(0).getMilliseconds();
         const testStore = await mockStore(initialState);
         const expectedActions = [
             {
-                "meta": {
-                    "batch": true,
+                meta: {
+                    batch: true,
                 },
-                "payload": [
+                payload: [
                     {
-                        "data": [
+                        data: [
                             {
-                                "category": "direct_channel_show",
-                                "name": "existingId",
-                                "value": "true",
+                                category: 'direct_channel_show',
+                                name: 'existingId',
+                                value: 'true',
                             },
                         ],
-                        "type": "RECEIVED_PREFERENCES",
+                        type: 'RECEIVED_PREFERENCES',
                     },
                     {
-                        "data": [
+                        data: [
                             {
-                                "category": "channel_open_time",
-                                "name": "current_user_id__existingId",
-                                "value": "0",
+                                category: 'channel_open_time',
+                                name: 'current_user_id__existingId',
+                                value: '0',
                             },
                         ],
-                        "type": "RECEIVED_PREFERENCES",
+                        type: 'RECEIVED_PREFERENCES',
                     },
                 ],
-                "type": "BATCHING_REDUCER.BATCH",
+                type: 'BATCHING_REDUCER.BATCH',
             },
             {
-                "data": [
+                data: [
                     {
-                        "category": "direct_channel_show",
-                        "name": "existingId",
-                        "user_id": "current_user_id",
-                        "value": "true",
+                        category: 'direct_channel_show',
+                        name: 'existingId',
+                        user_id: 'current_user_id',
+                        value: 'true',
                     },
                     {
-                        "category": "channel_open_time",
-                        "name": "current_user_id__existingId",
-                        "user_id": "current_user_id",
-                        "value": "0",
+                        category: 'channel_open_time',
+                        name: 'current_user_id__existingId',
+                        user_id: 'current_user_id',
+                        value: '0',
                     },
                 ],
-                "meta": {
-                    "offline": {
-                        "commit": {
-                            "type": "RECEIVED_PREFERENCES",
+                meta: {
+                    offline: {
+                        commit: {
+                            type: 'RECEIVED_PREFERENCES',
                         },
-                        "effect": null,
-                        "rollback": {
-                            "data": [
+                        effect: null,
+                        rollback: {
+                            data: [
                                 {
-                                    "category": "direct_channel_show",
-                                    "name": "existingId",
-                                    "user_id": "current_user_id",
-                                    "value": "true",
+                                    category: 'direct_channel_show',
+                                    name: 'existingId',
+                                    user_id: 'current_user_id',
+                                    value: 'true',
                                 },
                                 {
-                                    "category": "channel_open_time",
-                                    "name": "current_user_id__existingId",
-                                    "user_id": "current_user_id",
-                                    "value": "0",
+                                    category: 'channel_open_time',
+                                    name: 'current_user_id__existingId',
+                                    user_id: 'current_user_id',
+                                    value: '0',
                                 },
                             ],
-                            "type": "DELETED_PREFERENCES",
+                            type: 'DELETED_PREFERENCES',
                         },
                     },
                 },
-                "type": "RECEIVED_PREFERENCES",
+                type: 'RECEIVED_PREFERENCES',
             },
         ];
         const fakeData = {
@@ -266,10 +267,10 @@ describe('Actions.Channel', () => {
         };
 
         await testStore.dispatch(Actions.openDirectChannelToUserId(fakeData.userId));
-        
-        let doneActions = testStore.getActions();
+
+        const doneActions = testStore.getActions();
         doneActions[1].meta.offline.effect = null;
         expect(doneActions).toEqual(expectedActions);
         Date.now = realDateNow;
-    })
+    });
 });
