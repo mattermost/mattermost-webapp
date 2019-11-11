@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -25,7 +25,7 @@ import Popover from 'components/widgets/popover';
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
  */
-class ProfilePopover extends React.PureComponent {
+export default class ProfilePopover extends React.PureComponent {
     static getComponentName() {
         return 'ProfilePopover';
     }
@@ -105,11 +105,6 @@ class ProfilePopover extends React.PureComponent {
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
-
-        /**
-         * react-intl helper object
-         */
-        intl: PropTypes.any,
 
         ...Popover.propTypes,
     }
@@ -210,11 +205,8 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.isTeamAdmin;
         delete popoverProps.isChannelAdmin;
         delete popoverProps.canManageAnyChannelMembersInCurrentTeam;
-        delete popoverProps.intl;
 
-        const {formatMessage} = this.props.intl;
-
-        var dataContent = [];
+        const dataContent = [];
         dataContent.push(
             <Avatar
                 size='xxl'
@@ -342,10 +334,17 @@ class ProfilePopover extends React.PureComponent {
                         href='#'
                         onClick={this.handleEditAccountSettings}
                     >
-                        <i
-                            className='fa fa-pencil-square-o'
-                            title={formatMessage({id: 'generic_icons.edit', defaultMessage: 'Edit Icon'})}
-                        />
+                        <FormattedMessage
+                            id='generic_icons.edit'
+                            defaultMessage='Edit Icon'
+                        >
+                            {(message) => (
+                                <i
+                                    className='fa fa-pencil-square-o'
+                                    title={message}
+                                />
+                            )}
+                        </FormattedMessage>
                         <FormattedMessage
                             id='user_profile.account.editSettings'
                             defaultMessage='Edit Account Settings'
@@ -367,10 +366,18 @@ class ProfilePopover extends React.PureComponent {
                         className='text-nowrap user-popover__email'
                         onClick={this.handleShowDirectChannel}
                     >
-                        <i
-                            className='fa fa-paper-plane'
-                            title={formatMessage({id: 'user_profile.send.dm.icon', defaultMessage: 'Send Message Icon'})}
-                        />
+                        <FormattedMessage
+                            id='user_profile.send.dm.icon'
+                            defaultMessage='Send Message Icon'
+                        >
+                            {(message) => (
+                                <i
+                                    className='fa fa-paper-plane'
+                                    title={message}
+                                />
+
+                            )}
+                        </FormattedMessage>
                         <FormattedMessage
                             id='user_profile.send.dm'
                             defaultMessage='Send Message'
@@ -380,7 +387,6 @@ class ProfilePopover extends React.PureComponent {
             );
 
             if (this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) {
-                const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
                 dataContent.push(
                     <div
                         data-toggle='tooltip'
@@ -400,11 +406,21 @@ class ProfilePopover extends React.PureComponent {
                                 dialogProps={{user: this.props.user}}
                                 onClick={this.props.hide}
                             >
-                                <i
-                                    className='fa fa-user-plus'
-                                    title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
+                                <FormattedMessage
+                                    id='user_profile.add_user_to_channel.icon'
+                                    defaultMessage='Add User to Channel Icon'
+                                >
+                                    {(message) => (
+                                        <i
+                                            className='fa fa-user-plus'
+                                            title={message}
+                                        />
+                                    )}
+                                </FormattedMessage>
+                                <FormattedMessage
+                                    id='user_profile.add_user_to_channel'
+                                    defaultMessage='Add to a Channel'
                                 />
-                                {addToChannelMessage}
                             </ToggleModalButtonRedux>
                         </a>
                     </div>,
@@ -462,5 +478,3 @@ class ProfilePopover extends React.PureComponent {
 }
 
 delete ProfilePopover.propTypes.id;
-
-export default injectIntl(ProfilePopover);
