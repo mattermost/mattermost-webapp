@@ -2700,6 +2700,8 @@
   "marketplace_modal.list.configure": "Configure",
   "marketplace_modal.list.Install": "Install",
   "marketplace_modal.list.try_again": "Try Again",
+  "marketplace_modal.list.update": "Update",
+  "marketplace_modal.list.update_available": "Update available: {version}",
   "marketplace_modal.no_plugins": "There are no plugins available at this time.",
   "marketplace_modal.no_plugins_installed": "You do not have any plugins installed.",
   "marketplace_modal.search": "Search Plugins",
