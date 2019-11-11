@@ -9,8 +9,17 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Channel is removed from Unreads section if user navigates out of it via permalink', () => {
+describe('Messaging', () => {
     before(() => {
+        // # Make sure for second user, unread channels are grouped
+        cy.apiLogin('sysadmin');
+        cy.apiSaveSidebarSettingPreference(JSON.stringify({
+            grouping: 'by_type',
+            unreads_at_top: 'true',
+            favorite_at_top: 'true',
+            sorting: 'alpha',
+        }));
+
         // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
@@ -31,6 +40,9 @@ describe('Channel is removed from Unreads section if user navigates out of it vi
                 cy.postMessage(message);
 
                 cy.getLastPostId().then((postId) => {
+                    // # Wrap it for later use
+                    cy.wrap(postId).as('postId');
+
                     // # check if ... button is visible in last post right side
                     cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
 
@@ -69,15 +81,32 @@ describe('Channel is removed from Unreads section if user navigates out of it vi
                 postMessageOnChannel(testChannel);
 
                 // # change user
+                cy.visit('/');
                 cy.apiLogout();
                 cy.apiLogin('sysadmin');
                 cy.visit('/');
 
-                // # make sure for this user, unread channels are grouped
-                checkUnreadsGroupSeparately();
+                // # Check Message is in Unread List
+                cy.get('#unreadsChannelList').should('be.visible').within(() => {
+                    cy.get('#sidebarItem_' + testChannel.name).
+                        should('be.visible').
+                        and('have.attr', 'aria-label', `${channelName} public channel 1 mention`);
+                });
 
                 // # read the message and click the permalink
                 clickLink(testChannel);
+
+                // # URL should be address the post
+                cy.get('@postId').then((postId) => {
+                    cy.url().should('include', `/ad-1/pl/${postId}`);
+                });
+
+                // # Channel should still be visible
+                cy.get('#publicChannelList', {force: true}).scrollIntoView().should('be.visible').within(() => {
+                    cy.get('#sidebarItem_' + testChannel.name).scrollIntoView().
+                        should('be.visible').
+                        and('have.attr', 'aria-label', `${channelName} public channel`);
+                });
 
                 // * check the channel is not under the unread channel list
                 cy.get('#unreadsChannelList').find('#sidebarItem_' + testChannel.name).should('not.exist');
@@ -88,36 +117,6 @@ describe('Channel is removed from Unreads section if user navigates out of it vi
         });
     });
 });
-
-function checkUnreadsGroupSeparately() {
-    // # click header area to get the dropdown menu
-    cy.get('#sidebarHeaderDropdownButton').click({force: true});
-    cy.wait(TIMEOUTS.TINY);
-
-    // # click account settings menu
-    cy.get('#accountSettings').find('button').click({force: true});
-    cy.wait(TIMEOUTS.TINY);
-
-    // # click on sidebar submenu
-    cy.get('#sidebarButton').click({force: true});
-    cy.wait(TIMEOUTS.TINY);
-
-    // # click on edit to edit the channel grouping
-    cy.get('#groupChannelsEdit').click({force: true});
-    cy.wait(TIMEOUTS.TINY);
-
-    // # check the option so unread channels are grouped
-    // * also make sure it is checked
-    cy.get('#unreadAtTopOption').check().should('be.checked');
-    cy.wait(TIMEOUTS.TINY);
-
-    // # save the configuration
-    cy.get('#saveSetting').click({force: true});
-    cy.wait(TIMEOUTS.TINY);
-
-    // # close the modal
-    cy.get('#accountSettingsHeader').find('.close').click({force: true});
-}
 
 function postMessageOnChannel(testChannel) {
     // # click on test public channel

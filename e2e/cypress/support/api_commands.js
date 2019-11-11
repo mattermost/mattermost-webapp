@@ -494,6 +494,32 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
     });
 });
 
+const defaultSidebarSettingPreference = {
+    grouping: 'by_type',
+    unreads_at_top: 'true',
+    favorite_at_top: 'true',
+    sorting: 'alpha',
+};
+
+/**
+ * Saves theme preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Object} value - sidebar settings object.  Will pass default value if none is provided.
+ */
+Cypress.Commands.add('apiSaveSidebarSettingPreference', (value = JSON.stringify(defaultSidebarSettingPreference)) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        //let valueString = JSON.stringify(value);
+        const preference = {
+            user_id: cookie.value,
+            category: 'sidebar_settings',
+            name: '',
+            value,
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
 // *****************************************************************************
 // Users
 // https://api.mattermost.com/#tag/users
