@@ -70,7 +70,7 @@ export default class ChannelList extends React.PureComponent {
 
         if (key === Constants.KeyCodes.ENTER[0]) {
             if (searchString.length > 1) {
-                const response = await this.props.actions.searchAllChannels(searchString, '', false, true, 0, PAGE_SIZE);
+                const response = await this.props.actions.searchAllChannels(searchString, '', false, 0, PAGE_SIZE);
                 this.setState({searchMode: true, channels: response.data.channels, searchTotalCount: response.data.total_count, pageResetKey: Date.now()});
             }
         }
@@ -81,7 +81,7 @@ export default class ChannelList extends React.PureComponent {
     }
 
     getDataBySearch = async (page, perPage) => {
-        const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, true, page, perPage);
+        const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
         return channels.concat(response.data.channels);
     }
