@@ -6,7 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('M18677 - Clicking on airplane icon does not open file attachment modal but sends the message', () => {
+describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
@@ -16,7 +16,7 @@ describe('M18677 - Clicking on airplane icon does not open file attachment modal
         cy.viewport('iphone-6');
     });
 
-    it('Message should send, File attachment modal should not open', () => {
+    it('M18677 - Clicking on airplane icon does not open file attachment modal but sends the message', () => {
         // # type some characters in the message box
         const message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
         cy.get('#post_textbox').type(message);
