@@ -16,6 +16,7 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
             params: PropTypes.shape({
                 identifier: PropTypes.string.isRequired,
                 team: PropTypes.string.isRequired,
+                postid: PropTypes.string,
             }).isRequired,
         }).isRequired,
 
