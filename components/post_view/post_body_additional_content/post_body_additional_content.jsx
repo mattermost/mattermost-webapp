@@ -4,6 +4,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
+
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
@@ -48,11 +50,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent {
 
     getEmbed = () => {
         const {metadata} = this.props.post;
-        if (!metadata || !metadata.embeds || metadata.embeds.length === 0) {
-            return null;
-        }
-
-        return metadata.embeds[0];
+        return getEmbedFromMetadata(metadata);
     }
 
     isEmbedToggleable = (embed) => {
