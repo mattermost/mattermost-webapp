@@ -30,6 +30,6 @@ describe('M18677 - Clicking on airplane icon does not open file attachment modal
         });
 
         // # attachment modal does not show up
-        cy.get('.a11y__popup ').should('not.exist');
+        cy.get('.a11y__popup').should('not.exist');
     });
 });
