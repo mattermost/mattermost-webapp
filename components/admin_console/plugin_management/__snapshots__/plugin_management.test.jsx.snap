@@ -244,10 +244,8 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -489,10 +487,8 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -768,10 +764,8 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1052,10 +1046,8 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1331,10 +1323,8 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1583,10 +1573,8 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1862,10 +1850,8 @@ exports[`components/PluginManagement should match snapshot, text entered into th
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2141,10 +2127,8 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2483,10 +2467,8 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2793,10 +2775,8 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -3103,10 +3083,8 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -3413,10 +3391,8 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -3755,10 +3731,8 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <SaveButton
-        btnClass="btn-primary"
+      <InjectIntl(SaveButton)
         disabled={true}
-        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."

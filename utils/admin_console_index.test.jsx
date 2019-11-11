@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {IntlProvider} from 'react-intl';
+import {createIntl} from 'react-intl';
+
+import {doAddLocaleData} from 'i18n/i18n';
 
 import AdminDefinition from 'components/admin_console/admin_definition.jsx';
 
@@ -9,13 +11,14 @@ import {samplePlugin1, samplePlugin2} from 'tests/helpers/admin_console_plugin_i
 
 import {generateIndex} from './admin_console_index.jsx';
 
-const enMessages = require('../i18n/en');
-const esMessages = require('../i18n/es');
+doAddLocaleData();
+
+const enMessages = require('i18n/en');
+const esMessages = require('i18n/es');
 
 describe('AdminConsoleIndex.generateIndex', () => {
     it('should generate a index where I can search', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
@@ -45,8 +48,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
     });
 
     it('should generate a index where I can search in other language', () => {
-        const intlProvider = new IntlProvider({locale: 'es', messages: esMessages, defaultLocale: 'es'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'es', messages: esMessages, defaultLocale: 'es'});
 
         const idx = generateIndex(AdminDefinition, {}, intl);
         expect(idx.search('ldap')).toEqual([
@@ -76,8 +78,7 @@ describe('AdminConsoleIndex.generateIndex', () => {
     });
 
     it('should generate a index including the plugin settings', () => {
-        const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
-        const {intl} = intlProvider.getChildContext();
+        const intl = createIntl({locale: 'en', messages: enMessages, defaultLocale: 'en'});
 
         const idx = generateIndex(AdminDefinition, {[samplePlugin1.id]: samplePlugin1, [samplePlugin2.id]: samplePlugin2}, intl);
 

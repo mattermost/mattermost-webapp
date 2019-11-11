@@ -44,7 +44,7 @@ Learn More:
 
 Get the Latest News:
 
-- **Twitter** - Follow [MattermostHQ](https://twitter.com/mattermosthq)
+- **Twitter** - Follow [Mattermost](https://twitter.com/Mattermost)
 - **Email** - Subscribe to our [newsletter](http://mattermost.us11.list-manage.com/subscribe?u=6cdba22349ae374e188e7ab8e&id=2add1c8034) (1 or 2 per month)
 - **IRC** - Join the #matterbridge channel on [Freenode](https://freenode.net/) (thanks to [matterircd](https://github.com/42wim/matterircd))
 
