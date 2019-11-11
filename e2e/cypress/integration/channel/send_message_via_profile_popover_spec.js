@@ -78,7 +78,7 @@ function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
     // * Verify that profile popover is opened
     cy.get('#user-profile-popover').should('be.visible').within(() => {
         // # Click "Send Message" on profile popover
-        cy.getByText('Send Message').should('be.visible').click();
+        cy.findByText('Send Message').should('be.visible').click();
     });
 
     // * Verify that profile popover is closed
