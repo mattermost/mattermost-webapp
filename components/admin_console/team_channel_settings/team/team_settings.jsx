@@ -45,7 +45,7 @@ export class TeamsSettings extends React.Component {
                             titleId={t('admin.team_settings.title')}
                             titleDefault='Teams'
                             subtitleId={t('admin.team_settings.description')}
-                            subtitleDefault={'Manage team settings.'}
+                            subtitleDefault='Manage team settings.'
                             subtitleValues={{...this.state}}
                         >
                             <TeamList onPageChangedCallback={this.onPageChangedCallback}/>
