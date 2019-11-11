@@ -63,24 +63,23 @@ export default class SelectTeam extends React.Component {
             loadingTeamId: '',
             error: null,
             endofTeamsData: false,
-            currentListableTeams: [],
             currentPage: 0,
+            currentListableTeams: [],
         };
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.listableTeams.length !== state.currentListableTeams.length) {
+            return {
+                currentListableTeams: props.listableTeams.slice(0, TEAMS_PER_PAGE * state.currentPage),
+            };
+        }
+        return null;
     }
 
     componentDidMount() {
         this.fetchMoreTeams();
         this.props.actions.loadRolesIfNeeded(this.props.currentUserRoles.split(' '));
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.listableTeams.length !== prevState.currentListableTeams.length) {
-            return {
-                currentListableTeams: [...nextProps.listableTeams],
-            };
-        }
-
-        return null;
     }
 
     fetchMoreTeams = async () => {
@@ -150,7 +149,7 @@ export default class SelectTeam extends React.Component {
     };
 
     render() {
-        const {currentListableTeams, currentPage} = this.state;
+        const {currentPage, currentListableTeams} = this.state;
         const {
             currentUserIsGuest,
             canManageSystem,
@@ -199,7 +198,7 @@ export default class SelectTeam extends React.Component {
                             loading={this.state.loadingTeamId === listableTeam.id}
                             canJoinPublicTeams={canJoinPublicTeams}
                             canJoinPrivateTeams={canJoinPrivateTeams}
-                        />
+                        />,
                     );
                 }
             });
@@ -255,6 +254,7 @@ export default class SelectTeam extends React.Component {
                         styleClass='signup-team-all'
                         totalItems={totalTeamsCount}
                         itemsPerPage={TEAMS_PER_PAGE}
+                        bufferValue={200}
                         pageNumber={currentPage}
                         loaderStyle={{padding: '0px'}}
                     >

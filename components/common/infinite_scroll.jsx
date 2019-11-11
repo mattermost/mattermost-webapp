@@ -31,7 +31,8 @@ export default class InfiniteScroll extends React.PureComponent {
 
         /**
          * A number that determines how far the scroll is near the bottom before
-         * loading more items
+         * loading more items. The bigger this value the more items will be loaded
+         * much earlier as you scroll to the bottom.
          */
         bufferValue: PropTypes.number,
 
