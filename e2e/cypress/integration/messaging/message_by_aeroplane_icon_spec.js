@@ -6,7 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('M18677 - Clicking on airplane icon does not open file attachment modal but sends the message', () => {
+describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
