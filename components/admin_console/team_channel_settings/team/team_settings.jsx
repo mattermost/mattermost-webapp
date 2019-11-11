@@ -26,7 +26,7 @@ export function TeamsSettings(props) {
                         titleId={t('admin.team_settings.title')}
                         titleDefault='Teams'
                         subtitleId={t('admin.team_settings.description')}
-                        subtitleDefault={'Manage team settings.'}
+                        subtitleDefault='Manage team settings.'
                     >
                         <TeamList />
                     </AdminPanel>
