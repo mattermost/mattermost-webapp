@@ -3,7 +3,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import BoolSetting from './bool_setting.jsx';
+import BoolSetting from './bool_setting';
 
 describe('components/widgets/settings/BoolSetting', () => {
     test('render component with required props', () => {

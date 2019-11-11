@@ -1,49 +1,43 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
-export default class TextSetting extends React.Component {
-    static validTypes = [
-        'input',
-        'textarea',
-        'number',
-        'email',
-        'tel',
-        'url',
-        'password',
-    ];
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        label: PropTypes.node.isRequired,
-        labelClassName: PropTypes.string,
-        placeholder: PropTypes.string,
-        helpText: PropTypes.node,
-        footer: PropTypes.node,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number,
-        ]).isRequired,
-        inputClassName: PropTypes.string,
-        maxLength: PropTypes.number,
-        resizable: PropTypes.bool,
-        onChange: PropTypes.func,
-        disabled: PropTypes.bool,
-        type: PropTypes.oneOf(TextSetting.validTypes),
-    };
+type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
 
-    static defaultProps = {
+type Props = {
+    id: string;
+    label: React.ReactNode;
+    labelClassName: string;
+    placeholder?: string;
+    helpText?: React.ReactNode;
+    footer?: React.ReactNode;
+    value: string | number;
+    inputClassName: string;
+    maxLength: number;
+    resizable: boolean;
+    onChange(name: string, value: any): void;
+    disabled?: boolean;
+    type: InputTypes;
+}
+
+// Since handle change is read from input and textarea element
+type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+
+export default class TextSetting extends React.Component<Props> {
+    public static validTypes: string[] = ['input', 'textarea', 'number', 'email', 'tel', 'url', 'password'];
+
+    public static defaultProps: Partial<Props> = {
         labelClassName: '',
         inputClassName: '',
         type: 'input',
-        maxLength: null,
+        maxLength: -1, // A negative number allows for values of any length
         resizable: true,
     };
 
-    handleChange = (e) => {
+    private handleChange: HandleChangeTypes = (e) => {
         if (this.props.type === 'number') {
             this.props.onChange(this.props.id, parseInt(e.target.value, 10));
         } else {
@@ -51,15 +45,15 @@ export default class TextSetting extends React.Component {
         }
     }
 
-    render() {
+    public render(): JSX.Element {
         const {resizable} = this.props;
         let {type} = this.props;
         let input = null;
 
         if (type === 'textarea') {
-            const style = {};
+            let style = {};
             if (!resizable) {
-                style.resize = 'none';
+                style = Object.assign({}, {resize: 'none'});
             }
 
             input = (
@@ -67,7 +61,7 @@ export default class TextSetting extends React.Component {
                     id={this.props.id}
                     style={style}
                     className='form-control'
-                    rows='5'
+                    rows={5}
                     placeholder={this.props.placeholder}
                     value={this.props.value}
                     maxLength={this.props.maxLength}

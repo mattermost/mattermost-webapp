@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';

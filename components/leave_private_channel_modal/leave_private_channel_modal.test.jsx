@@ -2,11 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {shallow} from 'enzyme';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal.jsx';
 import Constants from 'utils/constants';
+import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal';
 
 describe('components/LeavePrivateChannelModal', () => {
     const channels = {
@@ -40,7 +39,7 @@ describe('components/LeavePrivateChannelModal', () => {
     };
 
     test('should match snapshot, init', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <LeavePrivateChannelModal
                 {...baseProps}
             />
@@ -50,11 +49,11 @@ describe('components/LeavePrivateChannelModal', () => {
     });
 
     test('should show and hide the modal dialog', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <LeavePrivateChannelModal
                 {...baseProps}
             />
-        ).dive({disableLifecycleMethods: true});
+        );
 
         wrapper.instance().handleToggle(channels['channel-2']);
         expect(wrapper.state('show')).toEqual(true);
@@ -77,11 +76,11 @@ describe('components/LeavePrivateChannelModal', () => {
                 }),
             },
         };
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <LeavePrivateChannelModal
                 {...props}
             />
-        ).dive({disableLifecycleMethods: true});
+        );
 
         wrapper.setState({
             show: true,
@@ -108,11 +107,11 @@ describe('components/LeavePrivateChannelModal', () => {
                 }),
             },
         };
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <LeavePrivateChannelModal
                 {...props}
             />
-        ).dive({disableLifecycleMethods: true});
+        );
 
         wrapper.setState({
             show: true,
