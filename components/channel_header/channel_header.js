@@ -331,21 +331,27 @@ class ChannelHeader extends React.PureComponent {
         }
 
         if (isGroup) {
-            const nodes = [];
+            // map the displayname to the gm member users
+            const membersMap = {};
             for (const user of gmMembers) {
                 if (user.id === currentUser.id) {
                     continue;
                 }
                 const userDisplayName = Utils.getDisplayNameByUserId(user.id);
-                nodes.push((
-                    <React.Fragment key={userDisplayName}>
-                        {nodes.length !== 0 && ', '}
-                        {userDisplayName}
-                        <GuestBadge show={Utils.isGuest(user)}/>
-                    </React.Fragment>
-                ));
+                membersMap[userDisplayName] = user;
             }
-            channelTitle = nodes;
+
+            const displayNames = channel.display_name.split(', ');
+            channelTitle = displayNames.map((displayName, index) => {
+                return (
+                    <React.Fragment key={displayName}>
+                        {index > 0 && ', '}
+                        {displayName}
+                        <GuestBadge show={Utils.isGuest(membersMap[displayName])}/>
+                    </React.Fragment>
+                );
+            });
+
             if (hasGuests) {
                 hasGuestsText = (
                     <span className='has-guest-header'>
