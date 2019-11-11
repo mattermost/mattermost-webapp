@@ -7,12 +7,20 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Link preview - Removing it from my view removes it from other user\'s view', () => {
+describe('Messaging', () => {
     before(() => {
         // # Set the configuration on Link Previews
-        setSystemConsoleLinkPreview();
-        setAccountSettingsLinkPreview('user-1');
-        setAccountSettingsLinkPreview('sysadmin');
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableLinkPreviews: true,
+            },
+        });
+
+        cy.apiLogin('user-1');
+        cy.apiSaveLinkPreviewPreference(JSON.stringify(true));
+
+        cy.apiLogin('sysadmin');
+        cy.apiSaveLinkPreviewPreference(JSON.stringify(true));
 
         // # Login and go to /
         cy.apiLogin('user-1');
@@ -23,104 +31,63 @@ describe('Link preview - Removing it from my view removes it from other user\'s 
         const message = 'https://www.bbc.com/news/uk-wales-45142614';
 
         // # Create new DM channel with user's email
-        cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
-            const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
+        cy.visit('/ad-1/channels/town-square');
 
-            cy.apiCreateDirectChannel(userEmailArray).then(() => {
-                cy.visit('/ad-1/messages/@sysadmin');
+        // # Post message to use
+        cy.postMessage(message);
 
-                // # Post message to use
-                cy.postMessage(message);
+        cy.getLastPostId().then((postId) => {
+            // * Check the preview is shown
+            cy.get(`#${postId}_message`).find('.file-preview__button').should('exist');
 
-                cy.getLastPostId().then((postId) => {
-                    // * Check the preview is shown
-                    cy.get(`#${postId}_message`).find('.file-preview__button').should('exist');
+            // # Log-in to the other user
+            cy.apiLogin('sysadmin');
+            cy.visit('/ad-1/channels/town-square');
 
-                    // # Log-in to the other user
-                    cy.apiLogin('sysadmin');
-                    cy.visit('/ad-1/messages/@user-1');
+            // * Check the preview is shown
+            cy.get(`#${postId}_message`).find('.file-preview__button').should('exist');
 
-                    // * Check the preview is shown
-                    cy.get(`#${postId}_message`).find('.file-preview__button').should('exist');
+            // # Log-in back to the first user
+            cy.apiLogin('user-1');
+            cy.visit('/ad-1/channels/town-square');
 
-                    // # Log-in back to the first user
-                    cy.apiLogin('user-1');
-                    cy.visit('/ad-1/messages/@sysadmin');
+            // # Collapse the preview
+            cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
 
-                    // # Collapse the preview
-                    cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
+            // * Check the preview is not shown
+            cy.get(`#${postId}_message`).find('.file-preview__button').should('not.exist');
 
-                    // * Check the preview is not shown
-                    cy.get(`#${postId}_message`).find('.file-preview__button').should('not.exist');
+            // # Log-in to the other user
+            cy.apiLogin('sysadmin');
+            cy.visit('/ad-1/channels/town-square');
 
-                    // # Log-in to the other user
-                    cy.apiLogin('sysadmin');
-                    cy.visit('/ad-1/messages/@user-1');
+            // * Check the preview is shown
+            cy.get(`#${postId}_message`).find('.file-preview__button').should('exist');
 
-                    // * Check the preview is shown
-                    cy.get(`#${postId}_message`).find('.file-preview__button').should('exist');
+            // # Log-in back to the first user
+            cy.apiLogin('user-1');
+            cy.visit('/ad-1/channels/town-square');
 
-                    // # Log-in back to the first user
-                    cy.apiLogin('user-1');
-                    cy.visit('/ad-1/messages/@sysadmin');
+            // * Check the preview is still not shown
+            cy.get(`#${postId}_message`).find('.file-preview__button').should('not.exist');
 
-                    // # Expand one more time the preview
-                    cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
+            // # Expand one more time the preview
+            cy.get(`#${postId}_message`).find('.post__embed-visibility').click({force: true});
 
-                    // # Remove the preview
-                    cy.get(`#${postId}_message`).find('#removePreviewButton').click({force: true});
-
-                    // * Preview should not exist
-                    cy.get(`#${postId}_message`).find('.attachment').should('not.exist');
-
-                    // # Log-in to the other user
-                    cy.apiLogin('sysadmin');
-                    cy.visit('/ad-1/messages/@user-1');
-
-                    // * Preview should not exist
-                    cy.get(`#${postId}_message`).find('.attachment').should('not.exist');
-                });
+            // # Remove the preview
+            cy.get(`#${postId}_message`).within(() => {
+                cy.getByTestId('removeLinkPreviewButton').click({force: true});
             });
+
+            // * Preview should not exist
+            cy.get(`#${postId}_message`).find('.attachment').should('not.exist');
+
+            // # Log-in to the other user
+            cy.apiLogin('sysadmin');
+            cy.visit('/ad-1/channels/town-square');
+
+            // * Preview should not exist
+            cy.get(`#${postId}_message`).find('.attachment').should('not.exist');
         });
     });
 });
-
-function setSystemConsoleLinkPreview() {
-    // # Log-in as SysAdmin
-    cy.apiLogin('sysadmin');
-
-    // # Go to post configuration
-    cy.visit('/admin_console/site_config/posts');
-
-    // # Check the LinkPreview option
-    cy.get('[name="ServiceSettings.EnableLinkPreviews"]').filter('[value="true"]').check();
-
-    // # Save settings
-    cy.get('#saveSetting').click({force: true});
-    cy.apiLogout();
-}
-
-function setAccountSettingsLinkPreview(user) {
-    // # Log-in and go to /
-    cy.apiLogin(user);
-    cy.visit('/');
-
-    // # Click header area to get the dropdown menu
-    cy.get('#sidebarHeaderDropdownButton').click({force: true});
-
-    // # Click account settings menu
-    cy.get('#accountSettings').find('button').click({force: true});
-
-    // # Click the Display setting
-    cy.get('#displayButton').click({force: true});
-
-    // # Click the edit button under Collapse options
-    cy.get('#collapseEdit').click({force: true});
-
-    // # Check the expanded option
-    cy.get('#collapseFormatA').check();
-
-    // # Save settings
-    cy.get('#saveSetting').click({force: true});
-    cy.apiLogout();
-}

@@ -494,6 +494,24 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
     });
 });
 
+/**
+ * Saves the preference over link preview
+ * This API assume that the user is logged in and has cookie to access
+ * @param {boolean} value - theme object.  Will pass default value if none is provided.
+ */
+Cypress.Commands.add('apiSaveLinkPreviewPreference', (showExpanded = false) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'link_previews',
+            value: showExpanded,
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
 // *****************************************************************************
 // Users
 // https://api.mattermost.com/#tag/users
