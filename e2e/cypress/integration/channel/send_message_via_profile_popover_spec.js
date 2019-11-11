@@ -46,23 +46,23 @@ describe('Profile popover', () => {
     it('M19908 Send message in profile popover take to DM channel', () => {
         // # On default viewport width of 1300
         // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChanneViaSendMessage(lastPostId, '.profile-icon', newUser);
+        verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
 
         // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChanneViaSendMessage(lastPostId, '.user-popover', newUser);
+        verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
 
         // # On mobile view
         cy.viewport('iphone-6');
 
         // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChanneViaSendMessage(lastPostId, '.profile-icon', newUser);
+        verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
 
         // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChanneViaSendMessage(lastPostId, '.user-popover', newUser);
+        verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
     });
 });
 
-function verifyDMChanneViaSendMessage(postId, profileSelector, user) {
+function verifyDMChannelViaSendMessage(postId, profileSelector, user) {
     // # Go to default town-square channel
     cy.visit('/ad-1/channels/town-square');
 
