@@ -24,7 +24,7 @@ describe('M18677 - Clicking on airplane icon does not open file attachment modal
         // # click send
         cy.get('.send-button').click();
 
-        // # message should send
+        // # check if message sent correctly
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', message);
         });
