@@ -2,12 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
 import {browserHistory} from 'utils/browser_history';
-import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
-import SearchResultsItem from 'components/search_results_item/search_results_item.jsx';
+import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils';
+import SearchResultsItem from 'components/search_results_item/search_results_item';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -85,7 +86,7 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('should match snapshot for channel', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
         );
 
@@ -107,7 +108,7 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -128,7 +129,7 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -144,7 +145,7 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
         );
 
@@ -154,7 +155,7 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('Check for dotmenu dropdownOpened state', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
         );
 
@@ -175,7 +176,7 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
         );
 
@@ -194,7 +195,7 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
         );
 
@@ -210,7 +211,7 @@ describe('components/SearchResultsItem', () => {
             channelIsArchived: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
         );
 

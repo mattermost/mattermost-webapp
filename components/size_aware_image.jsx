@@ -195,10 +195,12 @@ export default class SizeAwareImage extends React.PureComponent {
                     className={`image-loading__container ${this.props.className}`}
                     style={{maxWidth: dimensions.width}}
                 >
+                    {this.renderImageLoaderIfNeeded()}
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                        style={{verticalAlign: 'middle', maxHeight: dimensions.height, maxWidth: dimensions.width}}
+                        style={{maxHeight: dimensions.height, maxWidth: dimensions.width}}
+                        width='inherit'
                     />
                 </div>
             );
@@ -225,10 +227,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
     render() {
         return (
-            <React.Fragment>
-                {this.renderImageLoaderIfNeeded()}
-                {this.renderImageOrPlaceholder()}
-            </React.Fragment>
+            this.renderImageOrPlaceholder()
         );
     }
 }

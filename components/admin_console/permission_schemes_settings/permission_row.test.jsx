@@ -8,21 +8,6 @@ import PermissionRow from 'components/admin_console/permission_schemes_settings/
 
 describe('components/admin_console/permission_schemes_settings/permission_row', () => {
     const defaultProps = {
-        intl: {
-            now: jest.fn(),
-            locale: '',
-            formats: {},
-            messages: {},
-            defaultLocale: 'en',
-            defaultFormats: {},
-            formatDate: jest.fn(),
-            formatTime: jest.fn(),
-            formatRelative: jest.fn(),
-            formatNumber: jest.fn(),
-            formatPlural: jest.fn(),
-            formatMessage: jest.fn(),
-            formatHTMLMessage: jest.fn(),
-        },
         id: 'id',
         uniqId: 'uniqId',
         inherited: null,

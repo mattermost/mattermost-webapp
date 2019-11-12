@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
@@ -13,11 +13,13 @@ import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error';
-import LoadingScreen from 'components/loading_screen';
-import {Constants} from 'utils/constants.jsx';
 
-export default class SignupController extends React.Component {
+import LoadingScreen from 'components/loading_screen';
+import {Constants} from 'utils/constants';
+
+class SignupController extends React.Component {
     static propTypes = {
+        intl: PropTypes.any,
         location: PropTypes.object,
         loggedIn: PropTypes.bool.isRequired,
         isLicensed: PropTypes.bool.isRequired,
@@ -39,10 +41,6 @@ export default class SignupController extends React.Component {
             addUserToTeamFromInvite: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     constructor(props) {
         super(props);
@@ -149,7 +147,7 @@ export default class SignupController extends React.Component {
     }
 
     renderSignupControls = () => {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         let signupControls = [];
 
         if (this.props.enableSignUpWithEmail) {
@@ -399,3 +397,5 @@ export default class SignupController extends React.Component {
         );
     }
 }
+
+export default injectIntl(SignupController);

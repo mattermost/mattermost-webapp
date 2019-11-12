@@ -10,7 +10,7 @@ import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -346,4 +346,18 @@ export async function testSiteURL(success, error, siteURL) {
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export function registerAdminConsoleCustomSetting(pluginId, key, component, {showTitle}) {
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT,
+            data: {
+                pluginId,
+                key,
+                component,
+                options: {showTitle},
+            },
+        });
+    };
 }

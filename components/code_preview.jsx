@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Constants from 'utils/constants.jsx';
-import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
+import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import FileInfoPreview from 'components/file_info_preview';

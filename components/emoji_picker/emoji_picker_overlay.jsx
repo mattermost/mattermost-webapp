@@ -6,7 +6,7 @@ import React from 'react';
 import {Overlay} from 'react-bootstrap';
 
 import {popOverOverlayPosition} from 'utils/position_utils.tsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import EmojiPickerTabs from './emoji_picker_tabs.jsx';
 
@@ -41,26 +41,8 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         enableGifPicker: false,
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            placement: 'top',
-            rightOffset: Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET,
-        };
-    }
-
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.show && !this.props.show) {
-            const targetBounds = nextProps.target().getBoundingClientRect();
-            const placement = popOverOverlayPosition(targetBounds, window.innerHeight, nextProps.spaceRequiredAbove, nextProps.spaceRequiredBelow);
-
-            this.setState({placement, rightOffset: this.emojiPickerPosition()});
-        }
-    }
-
-    emojiPickerPosition() {
-        const emojiTrigger = this.props.target();
+    static emojiPickerPosition(props) {
+        const emojiTrigger = props.target();
         let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;
         if (emojiTrigger) {
             rightOffset = window.innerWidth - emojiTrigger.getBoundingClientRect().left - Constants.DEFAULT_EMOJI_PICKER_LEFT_OFFSET;
@@ -71,6 +53,23 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         }
 
         return rightOffset;
+    }
+
+    static getPlacement(props) {
+        const target = props.target();
+        if (target) {
+            const targetBounds = target.getBoundingClientRect();
+            return popOverOverlayPosition(targetBounds, window.innerHeight, props.spaceRequiredAbove, props.spaceRequiredBelow);
+        }
+
+        return 'top';
+    }
+
+    static getDerivedStateFromProps(props) {
+        return {
+            placement: EmojiPickerOverlay.getPlacement(props),
+            rightOffset: EmojiPickerOverlay.emojiPickerPosition(props),
+        };
     }
 
     render() {

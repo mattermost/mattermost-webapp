@@ -33,10 +33,10 @@ import {
     showFlaggedPosts,
     showPinnedPosts,
     showMentions,
+    openRHSSearch,
     closeRightHandSide,
-    updateRhsState,
 } from 'actions/views/rhs';
-import {getRhsState} from 'selectors/rhs';
+import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -67,6 +67,7 @@ function makeMapStateToProps() {
             dmUser,
             gmMembers,
             rhsState: getRhsState(state),
+            rhsOpen: getIsRhsOpen(state),
             isFavorite: isCurrentChannelFavorite(state),
             isReadOnly: isCurrentChannelReadOnly(state),
             isMuted: isCurrentChannelMuted(state),
@@ -83,8 +84,8 @@ const mapDispatchToProps = (dispatch) => ({
         showFlaggedPosts,
         showPinnedPosts,
         showMentions,
+        openRHSSearch,
         closeRightHandSide,
-        updateRhsState,
         getCustomEmojisInText,
         updateChannelNotifyProps,
         goToLastViewedChannel,

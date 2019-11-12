@@ -3,19 +3,25 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-export default class UserSettingsSidebar extends React.Component {
+class UserSettingsSidebar extends React.Component {
     static propTypes = {
+
+        /**
+         * react-intl API
+         */
+        intl: PropTypes.any,
+
         actions: PropTypes.shape({
 
             /*
@@ -80,10 +86,6 @@ export default class UserSettingsSidebar extends React.Component {
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -690,7 +692,7 @@ export default class UserSettingsSidebar extends React.Component {
 
     render() {
         const {showUnusedOption, showChannelOrganization} = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
 
         const channelOrganizationSection = showChannelOrganization ? this.renderChannelOrganizationSection() : null;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
@@ -746,3 +748,5 @@ export default class UserSettingsSidebar extends React.Component {
         );
     }
 }
+
+export default injectIntl(UserSettingsSidebar);

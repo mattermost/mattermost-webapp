@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {NotificationSections} from 'utils/constants.jsx';
+import {NotificationSections} from 'utils/constants';
 
 export default function SectionTitle({section}) {
     if (section === NotificationSections.DESKTOP) {

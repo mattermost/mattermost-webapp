@@ -79,7 +79,7 @@ describe('Edit Message', () => {
             // # Mouseover post to display the timestamp
             cy.get(`#post_${postId}`).trigger('mouseover');
 
-            cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').then((originalTimeStamp) => {
+            cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').then((originalTimeStamp) => {
                 // # Click dot menu
                 cy.clickPostDotMenu(postId);
 
@@ -99,7 +99,7 @@ describe('Edit Message', () => {
                 cy.get(`#post_${postId}`).trigger('mouseover');
 
                 // * Current post timestamp should have not been changed by edition
-                cy.get(`#CENTER_time_${postId}`).find('#localDateTime').should('have.attr', 'title').and('equal', originalTimeStamp);
+                cy.get(`#CENTER_time_${postId}`).find('time').should('have.attr', 'title').and('equal', originalTimeStamp);
 
                 // # Open RHS by clicking the post comment icon
                 cy.clickPostCommentIcon(postId);
@@ -108,7 +108,7 @@ describe('Edit Message', () => {
                 cy.get('#rhsContainer').should('be.visible');
 
                 // * Check that the RHS timeStamp equals the original post timeStamp
-                cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
+                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').should('be', originalTimeStamp);
             });
         });
     });

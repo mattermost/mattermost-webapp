@@ -19,14 +19,14 @@ describe('I18456 Built-in slash commands: common', () => {
         // * Suggestion list should be visible
         // # Scroll to bottom and verify that the last command "/shrug" is visible
         cy.get('#suggestionList').should('be.visible').scrollTo('bottom').then((container) => {
-            cy.getByText(/\/away/, {container}).should('not.be.visible');
-            cy.getByText(/\/shrug/, {container}).should('be.visible');
+            cy.findByText(/\/away/, {container}).should('not.be.visible');
+            cy.findByText(/\/shrug/, {container}).should('be.visible');
         });
 
         // # Scroll to top and verify that the first command "/away" is visible
         cy.get('#suggestionList').scrollTo('top').then((container) => {
-            cy.getByText(/\/away/, {container}).should('be.visible');
-            cy.getByText(/\/shrug/, {container}).should('not.be.visible');
+            cy.findByText(/\/away/, {container}).should('be.visible');
+            cy.findByText(/\/shrug/, {container}).should('not.be.visible');
         });
     });
 

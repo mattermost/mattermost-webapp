@@ -3,9 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
-import {JobStatuses} from 'utils/constants.jsx';
+import {JobStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 class JobTable extends React.PureComponent {
@@ -14,7 +14,7 @@ class JobTable extends React.PureComponent {
         /**
          * Used for formatting dates
          */
-        intl: intlShape.isRequired,
+        intl: PropTypes.any,
 
         /**
          * Array of jobs

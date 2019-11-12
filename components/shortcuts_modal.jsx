@@ -4,10 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 
 const allShortcuts = defineMessages({
@@ -249,7 +249,7 @@ const allShortcuts = defineMessages({
 
 class ShortcutsModal extends React.PureComponent {
     static propTypes = {
-        intl: intlShape.isRequired,
+        intl: PropTypes.any,
         isMac: PropTypes.bool.isRequired,
     }
 
