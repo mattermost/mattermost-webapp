@@ -146,6 +146,7 @@ export const ActionTypes = keyMirror({
     REMOVED_WEBAPP_PLUGIN: null,
     RECEIVED_ADMIN_CONSOLE_REDUCER: null,
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
+    RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -540,6 +541,11 @@ export const GroupUnreadChannels = {
 export const SidebarChannelGroups = {
     UNREADS: 'unreads',
     FAVORITE: 'favorite',
+};
+
+export const AboutLinks = {
+    TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
+    PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
 };
 
 export const PermissionsScope = {

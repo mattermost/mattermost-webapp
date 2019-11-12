@@ -57,27 +57,30 @@ exports[`components/team_settings_modal should match snapshot 1`] = `
       <div
         className="settings-links"
       >
-        <AsyncComponent
-          activeTab="general"
-          doLoad={[Function]}
-          tabs={
-            Array [
-              Object {
-                "icon": "icon fa fa-cog",
-                "iconTitle": "Settings Icon",
-                "name": "general",
-                "uiName": "General",
-              },
-              Object {
-                "icon": "icon fa fa-upload",
-                "iconTitle": "Upload Icon",
-                "name": "import",
-                "uiName": "Import",
-              },
-            ]
-          }
-          updateTab={[Function]}
-        />
+        <Suspense
+          fallback={null}
+        >
+          <lazy
+            activeTab="general"
+            tabs={
+              Array [
+                Object {
+                  "icon": "icon fa fa-cog",
+                  "iconTitle": "Settings Icon",
+                  "name": "general",
+                  "uiName": "General",
+                },
+                Object {
+                  "icon": "icon fa fa-upload",
+                  "iconTitle": "Upload Icon",
+                  "name": "import",
+                  "uiName": "Import",
+                },
+              ]
+            }
+            updateTab={[Function]}
+          />
+        </Suspense>
       </div>
       <div
         className="settings-content minimize-settings"

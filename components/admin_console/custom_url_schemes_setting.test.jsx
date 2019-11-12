@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import LocalizedInput from 'components/localized_input/localized_input';
 import CustomUrlSchemesSetting from 'components/admin_console/custom_url_schemes_setting';
 
 describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
@@ -70,7 +71,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
                 <CustomUrlSchemesSetting {...props}/>
             );
 
-            wrapper.find('LocalizedInput').simulate('change', {target: {value: ''}});
+            wrapper.find(LocalizedInput).simulate('change', {target: {value: ''}});
 
             expect(props.onChange).toBeCalledWith(baseProps.id, []);
         });
@@ -85,7 +86,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
                 <CustomUrlSchemesSetting {...props}/>
             );
 
-            wrapper.find('LocalizedInput').simulate('change', {target: {value: '  steam  '}});
+            wrapper.find(LocalizedInput).simulate('change', {target: {value: '  steam  '}});
 
             expect(props.onChange).toBeCalledWith(baseProps.id, ['steam']);
         });
@@ -100,7 +101,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
                 <CustomUrlSchemesSetting {...props}/>
             );
 
-            wrapper.find('LocalizedInput').simulate('change', {target: {value: 'steam, git'}});
+            wrapper.find(LocalizedInput).simulate('change', {target: {value: 'steam, git'}});
 
             expect(props.onChange).toBeCalledWith(baseProps.id, ['steam', 'git']);
         });
@@ -115,7 +116,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
                 <CustomUrlSchemesSetting {...props}/>
             );
 
-            wrapper.find('LocalizedInput').simulate('change', {target: {value: 'ts3server, smtp, ms-excel'}});
+            wrapper.find(LocalizedInput).simulate('change', {target: {value: 'ts3server, smtp, ms-excel'}});
 
             expect(props.onChange).toBeCalledWith(baseProps.id, ['ts3server', 'smtp', 'ms-excel']);
         });
@@ -130,7 +131,7 @@ describe('components/AdminConsole/CustomUrlSchemeSetting', () => {
                 <CustomUrlSchemesSetting {...props}/>
             );
 
-            wrapper.find('LocalizedInput').simulate('change', {target: {value: ',,,,,chrome,,,,ms-excel,,'}});
+            wrapper.find(LocalizedInput).simulate('change', {target: {value: ',,,,,chrome,,,,ms-excel,,'}});
 
             expect(props.onChange).toBeCalledWith(baseProps.id, ['chrome', 'ms-excel']);
         });

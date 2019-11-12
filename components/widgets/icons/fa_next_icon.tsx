@@ -3,23 +3,23 @@
 
 import React from 'react';
 
-import {intlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 type Props = {
+    intl: IntlShape;
+} & Partial<DefaultProps>
+
+type DefaultProps = {
     additionalClassName: string | null;
 }
 
-export default class NextIcon extends React.PureComponent<Props> {
-    public static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
-    public static defaultProps: Props = {
+class NextIcon extends React.PureComponent<Props> {
+    public static defaultProps: DefaultProps = {
         additionalClassName: null,
     };
 
     public render(): JSX.Element {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const className = 'fa fa-1x fa-angle-right' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
             <i
@@ -29,3 +29,5 @@ export default class NextIcon extends React.PureComponent<Props> {
         );
     }
 }
+
+export default injectIntl(NextIcon);

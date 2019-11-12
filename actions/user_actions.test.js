@@ -132,7 +132,7 @@ describe('Actions.User', () => {
     });
 
     test('loadProfilesAndTeamMembers', async () => {
-        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_TEAM', args: ['team_1', 0, 60, {}]}];
+        const expectedActions = [{type: 'MOCK_GET_PROFILES_IN_TEAM', args: ['team_1', 0, 60, '', {}]}];
 
         let testStore = await mockStore({});
         await testStore.dispatch(UserActions.loadProfilesAndTeamMembers(0, 60, 'team_1', {}));

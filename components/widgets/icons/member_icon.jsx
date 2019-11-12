@@ -21,21 +21,18 @@ export default class MemberIcon extends React.PureComponent {
                             aria-label={ariaLabel}
                         >
                             <g
-                                id='Symbols'
                                 stroke='none'
                                 strokeWidth='1'
                                 fill='inherit'
                                 fillRule='evenodd'
                             >
                                 <g
-                                    id='Channel-Header/Web-HD'
                                     transform='translate(-725.000000, -32.000000)'
                                     fillRule='nonzero'
                                     fill='inherit'
                                 >
-                                    <g id='Channel-Header'>
+                                    <g>
                                         <g
-                                            id='user-count'
                                             transform='translate(676.000000, 22.000000)'
                                         >
                                             <path
