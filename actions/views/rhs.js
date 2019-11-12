@@ -81,6 +81,13 @@ export function updateSearchTerms(terms) {
     };
 }
 
+function updateSearchResultsTerms(terms) {
+    return {
+        type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
+        terms,
+    };
+}
+
 export function performSearch(terms, isMentionSearch) {
     return (dispatch, getState) => {
         const teamId = getCurrentTeamId(getState());
@@ -101,10 +108,7 @@ export function showSearchResults() {
         const searchTerms = getSearchTerms(getState());
 
         dispatch(updateRhsState(RHSStates.SEARCH));
-        dispatch({
-            type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
-            terms: searchTerms,
-        });
+        dispatch(updateSearchResultsTerms(searchTerms));
 
         return dispatch(performSearch(searchTerms));
     };
@@ -284,6 +288,7 @@ export function openRHSSearch() {
     return (dispatch) => {
         dispatch(clearSearch());
         dispatch(updateSearchTerms(''));
+        dispatch(updateSearchResultsTerms(''));
 
         dispatch(updateRhsState(RHSStates.SEARCH));
     };

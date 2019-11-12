@@ -16,7 +16,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
             id="sidebar.tutorialScreen1.body"
           />
@@ -43,7 +43,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
@@ -54,7 +54,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
             id="sidebar.tutorialScreen2.body3"
             values={
@@ -74,13 +74,13 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
             id="sidebar.tutorialScreen3.body1"
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
             id="sidebar.tutorialScreen3.body2"
           />
@@ -107,7 +107,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
             id="sidebar.tutorialScreen1.body"
           />
@@ -134,7 +134,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
@@ -145,7 +145,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
             id="sidebar.tutorialScreen2.body3"
             values={
@@ -165,13 +165,13 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
             id="sidebar.tutorialScreen3.body1"
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
             id="sidebar.tutorialScreen3.body2"
           />
@@ -198,7 +198,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
             id="sidebar.tutorialScreen1.body"
           />
@@ -225,7 +225,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
@@ -236,7 +236,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
             id="sidebar.tutorialScreen2.body3"
             values={
@@ -256,13 +256,13 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
             id="sidebar.tutorialScreen3.body1"
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
             id="sidebar.tutorialScreen3.body2"
           />
@@ -289,7 +289,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**Channels** organize conversations across different topics. They're open to everyone on your team. To send private communications use **Direct Messages** for a single person or **Private Channels** for multiple people."
             id="sidebar.tutorialScreen1.body"
           />
@@ -316,7 +316,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{townsquare}** is a place for team-wide communication. Everyone in your team is a member of this channel."
             id="sidebar.tutorialScreen2.body2"
             values={
@@ -327,7 +327,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="**{offtopic}** is a place for fun and humor outside of work-related channels. You and your team can decide what other channels to create."
             id="sidebar.tutorialScreen2.body3"
             values={
@@ -347,13 +347,13 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
           />
         </h4>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="Click **\\"More...\\"** to create a new channel or join an existing one."
             id="sidebar.tutorialScreen3.body1"
           />
         </p>
         <p>
-          <InjectIntl(FormattedMarkdownMessage)
+          <injectIntl(FormattedMarkdownMessage)
             defaultMessage="You can also create a new channel by clicking the **\\"+\\" symbol** next to the public or private channel header."
             id="sidebar.tutorialScreen3.body2"
           />
