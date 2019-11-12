@@ -35,7 +35,7 @@ describe('Search', () => {
         });
 
         // * Type banana on search box but don't hit search
-        cy.get('#searchBox').should('be.visible').clear().type(banana);
+        cy.get('#searchBox').clear({force: true}).type(banana, {force: true});
 
         // * Search result should not change and remain as one result with highlight still on apple
         cy.get('@lastPostId').then((postId) => {
