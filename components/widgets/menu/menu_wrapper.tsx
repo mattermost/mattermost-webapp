@@ -1,29 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import Constants from 'utils/constants';
 
-import MenuWrapperAnimation from './menu_wrapper_animation.jsx';
+import MenuWrapperAnimation from './menu_wrapper_animation';
 
 import './menu_wrapper.scss';
 
-export default class MenuWrapper extends React.PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-        className: PropTypes.string,
-        onToggle: PropTypes.func,
-        animationComponent: PropTypes.any.isRequired,
-    };
+type Props = {
+    children?: React.ReactNode;
+    className: string;
+    onToggle?: (open: boolean) => void;
+    animationComponent: any;
+}
 
-    static defaultProps = {
+type State = {
+    open: boolean;
+}
+
+export default class MenuWrapper extends React.PureComponent<Props, State> {
+    private node: React.RefObject<HTMLDivElement>;
+
+    public static defaultProps = {
         className: '',
         animationComponent: MenuWrapperAnimation,
     };
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
         if (!Array.isArray(props.children) || props.children.length !== 2) {
             throw new Error('MenuWrapper needs exactly 2 children');
@@ -34,17 +39,17 @@ export default class MenuWrapper extends React.PureComponent {
         this.node = React.createRef();
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         document.addEventListener('click', this.closeOnBlur, true);
         document.addEventListener('keyup', this.keyboardClose, true);
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         document.removeEventListener('click', this.closeOnBlur, true);
         document.removeEventListener('keyup', this.keyboardClose, true);
     }
 
-    keyboardClose = (e) => {
+    private keyboardClose = (e: KeyboardEvent) => {
         if (e.key === Constants.KeyCodes.ESCAPE[0]) {
             this.close();
         }
@@ -54,15 +59,15 @@ export default class MenuWrapper extends React.PureComponent {
         }
     }
 
-    closeOnBlur = (e) => {
-        if (this.node.current && this.node.current.contains(e.target)) {
+    private closeOnBlur = (e: Event) => {
+        if (this.node && this.node.current && e.target && this.node.current.contains(e.target as Node)) {
             return;
         }
 
         this.close();
     }
 
-    close = () => {
+    private close = () => {
         if (this.state.open) {
             this.setState({open: false});
             if (this.props.onToggle) {
@@ -71,7 +76,7 @@ export default class MenuWrapper extends React.PureComponent {
         }
     }
 
-    toggle = () => {
+    private toggle = () => {
         const newState = !this.state.open;
         this.setState({open: newState});
         if (this.props.onToggle) {
@@ -79,7 +84,7 @@ export default class MenuWrapper extends React.PureComponent {
         }
     }
 
-    render() {
+    public render() {
         const {children} = this.props;
 
         const Animation = this.props.animationComponent;
@@ -90,9 +95,9 @@ export default class MenuWrapper extends React.PureComponent {
                 onClick={this.toggle}
                 ref={this.node}
             >
-                {children[0]}
+                {children ? Object.values(children)[0] : {}}
                 <Animation show={this.state.open}>
-                    {children[1]}
+                    {children ? Object.values(children)[1] : {}}
                 </Animation>
             </div>
         );

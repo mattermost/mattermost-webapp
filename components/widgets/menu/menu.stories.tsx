@@ -10,8 +10,8 @@ import {action} from '@storybook/addon-actions';
 import InfoIcon from '../icons/info_icon';
 import MenuIcon from '../icons/menu_icon';
 
-import Menu from './menu.jsx';
-import MenuWrapper from './menu_wrapper.jsx';
+import Menu from './menu';
+import MenuWrapper from './menu_wrapper';
 
 storiesOf('Menus', module).
     addDecorator(withKnobs).
@@ -20,7 +20,7 @@ storiesOf('Menus', module).
         () => {
             const txt = text('Text', 'Text');
             const extraText = text('Extra Text', 'Extra text');
-            const icon = boolean('Show Icon');
+            const icon = boolean('Show Icon', false);
             const showEntry1 = boolean('Show entry 1', true);
             const showEntry2 = boolean('Show entry 2', true);
             const showEntry3 = boolean('Show entry 3', true);
@@ -30,7 +30,7 @@ storiesOf('Menus', module).
             const onClick3 = action('clicked entry 3');
             return (
                 <div style={{position: 'relative'}}>
-                    <Menu>
+                    <Menu ariaLabel={ariaLabel}>
                         <Menu.ItemAction
                             onClick={onClick1}
                             ariaLabel={ariaLabel}
@@ -65,7 +65,7 @@ storiesOf('Menus', module).
         () => {
             const txt = text('Text', 'Text');
             const extraText = text('Extra Text', 'Extra text');
-            const icon = boolean('Show Icon');
+            const icon = boolean('Show Icon', false);
             const showEntry1 = boolean('Show entry 1', true);
             const showEntry2 = boolean('Show entry 2', true);
             const showEntry3 = boolean('Show entry 3', true);
@@ -75,7 +75,7 @@ storiesOf('Menus', module).
             const onClick3 = action('clicked entry 3');
             return (
                 <div style={{position: 'relative'}}>
-                    <Menu>
+                    <Menu ariaLabel={ariaLabel}>
                         <Menu.Group>
                             <Menu.ItemAction
                                 onClick={onClick1}
@@ -115,7 +115,7 @@ storiesOf('Menus', module).
             const title = text('Title', 'Open Menu');
             const txt = text('Text', 'Text');
             const extraText = text('Extra Text', 'Extra text');
-            const icon = boolean('Show Icon');
+            const icon = boolean('Show Icon', false);
             const showEntry1 = boolean('Show entry 1', true);
             const showEntry2 = boolean('Show entry 2', true);
             const showEntry3 = boolean('Show entry 3', true);
@@ -130,7 +130,7 @@ storiesOf('Menus', module).
                             <span>{title}</span>
                             <MenuIcon/>
                         </strong>
-                        <Menu>
+                        <Menu ariaLabel={ariaLabel}>
                             <Menu.ItemAction
                                 onClick={onClick1}
                                 ariaLabel={ariaLabel}

@@ -1,34 +1,56 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 
 import MenuWrapper from '../../menu_wrapper';
 import Menu from '../../menu';
+import SubMenuItem from '../../menu_items/submenu_item';
+
 import * as Utils from 'utils/utils.jsx';
 
 import './submenu_modal.scss';
 
-export default class SubMenuModal extends React.PureComponent {
-    static propTypes = {
-        elements: PropTypes.array,
-        onHide: PropTypes.func.isRequired,
-    }
+type Props = {
+    elements?: (React.ComponentProps<typeof SubMenuItem>)[];
+    onHide: () => void;
+}
 
-    constructor(props) {
+type State = {
+    show: boolean;
+}
+
+export default class SubMenuModal extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
         this.state = {
             show: true,
         };
     }
 
-    onHide = () => {
+    public onHide = () => { //public because it is used on tests
         this.setState({show: false});
     }
 
-    render() {
+    public render() {
+        let SubMenuItems;
+        if (this.props.elements) {
+            SubMenuItems = this.props.elements.map((element) => {
+                return (
+                    <Menu.ItemSubMenu
+                        key={element.id}
+                        id={element.id}
+                        text={element.text}
+                        subMenu={element.subMenu}
+                        action={element.action}
+                        filter={element.filter}
+                        xOffset={0}
+                        root={false}
+                    />
+                );
+            });
+        }
         return (
             <Modal
                 dialogClassName={'SubMenuModal a11y__modal mobile-sub-menu'}
@@ -47,20 +69,7 @@ export default class SubMenuModal extends React.PureComponent {
                             openLeft={true}
                             ariaLabel={Utils.localizeMessage('post_info.submenu.mobile', 'mobile submenu').toLowerCase()}
                         >
-                            {this.props.elements.map((element) => {
-                                return (
-                                    <Menu.ItemSubMenu
-                                        key={element.id}
-                                        id={element.id}
-                                        text={element.text}
-                                        subMenu={element.subMenu}
-                                        action={element.action}
-                                        filter={element.filter}
-                                        xOffset={0}
-                                        root={false}
-                                    />
-                                );
-                            })}
+                            {SubMenuItems}
                         </Menu>
                         <div/>
                     </MenuWrapper>

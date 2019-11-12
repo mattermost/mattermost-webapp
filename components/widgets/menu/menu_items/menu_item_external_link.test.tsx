@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MenuItemExternalLinkImpl} from './menu_item_external_link.jsx';
+import {MenuItemExternalLinkImpl} from './menu_item_external_link';
 
 describe('components/MenuItemExternalLink', () => {
     test('should match snapshot', () => {

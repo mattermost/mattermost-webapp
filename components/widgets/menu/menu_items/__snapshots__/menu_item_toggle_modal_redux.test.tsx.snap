@@ -8,7 +8,7 @@ exports[`components/MenuItemToggleModalRedux should match snapshot 1`] = `
       "test": "test",
     }
   }
-  dialogType={[Function]}
+  dialogType={[MockFunction]}
   modalId="test"
 >
   Whatever

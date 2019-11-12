@@ -2,13 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 
-import menuItem from './menu_item.jsx';
+import menuItem from './menu_item';
 
-export const MenuItemToggleModalReduxImpl = ({modalId, dialogType, dialogProps, text}) => (
+type Props = {
+    modalId: string;
+    dialogType: React.ComponentType<any>;
+    dialogProps?: object;
+    text: React.ReactNode;
+}
+
+export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text}: Props) => (
     <ToggleModalButtonRedux
         accessibilityLabel={text}
         modalId={modalId}
@@ -18,13 +24,6 @@ export const MenuItemToggleModalReduxImpl = ({modalId, dialogType, dialogProps, 
         {text}
     </ToggleModalButtonRedux>
 );
-
-MenuItemToggleModalReduxImpl.propTypes = {
-    modalId: PropTypes.string.isRequired,
-    dialogType: PropTypes.func.isRequired,
-    dialogProps: PropTypes.object,
-    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-};
 
 const MenuItemToggleModalRedux = menuItem(MenuItemToggleModalReduxImpl);
 MenuItemToggleModalRedux.displayName = 'MenuItemToggleModalRedux';

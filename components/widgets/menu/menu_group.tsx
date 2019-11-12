@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import './menu_group.scss';
 
-export default class MenuGroup extends React.PureComponent {
-    static propTypes = {
-        divider: PropTypes.node,
-        children: PropTypes.node,
-    };
+type Props = {
+    divider?: React.ReactNode;
+    children?: React.ReactNode;
+}
 
-    render() {
+export default class MenuGroup extends React.PureComponent<Props> {
+    public render() {
         const {children} = this.props;
 
         const divider = this.props.divider || <li className='MenuGroup menu-divider'/>;

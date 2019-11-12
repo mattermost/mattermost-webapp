@@ -2,16 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
-import menuItem from './menu_item.jsx';
+import menuItem from './menu_item';
 
-export const MenuItemLinkImpl = ({to, text}) => <Link to={to}>{text}</Link>;
-MenuItemLinkImpl.propTypes = {
-    to: PropTypes.string.isRequired,
-    text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-};
+type Props = {
+    to: string;
+    text: React.ReactNode;
+}
+
+export const MenuItemLinkImpl: React.FC<Props> = ({to, text}: Props) => <Link to={to}>{text}</Link>;
 
 const MenuItemLink = menuItem(MenuItemLinkImpl);
 MenuItemLink.displayName = 'MenuItemLink';
