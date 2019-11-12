@@ -3,11 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import RootPortal from 'components/root_portal';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {InviteTypes} from 'utils/constants';
 
@@ -23,8 +24,9 @@ const STEPS_INVITE_MEMBERS = 'members';
 const STEPS_INVITE_GUESTS = 'guests';
 const STEPS_INVITE_CONFIRM = 'confirm';
 
-export default class InvitationModal extends React.Component {
+class InvitationModal extends React.Component {
     static propTypes = {
+        intl: PropTypes.any,
         show: PropTypes.bool,
         currentTeam: PropTypes.object.isRequired,
         invitableChannels: PropTypes.array.isRequired,
@@ -38,10 +40,6 @@ export default class InvitationModal extends React.Component {
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     modal = React.createRef();
 
@@ -211,28 +209,32 @@ export default class InvitationModal extends React.Component {
                     values={{teamName: this.props.currentTeam.display_name}}
                 />
             );
-        } else if (this.state.step === STEPS_INVITE_MEMBERS) {
+        }
+
+        if (this.state.step === STEPS_INVITE_MEMBERS) {
             return (
                 <FormattedMarkdownMessage
                     id='invitation_modal.members.title'
                     defaultMessage='Invite **Members**'
                 />
             );
-        } else if (this.state.step === STEPS_INVITE_GUESTS) {
+        }
+
+        if (this.state.step === STEPS_INVITE_GUESTS) {
             return (
                 <FormattedMarkdownMessage
                     id='invitation_modal.guests.title'
                     defaultMessage='Invite **Guests**'
                 />
             );
-        } else {
-            return (
-                <FormattedMarkdownMessage
-                    id='invitation_modal.confirm.title'
-                    defaultMessage='**People** Invited to **{teamName}**'
-                />
-            );
         }
+
+        return (
+            <FormattedMarkdownMessage
+                id='invitation_modal.confirm.title'
+                defaultMessage='**People** Invited to **{teamName}**'
+            />
+        );
     }
 
     render() {
@@ -315,3 +317,5 @@ export default class InvitationModal extends React.Component {
         );
     }
 }
+
+export default injectIntl(InvitationModal);

@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InvitationModal from './invitation_modal.jsx';
 
@@ -29,7 +30,7 @@ describe('components/invitation_modal/InvitationModal', () => {
     };
 
     test('should match the snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <InvitationModal {...defaultProps}/>,
             {context}
         );
@@ -37,7 +38,7 @@ describe('components/invitation_modal/InvitationModal', () => {
     });
 
     test('should match the snapshot when not show', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <InvitationModal
                 {...defaultProps}
                 show={false}
@@ -48,7 +49,7 @@ describe('components/invitation_modal/InvitationModal', () => {
     });
 
     test('should match the snapshot when I have no permission to add users', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <InvitationModal
                 {...defaultProps}
                 canAddUsers={false}
@@ -59,7 +60,7 @@ describe('components/invitation_modal/InvitationModal', () => {
     });
 
     test('should match the snapshot when I have no permission to invite guests', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <InvitationModal
                 {...defaultProps}
                 canInviteGuests={false}
@@ -72,7 +73,7 @@ describe('components/invitation_modal/InvitationModal', () => {
     test('should call actions.getTeam if invite_id is empty', () => {
         const props = {...defaultProps};
         props.currentTeam.invite_id = '';
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <InvitationModal {...props}/>,
             {context}
         );
