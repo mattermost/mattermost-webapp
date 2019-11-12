@@ -51,6 +51,7 @@ export default class MoreChannels extends React.Component {
             searchedChannels: [],
             serverError: null,
             searching: false,
+            searchTerm: '',
         };
     }
 
@@ -111,11 +112,11 @@ export default class MoreChannels extends React.Component {
 
         if (term === '') {
             this.onChange(true);
-            this.setState({search: false, searchedChannels: [], searching: false});
+            this.setState({search: false, searchedChannels: [], searching: false, searchTerm: term});
             this.searchTimeoutId = '';
             return;
         }
-        this.setState({search: true, searching: true});
+        this.setState({search: true, searching: true, searchTerm: term});
 
         const searchTimeoutId = setTimeout(
             () => {
@@ -146,8 +147,8 @@ export default class MoreChannels extends React.Component {
     };
 
     toggleArchivedChannels = (shouldShowArchivedChannels) => {
-        // clear search results, so other channels don't appear in list
-        this.search('');
+        // search again when switching channels to update search results
+        this.search(this.state.searchTerm);
         this.setState({shouldShowArchivedChannels});
     };
 
