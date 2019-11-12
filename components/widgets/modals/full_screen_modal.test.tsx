@@ -2,13 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import FullScreenModal from './full_screen_modal';
 
 describe('components/widgets/modals/FullScreenModal', () => {
     test('showing content', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <FullScreenModal
                 show={true}
                 onClose={jest.fn()}
@@ -29,6 +30,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
     className="FullScreenModal"
   >
     <button
+      aria-label="Close"
       className="close-x"
       onClick={[Function]}
     >
@@ -42,7 +44,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 `);
     });
     test('not showing content', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <FullScreenModal
                 show={false}
                 onClose={jest.fn()}
@@ -63,6 +65,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
     className="FullScreenModal"
   >
     <button
+      aria-label="Close"
       className="close-x"
       onClick={[Function]}
     >
@@ -76,7 +79,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 `);
     });
     test('with back icon', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <FullScreenModal
                 show={true}
                 onClose={jest.fn()}
@@ -98,6 +101,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
     className="FullScreenModal"
   >
     <button
+      aria-label="Back"
       className="back"
       onClick={[MockFunction]}
     >
@@ -106,6 +110,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
       />
     </button>
     <button
+      aria-label="Close"
       className="close-x"
       onClick={[Function]}
     >
@@ -121,7 +126,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 
     test('close on close icon click', () => {
         const close = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <FullScreenModal
                 show={true}
                 onClose={close}
@@ -136,7 +141,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 
     test('go back on back icon click', () => {
         const back = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <FullScreenModal
                 show={true}
                 onClose={jest.fn()}
@@ -152,7 +157,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
 
     test('close on esc keypress', () => {
         const close = jest.fn();
-        shallow(
+        shallowWithIntl(
             <FullScreenModal
                 show={true}
                 onClose={close}
