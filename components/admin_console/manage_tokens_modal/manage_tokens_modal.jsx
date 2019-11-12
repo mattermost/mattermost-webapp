@@ -55,7 +55,7 @@ export default class ManageTokensModal extends React.PureComponent {
         const userId = this.props.user ? this.props.user.id : null;
         const prevUserId = prevProps.user ? prevProps.user.id : null;
         if (userId && prevUserId !== userId) {
-            this.props.actions.getUserAccessTokensForUser(prevUserId, 0, 200);
+            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
         }
     }
 
