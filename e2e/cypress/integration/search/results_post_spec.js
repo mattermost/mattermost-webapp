@@ -24,7 +24,7 @@ describe('Search', () => {
         cy.postMessage(message);
 
         // # Search for "apple"
-        cy.get('#searchBox').type(apple).type('{enter}');
+        cy.get('#searchBox').should('be.visible').type(apple).type('{enter}');
 
         // # Get last postId
         cy.getLastPostId().as('lastPostId');
@@ -35,7 +35,7 @@ describe('Search', () => {
         });
 
         // * Type banana on search box but don't hit search
-        cy.get('#searchBox').clear().type(banana);
+        cy.get('#searchBox').should('be.visible').clear().type(banana);
 
         // * Search result should not change and remain as one result with highlight still on apple
         cy.get('@lastPostId').then((postId) => {
