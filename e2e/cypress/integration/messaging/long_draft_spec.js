@@ -9,7 +9,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('Leave a long draft in the main input box', () => {
+describe('Messaging', () => {
     before(() => {
         // # Make sure the viewport is the expected one, so written lines always create new lines
         cy.viewport(1000, 660);
