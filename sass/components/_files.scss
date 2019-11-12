@@ -358,14 +358,14 @@
 }
 
 .post-image__details {
-    position: relative;
     align-items: center;
     border-left: 1px solid $light-gray;
     color: alpha-color($black, .8);
     display: flex;
     font-size: 13px;
     height: 100%;
-    flex: 1;
+    flex: 0 0 220px;
+    overflow: hidden;
 
     .post-image__detail_wrapper {
         padding: 0 45px 0 15px;
