@@ -301,7 +301,6 @@ export default class SystemUsers extends React.Component {
                 <div className='system-users__filter'>
                     <LocalizedInput
                         id='searchUsers'
-                        ref='filter'
                         className='form-control filter-textbox'
                         placeholder={{id: t('filtered_user_list.search'), defaultMessage: 'Search users'}}
                         onInput={doSearch}

@@ -6,6 +6,10 @@ import {createSelector} from 'reselect';
 
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 
+import {Constants} from 'utils/constants';
+import {localizeMessage} from 'utils/utils.jsx';
+
+import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
@@ -15,7 +19,8 @@ import getEnablePluginSetting from './enable_plugin_setting';
 function makeGetPluginSchema() {
     return createSelector(
         (state, pluginId) => state.entities.admin.plugins[pluginId],
-        (plugin) => {
+        (state, pluginId) => getAdminConsoleCustomComponents(state, pluginId),
+        (plugin, customComponents) => {
             if (!plugin) {
                 return null;
             }
@@ -26,13 +31,35 @@ function makeGetPluginSchema() {
             let settings = [];
             if (plugin.settings_schema && plugin.settings_schema.settings) {
                 settings = plugin.settings_schema.settings.map((setting) => {
+                    const key = setting.key.toLowerCase();
+                    let component = null;
+                    let bannerType = '';
+                    let type = setting.type;
+                    let displayName = setting.display_name;
+                    let isDisabled = it.stateIsFalse(pluginEnabledConfigKey);
+
+                    if (customComponents[key]) {
+                        component = customComponents[key].component;
+                        type = Constants.SettingsTypes.TYPE_CUSTOM;
+                    } else if (setting.type === Constants.SettingsTypes.TYPE_CUSTOM) {
+                        // Show a warning banner to enable the plugin in order to display the custom component.
+                        type = Constants.SettingsTypes.TYPE_BANNER;
+                        displayName = localizeMessage('admin.plugin.customSetting.pluginDisabledWarning', 'In order to view this setting, enable the plugin and click Save.');
+                        bannerType = 'warning';
+                        isDisabled = it.stateIsTrue(pluginEnabledConfigKey);
+                    }
+
                     return {
                         ...setting,
-                        key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + setting.key.toLowerCase(),
+                        type,
+                        key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + key,
                         help_text_markdown: true,
-                        label: setting.display_name,
+                        label: displayName,
                         translate: Boolean(plugin.translate),
-                        isDisabled: it.stateIsFalse(pluginEnabledConfigKey),
+                        isDisabled,
+                        banner_type: bannerType,
+                        component,
+                        showTitle: customComponents[key] ? customComponents[key].options.showTitle : false,
                     };
                 });
             }

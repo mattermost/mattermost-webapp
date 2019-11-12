@@ -18,8 +18,8 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 
 import Pluggable from 'plugins/pluggable';
 
-import Menu from 'components/widgets/menu/menu.jsx';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -304,7 +304,7 @@ export default class DotMenu extends Component {
                         </ChannelPermissionGate>
                         <Menu.ItemAction
                             id={`unread_post_${this.props.post.id}`}
-                            show={!isSystemMessage && this.props.location === Locations.CENTER}
+                            show={!isSystemMessage}
                             text={Utils.localizeMessage('post_info.unread', 'Mark as Unread')}
                             onClick={this.handleUnreadMenuItemActivated}
                         />
