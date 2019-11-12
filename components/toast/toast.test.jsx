@@ -3,7 +3,9 @@
 
 import React from 'react';
 
-import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallow} from 'enzyme';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import Toast from './toast.jsx';
 
@@ -15,7 +17,7 @@ describe('components/Toast', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
+        const wrapper = shallow(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
         expect(wrapper).toMatchSnapshot();
     });
 
