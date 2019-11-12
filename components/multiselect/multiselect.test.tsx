@@ -6,7 +6,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {StateManager} from 'react-select/src/stateManager';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import MultiSelect from './multiselect';
 import MultiSelectList, {Props as MultiSelectProps} from './multiselect_list';
@@ -17,7 +17,7 @@ describe('components/multiselect/multiselect', () => {
     const totalCount = 8;
     const optionsNumber = 8;
     const users = [];
-    for (var i = 0; i < optionsNumber; i++) {
+    for (let i = 0; i < optionsNumber; i++) {
         users.push({id: `${i}`, label: `${i}`, value: `${i}`});
     }
 

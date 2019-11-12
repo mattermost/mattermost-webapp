@@ -106,7 +106,7 @@ jobs:
           at: .
       - aws-s3/sync:
           from: storybook-static
-          to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g' | sed 's/^master$//g')/
+          to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           arguments: --cache-control no-cache
       - aws-s3/sync:
           from: storybook-static

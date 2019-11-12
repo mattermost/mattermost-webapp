@@ -4,7 +4,7 @@
 import marked from 'marked';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import * as SyntaxHighlighting from 'utils/syntax_highlighting.jsx';
+import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import {getScheme, isUrlSafe} from 'utils/url';
 
