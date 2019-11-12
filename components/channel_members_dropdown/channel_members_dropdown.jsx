@@ -29,6 +29,7 @@ export default class ChannelMembersDropdown extends React.Component {
             getChannelStats: PropTypes.func.isRequired,
             updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
             removeChannelMember: PropTypes.func.isRequired,
+            getChannelMember: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -109,11 +110,9 @@ export default class ChannelMembersDropdown extends React.Component {
 
     render() {
         const {index, totalUsers, isLicensed, channelMember, user, channel, currentUserId, canChangeMemberRoles, canRemoveMember} = this.props;
-        const { serverError } = this.state;
+        const {serverError} = this.state;
 
-        // IsChannelAdmin checks to see if it's licensed, if not , you cannot be an admin. 
-        // Having isLicensed is redundant 
-        const isChannelAdmin = Utils.isChannelAdmin(isLicensed, channelMember.roles) || channelMember.scheme_admin;
+        const isChannelAdmin = Utils.isChannelAdmin(isLicensed, channelMember.roles, channelMember.scheme_admin);
         const isGuest = Utils.isGuest(user);
         const isMember = !isChannelAdmin && !isGuest;
         const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
@@ -122,13 +121,9 @@ export default class ChannelMembersDropdown extends React.Component {
         if (user.id === currentUserId) {
             return null;
         }
-
-        // If user must be a channel Admin to become a member, it would be impossible for them to 
-        // be a channel admin and guest at the same time. So saying !isGuest is redundant
         const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
         const canMakeUserChannelAdmin = canChangeMemberRoles && isLicensed && isMember;
         const canRemoveUserFromChannel = canRemoveMember && !channel.group_constrained && (!isDefaultChannel || isGuest);
-
 
         if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
             return (
@@ -170,7 +165,6 @@ export default class ChannelMembersDropdown extends React.Component {
                 </MenuWrapper>
             );
         }
-        
 
         if (isDefaultChannel) {
             return (
