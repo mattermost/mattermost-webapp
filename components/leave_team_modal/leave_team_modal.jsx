@@ -3,13 +3,13 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
-class LeaveTeamModal extends React.PureComponent {
+export default class LeaveTeamModal extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -33,8 +33,6 @@ class LeaveTeamModal extends React.PureComponent {
          */
 
         show: PropTypes.bool.isRequired,
-
-        intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
 
@@ -130,5 +128,3 @@ class LeaveTeamModal extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(LeaveTeamModal);

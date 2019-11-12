@@ -2,15 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import InvitationModal from './invitation_modal.jsx';
 
 describe('components/invitation_modal/InvitationModal', () => {
-    const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
-    const {intl} = intlProvider.getChildContext();
-    const context = {router: {}, intl};
+    const context = {router: {}};
 
     const defaultProps = {
         show: true,
