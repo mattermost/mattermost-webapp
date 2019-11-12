@@ -680,7 +680,7 @@
   "admin.group_settings.ldapGroupsDescription": "Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter]({siteURL}/admin_console/authentication/ldap).",
   "admin.group_settings.ldapGroupsTitle": "AD/LDAP Groups",
   "admin.guest_access.disableConfirmButton": "Disable Guest Access",
-  "admin.guest_access.disableConfirmMessage": "Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts.",
+  "admin.guest_access.disableConfirmMessage": "Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts.",
   "admin.guest_access.disableConfirmTitle": "Disable Guest Access?",
   "admin.guest_access.enableDescription": "When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests.",
   "admin.guest_access.enableTitle": "Enable Guest Access: ",

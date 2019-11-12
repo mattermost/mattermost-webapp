@@ -12,7 +12,7 @@ import BooleanSetting from './boolean_setting';
 
 type Props = {
     id: string;
-    value: boolean | string;
+    value: boolean;
     onChange: (id: string, value: any) => void;
     disabled?: boolean;
     setByEnv: boolean;
@@ -53,21 +53,13 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
             />
         );
 
-        let value;
-        if (typeof this.props.value === 'string') {
-            value = this.props.value === 'true';
-        } else {
-            value = this.props.value;
-        }
-
         return (
             <>
                 <BooleanSetting
                     id={this.props.id}
-                    value={value}
+                    value={this.props.value}
                     label={label}
                     helpText={helpText}
-                    inputId={this.props.id}
                     setByEnv={this.props.setByEnv}
                     onChange={this.handleChange}
                 />
@@ -82,7 +74,7 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                     message={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmMessage'
-                            defaultMessage='Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts.'
+                            defaultMessage='Disabling guest access will revoke all current Guest Account sessions. Guests will no longer be able to login and new guests cannot be invited into Mattermost. Guest users will be marked as inactive in user lists. Enabling this feature will not reinstate previous guest accounts.'
                         />
                     }
                     confirmButtonText={

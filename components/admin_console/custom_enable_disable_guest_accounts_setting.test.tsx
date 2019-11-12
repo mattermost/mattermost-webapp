@@ -28,34 +28,10 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('with true string', () => {
-            const props = {
-                ...baseProps,
-                value: 'true',
-            };
-
-            const wrapper = shallow(
-                <CustomEnableDisableGuestAccountsSetting {...props}/>
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
-
         test('with false', () => {
             const props = {
                 ...baseProps,
                 value: false,
-            };
-
-            const wrapper = shallow(
-                <CustomEnableDisableGuestAccountsSetting {...props}/>
-            );
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        test('with false string', () => {
-            const props = {
-                ...baseProps,
-                value: 'false',
             };
 
             const wrapper = shallow(
