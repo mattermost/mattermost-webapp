@@ -147,7 +147,7 @@ export default class MoreChannels extends React.Component {
 
     toggleArchivedChannels = (shouldShowArchivedChannels) => {
         // clear search results, so other channels don't appear in list
-        this.setSearchResults([]);
+        this.search('');
         this.setState({shouldShowArchivedChannels});
     };
 
