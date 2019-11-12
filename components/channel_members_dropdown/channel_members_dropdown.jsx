@@ -68,7 +68,8 @@ export default class ChannelMembersDropdown extends React.Component {
         if (error) {
             this.setState({serverError: error.message});
         } else {
-            this.props.actions.getChannelStats(this.props.channel.id);
+             this.props.actions.getChannelStats(this.props.channel.id);
+             this.props.actions.getChannelMember(this.props.channel.id, this.props.user.id);
         }
     };
 
@@ -78,6 +79,7 @@ export default class ChannelMembersDropdown extends React.Component {
             this.setState({serverError: error.message});
         } else {
             this.props.actions.getChannelStats(this.props.channel.id);
+            this.props.actions.getChannelMember(this.props.channel.id, this.props.user.id);
         }
     };
 
