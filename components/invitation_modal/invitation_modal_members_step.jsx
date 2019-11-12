@@ -4,6 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {injectIntl} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -16,13 +17,13 @@ import BackIcon from 'components/widgets/icons/back_icon';
 import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
-import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 
 import './invitation_modal_members_step.scss';
 
-export default class InvitationModalMembersStep extends React.Component {
+class InvitationModalMembersStep extends React.Component {
     static propTypes = {
+        intl: PropTypes.any,
         inviteId: PropTypes.string.isRequired,
         goBack: PropTypes.func,
         searchProfiles: PropTypes.func.isRequired,
@@ -151,7 +152,7 @@ export default class InvitationModalMembersStep extends React.Component {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
-                            aria-label={localizeMessage('invitation_modal.members.share_link.input', 'team invite link')}
+                            aria-label={this.props.intl.formatMessage({id: 'invitation_modal.members.share_link.input', defaultMessage: 'team invite link'})}
                             data-testid='shareLinkInput'
                         />
                         <button
@@ -246,3 +247,5 @@ export default class InvitationModalMembersStep extends React.Component {
         );
     }
 }
+
+export default injectIntl(InvitationModalMembersStep);
