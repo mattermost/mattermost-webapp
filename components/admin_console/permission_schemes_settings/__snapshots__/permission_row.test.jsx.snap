@@ -17,7 +17,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <InjectIntl(PermissionDescription)
+  <injectIntl(PermissionDescription)
     id="id"
     inherited={
       Object {
@@ -48,7 +48,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <InjectIntl(PermissionDescription)
+  <injectIntl(PermissionDescription)
     id="id"
     inherited={null}
     rowType="permission"
@@ -74,7 +74,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <InjectIntl(PermissionDescription)
+  <injectIntl(PermissionDescription)
     id="id"
     inherited={null}
     rowType="permission"
@@ -100,7 +100,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_row sho
       values={Object {}}
     />
   </span>
-  <InjectIntl(PermissionDescription)
+  <injectIntl(PermissionDescription)
     id="id"
     inherited={null}
     rowType="permission"

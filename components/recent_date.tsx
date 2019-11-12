@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedDate, FormattedMessage, DateSource} from 'react-intl';
+import {FormattedDate, FormattedMessage} from 'react-intl';
 
 type Props = {
-    value: DateSource;
+    value: Date | string | number;
     children?(val: string): React.ReactElement | null;
 }
 

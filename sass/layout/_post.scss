@@ -630,7 +630,7 @@
 
 .post-create-footer {
     font-size: 13px;
-    padding: 3px 0 0;
+    padding: 6px 0 0;
     position: relative;
 
     .help__text {
@@ -2104,5 +2104,9 @@
         height: 1px;
         margin-bottom: 1em;
         margin-top: -1em;
+    }
+
+    .emoji-picker--active & {
+        pointer-events: none;
     }
 }

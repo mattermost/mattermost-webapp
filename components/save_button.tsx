@@ -2,32 +2,30 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {intlShape} from 'react-intl';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 type Props = {
-    saving: boolean;
+    intl: IntlShape;
+    saving?: boolean;
     disabled?: boolean;
+    id?: string;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
     savingMessage?: React.ReactNode;
     defaultMessage?: React.ReactNode;
     btnClass?: string;
     extraClasses?: string;
 }
-
-export default class SaveButton extends React.PureComponent<Props> {
+class SaveButton extends React.PureComponent<Props> {
     public static defaultProps: Partial<Props> = {
         disabled: false,
         btnClass: 'btn-primary',
         extraClasses: '',
     }
 
-    public static contextTypes = {
-        intl: intlShape,
-    };
-
-    public render() {
-        const {formatMessage} = this.context.intl;
+    render() {
+        const {formatMessage} = this.props.intl;
         const {
             saving,
             disabled,
@@ -68,3 +66,5 @@ export default class SaveButton extends React.PureComponent<Props> {
         );
     }
 }
+
+export default injectIntl(SaveButton);
