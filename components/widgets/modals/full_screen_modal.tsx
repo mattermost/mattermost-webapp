@@ -34,22 +34,6 @@ export default class FullScreenModal extends React.Component<Props> {
         }
     }
 
-    private onBackKeyDown = (e: KeyboardEvent) => {
-        const code = e.which;
-        if ((code === 13) || (code === 32)) {
-            if (this.props.onGoBack) {
-                this.props.onGoBack();
-            }
-        }
-    }
-
-    private onCloseKeyDown = (e: KeyboardEvent) => {
-        const code = e.which;
-        if ((code === 13) || (code === 32)) {
-            this.close();
-        }
-    }
-
     private close = () => {
         this.props.onClose();
     }
@@ -66,20 +50,18 @@ export default class FullScreenModal extends React.Component<Props> {
             >
                 <div className='FullScreenModal'>
                     {this.props.onGoBack &&
-                        <BackIcon
-                            tabIndex='0'
-                            className='back'
-                            onKeyDown={this.onBackKeyDown}
-                            id='backIcon'
+                        <button
                             onClick={this.props.onGoBack}
-                        />}
-                    <CloseIcon
-                        tabIndex='0'
-                        className='close-x'
+                            className='back'
+                        >
+                            <BackIcon id='backIcon'/>
+                        </button>}
+                    <button
                         onClick={this.close}
-                        onKeyDown={this.onCloseKeyDown}
-                        id='closeIcon'
-                    />
+                        className='close-x'
+                    >
+                        <CloseIcon id='closeIcon'/>
+                    </button>
                     {this.props.children}
                 </div>
             </CSSTransition>

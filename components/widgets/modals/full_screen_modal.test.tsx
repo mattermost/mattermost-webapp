@@ -4,9 +4,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CloseIcon from 'components/widgets/icons/close_icon';
-import BackIcon from 'components/widgets/icons/back_icon';
-
 import FullScreenModal from './full_screen_modal';
 
 describe('components/widgets/modals/FullScreenModal', () => {
@@ -31,13 +28,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
   <div
     className="FullScreenModal"
   >
-    <CloseIcon
+    <button
       className="close-x"
-      id="closeIcon"
       onClick={[Function]}
-      onKeyDown={[Function]}
-      tabIndex="0"
-    />
+    >
+      <CloseIcon
+        id="closeIcon"
+      />
+    </button>
     test
   </div>
 </CSSTransition>
@@ -64,13 +62,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
   <div
     className="FullScreenModal"
   >
-    <CloseIcon
+    <button
       className="close-x"
-      id="closeIcon"
       onClick={[Function]}
-      onKeyDown={[Function]}
-      tabIndex="0"
-    />
+    >
+      <CloseIcon
+        id="closeIcon"
+      />
+    </button>
     test
   </div>
 </CSSTransition>
@@ -98,20 +97,22 @@ describe('components/widgets/modals/FullScreenModal', () => {
   <div
     className="FullScreenModal"
   >
-    <BackIcon
+    <button
       className="back"
-      id="backIcon"
       onClick={[MockFunction]}
-      onKeyDown={[Function]}
-      tabIndex="0"
-    />
-    <CloseIcon
+    >
+      <BackIcon
+        id="backIcon"
+      />
+    </button>
+    <button
       className="close-x"
-      id="closeIcon"
       onClick={[Function]}
-      onKeyDown={[Function]}
-      tabIndex="0"
-    />
+    >
+      <CloseIcon
+        id="closeIcon"
+      />
+    </button>
     test
   </div>
 </CSSTransition>
@@ -129,7 +130,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             </FullScreenModal>
         );
         expect(close).not.toBeCalled();
-        wrapper.find(CloseIcon).simulate('click');
+        wrapper.find('button.close-x').simulate('click');
         expect(close).toBeCalled();
     });
 
@@ -145,7 +146,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             </FullScreenModal>
         );
         expect(back).not.toBeCalled();
-        wrapper.find(BackIcon).simulate('click');
+        wrapper.find('button.back').simulate('click');
         expect(back).toBeCalled();
     });
 
