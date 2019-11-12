@@ -134,7 +134,6 @@ export default class AutosizeTextarea extends React.Component<Props> {
         const placeholderAriaLabel = placeholder ? placeholder.toLowerCase() : '';
         if (!this.props.value && !this.props.defaultValue) {
             textareaPlaceholder = (
-                // @ts-ignore for now 
                 <div
                     {...otherProps}
                     style={style.placeholder}
