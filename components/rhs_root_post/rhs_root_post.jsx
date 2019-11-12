@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -24,8 +24,9 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsRootPost extends React.PureComponent {
+class RhsRootPost extends React.PureComponent {
     static propTypes = {
+        intl: PropTypes.any,
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -49,10 +50,6 @@ export default class RhsRootPost extends React.PureComponent {
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
         }),
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -156,8 +153,8 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+        const {post, author, reactions, isFlagged, intl} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl)});
     }
 
     getDotMenuRef = () => {
@@ -353,6 +350,7 @@ export default class RhsRootPost extends React.PureComponent {
                 aria-label={this.state.currentAriaLabel}
                 onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
+                data-a11y-sort-order='0'
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div
@@ -404,3 +402,5 @@ export default class RhsRootPost extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(RhsRootPost);

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsComment from 'components/rhs_comment/rhs_comment.jsx';
 

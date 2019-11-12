@@ -46,7 +46,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
@@ -565,10 +565,10 @@ async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getMyTeamUnreads());
 }
 
-function handleLeaveTeamEvent(msg) {
+export function handleLeaveTeamEvent(msg) {
     const state = getState();
 
-    dispatch(batchActions([
+    const actions = [
         {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
             data: {id: msg.data.team_id, user_id: msg.data.user_id},
@@ -577,7 +577,19 @@ function handleLeaveTeamEvent(msg) {
             type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
             data: {team_id: msg.data.team_id, user_id: msg.data.user_id},
         },
-    ]));
+    ];
+
+    const channelsPerTeam = getChannelsInTeam(state);
+    const channels = (channelsPerTeam && channelsPerTeam[msg.data.team_id]) || [];
+
+    for (const channel of channels) {
+        actions.push({
+            type: ChannelTypes.REMOVE_MEMBER_FROM_CHANNEL,
+            data: {id: channel, user_id: msg.data.user_id},
+        });
+    }
+
+    dispatch(batchActions(actions));
 
     if (getCurrentUserId(state) === msg.data.user_id) {
         dispatch({type: TeamTypes.LEAVE_TEAM, data: {id: msg.data.team_id}});

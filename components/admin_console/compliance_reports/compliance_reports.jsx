@@ -55,6 +55,12 @@ export default class ComplianceReports extends React.PureComponent {
         this.state = {
             loadingReports: true,
         };
+
+        this.descInput = React.createRef();
+        this.emailsInput = React.createRef();
+        this.fromInput = React.createRef();
+        this.keywordsInput = React.createRef();
+        this.toInput = React.createRef();
     }
 
     componentDidMount() {
@@ -81,20 +87,20 @@ export default class ComplianceReports extends React.PureComponent {
         this.setState({runningReport: true});
 
         const job = {};
-        job.desc = this.refs.desc.value;
-        job.emails = this.refs.emails.value;
-        job.keywords = this.refs.keywords.value;
-        job.start_at = Date.parse(this.refs.from.value);
-        job.end_at = Date.parse(this.refs.to.value);
+        job.desc = this.descInput.current.value;
+        job.emails = this.emailsInput.current.value;
+        job.keywords = this.keywordsInput.current.value;
+        job.start_at = Date.parse(this.fromInput.current.value);
+        job.end_at = Date.parse(this.toInput.current.value);
 
         this.props.actions.createComplianceReport(job).then(
             ({data}) => {
                 if (data) {
-                    this.refs.emails.value = '';
-                    this.refs.keywords.value = '';
-                    this.refs.desc.value = '';
-                    this.refs.from.value = '';
-                    this.refs.to.value = '';
+                    this.emailsInput.current.value = '';
+                    this.keywordsInput.current.value = '';
+                    this.descInput.current.value = '';
+                    this.fromInput.current.value = '';
+                    this.toInput.current.value = '';
                 }
                 this.setState({runningReport: false});
             }
@@ -292,7 +298,7 @@ export default class ComplianceReports extends React.PureComponent {
                             type='text'
                             className='form-control'
                             id='desc'
-                            ref='desc'
+                            ref={this.descInput}
                             placeholder={{id: t('admin.compliance_reports.desc_placeholder'), defaultMessage: 'E.g. "Audit 445 for HR"'}}
                         />
                     </div>
@@ -307,7 +313,7 @@ export default class ComplianceReports extends React.PureComponent {
                             type='text'
                             className='form-control'
                             id='from'
-                            ref='from'
+                            ref={this.fromInput}
                             placeholder={{id: t('admin.compliance_reports.from_placeholder'), defaultMessage: 'E.g. "2016-03-11"'}}
                         />
                     </div>
@@ -322,7 +328,7 @@ export default class ComplianceReports extends React.PureComponent {
                             type='text'
                             className='form-control'
                             id='to'
-                            ref='to'
+                            ref={this.toInput}
                             placeholder={{id: t('admin.compliance_reports.to_placeholder'), defaultMessage: 'E.g. "2016-03-15"'}}
                         />
                     </div>
@@ -339,7 +345,7 @@ export default class ComplianceReports extends React.PureComponent {
                             type='text'
                             className='form-control'
                             id='emails'
-                            ref='emails'
+                            ref={this.emailsInput}
                             placeholder={{id: t('admin.compliance_reports.emails_placeholder'), defaultMessage: 'E.g. "bill@example.com, bob@example.com"'}}
                         />
                     </div>
@@ -354,7 +360,7 @@ export default class ComplianceReports extends React.PureComponent {
                             type='text'
                             className='form-control'
                             id='keywords'
-                            ref='keywords'
+                            ref={this.keywordsInput}
                             placeholder={{id: t('admin.compliance_reports.keywords_placeholder'), defaultMessage: 'E.g. "shorting stock"'}}
                         />
                     </div>

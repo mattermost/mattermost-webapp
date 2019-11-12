@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import Confirm from 'components/mfa/confirm.jsx';
 import Constants from 'utils/constants';
 

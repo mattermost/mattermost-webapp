@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -29,8 +29,9 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsComment extends React.PureComponent {
+class RhsComment extends React.PureComponent {
     static propTypes = {
+        intl: PropTypes.any,
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -50,13 +51,10 @@ export default class RhsComment extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
+        a11yIndex: PropTypes.number,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
         }),
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -209,8 +207,8 @@ export default class RhsComment extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+        const {post, author, reactions, isFlagged, intl} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl)});
     }
 
     render() {
@@ -461,6 +459,7 @@ export default class RhsComment extends React.PureComponent {
                 onMouseLeave={this.unsetHover}
                 aria-label={this.state.currentAriaLabel}
                 onFocus={this.handlePostFocus}
+                data-a11y-sort-order={this.props.a11yIndex}
             >
                 <div
                     role='application'
@@ -507,3 +506,5 @@ export default class RhsComment extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(RhsComment);

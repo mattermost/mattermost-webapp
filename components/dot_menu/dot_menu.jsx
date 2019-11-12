@@ -18,8 +18,8 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 
 import Pluggable from 'plugins/pluggable';
 
-import Menu from 'components/widgets/menu/menu.jsx';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import Menu from 'components/widgets/menu/menu';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 const MENU_BOTTOM_MARGIN = 80;
 

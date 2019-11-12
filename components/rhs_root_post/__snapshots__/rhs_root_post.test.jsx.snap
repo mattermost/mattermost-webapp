@@ -4,6 +4,7 @@ exports[`components/RhsRootPost should match snapshot 1`] = `
 <div
   aria-label=""
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
+  data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}
@@ -184,6 +185,7 @@ exports[`components/RhsRootPost should match snapshot on deleted post 1`] = `
 <div
   aria-label=""
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
+  data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}
@@ -321,6 +323,7 @@ exports[`components/RhsRootPost should match snapshot on flagged, deleted post 1
 <div
   aria-label=""
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
+  data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}
@@ -461,6 +464,7 @@ exports[`components/RhsRootPost should match snapshot when flagged 1`] = `
 <div
   aria-label=""
   className="thread__root a11y__section post post--root post--thread current--user post--compact"
+  data-a11y-sort-order="0"
   id="rhsPost_id"
   onClick={[Function]}
   onFocus={[Function]}

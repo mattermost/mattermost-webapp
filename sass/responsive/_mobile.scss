@@ -1254,7 +1254,7 @@
                 right: 20px;
                 text-align: center;
                 text-shadow: none;
-                top: 20px;
+                top: 30px;
                 width: 30px;
             }
 
@@ -1552,8 +1552,11 @@
             }
 
             .post-create-footer {
-                padding-right: 0;
-                padding-top: 10px;
+                padding: 6px 0 0;
+
+                .post-error {
+                    margin-bottom: 8px;
+                }
 
                 .control-label {
                     margin: .5em 0;

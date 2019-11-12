@@ -4,7 +4,7 @@
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RhsRootPost from 'components/rhs_root_post/rhs_root_post.jsx';
 

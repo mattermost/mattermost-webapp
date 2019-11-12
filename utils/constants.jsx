@@ -146,6 +146,7 @@ export const ActionTypes = keyMirror({
     REMOVED_WEBAPP_PLUGIN: null,
     RECEIVED_ADMIN_CONSOLE_REDUCER: null,
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
+    RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
