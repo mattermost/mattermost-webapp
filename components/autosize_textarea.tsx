@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React, { ChangeEvent, FormEvent, CSSProperties } from 'react';
+import React, {ChangeEvent, FormEvent, CSSProperties} from 'react';
 
 type Props = {
     id?: string;
@@ -16,12 +15,6 @@ type Props = {
 }
 
 export default class AutosizeTextarea extends React.Component<Props> {
-    // @ts-ignore
-    public refs: {
-        reference: HTMLTextAreaElement,
-        textarea: HTMLTextAreaElement
-    };
-
     private height: number;
  
     constructor(props: Props) {
@@ -31,35 +24,35 @@ export default class AutosizeTextarea extends React.Component<Props> {
     }
 
     get value() {
-        return this.refs.textarea.value;
+        return (this.refs.textarea as HTMLTextAreaElement).value;
     }
 
     set value(value) {
-        this.refs.textarea.value = value;
+        (this.refs.textarea as HTMLTextAreaElement).value = value;
     }
 
     get selectionStart() {
-        return this.refs.textarea.selectionStart;
+        return (this.refs.textarea as HTMLTextAreaElement).selectionStart;
     }
 
     set selectionStart(selectionStart) {
-        this.refs.textarea.selectionStart = selectionStart;
+        (this.refs.textarea as HTMLTextAreaElement).selectionStart = selectionStart;
     }
 
     get selectionEnd() {
-        return this.refs.textarea.selectionEnd;
+        return (this.refs.textarea as HTMLTextAreaElement).selectionEnd;
     }
 
     set selectionEnd(selectionEnd) {
-        this.refs.textarea.selectionEnd = selectionEnd;
+        (this.refs.textarea as HTMLTextAreaElement).selectionEnd = selectionEnd;
     }
 
     focus() {
-        this.refs.textarea.focus();
+        (this.refs.textarea as HTMLTextAreaElement).focus();
     }
 
     blur() {
-        this.refs.textarea.blur();
+        (this.refs.textarea as HTMLTextAreaElement).blur();
     }
 
     componentDidMount() {
@@ -71,12 +64,12 @@ export default class AutosizeTextarea extends React.Component<Props> {
     }
 
     recalculateSize = () => {
-        if (!this.refs.reference || !this.refs.textarea) {
+        if (!this.refs.reference || !(this.refs.textarea as HTMLTextAreaElement)) {
             return;
         }
 
-        const height = this.refs.reference.scrollHeight;
-        const textarea = this.refs.textarea;
+        const height = (this.refs.reference as HTMLTextAreaElement).scrollHeight;
+        const textarea = (this.refs.textarea as HTMLTextAreaElement);
 
         if (height > 0 && height !== this.height) {
             const style = getComputedStyle(textarea);
@@ -94,7 +87,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
     };
 
     getDOMNode = () => {
-        return this.refs.textarea;
+        return (this.refs.textarea as HTMLTextAreaElement);
     };
 
     handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -184,7 +177,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
     }
 }
 
-const style: { [Key: string]: React.CSSProperties} = {
+const style: { [Key: string]: CSSProperties} = {
     container: {height: 0, overflow: 'hidden'},
     reference: {height: 'auto', width: '100%'},
     placeholder: {overflow: 'hidden', textOverflow: 'ellipsis', opacity: 0.5, pointerEvents: 'none', position: 'absolute', whiteSpace: 'nowrap', background: 'none'},
