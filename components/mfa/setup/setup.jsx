@@ -26,6 +26,8 @@ export default class Setup extends React.Component {
         super(props);
 
         this.state = {secret: '', qrCode: ''};
+
+        this.input = React.createRef();
     }
 
     componentDidMount() {
@@ -52,7 +54,7 @@ export default class Setup extends React.Component {
 
     submit = (e) => {
         e.preventDefault();
-        const code = this.refs.code.value.replace(/\s/g, '');
+        const code = this.input.current.value.replace(/\s/g, '');
         if (!code || code.length === 0) {
             this.setState({error: Utils.localizeMessage('mfa.setup.codeError', 'Please enter the code from Google Authenticator.')});
             return;
@@ -150,7 +152,7 @@ export default class Setup extends React.Component {
                     </p>
                     <p>
                         <LocalizedInput
-                            ref='code'
+                            ref={this.input}
                             className='form-control'
                             placeholder={{id: t('mfa.setup.code'), defaultMessage: 'MFA Code'}}
                             autoFocus={true}

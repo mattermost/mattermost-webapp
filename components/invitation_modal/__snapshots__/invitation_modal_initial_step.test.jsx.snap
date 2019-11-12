@@ -10,7 +10,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
     <InviteIcon />
   </div>
   <h1>
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="Invite people to **{teamName}**"
       id="invitation_modal.title"
       values={
@@ -35,7 +35,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
       <h2
         id="inviteMembersSectionHeader"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Invite **Members**"
           id="invitation_modal.invite_members.title"
         />
@@ -65,7 +65,7 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
       <h2
         id="inviteGuestsSectionHeader"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Invite **Guests**"
           id="invitation_modal.invite_guests.title"
         />
