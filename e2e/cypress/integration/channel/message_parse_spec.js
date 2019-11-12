@@ -23,19 +23,20 @@ describe('Message', () => {
 
         // # type in the message "://///"
         const message = '://///';
+        const testAfterParsed = message.substr(2);
         cy.postMessage(message);
 
-        // # check if message sent correctly
+        // # check if message sent correctly, it should parse it as 😕////"
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', message);
+            cy.get(`#postMessageText_${postId}`).children().find('span').last().should('have.class', 'emoticon').and('be.visible');
+            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', testAfterParsed);
         });
 
-        // # reload page
+        // # check if message correctly parses after reload
         cy.reload();
-
-        // # check if message sent correctly
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', message);
+            cy.get(`#postMessageText_${postId}`).children().find('span').last().should('have.class', 'emoticon').and('be.visible');
+            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', testAfterParsed);
         });
     });
 });
