@@ -84,9 +84,9 @@ describe('Teams Suite', () => {
         cy.get('#invitePeople').should('be.visible').and('have.text', 'Invite People').click();
 
         // * Check that the Invitation Modal opened up
-        cy.getByTestId('invitationModal', {timeout: TIMEOUTS.TINY}).should('be.visible');
+        cy.findByTestId('invitationModal', {timeout: TIMEOUTS.TINY}).should('be.visible');
 
-        cy.getByTestId('inputPlaceholder').should('be.visible').within(($el) => {
+        cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
             // # Type the first letters of a user
             cy.wrap($el).get('input').type(nameStartsWith, {force: true});
 
@@ -98,8 +98,8 @@ describe('Teams Suite', () => {
         });
 
         // # Click "Invite Members" button, then "Done" button
-        cy.getByText(/Invite Members/).should('be.visible').click();
-        cy.getByText(/Done/).should('be.visible').click();
+        cy.findByText(/Invite Members/).should('be.visible').click();
+        cy.findByText(/Done/).should('be.visible').click();
 
         // * As sysadmin, verify system message posts in Town Square and Off-Topic
         cy.getLastPost().wait(TIMEOUTS.TINY).then(($el) => {

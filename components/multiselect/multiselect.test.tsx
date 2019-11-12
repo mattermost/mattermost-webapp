@@ -6,7 +6,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {StateManager} from 'react-select/src/stateManager';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import MultiSelect from './multiselect';
 import MultiSelectList, {Props as MultiSelectProps} from './multiselect_list';

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 
 describe('components/backstage/components/BackstageHeader', () => {
