@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MarketplaceModal from './marketplace_modal.jsx';
+import MarketplaceModal from './marketplace_modal';
 
 describe('components/MarketplaceModal', () => {
     const marketplacePluginsSample = [{
@@ -29,6 +29,7 @@ describe('components/MarketplaceModal', () => {
             installedPlugins,
             marketplacePlugins: marketplacePluginsSample,
             pluginStatuses: {},
+            siteURL: 'http://example.com',
             actions: {
                 closeModal: jest.fn(),
                 getMarketplacePlugins: jest.fn(),

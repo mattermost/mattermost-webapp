@@ -1,47 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {getRandomInt} from '../../utils';
+
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
 
 import users from '../../fixtures/users.json';
 
-let channel;
-const channelDisplayName = `Message Reply ${getRandomInt(9999).toString()}`;
 const sysadmin = users.sysadmin;
 
 describe('Message Reply', () => {
-    beforeEach(() => {
+    let newChannel;
+
+    before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
 
-        // # Create a new channel for the test
-        cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-switcher', channelDisplayName).then((response) => {
-                channel = response.body;
-
-                // # Select the channel on the left hand side
-                cy.get(`#sidebarItem_${channel.name}`).should('be.visible').scrollIntoView().click();
-            });
-        });
-    });
-
-    afterEach(() => {
-        cy.getCurrentChannelId().then((channelId) => {
-            cy.apiDeleteChannel(channelId);
+        // # Create and visit new channel
+        cy.createAndVisitNewChannel().then((channel) => {
+            newChannel = channel;
         });
     });
 
     it('MM-16730 Reply to an older message', () => {
-        cy.getCurrentChannelId().then((channelId) => {
-            // # Get yesterdays date in UTC
-            const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
+        // # Get yesterdays date in UTC
+        const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
-            // # Post a day old message
-            cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId, createAt: yesterdaysDate}).
-                its('id').
-                should('exist').
-                as('yesterdaysPost');
-        });
+        // # Post a day old message
+        cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday', channelId: newChannel.id, createAt: yesterdaysDate}).
+            its('id').
+            should('exist').
+            as('yesterdaysPost');
 
         // # Add two subsequent posts
         cy.postMessage('One');
@@ -68,12 +59,12 @@ describe('Message Reply', () => {
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                 });
 
-                cy.get(`#CENTER_time_${postId}`).find('#localDateTime').invoke('attr', 'title').then((originalTimeStamp) => {
+                cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').then((originalTimeStamp) => {
                     // * Verify the first post timestamp equals the RHS timestamp
-                    cy.get(`#RHS_ROOT_time_${postId}`).find('#localDateTime').invoke('attr', 'title').should('be', originalTimeStamp);
+                    cy.get(`#RHS_ROOT_time_${postId}`).find('time').invoke('attr', 'title').should('be', originalTimeStamp);
 
                     // * Verify the first post timestamp was not modified by the reply
-                    cy.get(`#CENTER_time_${replyId}`).find('#localDateTime').should('have.attr', 'title').and('not.equal', originalTimeStamp);
+                    cy.get(`#CENTER_time_${replyId}`).find('time').should('have.attr', 'title').and('not.equal', originalTimeStamp);
                 });
             });
         });

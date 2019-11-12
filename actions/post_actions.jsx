@@ -21,7 +21,7 @@ import {
     RHSStates,
     StoragePrefixes,
 } from 'utils/constants';
-import {matchEmoticons} from 'utils/emoticons.jsx';
+import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
 
 import {completePostReceive} from './post_utils';
@@ -263,9 +263,11 @@ export function deleteAndRemovePost(post) {
 
 export function toggleEmbedVisibility(postId) {
     return (dispatch, getState) => {
-        const visible = isEmbedVisible(getState(), postId);
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const visible = isEmbedVisible(state, postId);
 
-        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + postId, !visible));
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !visible));
     };
 }
 

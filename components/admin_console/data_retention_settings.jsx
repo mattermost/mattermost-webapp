@@ -4,11 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {JobTypes} from 'utils/constants.jsx';
+import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-import AdminSettings from './admin_settings.jsx';
+import AdminSettings from './admin_settings';
 import DropdownSetting from './dropdown_setting.jsx';
 import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';

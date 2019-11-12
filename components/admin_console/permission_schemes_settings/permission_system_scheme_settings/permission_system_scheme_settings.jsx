@@ -10,11 +10,11 @@ import GeneralConstants from 'mattermost-redux/constants/general';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-import {PermissionsScope, DefaultRolePermissions} from 'utils/constants.jsx';
+import {PermissionsScope, DefaultRolePermissions} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import SaveButton from 'components/save_button.jsx';
+import SaveButton from 'components/save_button';
 import LoadingScreen from 'components/loading_screen';
 import FormError from 'components/form_error';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -229,12 +229,19 @@ export default class PermissionSystemSchemeSettings extends React.Component {
         const systemUserPromise = this.props.actions.editRole(roles.system_user);
         const teamUserPromise = this.props.actions.editRole(roles.team_user);
         const channelUserPromise = this.props.actions.editRole(roles.channel_user);
-        const systemGuestPromise = this.props.actions.editRole(guestRoles.system_guest);
-        const teamGuestPromise = this.props.actions.editRole(guestRoles.team_guest);
-        const channelGuestPromise = this.props.actions.editRole(guestRoles.channel_guest);
+
+        const promises = [teamAdminPromise, channelAdminPromise, systemUserPromise, teamUserPromise, channelUserPromise];
+
+        if (this.haveGuestAccountsPermissions()) {
+            const systemGuestPromise = this.props.actions.editRole(guestRoles.system_guest);
+            const teamGuestPromise = this.props.actions.editRole(guestRoles.team_guest);
+            const channelGuestPromise = this.props.actions.editRole(guestRoles.channel_guest);
+            promises.push(systemGuestPromise, teamGuestPromise, channelGuestPromise);
+        }
+
         this.setState({saving: true});
 
-        const results = await Promise.all([teamAdminPromise, channelAdminPromise, systemUserPromise, teamUserPromise, channelUserPromise, systemGuestPromise, teamGuestPromise, channelGuestPromise]);
+        const results = await Promise.all(promises);
         let serverError = null;
         let saveNeeded = false;
         for (const result of results) {
@@ -282,6 +289,10 @@ export default class PermissionSystemSchemeSettings extends React.Component {
 
         this.setState({roles: newRolesState, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
+    }
+
+    haveGuestAccountsPermissions = () => {
+        return this.props.license.GuestAccountsPermissions === 'true';
     }
 
     render = () => {
@@ -333,7 +344,7 @@ export default class PermissionSystemSchemeSettings extends React.Component {
                                     scope={'system_scope'}
                                     onToggle={this.togglePermission}
                                     selectRow={this.selectRow}
-                                    readOnly={this.props.license.GuestAccountsPermissions !== 'true'}
+                                    readOnly={!this.haveGuestAccountsPermissions()}
                                 />
                             </AdminPanelTogglable>}
 

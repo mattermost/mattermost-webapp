@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
@@ -330,13 +330,14 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallowWithIntl(createEditPost({actions}));
+        const editingPost = {show: false};
+        const wrapper = shallowWithIntl(createEditPost({actions, editingPost}));
         const instance = wrapper.instance();
 
         wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', preview: true, showEmojiPicker: true});
         instance.handleExited();
 
-        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, preview: false, showEmojiPicker: false});
+        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     });
 
     it('should focus element on exit based on refocusId', () => {

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants.jsx';
+import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed, cmdOrCtrlPressed, isMac} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
@@ -30,6 +30,7 @@ export default class A11yController {
         this.downArrowKeyIsPressed = false;
         this.tabKeyIsPressed = false;
         this.tildeKeyIsPressed = false;
+        this.lKeyIsPressed = false;
         this.windowIsFocused = true;
 
         // used to reset navigation whenever navigation within a region occurs (section or element)
@@ -160,7 +161,8 @@ export default class A11yController {
                this.upArrowKeyIsPressed ||
                this.downArrowKeyIsPressed ||
                this.tabKeyIsPressed ||
-               this.tildeKeyIsPressed;
+               this.tildeKeyIsPressed ||
+               this.lKeyIsPressed;
     }
 
     /**
@@ -552,6 +554,7 @@ export default class A11yController {
         this.tabKeyIsPressed = false;
         this.tildeKeyIsPressed = false;
         this.enterKeyIsPressed = false;
+        this.lKeyIsPressed = false;
         this.lastInputEventIsKeyboard = false;
     }
 
@@ -585,8 +588,19 @@ export default class A11yController {
             return [];
         }
         return Array.from(elements).sort((elementA, elementB) => {
-            const elementAOrder = elementA.getAttribute(A11yAttributeNames.SORT_ORDER);
-            const elementBOrder = elementB.getAttribute(A11yAttributeNames.SORT_ORDER);
+            const elementAOrder = parseInt(elementA.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
+            const elementBOrder = parseInt(elementB.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
+
+            if (isNaN(elementAOrder) && isNaN(elementBOrder)) {
+                return 0;
+            }
+            if (isNaN(elementBOrder)) {
+                return -1;
+            }
+            if (isNaN(elementAOrder)) {
+                return 1;
+            }
+
             return elementAOrder - elementBOrder;
         });
     }
@@ -753,6 +767,11 @@ export default class A11yController {
                 event.stopPropagation();
                 event.target.click();
             }
+            break;
+        case isKeyPressed(event, Constants.KeyCodes.L):
+            // For the Ctrl+Shift+L keyboard shortcut
+            this.lastInputEventIsKeyboard = true;
+            this.lKeyIsPressed = true;
             break;
         }
     }

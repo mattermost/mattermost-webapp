@@ -13,6 +13,7 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
   <div>
     <EmojiPickerOverlay
       enableGifPicker={false}
+      n={true}
       onEmojiClick={[Function]}
       onEmojiClose={[MockFunction]}
       onHide={[MockFunction]}
@@ -22,43 +23,43 @@ exports[`components/post_view/PostReaction should match snapshot 1`] = `
       target={[MockFunction]}
       topOffset={-7}
     />
-    <button
-      aria-label="add reaction"
-      className="reacticon__container color--link style--none"
-      id="CENTER_reaction_post_id_1"
-      onClick={[MockFunction]}
+    <OverlayTrigger
+      className="hidden-xs"
+      defaultOverlayShown={false}
+      delayShow={500}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          className="hidden-xs"
+          id="reaction-icon-tooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Add Reaction"
+            id="post_info.tooltip.add_reactions"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
     >
-      <OverlayTrigger
-        className="hidden-xs"
-        defaultOverlayShown={false}
-        delayShow={500}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            className="hidden-xs"
-            id="reaction-icon-tooltip"
-            placement="right"
-          >
-            <FormattedMessage
-              defaultMessage="Add Reaction"
-              id="post_info.tooltip.add_reactions"
-              values={Object {}}
-            />
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
+      <button
+        aria-label="add reaction"
+        className="reacticon__container color--link style--none"
+        id="CENTER_reaction_post_id_1"
+        onClick={[MockFunction]}
       >
         <EmojiIcon
           className="icon icon--emoji"
         />
-      </OverlayTrigger>
-    </button>
+      </button>
+    </OverlayTrigger>
   </div>
 </Connect(ChannelPermissionGate)>
 `;

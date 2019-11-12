@@ -57,60 +57,18 @@ describe('I18456 Built-in slash commands: user status via suggestion list', () =
         cy.apiUpdateUserStatus('online');
     });
 
-    it('/away', () => {
-        const testCase = testCases[0];
+    testCases.forEach((testCase) => {
+        it(testCase.command, () => {
+            // # Verify that the suggestion list is visible
+            cy.get('#suggestionList').should('be.visible').then((container) => {
+                // # Find command and click
+                cy.findByText(new RegExp(testCase.command), {container}).click({force: true});
+            });
 
-        // # Verify that the suggestion list is visible
-        cy.get('#suggestionList').should('be.visible').then((container) => {
-            // # Find command and click
-            cy.getByText(/\/away/, {container}).click({force: true});
+            // # Hit enter and verify user status
+            cy.get('#post_textbox').type(' {enter}');
+            verifyUserStatus(testCase, false);
         });
-
-        cy.get('#post_textbox').type(' {enter}');
-
-        verifyUserStatus(testCase, false);
-    });
-
-    it('/dnd', () => {
-        const testCase = testCases[1];
-
-        // # Verify that the suggestion list is visible
-        cy.get('#suggestionList').should('be.visible').then((container) => {
-            // # Find command and click
-            cy.getByText(/\/dnd/, {container}).click({force: true});
-        });
-
-        // # Hit enter and verify user status
-        cy.get('#post_textbox').type(' {enter}');
-        verifyUserStatus(testCase, false);
-    });
-
-    it('/offline', () => {
-        const testCase = testCases[2];
-
-        // # Verify that the suggestion list is visible
-        cy.get('#suggestionList').should('be.visible').then((container) => {
-            // # Find command and click
-            cy.getByText(/\/offline/, {container}).click({force: true});
-        });
-
-        // # Hit enter and verify user status
-        cy.get('#post_textbox').type(' {enter}');
-        verifyUserStatus(testCase, false);
-    });
-
-    it('/online', () => {
-        const testCase = testCases[3];
-
-        // # Verify that the suggestion list is visible
-        cy.get('#suggestionList').should('be.visible').then((container) => {
-            // # Find command and click
-            cy.getByText(/\/online/, {container}).click({force: true});
-        });
-
-        // # Hit enter and verify user status
-        cy.get('#post_textbox').type(' {enter}');
-        verifyUserStatus(testCase, false);
     });
 });
 

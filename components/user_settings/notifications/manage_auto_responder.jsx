@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
-import AutosizeTextarea from 'components/autosize_textarea.jsx';
+import AutosizeTextarea from 'components/autosize_textarea';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import {localizeMessage} from 'utils/utils.jsx';
 

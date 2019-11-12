@@ -34,7 +34,13 @@ export default class UserProfile extends PureComponent {
     };
 
     hideProfilePopover = () => {
-        this.refs.overlay.hide();
+        if (this.overlay) {
+            this.overlay.hide();
+        }
+    }
+
+    setOverlaynRef = (ref) => {
+        this.overlay = ref;
     }
 
     render() {
@@ -68,12 +74,13 @@ export default class UserProfile extends PureComponent {
         return (
             <React.Fragment>
                 <OverlayTrigger
-                    ref='overlay'
+                    ref={this.setOverlaynRef}
                     trigger='click'
                     placement={placement}
                     rootClose={true}
                     overlay={
                         <ProfilePopover
+                            className='user-profile-popover'
                             userId={userId}
                             src={profileImg}
                             isBusy={isBusy}

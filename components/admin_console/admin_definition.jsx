@@ -55,11 +55,7 @@ const MINIMUM_IDLE_TIMEOUT = 5;
 
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA1 = 'RSAwithSHA1';
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA256 = 'RSAwithSHA256';
-const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384 = 'RSAwithSHA384';
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA512 = 'RSAwithSHA512';
-
-const SAML_SETTINGS_DIGEST_ALGORITHM_SHA1 = 'SHA1';
-const SAML_SETTINGS_DIGEST_ALGORITHM_SHA256 = 'SHA256';
 
 const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N = 'Canonical1.0';
 const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
@@ -1976,6 +1972,14 @@ const AdminDefinition = {
                         help_text_default: 'Enable previews for SVG file attachments and allow them to appear in messages.',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ServiceSettings.EnableLatex',
+                        label: t('admin.customization.enableLatexTitle'),
+                        label_default: 'Enable Latex Rendering:',
+                        help_text: t('admin.customization.enableLatexDesc'),
+                        help_text_default: 'Enable rending of Latex code. If false, Latex code will be highlighted only.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: CustomUrlSchemesSetting,
                         key: 'DisplaySettings.CustomUrlSchemes',
@@ -2343,7 +2347,7 @@ const AdminDefinition = {
                         label: t('admin.ldap.baseTitle'),
                         label_default: 'BaseDN:',
                         help_text: t('admin.ldap.baseDesc'),
-                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for users in the AD/LDAP tree.',
+                        help_text_default: 'The Base DN is the Distinguished Name of the location where Mattermost should start its search for user and group objects in the AD/LDAP tree.',
                         placeholder: t('admin.ldap.baseEx'),
                         placeholder_default: 'E.g.: "ou=Unit Name,dc=corp,dc=example,dc=com"',
                         isDisabled: it.both(
@@ -2384,6 +2388,21 @@ const AdminDefinition = {
                         help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).',
                         placeholder: t('admin.ldap.userFilterEx'),
                         placeholder_default: 'Ex. "(objectClass=user)"',
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.GuestFilter',
+                        label: t('admin.ldap.guestFilterTitle'),
+                        label_default: 'Guest Filter:',
+                        help_text: t('admin.ldap.guestFilterFilterDesc'),
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this filter is removed/changed, active guests will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_markdown: true,
+                        placeholder: t('admin.ldap.guestFilterEx'),
+                        placeholder_default: 'E.g.: "(objectClass=guests)"',
                         isDisabled: it.both(
                             it.stateIsFalse('LdapSettings.Enable'),
                             it.stateIsFalse('LdapSettings.EnableSync'),
@@ -2926,32 +2945,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'SamlSettings.DigestAlgorithm',
-                        label: t('admin.saml.digestAlgorithmTitle'),
-                        label_default: 'Digest Algorithm',
-                        isDisabled: it.either(
-                            it.stateIsFalse('SamlSettings.Encrypt'),
-                            it.stateIsFalse('SamlSettings.SignRequest'),
-                        ),
-                        options: [
-                            {
-                                value: SAML_SETTINGS_DIGEST_ALGORITHM_SHA1,
-                                display_name: t('admin.saml.digestAlgorithmDisplay.sha1'),
-                                display_name_default: SAML_SETTINGS_DIGEST_ALGORITHM_SHA1,
-                                help_text: t('admin.saml.digestAlgorithmDescription.sha1'),
-                                help_text_default: 'Specify the SAML Message Digest algorithm (SHA1).  Please see more information provided at http://www.w3.org/2000/09/xmldsig#rsa-sha1.',
-                            },
-                            {
-                                value: SAML_SETTINGS_DIGEST_ALGORITHM_SHA256,
-                                display_name: t('admin.saml.digestAlgorithmDisplay.sha256'),
-                                display_name_default: SAML_SETTINGS_DIGEST_ALGORITHM_SHA256,
-                                help_text: t('admin.saml.digestAlgorithmDescription.sha256'),
-                                help_text_default: 'Specify the SAML Message Digest algorithm (SHA256).  Please see more information provided at http://www.w3.org/2001/04/xmlenc#sha256',
-                            },
-                        ],
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'SamlSettings.SignatureAlgorithm',
                         label: t('admin.saml.signatureAlgorithmTitle'),
                         label_default: 'Signature Algorithm',
@@ -2973,13 +2966,6 @@ const AdminDefinition = {
                                 display_name_default: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA256,
                                 help_text: t('admin.saml.signatureAlgorithmDescription.sha256'),
                                 help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA256). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha256 [section 6.4.2 RSA (PKCS#1 v1.5)]',
-                            },
-                            {
-                                value: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384,
-                                display_name: t('admin.saml.signatureAlgorithmDisplay.sha384'),
-                                display_name_default: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384,
-                                help_text: t('admin.saml.signatureAlgorithmDescription.sha384'),
-                                help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA384). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha384 [section 6.4.2 RSA (PKCS#1 v1.5)]',
                             },
                             {
                                 value: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA512,
@@ -3047,6 +3033,18 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "Id"',
                         help_text: t('admin.saml.idAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to bind users from SAML to users in Mattermost.',
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.GuestAttribute',
+                        label: t('admin.saml.guestAttrTitle'),
+                        label_default: 'Guest Attribute:',
+                        placeholder: t('admin.saml.guestAttrEx'),
+                        placeholder_default: 'E.g.: "usertype=Guest" or "isGuest=true"',
+                        help_text: t('admin.saml.guestAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this attribute is removed/changed from your guest user in SAML and the user is still active, they will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_markdown: true,
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {

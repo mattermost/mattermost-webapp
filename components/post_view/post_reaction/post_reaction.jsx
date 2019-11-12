@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Locations} from 'utils/constants.jsx';
+import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -74,33 +74,34 @@ export default class PostReaction extends React.PureComponent {
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}
                         spaceRequiredAbove={spaceRequiredAbove}
+                        n={true}
                         spaceRequiredBelow={spaceRequiredBelow}
                     />
-                    <button
-                        id={`${location}_reaction_${postId}`}
-                        aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
-                        className='reacticon__container color--link style--none'
-                        onClick={this.props.toggleEmojiPicker}
+                    <OverlayTrigger
+                        className='hidden-xs'
+                        delayShow={500}
+                        placement='top'
+                        overlay={
+                            <Tooltip
+                                id='reaction-icon-tooltip'
+                                className='hidden-xs'
+                            >
+                                <FormattedMessage
+                                    id='post_info.tooltip.add_reactions'
+                                    defaultMessage='Add Reaction'
+                                />
+                            </Tooltip>
+                        }
                     >
-                        <OverlayTrigger
-                            className='hidden-xs'
-                            delayShow={500}
-                            placement='top'
-                            overlay={
-                                <Tooltip
-                                    id='reaction-icon-tooltip'
-                                    className='hidden-xs'
-                                >
-                                    <FormattedMessage
-                                        id='post_info.tooltip.add_reactions'
-                                        defaultMessage='Add Reaction'
-                                    />
-                                </Tooltip>
-                            }
+                        <button
+                            id={`${location}_reaction_${postId}`}
+                            aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
+                            className='reacticon__container color--link style--none'
+                            onClick={this.props.toggleEmojiPicker}
                         >
                             <EmojiIcon className='icon icon--emoji'/>
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </div>
             </ChannelPermissionGate>
         );

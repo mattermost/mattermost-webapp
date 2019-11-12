@@ -3,18 +3,24 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
-import {intlShape} from 'react-intl';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
-import {A11yCustomEventTypes} from 'utils/constants.jsx';
+import {A11yCustomEventTypes} from 'utils/constants';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
+import PostContext from 'components/post_view/post_context';
 
-export default class Post extends React.PureComponent {
+class Post extends React.PureComponent {
     static propTypes = {
+
+        /**
+         * react-intl API
+         */
+        intl: PropTypes.any,
 
         /**
          * The post to render
@@ -81,10 +87,6 @@ export default class Post extends React.PureComponent {
             selectPostCard: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     static defaultProps = {
         post: {},
@@ -250,7 +252,7 @@ export default class Post extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        this.setState({currentAriaLabel: this.props.createAriaLabel(this.context.intl)});
+        this.setState({currentAriaLabel: this.props.createAriaLabel(this.props.intl)});
     }
 
     render() {
@@ -266,7 +268,7 @@ export default class Post extends React.PureComponent {
         const fromBot = post && post.props && post.props.from_bot === 'true';
 
         let profilePic;
-        const hideProfilePicture = this.state.sameRoot && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
+        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
         if (!hideProfilePicture) {
             profilePic = (
                 <PostProfilePicture
@@ -291,53 +293,57 @@ export default class Post extends React.PureComponent {
         }
 
         return (
-            <div
-                ref={this.postRef}
-                id={'post_' + post.id}
-                data-testid='postView'
-                role='listitem'
-                className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
-                tabIndex='0'
-                onFocus={this.handlePostFocus}
-                onBlur={this.removeFocus}
-                onMouseOver={this.setHover}
-                onMouseLeave={this.unsetHover}
-                onTouchStart={this.setHover}
-                aria-label={this.state.currentAriaLabel}
-                aria-atomic={true}
-            >
+            <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <div
-                    role='application'
-                    id='postContent'
-                    data-testid='postContent'
-                    className={'post__content ' + centerClass}
-                    aria-hidden={this.state.ariaHidden}
+                    ref={this.postRef}
+                    id={'post_' + post.id}
+                    data-testid='postView'
+                    role='listitem'
+                    className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
+                    tabIndex='0'
+                    onFocus={this.handlePostFocus}
+                    onBlur={this.removeFocus}
+                    onMouseOver={this.setHover}
+                    onMouseLeave={this.unsetHover}
+                    onTouchStart={this.setHover}
+                    aria-label={this.state.currentAriaLabel}
+                    aria-atomic={true}
                 >
-                    <div className='post__img'>
-                        {profilePic}
-                    </div>
-                    <div>
-                        <PostHeader
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            handleCardClick={this.handleCardClick}
-                            handleDropdownOpened={this.handleDropdownOpened}
-                            compactDisplay={this.props.compactDisplay}
-                            isFirstReply={this.props.isFirstReply}
-                            replyCount={this.props.replyCount}
-                            showTimeWithoutHover={!hideProfilePicture}
-                            hover={this.state.hover || this.state.a11yActive}
-                        />
-                        <PostBody
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            compactDisplay={this.props.compactDisplay}
-                            isCommentMention={this.props.isCommentMention}
-                            isFirstReply={this.props.isFirstReply}
-                        />
+                    <div
+                        role='application'
+                        id='postContent'
+                        data-testid='postContent'
+                        className={'post__content ' + centerClass}
+                        aria-hidden={this.state.ariaHidden}
+                    >
+                        <div className='post__img'>
+                            {profilePic}
+                        </div>
+                        <div>
+                            <PostHeader
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                handleCardClick={this.handleCardClick}
+                                handleDropdownOpened={this.handleDropdownOpened}
+                                compactDisplay={this.props.compactDisplay}
+                                isFirstReply={this.props.isFirstReply}
+                                replyCount={this.props.replyCount}
+                                showTimeWithoutHover={!hideProfilePicture}
+                                hover={this.state.hover || this.state.a11yActive}
+                            />
+                            <PostBody
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                compactDisplay={this.props.compactDisplay}
+                                isCommentMention={this.props.isCommentMention}
+                                isFirstReply={this.props.isFirstReply}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </PostContext.Provider>
         );
     }
 }
+
+export default injectIntl(Post);

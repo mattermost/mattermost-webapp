@@ -2,15 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import InvitationModal from './invitation_modal.jsx';
 
 describe('components/invitation_modal/InvitationModal', () => {
-    const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
-    const {intl} = intlProvider.getChildContext();
-    const context = {router: {}, intl};
+    const context = {router: {}};
 
     const defaultProps = {
         show: true,
@@ -27,6 +24,7 @@ describe('components/invitation_modal/InvitationModal', () => {
             sendGuestsInvites: jest.fn(),
             sendMembersInvites: jest.fn(),
             searchProfiles: jest.fn(),
+            getTeam: jest.fn(),
         },
     };
 
@@ -69,5 +67,18 @@ describe('components/invitation_modal/InvitationModal', () => {
             {context}
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call actions.getTeam if invite_id is empty', () => {
+        const props = {...defaultProps};
+        props.currentTeam.invite_id = '';
+        const wrapper = shallow(
+            <InvitationModal {...props}/>,
+            {context}
+        );
+        wrapper.instance().goToMembers();
+
+        expect(props.actions.getTeam).toHaveBeenCalledTimes(1);
+        expect(props.actions.getTeam).toHaveBeenCalledWith(props.currentTeam.id);
     });
 });

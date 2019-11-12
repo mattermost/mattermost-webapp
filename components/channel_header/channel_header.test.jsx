@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
 import Markdown from 'components/markdown';
 import Constants from 'utils/constants';
@@ -17,8 +17,8 @@ describe('components/ChannelHeader', () => {
             showFlaggedPosts: jest.fn(),
             showPinnedPosts: jest.fn(),
             showMentions: jest.fn(),
+            openRHSSearch: jest.fn(),
             closeRightHandSide: jest.fn(),
-            updateRhsState: jest.fn(),
             openModal: jest.fn(),
             closeModal: jest.fn(),
             getCustomEmojisInText: jest.fn(),

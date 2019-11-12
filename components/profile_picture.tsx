@@ -9,7 +9,7 @@ import StatusIcon from 'components/status_icon';
 import Avatar from 'components/widgets/users/avatar';
 
 interface MMOverlayTrigger extends OverlayTrigger {
-    hide: () => void;
+    hide?: () => void;
 }
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
 }
 
 export default class ProfilePicture extends React.PureComponent<Props> {
-    public overlay = React.createRef<MMOverlayTrigger>();
+    public overlay!: MMOverlayTrigger;
 
     public static defaultProps = {
         size: 'md',
@@ -38,9 +38,13 @@ export default class ProfilePicture extends React.PureComponent<Props> {
     };
 
     public hideProfilePopover = () => {
-        if (this.overlay.current && typeof this.overlay.current.hide === 'function') {
-            this.overlay.current.hide();
+        if (this.overlay) {
+            this.overlay.hide!();
         }
+    }
+
+    setOverlayRef = (ref: OverlayTrigger) => {
+        this.overlay = ref;
     }
 
     public render() {
@@ -55,12 +59,13 @@ export default class ProfilePicture extends React.PureComponent<Props> {
         if (this.props.userId) {
             return (
                 <OverlayTrigger
-                    ref={this.overlay}
+                    ref={this.setOverlayRef}
                     trigger='click'
                     placement='right'
                     rootClose={true}
                     overlay={
                         <ProfilePopover
+                            className='user-profile-popover'
                             userId={this.props.userId}
                             src={profileSrc}
                             isBusy={this.props.isBusy}

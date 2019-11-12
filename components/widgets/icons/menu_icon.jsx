@@ -18,7 +18,7 @@ export default class MenuIcon extends React.PureComponent {
                             height='10px'
                             viewBox='0 0 16 10'
                             version='1.1'
-                            role='icon'
+                            role='img'
                             title={title}
                         >
                             <g

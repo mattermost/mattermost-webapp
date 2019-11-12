@@ -8,16 +8,13 @@ import {
     fetchMyChannelsAndMembers,
     getChannelByNameAndTeamName,
     getChannelStats,
-    getMyChannelMember,
-    markChannelAsRead,
-    markChannelAsViewed,
     selectChannel,
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember as selectMyChannelMember} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -36,10 +33,9 @@ import store from 'stores/redux_store.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 
-import {ActionTypes, Constants, PostTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, Constants, PostTypes, RHSStates, ModalIdentifiers} from 'utils/constants';
 import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {ModalIdentifiers} from 'utils/constants';
 import SubMenuModal from '../components/widgets/menu/menu_modals/submenu_modal/submenu_modal';
 
 import {openModal} from './views/modals';
@@ -61,21 +57,13 @@ export function emitChannelClickEvent(channel) {
     }
     function switchToChannel(chan) {
         const state = getState();
-        const getMyChannelMemberPromise = dispatch(getMyChannelMember(chan.id));
-        const oldChannelId = getCurrentChannelId(state);
         const userId = getCurrentUserId(state);
         const teamId = chan.team_id || getCurrentTeamId(state);
         const isRHSOpened = getIsRhsOpen(state);
         const isPinnedPostsShowing = getRhsState(state) === RHSStates.PIN;
-        const member = selectMyChannelMember(state, chan.id);
+        const member = getMyChannelMember(state, chan.id);
 
-        getMyChannelMemberPromise.then(() => {
-            dispatch(getChannelStats(chan.id));
-
-            // Mark previous and next channel as read
-            dispatch(markChannelAsRead(chan.id, oldChannelId));
-            dispatch(markChannelAsViewed(chan.id, oldChannelId));
-        });
+        dispatch(getChannelStats(chan.id));
 
         if (chan.delete_at === 0) {
             const penultimate = LocalStorageStore.getPreviousChannelName(userId, teamId);
@@ -325,15 +313,21 @@ export async function redirectUserToDefaultTeam() {
         }
 
         let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
-        const channel = getChannelByName(state, channelName);
+        let channel = getChannelByName(state, channelName);
+        const channelMember = getMyChannelMember(state, channelName);
 
-        if (channel && channel.team_id === team.id) {
+        if (channel && channel.team_id === team.id && channelMember) {
             dispatch(selectChannel(channel.id));
             channelName = channel.name;
         } else {
             const {data} = await dispatch(getChannelByNameAndTeamName(team.name, channelName));
+
             if (data) {
                 dispatch(selectChannel(data.id));
+            } else {
+                channelName = getRedirectChannelNameForTeam(state, team.id);
+                channel = getChannelByName(state, channelName);
+                dispatch(selectChannel(channel.id));
             }
         }
 

@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import PermissionSystemSchemeSettings from 'components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings.jsx';
-import {DefaultRolePermissions} from 'utils/constants.jsx';
+import {DefaultRolePermissions} from 'utils/constants';
 
 describe('components/admin_console/permission_schemes_settings/permission_system_scheme_settings/permission_system_scheme_settings', () => {
     const defaultProps = {
@@ -137,6 +137,41 @@ describe('components/admin_console/permission_schemes_settings/permission_system
         expect(wrapper).toMatchSnapshot();
 
         await wrapper.instance().handleSubmit();
+        expect(editRole).toHaveBeenCalledTimes(8);
+    });
+
+    test('should save roles based on license', async () => {
+        const license = {
+            IsLicensed: 'true',
+            CustomPermissionsSchemes: 'false',
+            GuestAccountsPermissions: 'false',
+        };
+        let editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
+        const wrapper = shallow(
+            <PermissionSystemSchemeSettings
+                {...defaultProps}
+                license={license}
+                actions={{...defaultProps.actions, editRole}}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+
+        await wrapper.instance().handleSubmit();
+        expect(editRole).toHaveBeenCalledTimes(5);
+        license.GuestAccountsPermissions = 'true';
+        editRole = jest.fn().mockImplementation(() => Promise.resolve({data: {}}));
+        const wrapper2 = shallow(
+            <PermissionSystemSchemeSettings
+                {...defaultProps}
+                license={license}
+                actions={{...defaultProps.actions, editRole}}
+            />
+        );
+
+        expect(wrapper2).toMatchSnapshot();
+
+        await wrapper2.instance().handleSubmit();
         expect(editRole).toHaveBeenCalledTimes(8);
     });
 
