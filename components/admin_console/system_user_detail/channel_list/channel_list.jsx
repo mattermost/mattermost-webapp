@@ -72,7 +72,12 @@ export default class ChannelList extends React.Component {
     }
 
     componentDidMount() {
-        this.getChannels().then(console.log(data));
+        this.getTeams().
+            then(teams => {
+                return this.getChannels(teams);
+                console.log(teams);
+            }).
+            then(channels => console.log(channels))
     }
 
     componentDidUpdate(prevProps) {
@@ -81,20 +86,17 @@ export default class ChannelList extends React.Component {
         }
     }
 
-    getChannels = async (userId = this.props.userId) => {
-        console.log('getChannels');
-        const test = await this.props.actions.getMyChannelMember();
+    getTeams = async (userId = this.props.userId) => {
+        const teams = await this.props.actions.getTeamsData(userId);
+        return teams;
     }
 
-    getTeamsAndMemberships = async (userId = this.props.userId) => {
-        const teams = await this.props.actions.getTeamsData(userId);
-        const memberships = await this.props.actions.getTeamMembersForUser(userId);
-        return Promise.all([teams, memberships]).
-            then(this.mergeTeamsWithMemberships).
-            then((teamsWithMemberships) => {
-                this.setState({teamsWithMemberships});
-                this.props.userDetailCallback(teamsWithMemberships);
-            });
+    getChannels = async (teams) => {
+        return Promise.all(
+            teams.data.map(async (object) => {
+                return await this.props.actions.getMyChannelMembers(object.id);
+            })
+        );
     }
 
     mergeTeamsWithMemberships = (data) => {

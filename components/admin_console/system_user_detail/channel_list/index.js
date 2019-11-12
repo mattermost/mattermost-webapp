@@ -13,6 +13,8 @@ import {
 
 import {
     getMyChannelMember,
+    getMyChannelMembers,
+    getChannelsForUser,
 } from 'mattermost-redux/actions/channels';
 
 import {getCurrentLocale} from 'selectors/i18n';
@@ -33,6 +35,8 @@ function mapDispatchToProps(dispatch) {
             removeUserFromTeam,
             updateTeamMemberSchemeRoles,
             getMyChannelMember,
+            getMyChannelMembers,
+            getChannelsForUser,
         }, dispatch),
     };
 }
