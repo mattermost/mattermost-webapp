@@ -21,7 +21,7 @@ export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogTy
         modalId={modalId}
         dialogType={dialogType}
         dialogProps={dialogProps}
-        className={extraText && 'with-extra-text'}
+        className={extraText && 'MenuItem__help'}
     >
         {text}
         {extraText && <span className='extra-text'>{extraText}</span>}
