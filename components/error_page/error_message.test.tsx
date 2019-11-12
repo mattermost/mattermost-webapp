@@ -77,7 +77,10 @@ describe('components/error_page/ErrorMessage', () => {
         expect(wrapper).toMatchSnapshot();
 
         const wrapper2 = shallow(
-            <ErrorMessage {...props} isGuest/>
+            <ErrorMessage
+                {...props}
+                isGuest={true}
+            />
         );
 
         expect(wrapper2).toMatchSnapshot();
