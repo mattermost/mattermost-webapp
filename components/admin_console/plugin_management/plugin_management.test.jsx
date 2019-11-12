@@ -16,6 +16,8 @@ describe('components/PluginManagement', () => {
                 EnableUploads: true,
                 AllowInsecureDownloadUrl: false,
                 EnableMarketplace: true,
+                EnableRemoteMarketplace: true,
+                AutomaticPrepackagedPlugins: true,
                 MarketplaceUrl: 'marketplace.example.com',
             },
             ExperimentalSettings: {
