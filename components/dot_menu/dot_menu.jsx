@@ -221,6 +221,16 @@ export default class DotMenu extends Component {
         }
     }
 
+    renderDivider = (suffix) => {
+        return (
+            <li
+                id={`divider_post_${this.props.post.id}_${suffix}`}
+                className='MenuItem__divider'
+                role='menuitem'
+            />
+        );
+    }
+
     render() {
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const isMobile = Utils.isMobile();
@@ -337,7 +347,7 @@ export default class DotMenu extends Component {
                             onClick={this.handlePinMenuItemActivated}
                         />
                     </Menu.Group>
-                    <Menu.Group>
+                    <Menu.Group divider={this.renderDivider('edit')}>
                         <Menu.ItemAction
                             id={`edit_post_${this.props.post.id}`}
                             show={this.state.canEdit}
@@ -352,13 +362,7 @@ export default class DotMenu extends Component {
                             isDangerous={true}
                         />
                     </Menu.Group>
-                    {pluginItems.length > 0 &&
-                    <li
-                        id={`divider_post_${this.props.post.id}`}
-                        className='MenuItem__divider'
-                        role='menuitem'
-                    />
-                    }
+                    {pluginItems.length > 0 && this.renderDivider('plugins')}
                     {pluginItems}
                     <Pluggable
                         postId={this.props.post.id}
