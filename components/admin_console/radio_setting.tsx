@@ -7,13 +7,13 @@ import Setting from './setting';
 
 type Props = {
     id: string;
-    values: any[];
     label: React.ReactNode;
+    values: {value: string, text: string}[];
     value: string;
-    disabled?: boolean;
     setByEnv: boolean;
+    disabled?: boolean;
     helpText?: React.ReactNode;
-    onChange(name: string, value: any): void;
+    onChange(id: string, value: any): void;
 };
 export default class RadioSetting extends React.Component<Props> {
     public static defaultProps: Partial<Props> = {
