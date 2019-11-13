@@ -736,58 +736,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
 />
 `;
 
-exports[`components/MarketplaceItem UpdateConfirmationModal should avoid exception on invalid semver 1`] = `
-<ConfirmModal
-  confirmButtonClass="btn btn-primary"
-  confirmButtonText={
-    <FormattedMessage
-      defaultMessage="Update"
-      id="marketplace_modal.list.update_confirmation.confirm_button"
-      values={Object {}}
-    />
-  }
-  message={
-    Array [
-      <FormattedHTMLMessage
-        defaultMessage="<p>Are you sure you want to update the pluginName plugin to not-a-version?</p>"
-        id="marketplace_modal.list.update_confirmation.message.intro"
-        values={
-          Object {
-            "name": "pluginName",
-            "version": "not-a-version",
-          }
-        }
-      />,
-      <FormattedHTMLMessage
-        defaultMessage="<p>You currently have 0.0.1. View the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.</p>"
-        id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
-        values={
-          Object {
-            "installedVersion": "0.0.1",
-            "releaseNotesUrl": "http://example.com/release",
-          }
-        }
-      />,
-      <FormattedHTMLMessage
-        defaultMessage="<p class='alert alert-warning'>This update may contain breaking changes. Consult the release notes above before upgrading.</p>"
-        id="marketplace_modal.list.update_confirmation.message.warning_major_version"
-        values={Object {}}
-      />,
-    ]
-  }
-  modalClass=""
-  onCancel={[Function]}
-  onConfirm={[Function]}
-  show={true}
-  title={
-    <FormattedMessage
-      defaultMessage="Confirm Plugin Update"
-      id="marketplace_modal.list.update_confirmation.title"
-      values={Object {}}
-    />
-  }
-/>
-`;
+exports[`components/MarketplaceItem UpdateConfirmationModal should avoid exception on invalid semver 1`] = `null`;
 
 exports[`components/MarketplaceItem UpdateConfirmationModal should render without release notes url 1`] = `
 <ConfirmModal

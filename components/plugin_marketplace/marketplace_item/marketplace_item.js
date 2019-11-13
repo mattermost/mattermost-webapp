@@ -43,7 +43,18 @@ UpdateVersion.propTypes = {
 
 // UpdateDetails renders an inline update prompt for plugins, when available.
 export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isInstalling, onUpdate}) => {
-    if (!installedVersion || installedVersion === version || isInstalling) {
+    if (!installedVersion || isInstalling) {
+        return null;
+    }
+
+    var isUpdate = false;
+    try {
+        isUpdate = semver.gt(version, installedVersion);
+    } catch (e) {
+        // If we fail to parse the version, assume not an update;
+    }
+
+    if (!isUpdate) {
         return null;
     }
 
@@ -81,7 +92,18 @@ UpdateDetails.propTypes = {
 
 // UpdateConfirmationModal prompts before allowing upgrade, specially handling major version changes.
 export const UpdateConfirmationModal = ({show, name, version, installedVersion, releaseNotesUrl, onUpdate, onCancel}) => {
-    if (!installedVersion || installedVersion === version) {
+    if (!installedVersion) {
+        return null;
+    }
+
+    var isUpdate = false;
+    try {
+        isUpdate = semver.gt(version, installedVersion);
+    } catch (e) {
+        // If we fail to parse the version, assume not an update;
+    }
+
+    if (!isUpdate) {
         return null;
     }
 
@@ -119,6 +141,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
         sameMajorVersion = semver.major(version) === semver.major(installedVersion);
     } catch (e) {
         // If we fail to parse the version, assume a potentially breaking change.
+        // In practice, this won't happen since we already tried to parse the version above.
     }
 
     if (!sameMajorVersion) {

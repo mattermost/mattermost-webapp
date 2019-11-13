@@ -44,6 +44,18 @@ describe('components/MarketplaceItem', () => {
                 expect(wrapper.isEmptyRender()).toBe(true);
             });
 
+            it('when installed version is newer than available version', () => {
+                const props = {
+                    ...baseProps,
+                    installedVersion: '0.0.3',
+                };
+                const wrapper = mount(
+                    <UpdateDetails {...props}/>
+                );
+
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+
             it('when installing', () => {
                 const props = {
                     ...baseProps,
@@ -90,16 +102,30 @@ describe('components/MarketplaceItem', () => {
             onCancel: () => {},
         };
 
-        it('should render nothing if not installed', () => {
-            const props = {
-                ...baseProps,
-            };
-            delete props.installedVersion;
+        describe('should render nothing', () => {
+            it('if not installed', () => {
+                const props = {
+                    ...baseProps,
+                };
+                delete props.installedVersion;
 
-            const wrapper = shallow(
-                <UpdateConfirmationModal {...props}/>
-            );
-            expect(wrapper.isEmptyRender()).toBe(true);
+                const wrapper = shallow(
+                    <UpdateConfirmationModal {...props}/>
+                );
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+
+            it('when installed version is newer than available version', () => {
+                const props = {
+                    ...baseProps,
+                    installedVersion: '0.0.3',
+                };
+
+                const wrapper = shallow(
+                    <UpdateConfirmationModal {...props}/>
+                );
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
         });
 
         it('should propogate show to ConfirmModal', () => {
