@@ -62,7 +62,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               className="form-control"
               id="scheme-name"
               onChange={[Function]}
@@ -333,7 +333,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               className="form-control"
               id="scheme-name"
               onChange={[Function]}
@@ -584,7 +584,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               className="form-control"
               id="scheme-name"
               onChange={[Function]}
@@ -865,7 +865,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
                 values={Object {}}
               />
             </label>
-            <forwardRef(injectIntl(input))
+            <LocalizedInput
               className="form-control"
               id="scheme-name"
               onChange={[Function]}

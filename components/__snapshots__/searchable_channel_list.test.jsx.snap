@@ -17,7 +17,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
         inputComponent={
           Object {
             "$$typeof": Symbol(react.forward_ref),
-            "displayName": "forwardRef(injectIntl(input))",
+            "displayName": "LocalizedInput",
             "render": [Function],
           }
         }
