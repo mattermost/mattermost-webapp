@@ -47,10 +47,13 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
       href="#"
       onClick={[Function]}
     >
-      <i
-        className="fa fa-paper-plane"
-        title="Send Message Icon"
-      />
+      <FormattedMessage
+        defaultMessage="Send Message Icon"
+        id="user_profile.send.dm.icon"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
       <FormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
@@ -120,10 +123,13 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <i
-        className="fa fa-paper-plane"
-        title="Send Message Icon"
-      />
+      <FormattedMessage
+        defaultMessage="Send Message Icon"
+        id="user_profile.send.dm.icon"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
       <FormattedMessage
         defaultMessage="Send Message"
         id="user_profile.send.dm"
@@ -140,27 +146,13 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       className="text-nowrap"
       href="#"
     >
-      <Connect(injectIntl(ModalToggleButtonRedux))
-        accessibilityLabel="Add to a Channel"
-        dialogProps={
-          Object {
-            "user": Object {
-              "name": "some name",
-              "username": "some_username",
-            },
-          }
-        }
-        dialogType={[Function]}
-        modalId="add_user_to_channel"
-        onClick={[MockFunction]}
-        role="menuitem"
+      <FormattedMessage
+        defaultMessage="Add User to Channel Icon"
+        id="user_profile.add_user_to_channel.icon"
+        values={Object {}}
       >
-        <i
-          className="fa fa-user-plus"
-          title="Add User to Channel Icon"
-        />
-        Add to a Channel
-      </Connect(injectIntl(ModalToggleButtonRedux))>
+        <Component />
+      </FormattedMessage>
     </a>
   </div>
   <Connect(Pluggable)

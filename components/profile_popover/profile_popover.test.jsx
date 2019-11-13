@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {shallow} from 'enzyme';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ProfilePopover from 'components/profile_popover/profile_popover';
 import Pluggable from '../../plugins/pluggable';
 
@@ -33,7 +33,7 @@ describe('components/ProfilePopover', () => {
     test('should match snapshot', () => {
         const props = {...baseProps};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <ProfilePopover {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -48,7 +48,7 @@ describe('components/ProfilePopover', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <ProfilePopover {...props}/>
         );
         expect(wrapper.containsMatchingElement(
@@ -64,7 +64,7 @@ describe('components/ProfilePopover', () => {
         const props = {...baseProps};
         props.isInCurrentTeam = false;
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <ProfilePopover {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -75,7 +75,7 @@ describe('components/ProfilePopover', () => {
         const status = 'online';
         const props = {...baseProps, hide, status};
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <ProfilePopover {...props}/>
         );
 
