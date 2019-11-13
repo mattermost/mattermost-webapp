@@ -11,7 +11,7 @@ const MIN_TOAST_HEIGHT = 1000;
 
 export default class Toast extends React.PureComponent {
     static propTypes = {
-        onClick: PropTypes.func.isRequired, // required?
+        onClick: PropTypes.func.isRequired,
         onClickMessage: PropTypes.string,
         onClickFadeOutDelay: PropTypes.number,
         onDismiss: PropTypes.func,
