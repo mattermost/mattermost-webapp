@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import {mountWithIntl as mount} from 'tests/helpers/intl-test-helper.jsx';
 
-import {MarketplaceItem, UpdateDetails, UpdateConfirmationModal} from './marketplace_item';
+import MarketplaceItem, {UpdateDetails, UpdateConfirmationModal} from './marketplace_item';
 
 describe('components/MarketplaceItem', () => {
     describe('UpdateDetails', () => {

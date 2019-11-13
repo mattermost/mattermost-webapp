@@ -9,7 +9,7 @@ import {closeModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
 import {getInstalling, getError} from 'selectors/views/marketplace';
 
-import {MarketplaceItem} from './marketplace_item';
+import MarketplaceItem from './marketplace_item';
 
 function mapStateToProps(state, props) {
     const installing = getInstalling(state, props.id);
