@@ -338,7 +338,7 @@ export default class MarketplaceItem extends React.Component {
                     <span className='tag'>
                         <FormattedMessage
                             id='marketplace_modal.list.local'
-                            defaultMessage='Local'
+                            defaultMessage='LOCAL'
                         />
                     </span>
                 </OverlayTrigger>

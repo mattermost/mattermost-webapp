@@ -209,7 +209,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
             className="tag"
           >
             <FormattedMessage
-              defaultMessage="Local"
+              defaultMessage="LOCAL"
               id="marketplace_modal.list.local"
               values={Object {}}
             />
@@ -785,81 +785,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
 />
 `;
 
-exports[`components/MarketplaceItem UpdateDetails should render without release notes url 1`] = `
-<UpdateDetails
-  installedVersion="0.0.1"
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
-  isInstalling={false}
-  onUpdate={[Function]}
-  releaseNotesUrl=""
-  version="0.0.2"
->
-  <div
-    className="update"
-  >
-    <FormattedMessage
-      defaultMessage="Update available:"
-      id="marketplace_modal.list.update_available"
-      values={Object {}}
-    >
-      <span>
-        Update available:
-      </span>
-    </FormattedMessage>
-     
-    <UpdateVersion
-      releaseNotesUrl=""
-      version="0.0.2"
-    >
-      0.0.2
-    </UpdateVersion>
-     - 
-    <b>
-      <a
-        onClick={[Function]}
-      >
-        <FormattedMessage
-          defaultMessage="Update"
-          id="marketplace_modal.list.update"
-          values={Object {}}
-        >
-          <span>
-            Update
-          </span>
-        </FormattedMessage>
-      </a>
-    </b>
-  </div>
-</UpdateDetails>
-`;
-
-exports[`components/MarketplaceItem UpdateDetails should render without release notes url 2`] = `
+exports[`components/MarketplaceItem UpdateDetails should render with release notes url 1`] = `
 <UpdateDetails
   installedVersion="0.0.1"
   intl={
@@ -918,6 +844,80 @@ exports[`components/MarketplaceItem UpdateDetails should render without release 
       >
         0.0.2
       </a>
+    </UpdateVersion>
+     - 
+    <b>
+      <a
+        onClick={[Function]}
+      >
+        <FormattedMessage
+          defaultMessage="Update"
+          id="marketplace_modal.list.update"
+          values={Object {}}
+        >
+          <span>
+            Update
+          </span>
+        </FormattedMessage>
+      </a>
+    </b>
+  </div>
+</UpdateDetails>
+`;
+
+exports[`components/MarketplaceItem UpdateDetails should render without release notes url 1`] = `
+<UpdateDetails
+  installedVersion="0.0.1"
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
+  isInstalling={false}
+  onUpdate={[Function]}
+  releaseNotesUrl=""
+  version="0.0.2"
+>
+  <div
+    className="update"
+  >
+    <FormattedMessage
+      defaultMessage="Update available:"
+      id="marketplace_modal.list.update_available"
+      values={Object {}}
+    >
+      <span>
+        Update available:
+      </span>
+    </FormattedMessage>
+     
+    <UpdateVersion
+      releaseNotesUrl=""
+      version="0.0.2"
+    >
+      0.0.2
     </UpdateVersion>
      - 
     <b>
