@@ -14,7 +14,7 @@ interface Props {
     disabled?: boolean;
     helpText?: React.ReactNode;
     onChange(id: string, value: any): void;
-};
+}
 export default class RadioSetting extends React.Component<Props> {
     public static defaultProps: Partial<Props> = {
         disabled: false,
