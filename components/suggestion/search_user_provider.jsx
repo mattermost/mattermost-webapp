@@ -63,6 +63,11 @@ class SearchUserSuggestion extends Suggestion {
 }
 
 export default class SearchUserProvider extends Provider {
+    constructor(userSearchFunc) {
+        super();
+        this.autocompleteUsersInTeam = userSearchFunc;
+    }
+
     handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
@@ -70,7 +75,7 @@ export default class SearchUserProvider extends Provider {
 
             this.startNewRequest(usernamePrefix);
 
-            autocompleteUsersInTeam(
+            this.autocompleteUsersInTeam(
                 usernamePrefix,
                 (data) => {
                     if (this.shouldCancelDispatch(usernamePrefix)) {

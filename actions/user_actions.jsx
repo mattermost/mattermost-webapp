@@ -299,11 +299,14 @@ export async function loadProfilesForDM() {
     }
 }
 
-export async function autocompleteUsersInTeam(username, success) {
-    const {data} = await UserActions.autocompleteUsers(username, getCurrentTeamId(getState()))(dispatch, getState);
-    if (success) {
-        success(data);
-    }
+export function autocompleteUsersInTeam(username, success) {
+    return async (doDispatch, doGetState) => {
+        const currentTeamId = getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.autocompleteUsers(username, currentTeamId));
+        if (success) {
+            success(data);
+        }
+    };
 }
 
 export async function autocompleteUsers(username, success) {

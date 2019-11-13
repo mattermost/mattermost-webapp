@@ -39,6 +39,7 @@ export default class SearchBar extends React.Component {
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func,
             autocompleteChannelsForSearch: PropTypes.func.isRequired,
+            autocompleteUsersInTeam: PropTypes.func.isRequired,
         }),
     };
 
@@ -54,7 +55,10 @@ export default class SearchBar extends React.Component {
             focused: false,
         };
 
-        this.suggestionProviders = [new SearchChannelProvider(props.actions.autocompleteChannelsForSearch), new SearchUserProvider(), new SearchDateProvider()];
+        this.suggestionProviders = [
+            new SearchChannelProvider(props.actions.autocompleteChannelsForSearch),
+            new SearchUserProvider(props.actions.autocompleteUsersInTeam),
+            new SearchDateProvider()];
     }
 
     componentDidMount() {
