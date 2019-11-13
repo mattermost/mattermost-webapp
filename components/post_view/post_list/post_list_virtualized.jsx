@@ -87,8 +87,6 @@ class PostList extends React.PureComponent {
 
         countUnread: PropTypes.number,
 
-        isFirstLoad: PropTypes.bool,
-
         actions: PropTypes.shape({
 
             /**
