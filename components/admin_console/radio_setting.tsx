@@ -22,7 +22,7 @@ export default class RadioSetting extends React.Component<Props> {
 
     private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(this.props.id, e.target.value);
-    }
+    };
 
     render(): JSX.Element {
         const options = [];
