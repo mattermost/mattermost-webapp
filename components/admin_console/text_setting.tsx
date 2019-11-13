@@ -5,9 +5,10 @@ import React from 'react';
 import TextSetting from 'components/widgets/settings/text_setting';
 import SetByEnv from './set_by_env';
 
-type Props = {
-    setByEnv: boolean
-};
+interface Props {
+    setByEnv: boolean;
+    disabled?: boolean;
+}
 
 const AdminTextSetting: React.SFC<Props> = props => {
     const { setByEnv, disabled, ...sharedProps } = props;
