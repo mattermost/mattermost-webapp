@@ -287,6 +287,7 @@ class SidebarChannel extends React.PureComponent {
         return (
             <li
                 key={this.props.channelName}
+                ref={'channel'}
                 className={linkClass}
             >
                 <SidebarChannelButtonOrLink

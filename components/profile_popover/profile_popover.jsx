@@ -25,7 +25,7 @@ import Popover from 'components/widgets/popover';
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
  */
-export default class ProfilePopover extends React.PureComponent {
+class ProfilePopover extends React.PureComponent {
     static getComponentName() {
         return 'ProfilePopover';
     }
@@ -375,7 +375,6 @@ export default class ProfilePopover extends React.PureComponent {
                                     className='fa fa-paper-plane'
                                     title={message}
                                 />
-
                             )}
                         </FormattedMessage>
                         <FormattedMessage
@@ -478,3 +477,5 @@ export default class ProfilePopover extends React.PureComponent {
 }
 
 delete ProfilePopover.propTypes.id;
+
+export default ProfilePopover;
