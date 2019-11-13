@@ -7,6 +7,7 @@ import {OverlayTrigger, Popover} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ModalIdentifiers} from 'utils/constants';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
@@ -120,7 +121,7 @@ export default class NavbarInfoButton extends React.PureComponent {
             >
                 <button
                     className='navbar-toggle navbar-right__icon navbar-info-button pull-right'
-                    aria-label='Info'
+                    aria-label={localizeMessage('accessibility.button.Info', 'Info')}
                 >
                     <InfoIcon
                         className='icon icon__info'
