@@ -82,7 +82,7 @@ describe('components/MarketplaceItem', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
-        it('should render without release notes url', () => {
+        it('should render with release notes url', () => {
             const wrapper = mount(
                 <UpdateDetails {...baseProps}/>
             );
