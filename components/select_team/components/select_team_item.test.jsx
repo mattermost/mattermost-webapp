@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import SelectTeamItem from 'components/select_team/components/select_team_item.jsx';
 
 describe('components/select_team/components/SelectTeamItem', () => {

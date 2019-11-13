@@ -5,7 +5,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Popover} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
@@ -112,14 +112,11 @@ const messages = defineMessages({
     },
 });
 
-export default class CustomThemeChooser extends React.Component {
+class CustomThemeChooser extends React.Component {
     static propTypes = {
+        intl: PropTypes.any,
         theme: PropTypes.object.isRequired,
         updateTheme: PropTypes.func.isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -265,7 +262,7 @@ export default class CustomThemeChooser extends React.Component {
     }
 
     render() {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const theme = this.props.theme;
 
         const sidebarElements = [];
@@ -455,12 +452,10 @@ export default class CustomThemeChooser extends React.Component {
                         {sidebarElements}
                     </div>
                 </div>
-                <div
-                    id='centerChannelStyles'
-                    className='theme-elements row'
-                >
+                <div className='theme-elements row'>
                     <div
                         ref='centerChannelStylesHeader'
+                        id='centerChannelStyles'
                         className='theme-elements__header'
                         onClick={this.toggleCenterChannelStyles}
                     >
@@ -523,3 +518,5 @@ export default class CustomThemeChooser extends React.Component {
         );
     }
 }
+
+export default injectIntl(CustomThemeChooser);

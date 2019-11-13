@@ -131,7 +131,7 @@ describe('PostAttachmentOpenGraph', () => {
         test('should not show button to remove preview for post made by another user', () => {
             const wrapper = shallow(<PostAttachmentOpenGraph {...baseProps}/>);
 
-            expect(wrapper.find('#removePreviewButton').exists()).toBe(false);
+            expect(wrapper.find('.btn-close').exists()).toBe(false);
         });
 
         test('should show button to remove preview for post made by current user', () => {
@@ -145,7 +145,7 @@ describe('PostAttachmentOpenGraph', () => {
 
             const wrapper = shallow(<PostAttachmentOpenGraph {...props}/>);
 
-            expect(wrapper.find('#removePreviewButton').exists()).toBe(true);
+            expect(wrapper.find('.btn-close').exists()).toBe(true);
         });
     });
 });

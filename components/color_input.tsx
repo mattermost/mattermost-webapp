@@ -69,7 +69,7 @@ class ColorInput extends React.PureComponent<Props, State> {
         this.setState({isOpened: !this.state.isOpened});
     };
 
-    private handleChange = (newColorData: ColorResult) => {
+    public handleChange = (newColorData: ColorResult) => {
         const {hex} = newColorData;
         const {onChange: handleChange} = this.props;
 

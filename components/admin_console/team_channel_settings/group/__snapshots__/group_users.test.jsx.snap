@@ -212,18 +212,14 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       disabled={true}
       onClick={[Function]}
     >
-      <PreviousIcon
-        additionalClassName={null}
-      />
+      <injectIntl(PreviousIcon) />
     </button>
     <button
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
     >
-      <NextIcon
-        additionalClassName={null}
-      />
+      <injectIntl(NextIcon) />
     </button>
   </div>
 </div>
@@ -441,18 +437,14 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       disabled={false}
       onClick={[Function]}
     >
-      <PreviousIcon
-        additionalClassName={null}
-      />
+      <injectIntl(PreviousIcon) />
     </button>
     <button
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
     >
-      <NextIcon
-        additionalClassName={null}
-      />
+      <injectIntl(NextIcon) />
     </button>
   </div>
 </div>
@@ -519,18 +511,14 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       disabled={false}
       onClick={[Function]}
     >
-      <PreviousIcon
-        additionalClassName={null}
-      />
+      <injectIntl(PreviousIcon) />
     </button>
     <button
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
     >
-      <NextIcon
-        additionalClassName={null}
-      />
+      <injectIntl(NextIcon) />
     </button>
   </div>
 </div>
@@ -748,18 +736,14 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       disabled={true}
       onClick={[Function]}
     >
-      <PreviousIcon
-        additionalClassName={null}
-      />
+      <injectIntl(PreviousIcon) />
     </button>
     <button
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
     >
-      <NextIcon
-        additionalClassName={null}
-      />
+      <injectIntl(NextIcon) />
     </button>
   </div>
 </div>
@@ -826,18 +810,14 @@ exports[`admin_console/team_channel_settings/group/GroupUsers should match snaps
       disabled={true}
       onClick={[Function]}
     >
-      <PreviousIcon
-        additionalClassName={null}
-      />
+      <injectIntl(PreviousIcon) />
     </button>
     <button
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
     >
-      <NextIcon
-        additionalClassName={null}
-      />
+      <injectIntl(NextIcon) />
     </button>
   </div>
 </div>
