@@ -263,9 +263,11 @@ export function deleteAndRemovePost(post) {
 
 export function toggleEmbedVisibility(postId) {
     return (dispatch, getState) => {
-        const visible = isEmbedVisible(getState(), postId);
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const visible = isEmbedVisible(state, postId);
 
-        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + postId, !visible));
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !visible));
     };
 }
 
