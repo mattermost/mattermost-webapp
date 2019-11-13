@@ -12,6 +12,7 @@ import {A11yCustomEventTypes} from 'utils/constants';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
+import PostContext from 'components/post_view/post_context';
 
 class Post extends React.PureComponent {
     static propTypes = {
@@ -292,52 +293,55 @@ class Post extends React.PureComponent {
         }
 
         return (
-            <div
-                ref={this.postRef}
-                id={'post_' + post.id}
-                data-testid='postView'
-                role='listitem'
-                className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
-                tabIndex='0'
-                onFocus={this.handlePostFocus}
-                onBlur={this.removeFocus}
-                onMouseOver={this.setHover}
-                onMouseLeave={this.unsetHover}
-                onTouchStart={this.setHover}
-                aria-label={this.state.currentAriaLabel}
-                aria-atomic={true}
-            >
+            <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <div
-                    role='application'
-                    data-testid='postContent'
-                    className={'post__content ' + centerClass}
-                    aria-hidden={this.state.ariaHidden}
+                    ref={this.postRef}
+                    id={'post_' + post.id}
+                    data-testid='postView'
+                    role='listitem'
+                    className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
+                    tabIndex='0'
+                    onFocus={this.handlePostFocus}
+                    onBlur={this.removeFocus}
+                    onMouseOver={this.setHover}
+                    onMouseLeave={this.unsetHover}
+                    onTouchStart={this.setHover}
+                    aria-label={this.state.currentAriaLabel}
+                    aria-atomic={true}
                 >
-                    <div className='post__img'>
-                        {profilePic}
-                    </div>
-                    <div>
-                        <PostHeader
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            handleCardClick={this.handleCardClick}
-                            handleDropdownOpened={this.handleDropdownOpened}
-                            compactDisplay={this.props.compactDisplay}
-                            isFirstReply={this.props.isFirstReply}
-                            replyCount={this.props.replyCount}
-                            showTimeWithoutHover={!hideProfilePicture}
-                            hover={this.state.hover || this.state.a11yActive}
-                        />
-                        <PostBody
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            compactDisplay={this.props.compactDisplay}
-                            isCommentMention={this.props.isCommentMention}
-                            isFirstReply={this.props.isFirstReply}
-                        />
+                    <div
+                        role='application'
+                        id='postContent'
+                        data-testid='postContent'
+                        className={'post__content ' + centerClass}
+                        aria-hidden={this.state.ariaHidden}
+                    >
+                        <div className='post__img'>
+                            {profilePic}
+                        </div>
+                        <div>
+                            <PostHeader
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                handleCardClick={this.handleCardClick}
+                                handleDropdownOpened={this.handleDropdownOpened}
+                                compactDisplay={this.props.compactDisplay}
+                                isFirstReply={this.props.isFirstReply}
+                                replyCount={this.props.replyCount}
+                                showTimeWithoutHover={!hideProfilePicture}
+                                hover={this.state.hover || this.state.a11yActive}
+                            />
+                            <PostBody
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                compactDisplay={this.props.compactDisplay}
+                                isCommentMention={this.props.isCommentMention}
+                                isFirstReply={this.props.isFirstReply}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </PostContext.Provider>
         );
     }
 }

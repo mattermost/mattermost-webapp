@@ -295,9 +295,10 @@ export default class NewChannelModal extends React.PureComponent {
                             type='button'
                             className='close'
                             onClick={this.props.onModalDismissed}
+                            aria-label='Close'
+                            title='Close'
                         >
                             <span aria-hidden='true'>{'×'}</span>
-                            <span className='sr-only'>{'Close'}</span>
                         </button>
                         <Modal.Title
                             componentClass='h1'
