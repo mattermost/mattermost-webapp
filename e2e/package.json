@@ -1,22 +1,22 @@
 {
   "devDependencies": {
-    "@testing-library/cypress": "4.0.3",
+    "@testing-library/cypress": "5.0.2",
     "axios": "0.18.1",
     "body-parser": "1.19.0",
-    "cypress": "3.4.1",
-    "cypress-file-upload": "3.1.2",
-    "cypress-multi-reporters": "1.1.23",
-    "cypress-wait-until": "1.4.1",
+    "cypress": "3.6.0",
+    "cypress-file-upload": "3.5.0",
+    "cypress-multi-reporters": "1.2.3",
+    "cypress-wait-until": "1.6.0",
     "express": "4.17.1",
     "lodash": "4.17.15",
     "merge-deep": "3.0.2",
-    "mocha": "6.1.4",
+    "mocha": "6.2.2",
     "mocha-junit-reporters": "1.23.6",
     "mocha-multi-reporters": "1.1.7",
-    "mochawesome": "4.0.1",
+    "mochawesome": "4.1.0",
     "mochawesome-merge": "2.0.1",
     "mochawesome-report-generator": "4.0.1",
-    "start-server-and-test": "1.9.1"
+    "start-server-and-test": "1.10.6"
   },
   "scripts": {
     "cypress:run": "cypress run --config ignoreTestFiles='**/enterprise/**/*.js'",

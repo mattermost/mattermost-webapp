@@ -9,7 +9,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
 import RhsCard from 'components/rhs_card';
 import SearchBar from 'components/search_bar';

@@ -419,12 +419,10 @@ class CustomThemeChooser extends React.Component {
                         {sidebarElements}
                     </div>
                 </div>
-                <div
-                    id='centerChannelStyles'
-                    className='theme-elements row'
-                >
+                <div className='theme-elements row'>
                     <div
                         ref='centerChannelStylesHeader'
+                        id='centerChannelStyles'
                         className='theme-elements__header'
                         onClick={this.toggleCenterChannelStyles}
                     >
