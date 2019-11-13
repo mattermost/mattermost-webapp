@@ -1,32 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import Setting from './setting';
 
-export default class RadioSetting extends React.Component {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        values: PropTypes.array.isRequired,
-        label: PropTypes.node.isRequired,
-        value: PropTypes.string.isRequired,
-        onChange: PropTypes.func.isRequired,
-        disabled: PropTypes.bool,
-        setByEnv: PropTypes.bool.isRequired,
-        helpText: PropTypes.node,
-    };
-
-    static defaultProps = {
+type Props = {
+    id: string;
+    values: any[];
+    label: React.ReactNode;
+    value: string;
+    disabled?: boolean;
+    setByEnv: boolean;
+    helpText?: React.ReactNode;
+    onChange(name: string, value: any): void;
+};
+export default class RadioSetting extends React.Component<Props> {
+    public static defaultProps: Partial<Props> = {
         disabled: false,
     };
 
-    handleChange = (e) => {
+    private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.onChange(this.props.id, e.target.value);
     }
 
-    render() {
+    render(): JSX.Element {
         const options = [];
         for (const {value, text} of this.props.values) {
             options.push(
