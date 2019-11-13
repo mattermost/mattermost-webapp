@@ -14,7 +14,7 @@ describe('Messaging', () => {
         cy.visit('/');
     });
 
-    it('MM-17444 - correctly parses "://///" as Markdown and does not break the channel', () => {
+    it('M17444 - correctly parses "://///" as Markdown and does not break the channel', () => {
         // # Go to Town Square as test channel
         cy.get('#sidebarItem_town-square').click({force: true});
 
