@@ -25,13 +25,13 @@ describe('Messaging', () => {
         cy.get('#post_textbox').type('{uparrow}');
 
         // # Insert a tilde (~) at the beginning of the post to be edited
-        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.TINY).type('{ctrl}{home}').type('~');
+        cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.TINY).type('{home}~');
 
         // * autocomplete opens
         cy.get('#suggestionList').should('be.visible');
 
         // # Delete the tilde by backspacing
-        cy.get('#edit_textbox').type('{ctrl}{home}{rightarrow}{backspace}');
+        cy.get('#edit_textbox').type('{home}{rightarrow}{backspace}');
 
         // * autocomplete closes
         cy.get('#suggestionList').should('not.be.visible');

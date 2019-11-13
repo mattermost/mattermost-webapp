@@ -2604,6 +2604,7 @@
   "invitation_modal.members.search-and-add.placeholder": "Add members or email addresses",
   "invitation_modal.members.share_link.copy_button": "Copy Link",
   "invitation_modal.members.share_link.description": "Share this link to grant member access to this team.",
+  "invitation_modal.members.share_link.input": "team invite link",
   "invitation_modal.members.share_link.link_copied": "Link Copied",
   "invitation_modal.members.share_link.title": "Share This Link",
   "invitation_modal.members.title": "Invite **Members**",
