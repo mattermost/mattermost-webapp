@@ -22,6 +22,14 @@ export default class Toast extends React.PureComponent {
         showOnlyOnce: PropTypes.bool.isRequired,
     }
 
+    static defaultProps = {
+        onDismiss: null,
+        onClickMessage: 'Jump',
+        order: 0,
+        jumpFadeOutDelay: 0,
+        showOnlyOnce: false,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -89,11 +97,3 @@ export default class Toast extends React.PureComponent {
         );
     }
 }
-
-Toast.defaultProps = {
-    onDismiss: null,
-    onClickMessage: 'Jump',
-    order: 0,
-    jumpFadeOutDelay: 0,
-    showOnlyOnce: false,
-};
