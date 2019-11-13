@@ -495,17 +495,35 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
 });
 
 /**
- * Saves the preference over link preview
+ * Saves the preference on whether to show link and image previews
  * This API assume that the user is logged in and has cookie to access
- * @param {boolean} value - theme object.  Will pass default value if none is provided.
+ * @param {boolean} show - Either "true" to show link and images previews (default), or "false"
  */
-Cypress.Commands.add('apiSaveLinkPreviewPreference', (showExpanded = false) => {
+Cypress.Commands.add('apiSaveShowPreviewPreference', (show = 'true') => {
     return cy.getCookie('MMUSERID').then((cookie) => {
         const preference = {
             user_id: cookie.value,
             category: 'display_settings',
             name: 'link_previews',
-            value: showExpanded,
+            value: show,
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
+/**
+ * Saves the preference on whether to show link and image previews expanded
+ * This API assume that the user is logged in and has cookie to access
+ * @param {boolean} collapse - Either "true" to show previews collapsed (default), or "false"
+ */
+Cypress.Commands.add('apiSavePreviewCollapsedPreference', (collapse = 'true') => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const preference = {
+            user_id: cookie.value,
+            category: 'display_settings',
+            name: 'collapse_previews',
+            value: collapse,
         };
 
         return cy.apiSaveUserPreference([preference]);
