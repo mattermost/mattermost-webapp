@@ -7,7 +7,7 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Message', () => {
+describe('Messaging', () => {
     before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
