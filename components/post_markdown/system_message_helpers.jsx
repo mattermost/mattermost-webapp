@@ -23,7 +23,7 @@ function renderUsername(value) {
     return renderFormattedText(username, options);
 }
 
-function renderFormattedText(value, options, post = null) {
+function renderFormattedText(value, options, post) {
     return (
         <Markdown
             message={value}

@@ -2,7 +2,7 @@
 
 exports[`messageHtmlToComponent Inline markdown image 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img-container"
 >
   <MarkdownImage
     alt="Mattermost"
@@ -18,7 +18,7 @@ exports[`messageHtmlToComponent Inline markdown image 1`] = `
 
 exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img-container"
 >
   <a
     className="theme markdown__link"

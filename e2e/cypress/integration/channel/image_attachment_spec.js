@@ -62,7 +62,7 @@ describe('Image attachment', () => {
 
             cy.get('@containerDiv').children('img').
                 should('have.class', 'min-preview').
-                and('have.css', 'height', '26px').
+                and('have.css', 'height', '25px').
                 and('have.css', 'width', '340px');
         });
     });
@@ -88,7 +88,9 @@ describe('Image attachment', () => {
             cy.get('@containerDiv').children('img').
                 should('have.class', 'min-preview').
                 and('have.css', 'height', '350px').
-                and('have.css', 'width', '22px');
+                and(($img) => {
+                    expect($img.width()).to.be.closeTo(21, 0.9);
+                });
         });
     });
 
@@ -102,12 +104,13 @@ describe('Image attachment', () => {
         // * Verify that HTML Content is correct.
         // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
-            cy.get(`#post_${postId}`).find('div.file-preview__button').as('div').
-                should('have.class', 'style--none');
+            cy.get(`#post_${postId}`).find('div.file-preview__button').as('div');
 
             cy.get('@div').find('img').
-                and('have.css', 'height', '142px').
-                and('have.css', 'width', '899px');
+                and(($img) => {
+                    expect($img.height()).to.be.closeTo(142, 0.9);
+                    expect($img.width()).to.be.closeTo(899, 0.9);
+                });
         });
     });
 
@@ -120,12 +123,13 @@ describe('Image attachment', () => {
 
         cy.getLastPostId().then((postId) => {
             // # Get the image and simulate a click.
-            cy.get(`#post_${postId}`).find('div.file-preview__button').as('div').
-                should('have.class', 'style--none');
+            cy.get(`#post_${postId}`).find('div.file-preview__button').as('div');
 
             cy.get('@div').find('img').
-                and('have.css', 'height', '142px').
-                and('have.css', 'width', '899px').
+                and(($img) => {
+                    expect($img.height()).to.be.closeTo(142, 0.9);
+                    expect($img.width()).to.be.closeTo(899, 0.9);
+                }).
                 click();
 
             // * Verify that the preview modal opens

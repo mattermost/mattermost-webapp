@@ -58,10 +58,12 @@ export default class SizeAwareImage extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        const {dimensions} = props;
 
         this.state = {
             loaded: false,
-            isSmallImage: false,
+            isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
+                dimensions.width, dimensions.height) : false,
         };
 
         this.heightTimeout = 0;
@@ -75,10 +77,18 @@ export default class SizeAwareImage extends React.PureComponent {
         this.mounted = false;
     }
 
+    dimensionsAvailable = (dimensions) => {
+        return dimensions && dimensions.width && dimensions.height;
+    }
+
+    isSmallImage = (width, height) => {
+        return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE;
+    }
+
     handleLoad = (event) => {
         if (this.mounted) {
             const image = event.target;
-            const isSmallImage = image.naturalHeight < MIN_IMAGE_SIZE || image.naturalWidth < MIN_IMAGE_SIZE;
+            const isSmallImage = this.isSmallImage(image.naturalWidth, image.naturalHeight);
             this.setState({
                 loaded: true,
                 error: false,
@@ -189,7 +199,7 @@ export default class SizeAwareImage extends React.PureComponent {
         let placeHolder;
         let imageStyleChangesOnLoad = {};
 
-        if (dimensions && dimensions.width && !this.state.loaded) {
+        if (this.dimensionsAvailable(dimensions) && !this.state.loaded) {
             placeHolder = (
                 <div
                     className={`image-loading__container ${this.props.className}`}
@@ -208,7 +218,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
         //The css hack here for loading images in the background can be removed after IE11 is dropped in 5.16v
         //We can go back to https://github.com/mattermost/mattermost-webapp/pull/2924/files
-        if (!this.state.loaded && dimensions && dimensions.width) {
+        if (!this.state.loaded && this.dimensionsAvailable(dimensions)) {
             imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden', overflow: 'hidden'};
         }
 
@@ -216,7 +226,7 @@ export default class SizeAwareImage extends React.PureComponent {
             <React.Fragment>
                 {placeHolder}
                 <div
-                    className='style--none file-preview__button'
+                    className='file-preview__button'
                     style={imageStyleChangesOnLoad}
                 >
                     {this.renderImageWithContainerIfNeeded()}

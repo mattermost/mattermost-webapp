@@ -86,8 +86,6 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
               "markdown": false,
             }
           }
-          postId={null}
-          postType={null}
         />,
       }
     }

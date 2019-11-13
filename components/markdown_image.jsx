@@ -35,6 +35,7 @@ export default class MarkdownImage extends React.PureComponent {
         this.state = {
             showModal: false,
             loadFailed: false,
+            loaded: false,
         };
     }
 
@@ -53,16 +54,29 @@ export default class MarkdownImage extends React.PureComponent {
         this.setState({loadFailed: true});
     }
 
-    handleImageLoaded = ({height, width}) => {
-        if (this.state.loadFailed) {
-            this.setState({loadFailed: false});
-        }
-        this.props.onImageLoaded({height, width});
-    }
-
     isHeaderChangeMessage = () => {
         return this.props.postType &&
             this.props.postType === Constants.PostTypes.HEADER_CHANGE;
+    }
+
+    componentDidUpdate(prevProps) {
+        this.onUpdated(prevProps.src);
+    }
+
+    onUpdated = (prevSrc) => {
+        if (this.props.src && this.props.src !== prevSrc) {
+            this.setState({loadFailed: false});
+        }
+    }
+
+    handleImageLoaded = ({height, width}) => {
+        this.setState({
+            loaded: true,
+        }, () => { // Call onImageLoaded prop only after state has already been set
+            if (this.props.onImageLoaded) {
+                this.props.onImageLoaded({height, width});
+            }
+        });
     }
 
     render() {
@@ -74,7 +88,7 @@ export default class MarkdownImage extends React.PureComponent {
             }
 
             return (
-                <div className={'style--none'}>
+                <div style={{display: 'inline-block'}}>
                     <img
                         className={className}
                         alt={alt}
@@ -103,18 +117,25 @@ export default class MarkdownImage extends React.PureComponent {
                         );
                     }
 
-                    const getFileExtentionFromUrl = (url) => {
+                    const getFileExtensionFromUrl = (url) => {
                         const index = url.lastIndexOf('.');
                         return index > 0 ? url.substring(index + 1) : null;
                     };
-                    const extension = getFileExtentionFromUrl(safeSrc);
+                    const extension = getFileExtensionFromUrl(safeSrc);
 
-                    let className = imageIsLink || !extension ?
-                        `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
-                        `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
+                    let className = '';
+                    if (this.state.loaded) {
+                        className = imageIsLink || !extension ?
+                            `${this.props.className} markdown-inline-img--hover markdown-inline-img--no-border` :
+                            `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
 
-                    if (this.isHeaderChangeMessage()) {
-                        className += ' markdown-inline-img--scaled-down';
+                        if (this.isHeaderChangeMessage()) {
+                            className += ' markdown-inline-img--scaled-down';
+                        }
+                    } else {
+                        const loadingClass = this.isHeaderChangeMessage() ?
+                            'markdown-inline-img--scaled-down-loading' : 'markdown-inline-img--loading';
+                        className = `${this.props.className} ${loadingClass}`;
                     }
 
                     return (
@@ -127,7 +148,7 @@ export default class MarkdownImage extends React.PureComponent {
                                 showLoader={false}
                                 onClick={this.showModal}
                                 onImageLoadFail={this.handleLoadFail}
-                                onImageLoaded={this.props.onImageLoaded}
+                                onImageLoaded={this.handleImageLoaded}
                             />
                             {!imageIsLink && extension &&
                             <ViewImageModal

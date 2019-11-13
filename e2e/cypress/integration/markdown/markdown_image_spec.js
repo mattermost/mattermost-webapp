@@ -27,9 +27,8 @@ describe('Markdown', () => {
         // * Verify that HTML Content is correct.
         // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).find('div').
-                should('have.text', 'Mattermost/platform build status:  ').
-                and('have.class', 'style--none');
+            cy.get(`#postMessageText_${postId}`).find('div.markdown-inline-img-container').
+                should('have.text', 'Mattermost/platform build status:  ');
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
@@ -37,7 +36,9 @@ describe('Markdown', () => {
                 and('have.class', 'markdown-inline-img--no-border').
                 and('have.attr', 'alt', 'Build Status').
                 and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
-                and('have.css', 'height', '20px').
+                and(($img) => {
+                    expect($img.height()).to.be.closeTo(20, 0.9);
+                }).
                 and('have.css', 'width', '97px');
         });
     });
@@ -51,7 +52,7 @@ describe('Markdown', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).find('div').
                 should('have.text', 'GitHub favicon:  ').
-                and('have.class', 'style--none');
+                and('have.class', 'markdown-inline-img-container');
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
@@ -74,8 +75,10 @@ describe('Markdown', () => {
         cy.getLastPostId().then((postId) => {
             // # Get the image and simulate a click.
             cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
-                should('have.css', 'height', '143px').
-                and('have.css', 'width', '894px').
+                and(($img) => {
+                    expect($img.height()).to.be.closeTo(141, 0.9);
+                    expect($img.width()).to.be.closeTo(892, 0.9);
+                }).
                 click();
 
             // * Verify that the preview modal opens
@@ -112,8 +115,7 @@ describe('Markdown', () => {
         cy.updateChannelHeader('![MM Logo](https://www.mattermost.org/wp-content/uploads/2016/03/logoHorizontal.png)');
 
         // * Verify image in header
-        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv').
-            should('have.class', 'style--none');
+        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');
 
         cy.get('@imageDiv').find('img.markdown-inline-img').
             should('have.class', 'markdown-inline-img--hover').
@@ -137,8 +139,7 @@ describe('Markdown', () => {
         cy.updateChannelHeader('[![Build Status](https://travis-ci.org/mattermost/platform.svg?branch=master)](https://travis-ci.org/mattermost/platform)');
 
         // * Verify image in header
-        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv').
-            should('have.class', 'style--none');
+        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');
 
         cy.get('@imageDiv').find('img.markdown-inline-img').
             should('have.class', 'markdown-inline-img--hover').

@@ -205,7 +205,7 @@ export default class Renderer extends marked.Renderer {
                 ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
                 */
                 result = result.replace('<p class="markdown__paragraph-inline">',
-                    '<div className="style--none markdown__paragraph-inline">');
+                    '<div className="markdown__paragraph-inline">');
                 result = result.replace('</p>', '</div>');
             }
             return result;
