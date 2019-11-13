@@ -57,6 +57,7 @@ describe('components/AdminConsole', () => {
     test('should generate the routes', () => {
         const props = {
             ...baseProps,
+            unauthorizedRoute: '/team-id/channels/town-square',
             isCurrentUserSystemAdmin: true,
         };
         const wrapper = shallow(
