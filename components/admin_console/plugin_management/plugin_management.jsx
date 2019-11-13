@@ -15,7 +15,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import AdminSettings from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
-import TextSetting from '../text_setting.jsx';
+import TextSetting from '../text_setting';
 
 const PluginItemState = ({state}) => {
     switch (state) {
