@@ -168,7 +168,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
       className="error-bar"
       id="error_bar"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
         id="app.plugin.marketplace_plugins.app_error"
         values={
@@ -201,7 +201,13 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
             className="form-control filter-textbox search_input"
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
-            inputComponent={[Function]}
+            inputComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "LocalizedInput",
+                "render": [Function],
+              }
+            }
             onInput={[Function]}
             placeholder={
               Object {
@@ -273,7 +279,13 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
             className="form-control filter-textbox search_input"
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
-            inputComponent={[Function]}
+            inputComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "LocalizedInput",
+                "render": [Function],
+              }
+            }
             onInput={[Function]}
             placeholder={
               Object {
@@ -345,7 +357,13 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
             className="form-control filter-textbox search_input"
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
-            inputComponent={[Function]}
+            inputComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "LocalizedInput",
+                "render": [Function],
+              }
+            }
             onInput={[Function]}
             placeholder={
               Object {

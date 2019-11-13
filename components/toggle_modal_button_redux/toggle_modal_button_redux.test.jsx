@@ -5,7 +5,7 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {ModalIdentifiers} from 'utils/constants';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux/toggle_modal_button_redux.jsx';
 

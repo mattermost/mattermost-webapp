@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallow} from 'enzyme';
 
 import {Plugins, AllPlugins, InstalledPlugins, MarketplaceModal} from './marketplace_modal';
 
@@ -36,21 +35,21 @@ describe('components/marketplace/', () => {
 
     describe('Plugins', () => {
         it('should render with no plugins', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <Plugins plugins={[]}/>
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with one plugin', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <Plugins plugins={[samplePlugin]}/>
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with multiple plugins', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <Plugins plugins={[samplePlugin, sampleInstalledPlugin]}/>
             );
             expect(wrapper).toMatchSnapshot();
@@ -59,21 +58,21 @@ describe('components/marketplace/', () => {
 
     describe('AllPlugins', () => {
         it('should render with no plugins', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <AllPlugins plugins={[]}/>
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with one plugin', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <AllPlugins plugins={[samplePlugin]}/>
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with plugins', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <AllPlugins plugins={[samplePlugin, sampleInstalledPlugin]}/>
             );
             expect(wrapper).toMatchSnapshot();
@@ -82,21 +81,21 @@ describe('components/marketplace/', () => {
 
     describe('InstalledPlugins', () => {
         it('should render with no plugins', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <InstalledPlugins installedPlugins={[]}/>
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with one plugin', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <InstalledPlugins installedPlugins={[sampleInstalledPlugin]}/>
             );
             expect(wrapper).toMatchSnapshot();
         });
 
         it('should render with multiple plugins', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <InstalledPlugins installedPlugins={[sampleInstalledPlugin, sampleInstalledPlugin]}/>
             );
             expect(wrapper).toMatchSnapshot();
@@ -118,7 +117,7 @@ describe('components/marketplace/', () => {
         };
 
         test('should render with no plugins installed', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <MarketplaceModal {...baseProps}/>
             );
             expect(wrapper).toMatchSnapshot();
@@ -136,7 +135,7 @@ describe('components/marketplace/', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <MarketplaceModal {...props}/>
             );
 
@@ -145,7 +144,7 @@ describe('components/marketplace/', () => {
 
         test('should fetch plugins when plugin status is changed', () => {
             const fetchPlugins = baseProps.actions.fetchPlugins;
-            const wrapper = shallowWithIntl(<MarketplaceModal {...baseProps}/>);
+            const wrapper = shallow(<MarketplaceModal {...baseProps}/>);
 
             expect(fetchPlugins).toBeCalledTimes(1);
             wrapper.setProps({...baseProps});
@@ -156,7 +155,7 @@ describe('components/marketplace/', () => {
         });
 
         test('should render with error banner', () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <MarketplaceModal {...baseProps}/>
             );
 

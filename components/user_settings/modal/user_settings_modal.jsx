@@ -5,7 +5,7 @@ import $ from 'jquery';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants';
@@ -13,8 +13,8 @@ import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
 
-const UserSettings = React.lazy(() => import('components/user_settings'));
-const SettingsSidebar = React.lazy(() => import('../../settings_sidebar.tsx'));
+const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'components/user_settings'));
+const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar.tsx'));
 
 const holders = defineMessages({
     general: {
@@ -63,7 +63,7 @@ class UserSettingsModal extends React.Component {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         onHide: PropTypes.func.isRequired,
-        intl: intlShape.isRequired,
+        intl: PropTypes.any,
         actions: PropTypes.shape({
             sendVerificationEmail: PropTypes.func.isRequred,
         }).isRequired,
