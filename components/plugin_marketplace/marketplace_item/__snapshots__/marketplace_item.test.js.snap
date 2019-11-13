@@ -643,31 +643,39 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
   }
   message={
     Array [
-      <FormattedHTMLMessage
-        defaultMessage="<p>Are you sure you want to update the pluginName plugin to 1.0.0?</p>"
-        id="marketplace_modal.list.update_confirmation.message.intro"
-        values={
-          Object {
-            "name": "pluginName",
-            "version": "1.0.0",
+      <p>
+        <FormattedMessage
+          defaultMessage="Are you sure you want to update the pluginName plugin to 1.0.0?"
+          id="marketplace_modal.list.update_confirmation.message.intro"
+          values={
+            Object {
+              "name": "pluginName",
+              "version": "1.0.0",
+            }
           }
-        }
-      />,
-      <FormattedHTMLMessage
-        defaultMessage="<p>You currently have 0.0.1. View the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.</p>"
-        id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
-        values={
-          Object {
-            "installedVersion": "0.0.1",
-            "releaseNotesUrl": "http://example.com/release",
+        />
+      </p>,
+      <p>
+        <FormattedHTMLMessage
+          defaultMessage="You currently have 0.0.1. View the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update."
+          id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
+          values={
+            Object {
+              "installedVersion": "0.0.1",
+              "releaseNotesUrl": "http://example.com/release",
+            }
           }
-        }
-      />,
-      <FormattedHTMLMessage
-        defaultMessage="<p class='alert alert-warning'>This update may contain breaking changes. Consult the release notes above before upgrading.</p>"
-        id="marketplace_modal.list.update_confirmation.message.warning_major_version"
-        values={Object {}}
-      />,
+        />
+      </p>,
+      <p
+        className="alert alert-warning"
+      >
+        <FormattedMessage
+          defaultMessage="This update may contain breaking changes. Consult the release notes above before upgrading."
+          id="marketplace_modal.list.update_confirmation.message.warning_major_version"
+          values={Object {}}
+        />
+      </p>,
     ]
   }
   modalClass=""
@@ -696,30 +704,38 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
   }
   message={
     Array [
-      <FormattedHTMLMessage
-        defaultMessage="<p>Are you sure you want to update the pluginName plugin to 1.0.0?</p>"
-        id="marketplace_modal.list.update_confirmation.message.intro"
-        values={
-          Object {
-            "name": "pluginName",
-            "version": "1.0.0",
+      <p>
+        <FormattedMessage
+          defaultMessage="Are you sure you want to update the pluginName plugin to 1.0.0?"
+          id="marketplace_modal.list.update_confirmation.message.intro"
+          values={
+            Object {
+              "name": "pluginName",
+              "version": "1.0.0",
+            }
           }
-        }
-      />,
-      <FormattedHTMLMessage
-        defaultMessage="<p>You currently have 0.0.1.</p>"
-        id="marketplace_modal.list.update_confirmation.message.current"
-        values={
-          Object {
-            "installedVersion": "0.0.1",
+        />
+      </p>,
+      <p>
+        <FormattedMessage
+          defaultMessage="You currently have 0.0.1."
+          id="marketplace_modal.list.update_confirmation.message.current"
+          values={
+            Object {
+              "installedVersion": "0.0.1",
+            }
           }
-        }
-      />,
-      <FormattedHTMLMessage
-        defaultMessage="<p class='alert alert-warning'>This update may contain breaking changes.</p>"
-        id="marketplace_modal.list.update_confirmation.message.warning_major_version"
-        values={Object {}}
-      />,
+        />
+      </p>,
+      <p
+        className="alert alert-warning"
+      >
+        <FormattedMessage
+          defaultMessage="This update may contain breaking changes."
+          id="marketplace_modal.list.update_confirmation.message.warning_major_version"
+          values={Object {}}
+        />
+      </p>,
     ]
   }
   modalClass=""
@@ -750,25 +766,29 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
   }
   message={
     Array [
-      <FormattedHTMLMessage
-        defaultMessage="<p>Are you sure you want to update the pluginName plugin to 0.0.2?</p>"
-        id="marketplace_modal.list.update_confirmation.message.intro"
-        values={
-          Object {
-            "name": "pluginName",
-            "version": "0.0.2",
+      <p>
+        <FormattedMessage
+          defaultMessage="Are you sure you want to update the pluginName plugin to 0.0.2?"
+          id="marketplace_modal.list.update_confirmation.message.intro"
+          values={
+            Object {
+              "name": "pluginName",
+              "version": "0.0.2",
+            }
           }
-        }
-      />,
-      <FormattedHTMLMessage
-        defaultMessage="<p>You currently have 0.0.1.</p>"
-        id="marketplace_modal.list.update_confirmation.message.current"
-        values={
-          Object {
-            "installedVersion": "0.0.1",
+        />
+      </p>,
+      <p>
+        <FormattedMessage
+          defaultMessage="You currently have 0.0.1."
+          id="marketplace_modal.list.update_confirmation.message.current"
+          values={
+            Object {
+              "installedVersion": "0.0.1",
+            }
           }
-        }
-      />,
+        />
+      </p>,
     ]
   }
   modalClass=""

@@ -2705,7 +2705,7 @@
   "marketplace_modal.list.update": "Update",
   "marketplace_modal.list.update_available": "Update available:",
   "marketplace_modal.list.update_confirmation.confirm_button": "Update",
-  "marketplace_modal.list.update_confirmation.message.warning_major_version": "<p class='alert alert-warning'>This update may contain breaking changes.</p>",
+  "marketplace_modal.list.update_confirmation.message.warning_major_version": "This update may contain breaking changes.",
   "marketplace_modal.list.update_confirmation.title": "Confirm Plugin Update",
   "marketplace_modal.no_plugins": "There are no plugins available at this time.",
   "marketplace_modal.no_plugins_installed": "You do not have any plugins installed.",

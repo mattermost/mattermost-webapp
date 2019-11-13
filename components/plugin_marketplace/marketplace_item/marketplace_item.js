@@ -108,31 +108,34 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
     }
 
     const messages = [(
-        <FormattedHTMLMessage
-            id='marketplace_modal.list.update_confirmation.message.intro'
-            key='intro'
-            defaultMessage={`<p>Are you sure you want to update the ${name} plugin to ${version}?</p>`}
-            values={{name, version}}
-        />
+        <p key='intro'>
+            <FormattedMessage
+                id='marketplace_modal.list.update_confirmation.message.intro'
+                defaultMessage={`Are you sure you want to update the ${name} plugin to ${version}?`}
+                values={{name, version}}
+            />
+        </p>
     )];
 
     if (releaseNotesUrl) {
         messages.push(
-            <FormattedHTMLMessage
-                id='marketplace_modal.list.update_confirmation.message.current_with_release_notes'
-                key='current'
-                defaultMessage={`<p>You currently have ${installedVersion}. View the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.</p>`}
-                values={{installedVersion, releaseNotesUrl}}
-            />
+            <p key='current'>
+                <FormattedHTMLMessage
+                    id='marketplace_modal.list.update_confirmation.message.current_with_release_notes'
+                    defaultMessage={`You currently have ${installedVersion}. View the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.`}
+                    values={{installedVersion, releaseNotesUrl}}
+                />
+            </p>
         );
     } else {
         messages.push(
-            <FormattedHTMLMessage
-                id='marketplace_modal.list.update_confirmation.message.current'
-                key='current'
-                defaultMessage={`<p>You currently have ${installedVersion}.</p>`}
-                values={{installedVersion}}
-            />
+            <p key='current'>
+                <FormattedMessage
+                    id='marketplace_modal.list.update_confirmation.message.current'
+                    defaultMessage={`You currently have ${installedVersion}.`}
+                    values={{installedVersion}}
+                />
+            </p>
         );
     }
 
@@ -147,19 +150,27 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
     if (!sameMajorVersion) {
         if (releaseNotesUrl) {
             messages.push(
-                <FormattedHTMLMessage
-                    id='marketplace_modal.list.update_confirmation.message.warning_major_version'
+                <p
+                    className='alert alert-warning'
                     key='warning'
-                    defaultMessage={'<p class=\'alert alert-warning\'>This update may contain breaking changes. Consult the release notes above before upgrading.</p>'}
-                />
+                >
+                    <FormattedMessage
+                        id='marketplace_modal.list.update_confirmation.message.warning_major_version'
+                        defaultMessage={'This update may contain breaking changes. Consult the release notes above before upgrading.'}
+                    />
+                </p>
             );
         } else {
             messages.push(
-                <FormattedHTMLMessage
-                    id='marketplace_modal.list.update_confirmation.message.warning_major_version'
+                <p
+                    className='alert alert-warning'
                     key='warning'
-                    defaultMessage={'<p class=\'alert alert-warning\'>This update may contain breaking changes.</p>'}
-                />
+                >
+                    <FormattedMessage
+                        id='marketplace_modal.list.update_confirmation.message.warning_major_version'
+                        defaultMessage={'This update may contain breaking changes.'}
+                    />
+                </p>
             );
         }
     }
