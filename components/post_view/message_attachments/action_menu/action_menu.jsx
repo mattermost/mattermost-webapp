@@ -8,6 +8,7 @@ import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 import AutocompleteSelector from 'components/autocomplete_selector';
+import PostContext from 'components/post_view/post_context';
 
 export default class ActionMenu extends React.PureComponent {
     static propTypes = {
@@ -90,14 +91,19 @@ export default class ActionMenu extends React.PureComponent {
         const {action, disabled} = this.props;
 
         return (
-            <AutocompleteSelector
-                providers={this.providers}
-                onSelected={this.handleSelected}
-                placeholder={action.name}
-                inputClassName='post-attachment-dropdown'
-                disabled={disabled}
-                value={this.state.value}
-            />
+            <PostContext.Consumer>
+                {({handlePopupOpened}) => (
+                    <AutocompleteSelector
+                        providers={this.providers}
+                        onSelected={this.handleSelected}
+                        placeholder={action.name}
+                        inputClassName='post-attachment-dropdown'
+                        value={this.state.value}
+                        toggleFocus={handlePopupOpened}
+                        disabled={disabled}
+                    />
+                )}
+            </PostContext.Consumer>
         );
     }
 }
