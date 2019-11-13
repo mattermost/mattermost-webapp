@@ -230,11 +230,11 @@ describe('Markdown.Links', () => {
     it('Email addresses', () => {
         assert.equal(
             Markdown.format('test@example.com').trim(),
-            '<p><a class="theme" href="mailto:test@example.com">test@example.com</a></p>'
+            '<p><a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a></p>'
         );
         assert.equal(
             Markdown.format('test_underscore@example.com').trim(),
-            '<p><a class="theme" href="mailto:test_underscore@example.com">test_underscore@example.com</a></p>'
+            '<p><a class="theme" href="mailto:test_underscore@example.com" rel="noreferrer" target="_blank">test_underscore@example.com</a></p>'
         );
 
         assert.equal(
@@ -429,17 +429,17 @@ describe('Markdown.Links', () => {
 
         assert.equal(
             Markdown.format('(test@example.com)').trim(),
-            '<p>(<a class="theme" href="mailto:test@example.com">test@example.com</a>)</p>'
+            '<p>(<a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a>)</p>'
         );
 
         assert.equal(
             Markdown.format('(email test@example.com)').trim(),
-            '<p>(email <a class="theme" href="mailto:test@example.com">test@example.com</a>)</p>'
+            '<p>(email <a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a>)</p>'
         );
 
         assert.equal(
             Markdown.format('(test@example.com email)').trim(),
-            '<p>(<a class="theme" href="mailto:test@example.com">test@example.com</a> email)</p>'
+            '<p>(<a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a> email)</p>'
         );
 
         assert.equal(

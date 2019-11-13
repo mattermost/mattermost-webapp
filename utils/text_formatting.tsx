@@ -319,7 +319,7 @@ function autolinkEmails(text: string, tokens: Tokens) {
         const alias = `$MM_EMAIL${index}$`;
 
         tokens.set(alias, {
-            value: `<a class="theme" href="mailto:${email}">${email}</a>`,
+            value: `<a class="theme" href="mailto:${email}" rel="noreferrer" target="_blank">${email}</a>`,
             originalText: email,
         });
 

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {Client4} from 'mattermost-redux/client';
@@ -36,7 +36,7 @@ import LoginMfa from '../login_mfa.jsx';
 
 class LoginController extends React.Component {
     static propTypes = {
-        intl: intlShape.isRequired,
+        intl: PropTypes.any,
 
         location: PropTypes.object.isRequired,
         isLicensed: PropTypes.bool.isRequired,
@@ -84,6 +84,9 @@ class LoginController extends React.Component {
             sessionExpired: false,
             brandImageError: false,
         };
+
+        this.loginIdInput = React.createRef();
+        this.passwordInput = React.createRef();
     }
 
     componentDidMount() {
@@ -99,7 +102,7 @@ class LoginController extends React.Component {
         const email = search.get('email');
 
         if (extra === Constants.SIGNIN_VERIFIED && email) {
-            this.refs.password.focus();
+            this.passwordInput.current.focus();
         }
 
         // Determine if the user was unexpectedly logged out.
@@ -191,16 +194,16 @@ class LoginController extends React.Component {
         // password managers don't always call onInput handlers for form fields so it's possible
         // for the state to get out of sync with what the user sees in the browser
         let loginId = this.state.loginId;
-        if (this.refs.loginId) {
-            loginId = this.refs.loginId.value;
+        if (this.loginIdInput.current) {
+            loginId = this.loginIdInput.current.value;
             if (loginId !== this.state.loginId) {
                 this.setState({loginId});
             }
         }
 
         let password = this.state.password;
-        if (this.refs.password) {
-            password = this.refs.password.value;
+        if (this.passwordInput.current) {
+            password = this.passwordInput.current.value;
             if (password !== this.state.password) {
                 this.setState({password});
             }
@@ -553,7 +556,7 @@ class LoginController extends React.Component {
                             <input
                                 id='loginId'
                                 className='form-control'
-                                ref='loginId'
+                                ref={this.loginIdInput}
                                 name='loginId'
                                 value={this.state.loginId}
                                 onChange={this.handleLoginIdChange}
@@ -568,7 +571,7 @@ class LoginController extends React.Component {
                                 id='loginPassword'
                                 type='password'
                                 className='form-control'
-                                ref='password'
+                                ref={this.passwordInput}
                                 name='password'
                                 value={this.state.password}
                                 onChange={this.handlePasswordChange}

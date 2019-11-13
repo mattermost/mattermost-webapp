@@ -2,7 +2,7 @@
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx renderDeactivateMemberModal should not render the bot accounts warning in case the user do not have any bot accounts 1`] = `
 <div>
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
     id="deactivate_member_modal.desc"
     values={
@@ -11,7 +11,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -34,7 +34,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx renderDeactivateMemberModal should not render the bot accounts warning. owner_id has no enabled bot accounts 1`] = `
 <div>
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="This action deactivates {username}. They will be logged out and not have access to any teams or channels on this system.\\\\n"
     id="deactivate_member_modal.desc"
     values={
@@ -43,7 +43,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={
@@ -66,7 +66,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
 
 exports[`components/admin_console/system_users/system_users_dropdown/system_users_dropdown.jsx renderDeactivateMemberModal should render the bot accounts warning. owner_id has enabled bot accounts 1`] = `
 <div>
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="This action deactivates {username}.\\\\n \\\\n * They will be logged out and not have access to any teams or channels on this system.\\\\n * Bot accounts they manage will be disabled along with their integrations. To enable them again, go to [Integrations > Bot Accounts]({siteURL}/_redirect/integrations/bots). [Learn more about bot accounts](!https://mattermost.com/pl/default-bot-accounts).\\\\n \\\\n \\\\n"
     id="deactivate_member_modal.desc.for_users_with_bot_accounts"
     values={
@@ -76,7 +76,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       }
     }
   />
-  <InjectIntl(FormattedMarkdownMessage)
+  <injectIntl(FormattedMarkdownMessage)
     defaultMessage="Are you sure you want to deactivate {username}?"
     id="deactivate_member_modal.desc.confirm"
     values={

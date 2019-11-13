@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallow} from 'enzyme';
 
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
@@ -39,7 +38,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );
 
