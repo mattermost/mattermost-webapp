@@ -16,7 +16,6 @@ type Props = {
 
 export default class AutosizeTextarea extends React.Component<Props> {
     private height: number;
- 
     constructor(props: Props) {
         super(props);
 
@@ -73,7 +72,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
 
         if (height > 0 && height !== this.height) {
             const style = getComputedStyle(textarea);
-            const borderWidth = parseInt(style.borderTopWidth || '0', 10) + parseInt(style.borderBottomWidth ||'0', 10);
+            const borderWidth = parseInt(style.borderTopWidth || '0', 10) + parseInt(style.borderBottomWidth || '0', 10);
 
             // Directly change the height to avoid circular rerenders
             textarea.style.height = String(height + borderWidth) + 'px';
