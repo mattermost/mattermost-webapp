@@ -10,16 +10,18 @@ import SetByEnv from './set_by_env';
 interface Props {
     setByEnv: boolean;
     disabled?: boolean;
+    sharedProps?: any[];
 }
-const AdminTextSetting: React.SFC<Props> = (props)=> {
-    const { setByEnv, disabled, ...sharedProps } = props;
+const AdminTextSetting: React.SFC<Props> = (props) => {
+    const {setByEnv, disabled, ...sharedProps} = props;
+    const isTextDisabled = disabled || setByEnv;
 
     return (
         <TextSetting
             {...sharedProps}
             labelClassName='col-sm-4'
             inputClassName='col-sm-8'
-            disabled={disabled || setByEnv}
+            disabled={isTextDisabled}
             footer={setByEnv ? <SetByEnv/> : null}
         />
     );
