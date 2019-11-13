@@ -23,20 +23,20 @@ describe('Messaging', () => {
 
         // # type in the message "://///"
         const message = '://///';
-        const testAfterParsed = message.substr(2);
+        const textAfterParsed = message.substr(2);
         cy.postMessage(message);
 
         // # check if message sent correctly, it should parse it as 😕////"
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).children().find('span').last().should('have.class', 'emoticon').and('be.visible');
-            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', testAfterParsed);
-        });
+            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', textAfterParsed);
 
-        // # check if message correctly parses after reload
-        cy.reload();
-        cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).children().find('span').last().should('have.class', 'emoticon').and('be.visible');
-            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', testAfterParsed);
+            // # check if message still correctly parses after reload
+            cy.reload();
+            cy.get(`#postMessageText_${postId}`).should('be.visible').within((el) => {
+                cy.wrap(el).should('have.text', textAfterParsed);
+                cy.get('.emoticon').should('be.visible').and('have.attr', 'title', ':confused:');
+            });
         });
     });
 });
