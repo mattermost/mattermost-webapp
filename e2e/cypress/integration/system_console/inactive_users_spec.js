@@ -38,14 +38,14 @@ describe('System Console', () => {
                     // * This is the last page, so:
                     // * - number of users should match the remainder
                     // * - no next button since no more inactive users to load
-                    cy.getAllByTestId('userListRow').should('have.length', remainder);
+                    cy.findAllByTestId('userListRow').should('have.length', remainder);
                     cy.get('#searchableUserListNextBtn').should('not.be.visible');
                 } else {
                     // * There are still next page to load, so:
                     // * - number of users should match per page
                     // * - next button is visible
                     // # Click "Next" to load more.
-                    cy.getAllByTestId('userListRow').should('have.length', perPage);
+                    cy.findAllByTestId('userListRow').should('have.length', perPage);
                     cy.get('#searchableUserListNextBtn').should('be.visible').click();
                 }
             });

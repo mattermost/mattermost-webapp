@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -90,6 +90,8 @@ class SearchResultsItem extends React.PureComponent {
          */
         isBot: PropTypes.bool.isRequired,
 
+        a11yIndex: PropTypes.number,
+
         /**
         *  Function used for closing LHS
         */
@@ -103,7 +105,7 @@ class SearchResultsItem extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: intlShape.isRequired,
+        intl: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
@@ -362,6 +364,7 @@ class SearchResultsItem extends React.PureComponent {
                     className={`a11y__section ${this.getClassName()}`}
                     aria-label={this.state.currentAriaLabel}
                     onFocus={this.handleSearchItemFocus}
+                    data-a11y-sort-order={this.props.a11yIndex}
                 >
                     <div
                         className='search-channel__name'

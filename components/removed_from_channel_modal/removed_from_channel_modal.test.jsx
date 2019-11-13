@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RemovedFromChannelModal from 'components/removed_from_channel_modal/removed_from_channel_modal';
 

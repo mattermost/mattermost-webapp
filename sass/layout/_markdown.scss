@@ -59,7 +59,7 @@ h6 {
         max-height: 500px;
     }
 
-    div .markdown-inline-img {
+    div.markdown-inline-img {
         min-width: 50px;
         display: inline-block;
         width: auto;
@@ -94,7 +94,7 @@ h6 {
     position: relative;
 
     code {
-        border: 1px solid rgba(221,221,221,1);
+        border: 1px solid v(center-channel-color-20);
         border-radius: .25em;
         display: block;
         font-size: 13px;
