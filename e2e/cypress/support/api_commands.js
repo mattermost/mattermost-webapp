@@ -506,14 +506,18 @@ const defaultSidebarSettingPreference = {
  * This API assume that the user is logged in and has cookie to access
  * @param {Object} value - sidebar settings object.  Will pass default value if none is provided.
  */
-Cypress.Commands.add('apiSaveSidebarSettingPreference', (value = JSON.stringify(defaultSidebarSettingPreference)) => {
+Cypress.Commands.add('apiSaveSidebarSettingPreference', (value = {}) => {
     return cy.getCookie('MMUSERID').then((cookie) => {
-        //let valueString = JSON.stringify(value);
+        const newValue = {
+            ...defaultSidebarSettingPreference,
+            ...value,
+        };
+
         const preference = {
             user_id: cookie.value,
             category: 'sidebar_settings',
             name: '',
-            value,
+            value: JSON.stringify(newValue),
         };
 
         return cy.apiSaveUserPreference([preference]);

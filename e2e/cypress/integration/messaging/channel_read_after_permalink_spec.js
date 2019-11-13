@@ -13,12 +13,7 @@ describe('Messaging', () => {
     before(() => {
         // # Make sure for second user, unread channels are grouped
         cy.apiLogin('sysadmin');
-        cy.apiSaveSidebarSettingPreference(JSON.stringify({
-            grouping: 'by_type',
-            unreads_at_top: 'true',
-            favorite_at_top: 'true',
-            sorting: 'alpha',
-        }));
+        cy.apiSaveSidebarSettingPreference();
 
         // # Login and go to /
         cy.apiLogin('user-1');
