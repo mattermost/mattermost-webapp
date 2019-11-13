@@ -27,6 +27,8 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
+          echo $CHANGE_BRANCH
+          env
           npm ci
           cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
