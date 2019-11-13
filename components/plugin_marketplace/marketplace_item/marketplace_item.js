@@ -122,7 +122,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
             <p key='current'>
                 <FormattedHTMLMessage
                     id='marketplace_modal.list.update_confirmation.message.current_with_release_notes'
-                    defaultMessage={`You currently have ${installedVersion}. View the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.`}
+                    defaultMessage={`You currently have ${installedVersion} installed. View the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.`}
                     values={{installedVersion, releaseNotesUrl}}
                 />
             </p>
@@ -132,7 +132,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
             <p key='current'>
                 <FormattedMessage
                     id='marketplace_modal.list.update_confirmation.message.current'
-                    defaultMessage={`You currently have ${installedVersion}.`}
+                    defaultMessage={`You currently have ${installedVersion} installed.`}
                     values={{installedVersion}}
                 />
             </p>
@@ -155,8 +155,8 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                     key='warning'
                 >
                     <FormattedMessage
-                        id='marketplace_modal.list.update_confirmation.message.warning_major_version'
-                        defaultMessage={'This update may contain breaking changes. Consult the release notes above before upgrading.'}
+                        id='marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes'
+                        defaultMessage={`This update may contain breaking changes. Consult the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading.`}
                     />
                 </p>
             );
