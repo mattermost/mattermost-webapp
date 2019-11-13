@@ -397,31 +397,31 @@ export default class ProfilePopover extends React.PureComponent {
                             href='#'
                             className='text-nowrap'
                         >
-                            <ToggleModalButtonRedux
-                                accessibilityLabel={addToChannelMessage}
-                                ref='addUserToChannelModalButton'
-                                modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                                role='menuitem'
-                                dialogType={AddUserToChannelModal}
-                                dialogProps={{user: this.props.user}}
-                                onClick={this.props.hide}
+                            <FormattedMessage
+                                id='user_profile.add_user_to_channel.icon'
+                                defaultMessage='Add User to Channel Icon'
                             >
-                                <FormattedMessage
-                                    id='user_profile.add_user_to_channel.icon'
-                                    defaultMessage='Add User to Channel Icon'
-                                >
-                                    {(message) => (
+                                {(addToChannelMessage) => (
+                                    <ToggleModalButtonRedux
+                                        accessibilityLabel={addToChannelMessage}
+                                        ref='addUserToChannelModalButton'
+                                        modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                                        role='menuitem'
+                                        dialogType={AddUserToChannelModal}
+                                        dialogProps={{user: this.props.user}}
+                                        onClick={this.props.hide}
+                                    >
                                         <i
                                             className='fa fa-user-plus'
-                                            title={message}
+                                            title={addToChannelMessage}
                                         />
-                                    )}
-                                </FormattedMessage>
-                                <FormattedMessage
-                                    id='user_profile.add_user_to_channel'
-                                    defaultMessage='Add to a Channel'
-                                />
-                            </ToggleModalButtonRedux>
+                                        <FormattedMessage
+                                            id='user_profile.add_user_to_channel'
+                                            defaultMessage='Add to a Channel'
+                                        />
+                                    </ToggleModalButtonRedux>
+                                )}
+                            </FormattedMessage>
                         </a>
                     </div>,
                 );
