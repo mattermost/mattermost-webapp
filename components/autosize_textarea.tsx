@@ -135,7 +135,7 @@ export default class AutosizeTextarea extends React.Component<Props> {
         if (!this.props.value && !this.props.defaultValue) {
             textareaPlaceholder = (
                 <div
-                    {...otherProps}
+                    {...otherProps as any}
                     style={style.placeholder}
                 >
                     {placeholder}
