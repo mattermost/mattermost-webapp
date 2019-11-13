@@ -28,7 +28,7 @@ jobs:
       - *restore_cache
       - run: |
           TE=$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')
-          echo TE
+          echo $TE
           npm ci
           cd node_modules/mattermost-redux && npm i && npm run build
       - *save_cache
