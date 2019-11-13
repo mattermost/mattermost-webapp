@@ -48,6 +48,17 @@
         .more-modal__row {
             align-items: normal;
 
+            .tag {
+                padding: 3px 5px;
+                margin-left: 10px;
+                background-color: $gray;
+                border-radius: 4px;
+                font-weight: bold;
+                font-size: 0.8em;
+                color: $white;
+                cursor: help;
+            }
+
             .update {
                 border-top: 1px solid rgba(black, 0.1);
                 padding: 10px 10px 0 0;

@@ -4,93 +4,308 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import MarketplaceItem from './marketplace_item';
+import ConfirmModal from 'components/confirm_modal.jsx';
+import {mountWithIntl as mount} from 'tests/helpers/intl-test-helper.jsx';
+
+import MarketplaceItem, {UpdateDetails, UpdateConfirmationModal} from './marketplace_item';
 
 describe('components/MarketplaceItem', () => {
-    const baseProps = {
-        id: 'id',
-        name: 'name',
-        description: 'test plugin',
-        version: '1.0.0',
-        downloadUrl: 'http://example.com/download',
-        signatureUrl: 'http://example.com/signature',
-        homepageUrl: 'http://example.com',
-        installedVersion: '',
-        iconUrl: '',
-        iconData: 'icon',
-        installing: false,
-        actions: {
-            installPlugin: () => {}, // eslint-disable-line no-empty-function
-            closeMarketplaceModal: () => {}, // eslint-disable-line no-empty-function
-        },
-    };
-
-    test('should render', () => {
-        const wrapper = shallow(
-            <MarketplaceItem {...baseProps}/>
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should render with no plugin icon', () => {
-        const props = {...baseProps};
-        delete props.iconData;
-
-        const wrapper = shallow(
-            <MarketplaceItem {...props}/>
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should render with no homepage url', () => {
-        const props = {...baseProps};
-        delete props.homepageUrl;
-
-        const wrapper = shallow(
-            <MarketplaceItem {...props}/>
-        );
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should render with server error', () => {
-        const props = {
-            ...baseProps,
-            error: 'An error occurred.',
+    describe('UpdateDetails', () => {
+        const baseProps = {
+            version: '0.0.2',
+            releaseNotesUrl: 'http://example.com/release',
+            installedVersion: '0.0.1',
+            isInstalling: false,
+            onUpdate: () => {},
         };
 
-        const wrapper = shallow(
-            <MarketplaceItem {...props}/>
-        );
+        describe('should render nothing', () => {
+            it('when no installed version', () => {
+                const props = {
+                    ...baseProps,
+                    installedVersion: '',
+                };
+                const wrapper = mount(
+                    <UpdateDetails {...props}/>
+                );
 
-        expect(wrapper).toMatchSnapshot();
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+
+            it('when installed version matches available version', () => {
+                const props = {
+                    ...baseProps,
+                    installedVersion: baseProps.availableVersion,
+                };
+                const wrapper = mount(
+                    <UpdateDetails {...props}/>
+                );
+
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+
+            it('when installed version is newer than available version', () => {
+                const props = {
+                    ...baseProps,
+                    installedVersion: '0.0.3',
+                };
+                const wrapper = mount(
+                    <UpdateDetails {...props}/>
+                );
+
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+
+            it('when installing', () => {
+                const props = {
+                    ...baseProps,
+                    isInstalling: true,
+                };
+                const wrapper = mount(
+                    <UpdateDetails {...props}/>
+                );
+
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+        });
+
+        it('should render without release notes url', () => {
+            const props = {
+                ...baseProps,
+                releaseNotesUrl: '',
+            };
+
+            const wrapper = mount(
+                <UpdateDetails {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render with release notes url', () => {
+            const wrapper = mount(
+                <UpdateDetails {...baseProps}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 
-    test('should render installed plugin', () => {
-        const props = {
-            ...baseProps,
-            installedVersion: '1.0.0',
+    describe('UpdateConfirmationModal', () => {
+        const baseProps = {
+            show: true,
+            name: 'pluginName',
+            version: '0.0.2',
+            releaseNotesUrl: 'http://example.com/release',
+            installedVersion: '0.0.1',
+            onUpdate: () => {},
+            onCancel: () => {},
         };
 
-        const wrapper = shallow(
-            <MarketplaceItem {...props}/>
-        );
+        describe('should render nothing', () => {
+            it('if not installed', () => {
+                const props = {
+                    ...baseProps,
+                };
+                delete props.installedVersion;
 
-        expect(wrapper).toMatchSnapshot();
+                const wrapper = shallow(
+                    <UpdateConfirmationModal {...props}/>
+                );
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+
+            it('when installed version is newer than available version', () => {
+                const props = {
+                    ...baseProps,
+                    installedVersion: '0.0.3',
+                };
+
+                const wrapper = shallow(
+                    <UpdateConfirmationModal {...props}/>
+                );
+                expect(wrapper.isEmptyRender()).toBe(true);
+            });
+        });
+
+        it('should propogate show to ConfirmModal', () => {
+            const props = {
+                ...baseProps,
+                show: false,
+            };
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+
+            const modal = wrapper.find(ConfirmModal);
+            expect(modal.exists()).toBe(true);
+            expect(modal.props().show).toBe(false);
+        });
+
+        it('should render without release notes url', () => {
+            const props = {
+                ...baseProps,
+            };
+            delete props.releaseNotesUrl;
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
+        });
+
+        it('should add extra warning for major version change', () => {
+            const props = {
+                ...baseProps,
+                version: '1.0.0',
+            };
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
+        });
+
+        it('should add extra warning for major version change, even without release notes', () => {
+            const props = {
+                ...baseProps,
+                version: '1.0.0',
+            };
+            delete props.releaseNotesUrl;
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
+        });
+
+        it('should avoid exception on invalid semver', () => {
+            const props = {
+                ...baseProps,
+                version: 'not-a-version',
+            };
+
+            const wrapper = shallow(
+                <UpdateConfirmationModal {...props}/>
+            );
+            expect(wrapper.find(ConfirmModal)).toMatchSnapshot();
+        });
     });
 
-    test('should render with update available', () => {
-        const props = {
-            ...baseProps,
-            installedVersion: '0.9.9',
+    describe('MarketplaceItem', () => {
+        const baseProps = {
+            id: 'id',
+            name: 'name',
+            description: 'test plugin',
+            version: '1.0.0',
+            downloadUrl: 'http://example.com/download',
+            signatureUrl: 'http://example.com/signature',
+            homepageUrl: 'http://example.com',
+            installedVersion: '',
+            iconUrl: '',
+            iconData: 'icon',
+            installing: false,
+            actions: {
+                installPlugin: () => {}, // eslint-disable-line no-empty-function
+                closeMarketplaceModal: () => {}, // eslint-disable-line no-empty-function
+            },
         };
 
-        const wrapper = shallow(
-            <MarketplaceItem {...props}/>
-        );
+        test('should render', () => {
+            const wrapper = shallow(
+                <MarketplaceItem {...baseProps}/>
+            );
 
-        expect(wrapper).toMatchSnapshot();
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with no plugin icon', () => {
+            const props = {...baseProps};
+            delete props.iconData;
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render wtih no homepage url', () => {
+            const props = {...baseProps};
+            delete props.homepageUrl;
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with server error', () => {
+            const props = {
+                ...baseProps,
+                error: 'An error occurred.',
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render installed plugin', () => {
+            const props = {
+                ...baseProps,
+                installedVersion: '1.0.0',
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with update available', () => {
+            const props = {
+                ...baseProps,
+                installedVersion: '0.9.9',
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with update and release notes available', () => {
+            const props = {
+                ...baseProps,
+                installedVersion: '0.9.9',
+                releaseNotesUrl: 'http://example.com/release',
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render when not from the marketplace', () => {
+            const props = {
+                ...baseProps,
+                downloadUrl: '',
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });

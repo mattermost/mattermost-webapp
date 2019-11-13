@@ -838,6 +838,7 @@ Cypress.Commands.add('installPluginFromUrl', (pluginDownloadUrl, force = false) 
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/plugins/install_from_url?plugin_download_url=${encodeURIComponent(pluginDownloadUrl)}&force=${force}`,
         method: 'POST',
+        timeout: 60000,
     }).then((response) => {
         expect(response.status).to.equal(201);
         return cy.wrap(response);
