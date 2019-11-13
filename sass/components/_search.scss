@@ -81,8 +81,8 @@
         @include transition-timing-function(ease-in-out, ease-out);
     }
 
-    .sidebar--right & {
-        width: 100%;
+    .inner-wrap.move--left & {
+        width: 300px;
     }
 
     .search-bar {

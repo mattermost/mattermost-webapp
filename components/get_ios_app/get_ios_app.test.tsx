@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {createMemoryHistory, createLocation} from 'history';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import GetIosApp from 'components/get_ios_app/get_ios_app';
 
 jest.mock('images/app-store-button.png', () => 'store-button.png');
