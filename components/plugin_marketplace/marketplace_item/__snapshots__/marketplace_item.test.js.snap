@@ -657,7 +657,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
       </p>,
       <p>
         <FormattedHTMLMessage
-          defaultMessage="You currently have 0.0.1. View the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update."
+          defaultMessage="You currently have 0.0.1 installed. View the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update."
           id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
           values={
             Object {
@@ -671,8 +671,8 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         className="alert alert-warning"
       >
         <FormattedMessage
-          defaultMessage="This update may contain breaking changes. Consult the release notes above before upgrading."
-          id="marketplace_modal.list.update_confirmation.message.warning_major_version"
+          defaultMessage="This update may contain breaking changes. Consult the <a href='http://example.com/release' target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading."
+          id="marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes"
           values={Object {}}
         />
       </p>,
@@ -718,7 +718,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
       </p>,
       <p>
         <FormattedMessage
-          defaultMessage="You currently have 0.0.1."
+          defaultMessage="You currently have 0.0.1 installed."
           id="marketplace_modal.list.update_confirmation.message.current"
           values={
             Object {
@@ -780,7 +780,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
       </p>,
       <p>
         <FormattedMessage
-          defaultMessage="You currently have 0.0.1."
+          defaultMessage="You currently have 0.0.1 installed."
           id="marketplace_modal.list.update_confirmation.message.current"
           values={
             Object {
