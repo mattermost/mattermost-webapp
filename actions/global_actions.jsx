@@ -327,7 +327,9 @@ export async function redirectUserToDefaultTeam() {
             } else {
                 channelName = getRedirectChannelNameForTeam(state, team.id);
                 channel = getChannelByName(state, channelName);
-                dispatch(selectChannel(channel.id));
+                if (channel) {
+                    dispatch(selectChannel(channel.id));
+                }
             }
         }
 
