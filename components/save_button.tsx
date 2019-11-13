@@ -24,7 +24,7 @@ class SaveButton extends React.PureComponent<Props> {
         extraClasses: '',
     }
 
-    render() {
+    public render() {
         const {formatMessage} = this.props.intl;
         const {
             saving,
