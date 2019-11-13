@@ -139,7 +139,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           />
         }
       />
-      <InvitationModalMembersStep
+      <injectIntl(InvitationModalMembersStep)
         goBack={null}
         inviteId="test-invite-id"
         onEdit={[Function]}
