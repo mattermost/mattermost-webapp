@@ -5,7 +5,7 @@ import React from 'react';
 
 import Setting from './setting';
 
-type Props = {
+interface Props {
     id: string;
     label: React.ReactNode;
     values: {value: string, text: string}[];
