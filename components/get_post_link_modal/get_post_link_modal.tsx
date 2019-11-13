@@ -72,7 +72,7 @@ export default class GetPostLinkModal extends React.PureComponent<Props, State> 
                 />
             );
         }
-        
+
         // Dont show model if ID of post doesnt exists
         return null;
     }
