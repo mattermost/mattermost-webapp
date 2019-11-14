@@ -16,7 +16,7 @@ describe('Messaging', () => {
 
     it('M18703-Markdown quotation paragraphs', () => {
         const messageParts = ['this is', 'really', 'three quote lines'];
- 
+
         cy.visit('/ad-1/channels/town-square');
 
         // # Post message to use
