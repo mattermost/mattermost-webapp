@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Messaging', () => {
     before(() => {
         // # Make sure the viewport is the expected one, so written lines always create new lines
