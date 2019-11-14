@@ -247,7 +247,7 @@ export default class MoreChannels extends React.Component {
                 onHide={this.handleHide}
                 onExited={this.handleExit}
                 role='dialog'
-                id='MoreChannelsModal'
+                id='moreChannelsModal'
                 aria-labelledby='moreChannelsModalLabel'
             >
                 <Modal.Header
