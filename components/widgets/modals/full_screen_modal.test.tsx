@@ -15,6 +15,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={true}
                 onClose={jest.fn()}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
@@ -29,7 +30,10 @@ describe('components/widgets/modals/FullScreenModal', () => {
   unmountOnExit={true}
 >
   <div
+    aria-label="test"
+    aria-modal={true}
     className="FullScreenModal"
+    role="dialog"
     tabIndex={-1}
   >
     <CloseIcon
@@ -41,6 +45,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
     />
     test
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tabIndex={0}
+  />
 </CSSTransition>
 `);
     });
@@ -49,6 +61,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={false}
                 onClose={jest.fn()}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
@@ -63,7 +76,10 @@ describe('components/widgets/modals/FullScreenModal', () => {
   unmountOnExit={true}
 >
   <div
+    aria-label="test"
+    aria-modal={true}
     className="FullScreenModal"
+    role="dialog"
     tabIndex={-1}
   >
     <CloseIcon
@@ -75,6 +91,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
     />
     test
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tabIndex={0}
+  />
 </CSSTransition>
 `);
     });
@@ -84,6 +108,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 show={true}
                 onClose={jest.fn()}
                 onGoBack={jest.fn()}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
@@ -98,7 +123,10 @@ describe('components/widgets/modals/FullScreenModal', () => {
   unmountOnExit={true}
 >
   <div
+    aria-label="test"
+    aria-modal={true}
     className="FullScreenModal"
+    role="dialog"
     tabIndex={-1}
   >
     <BackIcon
@@ -117,6 +145,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
     />
     test
   </div>
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tabIndex={0}
+  />
 </CSSTransition>
 `);
     });
@@ -127,6 +163,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={true}
                 onClose={close}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
@@ -143,6 +180,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
                 show={true}
                 onClose={jest.fn()}
                 onGoBack={back}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
@@ -158,6 +196,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             <FullScreenModal
                 show={true}
                 onClose={close}
+                ariaLabel='test'
             >
                 {'test'}
             </FullScreenModal>
