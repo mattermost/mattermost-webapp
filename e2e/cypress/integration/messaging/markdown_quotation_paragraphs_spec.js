@@ -16,12 +16,18 @@ describe('Messaging', () => {
 
     it('M18703-Markdown quotation paragraphs', () => {
         const messageParts = ['this is', 'really', 'three quote lines'];
-        const message = `>${messageParts[0]}\n\n>${messageParts[1]}\n\n>${messageParts[2]}`;
-
+ 
         cy.visit('/ad-1/channels/town-square');
 
         // # Post message to use
-        cy.postMessage(message);
+        cy.get('#post_textbox').clear().type('>' + messageParts[0]);
+        cy.get('#post_textbox').type('{shift}{enter}{enter}');
+
+        cy.get('#post_textbox').type('>' + messageParts[1]);
+        cy.get('#post_textbox').type('{shift}{enter}{enter}');
+
+        cy.get('#post_textbox').type('>' + messageParts[2]);
+        cy.get('#post_textbox').type('{enter}');
 
         var firstPartLeft;
         cy.getLastPostId().then((postId) => {
