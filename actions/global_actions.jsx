@@ -275,7 +275,7 @@ export function emitBrowserFocus(focus) {
     });
 }
 
-async function getTeamRedirectChannelIfIsAccesible(getState, user, team) {
+async function getTeamRedirectChannelIfIsAccesible(user, team) {
     let state = getState();
     let channel = null;
 
@@ -311,9 +311,9 @@ async function getTeamRedirectChannelIfIsAccesible(getState, user, team) {
     }
 
     if (channel && channelMember) {
-        return channel
+        return channel;
     }
-    return null
+    return null;
 }
 
 export async function redirectUserToDefaultTeam() {
@@ -330,7 +330,7 @@ export async function redirectUserToDefaultTeam() {
 
     const user = getCurrentUser(state);
     if (!user) {
-        return
+        return;
     }
 
     const locale = getCurrentLocale(state);
@@ -342,9 +342,9 @@ export async function redirectUserToDefaultTeam() {
         return;
     }
 
-    let team = getTeam(state, teamId)
+    const team = getTeam(state, teamId);
     if (team) {
-        let channel = await getTeamRedirectChannelIfIsAccesible(getState, user, team);
+        const channel = await getTeamRedirectChannelIfIsAccesible(getState, user, team);
         if (channel) {
             dispatch(selectChannel(channel.id));
             browserHistory.push(`/${team.name}/channels/${channel.name}`);
@@ -355,11 +355,12 @@ export async function redirectUserToDefaultTeam() {
     myTeams = filterAndSortTeamsByDisplayName(myTeams, locale);
 
     for (const myTeam of myTeams) {
-        const channel = await getTeamRedirectChannelIfIsAccesible(getState, user, myTeam)
+        // This should execute async behavior in a pretty limited set of situations, so shouldn't be a problem
+        const channel = await getTeamRedirectChannelIfIsAccesible(getState, user, myTeam); // eslint-disable-line no-await-in-loop
         if (channel) {
             dispatch(selectChannel(channel.id));
             browserHistory.push(`/${myTeam.name}/channels/${channel.name}`);
-            return
+            return;
         }
     }
 
