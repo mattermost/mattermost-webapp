@@ -330,21 +330,39 @@ export default class ChannelHeader extends React.PureComponent {
         }
 
         if (isGroup) {
-            const nodes = [];
+            // map the displayname to the gm member users
+            const membersMap = {};
             for (const user of gmMembers) {
                 if (user.id === currentUser.id) {
                     continue;
                 }
                 const userDisplayName = Utils.getDisplayNameByUserId(user.id);
-                nodes.push((
-                    <React.Fragment key={userDisplayName}>
-                        {nodes.length !== 0 && ', '}
-                        {userDisplayName}
+
+                if (!membersMap[userDisplayName]) {
+                    membersMap[userDisplayName] = []; //Create an array for cases with same display name
+                }
+
+                membersMap[userDisplayName].push(user);
+            }
+
+            const displayNames = channel.display_name.split(', ');
+
+            channelTitle = displayNames.map((displayName, index) => {
+                if (!membersMap[displayName]) {
+                    return displayName;
+                }
+
+                const user = membersMap[displayName].shift();
+
+                return (
+                    <React.Fragment key={user.id}>
+                        {index > 0 && ', '}
+                        {displayName}
                         <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
-                ));
-            }
-            channelTitle = nodes;
+                );
+            });
+
             if (hasGuests) {
                 hasGuestsText = (
                     <span className='has-guest-header'>
