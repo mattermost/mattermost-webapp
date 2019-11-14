@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants';
@@ -18,8 +18,9 @@ import TextDismissableBar from '../text_dismissable_bar';
 
 const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
 
-export default class ConfigurationAnnouncementBar extends React.PureComponent {
+class ConfigurationAnnouncementBar extends React.PureComponent {
     static propTypes = {
+        intl: PropTypes.any,
         config: PropTypes.object,
         license: PropTypes.object,
         user: PropTypes.object,
@@ -30,10 +31,6 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape,
     };
 
     dismissExpiringLicense = () => {
@@ -114,7 +111,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
             }
         }
 
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
 
         if (this.props.config.SendEmailNotifications !== 'true' &&
             this.props.config.EnablePreviewModeBanner === 'true'
@@ -159,3 +156,5 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         return null;
     }
 }
+
+export default injectIntl(ConfigurationAnnouncementBar);

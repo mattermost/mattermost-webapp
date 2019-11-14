@@ -617,7 +617,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
         id="setting-picture__helptext"
         role="presentation"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
         />
@@ -783,7 +783,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
         id="setting-picture__helptext"
         role="presentation"
       >
-        <InjectIntl(FormattedMarkdownMessage)
+        <injectIntl(FormattedMarkdownMessage)
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
         />

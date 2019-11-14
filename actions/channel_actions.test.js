@@ -102,6 +102,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
         };
     },
     addChannelMember: (...args) => ({type: 'MOCK_ADD_CHANNEL_MEMBER', args}),
+    createGroupChannel: (...args) => ({type: 'MOCK_CREATE_GROUP_CHANNEL', args}),
 }));
 
 jest.mock('actions/user_actions.jsx', () => ({
@@ -156,6 +157,22 @@ describe('Actions.Channel', () => {
         };
 
         await testStore.dispatch(Actions.addUsersToChannel(fakeData.channel, fakeData.userIds));
+        expect(testStore.getActions()).toEqual(expectedActions);
+    });
+
+    test('openGroupChannelToUserIds', async () => {
+        const testStore = await mockStore(initialState);
+
+        const expectedActions = [{
+            type: 'MOCK_CREATE_GROUP_CHANNEL',
+            args: [['testuserid1', 'testuserid2']]
+        }];
+
+        const fakeData = {
+            userIds: ['testuserid1', 'testuserid2']
+        };
+
+        await testStore.dispatch(Actions.openGroupChannelToUserIds(fakeData.userIds));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 });

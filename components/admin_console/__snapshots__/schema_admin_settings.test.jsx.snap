@@ -564,17 +564,39 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             value=""
           />
           <component
+            config={
+              Object {
+                "EscapedSettings": Object {
+                  "com.example.setting": Object {
+                    "a": true,
+                  },
+                },
+                "FirstSettings": Object {
+                  "settinga": "fsdsdg",
+                  "settingb": false,
+                  "settingc": "option3",
+                  "settingl": true,
+                },
+                "SecondSettings": Object {
+                  "settingd": "option1",
+                  "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
+                  "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
+                  "settingg": 7,
+                  "settingh": 100,
+                },
+              }
+            }
             disabled={false}
+            helpText={null}
             id="custom"
-            key="Config_userautocomplete_custom"
+            key="Config_custom_custom"
             onChange={[Function]}
             registerSaveAction={[Function]}
             setByEnv={false}
             setSaveNeeded={[Function]}
             unRegisterSaveAction={[Function]}
-            value=""
           />
-          <Connect(InjectIntl(JobTable))
+          <Connect(injectIntl(JobTable))
             createJobButtonText={
               <FormattedMessage
                 defaultMessage="Setting Twelve"
@@ -583,7 +605,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               />
             }
             createJobHelpText={
-              <InjectIntl(FormattedMarkdownMessage)
+              <injectIntl(FormattedMarkdownMessage)
                 defaultMessage="This is some help text for the jobs table field."
                 id="help-text-l"
               />
@@ -591,7 +613,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             disabled={false}
             getExtraInfoText={[Function]}
             jobType="test"
-            key="Config_userautocomplete_undefined"
+            key="Config_jobstable_undefined"
           />
           <BooleanSetting
             disabled={false}
@@ -660,10 +682,8 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
   <div
     className="admin-console-save"
   >
-    <SaveButton
-      btnClass="btn-primary"
+    <injectIntl(SaveButton)
       disabled={true}
-      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
