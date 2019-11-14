@@ -739,7 +739,7 @@
   "admin.ldap.syncIntervalTitle": "Интервал синхронизации (в минутах):",
   "admin.ldap.syncNowHelpText": "Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review \"System Console > Logs\" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
   "admin.ldap.testFailure": "Ошибка теста AD/LDAP: {error}",
-  "admin.ldap.testHelpText": "Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review \"System Console > Logs\" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
+  "admin.ldap.testHelpText": "Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review \"System Console > Logs\" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
   "admin.ldap.testSuccess": "Тестирование подключения к AD/LDAP успешно завершено",
   "admin.ldap.userFilterDisc": "(Необязательно) Введите фильтр AD/LDAP, используемый при поиске объектов пользователь. Только пользователи, выбранные запросом будут иметь возможность получить доступ к Mattermost. Для Active Directory, запрос для отбора только активных пользователей такой: (&(objectCategory=Person)(!UserAccountControl:1.2.840.113556.1.4.803:=2))).",
   "admin.ldap.userFilterEx": "Например: \"(objectClass=user)\"",
