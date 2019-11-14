@@ -992,16 +992,21 @@ class CreateComment extends React.PureComponent {
                         className='post-create-footer'
                     >
                         <div className='d-flex justify-content-between'>
-                            <MsgTyping
-                                channelId={this.props.channelId}
-                                postId={this.props.rootId}
-                            />
-                            <TextboxLinks
-                                characterLimit={this.props.maxPostSize}
-                                showPreview={this.state.showPreview}
-                                updatePreview={this.updatePreview}
-                                message={readOnlyChannel ? '' : this.state.message}
-                            />
+                            <div className='col'>
+                                <MsgTyping
+                                    channelId={this.props.channelId}
+                                    postId={this.props.rootId}
+                                />
+                                {postError}
+                            </div>
+                            <div className='col col-auto'>
+                                <TextboxLinks
+                                    characterLimit={this.props.maxPostSize}
+                                    showPreview={this.state.showPreview}
+                                    updatePreview={this.updatePreview}
+                                    message={readOnlyChannel ? '' : this.state.message}
+                                />
+                            </div>
                         </div>
                         <div>
                             <input
@@ -1012,7 +1017,6 @@ class CreateComment extends React.PureComponent {
                                 onClick={this.handleSubmit}
                             />
                             {uploadsInProgressText}
-                            {postError}
                             {preview}
                             {serverError}
                         </div>
