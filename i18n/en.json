@@ -23,6 +23,8 @@
   "access_history.title": "Access History",
   "accessibility.button.attachment": "attachment",
   "accessibility.button.dialog": "dialog",
+  "accessibility.button.Info": "Info",
+  "accessibility.button.Search": "Search",
   "accessibility.sections.centerContent": "message list main region",
   "accessibility.sections.centerFooter": "message input complimentary region",
   "accessibility.sections.channelHeader": "channel header region",
