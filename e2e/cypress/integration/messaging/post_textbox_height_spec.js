@@ -13,8 +13,8 @@ describe('Messaging', () => {
         cy.toMainChannelView('user-1');
 
         // # Add two posts
-        getInputBox().type('test post 1{enter}');
-        getInputBox().type('test post 2{enter}');
+        cy.postMessage('test post 1');
+        cy.postMessage('test post 2');
     });
 
     it('M18700 - Leave a long draft in reply input box', async () => {
@@ -49,10 +49,6 @@ describe('Messaging', () => {
             });
         });
     });
-
-    const getInputBox = () => {
-        return cy.get('#post_textbox');
-    };
 
     const getTextBox = () => {
         return cy.get('#reply_textbox');
