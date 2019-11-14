@@ -70,16 +70,16 @@ describe('Permalink loading indicator', () => {
                         // # Click on permalink
                         cy.get(`#postMessageText_${postId} > p > .markdown__link`).scrollIntoView().click();
 
-                        // # Check if url include the permalink
+                        // * Check if url include the permalink
                         cy.url().should('include', linkText);
                     });
 
                     // # Get last post id from open channel
                     cy.getLastPostId().then((clickedpostid) => {
-                        // # Check the sent message
+                        // * Check the sent message
                         cy.get(`#postMessageText_${clickedpostid}`).should('be.visible').and('have.text', message);
 
-                        // # Check the loading spinner does not appear
+                        // * Check the loading spinner does not appear
                         cy.get('#loadingSpinner').should('not.be.visible');
                     });
                 });
