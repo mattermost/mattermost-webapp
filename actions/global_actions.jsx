@@ -284,13 +284,14 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
         return null;
     }
 
-    if (Utils.isGuest(user)) {
-        // This should be executed in pretty limited scenarios (guest with empty teams)
+    let teamChannels = getChannelsNameMapInTeam(state, team.id);
+    if (!teamChannels || Object.keys(teamChannels).length === 0) {
+        // This should be executed in pretty limited scenarios (empty teams)
         await dispatch(fetchMyChannelsAndMembers(team.id)); // eslint-disable-line no-await-in-loop
         state = getState();
+        teamChannels = getChannelsNameMapInTeam(state, team.id);
     }
 
-    let teamChannels = getChannelsNameMapInTeam(state, team.id);
     let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
     channel = teamChannels[channelName];
     let channelMember = getMyChannelMember(state, channel && channel.id);
@@ -319,16 +320,16 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
 export async function redirectUserToDefaultTeam() {
     let state = getState();
 
-    // Assume we need to load the user if they don't have any team memberships loaded
-    const shouldLoadUser = Utils.isEmptyObject(getTeamMemberships(state));
+    // Assume we need to load the user if they don't have any team memberships loaded or the user loaded
+    let user = getCurrentUser(state);
+    const shouldLoadUser = Utils.isEmptyObject(getTeamMemberships(state)) || !user;
 
     if (shouldLoadUser) {
         await dispatch(loadMe());
+        state = getState();
+        user = getCurrentUser(state);
     }
 
-    state = getState();
-
-    const user = getCurrentUser(state);
     if (!user) {
         return;
     }
