@@ -4,7 +4,6 @@
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
-import {autocompleteUsers} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -60,11 +59,15 @@ class UserSuggestion extends Suggestion {
 }
 
 export default class UserProvider extends Provider {
+    constructor(searchUsersFunc) {
+        super();
+        this.autocompleteUsers = searchUsersFunc;
+    }
     handlePretextChanged(pretext, resultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
-        autocompleteUsers(
+        this.autocompleteUsers(
             normalizedPretext,
             (data) => {
                 if (this.shouldCancelDispatch(normalizedPretext)) {

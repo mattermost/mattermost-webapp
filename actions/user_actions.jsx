@@ -309,11 +309,13 @@ export function autocompleteUsersInTeam(username, success) {
     };
 }
 
-export async function autocompleteUsers(username, success) {
-    const {data} = await UserActions.autocompleteUsers(username)(dispatch, getState);
-    if (success) {
-        success(data);
-    }
+export function autocompleteUsers(username, success) {
+    return async (doDispatch) => {
+        const {data} = await doDispatch(UserActions.autocompleteUsers(username));
+        if (success) {
+            success(data);
+        }
+    };
 }
 
 export function autoResetStatus() {
