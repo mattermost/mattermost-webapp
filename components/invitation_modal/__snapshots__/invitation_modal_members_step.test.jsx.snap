@@ -63,7 +63,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Share this link to grant access to this team."
+        defaultMessage="Share this link to invite people to this team."
         id="invitation_modal.members.share_link.description"
         values={Object {}}
       />
@@ -107,7 +107,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Search and add members from other teams or email invite new users."
+        defaultMessage="Add existing members or send email invites to new members."
         id="invitation_modal.members.search-and-add.description"
         values={Object {}}
       />

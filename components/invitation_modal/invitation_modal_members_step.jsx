@@ -179,7 +179,7 @@ class InvitationModalMembersStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.description'
-                            defaultMessage='Share this link to grant access to this team.'
+                            defaultMessage='Share this link to invite people to this team.'
                         />
                     </div>
                 </div>
@@ -227,7 +227,7 @@ class InvitationModalMembersStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.search-and-add.description'
-                            defaultMessage='Search and add members from other teams or email invite new users.'
+                            defaultMessage='Add existing members or send email invites to new members.'
                         />
                     </div>
                 </div>
