@@ -274,7 +274,7 @@ describe('Actions.Channel', () => {
         expect(doneActions).toEqual(expectedActions);
         Date.now = realDateNow;
     });
-    
+
     test('openGroupChannelToUserIds', async () => {
         const testStore = await mockStore(initialState);
 
