@@ -32,7 +32,6 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
         }
       }
       viewBox="0 0 300 200"
-      width="inherit"
       xmlns="http://www.w3.org/2000/svg"
     />
   </div>
