@@ -6,9 +6,9 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {getUserAudits} from 'mattermost-redux/actions/users';
 import {getCurrentUserId, getUserAudits as getCurrentUserAudits} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'mattermost-redux/types/store';
-import { GenericAction } from 'mattermost-redux/types/actions';
+import {GenericAction} from 'mattermost-redux/types/actions';
 
-import AccessHistoryModal from './access_history_modal.jsx';
+import AccessHistoryModal from './access_history_modal';
 
 function mapStateToProps(state: GlobalState) {
     return {
