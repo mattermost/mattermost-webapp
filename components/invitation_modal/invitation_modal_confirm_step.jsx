@@ -65,7 +65,7 @@ export default class InvitationModalConfirmStep extends React.Component {
         const {teamName, invitesType, invitesSent, invitesNotSent, onDone} = this.props;
         return (
             <div className='InvitationModalConfirmStep'>
-                {this.props.goBack &&
+                {this.props.goBack && this.props.invitesNotSent.length > 0 &&
                     <BackIcon
                         className='back'
                         onClick={this.props.goBack}
