@@ -63,7 +63,7 @@ export default class UnreadToast extends React.PureComponent {
 
         return (
             <Toast
-                {...this.passAlong}
+                {...passAlong}
                 show={this.unreadShow()}
                 onDismiss={this.handleDismiss}
                 onClick={this.handleClick}
