@@ -15,6 +15,7 @@ interface Props {
     title?: React.ReactNode;
     placement?: 'bottom' | 'top' | 'right' | 'left';
     className?: string;
+    style?: React.CSSProperties;
     onMouseOut?: React.MouseEventHandler<BSPopover>; // didn't find a better way to satisfy typing, so for now we have a slight 'bootstrap leakage'
     onMouseOver?: React.MouseEventHandler<BSPopover>;
 }
@@ -27,10 +28,11 @@ export default class Popover extends React.PureComponent<Props> {
     
     }
     render() {
-        const { placement, popoverSize, children, popoverStyle, title, id, onMouseOut, onMouseOver, className } = this.props;
+        const { placement, popoverSize, children, popoverStyle, title, id, onMouseOut, onMouseOver, className, style } = this.props;
         return (
             <BSPopover
                 id={id}
+                style={style}
                 className={className}
                 bsStyle={popoverStyle}
                 placement={placement}

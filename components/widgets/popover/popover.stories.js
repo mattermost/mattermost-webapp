@@ -45,7 +45,7 @@ storiesOf('Popover', module).
                         </Popover>
                     )}
                 >
-                    <button>{'trigger'}</button>
+                    <button style={{position: 'absolute', left: 100, top: 100}}>{'trigger'}</button>
                 </OverlayTrigger>
             );
         },
