@@ -11,8 +11,8 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username, password) => {
-    cy.apiLogin('user-1', password);
+Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
+    cy.apiLogin(username, password);
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
