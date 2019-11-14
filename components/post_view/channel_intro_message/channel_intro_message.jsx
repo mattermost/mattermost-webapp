@@ -205,7 +205,7 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
+            <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
@@ -213,7 +213,7 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
                         name: channel.display_name,
                     }}
                 />
-            </h4>
+            </h2>
             <p className='channel-intro__content'>
                 <FormattedMessage
                     id='intro_messages.offTopic'
@@ -322,7 +322,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
+            <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
@@ -330,7 +330,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                         name: channel.display_name,
                     }}
                 />
-            </h4>
+            </h2>
             <p className='channel-intro__content'>
                 {!isReadOnly &&
                     <FormattedMarkdownMessage
@@ -487,7 +487,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
+            <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
@@ -495,7 +495,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
                         name: (uiName),
                     }}
                 />
-            </h4>
+            </h2>
             <p className='channel-intro__content'>
                 {createMessage}
                 {memberMessage}

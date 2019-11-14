@@ -206,10 +206,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 <div
   className="InvitationModalConfirmStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
@@ -283,10 +279,6 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 <div
   className="InvitationModalConfirmStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >

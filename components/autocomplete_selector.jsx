@@ -18,6 +18,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         helpText: PropTypes.node,
         placeholder: PropTypes.string,
         footer: PropTypes.node,
+        toggleFocus: PropTypes.func,
     };
 
     static defaultProps = {
@@ -63,10 +64,18 @@ export default class AutocompleteSelector extends React.PureComponent {
 
     onFocus = () => {
         this.setState({focused: true});
+
+        if (this.props.toggleFocus) {
+            this.props.toggleFocus(true);
+        }
     }
 
     onBlur = () => {
         this.setState({focused: false});
+
+        if (this.props.toggleFocus) {
+            this.props.toggleFocus(false);
+        }
     }
 
     render() {
