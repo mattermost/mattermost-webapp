@@ -739,6 +739,7 @@
   "admin.ldap.syncIntervalTitle": "Interval de sincronizare (minute):",
   "admin.ldap.syncNowHelpText": "Inițiază imediat o sincronizare AD/LDAP. Consultați tabelul de mai jos pentru starea fiecărei sincronizări. Consultați \"Console de sistem > Jurnale\" și [documentația](!https://mattermost.com/default-ldap-docs) pentru a depana erorile.",
   "admin.ldap.testFailure": "Defecțiunea testului AD/LDAP: {error}",
+  "admin.ldap.testHelpText": "Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review \"System Console > Logs\" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
   "admin.ldap.testSuccess": "Testul AD/LDAP a reușit",
   "admin.ldap.userFilterDisc": "(Opțional) Introduceți un filtru AD/LDAP utilizat pentru căutarea obiectelor utilizator. Numai utilizatorii selectați de interogare vor putea accesa Mattermost. Pentru Active Directory, interogarea de a filtra utilizatorii cu handicap este (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).",
   "admin.ldap.userFilterEx": "De exemplu: \"(objectClass=user)\"",

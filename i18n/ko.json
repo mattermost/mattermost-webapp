@@ -739,6 +739,7 @@
   "admin.ldap.syncIntervalTitle": "동기화 간격 (분)",
   "admin.ldap.syncNowHelpText": "Initiates an AD/LDAP synchronization immediately. See the table below for status of each synchronization. Please review \"System Console > Logs\" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
   "admin.ldap.testFailure": "AD/LDAP 테스트 실패: {error}",
+  "admin.ldap.testHelpText": "Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review \"System Console > Logs\" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.",
   "admin.ldap.testSuccess": "AD/LDAP 테스트가 성공하였습니다.",
   "admin.ldap.userFilterDisc": "(Optional) Enter an LDAP Filter to use when searching for user objects. Only the users selected by the query will be able to access Mattermost. For Active Directory, the query to filter out disabled users is (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).",
   "admin.ldap.userFilterEx": "예시: \"(objectClass=user)\"",

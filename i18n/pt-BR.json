@@ -739,6 +739,7 @@
   "admin.ldap.syncIntervalTitle": "Intervalo de sincronização (minutos):",
   "admin.ldap.syncNowHelpText": "Inicia uma sincronização AD/LDAP imediatamente. Veja a tabela abaixo para o status de cada sincronização. Por favor, revise \"Console do Sistema > Logs\" e a [documentação](!https://mattermost.com/default-ldap-docs) para solucionar erros.",
   "admin.ldap.testFailure": "Falha Teste AD/LDAP: {error}",
+  "admin.ldap.testHelpText": "Testa se o servidor Mattemost pode se conectar ao servidor AD/LDAP especificado. Por favor, revise \"Console do Sistema > Logs\" e a [documentação](!https://mattermost.com/default-ldap-docs) para solucionar erros.",
   "admin.ldap.testSuccess": "Teste AD/LDAP bem Sucedido",
   "admin.ldap.userFilterDisc": "(Opcional) Digite um filtro AD/LDAP para usar ao procurar por objetos de usuário. Somente os usuários selecionados pela consulta serão capazes de acessar o Mattermost. Para o Active Directory, a consulta para filtrar os usuários desativados é (&(objectCategory=Person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))).",
   "admin.ldap.userFilterEx": "Ex. \"(objectClass=user)\"",
