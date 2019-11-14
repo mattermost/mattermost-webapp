@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import PropTypes from 'prop-types';
 
 import {t} from 'utils/i18n';
 import TeamList from 'components/admin_console/team_channel_settings/team/list';
@@ -28,10 +29,14 @@ export function TeamsSettings(props) {
                         subtitleId={t('admin.team_settings.description')}
                         subtitleDefault='Manage team settings.'
                     >
-                        <TeamList />
+                        <TeamList/>
                     </AdminPanel>
                 </div>
             </div>
         </div>
     );
 }
+
+TeamsSettings.propTypes = {
+    siteName: PropTypes.string.isRequired,
+};
