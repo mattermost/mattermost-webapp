@@ -77,7 +77,7 @@ export default class ErrorPage extends React.PureComponent {
             );
         } else if (type === ErrorPageTypes.CHANNEL_NOT_FOUND && isGuest) {
             backButton = (
-                <Link to={params.get('returnTo')}>
+                <Link to='/'>
                     <FormattedMessage
                         id='error.channelNotFound.guest_link'
                         defaultMessage='Back'
