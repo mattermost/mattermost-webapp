@@ -237,7 +237,7 @@ export function isErrorInvalidSlashCommand(error) {
     return false;
 }
 
-function isIdNotPost(postId) {
+export function isIdNotPost(postId) {
     return (
         PostListUtils.isStartOfNewMessages(postId) ||
         PostListUtils.isDateLine(postId) ||
