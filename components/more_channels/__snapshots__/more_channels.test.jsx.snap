@@ -10,7 +10,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
   dialogClassName="a11y__modal more-modal more-modal--action"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  id="MoreChannelsModal"
+  id="moreChannelsModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -35,7 +35,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
-    id="MoreChannelsModalHeader"
+    id="moreChannelsModalHeader"
   >
     <ModalTitle
       bsClass="modal-title"

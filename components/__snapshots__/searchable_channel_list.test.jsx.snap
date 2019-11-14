@@ -37,7 +37,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     role="application"
   >
     <div
-      id="MoreChannelsList"
+      id="moreChannelsList"
     >
       <LoadingScreen
         position="relative"
