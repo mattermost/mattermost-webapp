@@ -12,9 +12,9 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe} from 'mattermost-redux/actions/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentTeamId, getTeam, getMyTeams, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentChannelStats, getCurrentChannelId, getChannelByName, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelStats, getCurrentChannelId, getMyChannelMember, getRedirectChannelNameForTeam, getChannelsNameMapInTeam} from 'mattermost-redux/selectors/entities/channels';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 
 import {browserHistory} from 'utils/browser_history';
@@ -275,6 +275,47 @@ export function emitBrowserFocus(focus) {
     });
 }
 
+async function getTeamRedirectChannelIfIsAccesible(getState, user, team) {
+    let state = getState();
+    let channel = null;
+
+    const myMember = getMyTeamMember(state, team.id);
+    if (!myMember) {
+        return null;
+    }
+
+    if (Utils.isGuest(user)) {
+        // This should be executed in pretty limited scenarios (guest with empty teams)
+        await dispatch(fetchMyChannelsAndMembers(team.id)); // eslint-disable-line no-await-in-loop
+        state = getState();
+    }
+
+    let teamChannels = getChannelsNameMapInTeam(state, team.id);
+    let channelName = LocalStorageStore.getPreviousChannelName(user.id, team.id);
+    channel = teamChannels[channelName];
+    let channelMember = getMyChannelMember(state, channel && channel.id);
+
+    if (!channel || !channelMember) {
+        // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
+        await dispatch(getChannelByNameAndTeamName(team.name, channelName)); // eslint-disable-line no-await-in-loop
+        state = getState();
+        teamChannels = getChannelsNameMapInTeam(state, team.id);
+        channel = teamChannels[channelName];
+        channelMember = getMyChannelMember(state, channel && channel.id);
+    }
+
+    if (!channel || !channelMember) {
+        channelName = getRedirectChannelNameForTeam(state, team.id);
+        channel = teamChannels[channelName];
+        channelMember = getMyChannelMember(state, channel && channel.id);
+    }
+
+    if (channel && channelMember) {
+        return channel
+    }
+    return null
+}
+
 export async function redirectUserToDefaultTeam() {
     let state = getState();
 
@@ -288,65 +329,39 @@ export async function redirectUserToDefaultTeam() {
     state = getState();
 
     const user = getCurrentUser(state);
+    if (!user) {
+        return
+    }
+
     const locale = getCurrentLocale(state);
     const teamId = LocalStorageStore.getPreviousTeamId(user.id);
 
-    let channel;
-    let team;
     let myTeams = getMyTeams(state);
-
     if (myTeams.length === 0) {
         browserHistory.push('/select_team');
         return;
     }
 
+    let team = getTeam(state, teamId)
+    if (team) {
+        let channel = await getTeamRedirectChannelIfIsAccesible(getState, user, team);
+        if (channel) {
+            dispatch(selectChannel(channel.id));
+            browserHistory.push(`/${team.name}/channels/${channel.name}`);
+            return;
+        }
+    }
 
     myTeams = filterAndSortTeamsByDisplayName(myTeams, locale);
 
-    for (let myTeam of myTeams) {
-        const myMember = getMyTeamMember(state, myTeam.id);
-        if (!myMember) {
-            continue;
-        }
-
-        if (user.id && myTeam) {
-            if (user && Utils.isGuest(user)) {
-                // This should be executed in pretty limited scenarios (guest with empty teams)
-                await dispatch(fetchMyChannelsAndMembers(myTeam.id)); // eslint-disable-line no-await-in-loop
-                state = getState();
-            }
-
-            let teamChannels = getChannelsNameMapInTeam(state, myTeam.id)
-            let channelName = LocalStorageStore.getPreviousChannelName(user.id, myTeam.id);
-            channel = teamChannels[channelName];
-            let channelMember = getMyChannelMember(state, channel && channel.id)
-
-            if (!channel || !channelMember) {
-                // This should be executed in pretty limited scenarios (when the last visited channel in the team has been removed)
-                await dispatch(getChannelByNameAndTeamName(myTeam.name, channelName)); // eslint-disable-line no-await-in-loop
-                state = getState();
-                let teamChannels = getChannelsNameMapInTeam(state, myTeam.id)
-                channel = teamChannels[channelName];
-                channelMember = getMyChannelMember(state, channel && channel.id)
-            }
-
-            if (!channel || !channelMember) {
-                channelName = getRedirectChannelNameForTeam(state, myTeam.id);
-                channel = teamChannels[channelName];
-                channelMember = getMyChannelMember(state, channel && channel.id)
-            }
-
-            if (channel && channelMember) {
-                team = myTeam;
-                break;
-            }
+    for (const myTeam of myTeams) {
+        const channel = await getTeamRedirectChannelIfIsAccesible(getState, user, myTeam)
+        if (channel) {
+            dispatch(selectChannel(channel.id));
+            browserHistory.push(`/${myTeam.name}/channels/${channel.name}`);
+            return
         }
     }
 
-    if (team && channel) {
-        dispatch(selectChannel(channel.id));
-        browserHistory.push(`/${team.name}/channels/${channel.name}`);
-    } else if (user.id) {
-        browserHistory.push('/select_team');
-    }
+    browserHistory.push('/select_team');
 }
