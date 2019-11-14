@@ -13,33 +13,31 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 const sysadmin = users.sysadmin;
 
 describe('System Console', () => {
-    it('MM-19309 Demoted user cannot continue to view System Console', () => {
-        const baseUrl = Cypress.config('baseUrl');
-
-        // # Login as new user
+    it('MM-19309 Allow System Admins to control Teammate Name Display at the system level', () => {
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/site_config/users_and_teams')
-        // cy.toAccountSettingsModal('sysadmin', true);
-        // cy.get('#displayButton').click()
+        cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select("nickname_full_name")
+        cy.findByTestId('TeamSettings.LockTeammateNameDisplayfalse').click()
+        cy.get('#saveSetting').click()
 
-        // // # Set user to be a sysadmin, so it can access the system console
-        // cy.get('@newuser').then((user) => {
-        //     cy.externalRequest({user: sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
-        // });
+        cy.visit('/')
+        cy.toAccountSettingsModal(null, true);
+        cy.get('#displayButton').click();
+        cy.get('#name_formatEdit').click();
+        cy.get('#name_formatFormatC').check()
+        cy.get('#saveSetting').click()
+        cy.get('#name_formatDesc').contains('Show first and last name')
 
-        // // # Visit a page on the system console
-        // cy.visit('/admin_console/reporting/system_analytics');
-        // cy.get('#adminConsoleWrapper').should('be.visible');
-        // cy.url().should('include', '/admin_console/reporting/system_analytics');
+        cy.visit('/admin_console/site_config/users_and_teams');
+        cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select("username")
+        cy.findByTestId('TeamSettings.LockTeammateNameDisplaytrue').click()
+        cy.get('#saveSetting').click()
 
-        // // # Change the role of the user back to user
-        // cy.get('@newuser').then((user) => {
-        //     cy.externalRequest({user: sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
-        // });
-
-        // // # User should get redirected to town square
-        // cy.get('#adminConsoleWrapper').should('not.exist');
-        // cy.get('#postListContent', {timeout: TIMEOUTS.LARGE}).should('be.visible');
-        // cy.url().should('include', 'town-square');
+        cy.visit('/')
+        cy.toAccountSettingsModal(null, true);
+        cy.get('#displayButton').click();
+        cy.get('#name_formatDesc').contains('Show username');
+        cy.get('#name_formatEdit').click();
+        cy.get('#extraInfo').contains('This field is handled through your System Administrator. If you want to change it, you need to do so through your System Administrator.');
     });
 });
