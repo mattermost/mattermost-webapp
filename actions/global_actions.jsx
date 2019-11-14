@@ -344,7 +344,7 @@ export async function redirectUserToDefaultTeam() {
 
     const team = getTeam(state, teamId);
     if (team) {
-        const channel = await getTeamRedirectChannelIfIsAccesible(getState, user, team);
+        const channel = await getTeamRedirectChannelIfIsAccesible(user, team);
         if (channel) {
             dispatch(selectChannel(channel.id));
             browserHistory.push(`/${team.name}/channels/${channel.name}`);
@@ -356,7 +356,7 @@ export async function redirectUserToDefaultTeam() {
 
     for (const myTeam of myTeams) {
         // This should execute async behavior in a pretty limited set of situations, so shouldn't be a problem
-        const channel = await getTeamRedirectChannelIfIsAccesible(getState, user, myTeam); // eslint-disable-line no-await-in-loop
+        const channel = await getTeamRedirectChannelIfIsAccesible(user, myTeam); // eslint-disable-line no-await-in-loop
         if (channel) {
             dispatch(selectChannel(channel.id));
             browserHistory.push(`/${myTeam.name}/channels/${channel.name}`);
