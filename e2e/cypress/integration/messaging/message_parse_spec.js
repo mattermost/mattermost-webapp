@@ -28,15 +28,18 @@ describe('Messaging', () => {
 
         // # check if message sent correctly, it should parse it as 😕////"
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).children().find('span').last().should('have.class', 'emoticon').and('be.visible');
-            cy.get(`#postMessageText_${postId}`).should('be.visible').and('have.text', textAfterParsed);
+            verifyPostedMessage(postId, textAfterParsed);
 
             // # check if message still correctly parses after reload
             cy.reload();
-            cy.get(`#postMessageText_${postId}`).should('be.visible').within((el) => {
-                cy.wrap(el).should('have.text', textAfterParsed);
-                cy.get('.emoticon').should('be.visible').and('have.attr', 'title', ':confused:');
-            });
+            verifyPostedMessage(postId, textAfterParsed);
         });
     });
+
+    function verifyPostedMessage(postId, text) {
+        cy.get(`#postMessageText_${postId}`).should('be.visible').within((el) => {
+            cy.wrap(el).should('have.text', text);
+            cy.get('.emoticon').should('be.visible').and('have.attr', 'title', ':confused:');
+        });
+    }
 });
