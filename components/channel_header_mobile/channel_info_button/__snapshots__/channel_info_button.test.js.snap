@@ -47,6 +47,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
     trigger="click"
   >
     <button
+      aria-label="Info"
       className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
       onClick={[Function]}
     >
@@ -170,6 +171,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
     trigger="click"
   >
     <button
+      aria-label="Info"
       className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
       onClick={[Function]}
     >
