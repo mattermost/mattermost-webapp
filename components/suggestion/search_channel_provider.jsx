@@ -21,6 +21,9 @@ function itemToName(item) {
     if (item.type === Constants.GM_CHANNEL) {
         return '@' + item.display_name.replace(/ /g, '');
     }
+    if (item.type === Constants.OPEN_CHANNEL || item.type === Constants.PRIVATE_CHANNEL) {
+        return item.display_name + ' (~' + item.name + ')';
+    }
     return item.name;
 }
 
