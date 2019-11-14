@@ -11,7 +11,7 @@ const MIN_TOAST_HEIGHT = 1000;
 
 export default class Toast extends React.PureComponent {
     static propTypes = {
-        onClick: PropTypes.func.isRequired, // required?
+        onClick: PropTypes.func.isRequired,
         onClickMessage: PropTypes.string,
         onClickFadeOutDelay: PropTypes.number,
         onDismiss: PropTypes.func,
@@ -21,6 +21,14 @@ export default class Toast extends React.PureComponent {
         extraClasses: PropTypes.string,
         showOnlyOnce: PropTypes.bool.isRequired,
     }
+
+    static defaultProps = {
+        onDismiss: null,
+        onClickMessage: 'Jump',
+        order: 0,
+        jumpFadeOutDelay: 0,
+        showOnlyOnce: false,
+    };
 
     constructor(props) {
         super(props);
@@ -89,11 +97,3 @@ export default class Toast extends React.PureComponent {
         );
     }
 }
-
-Toast.defaultProps = {
-    onDismiss: null,
-    onClickMessage: 'Jump',
-    order: 0,
-    jumpFadeOutDelay: 0,
-    showOnlyOnce: false,
-};

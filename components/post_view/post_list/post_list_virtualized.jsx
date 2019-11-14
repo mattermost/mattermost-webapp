@@ -12,7 +12,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
-import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {getPreviousPostId, getLatestPostId, isIdNotPost} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -86,8 +86,6 @@ class PostList extends React.PureComponent {
         latestAriaLabelFunc: PropTypes.func,
 
         countUnread: PropTypes.number,
-
-        isFirstLoad: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -420,7 +418,7 @@ class PostList extends React.PureComponent {
             return 0;
         }
         const newMessages = this.state.postListIds.slice(0, mark);
-        return newMessages.filter((id) => !(id.startsWith('date-') || id.startsWith('user-') || id.startsWith('CHANNEL'))).length;
+        return newMessages.filter((id) => !isIdNotPost(id)).length;
     }
 
     initScrollToIndex = () => {

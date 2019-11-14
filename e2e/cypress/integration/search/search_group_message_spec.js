@@ -33,7 +33,7 @@ describe('Search', () => {
         cy.get('#searchBox').type('in:');
 
         //# Search group members in the menu
-        cy.getAllByTestId('listItem').contains(groupMembers.join(',')).click();
+        cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
 
         //# Press enter to select
         cy.get('#searchBox').type('{enter}');

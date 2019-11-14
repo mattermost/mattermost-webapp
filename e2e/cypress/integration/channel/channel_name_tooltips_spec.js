@@ -125,13 +125,14 @@ describe('channel name tooltips', () => {
                 cy.get('#saveItems').should('be.visible').click();
 
                 // # Hover on the channel name
-                cy.get(`#sidebarItem_${loggedUser.id}__${user.id}`).should('be.visible').trigger('mouseover');
+                // cy.get(`#sidebarItem_${loggedUser.id}__${user.id}`).should('be.visible').trigger('mouseover');
+                cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, user.id]).join('__')}`).should('be.visible').trigger('mouseover');
 
                 // * Verify that the tooltip is displayed
                 cy.get('div.tooltip-inner').should('be.visible');
 
                 // # Move cursor away from channel
-                cy.get(`#sidebarItem_${loggedUser.id}__${user.id}`).should('be.visible').trigger('mouseout');
+                cy.get(`#sidebarItem_${Cypress._.sortBy([loggedUser.id, user.id]).join('__')}`).should('be.visible').trigger('mouseout');
             });
         });
     });

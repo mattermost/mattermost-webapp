@@ -20,6 +20,10 @@ export default class UnreadToast extends React.PureComponent {
         showOnlyOnce: PropTypes.bool,
     }
 
+    static defaultProps = {
+        onDismiss: null,
+    };
+
     constructor(props) {
         super(props);
 
@@ -56,12 +60,10 @@ export default class UnreadToast extends React.PureComponent {
     render() {
         const passAlong = {...this.props};
         delete passAlong.countUnread;
-        passAlong.show = this.unreadShow();
-        passAlong.onDismiss = this.handleDismiss;
-        passAlong.onClick = this.handleClick;
+
         return (
             <Toast
-                {...this.props}
+                {...passAlong}
                 show={this.unreadShow()}
                 onDismiss={this.handleDismiss}
                 onClick={this.handleClick}
@@ -69,7 +71,3 @@ export default class UnreadToast extends React.PureComponent {
         );
     }
 }
-
-UnreadToast.defaultProps = {
-    onDismiss: null,
-};

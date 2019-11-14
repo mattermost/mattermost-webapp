@@ -102,6 +102,14 @@
             padding: .5em 15px 0;
         }
 
+        .msg-typing {
+            margin: 0 0 8px;
+
+            &:empty {
+                display: none;
+            }
+        }
+
         .post-create-footer {
             .post-error {
                 @include opacity(.55);
@@ -109,8 +117,8 @@
                 font-size: .85em;
                 font-weight: normal;
                 margin-bottom: 0;
-                position: absolute;
-                top: 6px;
+                position: relative;
+                top: 0;
             }
         }
     }
