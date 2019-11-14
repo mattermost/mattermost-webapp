@@ -21,7 +21,7 @@ describe('System Console', () => {
         cy.get('#name_formatEdit').click();
         cy.get('#name_formatFormatC').check();
         cy.get('#saveSetting').click();
-        cy.get('#name_formatDesc').contains('Show first and last name');
+        cy.get('#name_formatDesc').contains('Show first and last name').should('be.visible');
 
         cy.visit('/admin_console/site_config/users_and_teams');
         cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select('username');
@@ -31,8 +31,8 @@ describe('System Console', () => {
         cy.visit('/');
         cy.toAccountSettingsModal(null, true);
         cy.get('#displayButton').click();
-        cy.get('#name_formatDesc').contains('Show username');
+        cy.get('#name_formatDesc').contains('Show username').should('be.visible');
         cy.get('#name_formatEdit').click();
-        cy.get('#extraInfo').contains('This field is handled through your System Administrator. If you want to change it, you need to do so through your System Administrator.');
+        cy.get('#extraInfo').contains('This field is handled through your System Administrator. If you want to change it, you need to do so through your System Administrator.').should('be.visible');
     });
 });
