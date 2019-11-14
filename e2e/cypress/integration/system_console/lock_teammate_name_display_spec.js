@@ -7,33 +7,28 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import users from '../../fixtures/users.json';
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
-const sysadmin = users.sysadmin;
-
 describe('System Console', () => {
     it('MM-19309 Allow System Admins to control Teammate Name Display at the system level', () => {
         cy.apiLogin('sysadmin');
-        cy.visit('/admin_console/site_config/users_and_teams')
-        cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select("nickname_full_name")
-        cy.findByTestId('TeamSettings.LockTeammateNameDisplayfalse').click()
-        cy.get('#saveSetting').click()
+        cy.visit('/admin_console/site_config/users_and_teams');
+        cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select('nickname_full_name');
+        cy.findByTestId('TeamSettings.LockTeammateNameDisplayfalse').click();
+        cy.get('#saveSetting').click();
 
-        cy.visit('/')
+        cy.visit('/');
         cy.toAccountSettingsModal(null, true);
         cy.get('#displayButton').click();
         cy.get('#name_formatEdit').click();
-        cy.get('#name_formatFormatC').check()
-        cy.get('#saveSetting').click()
-        cy.get('#name_formatDesc').contains('Show first and last name')
+        cy.get('#name_formatFormatC').check();
+        cy.get('#saveSetting').click();
+        cy.get('#name_formatDesc').contains('Show first and last name');
 
         cy.visit('/admin_console/site_config/users_and_teams');
-        cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select("username")
-        cy.findByTestId('TeamSettings.LockTeammateNameDisplaytrue').click()
-        cy.get('#saveSetting').click()
+        cy.findByTestId('TeamSettings.TeammateNameDisplaydropdown').select('username');
+        cy.findByTestId('TeamSettings.LockTeammateNameDisplaytrue').click();
+        cy.get('#saveSetting').click();
 
-        cy.visit('/')
+        cy.visit('/');
         cy.toAccountSettingsModal(null, true);
         cy.get('#displayButton').click();
         cy.get('#name_formatDesc').contains('Show username');

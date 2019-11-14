@@ -191,7 +191,10 @@ export default class SettingItemMax extends React.PureComponent {
 
         if (this.props.extraInfo) {
             extraInfo = (
-                <div id='extraInfo' className={hintClass}>
+                <div
+                    id='extraInfo'
+                    className={hintClass}
+                >
                     {this.props.extraInfo}
                 </div>
             );
