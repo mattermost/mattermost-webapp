@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -19,8 +19,9 @@ import {t} from 'utils/i18n.jsx';
 
 import './invitation_modal_members_step.scss';
 
-export default class InvitationModalMembersStep extends React.Component {
+class InvitationModalMembersStep extends React.Component {
     static propTypes = {
+        intl: PropTypes.any,
         inviteId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
@@ -143,6 +144,7 @@ export default class InvitationModalMembersStep extends React.Component {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
+                            aria-label={this.props.intl.formatMessage({id: 'invitation_modal.members.share_link.input', defaultMessage: 'team invite link'})}
                             data-testid='shareLinkInput'
                         />
                         <button
@@ -237,3 +239,5 @@ export default class InvitationModalMembersStep extends React.Component {
         );
     }
 }
+
+export default injectIntl(InvitationModalMembersStep);
