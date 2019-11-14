@@ -232,7 +232,7 @@ export default class SearchableChannelList extends React.Component {
         if (this.props.canShowArchivedChannels) {
             channelDropdown = (
                 <MenuWrapper
-                    id='ChannelsMoreDropdown'
+                    id='channelsMoreDropdown'
                     className='more-modal__dropdown'
                 >
                     <a>
@@ -244,12 +244,12 @@ export default class SearchableChannelList extends React.Component {
                         ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
                     >
                         <Menu.ItemAction
-                            id='ChannelsMoreDropdownPublic'
+                            id='channelsMoreDropdownPublic'
                             onClick={this.toggleArchivedChannelsOff}
                             text={localizeMessage('suggestion.search.public', 'Public Channels')}
                         />
                         <Menu.ItemAction
-                            id='ChannelsMoreDropdownArchived'
+                            id='channelsMoreDropdownArchived'
                             onClick={this.toggleArchivedChannelsOn}
                             text={localizeMessage('suggestion.archive', 'Archived Channels')}
                         />
@@ -268,7 +268,7 @@ export default class SearchableChannelList extends React.Component {
                     className='more-modal__list'
                 >
                     <div
-                        id='MoreChannelsList'
+                        id='moreChannelsList'
                         ref='channelListScroll'
                     >
                         {listContent}

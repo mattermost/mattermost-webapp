@@ -251,7 +251,7 @@ export default class MoreChannels extends React.Component {
                 aria-labelledby='moreChannelsModalLabel'
             >
                 <Modal.Header
-                    id='MoreChannelsModalHeader'
+                    id='moreChannelsModalHeader'
                     closeButton={true}
                 >
                     <Modal.Title
