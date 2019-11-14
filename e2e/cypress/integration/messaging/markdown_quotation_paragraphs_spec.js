@@ -20,14 +20,9 @@ describe('Messaging', () => {
         cy.visit('/ad-1/channels/town-square');
 
         // # Post message to use
-        cy.get('#post_textbox').clear().type('>' + messageParts[0]);
-        cy.get('#post_textbox').type('{shift}{enter}{enter}');
-
-        cy.get('#post_textbox').type('>' + messageParts[1]);
-        cy.get('#post_textbox').type('{shift}{enter}{enter}');
-
-        cy.get('#post_textbox').type('>' + messageParts[2]);
-        cy.get('#post_textbox').type('{enter}');
+        cy.get('#post_textbox').clear().type('>' + messageParts[0]).type('{shift}{enter}{enter}');
+        cy.get('#post_textbox').type('>' + messageParts[1]).type('{shift}{enter}{enter}');
+        cy.get('#post_textbox').type('>' + messageParts[2]).type('{enter}');
 
         var firstPartLeft;
         cy.getLastPostId().then((postId) => {
