@@ -25,10 +25,10 @@ export default class Popover extends React.PureComponent<Props> {
         placement: 'right',
         popoverStyle: 'info',
         popoverSize: 'sm'
-    
+
     }
     render() {
-        const { placement, popoverSize, children, popoverStyle, title, id, onMouseOut, onMouseOver, className, style } = this.props;
+        const {placement, popoverSize, children, popoverStyle, title, id, onMouseOut, onMouseOver, className, style} = this.props;
         return (
             <BSPopover
                 id={id}
