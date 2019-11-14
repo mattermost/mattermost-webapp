@@ -434,6 +434,8 @@ export default class PluginManagement extends AdminSettings {
         config.PluginSettings.EnableUploads = this.state.enableUploads;
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
         config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
+        config.PluginSettings.EnableRemoteMarketplace = this.state.enableRemoteMarketplace;
+        config.PluginSettings.AutomaticPrepackagedPlugins = this.state.automaticPrepackagedPlugins;
         config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
 
         return config;
@@ -445,6 +447,8 @@ export default class PluginManagement extends AdminSettings {
             enableUploads: config.PluginSettings.EnableUploads,
             allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
             enableMarketplace: config.PluginSettings.EnableMarketplace,
+            enableRemoteMarketplace: config.PluginSettings.EnableRemoteMarketplace,
+            automaticPrepackagedPlugins: config.PluginSettings.AutomaticPrepackagedPlugins,
             marketplaceUrl: config.PluginSettings.MarketplaceUrl,
         };
 
@@ -1018,6 +1022,44 @@ export default class PluginManagement extends AdminSettings {
                             disabled={!this.state.enable}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
+                        />
+                        <BooleanSetting
+                            id='enableRemoteMarketplace'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enableRemoteMarketplace'
+                                    defaultMessage='Enable Remote Marketplace:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.enableRemoteMarketplaceDesc'
+                                    defaultMessage='When true, marketplace fetches latest plugins from the configured Marketplace URL.'
+                                />
+                            }
+                            value={this.state.enableRemoteMarketplace}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
+                        />
+                        <BooleanSetting
+                            id='automaticPrepackagedPlugins'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.automaticPrepackagedPlugins'
+                                    defaultMessage='Enable Automatic Prepackaged Plugins:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.automaticPrepackagedPluginsDesc'
+                                    defaultMessage='When true, automatically installs any prepackaged plugin found to be enabled in the server configuration.'
+                                />
+                            }
+                            value={this.state.automaticPrepackagedPlugins}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
                         />
 
                         <TextSetting

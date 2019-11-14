@@ -154,6 +154,74 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
           <AdminTextSetting
             disabled={false}
             helpText={
@@ -350,6 +418,74 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
                 values={Object {}}
               />
             }
@@ -594,6 +730,74 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
                 values={Object {}}
               />
             }
@@ -857,6 +1061,74 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
           <AdminTextSetting
             disabled={false}
             helpText={
@@ -1101,6 +1373,74 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={true}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={true}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
           <AdminTextSetting
             disabled={true}
             helpText={
@@ -1303,6 +1643,74 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
                 values={Object {}}
               />
             }
@@ -1561,6 +1969,74 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
           <AdminTextSetting
             disabled={false}
             helpText={
@@ -1791,6 +2267,74 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
                 values={Object {}}
               />
             }
@@ -2112,6 +2656,74 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
           <AdminTextSetting
             disabled={false}
             helpText={
@@ -2373,6 +2985,74 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
                 values={Object {}}
               />
             }
@@ -2662,6 +3342,74 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
           <AdminTextSetting
             disabled={false}
             helpText={
@@ -2923,6 +3671,74 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <FormattedMessage
                 defaultMessage="Enable Marketplace:"
                 id="admin.plugins.settings.enableMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <injectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
                 values={Object {}}
               />
             }
