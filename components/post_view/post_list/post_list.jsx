@@ -5,7 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import LoadingScreen from 'components/loading_screen';
-import {PostRequestTypes} from 'utils/constants';
+import {PostRequestTypes, ErrorPageTypes} from 'utils/constants';
+import {browserHistory} from 'utils/browser_history';
 
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
@@ -147,7 +148,11 @@ export default class PostList extends React.PureComponent {
 
     postsOnLoad = async (channelId) => {
         if (this.props.focusedPostId) {
-            await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId);
+            const loadResult = await this.props.actions.loadPostsAround(channelId, this.props.focusedPostId);
+            if (typeof loadResult.error !== 'undefined') {
+                browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}`);
+                return;
+            }
         } else if (this.props.isFirstLoad) {
             await this.props.actions.loadUnreads(channelId);
         } else if (this.props.latestPostTimeStamp) {
