@@ -21,89 +21,66 @@ describe('Messaging', () => {
 
     it('M18699-Leave a long draft in the main input box', () => {
         const lines = ['Lorem ipsum dolor sit amet,',
-            '\nconsectetur adipiscing elit.',
-            '\nNulla ac consectetur quam.',
-            '\nPhasellus libero lorem,',
-            '\nfacilisis in purus sed, auctor.'];
+            'consectetur adipiscing elit.',
+            'Nulla ac consectetur quam.',
+            'Phasellus libero lorem,',
+            'facilisis in purus sed, auctor.'];
 
-        // # Create new DM channel with user's email
-        cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
-            const userEmailArray = [userResponse.body[1].id, userResponse.body[0].id];
-            cy.wrap(lines.reduce((prev, cur) => prev + cur, '')).as('fullText');
+        cy.visit('/ad-1/channels/town-square');
 
-            cy.apiCreateDirectChannel(userEmailArray).then(() => {
-                cy.visit('/ad-1/messages/@sysadmin');
-
-                // # Get the height before starting to write
-                cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).type('a').clear();
-                cy.get('#post_textbox').then((post) => {
-                    cy.wrap(parseInt(post[0].clientHeight, 10)).as('previousHeight');
-                });
-
-                // # Post first line to use
-                cy.get('#post_textbox').type(lines[0]);
-
-                // # For each line
-                for (var i = 1; i < lines.length; i++) {
-                    // # Post the line
-                    cy.get('#post_textbox').type(lines[i]);
-
-                    cy.get('#post_textbox').invoke('attr', 'height').then((height) => {
-                        // * Previous height should be lower than the current heigh
-                        cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
-
-                        // # Store the current height as the previous height for the next loop
-                        cy.wrap(parseInt(height, 10)).as('previousHeight');
-                    });
-                }
-
-                cy.get('#sidebarChannelContainer').find('.active > a').then((element) => {
-                    // # Get current channel ID to be able to come back
-                    var currentChannelId = element[0].id;
-
-                    // # Visit a different channel and come back by clicking
-                    cy.get('#sidebarItem_town-square').click();
-                    cy.get('#' + currentChannelId).click();
-                });
-
-                // # Wait for page to load
-                cy.wait(TIMEOUTS.SMALL);
-
-                // * Height should be the same as before
-                cy.get('#post_textbox').invoke('attr', 'height').then((height) => {
-                    cy.get('@previousHeight').should('equal', (parseInt(height, 10)));
-                });
-
-                // * Text should be the same as before
-                cy.get('#post_textbox').invoke('val').then((text) => {
-                    cy.get('@fullText').should('equal', text);
-                });
-
-                // # Clear the textbox
-                cy.get('#post_textbox').clear();
-
-                // # Write again all lines
-                cy.get('@fullText').then((text) => {
-                    cy.get('#post_textbox').type(text);
-                });
-
-                // # Visit a different channel and come back by URL
-                cy.visit('/ad-1/channels/town-square');
-                cy.visit('/ad-1/messages/@sysadmin');
-
-                // # Wait for page to load
-                cy.wait(TIMEOUTS.MEDIUM);
-
-                // * Height should be the same as before
-                cy.get('#post_textbox').invoke('attr', 'height').then((height) => {
-                    cy.get('@previousHeight').should('equal', (parseInt(height, 10)));
-                });
-
-                // * Text should be the same as before
-                cy.get('#post_textbox').invoke('val').then((text) => {
-                    cy.get('@fullText').should('equal', text);
-                });
-            });
+        // # Get the height before starting to write
+        cy.get('#post_textbox').should('be.visible').clear().then((post) => {
+            cy.wrap(parseInt(post[0].clientHeight, 10)).as('initialHeight').as('previousHeight');
         });
+
+        // # Post first line to use
+        cy.get('#post_textbox').type(lines[0]);
+
+        // # For each line
+        for (let i = 1; i < lines.length; i++) {
+            // # Post the line
+            cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
+
+            cy.get('#post_textbox').invoke('attr', 'height').then((height) => {
+                // * Previous height should be lower than the current heigh
+                cy.get('@previousHeight').should('be.lessThan', parseInt(height, 10));
+
+                // # Store the current height as the previous height for the next loop
+                cy.wrap(parseInt(height, 10)).as('previousHeight');
+            });
+        }
+
+        // # Visit a different channel and verify textbox
+        cy.get('#sidebarItem_off-topic').click({force: true});
+        verifyPostTextbox('@initialHeight', '');
+
+        // # Return to the channel and verify textbox
+        cy.get('#sidebarItem_town-square').click({force: true});
+        verifyPostTextbox('@previousHeight', lines.join('\n'));
+
+        // # Clear the textbox
+        cy.get('#post_textbox').clear();
+
+        // # Write again all lines
+        cy.get('#post_textbox').type(lines[0]);
+        for (let i = 1; i < lines.length; i++) {
+            cy.get('#post_textbox').type('{shift}{enter}').type(lines[i]);
+        }
+
+        // # Visit a different channel by URL and verify textbox
+        cy.visit('/ad-1/channels/off-topic');
+        verifyPostTextbox('@initialHeight', '');
+
+        // # Return to the channel by URL and verify textbox
+        cy.visit('/ad-1/channels/town-square');
+        verifyPostTextbox('@previousHeight', lines.join('\n'));
     });
 });
+
+function verifyPostTextbox(targetHeightSelector, text) {
+    cy.get('#post_textbox').should('be.visible').and('have.text', text).then((el) => {
+        cy.get(targetHeightSelector).then((height) => {
+            expect(el[0].clientHeight).to.equal(height);
+        });
+    });
+}
