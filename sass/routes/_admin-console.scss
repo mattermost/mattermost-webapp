@@ -265,8 +265,14 @@
             margin-bottom: 0.5em;
         }
 
+        .banner__icon {
+            padding: 5px 10px 5px 5px;
+        }
+
         &.warning {
-            background: #e60000;
+            background: #fcf8e3; 
+            border-color: #faebcc;
+            color: #8a6d3b;
         }
     }
 

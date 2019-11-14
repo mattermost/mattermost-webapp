@@ -214,42 +214,6 @@ export function getDateForUnixTicks(ticks) {
     return new Date(ticks);
 }
 
-export function displayTime(ticks, utc) {
-    const d = new Date(ticks);
-    let hours;
-    let minutes;
-    let ampm = '';
-    let timezone = '';
-
-    if (utc) {
-        hours = d.getUTCHours();
-        minutes = d.getUTCMinutes();
-        timezone = ' UTC';
-    } else {
-        hours = d.getHours();
-        minutes = d.getMinutes();
-    }
-
-    if (minutes <= 9) {
-        minutes = '0' + minutes;
-    }
-
-    const useMilitaryTime = getBool(store.getState(), Constants.Preferences.CATEGORY_DISPLAY_SETTINGS, 'use_military_time');
-    if (!useMilitaryTime) {
-        ampm = ' AM';
-        if (hours >= 12) {
-            ampm = ' PM';
-        }
-
-        hours %= 12;
-        if (!hours) {
-            hours = '12';
-        }
-    }
-
-    return hours + ':' + minutes + ampm + timezone;
-}
-
 // returns Unix timestamp in milliseconds
 export function getTimestamp() {
     return Date.now();
