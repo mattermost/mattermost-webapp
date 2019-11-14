@@ -49,7 +49,7 @@ describe('actions/global_actions', () => {
                     channels: {
                         myMembers: {},
                         channels: {},
-                        channelsInTeam: {}
+                        channelsInTeam: {},
                     },
                     users: {
                         currentUserId: 'user1',
@@ -112,7 +112,7 @@ describe('actions/global_actions', () => {
                         channelsInTeam: {
                             team1: ['channel-in-team-1'],
                             team2: ['channel-in-team-2'],
-                        }
+                        },
                     },
                     users: {
                         currentUserId: userId,
@@ -187,7 +187,7 @@ describe('actions/global_actions', () => {
                         channelsInTeam: {
                             team1: ['channel-in-team-1'],
                             team2: ['channel-in-team-2'],
-                        }
+                        },
                     },
                     users: {
                         currentUserId: userId,
@@ -261,7 +261,7 @@ describe('actions/global_actions', () => {
                         channelsInTeam: {
                             team1: ['channel-in-team-1'],
                             team2: ['channel-in-team-2'],
-                        }
+                        },
                     },
                     users: {
                         currentUserId: userId,
@@ -370,7 +370,7 @@ describe('actions/global_actions', () => {
                         channelsInTeam: {
                             team1: ['channel-in-team-1'],
                             team2: ['channel-in-team-2'],
-                        }
+                        },
                     },
                     users: {
                         currentUserId: userId,
