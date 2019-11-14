@@ -7,13 +7,17 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     before(() => {
         // # Make sure the viewport is the expected one, so written lines always create new lines
         cy.viewport(1000, 660);
 
-        // # Login and go to /
+        // # Login and go to off-topic to make sure we are in the channel, then go to /
         cy.apiLogin('user-1');
+        cy.visit('/ad-1/channels/off-topic');
+        cy.wait(TIMEOUTS.SMALL)
         cy.visit('/');
     });
 
