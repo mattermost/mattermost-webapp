@@ -42,7 +42,7 @@ describe('components/AdminConsole', () => {
         },
     };
 
-    test('should redirect to / when not system admin', () => {
+    test('should redirect to town-square when not system admin', () => {
         const props = {
             ...baseProps,
             unauthorizedRoute: '/team-id/channels/town-square',
