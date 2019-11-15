@@ -8,17 +8,23 @@ import TextSetting from 'components/widgets/settings/text_setting';
 import SetByEnv from './set_by_env';
 
 interface Props {
+    id: string;
+    label: React.ReactNode;
+    value: string | number;
     setByEnv: boolean;
     disabled?: boolean;
     sharedProps?: any[];
 }
 const AdminTextSetting: React.SFC<Props> = (props: Props) => {
+    const {setByEnv, id, label, value, ...sharedProps} = props;
     const isTextDisabled = props.disabled || props.setByEnv;
-    const {setByEnv, ...sharedProps} = props;
 
     return (
         <TextSetting
             {...sharedProps}
+            id={id}
+            label={label}
+            value={value}
             labelClassName='col-sm-4'
             inputClassName='col-sm-8'
             disabled={isTextDisabled}
