@@ -2113,12 +2113,14 @@
 
 .toast {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     align-items: center;
     position: absolute;
     margin-left: 50%;
     margin-top: 20px;
-    width: 80%;
+    width: 99%;
     font-size: 13px;
     line-height: 18px;
     text-align: center;
@@ -2127,13 +2129,13 @@
     transform: translateX(-50%);
     opacity: 0;
     visibility: hidden;
-    background-color: var(--button-bg-90);
-    color: var(--button-color-90);
+    background-color: var(--button-bg);
+    color: var(--button-color);
     height: 32px;
 
     svg {
-        fill: var(--button-color-90);
-        transform: translateY(20%);
+        fill: var(--button-color);
+        transform: translateY(10%);
         stroke-width: 2px;
     }
 
@@ -2145,19 +2147,25 @@
     }
 
     .toast__jump {
-        float: left;
         margin-left: 15px;
         cursor: pointer;
+        width: 200px;
+        text-align: start;
+        svg {
+            transform: translateY(22%);
+        }
+
     }
     .toast__dismiss {
-        float: right;
         margin-right: 15px;
+        width: 200px;
         cursor: pointer;
+        text-align: end;
     }
     .toast__message {
         display: inline-block;
         margin: 0 auto;
-        width: 50%;
+        width: 20%;
     }
 }
 .toast__visible {
@@ -2172,9 +2180,9 @@
         }
 }
 .toast__history {
-    background-color: rgba(0,0,0,0.2);
-    color: rgba(61, 60, 64, 0.90);
+    background-color: rgb(216, 216, 216);
+    color: rgb(61, 60, 64);
     svg {
-        fill: rgba(61, 60, 64, 0.90);
+        fill: rgb(61, 60, 64);
     }
 }
