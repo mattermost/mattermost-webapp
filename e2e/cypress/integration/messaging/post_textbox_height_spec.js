@@ -27,7 +27,7 @@ describe('Messaging', () => {
             getTextBox().should('have.css', 'height', '100px');
 
             // // # Write a long text in text box
-            getTextBox().type('test\n\n\n\n\n\n');
+            getTextBox().type('test{shift}{enter}{enter}{enter}{enter}{enter}{enter}test');
 
             // # Check that input box is taller than before
             getTextBox().should('have.css', 'height', '166px');
