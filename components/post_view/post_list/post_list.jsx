@@ -105,6 +105,7 @@ export default class PostList extends React.PureComponent {
             markChannelAsViewed: PropTypes.func.isRequired,
 
             markChannelAsRead: PropTypes.func.isRequired,
+            updateLastViewedChannel: PropTypes.func.isRequired,
 
         }).isRequired,
     }
@@ -125,6 +126,7 @@ export default class PostList extends React.PureComponent {
             checkAndSetMobileView: props.actions.checkAndSetMobileView,
             canLoadMorePosts: this.canLoadMorePosts,
             changeUnreadChunkTimeStamp: props.changeUnreadChunkTimeStamp,
+            updateLastViewedChannel: this.props.actions.updateLastViewedChannel,
         };
     }
 

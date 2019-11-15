@@ -12,7 +12,7 @@ export default class UnreadToast extends React.PureComponent {
         children: PropTypes.element,
         onClick: PropTypes.func.isRequired, // required?
         onClickMessage: PropTypes.string,
-        jumpFadeOutDelay: PropTypes.number,
+        onClickFadeOutDelay: PropTypes.number,
         onDismiss: PropTypes.func,
         order: PropTypes.number,
         show: PropTypes.bool.isRequired,
@@ -43,9 +43,10 @@ export default class UnreadToast extends React.PureComponent {
     }
 
     handleClick = () => {
-        // set the unread count to the same as we currently have so it doesn't display
-        this.setState({lastUnread: this.props.countUnread});
         this.props.onClick();
+
+        // set the unread count to the same as we currently have so it doesn't display
+        setTimeout(() => this.setState({lastUnread: this.props.countUnread}), this.props.onClickFadeOutDelay);
     }
 
     static getDerivedStateFromProps(newProps, oldState) {

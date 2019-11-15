@@ -2175,7 +2175,7 @@
         body.enable-animations & {
             @include transition-property(opacity, visibility);
             @include transition-duration($transition-quick);
-            @include transition-delay(0s);
+            @include transition-delay(0.5s);
             @include transition-timing-function(ease-out, step-start);
         }
 }
@@ -2185,4 +2185,7 @@
     svg {
         fill: rgb(61, 60, 64);
     }
+}
+.toast__red {
+    background-color: $red;
 }

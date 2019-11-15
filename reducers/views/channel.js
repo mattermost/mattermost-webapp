@@ -46,7 +46,11 @@ function lastChannelViewTime(state = {}, action) {
         }
         return state;
     }
-
+    case ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT: {
+        const nextState = {...state};
+        nextState[action.channel_id] = action.last_viewed_at;
+        return nextState;
+    }
     default:
         return state;
     }

@@ -107,6 +107,14 @@ export function emitChannelClickEvent(channel) {
     }
 }
 
+export function updateLastViewedChannel(channelId) {
+    return () => dispatch({
+        type: ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT,
+        channel_id: channelId,
+        last_viewed_at: Date.now(),
+    });
+}
+
 export function emitCloseRightHandSide() {
     dispatch(closeRightHandSide());
 }
