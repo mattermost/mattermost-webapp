@@ -92,7 +92,7 @@ describe('Plugin Marketplace', () => {
         };
         cy.apiUpdateConfig(newSettings);
 
-        // # Login as non admin user
+        // # Login as sysadmin
         cy.apiLogin('sysadmin');
         cy.visit('/');
 
