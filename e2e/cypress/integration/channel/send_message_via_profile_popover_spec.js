@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Profile popover', () => {
     let newUser;
     let currentChannelId;
@@ -30,10 +32,11 @@ describe('Profile popover', () => {
                 newUser = user;
 
                 const message = `Testing ${Date.now()}`;
-                cy.postMessageAs({sender: newUser, message, channelId: currentChannelId});
+                cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.TINY);
 
                 cy.waitUntil(() => cy.getLastPost().then((el) => {
-                    return el.find('.post-message__text > p')[0].textContent === message;
+                    const postedMessageEl = el.find('.post-message__text > p')[0];
+                    return postedMessageEl && postedMessageEl.textContent.includes(message);
                 }));
 
                 cy.getLastPostId().then((postId) => {
