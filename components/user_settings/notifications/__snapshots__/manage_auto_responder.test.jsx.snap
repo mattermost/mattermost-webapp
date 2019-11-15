@@ -404,7 +404,6 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
                     <textarea
                       aria-label="message"
                       className="form-control"
-                      disabled={false}
                       height={0}
                       id="autoResponderMessageInput"
                       maxLength={200}

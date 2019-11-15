@@ -17,7 +17,6 @@ exports[`components/AutosizeTextarea should match snapshot, init 1`] = `
   />
   <textarea
     aria-label=""
-    disabled={false}
     height={0}
     onChange={[Function]}
     role="textbox"
