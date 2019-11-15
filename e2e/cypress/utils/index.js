@@ -48,14 +48,14 @@ export function getMessageMenusPayload({dataSource, options} = {}) {
 }
 
 export function titleCase(str) {
-    var splitStr = str.toLowerCase().split(' ');
-    
-    for (var i = 0; i < splitStr.length; i++) {
-        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+    const splitStr = str.toLowerCase().split(' ');
+
+    for (let i = 0; i < splitStr.length; i++) {
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
     }
 
-    return splitStr.join(' '); 
- }
+    return splitStr.join(' ');
+}
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
 

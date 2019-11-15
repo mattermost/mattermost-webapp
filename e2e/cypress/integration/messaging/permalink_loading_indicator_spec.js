@@ -24,7 +24,8 @@ describe('Messaging', () => {
         const privateChannelDisplayName = titleCase(privateChannelName.replace(/-/g, ' '));
         const publicChannelName = 'test-public-channel-' + dateNow;
         const publicChannelDisplayName = titleCase(publicChannelName.replace(/-/g, ' '));
-        var testPrivateChannel, testPublicChannel;
+        let testPrivateChannel;
+        let testPublicChannel;
 
         // # Get current team id
         cy.getCurrentTeamId().then((teamId) => {
@@ -36,12 +37,12 @@ describe('Messaging', () => {
                 cy.get('#sidebarItem_' + testPrivateChannel.name).click({force: true});
 
                 // # Post several messages
-                for (var i = 1; i <= maxMessageCount; i++) { 
+                for (let i = 1; i <= maxMessageCount; i++) {
                     cy.postMessage(`${message}-${i}`);
                 }
 
-                // # Get last post id from that postlist area
-                cy.getLastPostId().then((postId) => {
+                // # Get first post id from that postlist area
+                cy.getNthPostId(-maxMessageCount).then((postId) => {
                     // # Click on ... button of last post
                     cy.clickPostDotMenu(postId);
 
@@ -86,9 +87,9 @@ describe('Messaging', () => {
                     });
 
                     // # Get last post id from open channel
-                    cy.getLastPostId().then((clickedpostid) => {
+                    cy.getLastPostId().then((clickedPostId) => {
                         // * Check the sent message
-                        cy.get(`#postMessageText_${clickedpostid}`).should('be.visible').and('have.text', `${message}-${maxMessageCount}`);
+                        cy.get(`#postMessageText_${clickedPostId}`).should('be.visible').and('have.text', `${message}-${maxMessageCount}`);
 
                         // * Check if the loading indicator is not visible
                         cy.get('.loading-screen').should('not.be.visible');
