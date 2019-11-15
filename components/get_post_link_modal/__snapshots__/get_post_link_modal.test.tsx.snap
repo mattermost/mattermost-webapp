@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/GetPostLinkModal should match snapshot with currentTeamUrl and post's id present 1`] = `
+<GetLinkModal
+  helpText="The link below allows authorized users to see your post."
+  link="http://localhost:8065/current-team/pl/sample_post_id"
+  onHide={[Function]}
+  show={false}
+  title="Copy Permalink"
+/>
+`;
+
+exports[`components/GetPostLinkModal should not render any model when no post's id is present 1`] = `""`;

@@ -13,33 +13,6 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
       "id": "channel_id",
     }
   }
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   isReadOnly={false}
 >
   <OverlayTrigger
@@ -47,11 +20,11 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
     defaultOverlayShown={false}
     overlay={
       <Popover
-        bsClass="popover"
-        bsStyle="info"
         className="navbar__popover"
         id="header-popover"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <Connect(Markdown)
           message="channel header"
@@ -74,6 +47,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
     trigger="click"
   >
     <button
+      aria-label="Info"
       className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
       onClick={[Function]}
     >
@@ -143,33 +117,6 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
       "id": "channel_id",
     }
   }
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   isReadOnly={false}
 >
   <OverlayTrigger
@@ -177,11 +124,11 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
     defaultOverlayShown={false}
     overlay={
       <Popover
-        bsClass="popover"
-        bsStyle="info"
         className="navbar__popover"
         id="header-popover"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <div>
           <FormattedMessage
@@ -224,6 +171,7 @@ exports[`components/ChannelHeaderMobile/ChannelInfoButton should match snapshot,
     trigger="click"
   >
     <button
+      aria-label="Info"
       className="navbar-toggle navbar-right__icon navbar-info-button pull-right"
       onClick={[Function]}
     >

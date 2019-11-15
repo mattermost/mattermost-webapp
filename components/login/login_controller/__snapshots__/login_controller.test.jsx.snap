@@ -74,9 +74,7 @@ exports[`components/login/LoginController should match snapshot when expired 1`]
           <div
             className="alert alert-warning"
           >
-            <WarningIcon
-              additionalClassName={null}
-            />
+            <injectIntl(WarningIcon) />
              
             <FormattedMessage
               defaultMessage="Your session has expired. Please log in again."
@@ -149,9 +147,7 @@ exports[`components/login/LoginController should show session expiry notificatio
           <div
             className="alert alert-warning"
           >
-            <WarningIcon
-              additionalClassName={null}
-            />
+            <injectIntl(WarningIcon) />
              
             <FormattedMessage
               defaultMessage="Your session has expired. Please log in again."

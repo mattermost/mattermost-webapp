@@ -227,10 +227,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         value=""
       />
       <Popover
-        bsClass="popover"
         className="search-help-popover"
         id="searchbar-help-popup"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <SearchHint
           withTitle={true}
@@ -334,10 +335,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         value=""
       />
       <Popover
-        bsClass="popover"
         className="search-help-popover visible"
         id="searchbar-help-popup"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <SearchHint
           withTitle={true}
