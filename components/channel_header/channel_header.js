@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -23,10 +23,10 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
-
+import Popover from 'components/widgets/popover';
 import {
     Constants,
     ModalIdentifiers,
@@ -60,6 +60,7 @@ class ChannelHeader extends React.PureComponent {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates),
         ),
+        rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
@@ -81,10 +82,7 @@ class ChannelHeader extends React.PureComponent {
         super(props);
         this.toggleFavoriteRef = React.createRef();
 
-        const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
-        this.state = {
-            showSearchBar,
-        };
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props)};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -115,10 +113,16 @@ class ChannelHeader extends React.PureComponent {
         }
     }
 
-    handleResize = () => {
-        const windowWidth = Utils.windowWidth();
+    static getDerivedStateFromProps(nextProps) {
+        return {showSearchBar: ChannelHeader.getShowSearchBar(nextProps)};
+    }
 
-        this.setState({showSearchBar: windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE});
+    static getShowSearchBar(props) {
+        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || props.rhsOpen;
+    }
+
+    handleResize = () => {
+        this.setState({showSearchBar: ChannelHeader.getShowSearchBar(this.props)});
     };
 
     handleClose = () => {
@@ -327,21 +331,39 @@ class ChannelHeader extends React.PureComponent {
         }
 
         if (isGroup) {
-            const nodes = [];
+            // map the displayname to the gm member users
+            const membersMap = {};
             for (const user of gmMembers) {
                 if (user.id === currentUser.id) {
                     continue;
                 }
                 const userDisplayName = Utils.getDisplayNameByUserId(user.id);
-                nodes.push((
-                    <React.Fragment key={userDisplayName}>
-                        {nodes.length !== 0 && ', '}
-                        {userDisplayName}
+
+                if (!membersMap[userDisplayName]) {
+                    membersMap[userDisplayName] = []; //Create an array for cases with same display name
+                }
+
+                membersMap[userDisplayName].push(user);
+            }
+
+            const displayNames = channel.display_name.split(', ');
+
+            channelTitle = displayNames.map((displayName, index) => {
+                if (!membersMap[displayName]) {
+                    return displayName;
+                }
+
+                const user = membersMap[displayName].shift();
+
+                return (
+                    <React.Fragment key={user.id}>
+                        {index > 0 && ', '}
+                        {displayName}
                         <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
-                ));
-            }
-            channelTitle = nodes;
+                );
+            });
+
             if (hasGuests) {
                 hasGuestsText = (
                     <span className='has-guest-header'>
@@ -389,8 +411,8 @@ class ChannelHeader extends React.PureComponent {
             const popoverContent = (
                 <Popover
                     id='header-popover'
-                    bStyle='info'
-                    bSize='large'
+                    popoverStyle='info'
+                    popoverSize='lg'
                     placement='bottom'
                     className='channel-header__popover'
                     onMouseOver={this.handleOnMouseOver}

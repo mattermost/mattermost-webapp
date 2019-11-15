@@ -10,6 +10,10 @@
         }
     }
 
+    .post-right__container {
+        height: 100%;
+    }
+
     .line-switch__toggle {
         margin: 8px 0;
     }
@@ -1254,7 +1258,7 @@
                 right: 20px;
                 text-align: center;
                 text-shadow: none;
-                top: 30px;
+                top: 70px;
                 width: 30px;
             }
 
@@ -1539,6 +1543,10 @@
                 padding: .5em 1em;
             }
 
+            .post-create {
+                padding: 0;
+            }
+
             .emoji-rhs {
                 // bring back the emoji picker for mobile
                 // display: none;
@@ -1552,8 +1560,11 @@
             }
 
             .post-create-footer {
-                padding-right: 0;
-                padding-top: 10px;
+                padding: 6px 0 0;
+
+                .post-error {
+                    margin-bottom: 8px;
+                }
 
                 .control-label {
                     margin: .5em 0;

@@ -52,10 +52,10 @@ describe('Channel header menu', () => {
                 cy.get('#channelHeaderTitle').click();
 
                 // * The dropdown menu of the channel header should be visible;
-                cy.get('#channelHeaderDropdownMenu').should('be.visible');
+                cy.get('.Menu__content').should('be.visible');
 
                 // * The dropdown menu of the channel header should have 3 dividers;
-                cy.get('#channelHeaderDropdownMenu').find('.menu-divider:visible').should('have.lengthOf', 3);
+                cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 3);
 
                 // # Demote the user to guest
                 cy.get('@newuser').then((user) => {
@@ -63,7 +63,7 @@ describe('Channel header menu', () => {
                 });
 
                 // * The dropdown menu of the channel header should have 2 dividers because some options have disappeared;
-                cy.get('#channelHeaderDropdownMenu').find('.menu-divider:visible').should('have.lengthOf', 2);
+                cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 2);
 
                 // # Promote the guest to user again
                 cy.get('@newuser').then((user) => {
@@ -71,7 +71,7 @@ describe('Channel header menu', () => {
                 });
 
                 // * The dropdown menu of the channel header should have 3 dividers again;
-                cy.get('#channelHeaderDropdownMenu').find('.menu-divider:visible').should('have.lengthOf', 3);
+                cy.get('.Menu__content').find('.menu-divider:visible').should('have.lengthOf', 3);
             });
         });
     });
