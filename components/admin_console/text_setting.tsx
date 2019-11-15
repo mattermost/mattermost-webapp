@@ -12,9 +12,9 @@ interface Props {
     disabled?: boolean;
     sharedProps?: any[];
 }
-const AdminTextSetting: React.SFC<Props> = (props) => {
-    const {setByEnv, disabled, ...sharedProps} = props;
-    const isTextDisabled = disabled || setByEnv;
+const AdminTextSetting: React.SFC<Props> = (props: Props) => {
+    const isTextDisabled = props.disabled || props.setByEnv;
+    const {setByEnv, ...sharedProps} = props;
 
     return (
         <TextSetting
