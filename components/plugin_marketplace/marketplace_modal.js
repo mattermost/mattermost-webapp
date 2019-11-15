@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import debounce from 'lodash/debounce';
-import {Tabs, Tab} from 'react-bootstrap';
+import {Tabs, Tab, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -18,6 +18,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
+import Constants from 'utils/constants.jsx';
 
 import MarketplaceItem from './marketplace_item';
 
@@ -132,6 +133,7 @@ export class MarketplaceModal extends React.Component {
             tabKey: MarketplaceTabs.ALL_PLUGINS,
             loading: true,
             serverError: null,
+            filter: '',
         };
     }
 
@@ -163,15 +165,37 @@ export class MarketplaceModal extends React.Component {
         this.setState({tabKey});
     }
 
+    onInput = () => {
+        this.setState({filter: this.refs.filter.value});
+
+        this.debouncedSearch();
+    }
+
+    handleClearSearch = () => {
+        this.refs.filter.value = '';
+        this.setState({filter: this.refs.filter.value}, this.doSearch);
+    }
+
     doSearch = async () => {
         trackEvent('plugins', 'ui_marketplace_search');
 
-        const {error} = await this.props.actions.filterPlugins(this.refs.filter ? this.refs.filter.value : null);
+        const {error} = await this.props.actions.filterPlugins(this.state.filter);
 
         this.setState({serverError: error});
     }
 
+    debouncedSearch = debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS);
+
     render() {
+        const searchClearTooltip = (
+            <Tooltip id='searchClearTooltip'>
+                <FormattedMessage
+                    id='search_bar.clear'
+                    defaultMessage='Clear search query'
+                />
+            </Tooltip>
+        );
+
         const input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
@@ -181,8 +205,29 @@ export class MarketplaceModal extends React.Component {
                         className='form-control filter-textbox search_input'
                         placeholder={{id: t('marketplace_modal.search'), defaultMessage: 'Search Plugins'}}
                         inputComponent={LocalizedInput}
-                        onInput={debounce(this.doSearch, SEARCH_TIMEOUT_MILLISECONDS)}
+                        onInput={this.onInput}
+                        value={this.state.filter}
                     />
+                    {this.state.filter && this.state.filter.trim() !== '' &&
+                        <div
+                            id='searchClearButton'
+                            className='sidebar__search-clear visible'
+                            onClick={this.handleClearSearch}
+                        >
+                            <OverlayTrigger
+                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                placement='bottom'
+                                overlay={searchClearTooltip}
+                            >
+                                <span
+                                    className='sidebar__search-clear-x'
+                                    aria-hidden='true'
+                                >
+                                    {'×'}
+                                </span>
+                            </OverlayTrigger>
+                        </div>
+                    }
                 </div>
             </div>
         );
