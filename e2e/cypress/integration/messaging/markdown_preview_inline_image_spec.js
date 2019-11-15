@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-import * as TIMEOUTS from '../../fixtures/timeouts';
-
 describe('Messaging', () => {
     before(() => {
         // # Login and go to off-topic to make sure we are in the channel, then go to /
@@ -18,7 +16,7 @@ describe('Messaging', () => {
     });
 
     it('M18714-Markdown preview: inline image', () => {
-        const message = '![make it so](https://i.stack.imgur.com/MNeE7.jpg)'
+        const message = '![make it so](https://i.stack.imgur.com/MNeE7.jpg)';
 
         cy.visit('/ad-1/channels/town-square');
 
@@ -26,7 +24,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.visible').clear().then(() => {
             cy.get('#post-create').then((postArea) => {
                 cy.wrap(parseInt(postArea[0].clientHeight, 10)).as('initialHeight');
-            })
+            });
         });
 
         // # Post first line to use
