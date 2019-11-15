@@ -814,6 +814,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
 exports[`components/MarketplaceItem UpdateDetails should render with release notes url 1`] = `
 <UpdateDetails
   installedVersion="0.0.1"
+  isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl="http://example.com/release"
@@ -867,6 +868,7 @@ exports[`components/MarketplaceItem UpdateDetails should render with release not
 exports[`components/MarketplaceItem UpdateDetails should render without release notes url 1`] = `
 <UpdateDetails
   installedVersion="0.0.1"
+  isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl=""
