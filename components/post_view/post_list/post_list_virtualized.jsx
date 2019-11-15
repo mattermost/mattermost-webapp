@@ -41,6 +41,8 @@ const virtListStyles = {
     maxHeight: '100%',
 };
 
+const toastFadeOutTime = 5000;
+
 class PostList extends React.PureComponent {
     static propTypes = {
 
@@ -135,6 +137,7 @@ class PostList extends React.PureComponent {
             },
             renderUnreadChannelToast: this.props.countUnread !== 0,
             doneLoadingPosts: false,
+            toastShouldIgnoreBeingAtBottom: false,
         };
 
         this.listRef = React.createRef();
@@ -529,16 +532,12 @@ class PostList extends React.PureComponent {
         //             defaultMessage='Viewing message history'
         //         />
         //     </Toast>);
-        // console.log(`lastViewedBottom ${this.state.lastViewedBottom} this.props.latestPostTimeStamp ${this.props.latestPostTimeStamp}`);
-        // console.log(this.state.lastViewedBottom - this.props.latestPostTimeStamp);
-        // console.log(`this.state.atBottom ${this.state.atBottom}`);
         const unreadMessagesToast = (this.state.renderUnreadChannelToast && this.state.doneLoadingPosts &&
             <UnreadToast
                 onClick={this.scrollToLatestMessages}
                 onClickMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
                 order={1}
                 show={this.state.renderUnreadChannelToast && !this.state.atBottom && this.countNewMessages() > 0}
-                //show={this.state.renderUnreadChannelToast && this.state.lastViewedBottom < this.props.latestPostTimeStamp}
                 showOnlyOnce={true}
                 countUnread={this.countNewMessages()}
                 onDismiss={() => this.props.actions.updateLastViewedChannel(this.props.channelId)}
@@ -546,14 +545,24 @@ class PostList extends React.PureComponent {
                 {this.newMessagesToastText(this.countNewMessages())}
             </UnreadToast>);
 
+        const goToUnread = () => {
+            console.log("whoooo!");
+            this.setState({toastShouldIgnoreBeingAtBottom: true});
+            this.scrollToUnread();
+            setTimeout(() => {
+                this.setState({toastShouldIgnoreBeingAtBottom: false});
+                console.log("wheee!");
+            }, toastFadeOutTime);
+        };
+
         return (
             <React.Fragment>
                 <UnreadToast
-                    onClick={this.scrollToUnread}
+                    onClick={goToUnread}
                     onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
-                    onClickFadeOutDelay={5000}
+                    onClickFadeOutDelay={toastFadeOutTime}
                     order={2}
-                    show={!this.state.renderUnreadChannelToast && (this.state.lastViewedBottom < this.props.latestPostTimeStamp) && !this.state.atBottom}
+                    show={!this.state.renderUnreadChannelToast && (this.state.toastShouldIgnoreBeingAtBottom || ((this.state.lastViewedBottom < this.props.latestPostTimeStamp) && !this.state.atBottom))}
                     showOnlyOnce={false}
                     countUnread={this.countNewMessages()}
                     onDismiss={() => this.props.actions.updateLastViewedChannel(this.props.channelId)}
