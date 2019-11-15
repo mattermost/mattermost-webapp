@@ -4,6 +4,8 @@
     "defaultCommandTimeout": 20000,
     "taskTimeout": 20000,
     "video": false,
+    "ignoreTestFiles": "**/node_modules/**/*",
+    "integrationFolder": "..",
     "testFiles": "**/*_spec.js",
     "env": {
         "storybookUrl": "http://localhost:6006/",
