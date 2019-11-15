@@ -15,7 +15,7 @@ interface Props {
     disabled?: boolean;
     sharedProps?: any[];
 }
-const AdminTextSetting: React.SFC<Props> = (props: Props) => {
+const AdminTextSetting: React.SFC<Props> = (props: Props): JSX.Element => {
     const {setByEnv, id, label, value, ...sharedProps} = props;
     const isTextDisabled = props.disabled || props.setByEnv;
 
