@@ -7,7 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Permalink loading indicator', () => {
+import {titleCase} from '../../utils';
+
+describe('Messaging', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('user-1');
@@ -17,20 +19,26 @@ describe('Permalink loading indicator', () => {
     it('M18701-Permalink to first post in channel shows endless loading indicator above', () => {
         const dateNow = Date.now();
         const message = 'Hello' + dateNow;
+        const maxMessageCount = 10;
         const privateChannelName = 'test-private-channel-' + dateNow;
+        const privateChannelDisplayName = titleCase(privateChannelName.replace(/-/g, ' '));
         const publicChannelName = 'test-public-channel-' + dateNow;
+        const publicChannelDisplayName = titleCase(publicChannelName.replace(/-/g, ' '));
+        var testPrivateChannel, testPublicChannel;
 
         // # Get current team id
         cy.getCurrentTeamId().then((teamId) => {
             // # Create private channel to post message
-            cy.apiCreateChannel(teamId, privateChannelName, privateChannelName, 'P', 'Test private channel').then((response) => {
-                const testPrivateChannel = response.body;
+            cy.apiCreateChannel(teamId, privateChannelName, privateChannelDisplayName, 'P', 'Test private channel').then((response) => {
+                testPrivateChannel = response.body;
 
                 // # Click on test private channel
                 cy.get('#sidebarItem_' + testPrivateChannel.name).click({force: true});
 
-                // # Post message to use
-                cy.postMessage(message);
+                // # Post several messages
+                for (var i = 1; i <= maxMessageCount; i++) { 
+                    cy.postMessage(`${message}-${i}`);
+                }
 
                 // # Get last post id from that postlist area
                 cy.getLastPostId().then((postId) => {
@@ -55,8 +63,8 @@ describe('Permalink loading indicator', () => {
         // # Get current team id
         cy.getCurrentTeamId().then((teamId) => {
             // # Create public channel to post permalink
-            cy.apiCreateChannel(teamId, publicChannelName, publicChannelName, 'O', 'Test public channel').then((response) => {
-                const testPublicChannel = response.body;
+            cy.apiCreateChannel(teamId, publicChannelName, publicChannelDisplayName, 'O', 'Test public channel').then((response) => {
+                testPublicChannel = response.body;
 
                 // # Click on test public channel
                 cy.get('#sidebarItem_' + testPublicChannel.name).click({force: true});
@@ -72,15 +80,21 @@ describe('Permalink loading indicator', () => {
 
                         // * Check if url include the permalink
                         cy.url().should('include', linkText);
+
+                        // * Check if the matching channel intro title is visible
+                        cy.get('#channelIntro').contains('.channel-intro__title', `Beginning of ${testPrivateChannel.display_name}`).should('be.visible');
                     });
 
                     // # Get last post id from open channel
                     cy.getLastPostId().then((clickedpostid) => {
                         // * Check the sent message
-                        cy.get(`#postMessageText_${clickedpostid}`).should('be.visible').and('have.text', message);
+                        cy.get(`#postMessageText_${clickedpostid}`).should('be.visible').and('have.text', `${message}-${maxMessageCount}`);
 
-                        // * Check the loading spinner does not appear
-                        cy.get('#loadingSpinner').should('not.be.visible');
+                        // * Check if the loading indicator is not visible
+                        cy.get('.loading-screen').should('not.be.visible');
+
+                        // * Check if the more messages text is not visible
+                        cy.get('.more-messages-text').should('not.be.visible');
                     });
                 });
             });
