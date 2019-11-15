@@ -74,10 +74,6 @@ describe('Messaging', () => {
             cy.apiLogin('user-1');
             cy.visit('/ad-1/channels/town-square');
 
-            // * Check the preview is shown
-            cy.get(`#${postId}_message`).find('.attachment--opengraph').should('exist');
-            cy.get(`#${postId}_message`).find('.attachment__image').should('exist');
-
             // # Remove the preview
             cy.get(`#${postId}_message`).within(() => {
                 cy.findByTestId('removeLinkPreviewButton').click({force: true});
