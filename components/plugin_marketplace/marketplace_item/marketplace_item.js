@@ -356,7 +356,7 @@ export default class MarketplaceItem extends React.Component {
             );
         }
 
-        let pluginDetails = (
+        const pluginDetailsInner = (
             <>
                 {this.props.name} <span className='light subtitle'>{versionLabel}</span>
                 {localTag}
@@ -366,6 +366,7 @@ export default class MarketplaceItem extends React.Component {
             </>
         );
 
+        let pluginDetails;
         if (this.props.homepageUrl) {
             pluginDetails = (
                 <a
@@ -375,7 +376,7 @@ export default class MarketplaceItem extends React.Component {
                     rel='noopener noreferrer'
                     href={this.props.homepageUrl}
                 >
-                    {pluginDetails}
+                    {pluginDetailsInner}
                 </a>
             );
         } else {
@@ -384,7 +385,7 @@ export default class MarketplaceItem extends React.Component {
                     aria-label={ariaLabel}
                     className='style--none'
                 >
-                    {pluginDetails}
+                    {pluginDetailsInner}
                 </span>
             );
         }
