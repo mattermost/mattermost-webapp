@@ -134,6 +134,7 @@ class PostList extends React.PureComponent {
                 willChange: 'transform',
             },
             renderUnreadChannelToast: this.props.countUnread !== 0,
+            doneLoadingPosts: false,
         };
 
         this.listRef = React.createRef();
@@ -422,6 +423,7 @@ class PostList extends React.PureComponent {
     }
 
     initScrollToIndex = () => {
+        this.setState({doneLoadingPosts: true});
         if (this.props.focusedPostId) {
             const index = this.state.postListIds.findIndex(
                 (item) => item === this.props.focusedPostId
@@ -530,7 +532,7 @@ class PostList extends React.PureComponent {
         // console.log(`lastViewedBottom ${this.state.lastViewedBottom} this.props.latestPostTimeStamp ${this.props.latestPostTimeStamp}`);
         // console.log(this.state.lastViewedBottom - this.props.latestPostTimeStamp);
         // console.log(`this.state.atBottom ${this.state.atBottom}`);
-        const unreadMessagesToast = (this.state.renderUnreadChannelToast && !this.props.atLatestPost &&
+        const unreadMessagesToast = (this.state.renderUnreadChannelToast && this.state.doneLoadingPosts &&
             <UnreadToast
                 onClick={this.scrollToLatestMessages}
                 onClickMessage={Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents')}
@@ -549,7 +551,7 @@ class PostList extends React.PureComponent {
                 <UnreadToast
                     onClick={this.scrollToUnread}
                     onClickMessage={Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages')}
-                    onClickFadeOutDelay={7000}
+                    onClickFadeOutDelay={5000}
                     order={2}
                     show={!this.state.renderUnreadChannelToast && (this.state.lastViewedBottom < this.props.latestPostTimeStamp) && !this.state.atBottom}
                     showOnlyOnce={false}

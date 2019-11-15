@@ -42,6 +42,13 @@ export default class Toast extends React.PureComponent {
         };
     }
 
+    static getDerivedStateFromProps(newProps, oldState) {
+        if (newProps.show && !oldState.show) {
+            return {showJump: true};
+        }
+        return {};
+    }
+
     shouldNeverShowAgain = () => {
         // if it should never be seen again, hide it
         if (this.props.showOnlyOnce) {

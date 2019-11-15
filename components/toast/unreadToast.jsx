@@ -61,6 +61,7 @@ export default class UnreadToast extends React.PureComponent {
     render() {
         const passAlong = {...this.props};
         delete passAlong.countUnread;
+        delete passAlong.onClickFadeOutDelay;
 
         return (
             <Toast
