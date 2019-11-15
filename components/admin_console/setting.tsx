@@ -36,7 +36,10 @@ export default class Settings extends PureComponent<Props> {
                 </label>
                 <div className='col-sm-8'>
                     {children}
-                    <div className='help-text'>
+                    <div
+                        data-testid={inputId + 'help-text'}
+                        className='help-text'
+                    >
                         {helpText}
                     </div>
                     {setByEnv ? <SetByEnv/> : null}
