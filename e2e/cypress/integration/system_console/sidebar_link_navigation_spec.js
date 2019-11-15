@@ -23,8 +23,8 @@ describe('System Console', () => {
     it('can go to admin console by clicking System Console', () => {
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
-        cy.get('.Menu__content').should('be.visible').within((container) => {
-            cy.getByText(/System Console/, {container}).should('be.visible').click();
+        cy.get('.Menu__content').should('be.visible').within(() => {
+            cy.findByText('System Console').should('be.visible').click();
         });
 
         cy.url().should('include', '/admin_console/about/license');
@@ -214,7 +214,7 @@ describe('System Console', () => {
         },
         {
             header: 'GIF (Beta)',
-            sidebar: 'GIF',
+            sidebar: 'GIF (Beta)',
             url: 'admin_console/integrations/gif',
             otherUrl: 'admin_console/about/license',
         },
@@ -244,8 +244,8 @@ describe('System Console', () => {
 
             // # Visit other URL and click the link on the sidebar
             cy.visit(testCase.otherUrl);
-            cy.get('.admin-sidebar').should('be.visible').within((container) => {
-                cy.getAllByText(new RegExp(testCase.sidebar), {container}).first().scrollIntoView().should('be.visible').click();
+            cy.get('.admin-sidebar').should('be.visible').within(() => {
+                cy.findByText(testCase.sidebar).scrollIntoView().should('be.visible').click();
             });
 
             // * Verify that it redirects to the URL and matches with the header

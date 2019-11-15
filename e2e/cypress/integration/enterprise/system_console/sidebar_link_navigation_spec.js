@@ -89,7 +89,7 @@ describe('System Console - Enterprise', () => {
         },
         {
             header: 'Guest Access (Beta)',
-            sidebar: 'Guest Access',
+            sidebar: 'Guest Access (Beta)',
             url: 'admin_console/authentication/guest_access',
             otherUrl: 'admin_console/about/license',
         },
@@ -101,7 +101,7 @@ describe('System Console - Enterprise', () => {
         },
         {
             header: 'Compliance Export (Beta)',
-            sidebar: 'Compliance Export',
+            sidebar: 'Compliance Export (Beta)',
             url: 'admin_console/compliance/export',
             otherUrl: 'admin_console/about/license',
         },
@@ -113,7 +113,7 @@ describe('System Console - Enterprise', () => {
         },
         {
             header: 'Custom Terms of Service (Beta)',
-            sidebar: 'Custom Terms of Service',
+            sidebar: 'Custom Terms of Service (Beta)',
             url: 'admin_console/compliance/custom_terms_of_service',
             otherUrl: 'admin_console/about/license',
         },
@@ -131,8 +131,8 @@ describe('System Console - Enterprise', () => {
 
             // # Visit other URL and click the link on the sidebar
             cy.visit(testCase.otherUrl);
-            cy.get('.admin-sidebar').should('be.visible').within((container) => {
-                cy.getAllByText(new RegExp(testCase.sidebar), {container}).first().scrollIntoView().should('be.visible').click();
+            cy.get('.admin-sidebar').should('be.visible').within(() => {
+                cy.findByText(testCase.sidebar).scrollIntoView().should('be.visible').click();
             });
 
             // * Verify that it redirects to the URL and matches with the header
