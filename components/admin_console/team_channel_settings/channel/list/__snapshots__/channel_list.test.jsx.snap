@@ -28,6 +28,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           className="group-list-search"
         >
           <input
+            data-test="search-input"
             onChange={[Function]}
             onKeyUp={[Function]}
             placeholder="Search"
@@ -41,6 +42,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           />
           <i
             className="fa fa-times-circle group-filter-action hidden"
+            data-test="clear-search"
             onClick={[Function]}
           />
         </div>
@@ -233,6 +235,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           className="group-list-search"
         >
           <input
+            data-test="search-input"
             onChange={[Function]}
             onKeyUp={[Function]}
             placeholder="Search"
@@ -246,6 +249,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           />
           <i
             className="fa fa-times-circle group-filter-action hidden"
+            data-test="clear-search"
             onClick={[Function]}
           />
         </div>
