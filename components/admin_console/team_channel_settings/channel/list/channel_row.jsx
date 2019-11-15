@@ -28,7 +28,7 @@ export default class ChannelRow extends React.Component {
                 onClick={this.handleRowClick}
             >
                 <div className='group-row'>
-                    <span className='group-name overflow--ellipsis row-content'>
+                    <span className='group-name overflow--ellipsis row-content' data-test='channel-display-name'>
                         {channel.type === Constants.PRIVATE_CHANNEL ? <LockIcon className='channel-icon channel-icon__lock'/> : <GlobeIcon className='channel-icon channel-icon__globe'/>}
                         {channel.display_name}
                     </span>
