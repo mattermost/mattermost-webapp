@@ -3,19 +3,18 @@
 
 import React from 'react';
 
-import TextSetting from 'components/widgets/settings/text_setting';
-import WidgetTextSettingProps from 'components/widgets/settings/text_setting';
+import TextSetting, {WidgetTextSettingProps} from 'components/widgets/settings/text_setting';
 
 import SetByEnv from './set_by_env';
 
 interface AdminTextSettingProps extends WidgetTextSettingProps {
-    setByEnv: boolean
+    setByEnv: boolean;
 }
 
 const AdminTextSetting: React.SFC<AdminTextSettingProps> = (props: AdminTextSettingProps): JSX.Element => {
     const {setByEnv, disabled, ...sharedProps} = props;	
     const isTextDisabled = props.disabled || props.setByEnv;
-
+    
     return (
         <TextSetting
             {...sharedProps}
