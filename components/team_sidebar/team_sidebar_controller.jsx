@@ -210,7 +210,7 @@ export default class TeamSidebar extends React.Component {
                                 droppableId='my_teams'
                                 type='TEAM_BUTTON'
                             >
-                                {(provided, snapshot) => {
+                                {(provided) => {
                                     return (
                                         <div
                                             ref={provided.innerRef}

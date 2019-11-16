@@ -144,16 +144,18 @@ export default class TeamButton extends React.Component {
                 draggableId={teamId}
                 index={teamIndex}
             >
-                {(provided, snapshot) => (
-                    <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={`team-container ${teamClass}`}
-                    >
-                        {teamButton}
-                    </div>
-                )}
+                {(provided) => {
+                    return (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`team-container ${teamClass}`}
+                        >
+                            {teamButton}
+                        </div>
+                    );
+                }}
             </Draggable>
         ) : (
             <div className={`team-container ${teamClass}`}>{teamButton}</div>
