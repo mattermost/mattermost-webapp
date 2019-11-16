@@ -35,24 +35,19 @@ describe('Search channels', () => {
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
 
-            var createChannelPromises = [];
-
             // make enough channels for 2 pages of results
             for (let i = 0; i < PAGE_SIZE + 2; i++) {
-                createChannelPromises.push(cy.apiCreateChannel(teamID, 'channel-search-paged-' + i, displayName + ' ' + i));
+                cy.apiCreateChannel(teamID, 'channel-search-paged-' + i, displayName + ' ' + i);
             }
 
-            Promise.all(createChannelPromises).then(() => {
-                cy.get('[data-test=search-input]').type(displayName + '{enter}')
+            cy.get('[data-test=search-input]').type(displayName + '{enter}')
 
-                // page 1 has PAGE_SIZE items
-                cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
+            // page 1 has PAGE_SIZE items
+            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
 
-                // page 2 has 2 items
-                cy.get('[data-test=page-link-next]').should('be.enabled').click().then(() => {
-                    cy.get('[data-test=channel-display-name]').should('have.length', 2);
-                });
-            });
+            // page 2 has 2 items
+            cy.get('[data-test=page-link-next]').should('be.enabled').click()
+            cy.get('[data-test=channel-display-name]').should('have.length', 2);
         });
     });
 
