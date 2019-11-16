@@ -7,11 +7,13 @@ import AdminTextSetting from './text_setting';
 
 describe('components/admin_console/TextSetting', () => {
     test('render component with required props', () => {
+        const onChange = jest.fn();
         const wrapper = shallow(
             <AdminTextSetting
                 id='string.id'
                 label='some label'
                 value='some value'
+                onChange={onChange}
                 setByEnv={false}
             />
         );
@@ -24,6 +26,7 @@ describe('components/admin_console/TextSetting', () => {
           label="some label"
           labelClassName="col-sm-4"
           maxLength={-1}
+          onChange={[MockFunction]}
           resizable={true}
           type="input"
           value="some value"
