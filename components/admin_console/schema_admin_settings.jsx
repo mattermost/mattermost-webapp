@@ -17,7 +17,7 @@ import BooleanSetting from 'components/admin_console/boolean_setting';
 import TextSetting from 'components/admin_console/text_setting.jsx';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
 import MultiSelectSetting from 'components/admin_console/multiselect_settings.jsx';
-import RadioSetting from 'components/admin_console/radio_setting.jsx';
+import RadioSetting from 'components/admin_console/radio_setting';
 import ColorSetting from 'components/admin_console/color_setting';
 import GeneratedSetting from 'components/admin_console/generated_setting';
 import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';

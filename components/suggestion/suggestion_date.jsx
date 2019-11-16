@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover} from 'react-bootstrap';
+
+import Popover from 'components/widgets/popover';
 
 export default class SuggestionDate extends React.PureComponent {
     static propTypes = {
