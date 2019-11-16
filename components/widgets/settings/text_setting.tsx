@@ -23,7 +23,6 @@ export type WidgetTextSettingProps = {
     type: InputTypes;
 }
 
-
 // Since handle change is read from input and textarea element
 type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
 

@@ -12,7 +12,7 @@ interface Props extends WidgetTextSettingProps {
 }
 
 const AdminTextSetting: React.SFC<Props> = (props: Props): JSX.Element => {
-    const {setByEnv, disabled, ...sharedProps} = props;	
+    const {setByEnv, disabled, ...sharedProps} = props;
     const isTextDisabled = props.disabled || props.setByEnv;
 
     return (
