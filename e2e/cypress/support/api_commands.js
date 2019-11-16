@@ -518,7 +518,7 @@ Cypress.Commands.add('apiSaveSidebarSettingPreference', (value = {}) => {
             category: 'sidebar_settings',
             name: '',
             value: JSON.stringify(newValue),
-        }
+        };
 
         return cy.apiSaveUserPreference([preference]);
     });
