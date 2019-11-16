@@ -7,7 +7,7 @@ import Setting from './setting';
 
 type InputTypes = 'input' | 'textarea' | 'number' | 'email' | 'tel' | 'url' | 'password'
 
-export default interface WidgetTextSettingProps {
+export type WidgetTextSettingProps = {
     id: string;
     label: React.ReactNode;
     labelClassName: string;
@@ -22,6 +22,7 @@ export default interface WidgetTextSettingProps {
     disabled?: boolean;
     type: InputTypes;
 }
+
 
 // Since handle change is read from input and textarea element
 type HandleChangeTypes = React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>

@@ -15,6 +15,11 @@ describe('components/admin_console/TextSetting', () => {
                 value='some value'
                 onChange={onChange}
                 setByEnv={false}
+                labelClassName=''
+                inputClassName=''
+                maxLength={-1}
+                resizable={true}
+                type="input"
             />
         );
         expect(wrapper).toMatchInlineSnapshot(`
