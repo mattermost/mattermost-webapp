@@ -24,10 +24,9 @@ describe('Search channels', () => {
         const displayName = uuid();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
-            cy.apiCreateChannel(teamID, 'channel-search', displayName).then(() => {
-                cy.get('[data-test=search-input]').type(displayName + '{enter}');
-                cy.get('[data-test=channel-display-name]').contains(displayName);
-            });
+            cy.apiCreateChannel(teamID, 'channel-search', displayName)
+            cy.get('[data-test=search-input]').type(displayName + '{enter}');
+            cy.get('[data-test=channel-display-name]').contains(displayName);
         });
     });
 
@@ -44,15 +43,14 @@ describe('Search channels', () => {
             }
 
             Promise.all(createChannelPromises).then(() => {
-                cy.get('[data-test=search-input]').type(displayName + '{enter}').then(() => {
+                cy.get('[data-test=search-input]').type(displayName + '{enter}')
 
-                    // page 1 has PAGE_SIZE items
-                    cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
+                // page 1 has PAGE_SIZE items
+                cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
 
-                    // page 2 has 2 items
-                    cy.get('[data-test=page-link-next]').should('be.enabled').click().then(() => {
-                        cy.get('[data-test=channel-display-name]').should('have.length', 2);
-                    });
+                // page 2 has 2 items
+                cy.get('[data-test=page-link-next]').should('be.enabled').click().then(() => {
+                    cy.get('[data-test=channel-display-name]').should('have.length', 2);
                 });
             });
         });
@@ -62,16 +60,12 @@ describe('Search channels', () => {
         const displayName = uuid();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
-            cy.apiCreateChannel(teamID, 'channel-search', displayName).then(() => {
-                cy.get('[data-test=search-input]').type(displayName + '{enter}').then(() => {
-                    cy.get('[data-test=channel-display-name]').should('have.length', 1).then(() => {
-                        cy.get('[data-test=clear-search]').click().then(() => {
-                            cy.get('[data-test=search-input]').should('be.visible').and('have.text', '');
-                            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
-                        });
-                    });
-                });
-            });
+            cy.apiCreateChannel(teamID, 'channel-search', displayName);
+            cy.get('[data-test=search-input]').type(displayName + '{enter}');
+            cy.get('[data-test=channel-display-name]').should('have.length', 1);
+            cy.get('[data-test=clear-search]').click();
+            cy.get('[data-test=search-input]').should('be.visible').and('have.text', '');
+            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
         });
     });
 
@@ -79,15 +73,11 @@ describe('Search channels', () => {
         const displayName = uuid();
         cy.apiGetTeams().then((response) => {
             const teamID = response.body[0].id;
-            cy.apiCreateChannel(teamID, 'channel-search', displayName).then(() => {
-                cy.get('[data-test=search-input]').type(displayName + '{enter}').then(() => {
-                    cy.get('[data-test=channel-display-name]').should('have.length', 1).then(() => {
-                        cy.get('[data-test=search-input]').type('{selectall}{del}').then(() => {
-                            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
-                        });
-                    });
-                });
-            });
+            cy.apiCreateChannel(teamID, 'channel-search', displayName);
+            cy.get('[data-test=search-input]').type(displayName + '{enter}');
+            cy.get('[data-test=channel-display-name]').should('have.length', 1);
+            cy.get('[data-test=search-input]').type('{selectall}{del}');
+            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
         });
     });
 });
