@@ -67,6 +67,7 @@ export default class TeamList extends React.PureComponent {
                         onKeyUp={this.handleTeamSearchKeyUp}
                         onChange={this.searchBarChangeHandler}
                         value={this.state.searchString}
+                        data-test='search-input'
                     />
                     <SearchIcon
                         id='searchIcon'
@@ -76,6 +77,7 @@ export default class TeamList extends React.PureComponent {
                     <i
                         className={'fa fa-times-circle group-filter-action ' + (this.state.searchString.length ? '' : 'hidden')}
                         onClick={this.resetSearch}
+                        data-test='clear-search'
                     />
                 </div>
             </div>

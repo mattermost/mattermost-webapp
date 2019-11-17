@@ -135,6 +135,7 @@ export default class AbstractList extends React.PureComponent {
                         className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
                         onClick={lastPage ? null : this.nextPage}
                         disabled={lastPage}
+                        data-test='page-link-next'
                     >
                         <NextIcon/>
                     </button>
