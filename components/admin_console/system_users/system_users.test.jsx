@@ -10,7 +10,7 @@ import {Constants, SearchUserTeamFilter, UserFilters} from 'utils/constants';
 jest.mock('actions/admin_actions.jsx');
 
 describe('components/admin_console/system_users', () => {
-    const USERS_PER_PAGE = 50;
+    const USERS_PER_PAGE = 30;
     const defaultProps = {
         teams: [],
         siteName: 'Site name',

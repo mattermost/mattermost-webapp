@@ -23,7 +23,7 @@ import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import SystemUsersList from './list';
 
 const USER_ID_LENGTH = 26;
-const USERS_PER_PAGE = 50;
+const USERS_PER_PAGE = 30;
 
 export default class SystemUsers extends React.Component {
     static propTypes = {

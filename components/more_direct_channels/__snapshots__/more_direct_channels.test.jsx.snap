@@ -146,7 +146,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           },
         ]
       }
-      perPage={50}
+      perPage={30}
       placeholderText="Search and add members"
       saving={false}
       submitImmediatelyOn={[Function]}

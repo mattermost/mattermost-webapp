@@ -81,14 +81,16 @@ export default class SystemUsersList extends React.Component {
         return null;
     }
 
-    nextPage = () => {
-        this.setState({page: this.state.page + 1});
+    nextPage = async () => {
+        if (this.state.pageLoading) {
+            return;
+        }
 
-        this.props.nextPage(this.state.page + 1);
-    }
+        this.setState({pageLoading: true});
 
-    previousPage = () => {
-        this.setState({page: this.state.page - 1});
+        await this.props.nextPage(this.state.page + 1);
+
+        this.setState({page: this.state.page + 1, pageLoading: false});
     }
 
     search = (term) => {
@@ -256,46 +258,21 @@ export default class SystemUsersList extends React.Component {
         return info;
     }
 
-    renderCount(count, total, startCount, endCount, isSearch) {
-        if (total) {
-            if (isSearch) {
-                return (
-                    <FormattedMessage
-                        id='system_users_list.countSearch'
-                        defaultMessage='{count, number} {count, plural, one {user} other {users}} of {total, number} total'
-                        values={{
-                            count,
-                            total,
-                        }}
-                    />
-                );
-            } else if (startCount !== 0 || endCount !== total) {
-                return (
-                    <FormattedMessage
-                        id='system_users_list.countPage'
-                        defaultMessage='{startCount, number} - {endCount, number} {count, plural, one {user} other {users}} of {total, number} total'
-                        values={{
-                            count,
-                            startCount: startCount + 1,
-                            endCount,
-                            total,
-                        }}
-                    />
-                );
-            }
-
-            return (
-                <FormattedMessage
-                    id='system_users_list.count'
-                    defaultMessage='{count, number} {count, plural, one {user} other {users}}'
-                    values={{
-                        count,
-                    }}
-                />
-            );
+    renderCount(count, total) {
+        if (!total) {
+            return null;
         }
 
-        return null;
+        return (
+            <FormattedMessage
+                id='system_users_list.countSearch'
+                defaultMessage='{count, number} {count, plural, one {user} other {users}} of {total, number} total'
+                values={{
+                    count,
+                    total,
+                }}
+            />
+        );
     }
 
     render() {
@@ -324,7 +301,7 @@ export default class SystemUsersList extends React.Component {
                         doManageTokens: this.doManageTokens,
                     }}
                     nextPage={this.nextPage}
-                    previousPage={this.previousPage}
+                    pageLoading={this.state.pageLoading}
                     search={this.search}
                     page={this.state.page}
                     term={this.props.term}

@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import Constants from 'utils/constants';
 import LoadingScreen from 'components/loading_screen';
 
+import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
+
 import UserListRow from './user_list_row';
 
 export default class UserList extends React.Component {
@@ -20,6 +22,9 @@ export default class UserList extends React.Component {
 
         // the type of user list row to render
         rowComponentType: PropTypes.func,
+        hasMore: PropTypes.bool,
+        loadMore: PropTypes.func,
+        pageLoading: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -28,6 +33,7 @@ export default class UserList extends React.Component {
         actions: [],
         actionProps: {},
         rowComponentType: UserListRow,
+        pageLoading: false,
     }
 
     scrollToTop = () => {
@@ -40,44 +46,54 @@ export default class UserList extends React.Component {
         const users = this.props.users;
         const RowComponentType = this.props.rowComponentType;
 
-        let content;
         if (users == null) {
             return <LoadingScreen/>;
-        } else if (users.length > 0) {
-            content = users.map((user, index) => {
-                return (
-                    <RowComponentType
-                        key={user.id}
-                        user={user}
-                        extraInfo={this.props.extraInfo[user.id]}
-                        actions={this.props.actions}
-                        actionProps={this.props.actionProps}
-                        actionUserProps={this.props.actionUserProps[user.id]}
-                        index={index}
-                        totalUsers={users.length}
-                        userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
-                    />
-                );
-            });
-        } else {
-            content = (
-                <div
-                    key='no-users-found'
-                    className='more-modal__placeholder-row'
-                >
-                    <p>
-                        <FormattedMessage
-                            id='user_list.notFound'
-                            defaultMessage='No users found'
-                        />
-                    </p>
+        } else if (!users.length) {
+            return (
+                <div ref='container'>
+                    <div
+                        key='no-users-found'
+                        className='more-modal__placeholder-row'
+                    >
+                        <p>
+                            <FormattedMessage
+                                id='user_list.notFound'
+                                defaultMessage='No users found'
+                            />
+                        </p>
+                    </div>
                 </div>
             );
         }
 
+        const content = users.map((user, index) => {
+            return (
+                <RowComponentType
+                    key={user.id}
+                    user={user}
+                    extraInfo={this.props.extraInfo[user.id]}
+                    actions={this.props.actions}
+                    actionProps={this.props.actionProps}
+                    actionUserProps={this.props.actionUserProps[user.id]}
+                    index={index}
+                    totalUsers={users.length}
+                    userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+                />
+            );
+        });
+
         return (
             <div ref='container'>
-                {content}
+                <InfiniteScroll
+                    hasMore={this.props.hasMore}
+                    loadMore={this.props.loadMore}
+                    initialLoad={false}
+                    useWindow={false}
+                >
+                    {content}
+
+                </InfiniteScroll>
+                { this.props.pageLoading && this.props.hasMore && <LoadingScreen style={{height: 'auto', padding: 0}}/> }
             </div>
         );
     }

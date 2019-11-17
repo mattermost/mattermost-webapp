@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
 import QuickInput from 'components/quick_input';
@@ -13,8 +11,6 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n';
 
-const NEXT_BUTTON_TIMEOUT = 500;
-
 export default class SearchableUserList extends React.Component {
     static propTypes = {
         users: PropTypes.arrayOf(PropTypes.object),
@@ -22,7 +18,7 @@ export default class SearchableUserList extends React.Component {
         total: PropTypes.number,
         extraInfo: PropTypes.object,
         nextPage: PropTypes.func.isRequired,
-        previousPage: PropTypes.func.isRequired,
+        pageLoading: PropTypes.bool,
         search: PropTypes.func.isRequired,
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
@@ -65,31 +61,12 @@ export default class SearchableUserList extends React.Component {
         this.focusSearchBar();
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.page !== prevProps.page || this.props.term !== prevProps.term) {
-            this.refs.userList.scrollToTop();
-        }
-    }
-
     componentWillUnmount() {
         clearTimeout(this.nextTimeoutId);
     }
 
-    nextPage = (e) => {
-        e.preventDefault();
-
-        this.setState({nextDisabled: true});
-        this.nextTimeoutId = setTimeout(() => this.setState({nextDisabled: false}), NEXT_BUTTON_TIMEOUT);
-
+    nextPage = () => {
         this.props.nextPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
-    }
-
-    previousPage = (e) => {
-        e.preventDefault();
-
-        this.props.previousPage();
-        $(ReactDOM.findDOMNode(this.refs.channelListScroll)).scrollTop(0);
     }
 
     focusSearchBar = () => {
@@ -114,44 +91,18 @@ export default class SearchableUserList extends React.Component {
 
         const count = users.length;
         const total = this.props.total;
-        const isSearch = Boolean(this.props.term);
-
-        let startCount;
-        let endCount;
-        if (isSearch) {
-            startCount = -1;
-            endCount = -1;
-        } else {
-            startCount = this.props.page * this.props.usersPerPage;
-            endCount = Math.min(startCount + this.props.usersPerPage, total);
-        }
 
         if (this.props.renderCount) {
-            return this.props.renderCount(count, this.props.total, startCount, endCount, isSearch);
+            return this.props.renderCount(count, this.props.total);
         }
 
         if (this.props.total) {
-            if (isSearch) {
-                return (
-                    <FormattedMessage
-                        id='filtered_user_list.countTotal'
-                        defaultMessage='{count, number} {count, plural, one {member} other {members}} of {total, number} total'
-                        values={{
-                            count,
-                            total,
-                        }}
-                    />
-                );
-            }
-
             return (
                 <FormattedMessage
-                    id='filtered_user_list.countTotalPage'
-                    defaultMessage='{startCount, number} - {endCount, number} {count, plural, one {member} other {members}} of {total, number} total'
+                    id='filtered_user_list.countTotal'
+                    defaultMessage='{count, number} {count, plural, one {member} other {members}} of {total, number} total'
                     values={{
                         count,
-                        startCount: startCount + 1,
-                        endCount,
                         total,
                     }}
                 />
@@ -162,47 +113,14 @@ export default class SearchableUserList extends React.Component {
     }
 
     render() {
-        let nextButton;
-        let previousButton;
         let usersToDisplay;
+        let hasMore;
 
         if (this.props.term || !this.props.users) {
             usersToDisplay = this.props.users;
-        } else if (!this.props.term) {
-            const pageStart = this.props.page * this.props.usersPerPage;
-            const pageEnd = pageStart + this.props.usersPerPage;
-            usersToDisplay = this.props.users.slice(pageStart, pageEnd);
-
-            if (pageEnd < this.props.users.length) {
-                nextButton = (
-                    <button
-                        id='searchableUserListNextBtn'
-                        className='btn btn-link filter-control filter-control__next'
-                        onClick={this.nextPage}
-                        disabled={this.state.nextDisabled}
-                    >
-                        <FormattedMessage
-                            id='filtered_user_list.next'
-                            defaultMessage='Next'
-                        />
-                    </button>
-                );
-            }
-
-            if (this.props.page > 0) {
-                previousButton = (
-                    <button
-                        id='searchableUserListPrevBtn'
-                        className='btn btn-link filter-control filter-control__prev'
-                        onClick={this.previousPage}
-                    >
-                        <FormattedMessage
-                            id='filtered_user_list.prev'
-                            defaultMessage='Previous'
-                        />
-                    </button>
-                );
-            }
+        } else {
+            usersToDisplay = this.props.users.slice(0, (this.props.page + 1) * this.props.usersPerPage);
+            hasMore = usersToDisplay.length < this.props.total;
         }
 
         let filterRow;
@@ -250,6 +168,9 @@ export default class SearchableUserList extends React.Component {
                 <div className='more-modal__list'>
                     <UserList
                         ref='userList'
+                        hasMore={hasMore}
+                        loadMore={this.nextPage}
+                        pageLoading={this.props.pageLoading}
                         users={usersToDisplay}
                         extraInfo={this.props.extraInfo}
                         actions={this.props.actions}
@@ -257,10 +178,6 @@ export default class SearchableUserList extends React.Component {
                         actionUserProps={this.props.actionUserProps}
                         rowComponentType={this.props.rowComponentType}
                     />
-                </div>
-                <div className='filter-controls'>
-                    {previousButton}
-                    {nextButton}
                 </div>
             </div>
         );

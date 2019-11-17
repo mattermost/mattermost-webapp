@@ -10,7 +10,7 @@ import * as UserAgent from 'utils/user_agent';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
 
-const USERS_PER_PAGE = 50;
+const USERS_PER_PAGE = 30;
 
 export default class MemberListTeam extends React.Component {
     static propTypes = {
@@ -98,7 +98,7 @@ export default class MemberListTeam extends React.Component {
         this.setState({loading: false});
     }
 
-    nextPage = (page) => {
+    nextPage = async (page) => {
         this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
     }
 

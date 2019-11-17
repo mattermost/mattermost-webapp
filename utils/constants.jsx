@@ -804,7 +804,7 @@ export const Constants = {
     CREATE_LDAP: 'create_ldap',
     SESSION_EXPIRED: 'expired',
     POST_CHUNK_SIZE: 60,
-    PROFILE_CHUNK_SIZE: 100,
+    PROFILE_CHUNK_SIZE: 60,
     POST_FOCUS_CONTEXT_RADIUS: 10,
     POST_LOADING: 'loading',
     POST_FAILED: 'failed',

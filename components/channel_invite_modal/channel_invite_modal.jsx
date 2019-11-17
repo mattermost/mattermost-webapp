@@ -18,7 +18,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 
 import Constants from 'utils/constants';
 
-const USERS_PER_PAGE = 50;
+const USERS_PER_PAGE = 30;
 const MAX_SELECTABLE_VALUES = 20;
 
 export default class ChannelInviteModal extends React.Component {

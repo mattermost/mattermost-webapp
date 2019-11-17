@@ -18,7 +18,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 
 import GroupMessageOption from './group_message_option';
 
-const USERS_PER_PAGE = 50;
+const USERS_PER_PAGE = 30;
 const MAX_SELECTABLE_VALUES = Constants.MAX_USERS_IN_GM - 1;
 
 export default class MoreDirectChannels extends React.Component {

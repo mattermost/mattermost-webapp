@@ -73,25 +73,25 @@ describe('components/admin_console/system_users/list', () => {
     });
 
     describe('should reset page', () => {
-        it('when team changes', () => {
-            const wrapper = shallow(
+        it('when team changes', async () => {
+            const wrapper = shallowWithIntl(
                 <SystemUsersList {...defaultProps}/>
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage();
+            await wrapper.instance().nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, teamId: 'new'});
             expect(wrapper.state('page')).toBe(0);
         });
 
-        it('when filter changes', () => {
-            const wrapper = shallow(
+        it('when filter changes', async () => {
+            const wrapper = shallowWithIntl(
                 <SystemUsersList {...defaultProps}/>
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage();
+            await wrapper.instance().nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, filter: 'new'});
             expect(wrapper.state('page')).toBe(0);
@@ -99,13 +99,13 @@ describe('components/admin_console/system_users/list', () => {
     });
 
     describe('should not reset page', () => {
-        it('when term changes', () => {
-            const wrapper = shallow(
+        it('when term changes', async () => {
+            const wrapper = shallowWithIntl(
                 <SystemUsersList {...defaultProps}/>
             );
 
             expect(wrapper.state('page')).toBe(0);
-            wrapper.instance().nextPage();
+            await wrapper.instance().nextPage();
             expect(wrapper.state('page')).toBe(1);
             wrapper.setProps({...defaultProps, term: 'new term'});
             expect(wrapper.state('page')).toBe(1);

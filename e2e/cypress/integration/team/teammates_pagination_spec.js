@@ -40,7 +40,7 @@ describe('Teams Suite', () => {
         });
     });
 
-    it('TS14868 Team Admin can use Next button to page through list in Manage Members', () => {
+    it('TS14868 Team Admin can scroll through list in Manage Members', () => {
         // # Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
@@ -51,18 +51,12 @@ describe('Teams Suite', () => {
         cy.get('#teamMemberModalLabel').should('be.visible');
 
         // * Check teammate total
-        cy.get('#searchableUserListTotal').should('contain', '1 - 50 members of 60 total');
+        cy.get('#searchableUserListTotal').should('contain', '30 members of 60 total');
 
-        // # Click Next button
-        cy.get('#searchableUserListNextBtn').should('be.visible').click();
+        // # Scroll to bottom of user list
+        cy.get('.more-modal__list').children().first().scrollTo('bottom');
 
-        // * Check teammate list advances by one page
-        cy.get('#searchableUserListTotal').should('contain', '51 - 60 members of 60 total');
-
-        // # Click Prev button
-        cy.get('#searchableUserListPrevBtn').should('be.visible').click();
-
-        // * Check teammate list reverses by one page
-        cy.get('#searchableUserListTotal').should('contain', '1 - 50 members of 60 total');
+        // * Check teammate list loads the next page
+        cy.get('#searchableUserListTotal').should('contain', '60 members of 60 total');
     });
 });

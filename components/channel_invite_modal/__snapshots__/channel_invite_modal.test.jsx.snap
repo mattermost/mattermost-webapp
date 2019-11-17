@@ -83,7 +83,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       }
       optionRenderer={[Function]}
       options={Array []}
-      perPage={50}
+      perPage={30}
       placeholderText="Search and add members"
       saving={false}
       valueRenderer={[Function]}

@@ -36,7 +36,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
           teams={Array []}
           term=""
           total={0}
-          usersPerPage={50}
+          usersPerPage={30}
         />
       </div>
       <Connect(SystemPermissionGate)

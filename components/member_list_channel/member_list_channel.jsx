@@ -10,7 +10,7 @@ import * as UserAgent from 'utils/user_agent';
 import ChannelMembersDropdown from 'components/channel_members_dropdown';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import LoadingScreen from 'components/loading_screen';
-const USERS_PER_PAGE = 50;
+const USERS_PER_PAGE = 30;
 
 export default class MemberListChannel extends React.PureComponent {
     static propTypes = {
