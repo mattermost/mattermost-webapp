@@ -59,12 +59,29 @@ export default class TeamSidebar extends React.Component {
         userTeamsOrderPreference: PropTypes.string,
     }
 
-    state = {
-        teamsOrder: filterAndSortTeamsByDisplayName(
-            this.props.myTeams,
-            this.props.locale,
-            this.props.userTeamsOrderPreference,
-        ),
+    constructor(props) {
+        super(props);
+        this.state = {
+            teamsOrder: filterAndSortTeamsByDisplayName(
+                this.props.myTeams,
+                this.props.locale,
+                this.props.userTeamsOrderPreference,
+            ),
+        };
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const newTeamsOrder = filterAndSortTeamsByDisplayName(
+            nextProps.myTeams,
+            nextProps.locale,
+            nextProps.userTeamsOrderPreference
+        );
+        if (newTeamsOrder !== prevState.teamsOrder) {
+            return {
+                teamsOrder: newTeamsOrder,
+            };
+        }
+        return {};
     }
 
     componentDidMount() {
