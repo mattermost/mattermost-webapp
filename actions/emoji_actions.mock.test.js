@@ -31,46 +31,46 @@ describe('loadRecentlyUsedCustomEmojis', () => {
     beforeEach(async () => {
         testStore = await mockStore(initialState);
     });
-    
+
     test('Get only emojis missing on the map', async () => {
-        getEmojiMap.mockImplementation((...args) => {
-            return new Map([['emoji1',{}],['emoji3',{}],['emoji4',{}]]);
+        getEmojiMap.mockImplementation(() => {
+            return new Map([['emoji1', {}], ['emoji3', {}], ['emoji4', {}]]);
         });
-        getRecentEmojis.mockImplementation((...args) => {
-            return ['emoji1','emoji2','emoji3','emoji5'];
+        getRecentEmojis.mockImplementation(() => {
+            return ['emoji1', 'emoji2', 'emoji3', 'emoji5'];
         });
 
         const expectedActions = [
             {type: 'MOCK_GET_CUSTOM_EMOJI_BY_NAME', args: ['emoji2']},
             {type: 'MOCK_GET_CUSTOM_EMOJI_BY_NAME', args: ['emoji5']},
-        ]
+        ];
 
         testStore.dispatch(Actions.loadRecentlyUsedCustomEmojis());
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
     test('Does not get any emojis if none is missing on the map', async () => {
-        getEmojiMap.mockImplementation((...args) => {
-            return new Map([['emoji1',{}],['emoji3',{}],['emoji4',{}]]);
+        getEmojiMap.mockImplementation(() => {
+            return new Map([['emoji1', {}], ['emoji3', {}], ['emoji4', {}]]);
         });
-        getRecentEmojis.mockImplementation((...args) => {
-            return ['emoji1','emoji3'];
+        getRecentEmojis.mockImplementation(() => {
+            return ['emoji1', 'emoji3'];
         });
-        const expectedActions = []
+        const expectedActions = [];
 
         testStore.dispatch(Actions.loadRecentlyUsedCustomEmojis());
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
     test('Does not get any emojis if they are not enabled', async () => {
-        testStore = await mockStore({entities: {general: {config: {EnableCustomEmoji: 'false'}}}})
-        getEmojiMap.mockImplementation((...args) => {
-            return new Map([['emoji1',{}],['emoji3',{}],['emoji4',{}]]);
+        testStore = await mockStore({entities: {general: {config: {EnableCustomEmoji: 'false'}}}});
+        getEmojiMap.mockImplementation(() => {
+            return new Map([['emoji1', {}], ['emoji3', {}], ['emoji4', {}]]);
         });
-        getRecentEmojis.mockImplementation((...args) => {
-            return ['emoji1','emoji2','emoji3','emoji5'];
+        getRecentEmojis.mockImplementation(() => {
+            return ['emoji1', 'emoji2', 'emoji3', 'emoji5'];
         });
-        const expectedActions = []
+        const expectedActions = [];
 
         testStore.dispatch(Actions.loadRecentlyUsedCustomEmojis());
         expect(testStore.getActions()).toEqual(expectedActions);
