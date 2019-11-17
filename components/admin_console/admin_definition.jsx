@@ -23,6 +23,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
+import CustomEnableDisableGuestAccountsSetting from './custom_enable_disable_guest_accounts_setting';
 import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
@@ -1684,6 +1685,14 @@ const AdminDefinition = {
                         ],
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.LockTeammateNameDisplay',
+                        label: t('admin.lockTeammateNameDisplay'),
+                        label_default: 'Lock Teammate Name Display for all users: ',
+                        help_text: t('admin.lockTeammateNameDisplayHelpText'),
+                        help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
                         key: 'TeamSettings.EditOthersPosts',
                         label: t('admin.team.editOthersPostsTitle'),
@@ -1699,7 +1708,7 @@ const AdminDefinition = {
                         label: t('admin.viewArchivedChannelsTitle'),
                         label_default: 'Allow users to view archived channels: ',
                         help_text: t('admin.viewArchivedChannelsHelpText'),
-                        help_text_default: '(Experimental) When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        help_text_default: '(Experimental) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2620,7 +2629,7 @@ const AdminDefinition = {
                         label_default: 'AD/LDAP Test',
                         help_text: t('admin.ldap.testHelpText'),
                         help_text_markdown: true,
-                        help_text_default: 'Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
+                        help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                         error_message: t('admin.ldap.testFailure'),
                         error_message_default: 'AD/LDAP Test Failure: {error}',
                         success_message: t('admin.ldap.testSuccess'),
@@ -3495,13 +3504,9 @@ const AdminDefinition = {
                 name_default: 'Guest Access (Beta)',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: CustomEnableDisableGuestAccountsSetting,
                         key: 'GuestAccountsSettings.Enable',
-                        label: t('admin.guest_access.enableTitle'),
-                        label_default: 'Enable Guest Access: ',
-                        help_text: t('admin.guest_access.enableDescription'),
-                        help_text_default: 'When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests.',
-                        help_text_markdown: true,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
