@@ -24,6 +24,7 @@ describe('components/invitation_modal/InvitationModal', () => {
             sendGuestsInvites: jest.fn(),
             sendMembersInvites: jest.fn(),
             searchProfiles: jest.fn(),
+            searchChannels: jest.fn(),
             getTeam: jest.fn(),
         },
     };
