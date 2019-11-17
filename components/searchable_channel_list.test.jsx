@@ -15,6 +15,9 @@ describe('components/SearchableChannelList', () => {
         search: () => {}, // eslint-disable-line no-empty-function
         handleJoin: () => {}, // eslint-disable-line no-empty-function
         loading: true,
+        toggleArchivedChannels: () => {}, // eslint-disable-line no-empty-function
+        shouldShowArchivedChannels: false,
+        canShowArchivedChannels: false,
     };
 
     test('should match init snapshot', () => {
