@@ -73,8 +73,8 @@
   "devDependencies": {
     "@types/highlight.js": "9.12.3",
     "@types/common-tags": "1.8.0",
-    "@types/marked": "^0.6.5",
-    "@types/xregexp": "^3.0.30",
+    "@types/marked": "0.6.5",
+    "@types/xregexp": "3.0.30",
     "@typescript-eslint/parser": "1.13.0",
     "@babel/cli": "7.6.4",
     "@babel/core": "7.6.4",
