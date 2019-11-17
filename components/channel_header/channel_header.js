@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -26,7 +26,7 @@ import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
-
+import Popover from 'components/widgets/popover';
 import {
     Constants,
     ModalIdentifiers,
@@ -331,21 +331,39 @@ class ChannelHeader extends React.PureComponent {
         }
 
         if (isGroup) {
-            const nodes = [];
+            // map the displayname to the gm member users
+            const membersMap = {};
             for (const user of gmMembers) {
                 if (user.id === currentUser.id) {
                     continue;
                 }
                 const userDisplayName = Utils.getDisplayNameByUserId(user.id);
-                nodes.push((
-                    <React.Fragment key={userDisplayName}>
-                        {nodes.length !== 0 && ', '}
-                        {userDisplayName}
+
+                if (!membersMap[userDisplayName]) {
+                    membersMap[userDisplayName] = []; //Create an array for cases with same display name
+                }
+
+                membersMap[userDisplayName].push(user);
+            }
+
+            const displayNames = channel.display_name.split(', ');
+
+            channelTitle = displayNames.map((displayName, index) => {
+                if (!membersMap[displayName]) {
+                    return displayName;
+                }
+
+                const user = membersMap[displayName].shift();
+
+                return (
+                    <React.Fragment key={user.id}>
+                        {index > 0 && ', '}
+                        {displayName}
                         <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
-                ));
-            }
-            channelTitle = nodes;
+                );
+            });
+
             if (hasGuests) {
                 hasGuestsText = (
                     <span className='has-guest-header'>
@@ -393,8 +411,8 @@ class ChannelHeader extends React.PureComponent {
             const popoverContent = (
                 <Popover
                     id='header-popover'
-                    bStyle='info'
-                    bSize='large'
+                    popoverStyle='info'
+                    popoverSize='lg'
                     placement='bottom'
                     className='channel-header__popover'
                     onMouseOver={this.handleOnMouseOver}

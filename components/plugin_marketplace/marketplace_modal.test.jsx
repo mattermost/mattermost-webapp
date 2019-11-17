@@ -32,7 +32,7 @@ describe('components/MarketplaceModal', () => {
             siteURL: 'http://example.com',
             actions: {
                 closeModal: jest.fn(),
-                getMarketplacePlugins: jest.fn(),
+                getMarketplacePlugins: jest.fn().mockResolvedValue({}),
             },
         };
     });

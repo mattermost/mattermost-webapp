@@ -10,6 +10,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
   dialogClassName="a11y__modal more-modal more-modal--action"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="moreChannelsModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -34,6 +35,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
     bsClass="modal-header"
     closeButton={true}
     closeLabel="Close"
+    id="moreChannelsModalHeader"
   >
     <ModalTitle
       bsClass="modal-title"
@@ -73,6 +75,7 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
     componentClass="div"
   >
     <SearchableChannelList
+      canShowArchivedChannels={true}
       channels={
         Array [
           Object {
@@ -109,6 +112,8 @@ exports[`components/MoreChannels should match snapshot and state 1`] = `
         </Connect(TeamPermissionGate)>
       }
       search={[Function]}
+      shouldShowArchivedChannels={false}
+      toggleArchivedChannels={[Function]}
     />
   </ModalBody>
 </Modal>
