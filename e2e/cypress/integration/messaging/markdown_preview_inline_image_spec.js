@@ -41,14 +41,7 @@ describe('Messaging', () => {
                     expect(postList[0].getBoundingClientRect().bottom).lessThan(img[1].getBoundingClientRect().top);
 
                     // * Images do not overlap among themselves
-                    expect(
-
-                        // * Images do not overlap vertically
-                        img[0].getBoundingClientRect().bottom <= img[1].getBoundingClientRect().top ||
-
-                        // * Images do not overlap horizontally
-                        img[0].getBoundingClientRect().right <= img[1].getBoundingClientRect().left
-                    ).equals(true);
+                    expect(img[0].getBoundingClientRect().bottom <= img[1].getBoundingClientRect().top).equals(true);
                 });
             });
         });
