@@ -5,9 +5,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
+import Constants from 'utils/constants';
 
 const MIN_TOAST_HEIGHT = 1000;
 
@@ -99,6 +101,15 @@ export default class Toast extends React.PureComponent {
             );
         };
 
+        const closeTooltip = (
+            <Tooltip id='toast-close__tooltip'>
+                <FormattedMessage
+                    id='toast.close'
+                    defaultMessage='Close'
+                />
+            </Tooltip>
+        );
+
         return (
             <div
                 className={classes}
@@ -108,25 +119,21 @@ export default class Toast extends React.PureComponent {
                 <div className='toast__message'>
                     {this.props.children}
                 </div>
-                <FormattedMessage
-                    id='toast.close'
-                    defaultMessage='Close'
+                <div
+                    className='toast__dismiss'
+                    onClick={this.handleDismiss}
                 >
-                    {
-                        (title) => (
-                            <div
-                                className='toast__dismiss'
-                                onClick={this.handleDismiss}
-                                title={title}
-                            >
-                                <CloseIcon
-                                    className='close-x'
-                                    id='dismissToast'
-                                />
-                            </div>
-                        )
-                    }
-                </FormattedMessage>
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={closeTooltip}
+                    >
+                        <CloseIcon
+                            className='close-x'
+                            id='dismissToast'
+                        />
+                    </OverlayTrigger>
+                </div>
             </div>
         );
     }
