@@ -28,10 +28,8 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
         className="setting-list-item"
       >
         <hr />
-        <SaveButton
-          btnClass="btn-primary"
+        <injectIntl(SaveButton)
           disabled={false}
-          extraClasses=""
           onClick={[Function]}
           saving={false}
         />
@@ -90,10 +88,8 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
             clientError
           </label>
         </div>
-        <SaveButton
-          btnClass="btn-primary"
+        <injectIntl(SaveButton)
           disabled={false}
-          extraClasses=""
           onClick={[Function]}
           saving={false}
         />
@@ -152,10 +148,8 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
             serverError
           </label>
         </div>
-        <SaveButton
-          btnClass="btn-primary"
+        <injectIntl(SaveButton)
           disabled={false}
-          extraClasses=""
           onClick={[Function]}
           saving={false}
         />
@@ -204,11 +198,9 @@ exports[`components/SettingItemMin should match snapshot, with new saveTextButto
         className="setting-list-item"
       >
         <hr />
-        <SaveButton
-          btnClass="btn-primary"
+        <injectIntl(SaveButton)
           defaultMessage="CustomText"
           disabled={false}
-          extraClasses=""
           onClick={[Function]}
           saving={false}
         />

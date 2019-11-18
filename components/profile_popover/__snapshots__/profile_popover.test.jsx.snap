@@ -2,10 +2,11 @@
 
 exports[`components/ProfilePopover should hide add-to-channel option if not on team 1`] = `
 <Popover
-  bsClass="popover"
   id="user-profile-popover"
   isInCurrentTeam={false}
   placement="right"
+  popoverSize="sm"
+  popoverStyle="info"
   title={
     <span
       data-testid="profilePopoverTitle_some_username"
@@ -74,10 +75,11 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
 
 exports[`components/ProfilePopover should match snapshot 1`] = `
 <Popover
-  bsClass="popover"
   id="user-profile-popover"
   isInCurrentTeam={true}
   placement="right"
+  popoverSize="sm"
+  popoverStyle="info"
   title={
     <span
       data-testid="profilePopoverTitle_some_username"
@@ -138,7 +140,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       className="text-nowrap"
       href="#"
     >
-      <Connect(ModalToggleButtonRedux)
+      <Connect(injectIntl(ModalToggleButtonRedux))
         accessibilityLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -158,7 +160,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
           title="Add User to Channel Icon"
         />
         Add to a Channel
-      </Connect(ModalToggleButtonRedux)>
+      </Connect(injectIntl(ModalToggleButtonRedux))>
     </a>
   </div>
   <Connect(Pluggable)

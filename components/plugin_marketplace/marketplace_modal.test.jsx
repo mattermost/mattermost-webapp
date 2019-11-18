@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {shallow} from 'enzyme';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-
-import MarketplaceModal from './marketplace_modal.jsx';
+import MarketplaceModal from './marketplace_modal';
 
 describe('components/MarketplaceModal', () => {
     const marketplacePluginsSample = [{
@@ -33,13 +32,13 @@ describe('components/MarketplaceModal', () => {
             siteURL: 'http://example.com',
             actions: {
                 closeModal: jest.fn(),
-                getMarketplacePlugins: jest.fn(),
+                getMarketplacePlugins: jest.fn().mockResolvedValue({}),
             },
         };
     });
 
     test('should match the snapshot, no plugins installed', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <MarketplaceModal {...defaultProps}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -62,7 +61,7 @@ describe('components/MarketplaceModal', () => {
         marketplacePluginsSample.push(installedPlugin);
         installedPlugins.push(installedPlugin);
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <MarketplaceModal {...defaultProps}/>
         );
 
@@ -71,7 +70,7 @@ describe('components/MarketplaceModal', () => {
 
     test('should fetch marketplace plugins when plugin status is changed', () => {
         const getMarketplacePlugins = defaultProps.actions.getMarketplacePlugins;
-        const wrapper = shallowWithIntl(<MarketplaceModal {...defaultProps}/>);
+        const wrapper = shallow(<MarketplaceModal {...defaultProps}/>);
 
         expect(getMarketplacePlugins).toBeCalledTimes(1);
         wrapper.setProps({...defaultProps});
@@ -82,7 +81,7 @@ describe('components/MarketplaceModal', () => {
     });
 
     test('should match the snapshot, error banner is shown', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <MarketplaceModal {...defaultProps}/>
         );
 
