@@ -704,6 +704,23 @@
     }
 }
 
+.more-modal__dropdown {
+    padding: 16px 16px 0px;
+    font-weight: 600;
+    span {
+        font-size: .9em;
+        color:#3d3c40;
+    }
+    a:hover {
+        color: #3d3c40;
+        text-decoration: none;
+    }
+}
+
+.more-modal__icon-container {
+    margin-right: 6px;
+}
+
 .more-modal__list {
     display: flex;
     flex-direction: column;
