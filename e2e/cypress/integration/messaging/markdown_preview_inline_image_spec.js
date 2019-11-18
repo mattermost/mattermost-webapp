@@ -33,12 +33,21 @@ describe('Messaging', () => {
         // # Click on Preview button
         cy.get('#previewLink').click({force: true});
 
-        // * Image does not overlap Post List
+        
         cy.get('#post-list').then((postList) => {
-            cy.get('.markdown-inline-img').then((img) => {
-                expect(postList[0].getBoundingClientRect().bottom).lessThan(img[0].getBoundingClientRect().top);
-                expect(postList[0].getBoundingClientRect().bottom).lessThan(img[1].getBoundingClientRect().top);
-                expect(img[0].getBoundingClientRect().bottom <= img[1].getBoundingClientRect().top || img[0].getBoundingClientRect().right <= img[1].getBoundingClientRect().left).equals(true);
+            cy.get('#create_post').within(() => {
+                cy.get('.markdown-inline-img').then((img) => {
+                    // * Images do not overlap Post List
+                    expect(postList[0].getBoundingClientRect().bottom).lessThan(img[0].getBoundingClientRect().top);
+                    expect(postList[0].getBoundingClientRect().bottom).lessThan(img[1].getBoundingClientRect().top);
+                    // * Images do not overlap among themselves
+                    expect(
+                        // * Images do not overlap vertically
+                        img[0].getBoundingClientRect().bottom <= img[1].getBoundingClientRect().top ||
+                        // * Images do not overlap horizontally
+                        img[0].getBoundingClientRect().right <= img[1].getBoundingClientRect().left
+                    ).equals(true);
+                });
             });
         });
 
