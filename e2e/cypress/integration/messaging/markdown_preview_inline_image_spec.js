@@ -32,7 +32,7 @@ describe('Messaging', () => {
 
         // # Click on Preview button
         cy.get('#previewLink').click({force: true});
-        
+
         cy.get('#post-list').then((postList) => {
             cy.get('#create_post').within(() => {
                 cy.get('.markdown-inline-img').then((img) => {
