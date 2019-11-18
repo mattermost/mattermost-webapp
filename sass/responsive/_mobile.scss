@@ -10,6 +10,10 @@
         }
     }
 
+    .post-right__container {
+        height: 100%;
+    }
+
     .line-switch__toggle {
         margin: 8px 0;
     }
@@ -1254,7 +1258,7 @@
                 right: 20px;
                 text-align: center;
                 text-shadow: none;
-                top: 30px;
+                top: 70px;
                 width: 30px;
             }
 
@@ -1537,6 +1541,10 @@
         .post-create__container {
             form {
                 padding: .5em 1em;
+            }
+
+            .post-create {
+                padding: 0;
             }
 
             .emoji-rhs {

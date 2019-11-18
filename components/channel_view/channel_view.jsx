@@ -137,7 +137,10 @@ export default class ChannelView extends React.PureComponent {
                         />
                     }
                     {channelIsArchived &&
-                        <div className='channel-archived__message'>
+                        <div
+                            id='channelArchivedMessage'
+                            className='channel-archived__message'
+                        >
                             <FormattedMarkdownMessage
                                 id='archivedChannelMessage'
                                 defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
