@@ -22,7 +22,7 @@ describe('Search teams', () => {
 
     it('returns results', () => {
         const displayName = uuid();
-        cy.apiCreateTeam('team-search', displayName)
+        cy.apiCreateTeam('team-search', displayName);
         cy.get('[data-test=search-input]').type(displayName + '{enter}');
         cy.get('[data-test=team-display-name]').contains(displayName);
     });
@@ -41,7 +41,7 @@ describe('Search teams', () => {
         cy.get('[data-test=team-display-name]').as('displayNames').should('have.length', PAGE_SIZE);
 
         // page 2 has 2 items
-        cy.get('[data-test=page-link-next]').should('be.enabled').click()
+        cy.get('[data-test=page-link-next]').should('be.enabled').click();
         cy.get('@displayNames').should('have.length', 2);
     });
 
