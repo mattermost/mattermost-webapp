@@ -1010,6 +1010,7 @@ class CreateComment extends React.PureComponent {
                         </div>
                         <div className='text-right margin-top'>
                             <input
+                                id='addCommentButton'
                                 type='button'
                                 disabled={!enableAddButton}
                                 className={addButtonClass}

@@ -42,6 +42,6 @@ describe('Messaging', () => {
         }
 
         // * Check if "Add Comment" button is visible
-        cy.get('input[type=button]').scrollIntoView().should('be.visible').and('have.value', 'Add Comment');
+        cy.get('#addCommentButton').scrollIntoView().should('be.visible').and('have.value', 'Add Comment');
     });
 });
