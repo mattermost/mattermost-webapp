@@ -6,7 +6,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Message Reply', () => {
+describe('Messaging', () => {
     before(() => {
         // # Change viewport to tablet
         cy.viewport('ipad-2');
