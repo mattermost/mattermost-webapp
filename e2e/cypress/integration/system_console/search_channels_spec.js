@@ -43,11 +43,11 @@ describe('Search channels', () => {
             cy.get('[data-test=search-input]').type(displayName + '{enter}');
 
             // page 1 has PAGE_SIZE items
-            cy.get('[data-test=channel-display-name]').as('displayNames').should('have.length', PAGE_SIZE);
+            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
 
             // page 2 has 2 items
             cy.get('[data-test=page-link-next]').should('be.enabled').click();
-            cy.get('@displayNames').should('have.length', 2);
+            cy.get('[data-test=channel-display-name]').should('have.length', 2);
         });
     });
 
@@ -57,10 +57,11 @@ describe('Search channels', () => {
             const teamID = response.body[0].id;
             cy.apiCreateChannel(teamID, 'channel-search', displayName);
             cy.get('[data-test=search-input]').as('searchInput').type(displayName + '{enter}');
-            cy.get('[data-test=channel-display-name]').as('displayNames').should('have.length', 1);
+            cy.get('[data-test=channel-display-name]').should('have.length', 1);
+
             cy.get('[data-test=clear-search]').click();
             cy.get('@searchInput').should('be.visible').and('have.text', '');
-            cy.get('@displayNames').should('have.length', PAGE_SIZE);
+            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
         });
     });
 
@@ -70,9 +71,10 @@ describe('Search channels', () => {
             const teamID = response.body[0].id;
             cy.apiCreateChannel(teamID, 'channel-search', displayName);
             cy.get('[data-test=search-input]').as('searchInput').type(displayName + '{enter}');
-            cy.get('[data-test=channel-display-name]').as('displayNames').should('have.length', 1);
+            cy.get('[data-test=channel-display-name]').should('have.length', 1);
+
             cy.get('@searchInput').type('{selectall}{del}');
-            cy.get('@displayNames').should('have.length', PAGE_SIZE);
+            cy.get('[data-test=channel-display-name]').should('have.length', PAGE_SIZE);
         });
     });
 });
