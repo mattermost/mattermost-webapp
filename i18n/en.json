@@ -2340,7 +2340,6 @@
   "group_list_modal.addGroupButton": "Add Groups",
   "group_list_modal.removeGroupButton": "Remove Group",
   "groups": "{team} Groups",
-  "handlers": "",
   "help.attaching.downloading.description": "Download an attached file by clicking the download icon next to the file thumbnail or by opening the file previewer and clicking **Download**.",
   "help.attaching.downloading.title": "Downloading Files",
   "help.attaching.dragdrop.description": "Upload a file or selection of files by dragging the files from your computer into the right-hand sidebar or center pane. Dragging and dropping attaches the files to the message input box, then you can optionally type a message and press **ENTER** to post.",
