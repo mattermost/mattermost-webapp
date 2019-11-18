@@ -328,6 +328,7 @@ class Post extends React.PureComponent {
                     onMouseOver={this.setHover}
                     onMouseLeave={this.unsetHover}
                     onTouchStart={this.setHover}
+                    onClick={this.handlePostClick}
                     aria-label={this.state.currentAriaLabel}
                     aria-atomic={true}
                 >
