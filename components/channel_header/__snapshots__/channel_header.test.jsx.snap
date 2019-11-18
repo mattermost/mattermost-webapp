@@ -651,14 +651,13 @@ exports[`components/ChannelHeader should render properly when populated with cha
           defaultOverlayShown={false}
           overlay={
             <Popover
-              bSize="large"
-              bStyle="info"
-              bsClass="popover"
               className="channel-header__popover"
               id="header-popover"
               onMouseOut={[Function]}
               onMouseOver={[Function]}
               placement="bottom"
+              popoverSize="lg"
+              popoverStyle="info"
             >
               <Connect(Markdown)
                 message="See ~test"
