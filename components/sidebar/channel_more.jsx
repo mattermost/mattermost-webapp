@@ -45,10 +45,10 @@ class ChannelMore extends React.PureComponent {
                 >
                     <li
                         key='public-channel-more'
-                        id='morePublicButton'
+                        data-testid='morePublicButton'
                     >
                         <button
-                            id='sidebarChannelsMore'
+                            data-testid='sidebarChannelsMore'
                             aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                             className='nav-more cursor--pointer style--none btn--block'
                             onClick={this.moreChannelsPublic}
@@ -70,10 +70,10 @@ class ChannelMore extends React.PureComponent {
                     >
                         <li
                             key='public-channel-more'
-                            id='morePublicButton'
+                            data-testid='morePublicButton'
                         >
                             <button
-                                id='sidebarChannelsMore'
+                                data-testid='sidebarChannelsMore'
                                 aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                                 className='nav-more cursor--pointer style--none btn--block'
                                 onClick={this.moreChannelsPrivate}
