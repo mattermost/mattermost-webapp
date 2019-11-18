@@ -243,7 +243,7 @@ export default class ComplianceReports extends React.PureComponent {
                                         id='admin.compliance_table.files'
                                         defaultMessage='Files'
                                     />
-                                </th>    
+                                </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.compliance_table.timestamp'
