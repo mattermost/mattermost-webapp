@@ -128,7 +128,11 @@ describe('components/widgets/modals/FullScreenModal', () => {
   unmountOnExit={true}
 >
   <div
+    aria-label="test"
+    aria-modal={true}
     className="FullScreenModal"
+    role="dialog"
+    tabIndex={-1}
   >
     <button
       aria-label="Back"
@@ -150,7 +154,14 @@ describe('components/widgets/modals/FullScreenModal', () => {
     </button>
     test
   </div>
->>>>>>> origin/master
+  <div
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    tabIndex={0}
+  />
 </CSSTransition>
 `);
     });
