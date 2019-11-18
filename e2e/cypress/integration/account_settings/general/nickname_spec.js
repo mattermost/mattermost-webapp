@@ -47,7 +47,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#nicknameDesc').should('be.visible').should('contain', "Click 'Edit' to add a nickname");
 
         // # Open manage/view members
-        cy.toAccountSettingsModal('user-1');
+        cy.toAccountSettingsModal('user-1', true);
         cy.get('#accountSettingsHeader > .close').click();
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -62,7 +62,7 @@ describe('Account Settings > Sidebar > General', () => {
 
     it('AS13279 Account Settings > Add Nickname', () => {
         // # Go to  Account Settings view
-        cy.toAccountSettingsModal('user-1');
+        cy.toAccountSettingsModal('user-1', true);
 
         // # Click the General tab
         cy.get('#generalButton').should('be.visible');
@@ -78,7 +78,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#nicknameDesc').should('be.visible').should('contain', 'victor_nick');
 
         // # Open manage memebers
-        cy.toAccountSettingsModal('user-1');
+        cy.toAccountSettingsModal('user-1', true);
         cy.get('#accountSettingsHeader > .close').click();
         cy.get('#sidebarHeaderDropdownButton').click();
 
@@ -93,7 +93,7 @@ describe('Account Settings > Sidebar > General', () => {
 
     it('Clear the nickname', () => {
         // # Clear the set nickname
-        cy.toAccountSettingsModal('user-1');
+        cy.toAccountSettingsModal('user-1', true);
 
         cy.get('#generalButton').should('be.visible');
         cy.get('#generalButton').click();
