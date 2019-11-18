@@ -14,7 +14,6 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
                 currentTeamId='123'
                 myInvitableChannels={[]}
                 searchProfiles={jest.fn()}
-                goBack={jest.fn()}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
             />

@@ -146,6 +146,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMax
         containerStyle=""
+        extraInfo={null}
         infoPosition="bottom"
         inputs={
           Array [
@@ -296,6 +297,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMax
         containerStyle=""
+        extraInfo={null}
         infoPosition="bottom"
         inputs={
           Array [
@@ -588,6 +590,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMax
         containerStyle=""
+        extraInfo={null}
         infoPosition="bottom"
         inputs={
           Array [
@@ -1158,6 +1161,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMax
         containerStyle=""
+        extraInfo={null}
         infoPosition="bottom"
         inputs={
           Array [
@@ -1427,6 +1431,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div>
       <SettingItemMax
         containerStyle=""
+        extraInfo={null}
         infoPosition="bottom"
         inputs={
           Array [

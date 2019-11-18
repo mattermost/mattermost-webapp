@@ -70,7 +70,7 @@ export default class ManageTeamsDropdown extends React.Component {
                     ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
                 >
                     <Menu.ItemAction
-                        show={!isTeamAdmin}
+                        show={!isTeamAdmin && !isGuest}
                         onClick={this.makeTeamAdmin}
                         text={Utils.localizeMessage('admin.user_item.makeTeamAdmin', 'Make Team Admin')}
                     />
