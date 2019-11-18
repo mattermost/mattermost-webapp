@@ -30,9 +30,11 @@ function mapStateToProps(state) {
     const defaultClientLocale = config.DefaultClientLocale;
     const enableThemeSelection = config.EnableThemeSelection === 'true';
     const enableTimezone = config.ExperimentalTimezone === 'true';
+    const lockTeammateNameDisplay = config.LockTeammateNameDisplay === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay;
 
     return {
+        lockTeammateNameDisplay,
         allowCustomThemes,
         configTeammateNameDisplay,
         enableLinkPreviews,

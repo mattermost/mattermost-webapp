@@ -10,6 +10,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="deleteChannelModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -84,6 +85,7 @@ exports[`components/delete_channel_modal should match snapshot for delete_channe
       autoFocus={true}
       className="btn btn-danger"
       data-dismiss="modal"
+      id="deleteChannelModalDeleteButton"
       onClick={[Function]}
       type="button"
     >

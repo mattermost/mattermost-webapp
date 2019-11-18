@@ -54,20 +54,30 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right"
+          className="btn btn-primary comment-btn"
           disabled={false}
           onClick={[Function]}
           type="button"
@@ -205,20 +215,30 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right"
+          className="btn btn-primary comment-btn"
           disabled={false}
           onClick={[Function]}
           type="button"
@@ -332,20 +352,30 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right"
+          className="btn btn-primary comment-btn"
           disabled={false}
           onClick={[Function]}
           type="button"
@@ -495,20 +525,30 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right disabled"
+          className="btn btn-primary comment-btn disabled"
           disabled={true}
           onClick={[Function]}
           type="button"
@@ -646,20 +686,30 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right"
+          className="btn btn-primary comment-btn"
           disabled={false}
           onClick={[Function]}
           type="button"

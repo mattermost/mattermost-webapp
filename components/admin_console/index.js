@@ -9,11 +9,16 @@ import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 import {withRouter} from 'react-router-dom';
 import {getConfig as getGeneralConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isCurrentUserSystemAdmin, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+
+import {General} from 'mattermost-redux/constants';
 
 import {setNavigationBlocked, deferNavigation, cancelNavigation, confirmNavigation} from 'actions/admin_actions.jsx';
 import {getNavigationBlocked, showNavigationPrompt} from 'selectors/views/admin';
 import {getAdminDefinition} from 'selectors/admin_console';
+
+import LocalStorageStore from 'stores/local_storage_store';
 
 import AdminConsole from './admin_console.jsx';
 
@@ -21,12 +26,16 @@ function mapStateToProps(state) {
     const generalConfig = getGeneralConfig(state);
     const buildEnterpriseReady = generalConfig.BuildEnterpriseReady === 'true';
     const adminDefinition = getAdminDefinition(state);
+    const teamId = LocalStorageStore.getPreviousTeamId(getCurrentUserId(state));
+    const team = getTeam(state, teamId);
+    const unauthorizedRoute = team ? `/${team.name}/channels/${General.DEFAULT_CHANNEL}` : '/';
 
     return {
         config: Selectors.getConfig(state),
         environmentConfig: Selectors.getEnvironmentConfig(state),
         license: getLicense(state),
         buildEnterpriseReady,
+        unauthorizedRoute,
         navigationBlocked: getNavigationBlocked(state),
         showNavigationPrompt: showNavigationPrompt(state),
         isCurrentUserSystemAdmin: isCurrentUserSystemAdmin(state),
