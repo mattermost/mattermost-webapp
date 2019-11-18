@@ -144,8 +144,8 @@ export default class ManageLanguage extends React.Component {
         const input = (
             <div key='changeLanguage'>
                 <br/>
-                <label 
-                    className='control-label' 
+                <label
+                    className='control-label'
                     id='changeInterfaceLanguageLabel'
                 >
                     <FormattedMessage
