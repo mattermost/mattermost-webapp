@@ -278,6 +278,7 @@ class UsersEmailsInput extends React.Component {
                 onFocus={this.onFocus}
                 tabSelectsValue={true}
                 value={values}
+                aria-label={this.props.placeholder}
             />
         );
     }

@@ -19,6 +19,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Async
+  aria-label="test"
   cacheOptions={false}
   className="UsersEmailsInput"
   classNamePrefix="users-emails-input"
