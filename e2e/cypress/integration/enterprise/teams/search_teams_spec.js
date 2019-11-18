@@ -53,7 +53,7 @@ describe('Search teams', () => {
             });
         }
 
-        // # Search using the commot team name prefix.
+        // # Search using the common team name prefix.
         cy.findByTestId('search-input').type(displayName + '{enter}');
 
         // * Check that the first page of results is full.
