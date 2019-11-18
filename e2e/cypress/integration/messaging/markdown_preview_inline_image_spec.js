@@ -9,7 +9,7 @@
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and go to off-topic to make sure we are in the channel, then go to /
+        // # Login, set the Show Markdown Preview preference, then go to /
         cy.apiLogin('user-1');
         cy.apiSaveShowMarkdownPreviewPreference();
         cy.visit('/');
@@ -28,7 +28,7 @@ describe('Messaging', () => {
         });
 
         // # Post first line to use
-        cy.get('#post_textbox').type(message);
+        cy.get('#post_textbox').type(message).type('{shift}{enter}').type(message);
 
         // # Click on Preview button
         cy.get('#previewLink').click({force: true});
@@ -37,6 +37,8 @@ describe('Messaging', () => {
         cy.get('#post-list').then((postList) => {
             cy.get('.markdown-inline-img').then((img) => {
                 expect(postList[0].getBoundingClientRect().bottom).lessThan(img[0].getBoundingClientRect().top);
+                expect(postList[0].getBoundingClientRect().bottom).lessThan(img[1].getBoundingClientRect().top);
+                expect(img[0].getBoundingClientRect().bottom <= img[1].getBoundingClientRect().top || img[0].getBoundingClientRect().right <= img[1].getBoundingClientRect().left).equals(true);
             });
         });
 
