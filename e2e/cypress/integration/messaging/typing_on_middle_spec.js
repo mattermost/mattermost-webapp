@@ -21,9 +21,9 @@ describe('Messaging', () => {
         cy.get('#post_textbox').clear().type('aa');
 
         // # Move the cursor and keep typing
-        cy.get('#post_textbox').click().type('{leftarrow}b');
+        cy.get('#post_textbox').click().type('{leftarrow}bc');
 
         // * Should contain aba instead of aab
-        cy.get('#post_textbox').should('contain', 'aba');
+        cy.get('#post_textbox').should('contain', 'abca');
     });
 });
