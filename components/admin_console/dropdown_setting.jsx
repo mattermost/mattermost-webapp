@@ -47,6 +47,7 @@ export default class DropdownSetting extends React.Component {
                 setByEnv={this.props.setByEnv}
             >
                 <select
+                    data-testid={this.props.id + 'dropdown'}
                     className='form-control'
                     id={this.props.id}
                     value={this.props.value}

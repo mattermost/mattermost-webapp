@@ -876,7 +876,7 @@ class CreateComment extends React.PureComponent {
             );
         }
 
-        let addButtonClass = 'btn btn-primary comment-btn pull-right';
+        let addButtonClass = 'btn btn-primary comment-btn';
         if (!enableAddButton) {
             addButtonClass += ' disabled';
         }
@@ -1008,7 +1008,7 @@ class CreateComment extends React.PureComponent {
                                 />
                             </div>
                         </div>
-                        <div>
+                        <div className='text-right margin-top'>
                             <input
                                 type='button'
                                 disabled={!enableAddButton}

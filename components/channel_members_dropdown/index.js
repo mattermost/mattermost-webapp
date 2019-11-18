@@ -3,7 +3,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getChannelStats, updateChannelMemberSchemeRoles, removeChannelMember} from 'mattermost-redux/actions/channels';
+import {getChannelStats, updateChannelMemberSchemeRoles, removeChannelMember, getChannelMember} from 'mattermost-redux/actions/channels';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Permissions} from 'mattermost-redux/constants';
@@ -38,6 +38,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
+            getChannelMember,
             getChannelStats,
             updateChannelMemberSchemeRoles,
             removeChannelMember,
