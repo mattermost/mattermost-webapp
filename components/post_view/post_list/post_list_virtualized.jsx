@@ -561,7 +561,7 @@ class PostList extends React.PureComponent {
                 countUnread={this.countNewMessages()}
                 onDismiss={() => this.props.actions.updateLastViewedChannel(this.props.channelId)}
             >
-                {this.newMessagesToastText(this.countNewMessages())}
+                {this.newMessagesToastText(this.countNewMessages(), this.state.lastViewedBottom)}
             </UnreadToast>);
 
         return (
