@@ -37,7 +37,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -113,7 +113,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -130,7 +130,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -158,7 +158,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -198,7 +198,6 @@ exports[`components/PluginManagement should match snapshot 1`] = `
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -211,8 +210,10 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -323,7 +324,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -340,7 +341,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -368,7 +369,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -408,7 +409,6 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -421,8 +421,10 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -491,7 +493,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -567,7 +569,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -584,7 +586,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -612,7 +614,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -652,7 +654,6 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -670,8 +671,10 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -740,7 +743,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -816,7 +819,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -833,7 +836,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -861,7 +864,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -901,7 +904,6 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -914,8 +916,10 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -984,7 +988,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -1060,7 +1064,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="To enable plugins, set **Enable Plugins** to true. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadAndPluginDisabledDesc"
                 />
@@ -1077,7 +1081,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -1105,7 +1109,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             disabled={true}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -1130,8 +1134,10 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1200,7 +1206,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -1276,7 +1282,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -1293,7 +1299,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -1321,7 +1327,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -1361,7 +1367,6 @@ exports[`components/PluginManagement should match snapshot, text entered into th
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -1374,8 +1379,10 @@ exports[`components/PluginManagement should match snapshot, text entered into th
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1444,7 +1451,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -1520,7 +1527,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Enable plugin uploads in config.json. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDisabledDesc"
                 />
@@ -1537,7 +1544,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -1565,7 +1572,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -1605,7 +1612,6 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -1618,8 +1624,10 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1688,7 +1696,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -1764,7 +1772,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -1781,7 +1789,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -1809,7 +1817,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -1849,7 +1857,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -1925,8 +1932,10 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -1995,7 +2004,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -2071,7 +2080,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -2088,7 +2097,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -2116,7 +2125,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -2156,7 +2165,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -2200,8 +2208,10 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2270,7 +2280,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -2346,7 +2356,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -2363,7 +2373,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -2391,7 +2401,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -2431,7 +2441,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -2475,8 +2484,10 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2545,7 +2556,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -2621,7 +2632,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -2638,7 +2649,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -2666,7 +2677,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -2706,7 +2717,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -2750,8 +2760,10 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -2820,7 +2832,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables plugins on your Mattermost server. Use plugins to integrate with third-party systems, extend functionality, or customize the user interface of your Mattermost server. See [documentation](https://about.mattermost.com/default-plugin-uploads) to learn more."
                 id="admin.plugins.settings.enableDesc"
               />
@@ -2896,7 +2908,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <p
                 className="help-text"
               >
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more."
                   id="admin.plugin.uploadDesc"
                 />
@@ -2913,7 +2925,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, enables System Administrators to install plugins from the [marketplace](!https://mattermost.com/pl/default-mattermost-marketplace.html)."
                 id="admin.plugins.settings.enableMarketplaceDesc"
               />
@@ -2941,7 +2953,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             disabled={false}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -2981,7 +2993,6 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
                 <FormattedHTMLMessage
                   defaultMessage="Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed."
                   id="admin.plugin.installedDesc"
-                  tagName="span"
                   values={Object {}}
                 />
               </p>
@@ -3057,8 +3068,10 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."

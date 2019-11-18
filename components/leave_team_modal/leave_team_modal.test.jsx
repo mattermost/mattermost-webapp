@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import LeaveTeamModal from 'components/leave_team_modal/leave_team_modal.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('components/LeaveTeamModal', () => {
     const requiredProps = {
@@ -21,12 +21,14 @@ describe('components/LeaveTeamModal', () => {
     };
 
     it('should render the leave team model', () => {
-        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>);
+        const wrapper = shallowWithIntl(<LeaveTeamModal {...requiredProps}/>).
+            dive({disableLifecycleMethods: true});
         expect(wrapper).toMatchSnapshot();
     });
 
     it('should call onHide when cancel is clicked', () => {
-        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>);
+        const wrapper = shallowWithIntl(<LeaveTeamModal {...requiredProps}/>).
+            dive({disableLifecycleMethods: true});
         const cancel = wrapper.find('.btn-link').first();
 
         cancel.simulate('click');
@@ -34,7 +36,8 @@ describe('components/LeaveTeamModal', () => {
     });
 
     it('should call leaveTeam and toggleSideBarRightMenu when ok is clicked', () => {
-        const wrapper = shallow(<LeaveTeamModal {...requiredProps}/>);
+        const wrapper = shallowWithIntl(<LeaveTeamModal {...requiredProps}/>).
+            dive({disableLifecycleMethods: true});
         const ok = wrapper.find('.btn-danger').first();
 
         ok.simulate('click');
@@ -49,7 +52,8 @@ describe('components/LeaveTeamModal', () => {
         document.addEventListener = jest.fn();
         document.removeEventListener = jest.fn();
 
-        const wrapper = shallow(<LeaveTeamModal {...{...requiredProps, show: true}}/>);
+        const wrapper = shallowWithIntl(<LeaveTeamModal {...{...requiredProps, show: true}}/>).
+            dive({disableLifecycleMethods: false});
         const instance = wrapper.instance();
 
         expect(document.addEventListener).toHaveBeenCalledTimes(1);

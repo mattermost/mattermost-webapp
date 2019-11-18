@@ -17,6 +17,19 @@ describe('components/MenuItemToggleModalRedux', () => {
             />
         );
 
-        expect(wrapper).toMatchSnapshot();
+        expect(wrapper).toMatchInlineSnapshot(`
+<Connect(ModalToggleButtonRedux)
+  accessibilityLabel="Whatever"
+  dialogProps={
+    Object {
+      "test": "test",
+    }
+  }
+  dialogType={[Function]}
+  modalId="test"
+>
+  Whatever
+</Connect(ModalToggleButtonRedux)>
+`);
     });
 });

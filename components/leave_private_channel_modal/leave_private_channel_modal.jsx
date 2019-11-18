@@ -3,17 +3,18 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-export default class LeavePrivateChannelModal extends React.Component {
+class LeavePrivateChannelModal extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
             leaveChannel: PropTypes.func.isRequired,
         }).isRequired,
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -113,3 +114,5 @@ export default class LeavePrivateChannelModal extends React.Component {
         );
     }
 }
+
+export default injectIntl(LeavePrivateChannelModal);
