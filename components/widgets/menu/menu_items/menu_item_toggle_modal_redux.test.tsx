@@ -25,7 +25,7 @@ describe('components/MenuItemToggleModalRedux', () => {
       "test": "test",
     }
   }
-  dialogType={[Function]}
+  dialogType={[MockFunction]}
   modalId="test"
 >
   Whatever
