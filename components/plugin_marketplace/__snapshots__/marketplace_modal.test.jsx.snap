@@ -2,7 +2,7 @@
 
 exports[`components/MarketplaceModal should match the snapshot, error banner is shown 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -102,13 +102,13 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/MarketplaceModal should match the snapshot, no plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -204,13 +204,13 @@ exports[`components/MarketplaceModal should match the snapshot, no plugins insta
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/MarketplaceModal should match the snapshot, with plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -296,6 +296,6 @@ exports[`components/MarketplaceModal should match the snapshot, with plugins ins
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;

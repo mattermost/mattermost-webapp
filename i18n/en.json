@@ -2235,6 +2235,8 @@
   "filtered_user_list.userStatus": "User Status:",
   "flag_post.flag": "Flag for follow up",
   "flag_post.unflag": "Unflag",
+  "full_screen_modal.back": "Back",
+  "full_screen_modal.close": "Close",
   "general_button.close": "Close",
   "general_tab.allowedDomains": "Allow only users with a specific email domain to join this team",
   "general_tab.allowedDomainsEdit": "Click 'Edit' to add an email domain whitelist.",
