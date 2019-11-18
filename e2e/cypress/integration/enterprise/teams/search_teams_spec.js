@@ -14,6 +14,13 @@ describe('Search teams', () => {
     beforeEach(() => {
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/user_management/teams');
+        cy.wrap([]).as('createdTeamIDs');
+    });
+
+    afterEach(function() {
+        this.createdTeamIDs.forEach((teamID) => {
+            cy.apiDeleteTeam(teamID);
+        });
     });
 
     it('loads with no search text', () => {
@@ -21,11 +28,13 @@ describe('Search teams', () => {
         cy.findByTestId('search-input').should('be.visible').and('have.text', '');
     });
 
-    it('returns results', () => {
+    it('returns results', function() {
         const displayName = uuid();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName);
+        cy.apiCreateTeam('team-search', displayName).then((response) => {
+            this.createdTeamIDs.push(response.body.id);
+        });
 
         // # Search for the new team.
         cy.findByTestId('search-input').type(displayName + '{enter}');
@@ -34,12 +43,14 @@ describe('Search teams', () => {
         cy.findAllByTestId('team-display-name').contains(displayName);
     });
 
-    it('results are paginated', () => {
+    it('results are paginated', function() {
         const displayName = uuid();
 
         // # Create enough new teams with common name prefixes to get multiple pages of search results.
         for (let i = 0; i < PAGE_SIZE + 2; i++) {
-            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i);
+            cy.apiCreateTeam('team-search-paged-' + i, displayName + ' ' + i).then((response) => {
+                this.createdTeamIDs.push(response.body.id);
+            });
         }
 
         // # Search using the commot team name prefix.
@@ -55,11 +66,13 @@ describe('Search teams', () => {
         cy.findAllByTestId('team-display-name').should('have.length', 2);
     });
 
-    it('clears the results when "x" is clicked', () => {
+    it('clears the results when "x" is clicked', function() {
         const displayName = uuid();
 
         // # Create a new team.
-        cy.apiCreateTeam('team-search', displayName);
+        cy.apiCreateTeam('team-search', displayName).then((response) => {
+            this.createdTeamIDs.push(response.body.id);
+        });
 
         // # Search for the team.
         cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
@@ -77,11 +90,13 @@ describe('Search teams', () => {
         cy.findAllByTestId('team-display-name').should('have.length', PAGE_SIZE);
     });
 
-    it('clears the results when the search term is deleted with backspace', () => {
+    it('clears the results when the search term is deleted with backspace', function() {
         const displayName = uuid();
 
         // # Create a team.
-        cy.apiCreateTeam('team-search', displayName);
+        cy.apiCreateTeam('team-search', displayName).then((response) => {
+            this.createdTeamIDs.push(response.body.id);
+        });
 
         // # Search for the team.
         cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
