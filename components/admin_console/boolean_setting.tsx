@@ -59,6 +59,7 @@ export default class BooleanSetting extends React.Component<Props> {
 
         return (
             <Setting
+                inputId={this.props.id}
                 label={this.props.label}
                 helpText={helpText}
                 setByEnv={this.props.setByEnv}
@@ -66,6 +67,7 @@ export default class BooleanSetting extends React.Component<Props> {
                 <a id={this.props.id}/>
                 <label className='radio-inline'>
                     <input
+                        data-testid={this.props.id + 'true'}
                         type='radio'
                         value='true'
                         id={Utils.createSafeId(this.props.id) + 'true'}
@@ -78,6 +80,7 @@ export default class BooleanSetting extends React.Component<Props> {
                 </label>
                 <label className='radio-inline'>
                     <input
+                        data-testid={this.props.id + 'false'}
                         type='radio'
                         value='false'
                         id={Utils.createSafeId(this.props.id) + 'false'}
