@@ -2,7 +2,7 @@
 
 exports[`components/MarketplaceModal should match the snapshot, error banner is shown 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -10,7 +10,7 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
       className="error-bar"
       id="error_bar"
     >
-      <InjectIntl(FormattedMarkdownMessage)
+      <injectIntl(FormattedMarkdownMessage)
         defaultMessage="Error connecting to the marketplace server. Please check your settings in the [System Console]({siteURL}/admin_console/plugins/plugin_management)."
         id="app.plugin.marketplace_plugins.app_error"
         values={
@@ -43,7 +43,13 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
             className="form-control filter-textbox search_input"
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
-            inputComponent={[Function]}
+            inputComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "LocalizedInput",
+                "render": [Function],
+              }
+            }
             onInput={[Function]}
             placeholder={
               Object {
@@ -96,13 +102,13 @@ exports[`components/MarketplaceModal should match the snapshot, error banner is 
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/MarketplaceModal should match the snapshot, no plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -129,7 +135,13 @@ exports[`components/MarketplaceModal should match the snapshot, no plugins insta
             className="form-control filter-textbox search_input"
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
-            inputComponent={[Function]}
+            inputComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "LocalizedInput",
+                "render": [Function],
+              }
+            }
             onInput={[Function]}
             placeholder={
               Object {
@@ -192,13 +204,13 @@ exports[`components/MarketplaceModal should match the snapshot, no plugins insta
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/MarketplaceModal should match the snapshot, with plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -225,7 +237,13 @@ exports[`components/MarketplaceModal should match the snapshot, with plugins ins
             className="form-control filter-textbox search_input"
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
-            inputComponent={[Function]}
+            inputComponent={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "displayName": "LocalizedInput",
+                "render": [Function],
+              }
+            }
             onInput={[Function]}
             placeholder={
               Object {
@@ -278,6 +296,6 @@ exports[`components/MarketplaceModal should match the snapshot, with plugins ins
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;

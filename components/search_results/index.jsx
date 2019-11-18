@@ -13,7 +13,7 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
 
 import {
-    getSearchTerms,
+    getSearchResultsTerms,
     getIsSearchingTerm,
     getIsSearchingFlaggedPost,
     getIsSearchingPinnedPost,
@@ -61,7 +61,7 @@ function makeMapStateToProps() {
             results: posts,
             matches: getSearchMatches(state),
             currentUser: getCurrentUser(state),
-            searchTerms: getSearchTerms(state),
+            searchTerms: getSearchResultsTerms(state),
             isSearchingTerm: getIsSearchingTerm(state),
             isSearchingFlaggedPost: getIsSearchingFlaggedPost(state),
             isSearchingPinnedPost: getIsSearchingPinnedPost(state),

@@ -4,17 +4,13 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
 <div
   className="InvitationModalMembersStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
   <h1>
-    <InjectIntl(FormattedMarkdownMessage)
+    <injectIntl(FormattedMarkdownMessage)
       defaultMessage="Invite **Members**"
       id="invitation_modal.members.title"
     />
@@ -34,6 +30,7 @@ exports[`components/invitation_modal/InvitationModalMembersStep should match the
       className="share-link-input-block"
     >
       <input
+        aria-label="team invite link"
         className="share-link-input"
         data-testid="shareLinkInput"
         readOnly={true}
