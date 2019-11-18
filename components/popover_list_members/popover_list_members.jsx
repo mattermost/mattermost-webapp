@@ -19,7 +19,7 @@ import TeamMembersModal from 'components/team_members_modal';
 
 import PopoverListMembersItem from './popover_list_members_item';
 
-export default class PopoverListMembers extends React.Component {
+export default class PopoverListMembers extends React.PureComponent {
     static propTypes = {
         channel: PropTypes.object.isRequired,
         statuses: PropTypes.object.isRequired,
@@ -34,9 +34,11 @@ export default class PopoverListMembers extends React.Component {
         }).isRequired,
     };
 
+    membersList = React.createRef();
+    popoverTarget = React.createRef();
+
     constructor(props) {
         super(props);
-        this.membersList = React.createRef();
 
         this.state = {
             showPopover: false,
@@ -111,14 +113,13 @@ export default class PopoverListMembers extends React.Component {
         this.setState({showTeamMembersModal: false});
     };
 
-    handleGetProfilesInChannel = (e) => {
-        this.setState({popoverTarget: e.target, showPopover: !this.state.showPopover});
+    handleGetProfilesInChannel = () => {
+        this.setState({showPopover: !this.state.showPopover});
         this.props.actions.loadProfilesAndStatusesInChannel(this.props.channel.id, 0, undefined, 'status'); // eslint-disable-line no-undefined
     };
 
-    getTargetPopover = () => {
+    handleEnterPopover = () => {
         this.membersList.current.focus();
-        return this.state.popoverTarget;
     };
 
     render() {
@@ -231,7 +232,7 @@ export default class PopoverListMembers extends React.Component {
                     id='member_popover'
                     aria-label={ariaLabel}
                     className={'style--none member-popover__trigger channel-header__icon wide ' + (this.state.showPopover ? 'active' : '')}
-                    ref='member_popover_target'
+                    ref={this.popoverTarget}
                     onClick={this.handleGetProfilesInChannel}
                 >
                     <OverlayTrigger
@@ -256,9 +257,10 @@ export default class PopoverListMembers extends React.Component {
                 </button>
                 <Overlay
                     rootClose={true}
+                    onEnter={this.handleEnterPopover}
                     onHide={this.closePopover}
                     show={this.state.showPopover}
-                    target={this.getTargetPopover}
+                    target={this.popoverTarget}
                     placement='bottom'
                 >
                     <Popover
