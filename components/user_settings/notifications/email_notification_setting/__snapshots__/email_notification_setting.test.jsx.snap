@@ -114,7 +114,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <ul
           className="setting-list"
-          role="presentation"
+          role="list"
           tabIndex="-1"
         >
           <li
@@ -530,7 +530,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <ul
           className="setting-list"
-          role="presentation"
+          role="list"
           tabIndex="-1"
         >
           <li

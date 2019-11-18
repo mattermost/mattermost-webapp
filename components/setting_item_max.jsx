@@ -267,7 +267,7 @@ export default class SettingItemMax extends React.PureComponent {
                     <ul
                         tabIndex='-1'
                         ref={this.settingList}
-                        role='presentation'
+                        role='list'
                         className='setting-list'
                     >
                         {listContent}

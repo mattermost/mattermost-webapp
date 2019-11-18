@@ -81,7 +81,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       >
         <ul
           className="setting-list"
-          role="presentation"
+          role="list"
           tabIndex="-1"
         >
           <li
@@ -349,7 +349,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
       >
         <ul
           className="setting-list"
-          role="presentation"
+          role="list"
           tabIndex="-1"
         >
           <li
