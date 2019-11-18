@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
+import {injectIntl, IntlShape} from 'react-intl';
 
 import CloseIcon from 'components/widgets/icons/close_icon';
 import BackIcon from 'components/widgets/icons/back_icon';
@@ -13,6 +14,7 @@ import './full_screen_modal.scss';
 const ANIMATION_DURATION = 100;
 
 type Props = {
+    intl: IntlShape;
     show: boolean;
     onClose: () => void;
     onGoBack?: () => void;
@@ -20,7 +22,7 @@ type Props = {
     ariaLabel: string;
 };
 
-export default class FullScreenModal extends React.Component<Props> {
+class FullScreenModal extends React.Component<Props> {
     private modal = React.createRef<HTMLDivElement>();
 
     public componentDidMount() {
@@ -97,20 +99,20 @@ export default class FullScreenModal extends React.Component<Props> {
                         role='dialog'
                     >
                         {this.props.onGoBack &&
-                            <BackIcon
-                                tabIndex='0'
-                                className='back'
-                                onKeyDown={this.onBackKeyDown}
-                                id='backIcon'
+                            <button
                                 onClick={this.props.onGoBack}
-                            />}
-                        <CloseIcon
-                            tabIndex='0'
-                            className='close-x'
+                                className='back'
+                                aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.back', defaultMessage: 'Back'})}
+                            >
+                                <BackIcon id='backIcon'/>
+                            </button>}
+                        <button
                             onClick={this.close}
-                            onKeyDown={this.onCloseKeyDown}
-                            id='closeIcon'
-                        />
+                            className='close-x'
+                            aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.close', defaultMessage: 'Close'})}
+                        >
+                            <CloseIcon id='closeIcon'/>
+                        </button>
                         {this.props.children}
                     </div>
                     <div
@@ -122,3 +124,5 @@ export default class FullScreenModal extends React.Component<Props> {
         );
     }
 }
+
+export default injectIntl(FullScreenModal);

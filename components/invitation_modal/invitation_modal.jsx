@@ -120,6 +120,16 @@ class InvitationModal extends React.Component {
         return null;
     }
 
+    getBackFunction = () => {
+        if (this.state.step === STEPS_INVITE_CONFIRM && this.invitesNotSent.length > 0) {
+            return this.goToPrevStep;
+        }
+        if ((this.state.step === STEPS_INVITE_MEMBERS || this.state.step === STEPS_INVITE_GUESTS) && this.props.canInviteGuests && this.props.canAddUsers) {
+            return this.goToInitialStep;
+        }
+        return null;
+    }
+
     onEdit = (hasChanges) => {
         this.setState({hasChanges});
     }

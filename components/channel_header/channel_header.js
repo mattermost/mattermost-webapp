@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
@@ -26,7 +26,7 @@ import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
-
+import Popover from 'components/widgets/popover';
 import {
     Constants,
     ModalIdentifiers,
@@ -411,8 +411,8 @@ class ChannelHeader extends React.PureComponent {
             const popoverContent = (
                 <Popover
                     id='header-popover'
-                    bStyle='info'
-                    bSize='large'
+                    popoverStyle='info'
+                    popoverSize='lg'
                     placement='bottom'
                     className='channel-header__popover'
                     onMouseOver={this.handleOnMouseOver}

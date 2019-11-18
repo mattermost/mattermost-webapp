@@ -59,6 +59,7 @@ export default class UserSettingsDisplay extends React.Component {
         messageDisplay: PropTypes.string,
         collapseDisplay: PropTypes.string,
         linkPreviewDisplay: PropTypes.string,
+        lockTeammateNameDisplay: PropTypes.bool,
         actions: PropTypes.shape({
             getSupportedTimezones: PropTypes.func.isRequired,
             autoUpdateTimezone: PropTypes.func.isRequired,
@@ -93,6 +94,12 @@ export default class UserSettingsDisplay extends React.Component {
 
         if (enableTimezone && shouldAutoUpdateTimezone) {
             actions.autoUpdateTimezone(getBrowserTimezone());
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.teammateNameDisplay !== prevProps.teammateNameDisplay) {
+            this.updateState();
         }
     }
 
@@ -204,7 +211,10 @@ export default class UserSettingsDisplay extends React.Component {
             secondOption,
             thirdOption,
             description,
+            disabled,
         } = props;
+        let extraInfo = null;
+        let submit = this.handleSubmit;
 
         const firstMessage = (
             <FormattedMessage
@@ -313,7 +323,7 @@ export default class UserSettingsDisplay extends React.Component {
                 );
             }
 
-            const inputs = [
+            let inputs = [
                 <div key={key}>
                     <div className='radio'>
                         <label>
@@ -353,15 +363,28 @@ export default class UserSettingsDisplay extends React.Component {
                 </div>,
             ];
 
+            if (display === 'teammateNameDisplay' && disabled) {
+                extraInfo = (
+                    <span>
+                        <FormattedMessage
+                            id='user.settings.display.teammateNameDisplay'
+                            defaultMessage='This field is handled through your System Administrator. If you want to change it, you need to do so through your System Administrator.'
+                        />
+                    </span>
+                );
+                submit = null;
+                inputs = [];
+            }
             return (
                 <div>
                     <SettingItemMax
                         title={messageTitle}
                         inputs={inputs}
-                        submit={this.handleSubmit}
+                        submit={submit}
                         saving={this.state.isSaving}
                         server_error={this.state.serverError}
                         updateSection={this.updateSection}
+                        extraInfo={extraInfo}
                     />
                     <div className='divider-dark'/>
                 </div>
@@ -488,7 +511,7 @@ export default class UserSettingsDisplay extends React.Component {
         const teammateNameDisplaySection = this.createSection({
             section: Preferences.NAME_NAME_FORMAT,
             display: 'teammateNameDisplay',
-            value: this.state.teammateNameDisplay,
+            value: this.props.lockTeammateNameDisplay ? this.props.configTeammateNameDisplay : this.state.teammateNameDisplay,
             defaultDisplay: this.props.configTeammateNameDisplay,
             title: {
                 id: t('user.settings.display.teammateNameDisplayTitle'),
@@ -519,6 +542,7 @@ export default class UserSettingsDisplay extends React.Component {
                 id: t('user.settings.display.teammateNameDisplayDescription'),
                 message: 'Set how to display other user\'s names in posts and the Direct Messages list.',
             },
+            disabled: this.props.lockTeammateNameDisplay
         });
 
         let timezoneSelection;

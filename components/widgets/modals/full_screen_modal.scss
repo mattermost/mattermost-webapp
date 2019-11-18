@@ -9,6 +9,9 @@
     overflow: auto;
 
     .close-x, .back {
+        border: 0;
+        background: none;
+        padding: 0;
         position: fixed;
         top: 48px;
         height: 40px;
