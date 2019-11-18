@@ -280,7 +280,7 @@ async function getTeamRedirectChannelIfIsAccesible(user, team) {
     let channel = null;
 
     const myMember = getMyTeamMember(state, team.id);
-    if (!myMember) {
+    if (!myMember || Object.keys(myMember).length === 0) {
         return null;
     }
 

@@ -284,7 +284,7 @@ export class MarketplaceModal extends React.Component {
                             </Tab>
                             <Tab
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
-                                title={localizeMessage('marketplace_modal.tabs.installed_plugins', `Installed (${this.props.installedPlugins.length})`)}
+                                title={localizeMessage('marketplace_modal.tabs.installed_plugins', 'Installed') + ` (${this.props.installedPlugins.length})`}
                             >
                                 <InstalledPlugins installedPlugins={this.props.installedPlugins}/>
                             </Tab>

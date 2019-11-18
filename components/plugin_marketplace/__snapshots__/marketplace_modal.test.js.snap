@@ -160,7 +160,7 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
 
 exports[`components/marketplace/ MarketplaceModal should render with error banner 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -246,13 +246,13 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with no plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -324,13 +324,13 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <injectIntl(FullScreenModal)
     onClose={[Function]}
     show={true}
   >
@@ -417,7 +417,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </injectIntl(FullScreenModal)>
 </RootPortal>
 `;
 

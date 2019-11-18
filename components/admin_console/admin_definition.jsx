@@ -1685,6 +1685,14 @@ const AdminDefinition = {
                         ],
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.LockTeammateNameDisplay',
+                        label: t('admin.lockTeammateNameDisplay'),
+                        label_default: 'Lock Teammate Name Display for all users: ',
+                        help_text: t('admin.lockTeammateNameDisplayHelpText'),
+                        help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
                         key: 'TeamSettings.EditOthersPosts',
                         label: t('admin.team.editOthersPostsTitle'),
@@ -1700,7 +1708,7 @@ const AdminDefinition = {
                         label: t('admin.viewArchivedChannelsTitle'),
                         label_default: 'Allow users to view archived channels: ',
                         help_text: t('admin.viewArchivedChannelsHelpText'),
-                        help_text_default: '(Experimental) When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        help_text_default: '(Experimental) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

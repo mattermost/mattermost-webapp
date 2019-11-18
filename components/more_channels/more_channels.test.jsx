@@ -50,7 +50,8 @@ describe('components/MoreChannels', () => {
                 return {data: true};
             });
         },
-        searchMoreChannels: (term) => {
+        // eslint-disable-next-line
+        searchMoreChannels: (term, shouldShowArchivedChannels) => {
             return new Promise((resolve) => {
                 if (term === 'fail') {
                     return resolve({
@@ -67,14 +68,17 @@ describe('components/MoreChannels', () => {
 
     const baseProps = {
         channels: [{id: 'channel_id_1', delete_at: 0, name: 'channel-1'}],
+        archivedChannels: [{id: 'channel_id_2', delete_at: 0, name: 'channel-2'}],
         currentUserId: 'user-1',
         teamId: 'team_id',
         teamName: 'team_name',
         channelsRequestStarted: false,
         onModalDismissed: jest.fn(),
         handleNewChannel: jest.fn(),
+        canShowArchivedChannels: true,
         actions: {
             getChannels: jest.fn(),
+            getArchivedChannels: jest.fn(),
             joinChannel: jest.spyOn(channelActions, 'joinChannelAction'),
             searchMoreChannels: jest.spyOn(channelActions, 'searchMoreChannels'),
         },
@@ -88,6 +92,7 @@ describe('components/MoreChannels', () => {
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.state('searchedChannels')).toEqual([]);
         expect(wrapper.state('show')).toEqual(true);
+        expect(wrapper.state('shouldShowArchivedChannels')).toEqual(false);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('serverError')).toBeNull();
         expect(wrapper.state('searching')).toEqual(false);
@@ -249,7 +254,7 @@ describe('components/MoreChannels', () => {
 
         jest.runAllTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('fail');
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
@@ -277,11 +282,39 @@ describe('components/MoreChannels', () => {
 
         jest.runAllTimers();
         expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel');
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
             expect(wrapper.state('searchedChannels')).toEqual([searchResults.data[0]]);
+            done();
+        });
+    });
+
+    test('should perform search on archived channels and set the correct state', (done) => {
+        const wrapper = shallow(
+            <MoreChannels {...baseProps}/>
+        );
+
+        const instance = wrapper.instance();
+        instance.onChange = jest.fn();
+        instance.setState({shouldShowArchivedChannels: true});
+        instance.search('channel');
+        expect(clearTimeout).toHaveBeenCalledTimes(1);
+        expect(instance.onChange).not.toHaveBeenCalled();
+        expect(wrapper.state('search')).toEqual(true);
+        expect(wrapper.state('searching')).toEqual(true);
+        expect(instance.searchTimeoutId).not.toEqual('');
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+
+        jest.runAllTimers();
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
+        expect(instance.props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true);
+        process.nextTick(() => {
+            expect(wrapper.state('search')).toEqual(true);
+            expect(wrapper.state('searching')).toEqual(false);
+            expect(wrapper.state('searchedChannels')).toEqual([searchResults.data[1]]);
             done();
         });
     });
