@@ -17,6 +17,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login
         cy.apiLogin('user-1');
+
         // # Navigate to the channel and get the channelId
         cy.visit('/ad-1/channels/town-square');
         cy.getCurrentChannelId().then((id) => {
@@ -26,14 +27,14 @@ describe('Messaging', () => {
 
     it('M18693-Delete a Message during reply, other user sees (message deleted)', () => {
         // # Type message to use
-        cy.postMessageAs({sender: sysadmin, message: 'aaa', channelId: townsquareChannelId})
+        cy.postMessageAs({sender: sysadmin, message: 'aaa', channelId: townsquareChannelId});
 
         // # Click Reply button
         cy.clickPostCommentIcon();
 
         // # Write message on reply box
-        cy.get('#reply_textbox').type("123");
-        
+        cy.get('#reply_textbox').type('123');
+
         // # Remove message from the other user
         cy.getLastPostId().as('postId').then((postId) => {
             cy.externalRequest({user: sysadmin, method: 'DELETE', path: `posts/${postId}`});
@@ -41,7 +42,7 @@ describe('Messaging', () => {
 
         // # Wait for the message to be deleted and hit enter
         cy.wait(TIMEOUTS.TINY);
-        cy.get('#reply_textbox').type("{enter}");
+        cy.get('#reply_textbox').type('{enter}');
 
         // * Post Deleted Modal should be visible
         cy.findAllByTestId('postDeletedModal').should('be.visible');
@@ -53,10 +54,10 @@ describe('Messaging', () => {
         cy.get('.post-right-comments-container').should('be.empty');
 
         // * Textbox should still have the draft message
-        cy.get('#reply_textbox').should('contain','123');
+        cy.get('#reply_textbox').should('contain', '123');
 
         // # Try to post the message one more time pressing enter
-        cy.get('#reply_textbox').type("{enter}");
+        cy.get('#reply_textbox').type('{enter}');
 
         // * The modal should have appeared again
         cy.findAllByTestId('postDeletedModal').should('be.visible');
@@ -68,7 +69,7 @@ describe('Messaging', () => {
         cy.get('.post-right-comments-container').should('be.empty');
 
         // * Textbox should still have the draft message
-        cy.get('#reply_textbox').should('contain','123');
+        cy.get('#reply_textbox').should('contain', '123');
 
         // # Change to the other user and go to Town Square
         cy.apiLogin('sysadmin');
