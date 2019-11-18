@@ -31,7 +31,7 @@ describe('Search teams', () => {
         cy.findByTestId('search-input').type(displayName + '{enter}');
 
         // * Check that the search results contain the team.
-        cy.findByTestId('team-display-name').contains(displayName);
+        cy.findAllByTestId('team-display-name').contains(displayName);
     });
 
     it('results are paginated', () => {
@@ -46,13 +46,13 @@ describe('Search teams', () => {
         cy.findByTestId('search-input').type(displayName + '{enter}');
 
         // * Check that the first page of results is full.
-        cy.findByTestId('team-display-name').should('have.length', PAGE_SIZE);
+        cy.findAllByTestId('team-display-name').should('have.length', PAGE_SIZE);
 
         // # Click the next pagination arrow.
         cy.findByTestId('page-link-next').should('be.enabled').click();
 
         // * Check that the 2nd page of results has the expected amount.
-        cy.findByTestId('team-display-name').should('have.length', 2);
+        cy.findAllByTestId('team-display-name').should('have.length', 2);
     });
 
     it('clears the results when "x" is clicked', () => {
@@ -62,10 +62,10 @@ describe('Search teams', () => {
         cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the team.
-        cy.findByTestId('search-input').as('searchInput').type(displayName + '{enter}');
+        cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
 
         // * Check that the list of teams is in search results mode.
-        cy.findByTestId('team-display-name').should('have.length', 1);
+        cy.findAllByTestId('team-display-name').should('have.length', 1);
 
         // # Click the x in the search input.
         cy.findByTestId('clear-search').click();
@@ -74,7 +74,7 @@ describe('Search teams', () => {
         cy.get('@searchInput').should('be.visible').and('have.text', '');
 
         // * Check that the search results are reset to the default page-load list.
-        cy.findByTestId('team-display-name').should('have.length', PAGE_SIZE);
+        cy.findAllByTestId('team-display-name').should('have.length', PAGE_SIZE);
     });
 
     it('clears the results when the search term is deleted with backspace', () => {
@@ -84,15 +84,15 @@ describe('Search teams', () => {
         cy.apiCreateTeam('team-search', displayName);
 
         // # Search for the team.
-        cy.findByTestId('search-input').as('searchInput').type(displayName + '{enter}');
+        cy.get('[data-testid=search-input]').as('searchInput').type(displayName + '{enter}');
 
         // * Check that the list of teams is in search results mode.
-        cy.findByTestId('team-display-name').should('have.length', 1);
+        cy.findAllByTestId('team-display-name').should('have.length', 1);
 
         // # Clear the search input by deleting the search text.
         cy.get('@searchInput').type('{selectall}{del}');
 
         // * Check that the search results are reset to the default page-load list.
-        cy.findByTestId('team-display-name').should('have.length', PAGE_SIZE);
+        cy.findAllByTestId('team-display-name').should('have.length', PAGE_SIZE);
     });
 });
