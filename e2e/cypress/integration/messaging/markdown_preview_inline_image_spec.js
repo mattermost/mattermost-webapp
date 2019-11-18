@@ -32,7 +32,6 @@ describe('Messaging', () => {
 
         // # Click on Preview button
         cy.get('#previewLink').click({force: true});
-
         
         cy.get('#post-list').then((postList) => {
             cy.get('#create_post').within(() => {
@@ -40,10 +39,13 @@ describe('Messaging', () => {
                     // * Images do not overlap Post List
                     expect(postList[0].getBoundingClientRect().bottom).lessThan(img[0].getBoundingClientRect().top);
                     expect(postList[0].getBoundingClientRect().bottom).lessThan(img[1].getBoundingClientRect().top);
+
                     // * Images do not overlap among themselves
                     expect(
+
                         // * Images do not overlap vertically
                         img[0].getBoundingClientRect().bottom <= img[1].getBoundingClientRect().top ||
+
                         // * Images do not overlap horizontally
                         img[0].getBoundingClientRect().right <= img[1].getBoundingClientRect().left
                     ).equals(true);
