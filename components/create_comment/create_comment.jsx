@@ -1010,9 +1010,9 @@ class CreateComment extends React.PureComponent {
                         </div>
                         <div className='text-right margin-top'>
                             <input
-                                id='addCommentButton'
                                 type='button'
                                 disabled={!enableAddButton}
+                                id='addCommentButton'
                                 className={addButtonClass}
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}
