@@ -45,7 +45,7 @@ export default class ChannelList extends React.PureComponent {
                         onKeyUp={this.handleChannelSearchKeyUp}
                         onChange={this.searchBarChangeHandler}
                         value={this.state.searchString}
-                        data-test='search-input'
+                        data-testid='search-input'
                     />
                     <SearchIcon
                         id='searchIcon'
@@ -55,7 +55,7 @@ export default class ChannelList extends React.PureComponent {
                     <i
                         className={'fa fa-times-circle group-filter-action ' + (this.state.searchString.length ? '' : 'hidden')}
                         onClick={this.resetSearch}
-                        data-test='clear-search'
+                        data-testid='clear-search'
                     />
                 </div>
             </div>
