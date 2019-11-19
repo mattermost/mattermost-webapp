@@ -19,6 +19,7 @@ describe('components/PluginManagement', () => {
                 EnableRemoteMarketplace: true,
                 AutomaticPrepackagedPlugins: true,
                 MarketplaceUrl: 'marketplace.example.com',
+                RequirePluginSignature: false,
             },
             ExperimentalSettings: {
                 RestrictSystemAdmin: false,
@@ -130,6 +131,21 @@ describe('components/PluginManagement', () => {
                 ...defaultProps.config,
                 ExperimentalSettings: {
                     RestrictSystemAdmin: true,
+                },
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when `Require Signature Plugin` is true', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
+                    RequirePluginSignature: true,
                 },
             },
         };

@@ -92,12 +92,12 @@ export function isInRole(roles, inRole) {
     return false;
 }
 
-export function isChannelAdmin(isLicensed, roles) {
+export function isChannelAdmin(isLicensed, roles, hasAdminScheme = false) {
     if (!isLicensed) {
         return false;
     }
 
-    if (isInRole(roles, 'channel_admin')) {
+    if (isInRole(roles, 'channel_admin') || hasAdminScheme) {
         return true;
     }
 
