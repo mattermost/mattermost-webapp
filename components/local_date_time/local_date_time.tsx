@@ -20,7 +20,7 @@ type Props = {
     /*
      * Current timezone of the user
      */
-    timeZone?: string;
+    timeZone?: string | null | undefined;
 
     /*
      * Enable timezone feature
