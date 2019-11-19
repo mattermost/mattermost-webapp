@@ -3,13 +3,26 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import {
+    leaveChannel as leaveChannelRedux,
+    joinChannel,
+    markChannelAsRead,
+    unfavoriteChannel,
+} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {autocompleteUsers} from 'mattermost-redux/actions/users';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelsNameMapInCurrentTeam, getCurrentChannel, getRedirectChannelNameForTeam, getMyChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getChannelsNameMapInCurrentTeam,
+    getCurrentChannel,
+    getRedirectChannelNameForTeam,
+    getMyChannels,
+    getMyChannelMemberships,
+    isManuallyUnread,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
@@ -301,5 +314,15 @@ export function syncPostsInChannel(channelId, since, fetchThreads = true) {
 export function scrollPostListToBottom() {
     return () => {
         EventEmitter.emit(EventTypes.POST_LIST_SCROLL_TO_BOTTOM);
+    };
+}
+
+export function markChannelAsReadOnFocus(channelId) {
+    return (dispatch, getState) => {
+        if (isManuallyUnread(getState(), channelId)) {
+            return;
+        }
+
+        dispatch(markChannelAsRead(channelId));
     };
 }
