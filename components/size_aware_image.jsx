@@ -134,7 +134,6 @@ export default class SizeAwareImage extends React.PureComponent {
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
                         style={{maxHeight: dimensions.height, maxWidth: dimensions.width}}
-                        width='inherit'
                     />
                 </div>
             );
