@@ -803,6 +803,9 @@ export default class PluginManagement extends AdminSettings {
         let serverError = '';
         let lastMessage = '';
 
+        // Using props values to make sure these are set on the server and not just locally
+        const enableUploadButton = enableUploads && enable && !this.props.config.PluginSettings.RequirePluginSignature;
+
         if (this.state.serverError) {
             serverError = <div className='col-sm-12'><div className='form-group has-error half'><label className='control-label'>{this.state.serverError}</label></div></div>;
         }
@@ -990,9 +993,7 @@ export default class PluginManagement extends AdminSettings {
                                 <div className='file__upload'>
                                     <button
                                         className={classNames(['btn', {'btn-primary': enableUploads}])}
-
-                                        // Using props values to make sure these are set on the server and not just locally
-                                        disabled={!enableUploads || !enable || this.props.config.PluginSettings.RequirePluginSignature}
+                                        disabled={!enableUploadButton}
                                     >
                                         <FormattedMessage
                                             id='admin.plugin.choose'
@@ -1004,9 +1005,7 @@ export default class PluginManagement extends AdminSettings {
                                         type='file'
                                         accept='.gz'
                                         onChange={this.handleUpload}
-
-                                        // Using props values to make sure these are set on the server and not just locally
-                                        disabled={!enableUploads || !enable || this.props.config.PluginSettings.RequirePluginSignature}
+                                        disabled={!enableUploadButton}
                                     />
                                 </div>
                                 <button
