@@ -990,7 +990,9 @@ export default class PluginManagement extends AdminSettings {
                                 <div className='file__upload'>
                                     <button
                                         className={classNames(['btn', {'btn-primary': enableUploads}])}
-                                        disabled={!enableUploads || !this.state.enable || this.state.requirePluginSignature}
+
+                                        /* Using props values to make sure these are set on the server and not just locally */
+                                        disabled={!enableUploads || !enable || this.props.config.PluginSettings.RequirePluginSignature}
                                     >
                                         <FormattedMessage
                                             id='admin.plugin.choose'
@@ -1002,7 +1004,9 @@ export default class PluginManagement extends AdminSettings {
                                         type='file'
                                         accept='.gz'
                                         onChange={this.handleUpload}
-                                        disabled={!enableUploads || !this.state.enable || this.state.requirePluginSignature}
+
+                                        /* Using props values to make sure these are set on the server and not just locally */
+                                        disabled={!enableUploads || !enable || this.props.config.PluginSettings.RequirePluginSignature}
                                     />
                                 </div>
                                 <button
