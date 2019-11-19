@@ -111,16 +111,6 @@ class InvitationModal extends React.Component {
     }
 
     getBackFunction = () => {
-        if (this.state.step === STEPS_INVITE_CONFIRM) {
-            return this.goToPrevStep;
-        }
-        if ((this.state.step === STEPS_INVITE_MEMBERS || this.state.step === STEPS_INVITE_GUESTS) && this.props.canInviteGuests && this.props.canAddUsers) {
-            return this.goToInitialStep;
-        }
-        return null;
-    }
-
-    getBackFunction = () => {
         if (this.state.step === STEPS_INVITE_CONFIRM && this.invitesNotSent.length > 0) {
             return this.goToPrevStep;
         }
@@ -243,6 +233,7 @@ class InvitationModal extends React.Component {
             <FormattedMarkdownMessage
                 id='invitation_modal.confirm.title'
                 defaultMessage='**People** Invited to **{teamName}**'
+                values={{teamName: this.props.currentTeam.display_name}}
             />
         );
     }
