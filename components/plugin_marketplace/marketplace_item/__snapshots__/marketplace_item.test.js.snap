@@ -673,7 +673,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         <FormattedHTMLMessage
           defaultMessage="This update may contain breaking changes. Consult the <a href=\\"http://example.com/release\\" target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading."
           id="marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes"
-          tagName="span"
           values={
             Object {
               "releaseNotesUrl": "http://example.com/release",
