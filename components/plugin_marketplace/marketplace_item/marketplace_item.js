@@ -122,7 +122,7 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
             <p key='current'>
                 <FormattedHTMLMessage
                     id='marketplace_modal.list.update_confirmation.message.current_with_release_notes'
-                    defaultMessage={`You currently have ${installedVersion} installed. View the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>Release Notes</a> to learn about the changes included in this update.`}
+                    defaultMessage={`You currently have ${installedVersion} installed. View the <a href="${releaseNotesUrl}" target='_blank' rel='noopener noreferrer'>release notes</a> to learn about the changes included in this update.`}
                     values={{installedVersion, releaseNotesUrl}}
                 />
             </p>
@@ -154,9 +154,10 @@ export const UpdateConfirmationModal = ({show, name, version, installedVersion, 
                     className='alert alert-warning'
                     key='warning'
                 >
-                    <FormattedMessage
+                    <FormattedHTMLMessage
                         id='marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes'
-                        defaultMessage={`This update may contain breaking changes. Consult the <a href='${releaseNotesUrl}' target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading.`}
+                        defaultMessage={`This update may contain breaking changes. Consult the <a href="${releaseNotesUrl}" target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading.`}
+                        values={{releaseNotesUrl}}
                     />
                 </p>
             );
@@ -236,7 +237,7 @@ export default class MarketplaceItem extends React.Component {
 
     onInstall = () => {
         trackEvent('plugins', 'ui_marketplace_download');
-        this.props.actions.installPlugin(this.props.id);
+        this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
     showUpdateConfirmationModal = () => {
@@ -250,7 +251,7 @@ export default class MarketplaceItem extends React.Component {
     onUpdate = () => {
         trackEvent('plugins', 'ui_marketplace_download_update');
         this.hideUpdateConfirmationModal();
-        this.props.actions.installPlugin(this.props.id);
+        this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
     onConfigure = () => {

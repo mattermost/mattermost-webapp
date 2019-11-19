@@ -51,6 +51,9 @@ export default class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
+        }),
     };
 
     static contextTypes = {
@@ -65,6 +68,7 @@ export default class RhsComment extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
             dropdownOpened: false,
+            alt: false,
             hover: false,
             a11yActive: false,
             currentAriaLabel: '',
@@ -72,12 +76,18 @@ export default class RhsComment extends React.PureComponent {
     }
 
     componentDidMount() {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
     }
     componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
+
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
@@ -156,8 +166,16 @@ export default class RhsComment extends React.PureComponent {
             className += ' same--user';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className;
     };
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -183,6 +201,12 @@ export default class RhsComment extends React.PureComponent {
 
     handleA11yDeactivateEvent = () => {
         this.setState({a11yActive: false});
+    }
+
+    handlePostClick = (e) => {
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(this.props.post);
+        }
     }
 
     handlePostFocus = () => {
@@ -433,6 +457,7 @@ export default class RhsComment extends React.PureComponent {
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
                 className={`a11y__section ${this.getClassName(post, isSystemMessage)}`}
+                onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 aria-label={this.state.currentAriaLabel}
