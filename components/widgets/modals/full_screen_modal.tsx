@@ -59,22 +59,6 @@ class FullScreenModal extends React.Component<Props> {
         }
     }
 
-    private onBackKeyDown = (e: KeyboardEvent) => {
-        const code = e.which;
-        if ((code === 13) || (code === 32)) {
-            if (this.props.onGoBack) {
-                this.props.onGoBack();
-            }
-        }
-    }
-
-    private onCloseKeyDown = (e: KeyboardEvent) => {
-        const code = e.which;
-        if ((code === 13) || (code === 32)) {
-            this.close();
-        }
-    }
-
     private close = () => {
         this.props.onClose();
     }
