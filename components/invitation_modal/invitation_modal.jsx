@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -38,10 +38,6 @@ export default class InvitationModal extends React.Component {
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     constructor(props) {
         super(props);
