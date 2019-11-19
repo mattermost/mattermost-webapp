@@ -8,24 +8,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-const pinnedFlaggedPosts = [];
-
-// Post 10 messages, pin and flag them, add the postIds to pinnedFlaggedPosts
-function pinAndFlagTenPosts() {
-    for (let i = 0; i < 10; i++) {
-        // Post a message
-        cy.postMessage('Post');
-
-        //Pin and flag the message and add postID to pinnedFlaggedPosts
-        cy.getLastPostId().then((postId) => {
-            cy.clickPostDotMenu(postId);
-            cy.get(`#pin_post_${postId}`).click();
-            cy.clickPostFlagIcon(postId);
-            pinnedFlaggedPosts.push(postId);
-        });
-    }
-}
-
 describe('Post Header', () => {
     before(() => {
         // # Go to Main Channel View with "user-1"
@@ -237,11 +219,21 @@ describe('Post Header', () => {
     });
 
     it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+        cy.delayRequestToRoutes(['pinned', 'flagged'], 5000);
+        cy.reload();
+
         // # Go to Town-Square channel
         cy.visit('/ad-1/channels/town-square');
 
-        // Pin and flag ten posts before clicking on Pinned and Flagged post icons
-        pinAndFlagTenPosts();
+        // Pin and flag last post before clicking on Pinned and Flagged post icons
+        cy.postMessage('Post');
+
+        //Pin and flag the posted message
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostDotMenu(postId);
+            cy.get(`#pin_post_${postId}`).click();
+            cy.clickPostFlagIcon(postId);
+        });
 
         // # Click on the "Pinned Posts" icon to the left of the "Search" box
         cy.get('#channelHeaderPinButton').click();
