@@ -18,19 +18,6 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     markChannelAsViewed: (...args) => ({type: 'MOCK_MARK_CHANNEL_AS_VIEWED', args}),
 }));
 
-const EMPTY_ACTION = [];
-const MARK_CHANNEL_AS_UNREAD = {
-    args: ['team_id', 'current_channel_id', ['current_user_id']],
-    type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
-};
-const MARK_CHANNEL_AS_READ = {
-    args: ['current_channel_id', null, false],
-    type: 'MOCK_MARK_CHANNEL_AS_READ',
-};
-const MARK_CHANNEL_AS_VIEWED = {
-    args: ['current_channel_id'],
-    type: 'MOCK_MARK_CHANNEL_AS_VIEWED',
-};
 const POST_CREATED_TIME = Date.now();
 
 // This mocks the Date.now() function so it returns a constant value
@@ -123,22 +110,235 @@ describe('actions/post_utils', () => {
         ]);
     });
 
-    test('setChannelReadAndView', async () => {
-        let testStore = await mockStore(initialState);
-        const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message', type: Constants.PostTypes.ADD_TO_CHANNEL};
-        const websocketProps = {team_id: 'team_id', mentions: ['current_user_id']};
+    describe('setChannelReadAndView', () => {
+        test('should mark channel as read when viewing channel', async () => {
+            const channelId = 'channel';
+            const currentUserId = 'user';
 
-        await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual(EMPTY_ACTION);
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
 
-        testStore = await mockStore(initialState);
-        newPost.type = '';
-        await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([MARK_CHANNEL_AS_UNREAD]);
+            const testStore = await mockStore({
+                entities: {
+                    channels: {
+                        currentChannelId: channelId,
+                        manuallyUnread: {},
+                        myMembers: {
+                            [channelId]: {channel_id: channelId, last_viewed_at: 0, roles: ''},
+                        },
+                    },
+                    posts: {
+                        posts: {
+                            [post1.id]: post1,
+                        },
+                    },
+                    users: {
+                        currentUserId,
+                    },
+                },
+            });
 
-        testStore = await mockStore(initialState);
-        newPost.user_id = 'current_user_id';
-        await testStore.dispatch(PostActionsUtils.setChannelReadAndView(newPost, websocketProps));
-        expect(testStore.getActions()).toEqual([MARK_CHANNEL_AS_READ, MARK_CHANNEL_AS_VIEWED]);
+            window.isActive = true;
+
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+
+            expect(testStore.getActions()).toEqual([{
+                type: 'MOCK_MARK_CHANNEL_AS_READ',
+                args: [channelId, null, true],
+            }, {
+                type: 'MOCK_MARK_CHANNEL_AS_VIEWED',
+                args: [channelId],
+            }]);
+        });
+
+        test('should mark channel as unread when not actively viewing channel', async () => {
+            const channelId = 'channel';
+            const currentUserId = 'user';
+
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
+
+            const testStore = await mockStore({
+                entities: {
+                    channels: {
+                        currentChannelId: channelId,
+                        manuallyUnread: {},
+                        myMembers: {
+                            [channelId]: {channel_id: channelId, last_viewed_at: 0, roles: ''},
+                        },
+                    },
+                    posts: {
+                        posts: {
+                            [post1.id]: post1,
+                        },
+                    },
+                    users: {
+                        currentUserId,
+                    },
+                },
+            });
+
+            window.isActive = false;
+
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+
+            expect(testStore.getActions()).toEqual([{
+                type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
+                args: [undefined, channelId, undefined],
+            }]);
+        });
+
+        test('should not mark channel as read when not viewing channel', async () => {
+            const channelId = 'channel1';
+            const otherChannelId = 'channel2';
+            const currentUserId = 'user';
+
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
+
+            const testStore = await mockStore({
+                entities: {
+                    channels: {
+                        currentChannelId: otherChannelId,
+                        manuallyUnread: {},
+                        myMembers: {
+                            [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
+                            [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
+                        },
+                    },
+                    posts: {
+                        posts: {
+                            [post1.id]: post1,
+                        },
+                    },
+                    users: {
+                        currentUserId,
+                    },
+                },
+            });
+
+            window.isActive = true;
+
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+
+            expect(testStore.getActions()).toEqual([{
+                type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
+                args: [undefined, channelId, undefined],
+            }]);
+        });
+
+        test('should mark channel as read when not viewing channel and post is from current user', async () => {
+            const channelId = 'channel1';
+            const otherChannelId = 'channel2';
+            const currentUserId = 'user';
+
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000, user_id: currentUserId};
+
+            const testStore = await mockStore({
+                entities: {
+                    channels: {
+                        currentChannelId: otherChannelId,
+                        manuallyUnread: {},
+                        myMembers: {
+                            [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
+                            [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
+                        },
+                    },
+                    posts: {
+                        posts: {
+                            [post1.id]: post1,
+                        },
+                    },
+                    users: {
+                        currentUserId,
+                    },
+                },
+            });
+
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+
+            expect(testStore.getActions()).toEqual([{
+                type: 'MOCK_MARK_CHANNEL_AS_READ',
+                args: [channelId, null, false],
+            }, {
+                type: 'MOCK_MARK_CHANNEL_AS_VIEWED',
+                args: [channelId],
+            }]);
+        });
+
+        test('should mark channel as unread when not viewing channel and post is from webhook owned by current user', async () => {
+            const channelId = 'channel1';
+            const otherChannelId = 'channel2';
+            const currentUserId = 'user';
+
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000, props: {from_webhook: 'true'}, user_id: currentUserId};
+
+            const testStore = await mockStore({
+                entities: {
+                    channels: {
+                        currentChannelId: otherChannelId,
+                        manuallyUnread: {},
+                        myMembers: {
+                            [channelId]: {channel_id: channelId, last_viewed_at: 500, roles: ''},
+                            [otherChannelId]: {channel_id: otherChannelId, last_viewed_at: 500, roles: ''},
+                        },
+                    },
+                    posts: {
+                        posts: {
+                            [post1.id]: post1,
+                        },
+                    },
+                    users: {
+                        currentUserId,
+                    },
+                },
+            });
+
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+
+            expect(testStore.getActions()).toEqual([{
+                type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
+                args: [undefined, channelId, undefined],
+            }]);
+        });
+
+        test('should not mark channel as read when viewing channel that was marked as unread', async () => {
+            const channelId = 'channel1';
+            const currentUserId = 'user';
+
+            const post1 = {id: 'post1', channel_id: channelId, create_at: 1000};
+            const post2 = {id: 'post2', channel_id: channelId, create_at: 2000};
+
+            const testStore = await mockStore({
+                entities: {
+                    channels: {
+                        currentChannelId: channelId,
+                        manuallyUnread: {
+                            [channelId]: true,
+                        },
+                        myMembers: {
+                            [channelId]: {channel_id: channelId, last_viewed_at: post1.create_at - 1, roles: ''},
+                        },
+                    },
+                    posts: {
+                        posts: {
+                            [post1.id]: post1,
+                        },
+                    },
+                    users: {
+                        currentUserId,
+                    },
+                },
+            });
+
+            await testStore.dispatch(PostActionsUtils.setChannelReadAndView(post2, {}));
+
+            expect(testStore.getActions()).toEqual([{
+                type: 'MOCK_MARK_CHANNEL_AS_UNREAD',
+                args: [undefined, channelId, undefined],
+            }]);
+        });
     });
 });
