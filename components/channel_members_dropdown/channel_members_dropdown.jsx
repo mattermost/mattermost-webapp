@@ -42,6 +42,12 @@ export default class ChannelMembersDropdown extends React.Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.user.roles != this.props.user.roles) {
+            this.props.actions.getRolesByNames(this.props.user.roles.split(" "));
+        }
+    }
+
     handleRemoveFromChannel = () => {
         if (this.state.removing) {
             return;
