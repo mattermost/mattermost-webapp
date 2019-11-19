@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import * as Utils from 'utils/utils.jsx';
+import { Dictionary } from 'mattermost-redux/types/utilities';
 
 export function formatChannelDoughtnutData(totalPublic: any, totalPrivate: any) {
     const channelTypeData = {
@@ -59,6 +60,27 @@ export function formatPostsPerDayData(data: any) {
 
     return chartData;
 }
+
+export function syncronizeChartData(...chartDatas: any[]) {
+    const labels: Dictionary<boolean> = {};
+    // collect all labels
+    chartDatas.forEach(chartData => {
+        chartData.labels.forEach((label: string) => labels[label] = true);        
+    });
+    // fill in missing
+    const allLabels = Object.keys(labels);
+    chartDatas.forEach(chartData => {
+        if (chartData.labels.length > 0) { // don't add to empty graphs
+            allLabels.forEach((label: string) => {
+                if (chartData.labels.indexOf(label) === -1) {
+                    chartData.labels.push(label);
+                    chartData.datasets[0].data.push(0);
+                }
+            });        
+        }        
+    });
+}
+
 
 export function formatUsersWithPostsPerDayData(data: any) {
     const chartData = {
