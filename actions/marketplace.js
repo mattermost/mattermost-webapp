@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import {Client4} from 'mattermost-redux/client';
-import {installPluginFromUrl} from 'mattermost-redux/actions/admin';
 
 import {getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
@@ -31,7 +30,7 @@ export function fetchPlugins() {
 // installPlugin installs the latest version of the given plugin from the marketplace.
 //
 // On success, it also requests the current state of the plugins to reflect the newly installed plugin.
-export function installPlugin(id) {
+export function installPlugin(id, version) {
     return async (dispatch, getState) => {
         dispatch({
             type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN,
@@ -50,9 +49,9 @@ export function installPlugin(id) {
             return;
         }
 
-        const downloadUrl = marketplacePlugin.download_url;
-        const {error} = await dispatch(installPluginFromUrl(downloadUrl, true));
-        if (error) {
+        try {
+            await Client4.installMarketplacePlugin(id, version);
+        } catch (error) {
             dispatch({
                 type: ActionTypes.INSTALLING_MARKETPLACE_PLUGIN_FAILED,
                 id,
