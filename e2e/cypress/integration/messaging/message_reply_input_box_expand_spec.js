@@ -26,7 +26,6 @@ describe('Messaging', () => {
         const postCreateContainerClassName = 'post-create__container';
         const replyTextBoxId = 'reply_textbox';
         let newLinesCount;
-        let newLines;
 
         // # Click "Reply"
         cy.getLastPostId().then((postId) => {
@@ -54,17 +53,11 @@ describe('Messaging', () => {
 
         // # Enter new lines into RHS so that box should reach max height, verify last reply, and verify heights
         newLinesCount = 25;
-        newLines = '{shift}{enter}'.repeat(newLinesCount);
-        cy.get('@replyTextBox').type(newLines);
-        verifyLastReply(maxReplyCount);
-        verifyHeights(postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
+        enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, maxReplyCount, postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
 
         // # Enter more new lines into RHS, verify last reply, and verify heights
         newLinesCount *= 2;
-        newLines = '{shift}{enter}'.repeat(newLinesCount);
-        cy.get('@replyTextBox').type(newLines);
-        verifyLastReply(maxReplyCount);
-        verifyHeights(postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
+        enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, maxReplyCount, postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
 
         // # Get first reply and scroll into view
         cy.getNthPostId(-maxReplyCount).then((replyId) => {
@@ -76,6 +69,13 @@ describe('Messaging', () => {
         cy.get('@replyTextBox').type('new message');
         verifyLastReply(maxReplyCount);
     });
+
+    function enterNewLinesAndVerifyLastReplyAndHeights(newLinesCount, maxReplyCount, postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight) {
+        const newLines = '{shift}{enter}'.repeat(newLinesCount);
+        cy.get('@replyTextBox').type(newLines);
+        verifyLastReply(maxReplyCount);
+        verifyHeights(postCreateContainerClassName, replyTextBoxId, padding, halfViewportHeight, postCreateContainerDefaultHeight);
+    }
 
     function verifyLastReply(maxReplyCount) {
         // * Check last reply is visible
