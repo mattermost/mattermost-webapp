@@ -99,7 +99,7 @@ clean: ## Clears cached; deletes node_modules and dist directories
 	rm -rf dist
 	rm -rf node_modules
 
-e2e: node_modules
+e2e-test: node_modules
 	@echo E2E: Running mattermost-mysql-e2e
 	@if [ $(shell docker ps -a | grep -ci mattermost-mysql-e2e) -eq 0 ]; then \
 		echo starting mattermost-mysql-e2e; \
@@ -111,8 +111,8 @@ e2e: node_modules
 	fi
 
 	cd $(BUILD_SERVER_DIR) && [[ -f config/config.json ]] && \
-		cp config/config.json config/config-backup.json && cp config/default.json config/config.json || \
-		echo "config.json not found" && cp config/default.json config/config.json
+		cp config/config.json config/config-backup.json && make config-reset || \
+		echo "config.json not found" && make config-reset
 
 	@echo E2E: Starting the server
 	cd $(BUILD_SERVER_DIR) && $(MAKE) run
@@ -121,7 +121,7 @@ e2e: node_modules
 	cd $(BUILD_SERVER_DIR) && $(MAKE) test-data
 
 	@echo E2E: Running end-to-end testing
-	npm run cypress:run
+	cd e2e && npm install && npm run cypress:run
 
 	@echo E2E: Stoppping the server
 	cd $(BUILD_SERVER_DIR) && $(MAKE) stop

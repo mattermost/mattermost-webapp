@@ -146,6 +146,7 @@ export const ActionTypes = keyMirror({
     REMOVED_WEBAPP_PLUGIN: null,
     RECEIVED_ADMIN_CONSOLE_REDUCER: null,
     REMOVED_ADMIN_CONSOLE_REDUCER: null,
+    RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -178,6 +179,12 @@ export const ActionTypes = keyMirror({
     ALL_CHANNEL_SYNC_STATUS: null,
 
     UPDATE_ACTIVE_SECTION: null,
+
+    RECEIVED_MARKETPLACE_PLUGINS: null,
+    INSTALLING_MARKETPLACE_PLUGIN: null,
+    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
+    FILTER_MARKETPLACE_PLUGINS: null,
 });
 
 export const PostRequestTypes = keyMirror({

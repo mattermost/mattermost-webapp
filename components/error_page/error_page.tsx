@@ -38,7 +38,7 @@ export default class ErrorPage extends React.PureComponent<Props> {
         const params: URLSearchParams = new URLSearchParams(this.props.location.search);
         const signature = params.get('s');
 
-        var trustParams = false;
+        let trustParams = false;
         if (signature) {
             params.delete('s');
 
@@ -80,7 +80,7 @@ export default class ErrorPage extends React.PureComponent<Props> {
             );
         } else if (type === ErrorPageTypes.CHANNEL_NOT_FOUND && isGuest) {
             backButton = (
-                <Link to={params.get('returnTo') as string}>
+                <Link to='/'>
                     <FormattedMessage
                         id='error.channelNotFound.guest_link'
                         defaultMessage='Back'

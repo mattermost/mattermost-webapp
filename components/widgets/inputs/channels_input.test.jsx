@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import ChannelsInput from './channels_input.jsx';
 

@@ -23,6 +23,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Audits from './audits';
 import CustomUrlSchemesSetting from './custom_url_schemes_setting.jsx';
+import CustomEnableDisableGuestAccountsSetting from './custom_enable_disable_guest_accounts_setting';
 import LicenseSettings from './license_settings';
 import PermissionSchemesSettings from './permission_schemes_settings';
 import PermissionSystemSchemeSettings from './permission_schemes_settings/permission_system_scheme_settings';
@@ -55,11 +56,7 @@ const MINIMUM_IDLE_TIMEOUT = 5;
 
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA1 = 'RSAwithSHA1';
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA256 = 'RSAwithSHA256';
-const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384 = 'RSAwithSHA384';
 const SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA512 = 'RSAwithSHA512';
-
-const SAML_SETTINGS_DIGEST_ALGORITHM_SHA1 = 'SHA1';
-const SAML_SETTINGS_DIGEST_ALGORITHM_SHA256 = 'SHA256';
 
 const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N = 'Canonical1.0';
 const SAML_SETTINGS_CANONICAL_ALGORITHM_C14N11 = 'Canonical1.1';
@@ -1688,6 +1685,14 @@ const AdminDefinition = {
                         ],
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.LockTeammateNameDisplay',
+                        label: t('admin.lockTeammateNameDisplay'),
+                        label_default: 'Lock Teammate Name Display for all users: ',
+                        help_text: t('admin.lockTeammateNameDisplayHelpText'),
+                        help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
                         key: 'TeamSettings.EditOthersPosts',
                         label: t('admin.team.editOthersPostsTitle'),
@@ -1703,7 +1708,7 @@ const AdminDefinition = {
                         label: t('admin.viewArchivedChannelsTitle'),
                         label_default: 'Allow users to view archived channels: ',
                         help_text: t('admin.viewArchivedChannelsHelpText'),
-                        help_text_default: '(Experimental) When true, allows users to share permalinks and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        help_text_default: '(Experimental) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1846,23 +1851,28 @@ const AdminDefinition = {
                         label: t('admin.environment.notifications.pushContents.label'),
                         label_default: 'Push Notification Contents:',
                         help_text: t('admin.environment.notifications.pushContents.help'),
-                        help_text_default: '**Send generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Send generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message text.\n **Send full message snippet** - Includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.',
+                        help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** -  Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.\n**Full message content fetched from the server on receipt** - The notification payload relayed through APNS or FCM contains no message content, instead it contains a unique message ID used to fetch message content from the server when a push notification is received by a device. If the server cannot be reached, a generic notification will be displayed.',
                         help_text_markdown: true,
                         options: [
                             {
                                 value: 'generic_no_channel',
                                 display_name: t('admin.environment.notifications.pushContents.genericNoChannel'),
-                                display_name_default: 'Send generic description with only sender name',
+                                display_name_default: 'Generic description with only sender name',
                             },
                             {
                                 value: 'generic',
                                 display_name: t('admin.environment.notifications.pushContents.generic'),
-                                display_name_default: 'Send generic description with sender and channel names',
+                                display_name_default: 'Generic description with sender and channel names',
                             },
                             {
                                 value: 'full',
                                 display_name: t('admin.environment.notifications.pushContents.full'),
-                                display_name_default: 'Send full message snippet',
+                                display_name_default: 'Full message content sent in the notification payload',
+                            },
+                            {
+                                value: 'id_loaded',
+                                display_name: t('admin.environment.notifications.pushContents.id_loaded'),
+                                display_name_default: 'Full message content fetched from the server on receipt',
                             },
                         ],
                     },
@@ -2624,7 +2634,7 @@ const AdminDefinition = {
                         label_default: 'AD/LDAP Test',
                         help_text: t('admin.ldap.testHelpText'),
                         help_text_markdown: true,
-                        help_text_default: 'Tests if the Mattemost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
+                        help_text_default: 'Tests if the Mattermost server can connect to the AD/LDAP server specified. Please review "System Console > Logs" and [documentation](!https://mattermost.com/default-ldap-docs) to troubleshoot errors.',
                         error_message: t('admin.ldap.testFailure'),
                         error_message_default: 'AD/LDAP Test Failure: {error}',
                         success_message: t('admin.ldap.testSuccess'),
@@ -2949,32 +2959,6 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'SamlSettings.DigestAlgorithm',
-                        label: t('admin.saml.digestAlgorithmTitle'),
-                        label_default: 'Digest Algorithm',
-                        isDisabled: it.either(
-                            it.stateIsFalse('SamlSettings.Encrypt'),
-                            it.stateIsFalse('SamlSettings.SignRequest'),
-                        ),
-                        options: [
-                            {
-                                value: SAML_SETTINGS_DIGEST_ALGORITHM_SHA1,
-                                display_name: t('admin.saml.digestAlgorithmDisplay.sha1'),
-                                display_name_default: SAML_SETTINGS_DIGEST_ALGORITHM_SHA1,
-                                help_text: t('admin.saml.digestAlgorithmDescription.sha1'),
-                                help_text_default: 'Specify the SAML Message Digest algorithm (SHA1).  Please see more information provided at http://www.w3.org/2000/09/xmldsig#rsa-sha1.',
-                            },
-                            {
-                                value: SAML_SETTINGS_DIGEST_ALGORITHM_SHA256,
-                                display_name: t('admin.saml.digestAlgorithmDisplay.sha256'),
-                                display_name_default: SAML_SETTINGS_DIGEST_ALGORITHM_SHA256,
-                                help_text: t('admin.saml.digestAlgorithmDescription.sha256'),
-                                help_text_default: 'Specify the SAML Message Digest algorithm (SHA256).  Please see more information provided at http://www.w3.org/2001/04/xmlenc#sha256',
-                            },
-                        ],
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
                         key: 'SamlSettings.SignatureAlgorithm',
                         label: t('admin.saml.signatureAlgorithmTitle'),
                         label_default: 'Signature Algorithm',
@@ -2996,13 +2980,6 @@ const AdminDefinition = {
                                 display_name_default: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA256,
                                 help_text: t('admin.saml.signatureAlgorithmDescription.sha256'),
                                 help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA256). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha256 [section 6.4.2 RSA (PKCS#1 v1.5)]',
-                            },
-                            {
-                                value: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384,
-                                display_name: t('admin.saml.signatureAlgorithmDisplay.sha384'),
-                                display_name_default: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA384,
-                                help_text: t('admin.saml.signatureAlgorithmDescription.sha384'),
-                                help_text_default: 'Specify the Signature algorithm used to sign the request (RSAwithSHA384). Please see more information provided at http://www.w3.org/2001/04/xmldsig-more#rsa-sha384 [section 6.4.2 RSA (PKCS#1 v1.5)]',
                             },
                             {
                                 value: SAML_SETTINGS_SIGNATURE_ALGORITHM_SHA512,
@@ -3532,13 +3509,9 @@ const AdminDefinition = {
                 name_default: 'Guest Access (Beta)',
                 settings: [
                     {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        type: Constants.SettingsTypes.TYPE_CUSTOM,
+                        component: CustomEnableDisableGuestAccountsSetting,
                         key: 'GuestAccountsSettings.Enable',
-                        label: t('admin.guest_access.enableTitle'),
-                        label_default: 'Enable Guest Access: ',
-                        help_text: t('admin.guest_access.enableDescription'),
-                        help_text_default: 'When true, external guest can be invited to channels within teams. Please see [Permissions Schemes](../user_management/permissions/system_scheme) for which roles can invite guests.',
-                        help_text_markdown: true,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
