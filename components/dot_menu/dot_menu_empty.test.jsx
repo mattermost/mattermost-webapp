@@ -35,6 +35,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
                 openModal: jest.fn(),
+                markPostAsUnread: jest.fn(),
             },
         };
 
