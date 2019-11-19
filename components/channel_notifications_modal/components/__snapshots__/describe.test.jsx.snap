@@ -33,22 +33,17 @@ exports[`components/channel_notifications_modal/NotificationSection should match
 `;
 
 exports[`components/channel_notifications_modal/NotificationSection should match snapshot, on global DEFAULT 1`] = `
-<Fragment>
-  <FormattedMessage
-    defaultMessage="Global default"
-    id="channel_notifications.globalDefault"
-    values={Object {}}
-  />
-  <span>
-     (
-  </span>
-  <FormattedMessage
-    defaultMessage="default"
-    id="channel_notifications.levels.default"
-    values={Object {}}
-  />
-  <span>
-    )
-  </span>
-</Fragment>
+<FormattedMessage
+  defaultMessage="Global default ({notifyLevel})"
+  id="channel_notifications.globalDefault"
+  values={
+    Object {
+      "notifyLevel": <FormattedMessage
+        defaultMessage="default"
+        id="channel_notifications.levels.default"
+        values={Object {}}
+      />,
+    }
+  }
+/>
 `;

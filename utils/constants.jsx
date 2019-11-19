@@ -179,6 +179,12 @@ export const ActionTypes = keyMirror({
     ALL_CHANNEL_SYNC_STATUS: null,
 
     UPDATE_ACTIVE_SECTION: null,
+
+    RECEIVED_MARKETPLACE_PLUGINS: null,
+    INSTALLING_MARKETPLACE_PLUGIN: null,
+    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
+    FILTER_MARKETPLACE_PLUGINS: null,
 });
 
 export const PostRequestTypes = keyMirror({
