@@ -1941,7 +1941,7 @@
   "channel_modal.purposeEx": "E.g.: \"A channel to file bugs and improvements\"",
   "channel_modal.type": "Type",
   "channel_notifications.allActivity": "For all activity",
-  "channel_notifications.globalDefault": "Global default",
+  "channel_notifications.globalDefault": "Global default ({notifyLevel})",
   "channel_notifications.ignoreChannelMentions": "Ignore mentions for @channel, @here and @all",
   "channel_notifications.ignoreChannelMentions.help": "When enabled, @channel, @here and @all will not trigger mentions or mention notifications in this channel.",
   "channel_notifications.ignoreChannelMentions.off.title": "Off",
