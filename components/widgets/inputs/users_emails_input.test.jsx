@@ -12,6 +12,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
         const wrapper = shallowWithIntl(
             <UsersEmailsInput
                 placeholder='test'
+                ariaLabel='test'
                 usersLoader={jest.fn()}
                 onChange={jest.fn()}
                 value={['test@email.com', {id: 'test-user-id', username: 'test-username', first_name: 'test', last_name: 'user'}]}

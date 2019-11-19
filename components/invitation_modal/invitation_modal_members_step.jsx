@@ -17,6 +17,7 @@ import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import './invitation_modal_members_step.scss';
 
@@ -210,6 +211,7 @@ class InvitationModalMembersStep extends React.Component {
                                 <UsersEmailsInput
                                     usersLoader={this.usersLoader}
                                     placeholder={placeholder}
+                                    ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
                                     onChange={this.onChange}
                                     value={this.state.usersAndEmails}
                                     validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}

@@ -24,6 +24,7 @@ class ChannelsInput extends React.Component {
     static propTypes = {
         intl: PropTypes.any,
         placeholder: PropTypes.string,
+        ariaLabel: PropTypes.string.isRequired,
         channelsLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.object),
@@ -172,6 +173,7 @@ class ChannelsInput extends React.Component {
                 onFocus={this.onFocus}
                 tabSelectsValue={true}
                 value={this.props.value}
+                aria-label={this.props.ariaLabel}
             />
         );
     }
