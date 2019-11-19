@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('Messaging', () => {
     before(() => {
         // # Login and go to /
@@ -21,9 +23,15 @@ describe('Messaging', () => {
         cy.get('#post_textbox').clear().type('aa');
 
         // # Move the cursor and keep typing
-        cy.get('#post_textbox').click().type('{leftarrow}bc');
+        cy.get('#post_textbox').click().type('{leftarrow}b');
 
-        // * Should contain aba instead of aab
+        // # Wait for the cursor to move in failing case
+        cy.wait(TIMEOUTS.SMALL);
+
+        // # Write another letter
+        cy.get('#post_textbox').type('c');
+
+        // * Should contain abca instead of aabc or abac
         cy.get('#post_textbox').should('contain', 'abca');
     });
 });
