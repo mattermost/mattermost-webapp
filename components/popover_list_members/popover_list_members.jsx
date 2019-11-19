@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Overlay, OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import {Overlay, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
@@ -14,6 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
 import MemberIcon from 'components/widgets/icons/member_icon';
+import Popover from 'components/widgets/popover';
 import TeamMembersModal from 'components/team_members_modal';
 
 import PopoverListMembersItem from './popover_list_members_item';

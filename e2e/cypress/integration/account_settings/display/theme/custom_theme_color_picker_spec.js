@@ -8,9 +8,13 @@
 // ***************************************************************
 
 describe('AS14318 Theme Colors - Color Picker', () => {
-    beforeEach(() => {
-        //Login and navigating to settings
+    before(() => {
+        // Login as user-1
         cy.apiLogin('user-1');
+    });
+
+    beforeEach(() => {
+        // Navigating to account settings
         cy.toAccountSettingsModal(null, true);
         cy.get('#displayButton').click();
         cy.get('#themeTitle').click();
