@@ -34,8 +34,8 @@
     "localforage": "1.7.3",
     "localforage-observable": "2.0.0",
     "mark.js": "8.11.1",
-    "mattermost-redux": "github:mattermost/mattermost-redux#1976433179ba69765623ce12194c4ec9fc93e580",
     "marked": "github:mattermost/marked#8214e10918264fb88cec474196023949f7cb4b30",
+    "mattermost-redux": "github:mattermost/mattermost-redux#1976433179ba69765623ce12194c4ec9fc93e580",
     "moment-timezone": "0.5.27",
     "pdfjs-dist": "2.0.489",
     "perfect-scrollbar": "0.8.1",
@@ -225,8 +225,8 @@
     "test:watch": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --watch",
     "test:coverage": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --coverage",
     "mmjstool": "mmjstool",
-    "storybook": "start-storybook -p 6006 -s ./storybook/static",
-    "build-storybook": "build-storybook -s ./storybook/static",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
     "check-types": "tsc"
   }
 }

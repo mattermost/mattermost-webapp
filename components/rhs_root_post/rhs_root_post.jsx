@@ -47,6 +47,9 @@ class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
+        }),
     };
 
     static defaultProps = {
@@ -57,11 +60,22 @@ class RhsRootPost extends React.PureComponent {
         super(props);
 
         this.state = {
+            alt: false,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     renderPostTime = (isEphemeral) => {
@@ -115,14 +129,28 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--hovered';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className;
     };
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
         });
     };
+
+    handlePostClick = (e) => {
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(this.props.post);
+        }
+    }
 
     handlePostFocus = () => {
         const {post, author, reactions, isFlagged, intl} = this.props;
@@ -320,6 +348,7 @@ class RhsRootPost extends React.PureComponent {
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 aria-label={this.state.currentAriaLabel}
+                onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
             >
