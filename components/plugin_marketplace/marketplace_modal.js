@@ -18,6 +18,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
+import * as UserAgent from 'utils/user_agent';
 import Constants from 'utils/constants.jsx';
 
 import MarketplaceItem from './marketplace_item';
@@ -141,6 +142,11 @@ export class MarketplaceModal extends React.Component {
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchPlugins();
+
+        // Do not autofocus on mobile
+         if (!UserAgent.isMobile() && this.refs.filter) {
+            this.refs.filter.focus();
+        }
     }
 
     componentDidUpdate(prevProps) {
