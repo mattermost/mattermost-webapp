@@ -138,6 +138,7 @@ export default class ErrorPage extends React.PureComponent<Props> {
                         type={type}
                         message={message}
                         service={service}
+                        isGuest={isGuest}
                     />
                     {backButton}
                 </div>

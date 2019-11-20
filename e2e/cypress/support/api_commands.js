@@ -888,3 +888,44 @@ Cypress.Commands.add('promoteUser', (userId) => {
     cy.externalRequest({user: users.sysadmin, method: 'post', baseUrl, path: `users/${userId}/promote`});
 });
 
+// *****************************************************************************
+// Plugins
+// https://api.mattermost.com/#tag/plugins
+// *****************************************************************************
+
+/**
+ * Install plugin from URL directly via API.
+ *
+ * @param {String} pluginDownloadUrl - URL used to download the plugin
+ * @param {String} force - Set to 'true' to overwrite a previously installed plugin with the same ID, if any
+ */
+Cypress.Commands.add('installPluginFromUrl', (pluginDownloadUrl, force = false) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/plugins/install_from_url?plugin_download_url=${encodeURIComponent(pluginDownloadUrl)}&force=${force}`,
+        method: 'POST',
+        timeout: 60000,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Uninstall plugin by id.
+ *
+ * @param {String} pluginId - Id of the plugin to uninstall
+ */
+Cypress.Commands.add('uninstallPluginById', (pluginId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/plugins/${encodeURIComponent(pluginId)}`,
+        method: 'DELETE',
+        failOnStatusCode: false,
+    }).then((response) => {
+        if (response.status !== 200 && response.status !== 404) {
+            expect(response.status).to.equal(200);
+        }
+        return cy.wrap(response);
+    });
+});

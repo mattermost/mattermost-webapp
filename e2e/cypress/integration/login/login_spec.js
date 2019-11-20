@@ -43,7 +43,6 @@ describe('Login page', () => {
         cy.get('#login_section').should('be.visible');
         cy.get('#site_name').should('contain', config.TeamSettings.SiteName);
         cy.get('#site_description').should('contain', 'All team communication in one place, searchable and accessible anywhere');
-        cy.get('#loginId').should('be.visible');
         cy.get('#loginId').
             should('be.visible').
             and(($loginTextbox) => {
@@ -51,10 +50,12 @@ describe('Login page', () => {
                 expect(placeholder).to.match(/Email/);
                 expect(placeholder).to.match(/Username/);
             });
-        cy.get('#loginPassword').should('be.visible');
-        cy.get('#loginPassword').should('have.attr', 'placeholder', 'Password');
-        cy.get('#loginButton').should('be.visible');
-        cy.get('#loginButton').should('contain', 'Sign in');
+        cy.get('#loginPassword').
+            should('be.visible').
+            and('have.attr', 'placeholder', 'Password');
+        cy.get('#loginButton').
+            should('be.visible').
+            and('contain', 'Sign in');
         cy.get('#login_forgot').should('contain', 'I forgot my password');
     });
 
@@ -62,16 +63,21 @@ describe('Login page', () => {
         // * Check elements in the footer
         cy.get('#footer_section').should('be.visible');
         cy.get('#company_name').should('contain', 'Mattermost');
-        cy.get('#copyright').should('contain', '© 2015-');
-        cy.get('#copyright').should('contain', 'Mattermost, Inc.');
-        cy.get('#about_link').should('contain', 'About');
-        cy.get('#about_link').should('have.attr', 'href', config.SupportSettings.AboutLink);
-        cy.get('#privacy_link').should('contain', 'Privacy');
-        cy.get('#privacy_link').should('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
-        cy.get('#terms_link').should('contain', 'Terms');
-        cy.get('#terms_link').should('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
-        cy.get('#help_link').should('contain', 'Help');
-        cy.get('#help_link').should('have.attr', 'href', config.SupportSettings.HelpLink);
+        cy.get('#copyright').
+            should('contain', '© 2015-').
+            and('contain', 'Mattermost, Inc.');
+        cy.get('#about_link').
+            should('contain', 'About').
+            and('have.attr', 'href', config.SupportSettings.AboutLink);
+        cy.get('#privacy_link').
+            should('contain', 'Privacy').
+            and('have.attr', 'href', config.SupportSettings.PrivacyPolicyLink);
+        cy.get('#terms_link').
+            should('contain', 'Terms').
+            and('have.attr', 'href', config.SupportSettings.TermsOfServiceLink);
+        cy.get('#help_link').
+            should('contain', 'Help').
+            and('have.attr', 'href', config.SupportSettings.HelpLink);
     });
 
     it('should login then logout by user-1', () => {
@@ -87,8 +93,9 @@ describe('Login page', () => {
         cy.get('#loginButton').should('be.visible').click();
 
         // * Check that the Signin button change with rotating icon and "Signing in..." text
-        cy.get('#loadingSpinner').should('be.visible');
-        cy.get('#loadingSpinner').should('contain', 'Signing in...');
+        cy.get('#loadingSpinner').
+            should('be.visible').
+            and('contain', 'Signing in...');
 
         // * Check that it login successfully and it redirects into the main channel page
         cy.get('#channel_view').should('be.visible');
