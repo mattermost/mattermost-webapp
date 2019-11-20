@@ -708,7 +708,7 @@ export function handleUserRemovedEvent(msg) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
-                const user = getUser(state, msg.data.remover_id) || {};
+                const user = getUser(state, msg.data.remover_id);
                 if (!user) {
                     dispatch(loadUser(msg.data.remover_id));
                 }
