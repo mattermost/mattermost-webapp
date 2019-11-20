@@ -41,6 +41,11 @@ export default class EmojiPickerOverlay extends React.PureComponent {
         enableGifPicker: false,
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
     static emojiPickerPosition(props) {
         const emojiTrigger = props.target();
         let rightOffset = Constants.DEFAULT_EMOJI_PICKER_RIGHT_OFFSET;

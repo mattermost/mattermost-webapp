@@ -34,7 +34,7 @@ export default class NeedsTeam extends React.Component {
             fetchMyChannelsAndMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
-            markChannelAsRead: PropTypes.func.isRequired,
+            markChannelAsReadOnFocus: PropTypes.func.isRequired,
             getTeamByName: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
             selectTeam: PropTypes.func.isRequired,
@@ -148,7 +148,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     handleFocus = () => {
-        this.props.actions.markChannelAsRead(this.props.currentChannelId);
+        this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
         window.isActive = true;
 
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {
