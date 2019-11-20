@@ -5,16 +5,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import debounce from 'lodash/debounce';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-import {injectIntl} from 'react-intl';
+import {intlShape} from 'react-intl';
 
 import imgTrans from 'images/img_trans.gif';
 
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
-class EmojiPickerItem extends React.Component {
+export default class EmojiPickerItem extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
@@ -27,6 +26,10 @@ class EmojiPickerItem extends React.Component {
         containerBottom: PropTypes.number.isRequired,
     };
 
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     shouldComponentUpdate(nextProps) {
         return nextProps.isSelected !== this.props.isSelected;
     }
@@ -36,7 +39,7 @@ class EmojiPickerItem extends React.Component {
     };
 
     emojiName = () => {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         return formatMessage({
             id: 'emoji_picker_item.emoji_aria_label',
             defaultMessage: '{emojiName} emoji',
@@ -122,5 +125,3 @@ class EmojiPickerItem extends React.Component {
         );
     }
 }
-
-export default injectIntl(EmojiPickerItem);
