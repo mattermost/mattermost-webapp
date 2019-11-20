@@ -35,8 +35,8 @@ describe('Markdown', () => {
                 should('have.class', 'markdown-inline-img').
                 and('have.attr', 'alt', 'Build Status').
                 and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
-                and('have.css', 'height', '21px').
-                and('have.css', 'width', '102px');
+                and('have.css', 'height', '20px').
+                and('have.css', 'width', '98px');
         });
     });
 
@@ -72,8 +72,10 @@ describe('Markdown', () => {
         cy.getLastPostId().then((postId) => {
             // # Get the image and simulate a click.
             cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
-                should('have.css', 'height', '143px').
-                and('have.css', 'width', '894px').
+                and((inlineImg) => {
+                    expect(inlineImg.height()).to.be.closeTo(143, 2);
+                    expect(inlineImg.width()).to.be.closeTo(894, 2);
+                }).
                 click();
 
             // * Verify that the preview modal opens
