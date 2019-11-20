@@ -10,12 +10,16 @@ import Constants from 'utils/constants';
 import {cmdOrCtrlPressed} from 'utils/utils.jsx';
 
 import LoadingScreen from 'components/loading_screen';
+import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 
 import {Value} from './multiselect';
 
 export type Props = {
     ariaLabelRenderer: getOptionValue<Value>;
     loading?: boolean;
+    hasMore?: boolean;
+    infinite?: boolean;
+    loadMore: () => void;
     onAdd: (value: Value) => void;
     onPageChange?: (newPage: number, currentPage: number) => void;
     onSelect: (value: Value | null) => void;
@@ -154,46 +158,94 @@ export default class MultiSelectList extends React.Component<Props, State> {
         }
     }
 
+    private renderOptions(options: Value[]) {
+        let renderer: Props['optionRenderer'];
+        if (this.props.optionRenderer) {
+            renderer = this.props.optionRenderer;
+        } else {
+            renderer = this.defaultOptionRenderer;
+        }
+        const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove));
+
+        if (!this.props.infinite) {
+            return (
+                <div
+                    ref='list'
+                    id='multiSelectList'
+                    role='presentation'
+                    aria-hidden={true}
+                >
+                    {optionControls}
+                </div>
+            );
+        }
+
+        let loadingMore;
+        if (this.props.loading && this.props.hasMore) {
+            loadingMore = (
+                <div
+                    className='loading-screen row'
+                >
+                    <div className='loading__content'>
+                        <div className='round round-1'/>
+                        <div className='round round-2'/>
+                        <div className='round round-3'/>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div
+                ref='list'
+                id='multiSelectList'
+                role='presentation'
+                aria-hidden={true}
+            >
+                <InfiniteScroll
+                    hasMore={this.props.hasMore}
+                    loadMore={this.props.loadMore}
+                    initialLoad={false}
+                    useWindow={false}
+                >
+                    {optionControls}
+                </InfiniteScroll>
+                {loadingMore}
+            </div>
+        );
+    }
+
     public render() {
         const options = this.props.options;
         let renderOutput;
-
-        if (this.props.loading) {
-            renderOutput = (
-                <div aria-hidden={true}>
-                    <LoadingScreen
-                        position='absolute'
-                        key='loading'
-                    />
-                </div>
-            );
-        } else if (options == null || options.length === 0) {
-            renderOutput = (
-                <div
-                    key='no-users-found'
-                    className='no-channel-message'
-                >
-                    <p className='primary-message'>
-                        <FormattedMessage
-                            id='multiselect.list.notFound'
-                            defaultMessage='No items found'
+        if (!options || options.length === 0) {
+            if (this.props.loading) {
+                renderOutput = (
+                    <div aria-hidden={true}>
+                        <LoadingScreen
+                            position='absolute'
+                            key='loading'
                         />
-                    </p>
-                </div>
-            );
-        } else {
-            let renderer: Props['optionRenderer'];
-            if (this.props.optionRenderer) {
-                renderer = this.props.optionRenderer;
+                    </div>
+                );
             } else {
-                renderer = this.defaultOptionRenderer;
+                renderOutput = (
+                    <div
+                        key='no-users-found'
+                        className='no-channel-message'
+                    >
+                        <p className='primary-message'>
+                            <FormattedMessage
+                                id='multiselect.list.notFound'
+                                defaultMessage='No items found'
+                            />
+                        </p>
+                    </div>
+                );
             }
-
-            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove));
-
+        } else {
             const selectedOption = options[this.state.selected];
             const ariaLabel = this.props.ariaLabelRenderer(selectedOption);
-
             renderOutput = (
                 <div className='more-modal__list'>
                     <div
@@ -203,14 +255,8 @@ export default class MultiSelectList extends React.Component<Props, State> {
                     >
                         {ariaLabel}
                     </div>
-                    <div
-                        ref='list'
-                        id='multiSelectList'
-                        role='presentation'
-                        aria-hidden={true}
-                    >
-                        {optionControls}
-                    </div>
+
+                    {this.renderOptions(options)}
                 </div>
             );
         }
@@ -225,4 +271,3 @@ export default class MultiSelectList extends React.Component<Props, State> {
         );
     }
 }
-

@@ -6,8 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
-import LoadingScreen from 'components/loading_screen';
 
+import LoadingScreen from 'components/loading_screen';
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 
 import UserListRow from './user_list_row';
@@ -82,6 +82,16 @@ export default class UserList extends React.Component {
             );
         });
 
+        const loadingMore = (
+            <div className='loading-screen row'>
+                <div className='loading__content'>
+                    <div className='round round-1'/>
+                    <div className='round round-2'/>
+                    <div className='round round-3'/>
+                </div>
+            </div>
+        );
+
         return (
             <div ref='container'>
                 <InfiniteScroll
@@ -93,7 +103,7 @@ export default class UserList extends React.Component {
                     {content}
 
                 </InfiniteScroll>
-                { this.props.pageLoading && this.props.hasMore && <LoadingScreen style={{height: 'auto', padding: 0}}/> }
+                {this.props.pageLoading && this.props.hasMore && loadingMore}
             </div>
         );
     }

@@ -239,6 +239,7 @@ export default class ChannelInviteModal extends React.Component {
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
+                infinite={true}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
             />
         );

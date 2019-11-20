@@ -33,6 +33,7 @@ export type Props = {
     handlePageChange?: (newPage: number, currentPage: number) => void;
     handleSubmit: (value?: Value[]) => void;
     loading?: boolean;
+    infinite?: boolean;
     maxValues?: number;
     noteText?: JSX.Element;
     numRemainingText?: JSX.Element;
@@ -122,6 +123,10 @@ export default class MultiSelect extends React.Component<Props, State> {
     }
 
     private prevPage = () => {
+        if (this.props.infinite) {
+            return;
+        }
+
         if (this.state.page === 0) {
             return;
         }
@@ -276,6 +281,7 @@ export default class MultiSelect extends React.Component<Props, State> {
         let nextButton;
         let previousButton;
         let noteTextContainer;
+        let hasMore;
 
         if (this.props.noteText) {
             noteTextContainer = (
@@ -312,9 +318,16 @@ export default class MultiSelect extends React.Component<Props, State> {
         if (options && options.length > this.props.perPage) {
             const pageStart = this.state.page * this.props.perPage;
             const pageEnd = pageStart + this.props.perPage;
-            optionsToDisplay = options.slice(pageStart, pageEnd);
-            if (!this.props.loading) {
-                if (options.length > pageEnd) {
+            hasMore = options.length > pageEnd;
+
+            if (this.props.infinite) {
+                optionsToDisplay = options.slice(0, pageEnd);
+            } else {
+                optionsToDisplay = options.slice(pageStart, pageEnd);
+            }
+
+            if (!(this.props.infinite || this.props.loading)) {
+                if (hasMore) {
                     nextButton = (
                         <button
                             className='btn btn-link filter-control filter-control__next'
@@ -354,7 +367,7 @@ export default class MultiSelect extends React.Component<Props, State> {
                     defaultMessage='{memberOptions, number} of {totalCount, number} members'
                     values={{
                         memberOptions: optionsToDisplay.length,
-                        totalCount: this.props.totalCount,
+                        totalCount,
                     }}
                 />
             );
@@ -412,16 +425,22 @@ export default class MultiSelect extends React.Component<Props, State> {
                     optionRenderer={this.props.optionRenderer}
                     ariaLabelRenderer={this.props.ariaLabelRenderer}
                     page={this.state.page}
+                    loadMore={this.nextPage}
+                    hasMore={hasMore}
+                    infinite={this.props.infinite}
                     perPage={this.props.perPage}
                     onPageChange={this.props.handlePageChange}
                     onAdd={this.onAdd}
                     onSelect={this.onSelect}
                     loading={this.props.loading}
                 />
-                <div className='filter-controls'>
-                    {previousButton}
-                    {nextButton}
-                </div>
+
+                {!this.props.infinite &&
+                    <div className='filter-controls'>
+                        {previousButton}
+                        {nextButton}
+                    </div>
+                }
             </div>
         );
     }

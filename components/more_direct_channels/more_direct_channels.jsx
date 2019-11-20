@@ -446,6 +446,7 @@ export default class MoreDirectChannels extends React.Component {
                 submitImmediatelyOn={this.handleSubmitImmediatelyOn}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
+                infinite={true}
                 users={this.props.users}
                 totalCount={this.props.totalCount}
                 placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}

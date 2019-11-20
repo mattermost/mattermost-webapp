@@ -67,6 +67,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       handleInput={[Function]}
       handlePageChange={[Function]}
       handleSubmit={[Function]}
+      infinite={true}
       key="addUsersToChannelKey"
       loading={true}
       maxValues={20}

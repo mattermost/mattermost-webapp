@@ -109,6 +109,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
       handleInput={[Function]}
       handlePageChange={[Function]}
       handleSubmit={[Function]}
+      infinite={true}
       key="moreDirectChannelsList"
       loading={true}
       maxValues={7}

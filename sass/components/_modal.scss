@@ -940,6 +940,15 @@
         margin-left: 0;
         padding-left: 0;
     }
+
+    .loading-screen.row {
+        position: relative;
+        height: 40px;
+        padding: 0px;
+        .loading__content {
+            height: 40px;
+        }
+    }
 }
 
 .team-selector-modal, .channel-selector-modal {
