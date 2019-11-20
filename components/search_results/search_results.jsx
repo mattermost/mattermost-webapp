@@ -291,7 +291,10 @@ class SearchResults extends React.Component {
         }
 
         return (
-            <div className='sidebar-right__body'>
+            <div
+                id='searchContainer'
+                className='sidebar-right__body'
+            >
                 <SearchResultsHeader>
                     {formattedTitle}
                 </SearchResultsHeader>

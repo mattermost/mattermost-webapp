@@ -40,6 +40,7 @@ describe('components/dot_menu/DotMenu', () => {
             pinPost: jest.fn(),
             unpinPost: jest.fn(),
             openModal: jest.fn(),
+            markPostAsUnread: jest.fn(),
         },
     };
 
@@ -72,10 +73,9 @@ describe('components/dot_menu/DotMenu', () => {
         const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );
-
-        expect(wrapper.find('#divider_post_post_id_1').exists()).toBe(false);
+        expect(wrapper.find('#divider_post_post_id_1_plugins').exists()).toBe(false);
 
         wrapper.setProps({pluginMenuItems: [{id: 'test_plugin_menu_item_1', text: 'woof'}]});
-        expect(wrapper.find('#divider_post_post_id_1').length).toBe(1);
+        expect(wrapper.find('#divider_post_post_id_1_plugins').length).toBe(1);
     });
 });

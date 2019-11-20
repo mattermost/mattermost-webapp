@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -12,7 +12,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/widgets/icons/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/widgets/icons/back_icon';
 import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
@@ -20,10 +19,10 @@ import {t} from 'utils/i18n.jsx';
 
 import './invitation_modal_members_step.scss';
 
-export default class InvitationModalMembersStep extends React.Component {
+class InvitationModalMembersStep extends React.Component {
     static propTypes = {
+        intl: PropTypes.any,
         inviteId: PropTypes.string.isRequired,
-        goBack: PropTypes.func,
         searchProfiles: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -119,11 +118,6 @@ export default class InvitationModalMembersStep extends React.Component {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
         return (
             <div className='InvitationModalMembersStep'>
-                {this.props.goBack &&
-                    <BackIcon
-                        className='back'
-                        onClick={this.props.goBack}
-                    />}
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>
@@ -150,6 +144,7 @@ export default class InvitationModalMembersStep extends React.Component {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
+                            aria-label={this.props.intl.formatMessage({id: 'invitation_modal.members.share_link.input', defaultMessage: 'team invite link'})}
                             data-testid='shareLinkInput'
                         />
                         <button
@@ -244,3 +239,5 @@ export default class InvitationModalMembersStep extends React.Component {
         );
     }
 }
+
+export default injectIntl(InvitationModalMembersStep);
