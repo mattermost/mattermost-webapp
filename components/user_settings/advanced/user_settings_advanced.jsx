@@ -314,7 +314,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     render() {
         const serverError = this.state.serverError || null;
         let ctrlSendSection;
-        let cmdOrCtrlSendString = Utils.isMac() ? 'CMD+ENTER' : 'CTRL+ENTER';
+        const cmdOrCtrlSendString = Utils.isMac() ? 'CMD+ENTER' : 'CTRL+ENTER';
 
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
