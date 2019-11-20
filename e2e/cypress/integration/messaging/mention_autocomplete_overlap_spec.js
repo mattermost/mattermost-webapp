@@ -43,7 +43,7 @@ describe('Messaging', () => {
     });
 
     it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
-        cy.viewport(1280,900);
+        cy.viewport(1280, 900);
 
         // # Upload file
         cy.fileUpload('#fileUploadInput');
