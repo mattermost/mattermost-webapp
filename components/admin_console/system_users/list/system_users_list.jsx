@@ -74,6 +74,8 @@ export default class SystemUsersList extends React.Component {
         if (prevState.teamId !== nextProps.teamId || prevState.filter !== nextProps.filter) {
             return {
                 page: 0,
+                teamId: nextProps.teamId,
+                filter: nextProps.filter,
             };
         }
         return null;
