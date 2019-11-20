@@ -20,8 +20,6 @@ describe('Messaging', () => {
     });
 
     it('M18711-Input box on main thread can expand with RHS closed', () => {
-        cy.visit('/ad-1/channels/town-square');
-
         // # Wait until site is loaded
         cy.wait(TIMEOUTS.SMALL);
 
