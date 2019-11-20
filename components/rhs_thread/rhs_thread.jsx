@@ -62,11 +62,10 @@ export default class RhsThread extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        let updatedState = {selected: props.selected};
+        let updatedState = {selected: props.selected, threadLength: Utils.getRootPost(props.posts).reply_count + 1};
         if (state.selected && props.selected && state.selected.id !== props.selected.id) {
             updatedState = {...updatedState, openTime: (new Date()).getTime()};
         }
-
         return updatedState;
     }
 
@@ -77,18 +76,24 @@ export default class RhsThread extends React.Component {
 
         const openTime = (new Date()).getTime();
 
+        const rootPost = Utils.getRootPost(props.posts);
+
         this.state = {
             windowWidth: Utils.windowWidth(),
             windowHeight: Utils.windowHeight(),
             isScrolling: false,
             topRhsPostId: 0,
             openTime,
+            threadLength: rootPost.reply_count + 1,
         };
     }
 
     componentDidMount() {
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
+        if (this.props.posts.length < this.state.threadLength) {
+            this.props.actions.getPostThread(this.props.selected.id, true);
+        }
     }
 
     componentWillUnmount() {
@@ -100,7 +105,7 @@ export default class RhsThread extends React.Component {
         const curPostsArray = this.props.posts || [];
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
-            this.props.actions.getPostThread(this.props.selected.id, false);
+            this.props.actions.getPostThread(this.props.selected.id, true);
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {
@@ -111,6 +116,10 @@ export default class RhsThread extends React.Component {
 
         if (curLastPost.user_id === this.props.currentUserId) {
             this.scrollToBottom();
+        }
+
+        if (this.props.posts.length < this.state.threadLength) {
+            this.props.actions.getPostThread(this.props.selected.id, true);
         }
     }
 
