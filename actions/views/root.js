@@ -8,6 +8,7 @@ import {Client4} from 'mattermost-redux/client';
 import {ActionTypes} from 'utils/constants';
 import en from 'i18n/en.json';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import { isMac } from 'utils/utils';
 
 export function loadMeAndConfig() {
     return async (dispatch) => {
@@ -47,6 +48,16 @@ export function unregisterPluginTranslationsSource(pluginId) {
     Reflect.deleteProperty(pluginTranslationSources, pluginId);
 }
 
+function translateMessagesForMac(englishMessages) {
+    if (isMac()) {
+        for (let [key, value] of Object.entries(englishMessages)) {
+            if(value.includes('CTRL')) {
+                englishMessages[key] = value.replace('CTRL', "CMD");
+            }
+        }
+    }
+}
+
 export function loadTranslations(locale, url) {
     return (dispatch) => {
         const translations = {};
@@ -56,6 +67,8 @@ export function loadTranslations(locale, url) {
 
         // No need to go to the server for EN
         if (locale === 'en') {
+            // check if we need to replace CTRL for CMD
+            translateMessagesForMac(en)
             copyAndDispatchTranslations(dispatch, translations, en, locale);
             return;
         }
@@ -75,3 +88,4 @@ function copyAndDispatchTranslations(dispatch, translations, from, locale) {
         },
     });
 }
+
