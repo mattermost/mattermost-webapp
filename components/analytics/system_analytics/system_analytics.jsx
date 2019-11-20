@@ -21,7 +21,7 @@ import {
     formatUsersWithPostsPerDayData,
     formatChannelDoughtnutData,
     formatPostDoughtnutData,
-    syncronizeChartData,
+    synchronizeChartData,
 } from '../format';
 
 const StatTypes = Constants.StatTypes;
@@ -50,7 +50,7 @@ export default class SystemAnalytics extends React.PureComponent {
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
         const botPostCountsDay = formatPostsPerDayData(stats[StatTypes.BOT_POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
-        syncronizeChartData(postCountsDay, botPostCountsDay, userCountsWithPostsDay);
+        synchronizeChartData(postCountsDay, botPostCountsDay, userCountsWithPostsDay);
 
         let banner;
         let postCount;

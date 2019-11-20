@@ -61,7 +61,10 @@ export function formatPostsPerDayData(data: any) {
     return chartData;
 }
 
-export function syncronizeChartData(...chartDatas: any[]) {
+// synchronizeChartData converges on a uniform set of labels for all entries in the given chart data. If a given label wasn't already present in the chart data, a 0-valued data point at that label is added.
+//
+// For date-labelled charts, this ensures that each charts starts and ends on the same interval, even if data for part of that interval was never collected.
+export function synchronizeChartData(...chartDatas: any[]) {
     const labels: Dictionary<boolean> = {};
     // collect all labels
     chartDatas.forEach(chartData => {
