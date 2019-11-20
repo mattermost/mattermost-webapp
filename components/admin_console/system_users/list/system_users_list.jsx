@@ -260,7 +260,15 @@ export default class SystemUsersList extends React.Component {
 
     renderCount(count, total) {
         if (!total) {
-            return null;
+            return (
+                <FormattedMessage
+                    id='system_users_list.count'
+                    defaultMessage='{count, number} {count, plural, one {user} other {users}}'
+                    values={{
+                        count,
+                    }}
+                />
+            );
         }
 
         return (
