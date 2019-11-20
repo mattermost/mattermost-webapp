@@ -47,64 +47,83 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     openLeft={true}
     openUp={false}
   >
-    <Connect(ChannelPermissionGate)
-      permissions={
-        Array [
-          "add_reaction",
-        ]
-      }
-    >
+    <MenuGroup>
+      <MenuItemAction
+        onClick={[MockFunction]}
+        show={true}
+        text="Reply"
+      />
+      <Connect(ChannelPermissionGate)
+        permissions={
+          Array [
+            "add_reaction",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Add Reaction"
+        />
+      </Connect(ChannelPermissionGate)>
+      <MenuItemAction
+        id="unread_post_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Mark as Unread"
+      />
+      <MenuItemAction
+        id="permalink_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Permalink"
+      />
       <MenuItemAction
         onClick={[Function]}
         show={false}
-        text="Add Reaction"
+        text="Unflag"
       />
-    </Connect(ChannelPermissionGate)>
-    <MenuItemAction
-      onClick={[Function]}
-      show={false}
-      text="Unflag"
-    />
-    <MenuItemAction
-      onClick={[Function]}
-      show={false}
-      text="Flag"
-    />
-    <MenuItemAction
-      onClick={[MockFunction]}
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Permalink"
-    />
-    <MenuItemAction
-      id="unpin_post_post_id_1"
-      onClick={[Function]}
-      show={false}
-      text="Unpin"
-    />
-    <MenuItemAction
-      id="pin_post_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Pin"
-    />
-    <MenuItemAction
-      id="delete_post_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Delete"
-    />
-    <MenuItemAction
-      id="edit_post_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Edit"
-    />
+      <MenuItemAction
+        onClick={[Function]}
+        show={false}
+        text="Flag"
+      />
+      <MenuItemAction
+        id="unpin_post_post_id_1"
+        onClick={[Function]}
+        show={false}
+        text="Unpin"
+      />
+      <MenuItemAction
+        id="pin_post_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Pin"
+      />
+    </MenuGroup>
+    <MenuGroup
+      divider={
+        <li
+          className="MenuItem__divider"
+          id="divider_post_post_id_1_edit"
+          role="menuitem"
+        />
+      }
+    >
+      <MenuItemAction
+        id="edit_post_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Edit"
+      />
+      <MenuItemAction
+        id="delete_post_post_id_1"
+        isDangerous={true}
+        onClick={[Function]}
+        show={true}
+        text="Delete"
+      />
+    </MenuGroup>
     <Connect(Pluggable)
       pluggableName="PostDropdownMenuItem"
       postId="post_id_1"
@@ -160,64 +179,83 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     openLeft={true}
     openUp={false}
   >
-    <Connect(ChannelPermissionGate)
-      permissions={
-        Array [
-          "add_reaction",
-        ]
-      }
-    >
+    <MenuGroup>
+      <MenuItemAction
+        onClick={[MockFunction]}
+        show={true}
+        text="Reply"
+      />
+      <Connect(ChannelPermissionGate)
+        permissions={
+          Array [
+            "add_reaction",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Add Reaction"
+        />
+      </Connect(ChannelPermissionGate)>
+      <MenuItemAction
+        id="unread_post_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Mark as Unread"
+      />
+      <MenuItemAction
+        id="permalink_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Permalink"
+      />
       <MenuItemAction
         onClick={[Function]}
         show={false}
-        text="Add Reaction"
+        text="Unflag"
       />
-    </Connect(ChannelPermissionGate)>
-    <MenuItemAction
-      onClick={[Function]}
-      show={false}
-      text="Unflag"
-    />
-    <MenuItemAction
-      onClick={[Function]}
-      show={false}
-      text="Flag"
-    />
-    <MenuItemAction
-      onClick={[MockFunction]}
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      id="permalink_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Permalink"
-    />
-    <MenuItemAction
-      id="unpin_post_post_id_1"
-      onClick={[Function]}
-      show={false}
-      text="Unpin"
-    />
-    <MenuItemAction
-      id="pin_post_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Pin"
-    />
-    <MenuItemAction
-      id="delete_post_post_id_1"
-      onClick={[Function]}
-      show={false}
-      text="Delete"
-    />
-    <MenuItemAction
-      id="edit_post_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Edit"
-    />
+      <MenuItemAction
+        onClick={[Function]}
+        show={false}
+        text="Flag"
+      />
+      <MenuItemAction
+        id="unpin_post_post_id_1"
+        onClick={[Function]}
+        show={false}
+        text="Unpin"
+      />
+      <MenuItemAction
+        id="pin_post_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Pin"
+      />
+    </MenuGroup>
+    <MenuGroup
+      divider={
+        <li
+          className="MenuItem__divider"
+          id="divider_post_post_id_1_edit"
+          role="menuitem"
+        />
+      }
+    >
+      <MenuItemAction
+        id="edit_post_post_id_1"
+        onClick={[Function]}
+        show={true}
+        text="Edit"
+      />
+      <MenuItemAction
+        id="delete_post_post_id_1"
+        isDangerous={true}
+        onClick={[Function]}
+        show={false}
+        text="Delete"
+      />
+    </MenuGroup>
     <Connect(Pluggable)
       pluggableName="PostDropdownMenuItem"
       postId="post_id_1"
