@@ -41,7 +41,7 @@ function makeMapStateToProps() {
         let postIds = getPostIdsInChannel(state, ownProps.channelId);
 
         if (postIds) {
-            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt: ownProps.lastViewedBottom});
+            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt: ownProps.lastViewedBottom, channelId: ownProps.channelId});
         }
 
         return {

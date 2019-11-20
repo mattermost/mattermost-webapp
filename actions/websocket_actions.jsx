@@ -66,7 +66,7 @@ import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
+import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
@@ -265,6 +265,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.POST_DELETED:
         handlePostDeleteEvent(msg);
+        break;
+
+    case SocketEvents.POST_UNREAD:
+        handlePostUnreadEvent(msg);
         break;
 
     case SocketEvents.LEAVE_TEAM:
@@ -539,6 +543,20 @@ export function handlePostEditEvent(msg) {
 function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
     dispatch(postDeleted(post));
+}
+
+export function handlePostUnreadEvent(msg) {
+    dispatch(
+        {
+            type: ActionTypes.POST_UNREAD_SUCCESS,
+            data: {
+                lastViewedAt: msg.data.last_viewed_at,
+                channelId: msg.broadcast.channel_id,
+                msgCount: msg.data.msg_count,
+                mentionCount: msg.data.mention_count,
+            },
+        }
+    );
 }
 
 async function handleTeamAddedEvent(msg) {
