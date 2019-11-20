@@ -62,7 +62,7 @@ export default class RhsThread extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        let updatedState = {selected: props.selected, threadLength: Utils.getRootPost(props.posts).reply_count + 1};
+        let updatedState = {selected: props.selected};
         if (state.selected && props.selected && state.selected.id !== props.selected.id) {
             updatedState = {...updatedState, openTime: (new Date()).getTime()};
         }
