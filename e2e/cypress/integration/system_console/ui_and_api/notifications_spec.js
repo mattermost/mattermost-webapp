@@ -44,11 +44,11 @@ describe('System Console', () => {
             ];
             cy.wrap(el).should('have.text', contents.join(''));
 
-            cy.wrap(el).find('strong').eq(0).should('have.text', contents[0]);
-            cy.wrap(el).find('strong').eq(1).should('have.text', contents[2]);
-            cy.wrap(el).find('strong').eq(2).should('have.text', contents[4]);
-            cy.wrap(el).find('strong').eq(3).should('have.text', contents[6]);
-            cy.wrap(el).find('strong').eq(4).should('have.text', contents[8]);
+            cy.get('strong').eq(0).should('have.text', contents[0]);
+            cy.get('strong').eq(1).should('have.text', contents[2]);
+            cy.get('strong').eq(2).should('have.text', contents[4]);
+            cy.get('strong').eq(3).should('have.text', contents[6]);
+            cy.get('strong').eq(4).should('have.text', contents[8]);
         });
 
         // * Verify that the option/dropdown is visible and has default value
