@@ -10,7 +10,7 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Edit Message', () => {
-    beforeEach(() => {
+    before(() => {
         // # Login as "user-1"
         cy.apiLogin('user-1');
     });
