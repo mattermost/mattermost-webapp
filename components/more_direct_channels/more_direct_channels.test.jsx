@@ -82,7 +82,7 @@ describe('components/MoreDirectChannels', () => {
         // on componentDidMount
         expect(props.actions.getProfiles).toHaveBeenCalledTimes(1);
         expect(props.actions.getTotalUsersStats).toHaveBeenCalledTimes(1);
-        expect(props.actions.getProfiles).toBeCalledWith(0, 100);
+        expect(props.actions.getProfiles).toBeCalledWith(0, 60);
         expect(props.actions.getStatusesByIds).toHaveBeenCalledTimes(1);
         expect(props.actions.getStatusesByIds).toBeCalledWith(['user_id_3']);
 
