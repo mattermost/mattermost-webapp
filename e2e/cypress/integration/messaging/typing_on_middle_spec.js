@@ -17,8 +17,6 @@ describe('Messaging', () => {
     });
 
     it('M18683-Trying to type in middle of text should not send the cursor to end of textbox', () => {
-        cy.visit('/ad-1/channels/town-square');
-
         // # Type message to use
         cy.get('#post_textbox').clear().type('aa');
 
