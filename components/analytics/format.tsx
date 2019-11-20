@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import * as Utils from 'utils/utils.jsx';
-import { Dictionary } from 'mattermost-redux/types/utilities';
 
 export function formatChannelDoughtnutData(totalPublic: any, totalPrivate: any) {
     const channelTypeData = {
@@ -65,25 +66,25 @@ export function formatPostsPerDayData(data: any) {
 //
 // For date-labelled charts, this ensures that each charts starts and ends on the same interval, even if data for part of that interval was never collected.
 export function synchronizeChartData(...chartDatas: any[]) {
-    const labels: Dictionary<boolean> = {};
+    const labels: Set<string> = new Set();
+
     // collect all labels
-    chartDatas.forEach(chartData => {
-        chartData.labels.forEach((label: string) => labels[label] = true);        
+    chartDatas.forEach((chartData) => {
+        chartData.labels.forEach((label: string) => labels.add(label));
     });
+
     // fill in missing
-    const allLabels = Object.keys(labels);
-    chartDatas.forEach(chartData => {
+    chartDatas.forEach((chartData) => {
         if (chartData.labels.length > 0) { // don't add to empty graphs
-            allLabels.forEach((label: string) => {
+            labels.forEach((label: string) => {
                 if (chartData.labels.indexOf(label) === -1) {
                     chartData.labels.push(label);
                     chartData.datasets[0].data.push(0);
                 }
-            });        
-        }        
+            });
+        }
     });
 }
-
 
 export function formatUsersWithPostsPerDayData(data: any) {
     const chartData = {
