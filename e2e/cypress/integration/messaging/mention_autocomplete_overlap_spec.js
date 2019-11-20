@@ -16,33 +16,55 @@ describe('Messaging', () => {
         cy.visit('/');
     });
 
-    it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment', () => {
-        cy.visit('/ad-1/channels/town-square');
-
+    it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (standard viewport)', () => {
         // # Upload file
         cy.fileUpload('#fileUploadInput');
 
         // # Create and then type message to use
-        let message = 'h{shift}';
         cy.get('#post_textbox').clear();
+        let message = 'h{shift}';
         for (let i = 0; i < 12; i++) {
             message += '{enter}h';
         }
         cy.get('#post_textbox').type(message);
 
-        // # Put cursor on top and add the mention
-        let returnMessage = '';
-        for (let i = 0; i < 12; i++) {
-            returnMessage += '{uparrow}';
-        }
-        cy.get('#post_textbox').type(returnMessage + '{leftarrow}@');
+        // # Add the mention
+        cy.get('#post_textbox').type('{shift}{enter}').type('@');
 
         cy.get('#suggestionList').then((list) => {
             cy.get('#channel-header').then((header) => {
                 // # Wait for suggestions to be fully loaded
                 cy.wait(TIMEOUTS.TINY).then(() => {
                     // * Check overlap
-                    expect(header[0].getBoundingClientRect().bottom).be.lte(list[0].getBoundingClientRect().top);
+                    expect(list[0].getBoundingClientRect().top).to.be.at.least(header[0].getBoundingClientRect().bottom);
+                });
+            });
+        });
+    });
+
+    it('M18667-At-mention user autocomplete does not overlap with channel header when drafting a long message containing a file attachment (1280x900 viewport)', () => {
+        cy.viewport(1280,900);
+
+        // # Upload file
+        cy.fileUpload('#fileUploadInput');
+
+        // # Create and then type message to use
+        cy.get('#post_textbox').clear();
+        let message = 'h{shift}';
+        for (let i = 0; i < 12; i++) {
+            message += '{enter}h';
+        }
+        cy.get('#post_textbox').type(message);
+
+        // # Add the mention
+        cy.get('#post_textbox').type('{shift}{enter}').type('@');
+
+        cy.get('#suggestionList').then((list) => {
+            cy.get('#channel-header').then((header) => {
+                // # Wait for suggestions to be fully loaded
+                cy.wait(TIMEOUTS.TINY).then(() => {
+                    // * Check overlap
+                    expect(list[0].getBoundingClientRect().top).to.be.at.least(header[0].getBoundingClientRect().bottom);
                 });
             });
         });
