@@ -396,7 +396,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     title={
                         <FormattedMessage
                             id='user.settings.advance.sendTitle'
-                            defaultMessage={'Send messages on ${cmdOrCtrlSendString}'}
+                            defaultMessage={`Send messages on ${cmdOrCtrlSendString}`}
                         />
                     }
                     inputs={inputs}
@@ -412,7 +412,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     title={
                         <FormattedMessage
                             id='user.settings.advance.sendTitle'
-                            defaultMessage={'Send messages on ${cmdOrCtrlSendString}'}
+                            defaultMessage={`Send messages on ${cmdOrCtrlSendString}`}
                         />
                     }
                     describe={this.renderCtrlEnterLabel()}
