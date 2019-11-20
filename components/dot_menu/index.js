@@ -14,6 +14,7 @@ import {
     pinPost,
     unpinPost,
     setEditingPost,
+    markPostAsUnread,
 } from 'actions/post_actions.jsx';
 
 import DotMenu from './dot_menu.jsx';
@@ -36,6 +37,7 @@ function mapDispatchToProps(dispatch) {
             pinPost,
             unpinPost,
             openModal,
+            markPostAsUnread,
         }, dispatch),
     };
 }

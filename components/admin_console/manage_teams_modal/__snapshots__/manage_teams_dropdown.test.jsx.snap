@@ -20,7 +20,7 @@ exports[`ManageTeamsDropdown should match snapshot for guest 1`] = `
   >
     <MenuItemAction
       onClick={[Function]}
-      show={true}
+      show={false}
       text="Make Team Admin"
     />
     <MenuItemAction

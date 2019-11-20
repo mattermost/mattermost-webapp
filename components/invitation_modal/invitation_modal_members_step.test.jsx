@@ -13,7 +13,6 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
             <InvitationModalMembersStep
                 inviteId='123'
                 searchProfiles={jest.fn()}
-                goBack={jest.fn()}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
             />
