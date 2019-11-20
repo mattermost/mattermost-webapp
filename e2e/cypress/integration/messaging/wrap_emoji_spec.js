@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Wrap emojis', () => {
+describe('Messaging', () => {
     before(() => {
         cy.apiLogin('user-1');
         cy.visit('/');
