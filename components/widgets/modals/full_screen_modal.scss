@@ -8,10 +8,14 @@
     z-index: 1030;
     overflow: auto;
 
-    .close-x {
+    .close-x, .back {
+        border: 0;
+        background: none;
+        padding: 0;
         position: fixed;
         top: 48px;
-        right: 48px;
+        height: 40px;
+        width: 40px;
         cursor: pointer;
         svg {
             fill: var(--center-channel-color-90);
@@ -23,6 +27,14 @@
                 background: var(--button-bg-10);
             }
         }
+    }
+
+    .close-x {
+        right: 48px;
+    }
+
+    .back {
+        left: 48px;
     }
 
     // Animation

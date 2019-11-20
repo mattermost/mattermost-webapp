@@ -12,7 +12,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/widgets/icons/invite_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/widgets/icons/back_icon';
 import LinkIcon from 'components/widgets/icons/link_icon';
 
 import {getSiteURL} from 'utils/url';
@@ -24,7 +23,6 @@ class InvitationModalMembersStep extends React.Component {
     static propTypes = {
         intl: PropTypes.any,
         inviteId: PropTypes.string.isRequired,
-        goBack: PropTypes.func,
         searchProfiles: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -120,11 +118,6 @@ class InvitationModalMembersStep extends React.Component {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
         return (
             <div className='InvitationModalMembersStep'>
-                {this.props.goBack &&
-                    <BackIcon
-                        className='back'
-                        onClick={this.props.goBack}
-                    />}
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>
