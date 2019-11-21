@@ -11,7 +11,7 @@ import {t} from 'utils/i18n';
 import AdminSettings from './admin_settings';
 import Setting from './setting';
 import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 export default class PasswordSettings extends AdminSettings {
     constructor(props) {
