@@ -12,7 +12,7 @@ describe('Customization', () => {
 
     beforeEach(() => {
         // Get config
-        cy.apiGetConfig().then((configResponse) => {
+        cy.apiGetConfig().then((response) => {
             config = response.body;
         });
 
@@ -41,7 +41,7 @@ describe('Customization', () => {
         cy.get('#saveSetting').click();
 
         // Get config again
-        cy.apiGetConfig().then((configResponse) => {
+        cy.apiGetConfig().then((response) => {
             config = response.body;
 
             // * Verify the site name is saved, directly via REST API
