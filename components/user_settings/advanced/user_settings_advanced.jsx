@@ -314,7 +314,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     render() {
         const serverError = this.state.serverError || null;
         let ctrlSendSection;
-        const cmdOrCtrlSendString = Utils.isMac() ? 'CMD+ENTER' : 'CTRL+ENTER';
 
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
@@ -385,8 +384,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     <div>
                         <br/>
                         <FormattedMessage
-                            id='user.settings.advance.sendDesc'
-                            defaultMessage={`When enabled, ${cmdOrCtrlSendString} will send the message and ENTER inserts a new line.`}
+                            id={'user.settings.advance.sendDesc' + (Utils.isMac() ? '.mac' : '')}
+                            defaultMessage='When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
                         />
                     </div>
                 </div>,
@@ -395,8 +394,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id='user.settings.advance.sendTitle'
-                            defaultMessage={`Send messages on ${cmdOrCtrlSendString}`}
+                            id={'user.settings.advance.sendTitle' + (Utils.isMac() ? '.mac' : '')}
+                            defaultMessage='Send messages on CTRL+ENTER'
                         />
                     }
                     inputs={inputs}
@@ -411,8 +410,8 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 <SettingItemMin
                     title={
                         <FormattedMessage
-                            id='user.settings.advance.sendTitle'
-                            defaultMessage={`Send messages on ${cmdOrCtrlSendString}`}
+                            id={'user.settings.advance.sendTitle' + (Utils.isMac() ? '.mac' : '')}
+                            defaultMessage='Send messages on CTRL+ENTER'
                         />
                     }
                     describe={this.renderCtrlEnterLabel()}
