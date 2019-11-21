@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -24,9 +24,8 @@ const STEPS_INVITE_MEMBERS = 'members';
 const STEPS_INVITE_GUESTS = 'guests';
 const STEPS_INVITE_CONFIRM = 'confirm';
 
-class InvitationModal extends React.Component {
+export default class InvitationModal extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
         show: PropTypes.bool,
         currentTeam: PropTypes.object.isRequired,
         invitableChannels: PropTypes.array.isRequired,
@@ -318,5 +317,3 @@ class InvitationModal extends React.Component {
         );
     }
 }
-
-export default injectIntl(InvitationModal);

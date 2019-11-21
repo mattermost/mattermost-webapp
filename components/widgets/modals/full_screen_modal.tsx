@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
-import {injectIntl, IntlShape} from 'react-intl';
+import {InjectedIntl, injectIntl} from 'react-intl';
 
 import CloseIcon from 'components/widgets/icons/close_icon';
 import BackIcon from 'components/widgets/icons/back_icon';
@@ -14,7 +14,7 @@ import './full_screen_modal.scss';
 const ANIMATION_DURATION = 100;
 
 type Props = {
-    intl: IntlShape;
+    intl: InjectedIntl;
     show: boolean;
     onClose: () => void;
     onGoBack?: () => void;

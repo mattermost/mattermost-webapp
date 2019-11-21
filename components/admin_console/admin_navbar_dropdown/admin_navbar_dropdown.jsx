@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
@@ -17,10 +17,9 @@ import Menu from 'components/widgets/menu/menu';
 
 import MenuItemBlockableLink from './menu_item_blockable_link';
 
-class AdminNavbarDropdown extends React.Component {
+export default class AdminNavbarDropdown extends React.Component {
     static propTypes = {
         locale: PropTypes.string.isRequired,
-        intl: PropTypes.any,
         siteName: PropTypes.string,
         navigationBlocked: PropTypes.bool,
         teams: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -28,6 +27,10 @@ class AdminNavbarDropdown extends React.Component {
             deferNavigation: PropTypes.func,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     handleLogout = (e) => {
         if (this.props.navigationBlocked) {
@@ -40,7 +43,7 @@ class AdminNavbarDropdown extends React.Component {
 
     render() {
         const {locale, teams, siteName} = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const teamToRender = []; // Array of team components
         let switchTeams;
 
@@ -113,5 +116,3 @@ class AdminNavbarDropdown extends React.Component {
         );
     }
 }
-
-export default injectIntl(AdminNavbarDropdown);
