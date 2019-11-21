@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
-import {shallow} from 'enzyme';
+import {PostTypes} from 'utils/constants';
 
 import DotMenu, {PLUGGABLE_COMPONENT} from './dot_menu';
 
@@ -19,7 +20,6 @@ jest.mock('utils/post_utils', () => {
     const original = require.requireActual('utils/post_utils');
     return {
         ...original,
-        isSystemMessage: jest.fn(() => false),
         canEditPost: jest.fn(() => true),
         canDeletePost: jest.fn(() => false),
     };
@@ -27,7 +27,7 @@ jest.mock('utils/post_utils', () => {
 
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
-        post: {id: 'post_id_1', is_pinned: false},
+        post: {id: 'post_id_1', is_pinned: false, type: ''},
         isLicensed: false,
         postEditTimeLimit: '-1',
         handleCommentClick: jest.fn(),
@@ -82,6 +82,21 @@ describe('components/dot_menu/DotMenu', () => {
 
         expect(wrapper.state('canEdit')).toBe(false);
         expect(wrapper.state('canDelete')).toBe(false);
+        expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(false);
+    });
+
+    test('should not have divider when able to edit or delete a system message', () => {
+        const props = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                type: PostTypes.JOIN_CHANNEL,
+            },
+        };
+        const wrapper = shallow(
+            <DotMenu {...props}/>
+        );
+
         expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(false);
     });
 
