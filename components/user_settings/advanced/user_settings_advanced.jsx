@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal.jsx';
@@ -314,6 +315,12 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     render() {
         const serverError = this.state.serverError || null;
         let ctrlSendSection;
+        let fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc');
+        let fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle');
+        if (Utils.isMac()) {
+            fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc.mac');
+            fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle.mac');
+        }
 
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
@@ -384,7 +391,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     <div>
                         <br/>
                         <FormattedMessage
-                            id={'user.settings.advance.sendDesc' + (Utils.isMac() ? '.mac' : '')}
+                            id={fmIdForUserSettingsAdvSendDesc}
                             defaultMessage='When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
                         />
                     </div>
@@ -394,7 +401,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 <SettingItemMax
                     title={
                         <FormattedMessage
-                            id={'user.settings.advance.sendTitle' + (Utils.isMac() ? '.mac' : '')}
+                            id={fmIdForUserSettingsAdvSendTitle}
                             defaultMessage='Send messages on CTRL+ENTER'
                         />
                     }
@@ -410,7 +417,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                 <SettingItemMin
                     title={
                         <FormattedMessage
-                            id={'user.settings.advance.sendTitle' + (Utils.isMac() ? '.mac' : '')}
+                            id={fmIdForUserSettingsAdvSendTitle}
                             defaultMessage='Send messages on CTRL+ENTER'
                         />
                     }
