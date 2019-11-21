@@ -2,41 +2,36 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 type Props = {
     placeholder: {
         id: string;
         defaultMessage: string;
+        values?: {string: any};
     };
     value?: string;
-    intl: IntlShape;
-    forwardedRef?: React.RefObject<HTMLInputElement>;
 };
 
-class LocalizedInput extends React.Component<Props> {
-    public shouldComponentUpdate(nextProps: Props): boolean {
-        return nextProps.value !== this.props.value ||
-            nextProps.placeholder.id !== this.props.placeholder.id ||
-            nextProps.placeholder.defaultMessage !== this.props.placeholder.defaultMessage;
-    }
+const LocalizedInput = React.forwardRef((props: Props, ref?: React.Ref<HTMLInputElement>) => {
+    const {placeholder, ...otherProps} = props;
 
-    public render(): JSX.Element {
-        const {formatMessage} = this.props.intl;
-        const {placeholder, forwardedRef, ...otherProps} = this.props;
-        const placeholderString: string = formatMessage(placeholder);
+    return (
+        <FormattedMessage
+            id={placeholder.id}
+            defaultMessage={placeholder.defaultMessage}
+            values={placeholder.values}
+        >
+            {(localizedPlaceholder: (string | JSX.Element)) => (
+                <input
+                    {...otherProps}
+                    ref={ref}
+                    placeholder={localizedPlaceholder as string}
+                />
+            )}
+        </FormattedMessage>
+    );
+});
+LocalizedInput.displayName = 'LocalizedInput';
 
-        return (
-            <input
-                {...otherProps}
-                ref={forwardedRef}
-                placeholder={placeholderString}
-            />
-        );
-    }
-}
-
-const Component = injectIntl(LocalizedInput, {forwardRef: true});
-Component.displayName = 'forwardRef(injectIntl(input))';
-
-export default Component;
+export default LocalizedInput;

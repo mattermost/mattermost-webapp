@@ -6,8 +6,8 @@ exports[`components/AdminConsole should generate the routes 1`] = `
   id="adminConsoleWrapper"
 >
   <Connect(AnnouncementBarController) />
-  <Connect(injectIntl(SystemNotice)) />
-  <Connect(injectIntl(AdminSidebar))
+  <Connect(SystemNotice) />
+  <Connect(AdminSidebar)
     onFilterChange={[Function]}
   />
   <div
@@ -212,8 +212,8 @@ exports[`components/AdminConsole should generate the routes 1`] = `
 </div>
 `;
 
-exports[`components/AdminConsole should redirect to / when not system admin 1`] = `
+exports[`components/AdminConsole should redirect to town-square when not system admin 1`] = `
 <Redirect
-  to="/"
+  to="/team-id/channels/town-square"
 />
 `;

@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -137,7 +137,10 @@ export default class ChannelView extends React.PureComponent {
                         />
                     }
                     {channelIsArchived &&
-                        <div className='channel-archived__message'>
+                        <div
+                            id='channelArchivedMessage'
+                            className='channel-archived__message'
+                        >
                             <FormattedMarkdownMessage
                                 id='archivedChannelMessage'
                                 defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'

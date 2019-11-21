@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -24,9 +24,8 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-class RhsRootPost extends React.PureComponent {
+export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -47,6 +46,13 @@ class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
+        }),
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -57,11 +63,22 @@ class RhsRootPost extends React.PureComponent {
         super(props);
 
         this.state = {
+            alt: false,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     renderPostTime = (isEphemeral) => {
@@ -115,8 +132,16 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--hovered';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className;
     };
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -124,9 +149,15 @@ class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handlePostClick = (e) => {
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(this.props.post);
+        }
+    }
+
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged, intl} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl)});
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
     }
 
     getDotMenuRef = () => {
@@ -320,6 +351,7 @@ class RhsRootPost extends React.PureComponent {
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 aria-label={this.state.currentAriaLabel}
+                onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
             >
@@ -373,5 +405,3 @@ class RhsRootPost extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(RhsRootPost);

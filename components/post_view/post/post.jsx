@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
+import {intlShape} from 'react-intl';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
@@ -12,14 +12,10 @@ import {A11yCustomEventTypes} from 'utils/constants';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBody from 'components/post_view/post_body';
 import PostHeader from 'components/post_view/post_header';
+import PostContext from 'components/post_view/post_context';
 
-class Post extends React.PureComponent {
+export default class Post extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * react-intl API
-         */
-        intl: PropTypes.any,
 
         /**
          * The post to render
@@ -84,8 +80,13 @@ class Post extends React.PureComponent {
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
+            markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     static defaultProps = {
         post: {},
@@ -99,6 +100,7 @@ class Post extends React.PureComponent {
         this.state = {
             dropdownOpened: false,
             hover: false,
+            alt: false,
             a11yActive: false,
             currentAriaLabel: '',
             ariaHidden: true,
@@ -107,10 +109,14 @@ class Post extends React.PureComponent {
 
     componentDidMount() {
         this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
         this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
     componentWillUnmount() {
         this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
         this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
     }
 
@@ -127,7 +133,6 @@ class Post extends React.PureComponent {
         if (!post) {
             return;
         }
-
         this.props.actions.selectPost(post);
     }
 
@@ -135,8 +140,17 @@ class Post extends React.PureComponent {
         if (!post) {
             return;
         }
-
         this.props.actions.selectPostCard(post);
+    }
+
+    handlePostClick = (e) => {
+        const post = this.props.post;
+        if (!post) {
+            return;
+        }
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(post);
+        }
     }
 
     handleDropdownOpened = (opened) => {
@@ -225,6 +239,10 @@ class Post extends React.PureComponent {
             className += ' post--pinned';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className + ' ' + sameUserClass + ' ' + rootUser + ' ' + postType + ' ' + currentUserCss;
     }
 
@@ -234,6 +252,10 @@ class Post extends React.PureComponent {
 
     unsetHover = () => {
         this.setState({hover: false});
+    }
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
     }
 
     handleA11yActivateEvent = () => {
@@ -251,7 +273,7 @@ class Post extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        this.setState({currentAriaLabel: this.props.createAriaLabel(this.props.intl)});
+        this.setState({currentAriaLabel: this.props.createAriaLabel(this.context.intl)});
     }
 
     render() {
@@ -292,54 +314,56 @@ class Post extends React.PureComponent {
         }
 
         return (
-            <div
-                ref={this.postRef}
-                id={'post_' + post.id}
-                data-testid='postView'
-                role='listitem'
-                className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
-                tabIndex='0'
-                onFocus={this.handlePostFocus}
-                onBlur={this.removeFocus}
-                onMouseOver={this.setHover}
-                onMouseLeave={this.unsetHover}
-                onTouchStart={this.setHover}
-                aria-label={this.state.currentAriaLabel}
-                aria-atomic={true}
-            >
+            <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
                 <div
-                    role='application'
-                    data-testid='postContent'
-                    className={'post__content ' + centerClass}
-                    aria-hidden={this.state.ariaHidden}
+                    ref={this.postRef}
+                    id={'post_' + post.id}
+                    data-testid='postView'
+                    role='listitem'
+                    className={`a11y__section ${this.getClassName(post, isSystemMessage, isMeMessage, fromWebhook, fromAutoResponder, fromBot)}`}
+                    tabIndex='0'
+                    onFocus={this.handlePostFocus}
+                    onBlur={this.removeFocus}
+                    onMouseOver={this.setHover}
+                    onMouseLeave={this.unsetHover}
+                    onTouchStart={this.setHover}
+                    onClick={this.handlePostClick}
+                    aria-label={this.state.currentAriaLabel}
+                    aria-atomic={true}
                 >
-                    <div className='post__img'>
-                        {profilePic}
-                    </div>
-                    <div>
-                        <PostHeader
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            handleCardClick={this.handleCardClick}
-                            handleDropdownOpened={this.handleDropdownOpened}
-                            compactDisplay={this.props.compactDisplay}
-                            isFirstReply={this.props.isFirstReply}
-                            replyCount={this.props.replyCount}
-                            showTimeWithoutHover={!hideProfilePicture}
-                            hover={this.state.hover || this.state.a11yActive}
-                        />
-                        <PostBody
-                            post={post}
-                            handleCommentClick={this.handleCommentClick}
-                            compactDisplay={this.props.compactDisplay}
-                            isCommentMention={this.props.isCommentMention}
-                            isFirstReply={this.props.isFirstReply}
-                        />
+                    <div
+                        role='application'
+                        id='postContent'
+                        data-testid='postContent'
+                        className={'post__content ' + centerClass}
+                        aria-hidden={this.state.ariaHidden}
+                    >
+                        <div className='post__img'>
+                            {profilePic}
+                        </div>
+                        <div>
+                            <PostHeader
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                handleCardClick={this.handleCardClick}
+                                handleDropdownOpened={this.handleDropdownOpened}
+                                compactDisplay={this.props.compactDisplay}
+                                isFirstReply={this.props.isFirstReply}
+                                replyCount={this.props.replyCount}
+                                showTimeWithoutHover={!hideProfilePicture}
+                                hover={this.state.hover || this.state.a11yActive}
+                            />
+                            <PostBody
+                                post={post}
+                                handleCommentClick={this.handleCommentClick}
+                                compactDisplay={this.props.compactDisplay}
+                                isCommentMention={this.props.isCommentMention}
+                                isFirstReply={this.props.isFirstReply}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </PostContext.Provider>
         );
     }
 }
-
-export default injectIntl(Post);

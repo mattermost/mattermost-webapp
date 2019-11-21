@@ -5,6 +5,7 @@
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
         z-index: 12;
+        top: 0px !important;
 
         &.move--left {
             -webkit-transform: translateX(0) !important;
@@ -24,17 +25,39 @@
 
             .search-bar__container {
                 z-index: 5;
+                display: block !important;
+
+                 .search__form {
+                     width: 100% !important;
+                 }
             }
         }
     }
 
     .inner-wrap {
         &:not(.move--left) {
-            margin-right: 0 !important;
+            .app__content {
+                > #post-list {
+                    margin-right: 0 !important;
+                }
+                > #post-create {
+                    width: 100% !important;
+                }
+            }
         }
 
         &.move--left {
-            margin-right: 0 !important;
+            .search-bar__container {
+                display: none;
+            }
+            .app__content {
+                > #post-list {
+                    margin-right: 0 !important;
+                }
+                > #post-create {
+                    width: 100% !important;
+                }
+            }
 
             .channel-header__links {
                 position: relative;
@@ -185,7 +208,7 @@
 }
 
 // Tablet and desktop
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -210,8 +233,14 @@
     }
 
     .sidebar--right {
+        top: 63px;
+
         &.move--left {
             @include translateX(0);
+
+            .search-bar__container {
+                display: none;
+            }
         }
 
         &.sidebar--right--expanded {
@@ -252,7 +281,14 @@
 
     .inner-wrap {
         &.move--left {
-            margin-right: 400px;
+            .app__content {
+                > #post-list {
+                    margin-right: 400px;
+                }
+                > #post-create {
+                    width: calc(100% - 400px);
+                }
+            }
         }
     }
 

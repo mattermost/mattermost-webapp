@@ -13,8 +13,8 @@ describe('admin_console/system_user_detail/team_list/TeamList', () => {
         emptyListTextId: 'emptyListTextId',
         emptyListTextDefaultMessage: 'No teams found',
         actions: {
-            getTeamsData: jest.fn(),
-            getTeamMembersForUser: jest.fn(),
+            getTeamsData: jest.fn().mockResolvedValue({data: []}),
+            getTeamMembersForUser: jest.fn().mockResolvedValue({data: []}),
             removeUserFromTeam: jest.fn(),
             updateTeamMemberSchemeRoles: jest.fn(),
         },

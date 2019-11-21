@@ -3,8 +3,10 @@
 
 import React from 'react';
 import {CSSTransition} from 'react-transition-group';
+import {InjectedIntl, injectIntl} from 'react-intl';
 
 import CloseIcon from 'components/widgets/icons/close_icon';
+import BackIcon from 'components/widgets/icons/back_icon';
 
 import './full_screen_modal.scss';
 
@@ -12,12 +14,14 @@ import './full_screen_modal.scss';
 const ANIMATION_DURATION = 100;
 
 type Props = {
+    intl: InjectedIntl;
     show: boolean;
     onClose: () => void;
+    onGoBack?: () => void;
     children: React.ReactNode;
 };
 
-export default class FullScreenModal extends React.Component<Props> {
+class FullScreenModal extends React.Component<Props> {
     public componentDidMount() {
         document.addEventListener('keydown', this.handleKeypress);
     }
@@ -47,14 +51,26 @@ export default class FullScreenModal extends React.Component<Props> {
                 appear={true}
             >
                 <div className='FullScreenModal'>
-                    <CloseIcon
-                        className='close-x'
+                    {this.props.onGoBack &&
+                        <button
+                            onClick={this.props.onGoBack}
+                            className='back'
+                            aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.back', defaultMessage: 'Back'})}
+                        >
+                            <BackIcon id='backIcon'/>
+                        </button>}
+                    <button
                         onClick={this.close}
-                        id='closeIcon'
-                    />
+                        className='close-x'
+                        aria-label={this.props.intl.formatMessage({id: 'full_screen_modal.close', defaultMessage: 'Close'})}
+                    >
+                        <CloseIcon id='closeIcon'/>
+                    </button>
                     {this.props.children}
                 </div>
             </CSSTransition>
         );
     }
 }
+
+export default injectIntl(FullScreenModal);
