@@ -355,7 +355,7 @@ export default class DotMenu extends React.PureComponent {
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    {(this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
+                    {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`edit_post_${this.props.post.id}`}
                         show={this.state.canEdit}
