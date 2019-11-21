@@ -39,5 +39,5 @@ describe('components/analytics/statistic_count.tsx', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-    });    
+    });
 });
