@@ -51,7 +51,7 @@ export default class ChannelMore extends React.PureComponent {
                         id='morePublicButton'
                     >
                         <button
-                            id='sidebarChannelsMore'
+                            id='sidebarPublicChannelsMore'
                             aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                             className='nav-more cursor--pointer style--none btn--block'
                             onClick={this.moreChannelsPublic}
@@ -76,7 +76,7 @@ export default class ChannelMore extends React.PureComponent {
                             id='morePublicButton'
                         >
                             <button
-                                id='sidebarChannelsMore'
+                                id='sidebarPrivateChannelsMore'
                                 aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                                 className='nav-more cursor--pointer style--none btn--block'
                                 onClick={this.moreChannelsPrivate}
