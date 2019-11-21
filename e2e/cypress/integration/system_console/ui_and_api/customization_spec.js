@@ -25,13 +25,13 @@ describe('Customization', () => {
 
     it('SC20335 - Can change Site Name setting', () => {
         // * Verify site name's setting name for is visible and matches the text
-        cy.get('[data-testid="TeamSettings.SiteName"] > label').should('be.visible').and('have.text', 'Site Name:');
+        cy.get('[data-testid="TeamSettings.SiteNamelabel"]').should('be.visible').and('have.text', 'Site Name:');
 
         // * Verify the input box has default value. The default value depends on the setup before running the test.
         cy.get('[id="TeamSettings.SiteName"]').should('have.value', config.TeamSettings.SiteName);
 
         // * Verify the help text is visible and matches the text
-        cy.get('[data-testid="TeamSettings.SiteNamehelp-text"] > span').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
+        cy.get('[data-testid="TeamSettings.SiteNamehelp-text"]').find('span').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
 
         // # Generate and enter a random site name
         const siteName = Math.random().toString(36).substring(2, 8);
