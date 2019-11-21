@@ -12,7 +12,7 @@ describe('Customization', () => {
 
     beforeEach(() => {
         // Get config
-        cy.apiGetConfig().then(response => {
+        cy.apiGetConfig().then((configResponse) => {
             config = response.body;
         });
 
@@ -41,8 +41,9 @@ describe('Customization', () => {
         cy.get('#saveSetting').click();
 
         // Get config again
-        cy.apiGetConfig().then(response => {
+        cy.apiGetConfig().then((configResponse) => {
             config = response.body;
+
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
         });
