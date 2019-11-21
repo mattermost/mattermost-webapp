@@ -17,10 +17,10 @@ import {
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
+    getChannelMember,
     getChannelStats,
     viewChannel,
     markChannelAsRead,
-
 } from 'mattermost-redux/actions/channels';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
@@ -46,7 +46,7 @@ import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
@@ -69,6 +69,7 @@ import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
 import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {fromAutoResponder} from 'utils/post_utils';
 import {getSiteURL} from 'utils/url';
+import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
@@ -755,9 +756,24 @@ export async function handleUserRemovedEvent(msg) {
     }
 }
 
-function handleUserUpdatedEvent(msg) {
-    const currentUser = getCurrentUser(getState());
+export async function handleUserUpdatedEvent(msg) {
+    const state = getState();
+    const currentUser = getCurrentUser(state);
     const user = msg.data.user;
+
+    if (isGuest(user)) {
+        let members = getMembersInCurrentChannel(state);
+        const currentChannelId = getCurrentChannelId(state);
+        if (members && members[user.id]) {
+            dispatch(getChannelStats(currentChannelId));
+        } else {
+            await dispatch(getChannelMember(currentChannelId, user.id));
+            members = getMembersInCurrentChannel(getState());
+            if (members && members[user.id]) {
+                dispatch(getChannelStats(currentChannelId));
+            }
+        }
+    }
 
     if (currentUser.id === user.id) {
         if (user.update_at > currentUser.update_at) {
