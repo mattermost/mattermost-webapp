@@ -3,9 +3,6 @@
 
 import React from 'react';
 
-import CloseIcon from 'components/widgets/icons/close_icon';
-import BackIcon from 'components/widgets/icons/back_icon';
-
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import FullScreenModal from './full_screen_modal';
@@ -20,7 +17,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
   appear={true}
@@ -68,7 +65,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
   appear={true}
@@ -117,7 +114,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(wrapper).toMatchInlineSnapshot(`
 <CSSTransition
   appear={true}
@@ -176,7 +173,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(close).not.toBeCalled();
         wrapper.find('button.close-x').simulate('click');
         expect(close).toBeCalled();
@@ -193,7 +190,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(back).not.toBeCalled();
         wrapper.find('button.back').simulate('click');
         expect(back).toBeCalled();
@@ -209,7 +206,7 @@ describe('components/widgets/modals/FullScreenModal', () => {
             >
                 {'test'}
             </FullScreenModal>
-        ).dive();
+        );
         expect(close).not.toBeCalled();
         const event = new KeyboardEvent('keydown', {key: 'Escape'});
         document.dispatchEvent(event);
