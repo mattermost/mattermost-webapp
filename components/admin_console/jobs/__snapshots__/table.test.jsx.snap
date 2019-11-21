@@ -120,7 +120,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
           >
             <span
               className="whitespace--nowrap"
-              title="Last Activity: Oct 29, 2018 - 5:31:34 PM"
+              title="Last Activity: Oct 29, 2018 - 05:31:34 PM"
             >
               NaN minutes
             </span>
@@ -173,7 +173,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
           >
             <span
               className="whitespace--nowrap"
-              title="Last Activity: Oct 29, 2018 - 5:31:34 PM"
+              title="Last Activity: Oct 29, 2018 - 05:31:34 PM"
             >
               NaN minutes
             </span>
@@ -226,7 +226,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
           >
             <span
               className="whitespace--nowrap"
-              title="Last Activity: Oct 29, 2018 - 5:31:34 PM"
+              title="Last Activity: Oct 29, 2018 - 05:31:34 PM"
             >
               NaN minutes
             </span>
@@ -270,7 +270,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
           >
             <span
               className="whitespace--nowrap"
-              title="Last Activity: Oct 29, 2018 - 5:31:34 PM"
+              title="Last Activity: Oct 29, 2018 - 05:31:34 PM"
             >
               NaN minutes
             </span>
@@ -379,7 +379,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
           >
             <span
               className="whitespace--nowrap"
-              title="Last Activity: Oct 29, 2018 - 5:31:34 PM"
+              title="Last Activity: Oct 29, 2018 - 05:31:34 PM"
             >
               NaN minutes
             </span>
