@@ -11,9 +11,9 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and go to /
+        // # Login and go to sint channel
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/suscipit-4');
     });
 
     it('M18711-Input box on main thread can expand with RHS closed', () => {
