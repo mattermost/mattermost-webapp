@@ -11,9 +11,6 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Make sure the viewport is the expected one, so written lines always create new lines
-        cy.viewport(1000, 660);
-
         // # Login and go to /
         cy.apiLogin('user-1');
         cy.visit('/');
