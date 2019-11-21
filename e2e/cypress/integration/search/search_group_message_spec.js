@@ -33,7 +33,9 @@ describe('Search', () => {
         cy.get('#searchBox').type('in:');
 
         //# Search group members in the menu
-        cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
+        cy.get('#search-autocomplete__popover').should('be.visible').within(() => {
+            cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
+        });
 
         //# Press enter to select
         cy.get('#searchBox').type('{enter}');
