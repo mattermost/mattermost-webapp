@@ -2,21 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-class ChannelMore extends React.PureComponent {
+export default class ChannelMore extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         currentTeamId: PropTypes.string.isRequired,
         sectionType: PropTypes.string.isRequired,
         moreChannels: PropTypes.func.isRequired,
         moreDirectMessages: PropTypes.func.isRequired,
         browsePublicDirectChannels: PropTypes.func.isRequired,
         viewArchivedChannels: PropTypes.bool,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     moreChannelsPublic = () => {
@@ -34,7 +37,7 @@ class ChannelMore extends React.PureComponent {
             viewArchivedChannels,
         } = this.props;
 
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         switch (sectionType) {
         case 'public':
@@ -132,5 +135,3 @@ class ChannelMore extends React.PureComponent {
         return null;
     }
 }
-
-export default injectIntl(ChannelMore);

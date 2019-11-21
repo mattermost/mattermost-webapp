@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
@@ -27,7 +27,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         /*
          * react-intl helper object
          */
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
 
         /*
          * Object with info about current channel ,

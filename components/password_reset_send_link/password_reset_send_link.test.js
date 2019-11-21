@@ -3,9 +3,8 @@
 
 import React from 'react';
 import {MemoryRouter} from 'react-router';
-import {shallow} from 'enzyme';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {shallowWithIntl, mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PasswordResetSendLink from './password_reset_send_link';
 
@@ -17,7 +16,7 @@ describe('components/PasswordResetSendLink', () => {
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(<PasswordResetSendLink {...baseProps}/>);
+        const wrapper = shallowWithIntl(<PasswordResetSendLink {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -28,7 +27,7 @@ describe('components/PasswordResetSendLink', () => {
             <MemoryRouter>
                 <PasswordResetSendLink {...props}/>
             </MemoryRouter>
-        ).children().children(); // Unwrap router
+        ).children().children();
 
         wrapper.instance().emailInput.current.value = 'test@example.com';
         wrapper.find('form').simulate('submit', {preventDefault: () => {}});
