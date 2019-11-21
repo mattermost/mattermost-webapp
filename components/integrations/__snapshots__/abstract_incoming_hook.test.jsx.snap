@@ -4,7 +4,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
@@ -19,7 +19,7 @@ exports[`components/integrations/AbstractIncomingWebhook should call action func
       id="header_id"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
@@ -281,7 +281,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
@@ -296,7 +296,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot 1
       id="header_id"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
@@ -558,7 +558,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
@@ -573,7 +573,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       id="header_id"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
@@ -839,7 +839,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
@@ -854,7 +854,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       id="header_id"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
@@ -1081,7 +1081,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
@@ -1096,7 +1096,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       id="header_id"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
@@ -1323,7 +1323,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/team_name/integrations/incoming_webhooks"
     >
@@ -1338,7 +1338,7 @@ exports[`components/integrations/AbstractIncomingWebhook should match snapshot, 
       id="header_id"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >

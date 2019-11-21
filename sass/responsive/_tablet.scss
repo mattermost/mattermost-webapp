@@ -208,7 +208,7 @@
 }
 
 // Tablet and desktop
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -237,7 +237,7 @@
 
         &.move--left {
             @include translateX(0);
-            
+
             .search-bar__container {
                 display: none;
             }

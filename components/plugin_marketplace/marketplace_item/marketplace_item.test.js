@@ -343,7 +343,7 @@ describe('components/MarketplaceItem', () => {
                 );
 
                 wrapper.instance().onUpdate();
-                expect(props.actions.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_update', {
+                expect(props.actions.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update', {
                     plugin_id: 'id',
                     version: '2.0.0',
                     installed_version: '1.0.0',
@@ -395,7 +395,7 @@ describe('components/MarketplaceItem', () => {
                 );
 
                 wrapper.instance().onUpdate();
-                expect(props.actions.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_update');
+                expect(props.actions.trackEvent).toBeCalledWith('plugins', 'ui_marketplace_download_update');
             });
 
             test('on configure', () => {
