@@ -21,6 +21,7 @@ import DotMenu from './dot_menu.jsx';
 
 function mapStateToProps(state) {
     return {
+        components: state.plugins.components,
         postEditTimeLimit: getConfig(state).PostEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
