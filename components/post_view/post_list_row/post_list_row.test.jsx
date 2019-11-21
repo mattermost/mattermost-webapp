@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
@@ -12,6 +11,7 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds} from 'utils/constants';
 
 import PostListRow from './post_list_row.jsx';
@@ -22,7 +22,7 @@ describe('components/post_view/post_list_row', () => {
         const props = {
             listId,
         };
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -35,7 +35,7 @@ describe('components/post_view/post_list_row', () => {
             listId,
             loadOlderPosts,
         };
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -53,7 +53,7 @@ describe('components/post_view/post_list_row', () => {
             listId,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe('components/post_view/post_list_row', () => {
         const props = {
             listId,
         };
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -77,7 +77,7 @@ describe('components/post_view/post_list_row', () => {
         const props = {
             listId,
         };
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -90,7 +90,7 @@ describe('components/post_view/post_list_row', () => {
             listId: `${PostListUtils.COMBINED_USER_ACTIVITY}1234-5678`,
             previousListId: 'abcd',
         };
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -103,7 +103,7 @@ describe('components/post_view/post_list_row', () => {
             listId: '1234',
             previousListId: 'abcd',
         };
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
