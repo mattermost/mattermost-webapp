@@ -13,9 +13,10 @@ type Props = {
     type?: string | null;
     message?: string;
     service?: string;
+    isGuest?: boolean;
 }
 
-const ErrorMessage: React.FC<Props> = ({type, message, service}: Props) => {
+const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props) => {
     let errorMessage = null;
     if (type) {
         switch (type) {
@@ -72,10 +73,18 @@ const ErrorMessage: React.FC<Props> = ({type, message, service}: Props) => {
         case ErrorPageTypes.CHANNEL_NOT_FOUND:
             errorMessage = (
                 <p>
-                    <FormattedMessage
-                        id='error.channel_not_found.message'
-                        defaultMessage="The channel you're requesting is private or does not exist. Please contact an Administrator to be added to the channel."
-                    />
+                    {isGuest ? (
+                        <FormattedMessage
+                            id='error.channel_not_found.message_guest'
+                            defaultMessage='Your guest account has no channels assigned. Please contact an administrator.'
+                        />
+                    ) : (
+                        <FormattedMessage
+                            id='error.channel_not_found.message'
+                            defaultMessage="The channel you're requesting is private or does not exist. Please contact an Administrator to be added to the channel."
+                        />
+
+                    )}
                 </p>
             );
             break;

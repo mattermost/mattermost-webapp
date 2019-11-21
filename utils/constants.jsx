@@ -185,6 +185,8 @@ export const ActionTypes = keyMirror({
     INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
     INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
     FILTER_MARKETPLACE_PLUGINS: null,
+
+    POST_UNREAD_SUCCESS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -276,6 +278,7 @@ export const SocketEvents = {
     POST_EDITED: 'post_edited',
     POST_DELETED: 'post_deleted',
     POST_UPDATED: 'post_updated',
+    POST_UNREAD: 'post_unread',
     CHANNEL_CONVERTED: 'channel_converted',
     CHANNEL_CREATED: 'channel_created',
     CHANNEL_DELETED: 'channel_deleted',
