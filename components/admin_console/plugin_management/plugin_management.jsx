@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
+import classNames from 'classnames';
+
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import * as Utils from 'utils/utils.jsx';
@@ -15,7 +17,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import AdminSettings from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
-import TextSetting from '../text_setting.jsx';
+import TextSetting from '../text_setting';
 
 const PluginItemState = ({state}) => {
     switch (state) {
@@ -435,6 +437,7 @@ export default class PluginManagement extends AdminSettings {
         config.PluginSettings.AllowInsecureDownloadUrl = this.state.allowInsecureDownloadUrl;
         config.PluginSettings.EnableMarketplace = this.state.enableMarketplace;
         config.PluginSettings.MarketplaceUrl = this.state.marketplaceUrl;
+        config.PluginSettings.RequirePluginSignature = this.state.requirePluginSignature;
 
         return config;
     }
@@ -446,6 +449,7 @@ export default class PluginManagement extends AdminSettings {
             allowInsecureDownloadUrl: config.PluginSettings.AllowInsecureDownloadUrl,
             enableMarketplace: config.PluginSettings.EnableMarketplace,
             marketplaceUrl: config.PluginSettings.MarketplaceUrl,
+            requirePluginSignature: config.PluginSettings.RequirePluginSignature,
         };
 
         return state;
@@ -916,7 +920,7 @@ export default class PluginManagement extends AdminSettings {
                     defaultMessage='Upload a plugin for your Mattermost server. See [documentation](!https://about.mattermost.com/default-plugin-uploads) to learn more.'
                 />
             );
-        } else if (enable === true && enableUploads === false) {
+        } else if (enable && !enableUploads) {
             uploadHelpText = (
                 <FormattedMarkdownMessage
                     id='admin.plugin.uploadDisabledDesc'
@@ -931,8 +935,6 @@ export default class PluginManagement extends AdminSettings {
                 />
             );
         }
-
-        const uploadBtnClass = enableUploads ? 'btn btn-primary' : 'btn';
 
         const overwriteUploadPluginModal = this.state.confirmOverwriteUploadModal && this.renderOverwritePluginModal({
             show: this.state.confirmOverwriteUploadModal,
@@ -955,6 +957,26 @@ export default class PluginManagement extends AdminSettings {
                     >
                         {this.renderEnablePluginsSetting()}
 
+                        <BooleanSetting
+                            id='requirePluginSignature'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.requirePluginSignature'
+                                    defaultMessage='Require Plugin Signature:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.requirePluginSignatureDesc'
+                                    defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more.'
+                                />
+                            }
+                            value={this.state.requirePluginSignature}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.RequirePluginSignature')}
+                        />
+
                         <div className='form-group'>
                             <label
                                 className='control-label col-sm-4'
@@ -967,8 +989,8 @@ export default class PluginManagement extends AdminSettings {
                             <div className='col-sm-8'>
                                 <div className='file__upload'>
                                     <button
-                                        className={uploadBtnClass}
-                                        disabled={!enableUploads || !enable}
+                                        className={classNames(['btn', {'btn-primary': enableUploads}])}
+                                        disabled={!enableUploads || !this.state.enable || this.state.requirePluginSignature}
                                     >
                                         <FormattedMessage
                                             id='admin.plugin.choose'
@@ -980,7 +1002,7 @@ export default class PluginManagement extends AdminSettings {
                                         type='file'
                                         accept='.gz'
                                         onChange={this.handleUpload}
-                                        disabled={!enableUploads || !enable}
+                                        disabled={!enableUploads || !this.state.enable || this.state.requirePluginSignature}
                                     />
                                 </div>
                                 <button

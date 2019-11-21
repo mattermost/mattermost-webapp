@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -105,7 +105,7 @@ class SearchResultsItem extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.object.isRequired,
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {

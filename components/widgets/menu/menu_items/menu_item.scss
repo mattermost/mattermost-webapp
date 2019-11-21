@@ -58,6 +58,10 @@
             }
         }
 
+        &.MenuItem__dangerous {
+            color: $red;
+        }
+
         span.icon {
             width: 30px;
             padding-right: 15px;
