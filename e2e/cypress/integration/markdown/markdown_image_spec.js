@@ -9,6 +9,13 @@
 
 describe('Markdown', () => {
     before(() => {
+        cy.apiUpdateConfig({
+            ImageProxySettings: {
+                Enable: true,
+                ImageProxyType: 'local',
+            },
+        });
+
         // # Login as new user
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL
@@ -28,7 +35,7 @@ describe('Markdown', () => {
         // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).find('div').
-                should('have.text', 'Mattermost/platform build status:  ').
+                should('contain', 'Mattermost/platform build status:  ').
                 and('have.class', 'style--none');
 
             cy.get(`#postMessageText_${postId}`).find('img').
@@ -71,12 +78,14 @@ describe('Markdown', () => {
 
         cy.getLastPostId().then((postId) => {
             // # Get the image and simulate a click.
-            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
-                and((inlineImg) => {
-                    expect(inlineImg.height()).to.be.closeTo(143, 2);
-                    expect(inlineImg.width()).to.be.closeTo(894, 2);
-                }).
-                click();
+            cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
+                cy.get('.markdown-inline-img').should('be.visible').
+                    and((inlineImg) => {
+                        expect(inlineImg.height()).to.be.closeTo(143, 2);
+                        expect(inlineImg.width()).to.be.closeTo(894, 2);
+                    }).
+                    click();
+            });
 
             // * Verify that the preview modal opens
             cy.get('div.modal-image__content').should('be.visible');
