@@ -1851,23 +1851,56 @@ const AdminDefinition = {
                         label: t('admin.environment.notifications.pushContents.label'),
                         label_default: 'Push Notification Contents:',
                         help_text: t('admin.environment.notifications.pushContents.help'),
-                        help_text_default: '**Send generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Send generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message text.\n **Send full message snippet** - Includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.',
+                        help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** - Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('IDLoadedPushNotifications'),
                         options: [
                             {
                                 value: 'generic_no_channel',
                                 display_name: t('admin.environment.notifications.pushContents.genericNoChannel'),
-                                display_name_default: 'Send generic description with only sender name',
+                                display_name_default: 'Generic description with only sender name',
                             },
                             {
                                 value: 'generic',
                                 display_name: t('admin.environment.notifications.pushContents.generic'),
-                                display_name_default: 'Send generic description with sender and channel names',
+                                display_name_default: 'Generic description with sender and channel names',
                             },
                             {
                                 value: 'full',
                                 display_name: t('admin.environment.notifications.pushContents.full'),
-                                display_name_default: 'Send full message snippet',
+                                display_name_default: 'Full message content sent in the notification payload',
+                            }
+                        ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'EmailSettings.PushNotificationContents',
+                        label: t('admin.environment.notifications.pushContents.label'),
+                        label_default: 'Push Notification Contents:',
+                        help_text: t('admin.environment.notifications.pushContents.withIdLoaded.help'),
+                        help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** - Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.\n **Full message content fetched from the server on receipt** - The notification payload relayed through APNS or FCM contains no message content, instead it contains a unique message ID used to fetch message content from the server when a push notification is received by a device. If the server cannot be reached, a generic notification will be displayed.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('IDLoadedPushNotifications')),
+                        options: [
+                            {
+                                value: 'generic_no_channel',
+                                display_name: t('admin.environment.notifications.pushContents.genericNoChannel'),
+                                display_name_default: 'Generic description with only sender name',
+                            },
+                            {
+                                value: 'generic',
+                                display_name: t('admin.environment.notifications.pushContents.generic'),
+                                display_name_default: 'Generic description with sender and channel names',
+                            },
+                            {
+                                value: 'full',
+                                display_name: t('admin.environment.notifications.pushContents.full'),
+                                display_name_default: 'Full message content sent in the notification payload',
+                            },
+                            {
+                                value: 'id_loaded',
+                                display_name: t('admin.environment.notifications.pushContents.idLoaded'),
+                                display_name_default: 'Full message content fetched from the server on receipt',
                             },
                         ],
                     },
