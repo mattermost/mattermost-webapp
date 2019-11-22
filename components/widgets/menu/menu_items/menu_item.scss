@@ -37,14 +37,14 @@
             clear: both;
             color: inherit;
             cursor: pointer;
-            display: flex;
             font-weight: normal;
             padding: 0 32px 0 24px;
             text-align: left;
             white-space: nowrap;
             width: 100%;
-            height: 28px;
-            line-height: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 28px;
 
             &.MenuItem__help {
                 height: auto;
