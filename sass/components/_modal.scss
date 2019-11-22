@@ -709,10 +709,10 @@
     font-weight: 600;
     span {
         font-size: .9em;
-        color:#3d3c40;
+        color: var(--center-channel-color);
     }
     a:hover {
-        color: #3d3c40;
+        color: var(--center-channel-color);
         text-decoration: none;
     }
 }
