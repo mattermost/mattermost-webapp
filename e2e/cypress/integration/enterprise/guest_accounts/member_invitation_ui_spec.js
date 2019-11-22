@@ -17,15 +17,13 @@ let testTeam;
 const user1 = users['user-1'];
 const sysadmin = users.sysadmin;
 
-function invitePeople(typeText, resultsCount, verifyText, skipInitialStep = false) {
+function invitePeople(typeText, resultsCount, verifyText) {
     // # Open Invite People
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#invitePeople').should('be.visible').click();
 
-    if (!skipInitialStep) {
-        // #Click on the next icon to invite new member
-        cy.findByTestId('inviteMembersLink').find('.arrow').click();
-    }
+    // #Click on the next icon to invite new member
+    cy.findByTestId('inviteMembersLink').find('.arrow').click();
 
     // # Search and add a member
     cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
@@ -199,20 +197,20 @@ describe('Guest Account - Member Invitation Flow', () => {
         });
 
         // # Search and add an existing member by username who is part of the team
-        invitePeople(sysadmin.username, 1, sysadmin.username, true);
+        invitePeople(sysadmin.username, 1, sysadmin.username);
 
         // * Verify the content and message in next screen
         verifyInvitationError(sysadmin.username, 'This person is already a team member.');
 
         // # Search and add an existing member by email who is not part of the team
-        invitePeople(user1.email, 1, user1.username, true);
+        invitePeople(user1.email, 1, user1.username);
 
         // * Verify the content and message in next screen
         verifyInvitationSuccess(user1.username, 'This member has been added to the team.');
 
         // # Search and add a new member by email who is not part of the team
         const email = `temp-${getRandomInt(9999).toString()}@mattermost.com`;
-        invitePeople(email, 1, email, true);
+        invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
         verifyInvitationSuccess(email, 'An invitation email has been sent.');
