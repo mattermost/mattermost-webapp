@@ -107,7 +107,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
                 value={2018-10-29T17:31:34.674Z}
                 year="numeric"
               />
-               -
+               - 
               <FormattedTime
                 hour="2-digit"
                 minute="2-digit"
@@ -312,7 +312,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
                 value={2018-10-29T17:31:34.674Z}
                 year="numeric"
               />
-               -
+               - 
               <FormattedTime
                 hour="2-digit"
                 minute="2-digit"
@@ -366,7 +366,7 @@ exports[`components/admin_console/jobs/table should match snapshot, init 1`] = `
                 value={2018-10-29T17:31:34.674Z}
                 year="numeric"
               />
-               -
+               - 
               <FormattedTime
                 hour="2-digit"
                 minute="2-digit"
