@@ -175,7 +175,7 @@ export default class LicenseSettings extends React.Component {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <p>
-                    {'Mattermost Enterprise Edition. Unlock enterprise features in this software by starting a trial subscription at '}
+                    {'Mattermost Enterprise Edition. A license is required to unlock enterprise features. Start a trial subscription at '}
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
