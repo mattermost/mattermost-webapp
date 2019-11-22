@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
@@ -28,13 +28,8 @@ import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
-class CreateComment extends React.PureComponent {
+export default class CreateComment extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * react-intl API
-         */
-        intl: PropTypes.any,
 
         /**
          * The channel for which this comment is a part of
@@ -192,6 +187,10 @@ class CreateComment extends React.PureComponent {
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {
@@ -783,7 +782,7 @@ class CreateComment extends React.PureComponent {
     render() {
         const {draft} = this.state;
         const {readOnlyChannel} = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
         const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
@@ -1012,6 +1011,7 @@ class CreateComment extends React.PureComponent {
                             <input
                                 type='button'
                                 disabled={!enableAddButton}
+                                id='addCommentButton'
                                 className={addButtonClass}
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}
@@ -1038,5 +1038,3 @@ class CreateComment extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(CreateComment);

@@ -45,7 +45,7 @@ export class ChannelsSettings extends React.Component {
                             titleId={t('admin.channel_settings.title')}
                             titleDefault='Channels'
                             subtitleId={t('admin.channel_settings.description')}
-                            subtitleDefault={'Showing {startCount, number} - {endCount, number} of {total, number} channels. Manage channel settings.'}
+                            subtitleDefault={'Manage channel settings.'}
                             subtitleValues={{...this.state}}
                         >
                             <ChannelsList onPageChangedCallback={this.onPageChangedCallback}/>

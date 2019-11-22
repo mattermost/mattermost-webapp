@@ -208,7 +208,7 @@
 }
 
 // Tablet and desktop
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -237,14 +237,18 @@
 
         &.move--left {
             @include translateX(0);
-            
+
             .search-bar__container {
                 display: none;
             }
         }
 
         &.sidebar--right--expanded {
-            width: calc(100% - 280px);
+            width: calc(100% - 220px);
+
+            .multi-teams & {
+                width: calc(100% - 285px);
+            }
 
             .sidebar--right__bg {
                 background-color: alpha-color($black, .4);
