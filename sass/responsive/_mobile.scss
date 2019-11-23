@@ -1,6 +1,14 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    #navbar_wrapper {
+        .navbar-default {
+            .navbar-brand {
+                margin-left: 0;
+            }
+        }
+    }
+
     .app__body {
         .MenuWrapper {
             .MenuItem__divider {
@@ -8,6 +16,10 @@
                 border: none;
             }
         }
+    }
+
+    .post-right__container {
+        height: 100%;
     }
 
     .line-switch__toggle {
@@ -1254,7 +1266,7 @@
                 right: 20px;
                 text-align: center;
                 text-shadow: none;
-                top: 30px;
+                top: 70px;
                 width: 30px;
             }
 
@@ -1537,6 +1549,10 @@
         .post-create__container {
             form {
                 padding: .5em 1em;
+            }
+
+            .post-create {
+                padding: 0;
             }
 
             .emoji-rhs {

@@ -43,7 +43,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
         }
     }
 
-    setOverlayRef = (ref: OverlayTrigger) => {
+    public setOverlayRef = (ref: OverlayTrigger) => {
         this.overlay = ref;
     }
 

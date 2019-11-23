@@ -69,7 +69,7 @@ describe('Messaging', () => {
         cy.get('#post_textbox').should('be.focused');
 
         //#Click the @ icon to open the Recent mentions RHS to move the focus out of the main input box
-        cy.get('#channelHeaderMentionButton').click();
+        cy.get('#channelHeaderMentionButton').click({force: true});
         cy.get('#post_textbox').should('not.be.focused');
 
         //#Push a character key such as "B"

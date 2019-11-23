@@ -9,6 +9,13 @@
 
 describe('Markdown', () => {
     before(() => {
+        cy.apiUpdateConfig({
+            ImageProxySettings: {
+                Enable: true,
+                ImageProxyType: 'local',
+            },
+        });
+
         // # Login as new user
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL
@@ -74,12 +81,14 @@ describe('Markdown', () => {
 
         cy.getLastPostId().then((postId) => {
             // # Get the image and simulate a click.
-            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
-                and(($img) => {
-                    expect($img.height()).to.be.closeTo(141, 0.9);
-                    expect($img.width()).to.be.closeTo(892, 0.9);
-                }).
-                click();
+            cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
+                cy.get('.markdown-inline-img').should('be.visible').
+                    and((inlineImg) => {
+                        expect(inlineImg.height()).to.be.closeTo(143, 2);
+                        expect(inlineImg.width()).to.be.closeTo(894, 2);
+                    }).
+                    click();
+            });
 
             // * Verify that the preview modal opens
             cy.get('div.modal-image__content').should('be.visible');

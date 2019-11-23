@@ -5,8 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import SystemUsersList from 'components/admin_console/system_users/list/system_users_list';
+import SystemUsersList from 'components/admin_console/system_users/list/system_users_list.jsx';
 
 describe('components/admin_console/system_users/list', () => {
     const defaultProps = {
@@ -74,7 +75,7 @@ describe('components/admin_console/system_users/list', () => {
 
     describe('should reset page', () => {
         it('when team changes', () => {
-            const wrapper = shallow(
+            const wrapper = shallowWithIntl(
                 <SystemUsersList {...defaultProps}/>
             );
 
@@ -86,7 +87,7 @@ describe('components/admin_console/system_users/list', () => {
         });
 
         it('when filter changes', () => {
-            const wrapper = shallow(
+            const wrapper = shallowWithIntl(
                 <SystemUsersList {...defaultProps}/>
             );
 
@@ -100,7 +101,7 @@ describe('components/admin_console/system_users/list', () => {
 
     describe('should not reset page', () => {
         it('when term changes', () => {
-            const wrapper = shallow(
+            const wrapper = shallowWithIntl(
                 <SystemUsersList {...defaultProps}/>
             );
 

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
 
 import {getDirectTeammate, isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -213,7 +213,7 @@ const holders = defineMessages({
 
 export class AuditTable extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
         audits: PropTypes.array.isRequired,
         showUserId: PropTypes.bool,
         showIp: PropTypes.bool,

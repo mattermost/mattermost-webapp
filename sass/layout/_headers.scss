@@ -82,7 +82,7 @@
         }
 
         .markdown__paragraph-inline {
-            margin: 0 0 5px;
+            margin: 0 0 8px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
@@ -395,6 +395,10 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+
+            li {
+                margin-bottom: 8px;
+            }
         }
 
         .status {

@@ -51,7 +51,7 @@ export default class Renderer extends marked.Renderer {
         // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
         // of the code block, one with syntax highlighting applied and another with invisible text, but
         // search term highlighting and overlap them
-        const content = SyntaxHighlighting.highlight(usedLanguage, code);
+        const content = SyntaxHighlighting.highlight(usedLanguage, code, true);
         let searchedContent = '';
 
         if (this.formattingOptions.searchPatterns) {
