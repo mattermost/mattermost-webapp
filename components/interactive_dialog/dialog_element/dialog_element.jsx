@@ -41,6 +41,7 @@ export default class DialogElement extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        let defaultText = '';
         this.providers = [];
         if (props.type === 'select') {
             if (props.dataSource === 'users') {
@@ -50,10 +51,17 @@ export default class DialogElement extends React.PureComponent {
             } else if (props.options) {
                 this.providers = [new MenuActionProvider(props.options)];
             }
+
+            if (props.value && props.options) {
+                const defaultOption = props.options.find(
+                    (option) => option.value === props.value
+                );
+                defaultText = defaultOption.text || '';
+            }
         }
 
         this.state = {
-            value: '',
+            value: defaultText,
         };
     }
 
