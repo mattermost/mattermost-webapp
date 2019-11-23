@@ -153,7 +153,7 @@ function verifyMoreChannelsModal(isEnabled) {
     cy.visit('/');
 
     // # Select "More..." on the left hand side menu
-    cy.get('#sidebarChannelsMore').should('be.visible').click();
+    cy.get("button[data-testid='sidebarChannelsMore']").should('be.visible').click();
 
     // * Verify that the more channels modal is open and with or without option to view archived channels
     cy.get('#moreChannelsModal').should('be.visible').within(() => {

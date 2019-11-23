@@ -4,7 +4,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
 <div
   className="backstage-content row"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/test/integrations/commands"
     >
@@ -19,7 +19,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
       id="Header"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
@@ -500,7 +500,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
 <div
   className="backstage-content row"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/test/integrations/commands"
     >
@@ -515,7 +515,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
       id="Header"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >

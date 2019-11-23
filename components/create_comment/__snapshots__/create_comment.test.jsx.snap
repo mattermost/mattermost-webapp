@@ -79,6 +79,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         <input
           className="btn btn-primary comment-btn"
           disabled={false}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -171,7 +172,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -240,6 +241,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <input
           className="btn btn-primary comment-btn"
           disabled={false}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -332,7 +334,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={3}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -377,6 +379,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <input
           className="btn btn-primary comment-btn"
           disabled={false}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -481,7 +484,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -550,6 +553,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <input
           className="btn btn-primary comment-btn disabled"
           disabled={true}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -642,7 +646,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(FileUpload)
             fileCount={4}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -711,6 +715,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <input
           className="btn btn-primary comment-btn"
           disabled={false}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"

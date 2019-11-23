@@ -359,14 +359,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -479,14 +483,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -599,14 +607,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -756,14 +768,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -1018,14 +1034,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -1280,14 +1300,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={false}
       onClick={[Function]}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -1437,14 +1461,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={false}
       onClick={[Function]}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -1644,14 +1672,18 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
