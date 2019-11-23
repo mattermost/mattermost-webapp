@@ -8,6 +8,7 @@ import AtMention from 'components/at_mention';
 import LatexBlock from 'components/latex_block';
 import LinkTooltip from 'components/link_tooltip/link_tooltip';
 import MarkdownImage from 'components/markdown_image';
+import MarkdownList from 'components/markdown_list';
 import PostEmoji from 'components/post_emoji';
 
 /*
@@ -130,6 +131,20 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             },
         });
     }
+
+    processingInstructions.push({
+        shouldProcessNode: (node) => node.type === 'tag' && node.name === 'ol',
+        processNode: (node, children) => {
+            return (
+                <MarkdownList
+                    {...node.attribs}
+                    tag={node.name}
+                >
+                    {children}
+                </MarkdownList>
+            );
+        }
+    });
 
     processingInstructions.push({
         shouldProcessNode: () => true,
