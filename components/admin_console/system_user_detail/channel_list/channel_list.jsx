@@ -74,8 +74,8 @@ export default class ChannelList extends React.Component {
     componentDidMount() {
         this.getTeams().
             then(teams => {
-                return this.getChannels(teams);
                 console.log(teams);
+                return this.getChannelMemberships(teams);
             }).
             then(channels => console.log(channels))
     }
@@ -91,10 +91,10 @@ export default class ChannelList extends React.Component {
         return teams;
     }
 
-    getChannels = async (teams) => {
+    getChannelMemberships = async (teams) => {
         return Promise.all(
-            teams.data.map(async (object) => {
-                return await this.props.actions.getMyChannelMembers(object.id);
+            teams.data.map(async (team) => {
+                return await this.props.actions.getMyChannelMembers(team.id);
             })
         );
     }
