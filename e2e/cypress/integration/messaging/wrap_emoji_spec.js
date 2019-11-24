@@ -20,7 +20,7 @@ describe('Messaging', () => {
 
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).
-               should('have.css', 'height', '64px');
+                should('have.css', 'height', '64px');
         });
     }
     )
