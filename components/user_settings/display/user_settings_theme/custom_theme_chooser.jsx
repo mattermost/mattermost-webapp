@@ -112,8 +112,15 @@ const messages = defineMessages({
     },
 });
 
-export default class CustomThemeChooser extends React.Component {
+export default class CustomThemeChooser extends React.PureComponent {
     static propTypes = {
+
+        /*
+         * Whether or not to set the theme ID to custom when it is changed. Intended to be true when this is in the
+         * Account Settings or false when it's being used to modify the system themes in the System Console.
+         */
+        overwriteThemeId: PropTypes.bool.isRequired,
+
         theme: PropTypes.object.isRequired,
         updateTheme: PropTypes.func.isRequired,
     };
@@ -145,9 +152,12 @@ export default class CustomThemeChooser extends React.Component {
         if (theme[settingId] !== color) {
             const newTheme = {
                 ...theme,
-                id: 'custom',
                 [settingId]: color,
             };
+
+            if (this.props.overwriteThemeId) {
+                newTheme.id = 'custom';
+            }
 
             // For backwards compatability
             if (settingId === 'mentionBg') {
@@ -166,7 +176,6 @@ export default class CustomThemeChooser extends React.Component {
 
     static setCopyTheme(theme) {
         const copyTheme = Object.assign({}, theme);
-        delete copyTheme.id;
         delete copyTheme.image;
 
         return JSON.stringify(copyTheme);
@@ -196,7 +205,10 @@ export default class CustomThemeChooser extends React.Component {
             copyTheme: JSON.stringify(theme),
         });
 
-        theme.id = 'custom';
+        if (this.props.overwriteThemeId) {
+            theme.id = 'custom';
+        }
+
         this.props.updateTheme(theme);
     }
 
@@ -243,9 +255,12 @@ export default class CustomThemeChooser extends React.Component {
     onCodeThemeChange = (e) => {
         const theme = {
             ...this.props.theme,
-            id: 'custom',
             codeTheme: e.target.value,
         };
+
+        if (this.props.overwriteThemeId) {
+            theme.id = 'custom';
+        }
 
         this.props.updateTheme(theme);
     }

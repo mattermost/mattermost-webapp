@@ -75,6 +75,7 @@ export default class ThemePicker extends React.Component<Props, State> {
                     <div className='theme-picker__editor-wrapper'>
                         <div className='theme-picker__custom-wrapper'>
                             <CustomThemeChooser
+                                overwriteThemeId={false}
                                 theme={this.state.selectedTheme}
                                 updateTheme={this.updateSelectedTheme}
                             />

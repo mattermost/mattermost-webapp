@@ -166,6 +166,7 @@ export default class ThemeSetting extends React.PureComponent {
             custom = (
                 <div key='customThemeChooser'>
                     <CustomThemeChooser
+                        overwriteThemeId={true}
                         theme={this.state.theme}
                         updateTheme={this.updateTheme}
                     />
