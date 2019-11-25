@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
 import {shallow} from 'enzyme';
+import React from 'react';
 
+import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal.jsx';
 import Constants from 'utils/constants';
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal';
 
 describe('components/LeavePrivateChannelModal', () => {
     const channels = {
@@ -43,7 +43,7 @@ describe('components/LeavePrivateChannelModal', () => {
             <LeavePrivateChannelModal
                 {...baseProps}
             />
-        ).dive({disableLifecycleMethods: true});
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
