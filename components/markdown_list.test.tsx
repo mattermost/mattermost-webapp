@@ -55,6 +55,6 @@ describe('MarkdownList', () => {
         );
 
         expect(wrapper.instance().getMaxOrdinal()).toBe(-1);
-        expect(wrapper.find('ul').prop('style')).not.toBeDefined();
+        expect(wrapper.find('ul').prop('style')).toEqual({});
     });
 });
