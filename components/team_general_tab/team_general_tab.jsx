@@ -371,6 +371,12 @@ export default class GeneralTab extends React.Component {
             } else {
                 inputs = [
                     <fieldset key='userOpenInviteOptions'>
+                        <legend className='form-legend hidden-label'>
+                            <FormattedMessage
+                                id='team_settings.openInviteDescription.ariaLabel'
+                                defaultMessage='Invite Code'
+                            />
+                        </legend>
                         <div className='radio'>
                             <label>
                                 <input
@@ -715,6 +721,7 @@ export default class GeneralTab extends React.Component {
                             value={this.state.allowed_domains}
                             onFocus={Utils.moveCursorToEnd}
                             placeholder={{id: t('general_tab.AllowedDomainsExample'), defaultMessage: 'corp.mattermost.com, mattermost.org'}}
+                            aria-label={Utils.localizeMessage('general_tab.allowedDomains.ariaLabel', 'Allowed Domains')}
                         />
                     </div>
                 </div>
