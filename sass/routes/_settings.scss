@@ -282,31 +282,6 @@
                         }
                     }
 
-                    .premade-themes {
-                        margin-bottom: 10px;
-
-                        .theme-label {
-                            font-weight: 400;
-                            margin-top: 5px;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                        }
-
-                        img {
-                            border: 3px solid transparent;
-                            &:hover {
-                              cursor: pointer;
-                            }
-                        }
-
-                        .active {
-                            img {
-                                border-color: $primary-color;
-                            }
-                        }
-                    }
-
                     .theme-elements {
                         padding-left: 15px;
 

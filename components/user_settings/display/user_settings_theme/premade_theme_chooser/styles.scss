@@ -1,0 +1,50 @@
+@charset 'UTF-8';
+
+.premade-themes {
+    margin-bottom: 10px;
+
+    .theme-label {
+        font-weight: 400;
+        margin-top: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &.active {
+        .theme-preview {
+            border: 0px;
+            box-shadow: 0px 0px 10px rgba(22, 109, 224, 0.8);
+        }
+    }
+}
+
+.theme-preview {
+    box-shadow: 0px 0px 10px var(--center-channel-color-60);// rgba(255, 255, 255, 0.2);
+    display: flex;
+    height: 90px;
+    width: 110px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .theme-preview__sidebar {
+        border-right-style: solid;
+        border-width: 1px;
+        position: relative;
+        width: 30px;
+    }
+
+    .theme-preview__sidebar-header {
+        height: 15px;
+        width: 100%;
+    }
+
+    .theme-preview__channel-header {
+        border-bottom-style: solid;
+        border-width: 1px;
+        flex: 1;
+        height: 15px;
+    }
+}

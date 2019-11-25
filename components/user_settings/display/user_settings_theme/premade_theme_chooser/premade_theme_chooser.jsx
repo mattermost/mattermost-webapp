@@ -1,58 +1,103 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import {changeOpacity} from 'mattermost-redux/utils/theme_utils';
 
-export default class PremadeThemeChooser extends React.Component {
+import LoadingScreen from 'components/loading_screen';
+
+import './styles.scss';
+
+export default class PremadeThemeChooser extends React.PureComponent {
+    static propTypes = {
+        allowedThemes: PropTypes.arrayOf(PropTypes.string),
+        systemThemes: PropTypes.object.isRequired,
+        theme: PropTypes.object.isRequired,
+        updateTheme: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            getAllThemes: PropTypes.func.isRequired,
+        }).isRequired,
+    }
+
+    static defaultProps = {
+        allowedThemes: [],
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: true,
+        };
+    }
+
     componentDidMount() {
-        this.props.actions.getAllThemes();
+        this.props.actions.getAllThemes().then(() => this.setState({loading: false}));
+    }
+
+    renderPreview = (theme) => {
+        return (
+            <div
+                className='theme-preview'
+                style={{backgroundColor: theme.centerChannelBg}}
+            >
+                <div
+                    className='theme-preview__sidebar'
+                    style={{backgroundColor: theme.sidebarBg, borderColor: changeOpacity(theme.centerChannelColor, 0.2)}}
+                >
+                    <div
+                        className='theme-preview__sidebar-header'
+                        style={{backgroundColor: theme.sidebarHeaderBg}}
+                    />
+                </div>
+                <div
+                    className='theme-preview__channel-header'
+                    style={{borderColor: changeOpacity(theme.centerChannelColor, 0.2)}}
+                />
+            </div>
+        );
     }
 
     render() {
-        const theme = this.props.theme;
+        const {
+            allowedThemes,
+            systemThemes,
+            theme,
+        } = this.props;
 
-        const premadeThemes = [];
-        const allowedThemes = this.props.allowedThemes;
         const hasAllowedThemes = allowedThemes.length > 1 || (allowedThemes[0] && allowedThemes[0].trim().length > 0);
-        const allThemes = this.props.themes;
 
-        for (const k in allThemes) {
-            if (allThemes.hasOwnProperty(k)) {
-                if (hasAllowedThemes && allowedThemes.indexOf(k) < 0) {
+        let content;
+        if (this.state.loading) {
+            content = <LoadingScreen/>;
+        } else {
+            content = [];
+
+            const sortedThemes = Object.values(systemThemes).sort(sortSystemThemes);
+
+            for (const systemTheme of sortedThemes) {
+                if (hasAllowedThemes && allowedThemes.indexOf(systemTheme.id) !== -1) {
                     continue;
                 }
 
-                const premadeTheme = $.extend(true, {}, allThemes[k]);
-
-                let activeClass = '';
-                if (premadeTheme.id === theme.id) {
-                    activeClass = 'active';
+                let className = 'col-xs-6 col-sm-3 premade-themes';
+                if (systemTheme.id === theme.id) {
+                    className += ' active';
                 }
 
-                premadeThemes.push(
+                content.push(
                     <div
-                        className='col-xs-6 col-sm-3 premade-themes'
-                        key={'premade-theme-key' + k}
+                        key={systemTheme.id}
+                        id={`premadeTheme-${systemTheme.id}`}
+                        className={className}
+                        onClick={() => this.props.updateTheme(systemTheme, systemTheme.id)}
                     >
-                        <div
-                            id={`premadeTheme${premadeTheme.id.replace(' ', '')}`}
-                            className={activeClass}
-                            onClick={() => this.props.updateTheme(premadeTheme, k)}
-                        >
-                            <label>
-                                <img
-                                    alt={'premade theme ' + k}
-                                    className='img-responsive'
-                                    src={premadeTheme.image}
-                                />
-                                <div className='theme-label'>{Utils.toTitleCase(premadeTheme.display_name)}</div>
-                            </label>
-                        </div>
+                        <label>
+                            {this.renderPreview(systemTheme)}
+                            <div className='theme-label'>{systemTheme.display_name}</div>
+                        </label>
                     </div>
                 );
             }
@@ -61,19 +106,23 @@ export default class PremadeThemeChooser extends React.Component {
         return (
             <div className='row appearance-section'>
                 <div className='clearfix'>
-                    {premadeThemes}
+                    {content}
                 </div>
             </div>
         );
     }
 }
 
-PremadeThemeChooser.propTypes = {
-    theme: PropTypes.object.isRequired,
-    updateTheme: PropTypes.func.isRequired,
-    allowedThemes: PropTypes.arrayOf(PropTypes.string),
-};
+function sortSystemThemes(themeA, themeB) {
+    if (themeA.display_name !== themeB.display_name) {
+        return themeA.display_name.localeCompare(themeB.display_name);
+    }
 
-PremadeThemeChooser.defaultProps = {
-    allowedThemes: [],
-};
+    if (themeA.id < themeB.id) {
+        return -1;
+    } else if (themeA.id > themeB.id) {
+        return 1;
+    }
+
+    return 0;
+}
