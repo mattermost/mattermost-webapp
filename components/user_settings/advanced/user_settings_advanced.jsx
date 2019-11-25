@@ -234,6 +234,12 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     }
                     inputs={[
                         <fieldset key='formattingSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.advance.formattingTitle'
+                                    defaultMessage='Enable Post Formatting'
+                                />
+                            </legend>
                             <div className='radio'>
                                 <label>
                                     <input
@@ -330,7 +336,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             ];
 
             const inputs = [
-                <div key='ctrlSendSetting'>
+                <fieldset key='ctrlSendSetting'>
+                    <legend className='form-legend hidden-label'>
+                        <FormattedMessage
+                            id='user.settings.advance.sendTitle'
+                            defaultMessage='Send messages on CTRL+ENTER'
+                        />
+                    </legend>
                     <div className='radio'>
                         <label>
                             <input
@@ -395,7 +407,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                             defaultMessage='When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
                         />
                     </div>
-                </div>,
+                </fieldset>,
             ];
             ctrlSendSection = (
                 <SettingItemMax

@@ -175,13 +175,13 @@ export default class LicenseSettings extends React.Component {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <p>
-                    {'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from '}
+                    {'Mattermost Enterprise Edition. A license is required to unlock enterprise features. Start a trial subscription at '}
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
-                        href='https://mattermost.com/'
+                        href='https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial'
                     >
-                        {'https://mattermost.com/'}
+                        {'https://mattermost.com/trial/'}
                     </a>
                 </p>
             );
