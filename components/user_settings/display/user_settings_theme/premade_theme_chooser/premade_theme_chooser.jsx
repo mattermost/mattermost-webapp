@@ -9,23 +9,28 @@ import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 export default class PremadeThemeChooser extends React.Component {
+    componentDidMount() {
+        this.props.actions.getAllThemes();
+    }
+
     render() {
         const theme = this.props.theme;
 
         const premadeThemes = [];
         const allowedThemes = this.props.allowedThemes;
         const hasAllowedThemes = allowedThemes.length > 1 || (allowedThemes[0] && allowedThemes[0].trim().length > 0);
+        const allThemes = this.props.themes;
 
-        for (const k in Constants.THEMES) {
-            if (Constants.THEMES.hasOwnProperty(k)) {
+        for (const k in allThemes) {
+            if (allThemes.hasOwnProperty(k)) {
                 if (hasAllowedThemes && allowedThemes.indexOf(k) < 0) {
                     continue;
                 }
 
-                const premadeTheme = $.extend(true, {}, Constants.THEMES[k]);
+                const premadeTheme = $.extend(true, {}, allThemes[k]);
 
                 let activeClass = '';
-                if (premadeTheme.type === theme.type) {
+                if (premadeTheme.id === theme.id) {
                     activeClass = 'active';
                 }
 
@@ -35,9 +40,9 @@ export default class PremadeThemeChooser extends React.Component {
                         key={'premade-theme-key' + k}
                     >
                         <div
-                            id={`premadeTheme${premadeTheme.type.replace(' ', '')}`}
+                            id={`premadeTheme${premadeTheme.id.replace(' ', '')}`}
                             className={activeClass}
-                            onClick={() => this.props.updateTheme(premadeTheme)}
+                            onClick={() => this.props.updateTheme(premadeTheme, k)}
                         >
                             <label>
                                 <img
@@ -45,7 +50,7 @@ export default class PremadeThemeChooser extends React.Component {
                                     className='img-responsive'
                                     src={premadeTheme.image}
                                 />
-                                <div className='theme-label'>{Utils.toTitleCase(premadeTheme.type)}</div>
+                                <div className='theme-label'>{Utils.toTitleCase(premadeTheme.display_name)}</div>
                             </label>
                         </div>
                     </div>

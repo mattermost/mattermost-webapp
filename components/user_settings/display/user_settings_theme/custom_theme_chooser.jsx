@@ -124,11 +124,12 @@ export default class CustomThemeChooser extends React.Component {
 
     constructor(props) {
         super(props);
-        const copyTheme = this.setCopyTheme(this.props.theme);
+        this.state = {};
+    }
 
-        this.state = {
-            copyTheme,
-        };
+    static getDerivedStateFromProps(nextProps) {
+        const copyTheme = CustomThemeChooser.setCopyTheme(nextProps.theme);
+        return {copyTheme};
     }
 
     componentDidMount() {
@@ -144,7 +145,7 @@ export default class CustomThemeChooser extends React.Component {
         if (theme[settingId] !== color) {
             const newTheme = {
                 ...theme,
-                type: 'custom',
+                id: 'custom',
                 [settingId]: color,
             };
 
@@ -155,7 +156,7 @@ export default class CustomThemeChooser extends React.Component {
 
             updateTheme(newTheme);
 
-            const copyTheme = this.setCopyTheme(newTheme);
+            const copyTheme = CustomThemeChooser.setCopyTheme(newTheme);
 
             this.setState({
                 copyTheme,
@@ -163,9 +164,9 @@ export default class CustomThemeChooser extends React.Component {
         }
     }
 
-    setCopyTheme(theme) {
+    static setCopyTheme(theme) {
         const copyTheme = Object.assign({}, theme);
-        delete copyTheme.type;
+        delete copyTheme.id;
         delete copyTheme.image;
 
         return JSON.stringify(copyTheme);
@@ -195,7 +196,7 @@ export default class CustomThemeChooser extends React.Component {
             copyTheme: JSON.stringify(theme),
         });
 
-        theme.type = 'custom';
+        theme.id = 'custom';
         this.props.updateTheme(theme);
     }
 
@@ -242,7 +243,7 @@ export default class CustomThemeChooser extends React.Component {
     onCodeThemeChange = (e) => {
         const theme = {
             ...this.props.theme,
-            type: 'custom',
+            id: 'custom',
             codeTheme: e.target.value,
         };
 

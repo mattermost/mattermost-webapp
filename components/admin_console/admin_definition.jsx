@@ -48,6 +48,7 @@ import ClusterSettings from './cluster_settings.jsx';
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';
 
 import * as DefinitionConstants from './admin_definition_constants';
+import ThemePicker from './theme_picker';
 
 const FILE_STORAGE_DRIVER_LOCAL = 'local';
 const FILE_STORAGE_DRIVER_S3 = 'amazons3';
@@ -1556,6 +1557,15 @@ const AdminDefinition = {
                         help_text_default: 'Add a link to download the iOS app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.',
                     },
                 ],
+            },
+        },
+        themes: {
+            url: 'site_config/themes',
+            title: t('admin.themes.title'),
+            title_default: 'Theme Management',
+            schema: {
+                id: 'ThemePicker',
+                component: ThemePicker,
             },
         },
         localization: {
