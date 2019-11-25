@@ -44,7 +44,7 @@ export default class ThemePicker extends React.Component<Props, State> {
     }
 
     saveSelectedTheme = () => {
-        this.props.actions.saveTheme(this.state.selectedName, this.state.selectedTheme!);
+        this.props.actions.saveTheme(this.state.selectedTheme!);
     }
 
     deleteSelectedTheme = () => {
@@ -83,15 +83,12 @@ export default class ThemePicker extends React.Component<Props, State> {
                             <ThemePickerPreview theme={this.state.selectedTheme} />
                         </div>
                     </div>
-                    
-                    
                 </div>
             );
         }
         return (
             <div className='wrapper--fixed'>
                 <div className='theme-picker'>
-                    
                     {themeChooser}
                 </div>
             </div>
