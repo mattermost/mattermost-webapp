@@ -80,8 +80,6 @@ export default class MemberListChannel extends React.PureComponent {
                         return;
                     }
 
-                    this.setState({loading: true});
-
                     this.props.actions.loadStatusesForProfilesList(data);
                     this.props.actions.loadTeamMembersAndChannelMembersForProfilesList(data, this.props.currentTeamId, this.props.currentChannelId).then(({data: membersLoaded}) => {
                         if (membersLoaded) {

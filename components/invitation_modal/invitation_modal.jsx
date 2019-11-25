@@ -35,6 +35,7 @@ export default class InvitationModal extends React.Component {
             sendGuestsInvites: PropTypes.func.isRequired,
             sendMembersInvites: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            searchChannels: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -92,6 +93,16 @@ export default class InvitationModal extends React.Component {
         } else if (this.state.prevStep === STEPS_INVITE_MEMBERS) {
             this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
         }
+    }
+
+    getBackFunction = () => {
+        if (this.state.step === STEPS_INVITE_CONFIRM && this.state.invitesNotSent.length > 0) {
+            return this.goToPrevStep;
+        }
+        if ((this.state.step === STEPS_INVITE_MEMBERS || this.state.step === STEPS_INVITE_GUESTS) && this.props.canInviteGuests && this.props.canAddUsers) {
+            return this.goToInitialStep;
+        }
+        return null;
     }
 
     onEdit = (hasChanges) => {
@@ -180,6 +191,7 @@ export default class InvitationModal extends React.Component {
                 <FullScreenModal
                     show={Boolean(this.props.show)}
                     onClose={this.close}
+                    onGoBack={this.getBackFunction()}
                 >
                     <div
                         data-testid='invitationModal'
@@ -219,7 +231,6 @@ export default class InvitationModal extends React.Component {
                         {this.state.step === STEPS_INVITE_MEMBERS &&
                             <InvitationModalMembersStep
                                 inviteId={this.props.currentTeam.invite_id}
-                                goBack={(this.props.canInviteGuests && this.props.canAddUsers && this.goToInitialStep) || null}
                                 searchProfiles={this.props.actions.searchProfiles}
                                 onSubmit={this.onMembersSubmit}
                                 onEdit={this.onEdit}
@@ -227,10 +238,10 @@ export default class InvitationModal extends React.Component {
                         }
                         {this.state.step === STEPS_INVITE_GUESTS &&
                             <InvitationModalGuestsStep
-                                goBack={(this.props.canInviteGuests && this.props.canAddUsers && this.goToInitialStep) || null}
                                 currentTeamId={this.props.currentTeam.id}
                                 myInvitableChannels={this.props.invitableChannels}
                                 searchProfiles={this.props.actions.searchProfiles}
+                                searchChannels={this.props.actions.searchChannels}
                                 defaultChannels={this.state.lastInviteChannels}
                                 defaultMessage={this.state.lastInviteMessage}
                                 onSubmit={this.onGuestsSubmit}
@@ -241,7 +252,6 @@ export default class InvitationModal extends React.Component {
                             <InvitationModalConfirmStep
                                 teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
-                                goBack={this.goToPrevStep}
                                 onDone={this.close}
                                 invitesType={this.state.invitesType}
                                 invitesSent={this.state.invitesSent}

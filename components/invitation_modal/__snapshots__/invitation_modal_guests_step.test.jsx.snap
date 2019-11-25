@@ -4,18 +4,13 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
 <div
   className="InvitationModalGuestsStep"
 >
-  <BackIcon
-    className="back"
-    id="backIcon"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
   <h1>
-    <injectIntl(FormattedMarkdownMessage)
+    <InjectIntl(FormattedMarkdownMessage)
       defaultMessage="Invite **Guests**"
       id="invitation_modal.guests.title"
     />

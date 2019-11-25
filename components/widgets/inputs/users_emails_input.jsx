@@ -3,9 +3,9 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
 import AsyncSelect from 'react-select/lib/AsyncCreatable';
 import {components} from 'react-select';
+import {intlShape} from 'react-intl';
 import classNames from 'classnames';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -24,9 +24,8 @@ import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
 
-class UsersEmailsInput extends React.Component {
+export default class UsersEmailsInput extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
         placeholder: PropTypes.string,
         ariaLabel: PropTypes.string.isRequired,
         usersLoader: PropTypes.func,
@@ -41,6 +40,10 @@ class UsersEmailsInput extends React.Component {
         loadingMessageId: PropTypes.string,
         loadingMessageDefault: PropTypes.string,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     static defaultProps = {
         noMatchMessageId: t('widgets.users_emails_input.no_user_found_matching'),
@@ -80,11 +83,13 @@ class UsersEmailsInput extends React.Component {
     }
 
     loadingMessage = () => {
-        const {intl, loadingMessageId, loadingMessageDefault} = this.props;
-        const text = intl.formatMessage({
-            id: loadingMessageId,
-            defaultMessage: loadingMessageDefault,
-        });
+        let text = 'Loading';
+        if (this.context.intl) {
+            text = this.context.intl.formatMessage({
+                id: this.props.loadingMessageId,
+                defaultMessage: this.props.loadingMessageDefault,
+            });
+        }
 
         return (<LoadingSpinner text={text}/>);
     }
@@ -284,5 +289,3 @@ class UsersEmailsInput extends React.Component {
         );
     }
 }
-
-export default injectIntl(UsersEmailsInput);

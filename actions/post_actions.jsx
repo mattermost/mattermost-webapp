@@ -225,6 +225,14 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
     };
 }
 
+export function markPostAsUnread(post) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const userId = getCurrentUserId(state);
+        await dispatch(PostActions.setUnreadPost(userId, post.id));
+    };
+}
+
 export function hideEditPostModal() {
     return {
         type: ActionTypes.HIDE_EDIT_POST_MODAL,
