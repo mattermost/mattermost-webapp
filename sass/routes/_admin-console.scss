@@ -947,7 +947,13 @@
         }
     }
 
+    .theme-picker__premade-wrapper > .appearance-section > .clearfix {
+        display: flex;
+        overflow: auto;
+    }
+
     .premade-themes {
+        flex: 1 0 150px;
         margin-bottom: 10px;
 
         .theme-label {
