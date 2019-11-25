@@ -5,7 +5,7 @@ exports[`components/UserProfile should match snapshot 1`] = `
   <OverlayTrigger
     defaultOverlayShown={false}
     overlay={
-      <Connect(injectIntl(ProfilePopover))
+      <Connect(InjectIntl(ProfilePopover))
         className="user-profile-popover"
         hasMention={false}
         hide={[Function]}
