@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 import marked from 'marked';
 
@@ -38,7 +38,7 @@ export class CustomRenderer extends marked.Renderer {
 class FormattedMarkdownMessage extends React.PureComponent {
     static get propTypes() {
         return {
-            intl: PropTypes.any,
+            intl: intlShape.isRequired,
             id: PropTypes.string.isRequired,
             defaultMessage: PropTypes.string.isRequired,
             values: PropTypes.object,
@@ -48,9 +48,7 @@ class FormattedMarkdownMessage extends React.PureComponent {
     render() {
         const origMsg = this.props.intl.formatMessage({
             id: this.props.id,
-
-            // Any strings, but never empty
-            defaultMessage: this.props.defaultMessage || this.props.id,
+            defaultMessage: this.props.defaultMessage,
         }, this.props.values);
 
         const markedUpMessage = marked(origMsg, {

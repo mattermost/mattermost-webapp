@@ -18,10 +18,7 @@ export default class QuickInput extends React.PureComponent {
         /**
          * An optional React component that will be used instead of an HTML input when rendering
          */
-        inputComponent: PropTypes.oneOfType([
-            PropTypes.func,
-            PropTypes.object,
-        ]),
+        inputComponent: PropTypes.elementType,
 
         /**
          * The string value displayed in this input

@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import {Preferences} from 'mattermost-redux/constants';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import UserSettingsTheme from 'components/user_settings/display/user_settings_theme/user_settings_theme.jsx';
 
 describe('components/user_settings/display/user_settings_theme/user_settings_theme.jsx', () => {
@@ -25,7 +25,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
     };
 
     it('should match snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <UserSettingsTheme {...requiredProps}/>
         );
 
@@ -33,7 +33,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
     });
 
     it('should saveTheme', async () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <UserSettingsTheme {...requiredProps}/>
         );
 
@@ -57,7 +57,7 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <UserSettingsTheme {...props}/>
         );
 
