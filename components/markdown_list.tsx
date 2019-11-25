@@ -4,8 +4,8 @@
 import React from 'react';
 
 type Props = {
-    children: React.ReactChild;
-    tag: 'ol' | 'ul';
+    children?: any;
+    tag: string;
 };
 
 export default class MarkdownList extends React.PureComponent<Props> {
@@ -16,7 +16,11 @@ export default class MarkdownList extends React.PureComponent<Props> {
         }
 
         // Filter out all non-li children like newline characters
-        const items = this.props.children.filter((child) => typeof child === 'object' && child.type === 'li');
+        const items = React.Children.toArray(this.props.children).filter((child) => child && typeof child === 'object' && child.type === 'li');
+
+        if (items.length === 0 || !items[0]) {
+            return -1;
+        }
 
         const start = parseInt(items[0].props.value, 10);
 
@@ -26,6 +30,7 @@ export default class MarkdownList extends React.PureComponent<Props> {
     render() {
         const {children, tag, ...props} = this.props;
 
+        const style: React.CSSProperties = {};
         if (tag === 'ol') {
             // Figure out how much space to leave for the numbers on the left
             const maxOrdinal = this.getMaxOrdinal();
@@ -37,9 +42,12 @@ export default class MarkdownList extends React.PureComponent<Props> {
             // And add a bit more space so that the bullets line up better with unordered lists
             characters += 2;
 
-            props.style = {paddingLeft: `${characters}ch`};
+            style.paddingLeft = `${characters}ch`;
         }
 
-        return React.createElement(tag, props, children);
+        return React.createElement(tag, {
+            ...props,
+            style,
+        }, children);
     }
 }

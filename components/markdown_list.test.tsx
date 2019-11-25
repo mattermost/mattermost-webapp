@@ -12,9 +12,9 @@ describe('MarkdownList', () => {
     };
 
     test('should have padding of 2 characters for a 1 digit bullet', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<MarkdownList>(
             <MarkdownList {...baseProps}>
-                {'\n'}
+                <>{'\n'}</>
                 <li value='1'>{'one'}</li>
                 <li>{'two'}</li>
                 <li>{'three'}</li>
@@ -26,9 +26,9 @@ describe('MarkdownList', () => {
     });
 
     test('should have a padding of 5 characters for a 4 digit bullet', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<MarkdownList>(
             <MarkdownList {...baseProps}>
-                {'\n'}
+                <>{'\n'}</>
                 <li value='999'>{'one'}</li>
                 <li>{'two'}</li>
                 <li>{'three'}</li>
@@ -45,9 +45,9 @@ describe('MarkdownList', () => {
             tag: 'ul',
         };
 
-        const wrapper = shallow(
+        const wrapper = shallow<MarkdownList>(
             <MarkdownList {...props}>
-                {'\n'}
+                <>{'\n'}</>
                 <li value='1'>{'one'}</li>
                 <li>{'two'}</li>
                 <li>{'three'}</li>
