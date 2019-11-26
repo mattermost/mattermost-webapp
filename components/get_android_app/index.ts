@@ -3,16 +3,16 @@
 
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-import GetIosApp from './get_ios_app.tsx';
+import GetAndroidApp from './get_android_app';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const iosAppDownloadLink = config.IosAppDownloadLink;
 
     return {
-        iosAppDownloadLink,
+        androidAppDownloadLink: config.AndroidAppDownloadLink,
     };
 }
 
-export default connect(mapStateToProps)(GetIosApp);
+export default connect(mapStateToProps)(GetAndroidApp);
