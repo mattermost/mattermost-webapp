@@ -56,7 +56,7 @@ export default class DialogElement extends React.PureComponent {
                 const defaultOption = props.options.find(
                     (option) => option.value === props.value
                 );
-                defaultText = defaultOption.text || '';
+                defaultText = defaultOption ? defaultOption.text : '';
             }
         }
 
