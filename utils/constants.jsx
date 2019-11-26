@@ -226,6 +226,7 @@ export const ModalIdentifiers = {
     MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
     MOBILE_SUBMENU: 'mobile_submenu',
     PLUGIN_MARKETPLACE: 'plugin_marketplace',
+    MOVE_TO_CHANNEL_POST: 'move_to_channel_post',
 };
 
 export const UserStatuses = {

@@ -25,6 +25,8 @@ import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
+//import MoveToChannelPostModal from 'components/move_to_channel_post_modal';
+
 
 export default class ChannelController extends React.Component {
     static propTypes = {
@@ -80,6 +82,7 @@ export default class ChannelController extends React.Component {
                     <GetPublicLinkModal/>
                     <ImportThemeModal/>
                     <EditPostModal/>
+                    {/* <MoveToChannelPostModal/> */}
                     <ResetStatusModal/>
                     <LeavePrivateChannelModal/>
                     <ShortcutsModal isMac={Utils.isMac()}/>

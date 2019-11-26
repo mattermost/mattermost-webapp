@@ -54,6 +54,8 @@ describe('PolicyRolesAdapter', () => {
                     Permissions.DELETE_POST,
                     Permissions.DELETE_OTHERS_POSTS,
                     Permissions.EDIT_POST,
+                    Permissions.MOVE_TO_CHANNEL_POST,
+                    Permissions.MOVE_TO_CHANNEL_OTHERS_POSTS,
                 ],
             },
             system_user: {

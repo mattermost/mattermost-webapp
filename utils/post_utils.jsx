@@ -85,6 +85,25 @@ export function canDeletePost(post) {
     return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
+export function canMoveToChannelPost(post) {
+    if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED || post.root_id.length != 0) {
+        return false;
+    }
+
+    const channel = getChannel(store.getState(), post.channel_id);
+
+    if (channel && channel.delete_at !== 0) {
+        return false;
+    }
+
+    //TODO(ctomai)
+    // if (isPostOwner(post)) {
+    //     return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.MOVE_TO_CHANNEL_POST});
+    // }
+    // return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.MOVE_TO_CHANNEL_OTHERS_POSTS});
+    return true;
+}
+
 export function canEditPost(post) {
     const state = store.getState();
     const license = getLicense(state);

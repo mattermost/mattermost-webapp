@@ -8,9 +8,10 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {showGetPostLinkModal} from 'actions/global_actions.jsx';
+import {showGetPostLinkModal, showChooseChannelForPostMoveModal} from 'actions/global_actions.jsx';
 import {Locations, ModalIdentifiers, Constants} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
+
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
@@ -20,6 +21,7 @@ import Pluggable from 'plugins/pluggable';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import MoveToChannelPostModal from 'components/move_to_channel_post_modal';
 
 const MENU_BOTTOM_MARGIN = 80;
 
@@ -123,6 +125,7 @@ export default class DotMenu extends Component {
         return {
             canDelete: PostUtils.canDeletePost(props.post) && !props.isReadOnly,
             canEdit: PostUtils.canEditPost(props.post) && !props.isReadOnly,
+            canMoveToChannel: PostUtils.canMoveToChannelPost(props.post) && !props.isReadOnly,
         };
     }
 
@@ -174,7 +177,7 @@ export default class DotMenu extends Component {
         e.preventDefault();
 
         const deletePostModalData = {
-            ModalId: ModalIdentifiers.DELETE_POST,
+            modalId: ModalIdentifiers.DELETE_POST,
             dialogType: DeletePostModal,
             dialogProps: {
                 post: this.props.post,
@@ -194,6 +197,20 @@ export default class DotMenu extends Component {
             this.props.post.root_id ? Utils.localizeMessage('rhs_comment.comment', 'Comment') : Utils.localizeMessage('create_post.post', 'Post'),
             this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
         );
+    }
+
+    handleChooseChannelForPostMoveMenuItemActivated = (e) => {
+        e.preventDefault();
+        const movePostModalData = {
+            modalId: ModalIdentifiers.MOVE_TO_CHANNEL_POST,
+            dialogType: MoveToChannelPostModal,
+            dialogProps: {
+                post: this.props.post,
+                isRHS: this.props.location === Locations.RHS_ROOT || this.props.location === Locations.RHS_COMMENT,
+            },
+        };
+
+        this.props.actions.openModal(movePostModalData);
     }
 
     tooltip = (
@@ -362,6 +379,12 @@ export default class DotMenu extends Component {
                             text={Utils.localizeMessage('post_info.del', 'Delete')}
                             onClick={this.handleDeleteMenuItemActivated}
                             isDangerous={true}
+                        />
+                        <Menu.ItemAction
+                            id={`move_post_${this.props.post.id}`}
+                            show={this.state.canMoveToChannel}
+                            text={Utils.localizeMessage('post_info.move', 'Move To Channel')}
+                            onClick={this.handleChooseChannelForPostMoveMenuItemActivated}
                         />
                     </Menu.Group>
                     {pluginItems.length > 0 && this.renderDivider('plugins')}

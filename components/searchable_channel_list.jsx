@@ -60,7 +60,7 @@ export default class SearchableChannelList extends React.Component {
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
         let archiveIcon;
-        const {shouldShowArchivedChannels} = this.props;
+        const {shouldShowArchivedChannels, shouldShowMoveToChannelPost} = this.props;
 
         if (shouldShowArchivedChannels) {
             archiveIcon = (
@@ -98,8 +98,8 @@ export default class SearchableChannelList extends React.Component {
                             text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
-                                id={shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
-                                defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
+                                id={shouldShowMoveToChannelPost ? 'more_channels.move_to_channel_post' : (shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join')}
+                                defaultMessage={shouldShowMoveToChannelPost ? 'Move' : (shouldShowArchivedChannels ? 'View' : 'Join')}
                             />
                         </LoadingWrapper>
                     </button>
@@ -301,4 +301,5 @@ SearchableChannelList.propTypes = {
     toggleArchivedChannels: PropTypes.func.isRequired,
     shouldShowArchivedChannels: PropTypes.bool.isRequired,
     canShowArchivedChannels: PropTypes.bool.isRequired,
+    shouldShowMoveToChannelPost: PropTypes.bool.isRequired,
 };
