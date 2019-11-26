@@ -221,10 +221,10 @@ export default class MarketplaceItem extends React.Component {
         installing: PropTypes.bool.isRequired,
         error: PropTypes.string,
         isDefaultMarketplace: PropTypes.bool.isRequired,
+        trackEvent: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             installPlugin: PropTypes.func.isRequired,
             closeMarketplaceModal: PropTypes.func.isRequired,
-            trackEvent: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -238,13 +238,13 @@ export default class MarketplaceItem extends React.Component {
 
     trackEvent = (eventName, allowDetail = true) => {
         if (this.props.isDefaultMarketplace && allowDetail) {
-            this.props.actions.trackEvent('plugins', eventName, {
+            this.props.trackEvent('plugins', eventName, {
                 plugin_id: this.props.id,
                 version: this.props.version,
                 installed_version: this.props.installedVersion,
             });
         } else {
-            this.props.actions.trackEvent('plugins', eventName);
+            this.props.trackEvent('plugins', eventName);
         }
     }
 

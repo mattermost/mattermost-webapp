@@ -22,6 +22,7 @@ function mapStateToProps(state, props) {
         installing,
         error,
         isDefaultMarketplace,
+        trackEvent,
     };
 }
 
@@ -30,7 +31,6 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             installPlugin,
             closeMarketplaceModal: () => closeModal(ModalIdentifiers.PLUGIN_MARKETPLACE),
-            trackEvent,
         }, dispatch),
     };
 }
