@@ -28,7 +28,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           className="group-list-search"
         >
           <input
-            data-test="search-input"
+            data-testid="search-input"
             onChange={[Function]}
             onKeyUp={[Function]}
             placeholder="Search"
@@ -42,7 +42,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           />
           <i
             className="fa fa-times-circle group-filter-action hidden"
-            data-test="clear-search"
+            data-testid="clear-search"
             onClick={[Function]}
           />
         </div>
@@ -226,7 +226,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           className="group-list-search"
         >
           <input
-            data-test="search-input"
+            data-testid="search-input"
             onChange={[Function]}
             onKeyUp={[Function]}
             placeholder="Search"
@@ -240,7 +240,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
           />
           <i
             className="fa fa-times-circle group-filter-action hidden"
-            data-test="clear-search"
+            data-testid="clear-search"
             onClick={[Function]}
           />
         </div>
