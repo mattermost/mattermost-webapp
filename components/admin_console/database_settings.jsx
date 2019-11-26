@@ -13,7 +13,7 @@ import AdminSettings from './admin_settings';
 import BooleanSetting from './boolean_setting';
 import RequestButton from './request_button/request_button.jsx';
 import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 export default class DatabaseSettings extends AdminSettings {
     getConfigFromState = (config) => {

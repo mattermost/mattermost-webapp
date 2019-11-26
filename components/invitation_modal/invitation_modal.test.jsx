@@ -2,12 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
 import InvitationModal from './invitation_modal.jsx';
 
 describe('components/invitation_modal/InvitationModal', () => {
-    const context = {router: {}};
+    const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
+    const {intl} = intlProvider.getChildContext();
+    const context = {router: {}, intl};
 
     const defaultProps = {
         show: true,
@@ -24,6 +27,7 @@ describe('components/invitation_modal/InvitationModal', () => {
             sendGuestsInvites: jest.fn(),
             sendMembersInvites: jest.fn(),
             searchProfiles: jest.fn(),
+            searchChannels: jest.fn(),
             getTeam: jest.fn(),
         },
     };
