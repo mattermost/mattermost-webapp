@@ -67,6 +67,12 @@ export default class JoinLeaveSection extends React.PureComponent {
                     }
                     inputs={[
                         <fieldset key='joinLeaveSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.advance.joinLeaveTitle'
+                                    defaultMessage='Enable Join/Leave Messages'
+                                />
+                            </legend>
                             <div className='radio'>
                                 <label>
                                     <input
