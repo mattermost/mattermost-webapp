@@ -35,6 +35,7 @@ export default class InvitationModal extends React.Component {
             sendGuestsInvites: PropTypes.func.isRequired,
             sendMembersInvites: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            searchChannels: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -95,7 +96,7 @@ export default class InvitationModal extends React.Component {
     }
 
     getBackFunction = () => {
-        if (this.state.step === STEPS_INVITE_CONFIRM && this.invitesNotSent.length > 0) {
+        if (this.state.step === STEPS_INVITE_CONFIRM && this.state.invitesNotSent.length > 0) {
             return this.goToPrevStep;
         }
         if ((this.state.step === STEPS_INVITE_MEMBERS || this.state.step === STEPS_INVITE_GUESTS) && this.props.canInviteGuests && this.props.canAddUsers) {
@@ -240,6 +241,7 @@ export default class InvitationModal extends React.Component {
                                 currentTeamId={this.props.currentTeam.id}
                                 myInvitableChannels={this.props.invitableChannels}
                                 searchProfiles={this.props.actions.searchProfiles}
+                                searchChannels={this.props.actions.searchChannels}
                                 defaultChannels={this.state.lastInviteChannels}
                                 defaultMessage={this.state.lastInviteMessage}
                                 onSubmit={this.onGuestsSubmit}
