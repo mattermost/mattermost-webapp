@@ -8,41 +8,55 @@
 // ***************************************************************
 
 describe('Customization', () => {
-    let config;
+    let origConfig;
 
-    beforeEach(() => {
+    before(() => {
         // Get config
         cy.apiGetConfig().then((response) => {
-            config = response.body;
+            const config = response.body;
+            origConfig = {
+                SupportSettings: {HelpLink: config.SupportSettings.HelpLink},
+                TeamSettings: {SiteName: config.TeamSettings.SiteName},
+            };
         });
 
-        // # Login as System Admin
+        // # Login as sysadmin and visit customization system console page
         cy.apiLogin('sysadmin');
-
-        // visit site config customization page
         cy.visit('/admin_console/site_config/customization');
     });
 
+    after(() => {
+        cy.apiUpdateConfig(origConfig);
+    });
+    
     it('SC20335 - Can change Site Name setting', () => {
         // * Verify site name's setting name for is visible and matches the text
-        cy.get('[data-testid="TeamSettings.SiteNamelabel"]').should('be.visible').and('have.text', 'Site Name:');
+        cy.findByTestId('TeamSettings.SiteNamelabel')
+            .should('be.visible')
+            .and('have.text', 'Site Name:');
 
-        // * Verify the input box has default value. The default value depends on the setup before running the test.
-        cy.get('[id="TeamSettings.SiteName"]').should('have.value', config.TeamSettings.SiteName);
+        // * Verify the site name input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.SiteNameinput')
+            .should('have.value', origConfig.TeamSettings.SiteName);
 
-        // * Verify the help text is visible and matches the text
-        cy.get('[data-testid="TeamSettings.SiteNamehelp-text"]').find('span').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
+        // * Verify the site name's help text is visible and matches the text
+        cy.findByTestId('TeamSettings.SiteNamehelp-text')
+            .find('span')
+            .should('be.visible')
+            .and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
 
         // # Generate and enter a random site name
-        const siteName = Math.random().toString(36).substring(2, 8);
-        cy.get('[id="TeamSettings.SiteName"]').clear().type(siteName);
+        const siteName = "New site name";
+        cy.findByTestId('TeamSettings.SiteNameinput')
+            .clear()
+            .type(siteName);
 
         // # Click Save button
         cy.get('#saveSetting').click();
 
         // Get config again
-        cy.apiGetConfig().then((response) => {
-            config = response.body;
+        cy.apiGetConfig().then(response => {
+            const config = response.body;
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
