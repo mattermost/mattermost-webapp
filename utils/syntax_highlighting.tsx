@@ -157,13 +157,16 @@ function formatHighLight(code: string) {
     return code;
 }
 
-export function highlight(lang: string, code: string) {
+export function highlight(lang: string, code: string, addLineNumbers = false) {
     const language = getLanguageFromNameOrAlias(lang);
 
     if (language) {
         try {
             const codeValue = hlJS.highlight(language, code).value;
-            return formatHighLight(codeValue);
+            if (addLineNumbers) {
+                return formatHighLight(codeValue);
+            }
+            return codeValue;
         } catch (e) {
             // fall through if highlighting fails and handle below
         }

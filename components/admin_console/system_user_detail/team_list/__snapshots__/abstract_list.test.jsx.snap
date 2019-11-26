@@ -326,14 +326,18 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       disabled={false}
       onClick={[Function]}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -549,14 +553,18 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next "
       disabled={false}
       onClick={[Function]}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
@@ -660,14 +668,18 @@ exports[`admin_console/system_user_detail/team_list/AbstractList should match sn
       disabled={true}
       onClick={null}
     >
-      <injectIntl(PreviousIcon) />
+      <PreviousIcon
+        additionalClassName={null}
+      />
     </button>
     <button
       className="btn btn-link next disabled"
       disabled={true}
       onClick={null}
     >
-      <injectIntl(NextIcon) />
+      <NextIcon
+        additionalClassName={null}
+      />
     </button>
   </div>
 </div>
