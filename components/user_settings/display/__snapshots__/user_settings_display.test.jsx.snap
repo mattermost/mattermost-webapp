@@ -150,7 +150,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Channel Display"
+                  id="user.settings.display.channelDisplayTitle"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -197,7 +206,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -301,7 +310,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Clock Display"
+                  id="user.settings.display.clockDisplay"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -348,7 +366,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -594,7 +612,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Default appearance of image previews"
+                  id="user.settings.display.collapseDisplay"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -641,7 +668,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -1165,7 +1192,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Website Link Previews"
+                  id="user.settings.display.linkPreviewDisplay"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -1212,7 +1248,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
@@ -1435,7 +1471,16 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         infoPosition="bottom"
         inputs={
           Array [
-            <div>
+            <fieldset>
+              <legend
+                className="form-legend hidden-label"
+              >
+                <FormattedMessage
+                  defaultMessage="Message Display"
+                  id="user.settings.display.messageDisplayTitle"
+                  values={Object {}}
+                />
+              </legend>
               <div
                 className="radio"
               >
@@ -1502,7 +1547,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
                   values={Object {}}
                 />
               </div>
-            </div>,
+            </fieldset>,
           ]
         }
         saving={false}
