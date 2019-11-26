@@ -21,6 +21,15 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
   inputs={
     Array [
       <fieldset>
+        <legend
+          className="form-legend hidden-label"
+        >
+          <FormattedMessage
+            defaultMessage="Enable Join/Leave Messages"
+            id="user.settings.advance.joinLeaveTitle"
+            values={Object {}}
+          />
+        </legend>
         <div
           className="radio"
         >

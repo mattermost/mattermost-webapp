@@ -48,7 +48,7 @@ export default class ChannelMore extends React.PureComponent {
                 >
                     <li
                         key='public-channel-more'
-                        id='morePublicButton'
+                        data-testid='morePublicButton'
                     >
                         <button
                             id='sidebarPublicChannelsMore'
@@ -73,7 +73,7 @@ export default class ChannelMore extends React.PureComponent {
                     >
                         <li
                             key='public-channel-more'
-                            id='morePublicButton'
+                            data-testid='morePublicButton'
                         >
                             <button
                                 id='sidebarPrivateChannelsMore'
