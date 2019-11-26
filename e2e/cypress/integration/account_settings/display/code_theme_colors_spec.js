@@ -70,7 +70,7 @@ describe('AS14319 Theme Colors - Code', () => {
             cy.get('#customThemes').check().should('be.checked');
 
             // # Open Center Channel Styles section
-            cy.get('#centerChannelStyles').click();
+            cy.get('#centerChannelStyles').click({force: true});
 
             // # Select custom code theme
             cy.get('#codeThemeSelect').scrollIntoView().should('be.visible').select(THEME.name);

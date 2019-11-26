@@ -4,11 +4,11 @@
 import React from 'react';
 import {Posts} from 'mattermost-redux/constants';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {browserHistory} from 'utils/browser_history';
-import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
-import SearchResultsItem from 'components/search_results_item/search_results_item.jsx';
+import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils';
+import SearchResultsItem from 'components/search_results_item/search_results_item';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {

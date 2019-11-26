@@ -10,7 +10,7 @@ import {getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {ErrorPageTypes} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 import LocalStorageStore from 'stores/local_storage_store';
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {redirect} from 'components/permalink_redirector/actions';
 import PermalinkRedirector from 'components/permalink_redirector/permalink_redirector.jsx';
 

@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import TeamSettingsModal from 'components/team_settings_modal/team_settings_modal.jsx';
 
 require('perfect-scrollbar/jquery')($);

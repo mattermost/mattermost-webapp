@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 
 import LocalDateTime from 'components/local_date_time/local_date_time';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('components/LocalDateTime', () => {
     beforeEach(() => {

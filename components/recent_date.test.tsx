@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import RecentDate, {
     isToday,

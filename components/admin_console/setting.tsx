@@ -24,7 +24,10 @@ export default class Settings extends PureComponent<Props> {
         } = this.props;
 
         return (
-            <div className='form-group'>
+            <div
+                data-testid={inputId}
+                className='form-group'
+            >
                 <label
                     className='control-label col-sm-4'
                     htmlFor={inputId}
@@ -33,7 +36,10 @@ export default class Settings extends PureComponent<Props> {
                 </label>
                 <div className='col-sm-8'>
                     {children}
-                    <div className='help-text'>
+                    <div
+                        data-testid={inputId + 'help-text'}
+                        className='help-text'
+                    >
                         {helpText}
                     </div>
                     {setByEnv ? <SetByEnv/> : null}

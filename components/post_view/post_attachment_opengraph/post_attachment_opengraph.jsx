@@ -208,6 +208,7 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
                     className='btn-close'
                     aria-label='Close'
                     onClick={this.handleRemovePreview}
+                    data-testid='removeLinkPreviewButton'
                 >
                     <span aria-hidden='true'>{'×'}</span>
                 </button>

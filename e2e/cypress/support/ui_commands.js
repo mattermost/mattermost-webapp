@@ -32,6 +32,14 @@ Cypress.Commands.add('getSubpath', () => {
     });
 });
 
+Cypress.Commands.add('getCurrentUserId', () => {
+    return cy.wrap(new Promise((resolve) => {
+        cy.getCookie('MMUSERID').then((cookie) => {
+            resolve(cookie.value);
+        });
+    }));
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************
@@ -135,19 +143,19 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 
 function waitUntilPermanentPost() {
     cy.get('#postListContent').should('be.visible');
-    cy.waitUntil(() => cy.getAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
+    cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
 Cypress.Commands.add('getLastPost', () => {
     waitUntilPermanentPost();
 
-    cy.getAllByTestId('postView').last();
+    cy.findAllByTestId('postView').last();
 });
 
 Cypress.Commands.add('getLastPostId', () => {
     waitUntilPermanentPost();
 
-    cy.getAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
+    cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
 });
 
@@ -161,7 +169,7 @@ Cypress.Commands.add('getLastPostId', () => {
 Cypress.Commands.add('getNthPostId', (index = 0) => {
     waitUntilPermanentPost();
 
-    cy.getAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
+    cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
 });
 
@@ -363,7 +371,7 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
     cy.get('#channelHeaderDropdownIcon').
         should('be.visible').
         click();
-    cy.get('#channelHeaderDropdownMenu').
+    cy.get('.Menu__content').
         should('be.visible').
         find('#channelEditHeader').
         click();

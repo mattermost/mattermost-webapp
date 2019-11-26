@@ -133,6 +133,11 @@ export default class Sidebar extends React.PureComponent {
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
 
+        /**
+         * Setting that enables user to view archived channels
+         */
+        viewArchivedChannels: PropTypes.bool,
+
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
@@ -165,6 +170,7 @@ export default class Sidebar extends React.PureComponent {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
+            morePublicChannelsModalType: 'public',
         };
 
         this.animate = new SpringSystem();
@@ -495,8 +501,8 @@ export default class Sidebar extends React.PureComponent {
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
     }
 
-    showMoreChannelsModal = () => {
-        this.setState({showMoreChannelsModal: true});
+    showMoreChannelsModal = (type) => {
+        this.setState({showMoreChannelsModal: true, morePublicChannelsModalType: type});
         trackEvent('ui', 'ui_channels_more_public');
     }
 
@@ -621,6 +627,7 @@ export default class Sidebar extends React.PureComponent {
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
+                                    viewArchivedChannels={this.props.viewArchivedChannels}
                                 />
                             </ul>
                         );
@@ -683,6 +690,7 @@ export default class Sidebar extends React.PureComponent {
                         this.hideMoreChannelsModal();
                         this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
+                    morePublicChannelsModalType={this.state.morePublicChannelsModalType}
                 />
             );
         }

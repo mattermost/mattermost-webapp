@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Constants} from 'utils/constants';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import MainMenu from './main_menu.jsx';
 
