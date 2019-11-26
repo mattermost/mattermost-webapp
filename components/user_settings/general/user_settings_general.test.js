@@ -15,6 +15,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     };
 
     const requiredProps = {
+        intl: {},
         user,
         updateSection: jest.fn(),
         updateTab: jest.fn(),
@@ -45,7 +46,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     test('submitUser() should have called updateMe', () => {
         const updateMe = jest.fn().mockResolvedValue({data: true});
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe}};
-        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
+        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>).dive();
 
         wrapper.instance().submitUser(requiredProps.currentUser, '');
         expect(updateMe).toHaveBeenCalledTimes(1);
@@ -56,7 +57,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
         const updateMe = jest.fn(() => Promise.resolve({data: true}));
         const getMe = jest.fn();
         const props = {...requiredProps, actions: {...requiredProps.actions, updateMe, getMe}};
-        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
+        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>).dive();
 
         await wrapper.instance().submitUser(requiredProps.currentUser, '');
         expect(getMe).toHaveBeenCalledTimes(1);
@@ -66,7 +67,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     test('submitPicture() should not have called uploadProfileImage', () => {
         const uploadProfileImage = jest.fn().mockResolvedValue({});
         const props = {...requiredProps, actions: {...requiredProps.actions, uploadProfileImage}};
-        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
+        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>).dive();
 
         wrapper.instance().submitPicture(requiredProps.currentUser, '');
         expect(uploadProfileImage).toHaveBeenCalledTimes(0);
@@ -75,7 +76,7 @@ describe('components/user_settings/general/UserSettingsGeneral', () => {
     test('submitPicture() should have called uploadProfileImage', async () => {
         const uploadProfileImage = jest.fn(() => Promise.resolve({data: true}));
         const props = {...requiredProps, actions: {...requiredProps.actions, uploadProfileImage}};
-        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>);
+        const wrapper = shallowWithIntl(<UserSettingsGeneral {...props}/>).dive();
 
         const mockFile = {type: 'image/jpeg', size: requiredProps.maxFileSize};
         const event = {target: {files: [mockFile]}};

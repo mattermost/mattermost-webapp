@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -70,13 +70,8 @@ const customStyles = {
     top: 'auto',
 };
 
-class FileUpload extends PureComponent {
+export default class FileUpload extends PureComponent {
     static propTypes = {
-
-        /**
-         * react-intl API
-        */
-        intl: PropTypes.any,
 
         /**
          * Current channel's ID
@@ -162,6 +157,10 @@ class FileUpload extends PureComponent {
              */
             handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     static defaultProps = {
@@ -306,7 +305,7 @@ class FileUpload extends PureComponent {
 
         this.props.onUploadStart(clientIds, currentChannelId);
 
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const errors = [];
         if (sortedFiles.length > uploadsRemaining) {
             errors.push(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
@@ -442,7 +441,7 @@ class FileUpload extends PureComponent {
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
 
     pasteUpload = (e) => {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         if (!e.clipboardData || !e.clipboardData.items || getTable(e.clipboardData)) {
             return;
@@ -546,7 +545,7 @@ class FileUpload extends PureComponent {
         }
 
         const {onUploadError} = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
     }
@@ -572,7 +571,7 @@ class FileUpload extends PureComponent {
     }
 
     render() {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         let multiple = true;
         if (isMobileApp()) {
             // iOS WebViews don't upload videos properly in multiple mode
@@ -698,5 +697,3 @@ class FileUpload extends PureComponent {
         );
     }
 }
-
-export default injectIntl(FileUpload);

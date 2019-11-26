@@ -71,6 +71,11 @@ describe('ID15888 Interactive Dialog', () => {
         });
     });
 
+    afterEach(() => {
+        // # Reload current page after each test to close any dialogs left open
+        cy.reload();
+    });
+
     it('UI check', () => {
         // # Post a slash command
         cy.get('#postListContent').should('be.visible');
@@ -103,8 +108,10 @@ describe('ID15888 Interactive Dialog', () => {
                 } else if (element.name === 'someradiooptions') {
                     cy.wrap($elForm).find('input').should('be.visible').and('have.length', optionsLength[element.name]);
 
-                    // * Verify that the default value is the first element of the list
-                    cy.wrap($elForm).find('input').first().should('have.value', 'engineering').and('have.attr', 'checked');
+                    // * Verify that no option is selected by default
+                    cy.wrap($elForm).find('input').each(($elInput) => {
+                        cy.wrap($elInput).should('not.be.checked');
+                    });
                 } else if (element.name === 'boolean_input') {
                     cy.wrap($elForm).find('.checkbox').should('be.visible').within(() => {
                         cy.get('#boolean_input').
@@ -235,7 +242,7 @@ describe('ID15888 Interactive Dialog', () => {
             {valid: false, value: 'invalid-number'},
             {valid: true, value: 12},
         ].forEach((testCase) => {
-            cy.get('#somenumber').scrollIntoView().type(testCase.value);
+            cy.get('#somenumber').scrollIntoView().clear().type(testCase.value);
 
             cy.get('#interactiveDialogSubmit').click();
 

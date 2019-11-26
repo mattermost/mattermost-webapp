@@ -95,8 +95,10 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
           ]
         }
       />
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={false}
+        extraClasses=""
         id="saveItems"
         onClick={[Function]}
         saving={false}
@@ -270,8 +272,10 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
           ]
         }
       />
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={false}
+        extraClasses=""
         id="saveItems"
         onClick={[Function]}
         saving={false}

@@ -30,7 +30,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
           />
@@ -60,7 +60,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           <FormattedHTMLMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -80,7 +79,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       <DropdownSetting
         disabled={true}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={
@@ -119,7 +118,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
           ]
         }
       />
-      <Connect(injectIntl(JobTable))
+      <Connect(InjectIntl(JobTable))
         createJobButtonText={
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
@@ -142,8 +141,10 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -205,7 +206,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
           />
@@ -235,7 +236,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           <FormattedHTMLMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -255,7 +255,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       <DropdownSetting
         disabled={true}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={
@@ -382,7 +382,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
             <FormattedHTMLMessage
               defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
               id="admin.complianceExport.globalRelayEmailAddress.description"
-              tagName="span"
               values={Object {}}
             />
           }
@@ -400,7 +399,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
           value="globalRelay@mattermost.com"
         />
       </SettingsGroup>
-      <Connect(injectIntl(JobTable))
+      <Connect(InjectIntl(JobTable))
         createJobButtonText={
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
@@ -423,8 +422,10 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -486,7 +487,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
           />
@@ -516,7 +517,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           <FormattedHTMLMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -536,7 +536,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       <DropdownSetting
         disabled={false}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={
@@ -575,7 +575,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
           ]
         }
       />
-      <Connect(injectIntl(JobTable))
+      <Connect(InjectIntl(JobTable))
         createJobButtonText={
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
@@ -598,8 +598,10 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -661,7 +663,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           />
         }
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more."
             id="admin.service.complianceExportDesc"
           />
@@ -691,7 +693,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           <FormattedHTMLMessage
             defaultMessage="Set the start time of the daily scheduled compliance export job. Choose a time when fewer people are using your system. Must be a 24-hour time stamp in the form HH:MM."
             id="admin.complianceExport.exportJobStartTime.description"
-            tagName="span"
             values={Object {}}
           />
         }
@@ -711,7 +712,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <DropdownSetting
         disabled={false}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <InjectIntl(FormattedMarkdownMessage)
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={
@@ -838,7 +839,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
             <FormattedHTMLMessage
               defaultMessage="The email address that your GlobalRelay server monitors for incoming Compliance Exports."
               id="admin.complianceExport.globalRelayEmailAddress.description"
-              tagName="span"
               values={Object {}}
             />
           }
@@ -856,7 +856,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
           value="globalRelay@mattermost.com"
         />
       </SettingsGroup>
-      <Connect(injectIntl(JobTable))
+      <Connect(InjectIntl(JobTable))
         createJobButtonText={
           <FormattedMessage
             defaultMessage="Run Compliance Export Job Now"
@@ -879,8 +879,10 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
