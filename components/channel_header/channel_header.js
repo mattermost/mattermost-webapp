@@ -693,7 +693,7 @@ export default class ChannelHeader extends React.PureComponent {
                         <div className='flex-child search-bar__container'>
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile()}
+                                isFocus={Utils.isMobile() || this.props.rhsOpen}
                             />
                         </div>
                     ) : (
