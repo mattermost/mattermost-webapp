@@ -214,10 +214,12 @@ export default class DotMenu extends Component {
             const y = rect.y || rect.top;
             const height = rect.height;
             const windowHeight = window.innerHeight;
-            this.setState({
-                openUp: (y + height) > (windowHeight - MENU_BOTTOM_MARGIN),
-                width: rect.width,
-            });
+
+            if ((y + height) > (windowHeight - MENU_BOTTOM_MARGIN)) {
+                this.setState({openUp: true});
+            }
+
+            this.setState({width: rect.width});
         }
     }
 

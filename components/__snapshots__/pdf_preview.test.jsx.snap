@@ -4,7 +4,9 @@ exports[`component/PDFPreview should match snapshot, loading 1`] = `
 <div
   className="view-image__loading"
 >
-  <injectIntl(LoadingSpinner) />
+  <LoadingSpinner
+    text={null}
+  />
 </div>
 `;
 
