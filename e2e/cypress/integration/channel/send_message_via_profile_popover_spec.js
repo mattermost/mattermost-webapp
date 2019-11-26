@@ -11,8 +11,6 @@ import TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile popover', () => {
     let newUser;
-    let currentChannelId;
-    let lastPostId;
 
     before(() => {
         // # Login as "user-1" and go to main channel view
@@ -24,44 +22,44 @@ describe('Profile popover', () => {
 
         // # Create new user and have it post a message
         cy.getCurrentTeamId().then((teamId) => {
-            cy.getCurrentChannelId().then((id) => {
-                currentChannelId = id;
-            });
+            cy.getCurrentChannelId().as('currentChannelId');
 
             cy.createNewUser({}, [teamId]).then((user) => {
                 newUser = user;
 
                 const message = `Testing ${Date.now()}`;
-                cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.TINY);
+                cy.get('@currentChannelId').then((currentChannelId) => {
+                    cy.postMessageAs({sender: newUser, message, channelId: currentChannelId}).wait(TIMEOUTS.TINY);
+                });
 
                 cy.waitUntil(() => cy.getLastPost().then((el) => {
                     const postedMessageEl = el.find('.post-message__text > p')[0];
                     return postedMessageEl && postedMessageEl.textContent.includes(message);
                 }));
 
-                cy.getLastPostId().then((postId) => {
-                    lastPostId = postId;
-                });
+                cy.getLastPostId().as('lastPostId');
             });
         });
     });
 
     it('M19908 Send message in profile popover take to DM channel', () => {
-        // # On default viewport width of 1300
-        // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
+        cy.get('@lastPostId').then((lastPostId) => {
+            // # On default viewport width of 1300
+            // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
+            verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
 
-        // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
+            // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
+            verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
 
-        // # On mobile view
-        cy.viewport('iphone-6');
+            // # On mobile view
+            cy.viewport('iphone-6');
 
-        // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
+            // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
+            verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
 
-        // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
-        verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
+            // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
+            verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
+        });
     });
 });
 
