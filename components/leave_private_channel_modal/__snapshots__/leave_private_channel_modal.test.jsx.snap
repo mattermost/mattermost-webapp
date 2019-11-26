@@ -1,80 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/LeavePrivateChannelModal should match snapshot, init 1`] = `
-<Modal
-  animation={true}
-  aria-labelledby="confirmModalLabel"
-  autoFocus={true}
-  backdrop={true}
-  bsClass="modal"
-  className="modal-confirm "
-  dialogClassName="a11y__modal"
-  dialogComponentClass={[Function]}
-  enforceFocus={true}
-  id="confirmModal"
-  keyboard={true}
-  manager={
-    ModalManager {
-      "add": [Function],
-      "containers": Array [],
-      "data": Array [],
-      "handleContainerOverflow": true,
-      "hideSiblingNodes": true,
-      "isTopModal": [Function],
-      "modals": Array [],
-      "remove": [Function],
-    }
-  }
-  onHide={[Function]}
-  renderBackdrop={[Function]}
-  restoreFocus={true}
-  role="dialog"
-  show={false}
->
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={false}
-    closeLabel="Close"
-  >
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="confirmModalLabel"
+<ConfirmModal
+  confirmButtonClass="btn btn-danger"
+  confirmButtonText={
+    <FormattedMessage
+      defaultMessage="Yes, leave channel"
+      id="leave_private_channel_modal.leave"
+      values={Object {}}
     />
-  </ModalHeader>
-  <ModalBody
-    bsClass="modal-body"
-    componentClass="div"
-  />
-  <ModalFooter
-    bsClass="modal-footer"
-    componentClass="div"
-  >
-    <button
-      className="btn btn-link btn-cancel"
-      id="cancelModalButton"
-      onClick={[Function]}
-      type="button"
-    >
-      <FormattedMessage
-        defaultMessage="Cancel"
-        id="confirm_modal.cancel"
-        values={Object {}}
-      />
-    </button>
-    <button
-      autoFocus={true}
-      className="btn btn-danger"
-      id="confirmModalButton"
-      onClick={[Function]}
-      type="button"
-    >
-      <FormattedMessage
-        defaultMessage="Yes, leave channel"
-        id="leave_private_channel_modal.leave"
-        values={Object {}}
-      />
-    </button>
-  </ModalFooter>
-</Modal>
+  }
+  message=""
+  modalClass=""
+  onCancel={[Function]}
+  onConfirm={[Function]}
+  show={false}
+  title=""
+/>
 `;

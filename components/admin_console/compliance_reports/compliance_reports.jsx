@@ -103,6 +103,7 @@ export default class ComplianceReports extends React.PureComponent {
                     this.toInput.current.value = '';
                 }
                 this.setState({runningReport: false});
+                this.props.actions.getComplianceReports();
             }
         );
     }
@@ -166,7 +167,6 @@ export default class ComplianceReports extends React.PureComponent {
                             />{' '}{report.keywords}
                         </span>);
                 }
-
                 let download = '';
                 let status = '';
                 if (report.status === 'finished') {
@@ -180,11 +180,30 @@ export default class ComplianceReports extends React.PureComponent {
                     );
 
                     status = (
-                        <span style={style.greenStatus}>{report.status}</span>
+                        <span className='status-icon-success'>
+                            <FormattedMessage
+                                id='admin.compliance_table.success'
+                                defaultMessage='Success'
+                            />
+                        </span>
+                    );
+                } else if (report.status === 'running') {
+                    status = (
+                        <span className='status-icon-warning'>
+                            <FormattedMessage
+                                id='admin.compliance_table.pending'
+                                defaultMessage='Pending'
+                            />
+                        </span>
                     );
                 } else if (report.status === 'failed') {
                     status = (
-                        <span style={style.redStatus}>{report.status}</span>
+                        <span className='status-icon-error'>
+                            <FormattedMessage
+                                id='admin.compliance_table.failed'
+                                defaultMessage='Failed'
+                            />
+                        </span>
                     );
                 }
 
@@ -196,9 +215,9 @@ export default class ComplianceReports extends React.PureComponent {
 
                 list[i] = (
                     <tr key={report.id}>
+                        <td>{status}</td>
                         <td style={style.dataCell}>{download}</td>
                         <td>{this.getDateTime(report.create_at)}</td>
-                        <td>{status}</td>
                         <td>{report.count}</td>
                         <td>{report.type}</td>
                         <td style={style.dataCell}>{report.desc}</td>
@@ -213,17 +232,22 @@ export default class ComplianceReports extends React.PureComponent {
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th/>
-                                <th>
-                                    <FormattedMessage
-                                        id='admin.compliance_table.timestamp'
-                                        defaultMessage='Timestamp'
-                                    />
-                                </th>
                                 <th>
                                     <FormattedMessage
                                         id='admin.compliance_table.status'
                                         defaultMessage='Status'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.compliance_table.files'
+                                        defaultMessage='Files'
+                                    />
+                                </th>
+                                <th>
+                                    <FormattedMessage
+                                        id='admin.compliance_table.timestamp'
+                                        defaultMessage='Timestamp'
                                     />
                                 </th>
                                 <th>
