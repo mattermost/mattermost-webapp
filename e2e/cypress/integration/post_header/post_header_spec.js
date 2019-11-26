@@ -189,7 +189,7 @@ describe('Post Header', () => {
             cy.get('#channelHeaderFlagButton').click();
 
             // * Check that message exists in RHS flagged posts list
-            cy.get(`#postMessageText_${postId}`).contains('test for pinning/unpinning a post');
+            cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
 
             // * Check that post is be pinned in center
             // * Check that post is be pinned in RHS
@@ -203,7 +203,7 @@ describe('Post Header', () => {
             // * Check that message exists in RHS flagged posts list
             // * Check that post is not be pinned in center
             // * Check that post is not be pinned in RHS
-            cy.get(`#postMessageText_${postId}`).contains('test for pinning/unpinning a post');
+            cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('not.exist');
 
