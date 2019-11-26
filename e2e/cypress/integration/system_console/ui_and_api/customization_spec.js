@@ -40,7 +40,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNamehelp-text').find('span').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
 
         // # Generate and enter a random site name
-        const siteName = "New site name";
+        const siteName = 'New site name';
         cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
 
         // # Click Save button
