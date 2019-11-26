@@ -25,6 +25,7 @@ describe('components/widgets/settings/TextSetting', () => {
           >
             <input
               className="form-control"
+              data-testid="string.idinput"
               id="string.id"
               maxLength={-1}
               onChange={[Function]}
