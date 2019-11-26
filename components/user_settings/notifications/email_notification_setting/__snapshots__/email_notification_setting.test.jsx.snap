@@ -12,6 +12,33 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={false}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -209,94 +236,30 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             className="setting-list-item"
           >
             <hr />
-            <injectIntl(SaveButton)
+            <SaveButton
+              btnClass="btn-primary"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
             >
-              <SaveButton
-                btnClass="btn-primary"
+              <button
+                className="save-button btn btn-primary"
                 disabled={false}
-                extraClasses=""
-                intl={
-                  Object {
-                    "defaultFormats": Object {},
-                    "defaultLocale": "en",
-                    "formatDate": [Function],
-                    "formatDateToParts": [Function],
-                    "formatHTMLMessage": [Function],
-                    "formatMessage": [Function],
-                    "formatNumber": [Function],
-                    "formatNumberToParts": [Function],
-                    "formatPlural": [Function],
-                    "formatRelativeTime": [Function],
-                    "formatTime": [Function],
-                    "formatTimeToParts": [Function],
-                    "formats": Object {},
-                    "formatters": Object {
-                      "getDateTimeFormat": [Function],
-                      "getMessageFormat": [Function],
-                      "getNumberFormat": [Function],
-                      "getPluralRules": [Function],
-                      "getRelativeTimeFormat": [Function],
-                    },
-                    "locale": "en",
-                    "messages": Object {},
-                    "onError": [Function],
-                    "textComponent": "span",
-                    "timeZone": "Etc/UTC",
-                  }
-                }
+                id="saveSetting"
                 onClick={[Function]}
-                saving={false}
+                type="submit"
               >
-                <button
-                  className="save-button btn btn-primary"
-                  disabled={false}
-                  id="saveSetting"
-                  intl={
-                    Object {
-                      "defaultFormats": Object {},
-                      "defaultLocale": "en",
-                      "formatDate": [Function],
-                      "formatDateToParts": [Function],
-                      "formatHTMLMessage": [Function],
-                      "formatMessage": [Function],
-                      "formatNumber": [Function],
-                      "formatNumberToParts": [Function],
-                      "formatPlural": [Function],
-                      "formatRelativeTime": [Function],
-                      "formatTime": [Function],
-                      "formatTimeToParts": [Function],
-                      "formats": Object {},
-                      "formatters": Object {
-                        "getDateTimeFormat": [Function],
-                        "getMessageFormat": [Function],
-                        "getNumberFormat": [Function],
-                        "getPluralRules": [Function],
-                        "getRelativeTimeFormat": [Function],
-                      },
-                      "locale": "en",
-                      "messages": Object {},
-                      "onError": [Function],
-                      "textComponent": "span",
-                      "timeZone": "Etc/UTC",
-                    }
-                  }
-                  onClick={[Function]}
-                  type="submit"
+                <LoadingWrapper
+                  loading={false}
+                  text="Saving"
                 >
-                  <LoadingWrapper
-                    loading={false}
-                    text="Saving"
-                  >
-                    <span>
-                      Save
-                    </span>
-                  </LoadingWrapper>
-                </button>
-              </SaveButton>
-            </injectIntl(SaveButton)>
+                  <span>
+                    Save
+                  </span>
+                </LoadingWrapper>
+              </button>
+            </SaveButton>
             <button
               className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
@@ -377,6 +340,33 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   emailInterval={0}
   enableEmail={false}
   enableEmailBatching={true}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {},
+      "now": [Function],
+      "onError": [Function],
+      "textComponent": "span",
+      "timeZone": "Etc/UTC",
+    }
+  }
   onCancel={[MockFunction]}
   onChange={[MockFunction]}
   onSubmit={[MockFunction]}
@@ -688,94 +678,30 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             className="setting-list-item"
           >
             <hr />
-            <injectIntl(SaveButton)
+            <SaveButton
+              btnClass="btn-primary"
               disabled={false}
+              extraClasses=""
               onClick={[Function]}
               saving={false}
             >
-              <SaveButton
-                btnClass="btn-primary"
+              <button
+                className="save-button btn btn-primary"
                 disabled={false}
-                extraClasses=""
-                intl={
-                  Object {
-                    "defaultFormats": Object {},
-                    "defaultLocale": "en",
-                    "formatDate": [Function],
-                    "formatDateToParts": [Function],
-                    "formatHTMLMessage": [Function],
-                    "formatMessage": [Function],
-                    "formatNumber": [Function],
-                    "formatNumberToParts": [Function],
-                    "formatPlural": [Function],
-                    "formatRelativeTime": [Function],
-                    "formatTime": [Function],
-                    "formatTimeToParts": [Function],
-                    "formats": Object {},
-                    "formatters": Object {
-                      "getDateTimeFormat": [Function],
-                      "getMessageFormat": [Function],
-                      "getNumberFormat": [Function],
-                      "getPluralRules": [Function],
-                      "getRelativeTimeFormat": [Function],
-                    },
-                    "locale": "en",
-                    "messages": Object {},
-                    "onError": [Function],
-                    "textComponent": "span",
-                    "timeZone": "Etc/UTC",
-                  }
-                }
+                id="saveSetting"
                 onClick={[Function]}
-                saving={false}
+                type="submit"
               >
-                <button
-                  className="save-button btn btn-primary"
-                  disabled={false}
-                  id="saveSetting"
-                  intl={
-                    Object {
-                      "defaultFormats": Object {},
-                      "defaultLocale": "en",
-                      "formatDate": [Function],
-                      "formatDateToParts": [Function],
-                      "formatHTMLMessage": [Function],
-                      "formatMessage": [Function],
-                      "formatNumber": [Function],
-                      "formatNumberToParts": [Function],
-                      "formatPlural": [Function],
-                      "formatRelativeTime": [Function],
-                      "formatTime": [Function],
-                      "formatTimeToParts": [Function],
-                      "formats": Object {},
-                      "formatters": Object {
-                        "getDateTimeFormat": [Function],
-                        "getMessageFormat": [Function],
-                        "getNumberFormat": [Function],
-                        "getPluralRules": [Function],
-                        "getRelativeTimeFormat": [Function],
-                      },
-                      "locale": "en",
-                      "messages": Object {},
-                      "onError": [Function],
-                      "textComponent": "span",
-                      "timeZone": "Etc/UTC",
-                    }
-                  }
-                  onClick={[Function]}
-                  type="submit"
+                <LoadingWrapper
+                  loading={false}
+                  text="Saving"
                 >
-                  <LoadingWrapper
-                    loading={false}
-                    text="Saving"
-                  >
-                    <span>
-                      Save
-                    </span>
-                  </LoadingWrapper>
-                </button>
-              </SaveButton>
-            </injectIntl(SaveButton)>
+                  <span>
+                    Save
+                  </span>
+                </LoadingWrapper>
+              </button>
+            </SaveButton>
             <button
               className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"

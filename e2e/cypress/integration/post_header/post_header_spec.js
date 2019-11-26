@@ -189,7 +189,7 @@ describe('Post Header', () => {
             cy.get('#channelHeaderFlagButton').click();
 
             // * Check that message exists in RHS flagged posts list
-            cy.get(`#postMessageText_${postId}`).contains('test for pinning/unpinning a post');
+            cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
 
             // * Check that post is be pinned in center
             // * Check that post is be pinned in RHS
@@ -203,7 +203,7 @@ describe('Post Header', () => {
             // * Check that message exists in RHS flagged posts list
             // * Check that post is not be pinned in center
             // * Check that post is not be pinned in RHS
-            cy.get(`#postMessageText_${postId}`).contains('test for pinning/unpinning a post');
+            cy.get(`#rhsPostMessageText_${postId}`).contains('test for pinning/unpinning a post');
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('not.exist');
 
@@ -215,6 +215,50 @@ describe('Post Header', () => {
             // * Check that post is be pinned in RHS
             cy.get(`#post_${postId}`).should('have.class', 'post--pinned');
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
+        });
+    });
+
+    it('M17442 Visual verification of "Searching" animation for Flagged and Pinned posts', () => {
+        cy.delayRequestToRoutes(['pinned', 'flagged'], 5000);
+        cy.reload();
+
+        // # Go to Town-Square channel
+        cy.visit('/ad-1/channels/town-square');
+
+        // Pin and flag last post before clicking on Pinned and Flagged post icons
+        cy.postMessage('Post');
+
+        //Pin and flag the posted message
+        cy.getLastPostId().then((postId) => {
+            cy.clickPostDotMenu(postId);
+            cy.get(`#pin_post_${postId}`).click();
+            cy.clickPostFlagIcon(postId);
+        });
+
+        // # Click on the "Pinned Posts" icon to the left of the "Search" box
+        cy.get('#channelHeaderPinButton').click();
+
+        // * Verify that the RHS for pinned posts is opened.
+        cy.get('#searchContainer').should('be.visible').within(() => {
+            // * Check that searching indicator appears before the pinned posts are loaded
+            cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+            cy.get('#search-items-container').should('be.visible');
+
+            // # Close the RHS
+            cy.get('#searchResultsCloseButton').should('be.visible').click();
+        });
+
+        // # Click on the "Flagged Posts" icon to the right of the "Search" box
+        cy.get('#channelHeaderFlagButton').click();
+
+        // * Verify that the RHS for pinned posts is opened.
+        cy.get('#searchContainer').should('be.visible').within(() => {
+            // * Check that searching indicator appears before the pinned posts are loaded
+            cy.get('#loadingSpinner').should('be.visible').and('have.text', 'Searching...');
+            cy.get('#search-items-container').should('be.visible');
+
+            // # Close the RHS
+            cy.get('#searchResultsCloseButton').should('be.visible').click();
         });
     });
 });
