@@ -1,5 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {Dictionary} from 'mattermost-redux/types/utilities';
+
 import * as Utils from 'utils/utils.jsx';
 
 export function formatChannelDoughtnutData(totalPublic: any, totalPrivate: any) {
@@ -58,6 +60,30 @@ export function formatPostsPerDayData(data: any) {
     }
 
     return chartData;
+}
+
+// synchronizeChartData converges on a uniform set of labels for all entries in the given chart data. If a given label wasn't already present in the chart data, a 0-valued data point at that label is added.
+//
+// For date-labelled charts, this ensures that each charts starts and ends on the same interval, even if data for part of that interval was never collected.
+export function synchronizeChartData(...chartDatas: any[]) {
+    const labels: Set<string> = new Set();
+
+    // collect all labels
+    chartDatas.forEach((chartData) => {
+        chartData.labels.forEach((label: string) => labels.add(label));
+    });
+
+    // fill in missing
+    chartDatas.forEach((chartData) => {
+        if (chartData.labels.length > 0) { // don't add to empty graphs
+            labels.forEach((label: string) => {
+                if (chartData.labels.indexOf(label) === -1) {
+                    chartData.labels.push(label);
+                    chartData.datasets[0].data.push(0);
+                }
+            });
+        }
+    });
 }
 
 export function formatUsersWithPostsPerDayData(data: any) {

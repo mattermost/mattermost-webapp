@@ -24,6 +24,30 @@ exports[`components/analytics/statistic_count.tsx should match snapshot, loaded 
 </div>
 `;
 
+exports[`components/analytics/statistic_count.tsx should match snapshot, loaded with zero value 1`] = `
+<div
+  className="col-lg-3 col-md-4 col-sm-6"
+>
+  <div
+    className="total-count"
+  >
+    <div
+      className="title"
+    >
+      Test Zero
+      <i
+        className="fa test-icon"
+      />
+    </div>
+    <div
+      className="content"
+    >
+      0
+    </div>
+  </div>
+</div>
+`;
+
 exports[`components/analytics/statistic_count.tsx should match snapshot, on loading 1`] = `
 <div
   className="col-lg-3 col-md-4 col-sm-6"

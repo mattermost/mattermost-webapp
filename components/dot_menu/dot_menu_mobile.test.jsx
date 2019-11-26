@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import DotMenu from 'components/dot_menu/dot_menu.jsx';
 
@@ -35,10 +36,11 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 pinPost: jest.fn(),
                 unpinPost: jest.fn(),
                 openModal: jest.fn(),
+                markPostAsUnread: jest.fn(),
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <DotMenu {...baseProps}/>
         );
 

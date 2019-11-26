@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
+import {intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -29,9 +29,8 @@ import MarketplaceModal from 'components/plugin_marketplace';
 import Menu from 'components/widgets/menu/menu';
 import TeamGroupsManageModal from 'components/team_groups_manage_modal';
 
-class MainMenu extends React.PureComponent {
+export default class MainMenu extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         mobile: PropTypes.bool.isRequired,
         id: PropTypes.string,
         teamId: PropTypes.string,
@@ -69,6 +68,10 @@ class MainMenu extends React.PureComponent {
         teamType: '',
         mobile: false,
         pluginMenuItems: [],
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     toggleShortcutsModal = (e) => {
@@ -118,7 +121,7 @@ class MainMenu extends React.PureComponent {
             return null;
         }
 
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
             return (
@@ -367,5 +370,3 @@ class MainMenu extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(MainMenu);
