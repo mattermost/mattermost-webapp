@@ -638,9 +638,13 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
                 expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
 
                 // Pull out only the first 2 teams
-                teamsResponse.body.slice(0, 2).map((t) => t.id).forEach((teamId) => {
-                    cy.apiAddUserToTeam(teamId, userId);
-                });
+                teamsResponse.body.
+                    filter((t) => t.delete_at === 0).
+                    slice(0, 2).
+                    map((t) => t.id).
+                    forEach((teamId) => {
+                        cy.apiAddUserToTeam(teamId, userId);
+                    });
             });
         }
 
