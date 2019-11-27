@@ -859,7 +859,7 @@ export default class CreateComment extends React.PureComponent {
         let uploadsInProgressText = null;
         if (draft.uploadsInProgress.length > 0) {
             uploadsInProgressText = (
-                <span className='pull-right post-right-comments-upload-in-progress'>
+                <span className='post-right-comments-upload-in-progress'>
                     {draft.uploadsInProgress.length === 1 ? (
                         <FormattedMessage
                             id='create_comment.file'
@@ -1008,6 +1008,7 @@ export default class CreateComment extends React.PureComponent {
                             </div>
                         </div>
                         <div className='text-right margin-top'>
+                            {uploadsInProgressText}
                             <input
                                 type='button'
                                 disabled={!enableAddButton}
@@ -1016,7 +1017,6 @@ export default class CreateComment extends React.PureComponent {
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}
                             />
-                            {uploadsInProgressText}
                             {preview}
                             {serverError}
                         </div>
