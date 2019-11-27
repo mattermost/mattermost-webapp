@@ -7,6 +7,7 @@ describe('Negative search filters will omit results', () => {
     const message = 'negative' + Date.now();
 
     function search(query) {
+        cy.reload();
         cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
 
         cy.get('#loadingSpinner').should('not.be.visible');

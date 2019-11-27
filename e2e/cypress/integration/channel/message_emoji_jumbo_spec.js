@@ -19,7 +19,7 @@ const testCases = [
 function verifyLastPostStyle(expectedSize) {
     //  # Get Last Post ID
     cy.getLastPostId().then((postId) => {
-        const postMessageTextId = `#postMessageText_${postId}`;
+        const postMessageTextId = `#rhsPostMessageText_${postId}`;
 
         // # Get Each Emoji from Reply Window RHS for the postId
         cy.get(`#rhsContent ${postMessageTextId} span.emoticon`).each(($el) => {

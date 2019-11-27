@@ -62,7 +62,7 @@ h6 {
     div.markdown-inline-img {
         min-width: 50px;
         display: inline-block;
-        width: auto;
+        width: 100%;
         vertical-align: middle;
     }
 
@@ -113,8 +113,10 @@ h6 {
         @include opacity(1);
     }
 
-    &--wrap code {
-        white-space: pre-wrap;
+    &.post-code--wrap {
+        code {
+            white-space: pre-wrap;
+        }
     }
 
     .hljs {

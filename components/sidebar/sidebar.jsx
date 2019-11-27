@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -57,7 +57,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-class Sidebar extends React.PureComponent {
+export default class Sidebar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -133,17 +133,24 @@ class Sidebar extends React.PureComponent {
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
 
+        /**
+         * Setting that enables user to view archived channels
+         */
+        viewArchivedChannels: PropTypes.bool,
+
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
-
-        intl: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         currentChannel: {},
+    }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -163,6 +170,7 @@ class Sidebar extends React.PureComponent {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
+            morePublicChannelsModalType: 'public',
         };
 
         this.animate = new SpringSystem();
@@ -298,8 +306,8 @@ class Sidebar extends React.PureComponent {
             currentTeam,
             currentTeammate,
             unreads,
-            intl: {formatMessage},
         } = this.props;
+        const {formatMessage} = this.context.intl;
 
         const currentSiteName = config.SiteName || '';
 
@@ -498,8 +506,8 @@ class Sidebar extends React.PureComponent {
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
     }
 
-    showMoreChannelsModal = () => {
-        this.setState({showMoreChannelsModal: true});
+    showMoreChannelsModal = (type) => {
+        this.setState({showMoreChannelsModal: true, morePublicChannelsModalType: type});
         trackEvent('ui', 'ui_channels_more_public');
     }
 
@@ -624,6 +632,7 @@ class Sidebar extends React.PureComponent {
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
+                                    viewArchivedChannels={this.props.viewArchivedChannels}
                                 />
                             </ul>
                         );
@@ -686,6 +695,7 @@ class Sidebar extends React.PureComponent {
                         this.hideMoreChannelsModal();
                         this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
+                    morePublicChannelsModalType={this.state.morePublicChannelsModalType}
                 />
             );
         }
@@ -789,5 +799,3 @@ class Sidebar extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(Sidebar);

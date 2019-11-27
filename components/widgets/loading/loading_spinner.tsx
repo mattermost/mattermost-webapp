@@ -2,16 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl, IntlShape} from 'react-intl';
+import {intlShape} from 'react-intl';
 
 type Props = {
-    intl: IntlShape;
-    text?: React.ReactNode;
+    text: React.ReactNode;
 }
 
-class LoadingSpinner extends React.PureComponent<Props> {
+export default class LoadingSpinner extends React.PureComponent<Props> {
+    public static defaultProps: Props = {
+        text: null,
+    }
+
+    public static contextTypes = {
+        intl: intlShape.isRequired,
+    };
+
     public render() {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         return (
             <span
                 id='loadingSpinner'
@@ -26,5 +33,3 @@ class LoadingSpinner extends React.PureComponent<Props> {
         );
     }
 }
-
-export default injectIntl(LoadingSpinner);
