@@ -20,6 +20,7 @@ import {t} from 'utils/i18n.jsx';
 
 export default class InvitationModalGuestsStep extends React.Component {
     static propTypes = {
+        teamName: PropTypes.string.isRequired,
         myInvitableChannels: PropTypes.array.isRequired,
         currentTeamId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
@@ -136,7 +137,8 @@ export default class InvitationModalGuestsStep extends React.Component {
                 <h1>
                     <FormattedMarkdownMessage
                         id='invitation_modal.guests.title'
-                        defaultMessage='Invite **Guests**'
+                        defaultMessage='Invite **Guests** to {teamName}'
+                        values={{teamName: this.props.teamName}}
                     />
                 </h1>
                 <div
@@ -173,7 +175,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.guests.add_people.description'
-                            defaultMessage='Search and add guests or email invite new users.'
+                            defaultMessage='Add existing guests or send email invites to new guests.'
                         />
                     </div>
                 </div>
