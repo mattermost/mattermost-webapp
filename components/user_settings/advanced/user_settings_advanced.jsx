@@ -321,13 +321,15 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     render() {
         const serverError = this.state.serverError || null;
         let ctrlSendSection;
-        let ctrlOrCmdString = 'CTRL';
         let fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc');
         let fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle');
+        let defaultMessageSendDesc = 'When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
+        let defaultMessageSendTitle = 'Send messages on CTRL+ENTER'
         if (Utils.isMac()) {
             fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc.mac');
             fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle.mac');
-            ctrlOrCmdString = 'CMD';
+            defaultMessageSendDesc = 'When enabled, CMD + ENTER will send the message and ENTER inserts a new line.'
+            defaultMessageSendTitle = 'Send messages on CMD+ENTER'
         }
 
         if (this.props.activeSection === 'advancedCtrlSend') {
@@ -342,7 +344,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     <legend className='form-legend hidden-label'>
                         <FormattedMessage
                             id={fmIdForUserSettingsAdvSendTitle}
-                            defaultMessage={`Send messages on ${ctrlOrCmdString}+ENTER`}
+                            defaultMessage={defaultMessageSendTitle}
                         />
                     </legend>
                     <div className='radio'>
@@ -406,7 +408,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                         <br/>
                         <FormattedMessage
                             id={fmIdForUserSettingsAdvSendDesc}
-                            defaultMessage={`When enabled, ${ctrlOrCmdString} + ENTER will send the message and ENTER inserts a new line.`}
+                            defaultMessage={defaultMessageSendDesc}
                         />
                     </div>
                 </fieldset>,
@@ -416,7 +418,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     title={
                         <FormattedMessage
                             id={fmIdForUserSettingsAdvSendTitle}
-                            defaultMessage={`Send messages on ${ctrlOrCmdString}+ENTER`}
+                            defaultMessage={defaultMessageSendTitle}
                         />
                     }
                     inputs={inputs}
@@ -432,7 +434,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     title={
                         <FormattedMessage
                             id={fmIdForUserSettingsAdvSendTitle}
-                            defaultMessage={`Send messages on ${ctrlOrCmdString}+ENTER`}
+                            defaultMessage={defaultMessageSendTitle}
                         />
                     }
                     describe={this.renderCtrlEnterLabel()}
