@@ -3530,7 +3530,7 @@ const AdminDefinition = {
             url: 'authentication/guest_access',
             title: t('admin.sidebar.guest_access'),
             title_default: 'Guest Access (Beta)',
-            isHidden: it.isnt(it.licensed),
+            isHidden: it.isnt(it.licensedForFeature('GuestAccounts')),
             schema: {
                 id: 'GuestAccountsSettings',
                 name: t('admin.authentication.guest_access'),
