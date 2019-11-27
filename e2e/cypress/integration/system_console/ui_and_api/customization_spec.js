@@ -15,8 +15,13 @@ describe('Customization', () => {
         cy.apiGetConfig().then((response) => {
             const config = response.body;
             origConfig = {
-                SupportSettings: {HelpLink: config.SupportSettings.HelpLink},
-                TeamSettings: {SiteName: config.TeamSettings.SiteName},
+                SupportSettings: {
+                    AboutLink: config.SupportSettings.AboutLink,
+                    HelpLink: config.SupportSettings.HelpLink,
+                },
+                TeamSettings: {
+                    SiteName: config.TeamSettings.SiteName
+                },
             };
         });
 
@@ -52,6 +57,43 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20341 Can change About Link setting', () => {
+        const newAboutLink = 'https://about.mattermost.com/new-about-page/';
+
+        // # Login as a system admin member
+        cy.apiLogin('sysadmin');
+
+        // # Visit the site config customization page
+        cy.visit('/admin_console/site_config/customization');
+
+        // * URL should be the customization page
+        cy.url().should('include', 'customization');
+
+        // * Verify that setting is visible and has the correct label text
+        cy.findByTestId('SupportSettings.AboutLink').
+            scrollIntoView().should('be.visible').
+            find('label').should('be.visible').and('have.text', 'About Link:');
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('SupportSettings.AboutLinkhelp-text').
+            should('be.visible').and('have.text', 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.');
+
+        // * Verify that the existing is visible and has default value
+        cy.findByTestId('SupportSettings.AboutLinkinput').
+            should('be.visible').
+            and('have.value', origConfig.SupportSettings.AboutLink);
+
+        // # Clear existing about link and type the new about link
+        cy.findByTestId('SupportSettings.AboutLinkinput').clear().type(newAboutLink);
+
+        // # Click the save button
+        cy.get('#saveSetting').click();
+
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.SupportSettings.AboutLink).to.equal(newAboutLink);
         });
     });
 });

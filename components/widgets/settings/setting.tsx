@@ -39,7 +39,10 @@ const Setting: React.FC<Props> = ({
                 className={inputClassName}
             >
                 {children}
-                <div className='help-text'>
+                <div
+                    data-testid={inputId + 'help-text'}
+                    className='help-text'
+                >
                     {helpText}
                 </div>
                 {footer}
