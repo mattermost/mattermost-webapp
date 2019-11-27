@@ -25,17 +25,17 @@ describe('Customization', () => {
         const contents = ['The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.'];
 
         // * Verify that setting is visible and matches text content
-        cy.get('label[for="SupportSettings.PrivacyPolicyLink"]').should('have.text', 'Privacy Policy Link:').and('be.visible');
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinklabel').should('be.visible').and('have.text', 'Privacy Policy Link:');
 
         // * Verify that help setting is visible and matches text content
-        cy.get('label[for="SupportSettings.PrivacyPolicyLink"]').next().find('span').should('be.visible').and('have.text', contents[0]);
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkhelp-text').find('span').should('be.visible').and('have.text', contents[0]);
 
         // * Verify the input box visible and has default value
-        cy.get('input[id="SupportSettings.PrivacyPolicyLink"]').should('have.value', config.SupportSettings.PrivacyPolicyLink).and('be.visible');
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').should('have.value', config.SupportSettings.PrivacyPolicyLink).and('be.visible');
 
         // # Fill input field with value
         const stringToSave = 'https://some.com';
-        cy.get('[id="SupportSettings.PrivacyPolicyLink"]').clear().type(stringToSave);
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear().type(stringToSave);
 
         cy.get('#saveSetting').click();
 
