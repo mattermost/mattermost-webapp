@@ -6,13 +6,22 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import MemberListTeam from 'components/member_list_team';
+import InvitationModal from 'components/invitation_modal';
+
+import {ModalIdentifiers} from 'utils/constants';
 
 export default class TeamMembersModal extends React.PureComponent {
     static propTypes = {
         currentTeam: PropTypes.object.isRequired,
         onHide: PropTypes.func.isRequired,
         onLoad: PropTypes.func,
+        actions: PropTypes.shape({
+            openModal: PropTypes.func.isRequired,
+        })
     }
 
     constructor(props) {
@@ -30,6 +39,15 @@ export default class TeamMembersModal extends React.PureComponent {
     }
 
     onHide = () => {
+        this.setState({show: false});
+    }
+
+    handleInvitePeople = () => {
+        const modalData = {
+            modalId: ModalIdentifiers.INVITATION,
+            dialogType: InvitationModal,
+        };
+        this.props.actions.openModal(modalData);
         this.setState({show: false});
     }
 
@@ -62,6 +80,22 @@ export default class TeamMembersModal extends React.PureComponent {
                             }}
                         />
                     </Modal.Title>
+                    <TeamPermissionGate
+                        teamId={this.props.currentTeam.id}
+                        permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
+                    >
+                        <button
+                            id='invitePeople'
+                            type='button'
+                            className='btn btn-primary invite-people-btn'
+                            onClick={this.handleInvitePeople}
+                        >
+                            <FormattedMessage
+                                id='team_member_modal.invitePeople'
+                                defaultMessage='Invite People'
+                            />
+                        </button>
+                    </TeamPermissionGate>
                 </Modal.Header>
                 <Modal.Body>
                     <MemberListTeam

@@ -839,6 +839,7 @@ exports[`components/MarketplaceItem UpdateDetails should render with release not
       "timeZone": "Etc/UTC",
     }
   }
+  isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl="http://example.com/release"
@@ -919,6 +920,7 @@ exports[`components/MarketplaceItem UpdateDetails should render without release 
       "timeZone": "Etc/UTC",
     }
   }
+  isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
   releaseNotesUrl=""

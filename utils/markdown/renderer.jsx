@@ -34,7 +34,7 @@ export default class Renderer extends marked.Renderer {
 
         let className = 'post-code';
         let codeClassName = 'hljs hljs-ln';
-        if (!usedLanguage) {
+        if (!SyntaxHighlighting.canHighlight(usedLanguage)) {
             className += ' post-code--wrap';
             codeClassName = 'hljs';
         }
