@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import {browserHistory} from 'utils/browser_history';
@@ -50,7 +50,7 @@ export class RenameChannelModal extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
 
         /**
          * Function that is called when modal is hidden
