@@ -254,7 +254,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         invitePeople(newUser.firstName, 1, newUser.username, 'Off-Topic');
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(newUser.username, 'This guest has been added to the team and channel.', true);
+        verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
 
         // # Search and add an existing guest by last name, who is part of the team and channel
         invitePeople(newUser.lastName, 1, newUser.username);

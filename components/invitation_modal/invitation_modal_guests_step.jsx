@@ -24,6 +24,7 @@ export default class InvitationModalGuestsStep extends React.Component {
         myInvitableChannels: PropTypes.array.isRequired,
         currentTeamId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
+        searchChannels: PropTypes.func.isRequired,
         defaultChannels: PropTypes.array,
         defaultMessage: PropTypes.string,
         onEdit: PropTypes.func.isRequired,
@@ -93,10 +94,14 @@ export default class InvitationModalGuestsStep extends React.Component {
         }
     }
 
+    debouncedSearchChannels = debounce((term) => this.props.searchChannels(this.props.currentTeamId, term), 150);
+
     channelsLoader = async (value) => {
         if (!value) {
             return this.props.myInvitableChannels;
         }
+
+        this.debouncedSearchChannels(value);
         return this.props.myInvitableChannels.filter((channel) => {
             return channel.display_name.toLowerCase().startsWith(value.toLowerCase()) || channel.name.toLowerCase().startsWith(value.toLowerCase());
         });
