@@ -8,17 +8,17 @@
 // ***************************************************************
 
 describe('Plugin Marketplace', () => {
-    // after(() => {
-    //     // # Restore default configuration
-    //     const newSettings = {
-    //         PluginSettings: {
-    //             Enable: true,
-    //             EnableMarketplace: true,
-    //             MarketplaceUrl: 'https://api.integrations.mattermost.com',
-    //         },
-    //     };
-    //     cy.apiUpdateConfig(newSettings);
-    // });
+    after(() => {
+        // # Restore default configuration
+        const newSettings = {
+            PluginSettings: {
+                Enable: true,
+                EnableMarketplace: true,
+                MarketplaceUrl: 'https://api.integrations.mattermost.com',
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
+    });
 
     describe('should not render in main menu', () => {
         afterEach(() => {
