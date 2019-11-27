@@ -172,7 +172,7 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
         if (mostRecentPost) {
-            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at, false));
+            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
         } else {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
