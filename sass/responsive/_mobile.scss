@@ -1,6 +1,14 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    #navbar_wrapper {
+        .navbar-default {
+            .navbar-brand {
+                margin-left: 0;
+            }
+        }
+    }
+
     .app__body {
         .MenuWrapper {
             .MenuItem__divider {

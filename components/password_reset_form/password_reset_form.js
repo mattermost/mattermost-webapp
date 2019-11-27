@@ -20,13 +20,20 @@ export default class PasswordResetForm extends React.PureComponent {
         }).isRequired,
     };
 
-    passwordInput = React.createRef();
-    state = {error: null};
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            error: null
+        };
+
+        this.passwordInput = React.createRef();
+    }
 
     handlePasswordReset = async (e) => {
         e.preventDefault();
 
-        const password = this.passwordInput.current && this.passwordInput.current.value;
+        const password = this.passwordInput.current.value;
         if (!password || password.length < Constants.MIN_PASSWORD_LENGTH) {
             this.setState({
                 error: (
@@ -92,11 +99,11 @@ export default class PasswordResetForm extends React.PureComponent {
                         </p>
                         <div className={formClass}>
                             <LocalizedInput
-                                ref={this.passwordInput}
                                 id='resetPasswordInput'
                                 type='password'
                                 className='form-control'
                                 name='password'
+                                ref={this.passwordInput}
                                 placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
                                 spellCheck='false'
                                 autoFocus={true}
