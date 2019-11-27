@@ -14,7 +14,7 @@ import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
 
-export default class EmailNotificationSetting extends React.Component {
+export default class EmailNotificationSetting extends React.PureComponent {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
         activeSection: PropTypes.string.isRequired,
@@ -29,7 +29,6 @@ export default class EmailNotificationSetting extends React.Component {
         focused: PropTypes.bool,
         sendEmailNotifications: PropTypes.bool,
         enableEmailBatching: PropTypes.bool,
-        siteName: PropTypes.string,
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
@@ -333,10 +332,7 @@ export default class EmailNotificationSetting extends React.Component {
                         <div className='margin-top x2'>
                             <FormattedMessage
                                 id='user.settings.notifications.emailInfo'
-                                defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes.'
-                                values={{
-                                    siteName: this.props.siteName,
-                                }}
+                                defaultMessage='Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.'
                             />
                             {' '}
                             {batchingInfo}

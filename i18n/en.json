@@ -3475,7 +3475,7 @@
   "user.settings.notifications.email.never": "Never",
   "user.settings.notifications.email.send": "Send email notifications",
   "user.settings.notifications.emailBatchingInfo": "Notifications received over the time period selected are combined and sent in a single email.",
-  "user.settings.notifications.emailInfo": "Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes.",
+  "user.settings.notifications.emailInfo": "Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.",
   "user.settings.notifications.emailNotifications": "Email notifications",
   "user.settings.notifications.header": "Notifications",
   "user.settings.notifications.icon": "Notification Settings Icon",

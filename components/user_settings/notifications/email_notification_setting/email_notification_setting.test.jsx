@@ -23,7 +23,6 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         saving: false,
         sendEmailNotifications: true,
         enableEmailBatching: false,
-        siteName: 'Mattermost',
         actions: {
             savePreferences: jest.fn(),
         },
