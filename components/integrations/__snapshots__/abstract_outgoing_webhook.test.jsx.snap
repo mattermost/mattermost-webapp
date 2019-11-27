@@ -4,7 +4,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/test/integrations/outgoing_webhooks"
     >
@@ -19,7 +19,7 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
       id="add"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
