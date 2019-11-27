@@ -1,31 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
-<ShortcutsModal
+<InjectIntl(ShortcutsModal)
   intl={
     Object {
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
-      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
-      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelativeTime": [Function],
+      "formatRelative": [Function],
       "formatTime": [Function],
-      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
+      "now": [Function],
       "onError": [Function],
       "textComponent": "span",
       "timeZone": "Etc/UTC",
@@ -33,41 +31,44 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
   }
   isMac={true}
 >
-  <Modal
-    animation={true}
-    aria-labelledby="shortcutsModalLabel"
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    dialogClassName="a11y__modal shortcuts-modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
+  <ShortcutsModal
+    intl={
+      Object {
+        "defaultFormats": Object {},
+        "defaultLocale": "en",
+        "formatDate": [Function],
+        "formatHTMLMessage": [Function],
+        "formatMessage": [Function],
+        "formatNumber": [Function],
+        "formatPlural": [Function],
+        "formatRelative": [Function],
+        "formatTime": [Function],
+        "formats": Object {},
+        "formatters": Object {
+          "getDateTimeFormat": [Function],
+          "getMessageFormat": [Function],
+          "getNumberFormat": [Function],
+          "getPluralFormat": [Function],
+          "getRelativeFormat": [Function],
+        },
+        "locale": "en",
+        "messages": Object {},
+        "now": [Function],
+        "onError": [Function],
+        "textComponent": "span",
+        "timeZone": "Etc/UTC",
       }
     }
-    onExited={[Function]}
-    onHide={[Function]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    role="dialog"
-    show={false}
+    isMac={true}
   >
     <Modal
+      animation={true}
+      aria-labelledby="shortcutsModalLabel"
       autoFocus={true}
       backdrop={true}
-      backdropClassName="modal-backdrop"
-      backdropTransition={[Function]}
-      containerClassName="modal-open"
+      bsClass="modal"
+      dialogClassName="a11y__modal shortcuts-modal"
+      dialogComponentClass={[Function]}
       enforceFocus={true}
       keyboard={true}
       manager={
@@ -82,44 +83,70 @@ exports[`components/ShortcutsModal should match snapshot modal for Mac 1`] = `
           "remove": [Function],
         }
       }
-      onEntering={[Function]}
       onExited={[Function]}
       onHide={[Function]}
       renderBackdrop={[Function]}
       restoreFocus={true}
+      role="dialog"
       show={false}
-      transition={[Function]}
-    />
-  </Modal>
-</ShortcutsModal>
+    >
+      <Modal
+        autoFocus={true}
+        backdrop={true}
+        backdropClassName="modal-backdrop"
+        backdropTransition={[Function]}
+        containerClassName="modal-open"
+        enforceFocus={true}
+        keyboard={true}
+        manager={
+          ModalManager {
+            "add": [Function],
+            "containers": Array [],
+            "data": Array [],
+            "handleContainerOverflow": true,
+            "hideSiblingNodes": true,
+            "isTopModal": [Function],
+            "modals": Array [],
+            "remove": [Function],
+          }
+        }
+        onEntering={[Function]}
+        onExited={[Function]}
+        onHide={[Function]}
+        renderBackdrop={[Function]}
+        restoreFocus={true}
+        show={false}
+        transition={[Function]}
+      />
+    </Modal>
+  </ShortcutsModal>
+</InjectIntl(ShortcutsModal)>
 `;
 
 exports[`components/ShortcutsModal should match snapshot modal for non-Mac like Windows/Linux 1`] = `
-<ShortcutsModal
+<InjectIntl(ShortcutsModal)
   intl={
     Object {
       "defaultFormats": Object {},
       "defaultLocale": "en",
       "formatDate": [Function],
-      "formatDateToParts": [Function],
       "formatHTMLMessage": [Function],
       "formatMessage": [Function],
       "formatNumber": [Function],
-      "formatNumberToParts": [Function],
       "formatPlural": [Function],
-      "formatRelativeTime": [Function],
+      "formatRelative": [Function],
       "formatTime": [Function],
-      "formatTimeToParts": [Function],
       "formats": Object {},
       "formatters": Object {
         "getDateTimeFormat": [Function],
         "getMessageFormat": [Function],
         "getNumberFormat": [Function],
-        "getPluralRules": [Function],
-        "getRelativeTimeFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
       },
       "locale": "en",
       "messages": Object {},
+      "now": [Function],
       "onError": [Function],
       "textComponent": "span",
       "timeZone": "Etc/UTC",
@@ -127,41 +154,44 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
   }
   isMac={false}
 >
-  <Modal
-    animation={true}
-    aria-labelledby="shortcutsModalLabel"
-    autoFocus={true}
-    backdrop={true}
-    bsClass="modal"
-    dialogClassName="a11y__modal shortcuts-modal"
-    dialogComponentClass={[Function]}
-    enforceFocus={true}
-    keyboard={true}
-    manager={
-      ModalManager {
-        "add": [Function],
-        "containers": Array [],
-        "data": Array [],
-        "handleContainerOverflow": true,
-        "hideSiblingNodes": true,
-        "isTopModal": [Function],
-        "modals": Array [],
-        "remove": [Function],
+  <ShortcutsModal
+    intl={
+      Object {
+        "defaultFormats": Object {},
+        "defaultLocale": "en",
+        "formatDate": [Function],
+        "formatHTMLMessage": [Function],
+        "formatMessage": [Function],
+        "formatNumber": [Function],
+        "formatPlural": [Function],
+        "formatRelative": [Function],
+        "formatTime": [Function],
+        "formats": Object {},
+        "formatters": Object {
+          "getDateTimeFormat": [Function],
+          "getMessageFormat": [Function],
+          "getNumberFormat": [Function],
+          "getPluralFormat": [Function],
+          "getRelativeFormat": [Function],
+        },
+        "locale": "en",
+        "messages": Object {},
+        "now": [Function],
+        "onError": [Function],
+        "textComponent": "span",
+        "timeZone": "Etc/UTC",
       }
     }
-    onExited={[Function]}
-    onHide={[Function]}
-    renderBackdrop={[Function]}
-    restoreFocus={true}
-    role="dialog"
-    show={false}
+    isMac={false}
   >
     <Modal
+      animation={true}
+      aria-labelledby="shortcutsModalLabel"
       autoFocus={true}
       backdrop={true}
-      backdropClassName="modal-backdrop"
-      backdropTransition={[Function]}
-      containerClassName="modal-open"
+      bsClass="modal"
+      dialogClassName="a11y__modal shortcuts-modal"
+      dialogComponentClass={[Function]}
       enforceFocus={true}
       keyboard={true}
       manager={
@@ -176,14 +206,42 @@ exports[`components/ShortcutsModal should match snapshot modal for non-Mac like 
           "remove": [Function],
         }
       }
-      onEntering={[Function]}
       onExited={[Function]}
       onHide={[Function]}
       renderBackdrop={[Function]}
       restoreFocus={true}
+      role="dialog"
       show={false}
-      transition={[Function]}
-    />
-  </Modal>
-</ShortcutsModal>
+    >
+      <Modal
+        autoFocus={true}
+        backdrop={true}
+        backdropClassName="modal-backdrop"
+        backdropTransition={[Function]}
+        containerClassName="modal-open"
+        enforceFocus={true}
+        keyboard={true}
+        manager={
+          ModalManager {
+            "add": [Function],
+            "containers": Array [],
+            "data": Array [],
+            "handleContainerOverflow": true,
+            "hideSiblingNodes": true,
+            "isTopModal": [Function],
+            "modals": Array [],
+            "remove": [Function],
+          }
+        }
+        onEntering={[Function]}
+        onExited={[Function]}
+        onHide={[Function]}
+        renderBackdrop={[Function]}
+        restoreFocus={true}
+        show={false}
+        transition={[Function]}
+      />
+    </Modal>
+  </ShortcutsModal>
+</InjectIntl(ShortcutsModal)>
 `;

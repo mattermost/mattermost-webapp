@@ -32,6 +32,14 @@ Cypress.Commands.add('getSubpath', () => {
     });
 });
 
+Cypress.Commands.add('getCurrentUserId', () => {
+    return cy.wrap(new Promise((resolve) => {
+        cy.getCookie('MMUSERID').then((cookie) => {
+            resolve(cookie.value);
+        });
+    }));
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************

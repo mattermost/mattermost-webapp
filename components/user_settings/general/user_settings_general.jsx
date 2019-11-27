@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
@@ -86,7 +86,7 @@ const holders = defineMessages({
 
 class UserSettingsGeneralTab extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
         user: PropTypes.object.isRequired,
         updateSection: PropTypes.func.isRequired,
         updateTab: PropTypes.func.isRequired,
