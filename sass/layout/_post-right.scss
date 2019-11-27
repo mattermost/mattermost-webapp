@@ -3,7 +3,7 @@
 .post-right__container {
     @include display-flex;
     @include flex-direction(column);
-    height: calc(100% - 63px);
+    height: 100%;
 
     .post-right-root-message {
         padding: 1em 1em 0;
