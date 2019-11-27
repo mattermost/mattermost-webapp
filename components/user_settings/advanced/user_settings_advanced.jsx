@@ -323,13 +323,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         let ctrlSendSection;
         let fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc');
         let fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle');
-        let defaultMessageSendDesc = 'When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.'
-        let defaultMessageSendTitle = 'Send messages on CTRL+ENTER'
+        let defaultMessageSendDesc = 'When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.';
+        let defaultMessageSendTitle = 'Send messages on CTRL+ENTER';
         if (Utils.isMac()) {
             fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc.mac');
             fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle.mac');
-            defaultMessageSendDesc = 'When enabled, CMD + ENTER will send the message and ENTER inserts a new line.'
-            defaultMessageSendTitle = 'Send messages on CMD+ENTER'
+            defaultMessageSendDesc = 'When enabled, CMD + ENTER will send the message and ENTER inserts a new line.';
+            defaultMessageSendTitle = 'Send messages on CMD+ENTER';
         }
 
         if (this.props.activeSection === 'advancedCtrlSend') {
