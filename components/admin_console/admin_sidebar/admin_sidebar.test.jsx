@@ -198,6 +198,7 @@ describe('components/AdminSidebar', () => {
             license: {
                 IsLicensed: 'true',
                 DataRetention: 'true',
+                GuestAccounts: 'true',
                 LDAPGroups: 'true',
                 LDAP: 'true',
                 Cluster: 'true',
