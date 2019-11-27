@@ -692,13 +692,13 @@ function handleUserAddedEvent(msg) {
     }
 }
 
-export async function handleUserRemovedEvent(msg) {
+export function handleUserRemovedEvent(msg) {
     const state = getState();
     const currentChannel = getCurrentChannel(state) || {};
     const currentUserId = getCurrentUserId(state);
 
     if (msg.broadcast.user_id === currentUserId) {
-        await dispatch(loadChannelsForCurrentUser());
+        dispatch(loadChannelsForCurrentUser());
 
         const rhsChannelId = getSelectedChannelId(state);
         if (msg.data.channel_id === rhsChannelId) {
@@ -709,10 +709,9 @@ export async function handleUserRemovedEvent(msg) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
-                let user = getUser(state, msg.data.remover_id);
+                const user = getUser(state, msg.data.remover_id);
                 if (!user) {
-                    await dispatch(loadUser(msg.data.remover_id));
-                    user = getUser(state, msg.data.remover_id) || {};
+                    dispatch(loadUser(msg.data.remover_id));
                 }
 
                 dispatch(openModal({
@@ -720,10 +719,10 @@ export async function handleUserRemovedEvent(msg) {
                     dialogType: RemovedFromChannelModal,
                     dialogProps: {
                         channelName: currentChannel.display_name,
-                        remover: user.username,
+                        removerId: msg.data.remover_id,
                     },
                 }));
-                await redirectUserToDefaultTeam();
+                redirectUserToDefaultTeam();
             }
         }
 

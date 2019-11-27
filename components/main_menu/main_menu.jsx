@@ -193,6 +193,7 @@ export default class MainMenu extends React.PureComponent {
                             modalId={ModalIdentifiers.INVITATION}
                             dialogType={InvitationModal}
                             text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}
+                            extraText={localizeMessage('navbar_dropdown.invitePeopleExtraText', 'Add or invite people to the team')}
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>

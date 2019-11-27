@@ -32,6 +32,14 @@ Cypress.Commands.add('getSubpath', () => {
     });
 });
 
+Cypress.Commands.add('getCurrentUserId', () => {
+    return cy.wrap(new Promise((resolve) => {
+        cy.getCookie('MMUSERID').then((cookie) => {
+            resolve(cookie.value);
+        });
+    }));
+});
+
 // ***********************************************************
 // Account Settings Modal
 // ***********************************************************
@@ -286,7 +294,7 @@ Cypress.Commands.add('leaveTeam', () => {
     cy.get('#leaveTeamYes').click();
 
     // * Check that the "leave team modal" closed
-    cy.get('#leaveTeamModal').should('not.be.visible');
+    cy.get('#leaveTeamModal').should('not.exist');
 });
 
 // ***********************************************************

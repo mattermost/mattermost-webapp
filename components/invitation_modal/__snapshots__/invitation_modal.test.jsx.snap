@@ -95,7 +95,9 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         myInvitableChannels={Array []}
         onEdit={[Function]}
         onSubmit={[Function]}
+        searchChannels={[MockFunction]}
         searchProfiles={[MockFunction]}
+        teamName="Test name"
       />
     </div>
   </InjectIntl(FullScreenModal)>
@@ -146,6 +148,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         onEdit={[Function]}
         onSubmit={[Function]}
         searchProfiles={[MockFunction]}
+        teamName="Test name"
       />
     </div>
   </InjectIntl(FullScreenModal)>
