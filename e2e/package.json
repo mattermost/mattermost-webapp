@@ -3,7 +3,7 @@
     "@testing-library/cypress": "5.0.2",
     "axios": "0.18.1",
     "body-parser": "1.19.0",
-    "cypress": "3.6.0",
+    "cypress": "3.6.1",
     "cypress-file-upload": "3.5.0",
     "cypress-multi-reporters": "1.2.3",
     "cypress-wait-until": "1.6.0",

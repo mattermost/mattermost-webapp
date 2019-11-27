@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import ChannelHeader from 'components/channel_header';
@@ -13,9 +13,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-class PermalinkView extends React.PureComponent {
+export default class PermalinkView extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         channelId: PropTypes.string,
         channelName: PropTypes.string,
         channelIsArchived: PropTypes.bool,
@@ -33,6 +32,10 @@ class PermalinkView extends React.PureComponent {
         actions: PropTypes.shape({
             focusPost: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -92,7 +95,7 @@ class PermalinkView extends React.PureComponent {
             match,
             teamName,
         } = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         if (!this.isStateValid()) {
             return (
@@ -144,5 +147,3 @@ class PermalinkView extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(PermalinkView);

@@ -14,18 +14,16 @@ import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/widgets/icons/back_icon';
-
 import './invitation_modal_guests_step.scss';
 
 import {t} from 'utils/i18n.jsx';
 
 export default class InvitationModalGuestsStep extends React.Component {
     static propTypes = {
-        goBack: PropTypes.func,
         myInvitableChannels: PropTypes.array.isRequired,
         currentTeamId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
+        searchChannels: PropTypes.func.isRequired,
         defaultChannels: PropTypes.array,
         defaultMessage: PropTypes.string,
         onEdit: PropTypes.func.isRequired,
@@ -95,10 +93,14 @@ export default class InvitationModalGuestsStep extends React.Component {
         }
     }
 
+    debouncedSearchChannels = debounce((term) => this.props.searchChannels(this.props.currentTeamId, term), 150);
+
     channelsLoader = async (value) => {
         if (!value) {
             return this.props.myInvitableChannels;
         }
+
+        this.debouncedSearchChannels(value);
         return this.props.myInvitableChannels.filter((channel) => {
             return channel.display_name.toLowerCase().startsWith(value.toLowerCase()) || channel.name.toLowerCase().startsWith(value.toLowerCase());
         });
@@ -133,12 +135,6 @@ export default class InvitationModalGuestsStep extends React.Component {
     render() {
         return (
             <div className='InvitationModalGuestsStep'>
-                {this.props.goBack &&
-                    <BackIcon
-                        className='back'
-                        id='backIcon'
-                        onClick={this.props.goBack}
-                    />}
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>

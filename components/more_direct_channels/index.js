@@ -22,7 +22,7 @@ import {
 import {getChannelsWithUserProfiles} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
@@ -66,7 +66,7 @@ function mapStateToProps(state, ownProps) {
         currentTeamId: team.id,
         currentTeamName: team.name,
         searchTerm,
-        users,
+        users: users.sort(sortByUsername),
         groupChannels: filteredGroupChannels,
         statuses: state.entities.users.statuses,
         currentChannelMembers,
