@@ -708,15 +708,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div
         className="text-right margin-top"
       >
-        <input
-          className="btn btn-primary comment-btn"
-          disabled={false}
-          onClick={[Function]}
-          type="button"
-          value="Add Comment"
-        />
         <span
-          className="pull-right post-right-comments-upload-in-progress"
+          className="post-right-comments-upload-in-progress"
         >
           <FormattedMessage
             defaultMessage="File uploading"
@@ -724,6 +717,13 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             values={Object {}}
           />
         </span>
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
         <Connect(FilePreview)
           fileInfos={
             Array [
