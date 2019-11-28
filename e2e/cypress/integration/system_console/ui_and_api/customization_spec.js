@@ -42,7 +42,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', origConfig.TeamSettings.SiteName);
 
         // * Verify the site name's help text is visible and matches the text
-        cy.findByTestId('TeamSettings.SiteNamehelp-text').find('span').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
+        cy.findByTestId('TeamSettings.SiteNamehelp-text').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
 
         // # Generate and enter a random site name
         const siteName = 'New site name';
@@ -64,25 +64,18 @@ describe('Customization', () => {
         cy.visit('/admin_console/site_config/customization');
     });
 
-    after(() => {
-        cy.apiUpdateConfig(originalConfig);
-    });
-
     it('SC20341 Can change About Link setting', () => {
         const newAboutLink = 'https://about.mattermost.com/new-about-page/';
 
         // * Verify that setting is visible and has the correct label text
-        cy.findByTestId('SupportSettings.AboutLink').
-            scrollIntoView().should('be.visible').
-            find('label').should('be.visible').and('have.text', 'About Link:');
+        cy.findByTestId('SupportSettings.AboutLinklabel').should('be.visible').and('have.text', 'About Link:');
 
         // * Verify that the help text is visible and matches text content
         cy.findByTestId('SupportSettings.AboutLinkhelp-text').
             should('be.visible').and('have.text', 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.');
 
         // * Verify that the existing is visible and has default value
-        cy.findByTestId('SupportSettings.AboutLinkinput').
-            should('be.visible').
+        cy.findByTestId('SupportSettings.AboutLinkinput').should('be.visible').
             and('have.value', origConfig.SupportSettings.AboutLink);
 
         // # Clear existing about link and type the new about link
