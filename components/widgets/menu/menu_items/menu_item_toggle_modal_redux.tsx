@@ -11,17 +11,20 @@ type Props = {
     modalId: string;
     dialogType: React.ComponentType<any>;
     dialogProps?: object;
+    extraText?: string;
     text: React.ReactNode;
 }
 
-export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text}: Props) => (
+export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, extraText}: Props) => (
     <ToggleModalButtonRedux
         accessibilityLabel={text}
         modalId={modalId}
         dialogType={dialogType}
         dialogProps={dialogProps}
+        className={extraText && 'MenuItem__help'}
     >
         {text}
+        {extraText && <span className='extra-text'>{extraText}</span>}
     </ToggleModalButtonRedux>
 );
 

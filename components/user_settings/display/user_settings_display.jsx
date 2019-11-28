@@ -324,7 +324,10 @@ export default class UserSettingsDisplay extends React.Component {
             }
 
             let inputs = [
-                <div key={key}>
+                <fieldset key={key}>
+                    <legend className='form-legend hidden-label'>
+                        {messageTitle}
+                    </legend>
                     <div className='radio'>
                         <label>
                             <input
@@ -360,7 +363,7 @@ export default class UserSettingsDisplay extends React.Component {
                         <br/>
                         {messageDesc}
                     </div>
-                </div>,
+                </fieldset>,
             ];
 
             if (display === 'teammateNameDisplay' && disabled) {

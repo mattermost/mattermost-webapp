@@ -118,6 +118,12 @@
     &.modal-image {
         overflow: hidden;
 
+        .modal-code {
+            .modal-image__content {
+                background: transparent;
+            }
+        }
+
         .modal-backdrop {
             &.in {
                 @include opacity(.7);
@@ -348,7 +354,12 @@
             }
 
             .post-code {
-                background: $white;
+                background: transparent;
+
+                code {
+                    margin: 0;
+                    padding: 5px 0;
+                }
             }
 
             audio,
