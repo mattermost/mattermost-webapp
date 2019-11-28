@@ -2,7 +2,7 @@
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot 1`] = `
 <RootPortal>
-  <injectIntl(FullScreenModal)
+  <InjectIntl(FullScreenModal)
     onClose={[Function]}
     onGoBack={null}
     show={true}
@@ -45,13 +45,13 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
         teamName="Test name"
       />
     </div>
-  </injectIntl(FullScreenModal)>
+  </InjectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to add users 1`] = `
 <RootPortal>
-  <injectIntl(FullScreenModal)
+  <InjectIntl(FullScreenModal)
     onClose={[Function]}
     onGoBack={null}
     show={true}
@@ -95,16 +95,18 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         myInvitableChannels={Array []}
         onEdit={[Function]}
         onSubmit={[Function]}
+        searchChannels={[MockFunction]}
         searchProfiles={[MockFunction]}
+        teamName="Test name"
       />
     </div>
-  </injectIntl(FullScreenModal)>
+  </InjectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to invite guests 1`] = `
 <RootPortal>
-  <injectIntl(FullScreenModal)
+  <InjectIntl(FullScreenModal)
     onClose={[Function]}
     onGoBack={null}
     show={true}
@@ -141,20 +143,21 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           />
         }
       />
-      <injectIntl(InvitationModalMembersStep)
+      <InjectIntl(InvitationModalMembersStep)
         inviteId="test-invite-id"
         onEdit={[Function]}
         onSubmit={[Function]}
         searchProfiles={[MockFunction]}
+        teamName="Test name"
       />
     </div>
-  </injectIntl(FullScreenModal)>
+  </InjectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/invitation_modal/InvitationModal should match the snapshot when not show 1`] = `
 <RootPortal>
-  <injectIntl(FullScreenModal)
+  <InjectIntl(FullScreenModal)
     onClose={[Function]}
     onGoBack={null}
     show={false}
@@ -197,6 +200,6 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
         teamName="Test name"
       />
     </div>
-  </injectIntl(FullScreenModal)>
+  </InjectIntl(FullScreenModal)>
 </RootPortal>
 `;
