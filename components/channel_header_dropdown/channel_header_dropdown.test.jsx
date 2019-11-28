@@ -5,7 +5,7 @@ import React from 'react';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
-import ChannelHeaderDropdown from './channel_header_dropdown';
+import ChannelHeaderDropdown from './channel_header_dropdown_items.js';
 
 describe('components/ChannelHeaderDropdown', () => {
     const defaultProps = {
@@ -17,6 +17,7 @@ describe('components/ChannelHeaderDropdown', () => {
         isMuted: false,
         isArchived: false,
         isMobile: false,
+        penultimateViewedChannelName: 'test-channel',
         pluginMenuItems: [],
     };
 
