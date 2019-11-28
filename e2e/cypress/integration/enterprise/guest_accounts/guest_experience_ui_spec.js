@@ -46,7 +46,7 @@ describe('Guest Account - Guest User Experience', () => {
         });
 
         // *Verify Reduced Options in LHS
-        const missingLHSOptions = ['#createPublicChannel', '#morePublicButton', '#createPrivateChannel'];
+        const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
         missingLHSOptions.forEach((missingOption) => {
             cy.get(missingOption).should('not.exist');
         });
@@ -125,7 +125,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
 
         // *Verify Options in LHS are changed
-        const missingLHSOptions = ['#createPublicChannel', '#morePublicButton', '#createPrivateChannel'];
+        const missingLHSOptions = ['#createPublicChannel', "li[data-testid='morePublicButton']", '#createPrivateChannel'];
         missingLHSOptions.forEach((missingOption) => {
             cy.get(missingOption).should('be.visible');
         });
