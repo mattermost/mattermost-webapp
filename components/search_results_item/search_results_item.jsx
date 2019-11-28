@@ -335,6 +335,7 @@ class SearchResultsItem extends React.PureComponent {
                             searchMatches: this.props.matches,
                             mentionHighlight: this.props.isMentionSearch,
                         }}
+                        isRHS='true'
                     />
                 </PostBodyAdditionalContent>
             );

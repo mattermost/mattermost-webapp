@@ -60,6 +60,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
