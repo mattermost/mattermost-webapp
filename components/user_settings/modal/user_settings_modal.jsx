@@ -5,7 +5,7 @@ import $ from 'jquery';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants';
@@ -63,7 +63,7 @@ class UserSettingsModal extends React.Component {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         onHide: PropTypes.func.isRequired,
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             sendVerificationEmail: PropTypes.func.isRequred,
         }).isRequired,

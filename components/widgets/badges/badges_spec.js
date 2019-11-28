@@ -12,11 +12,15 @@
  * Run it by: `npm run storybook`
  */
 
+/* eslint-disable max-nested-callbacks */
+
 describe('Widgets - Badges', () => {
     before(() => {
         // # Go to widget story and verify that it renders regular badge
         cy.toWidgetStory('/story/badges--regular-badge');
-        cy.queryByText('regular badge').should('exist');
+        cy.get('.sidebar-container').should('be.visible').within(() => {
+            cy.findByText('regular badge').should('exist');
+        });
     });
 
     it('verify UI', () => {

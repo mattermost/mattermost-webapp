@@ -11,8 +11,8 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username, password) => {
-    cy.apiLogin('user-1', password);
+Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
+    cy.apiLogin(username, password);
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -30,6 +30,14 @@ Cypress.Commands.add('getSubpath', () => {
             return url.replace(origin, '').substring(0, url.length - origin.length - 1);
         });
     });
+});
+
+Cypress.Commands.add('getCurrentUserId', () => {
+    return cy.wrap(new Promise((resolve) => {
+        cy.getCookie('MMUSERID').then((cookie) => {
+            resolve(cookie.value);
+        });
+    }));
 });
 
 // ***********************************************************
@@ -286,7 +294,7 @@ Cypress.Commands.add('leaveTeam', () => {
     cy.get('#leaveTeamYes').click();
 
     // * Check that the "leave team modal" closed
-    cy.get('#leaveTeamModal').should('not.be.visible');
+    cy.get('#leaveTeamModal').should('not.exist');
 });
 
 // ***********************************************************
