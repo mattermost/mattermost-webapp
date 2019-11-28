@@ -17,7 +17,9 @@ exports[`admin_console/team_channel_settings/team/TeamRow should match snapshot 
         url={null}
       />
       <div>
-        <b>
+        <b
+          data-testid="team-display-name"
+        >
           team
         </b>
       </div>
