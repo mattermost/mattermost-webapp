@@ -306,7 +306,7 @@
 }
 
 .sidebar-right-container {
-    height: 100%;
+    height: calc(100% - 63px);
 }
 
 .sidebar-collapse__container {

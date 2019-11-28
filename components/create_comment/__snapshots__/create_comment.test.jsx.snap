@@ -712,6 +712,15 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div
         className="text-right margin-top"
       >
+        <span
+          className="post-right-comments-upload-in-progress"
+        >
+          <FormattedMessage
+            defaultMessage="File uploading"
+            id="create_comment.file"
+            values={Object {}}
+          />
+        </span>
         <input
           className="btn btn-primary comment-btn"
           disabled={false}
@@ -720,15 +729,6 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           type="button"
           value="Add Comment"
         />
-        <span
-          className="pull-right post-right-comments-upload-in-progress"
-        >
-          <FormattedMessage
-            defaultMessage="File uploading"
-            id="create_comment.file"
-            values={Object {}}
-          />
-        </span>
         <Connect(FilePreview)
           fileInfos={
             Array [
