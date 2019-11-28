@@ -171,6 +171,11 @@
         position: relative;
         width: 100%;
         padding-bottom: 10px;
+        li {
+            >h4, >.nav-more {
+                color: var(--sidebar-text-60);
+            }
+        }
     }
 
     .nav-pills__unread-indicator {
@@ -412,9 +417,10 @@
         border-radius: 50%;
         line-height: 0;
         height: 28px;
+        color: var(--sidebar-text-80);
 
-        &:hover {
-            color: #666666;
+        &:hover, &:focus {
+            color: var(--sidebar-text);
         }
 
         span {

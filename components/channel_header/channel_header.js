@@ -690,10 +690,13 @@ export default class ChannelHeader extends React.PureComponent {
                         tooltipKey={'pinnedPosts'}
                     />
                     {this.state.showSearchBar ? (
-                        <div className='flex-child search-bar__container'>
+                        <div
+                            id='searchbarContainer'
+                            className='flex-child search-bar__container'
+                        >
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile()}
+                                isFocus={Utils.isMobile() || this.props.rhsOpen}
                             />
                         </div>
                     ) : (
