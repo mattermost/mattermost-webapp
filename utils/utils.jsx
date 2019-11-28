@@ -1532,6 +1532,17 @@ export function isFileTransfer(files) {
     return files.types != null && (files.types.indexOf ? files.types.indexOf('Files') !== -1 : files.types.contains('application/x-moz-file'));
 }
 
+export function isUriDrop(dataTransfer) {
+    if (UserAgent.isInternetExplorer() || UserAgent.isEdge() || UserAgent.isSafari()) {
+        for (let i = 0; i < dataTransfer.items.length; i++) {
+            if (dataTransfer.items[i].type === 'text/uri-list') {
+                return true;
+            }
+        }
+    }
+    return false; // we don't care about others, they handle as we want it
+}
+
 export function clearFileInput(elm) {
     // clear file input for all modern browsers
     try {
