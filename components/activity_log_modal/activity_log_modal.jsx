@@ -131,7 +131,7 @@ export default class ActivityLogModal extends React.PureComponent {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body>
                     <p className='session-help-text'>
                         <FormattedMessage
                             id='activity_log.sessionsDescription'

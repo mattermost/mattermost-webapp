@@ -95,7 +95,7 @@ export default class AccessHistoryModal extends React.PureComponent {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body>
                     {content}
                 </Modal.Body>
                 <Modal.Footer className='modal-footer--invisible'>
