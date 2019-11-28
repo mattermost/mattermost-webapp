@@ -58,19 +58,18 @@ describe('Customization', () => {
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
         });
+
+        // # Login as sysadmin and visit customization system console page
+        cy.apiLogin('sysadmin');
+        cy.visit('/admin_console/site_config/customization');
+    });
+
+    after(() => {
+        cy.apiUpdateConfig(originalConfig);
     });
 
     it('SC20341 Can change About Link setting', () => {
         const newAboutLink = 'https://about.mattermost.com/new-about-page/';
-
-        // # Login as a system admin member
-        cy.apiLogin('sysadmin');
-
-        // # Visit the site config customization page
-        cy.visit('/admin_console/site_config/customization');
-
-        // * URL should be the customization page
-        cy.url().should('include', 'customization');
 
         // * Verify that setting is visible and has the correct label text
         cy.findByTestId('SupportSettings.AboutLink').
