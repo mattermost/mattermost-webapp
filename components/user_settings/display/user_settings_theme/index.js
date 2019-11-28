@@ -7,9 +7,9 @@ import {bindActionCreators} from 'redux';
 import {getTheme, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId, getMyTeamsCount} from 'mattermost-redux/selectors/entities/teams';
 
-import {saveTheme} from 'actions/user_actions';
+import {saveTheme, deleteTeamSpecificThemes} from 'mattermost-redux/actions/preferences';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import UserSettingsTheme from './user_settings_theme.jsx';
 
@@ -30,6 +30,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             saveTheme,
+            deleteTeamSpecificThemes,
         }, dispatch),
     };
 }

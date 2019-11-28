@@ -10,19 +10,10 @@ import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export async function saveConfig(config, success, error) {
-    const {data, error: err} = await AdminActions.updateConfig(config)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
 
 export async function reloadConfig(success, error) {
     const {data, error: err} = await dispatch(AdminActions.reloadConfig());
@@ -162,17 +153,8 @@ export async function uploadBrandImage(brandImage, success, error) {
     }
 }
 
-export async function uploadLicenseFile(file, success, error) {
-    const {data, error: err} = await AdminActions.uploadLicense(file)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
-
-export async function removeLicenseFile(success, error) {
-    const {data, error: err} = await AdminActions.removeLicense()(dispatch, getState);
+export async function deleteBrandImage(success, error) {
+    const {data, error: err} = await AdminActions.deleteBrandImage()(dispatch, getState);
     if (data && success) {
         success(data);
     } else if (err && error) {
@@ -183,7 +165,7 @@ export async function removeLicenseFile(success, error) {
 export async function uploadPublicSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadPublicSamlCertificate(file)(dispatch, getState);
     if (data && success) {
-        success(data);
+        success('saml-public.crt');
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
@@ -192,7 +174,7 @@ export async function uploadPublicSamlCertificate(file, success, error) {
 export async function uploadPrivateSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadPrivateSamlCertificate(file)(dispatch, getState);
     if (data && success) {
-        success(data);
+        success('saml-private.key');
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
@@ -201,7 +183,7 @@ export async function uploadPrivateSamlCertificate(file, success, error) {
 export async function uploadIdpSamlCertificate(file, success, error) {
     const {data, error: err} = await AdminActions.uploadIdpSamlCertificate(file)(dispatch, getState);
     if (data && success) {
-        success(data);
+        success('saml-idp.crt');
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
@@ -240,6 +222,10 @@ export async function getStandardAnalytics(teamId) {
 
 export async function getAdvancedAnalytics(teamId) {
     await AdminActions.getAdvancedAnalytics(teamId)(dispatch, getState);
+}
+
+export async function getBotPostsPerDayAnalytics(teamId) {
+    await AdminActions.getBotPostsPerDayAnalytics(teamId)(dispatch, getState);
 }
 
 export async function getPostsPerDayAnalytics(teamId) {
@@ -319,4 +305,59 @@ export async function invalidateAllEmailInvites(success, error) {
     } else if (err && error) {
         error({id: err.server_error_id, ...err});
     }
+}
+
+export async function testSmtp(success, error) {
+    const {data, error: err} = await dispatch(AdminActions.testEmail());
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export function registerAdminConsolePlugin(pluginId, reducer) {
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId,
+                reducer,
+            },
+        });
+    };
+}
+
+export function unregisterAdminConsolePlugin(pluginId) {
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER,
+            data: {
+                pluginId,
+            },
+        });
+    };
+}
+
+export async function testSiteURL(success, error, siteURL) {
+    const {data, error: err} = await dispatch(AdminActions.testSiteURL(siteURL));
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export function registerAdminConsoleCustomSetting(pluginId, key, component, {showTitle}) {
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT,
+            data: {
+                pluginId,
+                key,
+                component,
+                options: {showTitle},
+            },
+        });
+    };
 }

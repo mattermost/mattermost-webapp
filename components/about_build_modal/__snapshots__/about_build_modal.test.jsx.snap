@@ -3,10 +3,11 @@
 exports[`components/AboutBuildModal should match snapshot for enterprise edition 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="about-modal"
+  dialogClassName="a11y__modal about-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -22,9 +23,11 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -34,12 +37,17 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="aboutModalLabel"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>
@@ -163,6 +171,7 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -176,7 +185,8 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -244,10 +254,11 @@ exports[`components/AboutBuildModal should match snapshot for enterprise edition
 exports[`components/AboutBuildModal should match snapshot for team edition 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="about-modal"
+  dialogClassName="a11y__modal about-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -263,9 +274,11 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -275,12 +288,17 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="aboutModalLabel"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>
@@ -393,6 +411,7 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -406,7 +425,8 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -473,10 +493,11 @@ exports[`components/AboutBuildModal should match snapshot for team edition 1`] =
 exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="about-modal"
+  dialogClassName="a11y__modal about-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -492,9 +513,11 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -504,12 +527,17 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="aboutModalLabel"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>
@@ -634,6 +662,7 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -647,7 +676,8 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -714,10 +744,11 @@ exports[`components/AboutBuildModal should show ci if a ci build 1`] = `
 exports[`components/AboutBuildModal should show dev if this is a dev build 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="aboutModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="about-modal"
+  dialogClassName="a11y__modal about-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -733,9 +764,11 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
       "remove": [Function],
     }
   }
+  onExited={[Function]}
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -745,12 +778,17 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="aboutModalLabel"
     >
       <FormattedMessage
-        defaultMessage="About Mattermost"
+        defaultMessage="About {appTitle}"
         id="about.title"
-        values={Object {}}
+        values={
+          Object {
+            "appTitle": "Mattermost",
+          }
+        }
       />
     </ModalTitle>
   </ModalHeader>
@@ -863,6 +901,7 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
         >
           <a
             href="https://about.mattermost.com/default-terms/"
+            id="tosLink"
             rel="noopener noreferrer"
             target="_blank"
           >
@@ -876,7 +915,8 @@ exports[`components/AboutBuildModal should show dev if this is a dev build 1`] =
              - 
           </span>
           <a
-            href="https://mattermost.com/privacy-policy/"
+            href="https://about.mattermost.com/default-privacy-policy/"
+            id="privacyLink"
             rel="noopener noreferrer"
             target="_blank"
           >

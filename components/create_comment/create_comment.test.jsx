@@ -3,12 +3,12 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
-import Constants from 'utils/constants.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import Constants from 'utils/constants';
 
 import CreateComment from 'components/create_comment/create_comment.jsx';
 import FileUpload from 'components/file_upload';
-import FilePreview from 'components/file_preview/file_preview.jsx';
+import FilePreview from 'components/file_preview';
 
 describe('components/CreateComment', () => {
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
@@ -48,6 +48,7 @@ describe('components/CreateComment', () => {
         badConnection: false,
         getChannelTimezones: jest.fn(() => Promise.resolve([])),
         isTimezoneEnabled: false,
+        selectedPostFocussedAt: 0,
     };
 
     test('should match snapshot, empty comment', () => {
@@ -141,6 +142,14 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>
         );
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
@@ -150,23 +159,27 @@ describe('components/CreateComment', () => {
         );
         expect(wrapper.state().draft.message).toBe(':smile: ');
 
-        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test'.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test :smile:  ');
 
-        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []}});
+        wrapper.setState({draft: {message: 'test ', uploadsInProgress: [], fileInfos: []},
+            caretPosition: 'test '.length, // cursor is at the end
+        });
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
-            expect.objectContaining({message: 'test :smile: '})
+            expect.objectContaining({message: 'test  :smile:  '})
         );
-        expect(wrapper.state().draft.message).toBe('test :smile: ');
+        expect(wrapper.state().draft.message).toBe('test  :smile:  ');
 
         expect(wrapper.state().showEmojiPicker).toBe(false);
     });
@@ -324,7 +337,7 @@ describe('components/CreateComment', () => {
         expect(wrapper.state('uploadsProgressPercent')).toEqual({clientId: {percent: 10, name: 'name', type: 'type'}});
     });
 
-    test('calls showPostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
+    test('set showPostDeletedModal true when createPostErrorId === api.post.create_post.root_id.app_error', () => {
         const onUpdateCommentDraft = jest.fn();
         const draft = {
             message: 'Test message',
@@ -337,30 +350,73 @@ describe('components/CreateComment', () => {
             <CreateComment {...props}/>
         );
 
-        const showPostDeletedModal = jest.fn();
-        wrapper.instance().showPostDeletedModal = showPostDeletedModal;
         wrapper.setProps({createPostErrorId: 'api.post.create_post.root_id.app_error'});
-        expect(showPostDeletedModal).toHaveBeenCalled();
+        expect(wrapper.state('showPostDeletedModal')).toBe(true);
     });
 
-    /* Removed due setProps not actually setting the props
-     * test('calls focusTextbox when rootId changes', () => {
+    describe('focusTextbox', () => {
         const draft = {
             message: 'Test message',
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}],
         };
-        const props = {...baseProps, draft};
 
-        const wrapper = shallowWithIntl(
-            <CreateComment {...props}/>
-        );
+        it('is called when rootId changes', () => {
+            const props = {...baseProps, draft};
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
 
-        const focusTextbox = jest.fn();
-        wrapper.instance().focusTextbox = focusTextbox;
-        wrapper.setProps({rootId: 'testid123'});
-        expect(focusTextbox).toHaveBeenCalled();
-    });*/
+            const focusTextbox = jest.fn();
+            wrapper.instance().focusTextbox = focusTextbox;
+
+            const newProps = {
+                ...props,
+                rootId: 'testid123',
+            };
+
+            // Note that setProps doesn't actually trigger componentDidUpdate
+            wrapper.setProps(newProps);
+            wrapper.instance().componentDidUpdate(props, newProps);
+            expect(focusTextbox).toHaveBeenCalled();
+        });
+
+        it('is called when selectPostFocussedAt changes', () => {
+            const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            const focusTextbox = jest.fn();
+            wrapper.instance().focusTextbox = focusTextbox;
+
+            const newProps = {
+                ...props,
+                selectedPostFocussedAt: 2000,
+            };
+
+            // Note that setProps doesn't actually trigger componentDidUpdate
+            wrapper.setProps(newProps);
+            wrapper.instance().componentDidUpdate(props, props);
+            expect(focusTextbox).toHaveBeenCalled();
+        });
+
+        it('is not called when rootId and selectPostFocussedAt have not changed', () => {
+            const props = {...baseProps, draft, selectedPostFocussedAt: 1000};
+            const wrapper = shallowWithIntl(
+                <CreateComment {...props}/>
+            );
+
+            const focusTextbox = jest.fn();
+            wrapper.instance().focusTextbox = focusTextbox;
+            wrapper.instance().handleBlur();
+
+            // Note that setProps doesn't actually trigger componentDidUpdate
+            wrapper.setProps(props);
+            wrapper.instance().componentDidUpdate(props, props);
+            expect(focusTextbox).not.toHaveBeenCalled();
+        });
+    });
 
     test('handleChange should update comment draft correctly', () => {
         const onUpdateCommentDraft = jest.fn();

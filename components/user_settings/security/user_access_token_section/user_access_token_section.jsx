@@ -7,16 +7,16 @@ import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
-import {isMobile} from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import {isMobile} from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
-import SaveButton from 'components/save_button.jsx';
+import SettingItemMin from 'components/setting_item_min';
+import SaveButton from 'components/save_button';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import WarningIcon from 'components/icon/warning_icon';
+import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 const SECTION_TOKENS = 'tokens';
 const TOKEN_CREATING = 'creating';
@@ -569,7 +569,7 @@ export default class UserAccessTokenSection extends React.Component {
                     message={this.state.confirmMessage ? this.state.confirmMessage(this.state) : null}
                     confirmButtonText={this.state.confirmButton}
                     show={this.state.showConfirmModal}
-                    onConfirm={this.state.confirmComplete || (() => {})} //eslint-disable-line no-empty-function
+                    onConfirm={this.state.confirmComplete || (() => null)}
                     onCancel={this.handleCancelConfirm}
                     hideCancel={this.state.confirmHideCancel}
                 />

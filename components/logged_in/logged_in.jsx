@@ -6,13 +6,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Redirect} from 'react-router';
 import {viewChannel} from 'mattermost-redux/actions/channels';
+import semver from 'semver';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import * as UserAgent from 'utils/user_agent';
+import LoadingScreen from 'components/loading_screen';
 import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
+import WebSocketClient from 'client/web_websocket_client.jsx';
+import {browserHistory} from 'utils/browser_history';
+import {getChannelURL} from 'utils/utils';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -69,6 +73,17 @@ export default class LoggedIn extends React.PureComponent {
         window.addEventListener('focus', this.onFocusListener);
         window.addEventListener('blur', this.onBlurListener);
 
+        // Listen for messages from the desktop app
+        window.addEventListener('message', this.onDesktopMessageListener);
+
+        // Tell the desktop app the webapp is ready
+        window.postMessage(
+            {
+                type: 'webapp-ready',
+            },
+            window.location.origin
+        );
+
         // Because current CSS requires the root tag to have specific stuff
 
         // Device tracking setup
@@ -83,7 +98,7 @@ export default class LoggedIn extends React.PureComponent {
             GlobalActions.emitUserLoggedOutEvent('/login?redirect_to=' + encodeURIComponent(this.props.location.pathname), true, false);
         }
 
-        $('body').on('mouseenter mouseleave', '.post', function mouseOver(ev) {
+        $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).prev('.date-separator, .new-separator').addClass('hovered--after');
                 $(this).next('.date-separator, .new-separator').addClass('hovered--before');
@@ -103,7 +118,7 @@ export default class LoggedIn extends React.PureComponent {
             }
         });
 
-        $('body').on('mouseenter mouseleave', '.post.post--comment.same--root', function mouseOver(ev) {
+        $('body').on('mouseenter mouseleave', ':not(.post-list__dynamic) .post.post--comment.same--root', function mouseOver(ev) {
             if (ev.type === 'mouseenter') {
                 $(this).prev('.date-separator, .new-separator').addClass('hovered--comment');
                 $(this).next('.date-separator, .new-separator').addClass('hovered--comment');
@@ -132,9 +147,9 @@ export default class LoggedIn extends React.PureComponent {
 
         $(window).off('keydown.preventBackspace');
 
-        // Listen for focussed tab/window state
         window.removeEventListener('focus', this.onFocusListener);
         window.removeEventListener('blur', this.onBlurListener);
+        window.removeEventListener('message', this.onDesktopMessageListener);
     }
 
     render() {
@@ -163,5 +178,43 @@ export default class LoggedIn extends React.PureComponent {
 
     onBlurListener() {
         GlobalActions.emitBrowserFocus(false);
+    }
+
+    // listen for messages from the desktop app
+    onDesktopMessageListener = ({origin, data: {type, message = {}} = {}} = {}) => {
+        if (!this.props.currentUser) {
+            return;
+        }
+        if (origin !== window.location.origin) {
+            return;
+        }
+
+        switch (type) {
+        case 'register-desktop': {
+            const {version} = message;
+            if (!window.desktop) {
+                window.desktop = {};
+            }
+            window.desktop.version = semver.valid(semver.coerce(version));
+            break;
+        }
+        case 'user-activity-update': {
+            const {userIsActive, manual} = message;
+
+            // update the server with the users current away status
+            if (userIsActive === true || userIsActive === false) {
+                WebSocketClient.userUpdateActiveStatus(userIsActive, manual);
+            }
+            break;
+        }
+        case 'notification-clicked': {
+            const {channel, teamId} = message;
+            window.focus();
+
+            // navigate to the appropriate channel
+            browserHistory.push(getChannelURL(channel, teamId));
+            break;
+        }
+        }
     }
 }

@@ -24,7 +24,9 @@ export default class FileInfoPreview extends React.PureComponent {
             infoParts.push(Utils.localizeMessage('file_info_preview.type', 'File type ') + fileInfo.extension.toUpperCase());
         }
 
-        infoParts.push(Utils.localizeMessage('file_info_preview.size', 'Size ') + Utils.fileSizeToString(fileInfo.size));
+        if (fileInfo.size) {
+            infoParts.push(Utils.localizeMessage('file_info_preview.size', 'Size ') + Utils.fileSizeToString(fileInfo.size));
+        }
 
         const infoString = infoParts.join(', ');
 
@@ -38,14 +40,20 @@ export default class FileInfoPreview extends React.PureComponent {
                     rel='noopener noreferrer'
                 >
                     <span className='file-details__preview-helper'/>
-                    <img src={Utils.getFileIconPath(fileInfo)}/>
+                    <img
+                        alt={'file preview'}
+                        src={Utils.getFileIconPath(fileInfo)}
+                    />
                 </a>
             );
         } else {
             preview = (
                 <span className='file-details__preview'>
                     <span className='file-details__preview-helper'/>
-                    <img src={Utils.getFileIconPath(fileInfo)}/>
+                    <img
+                        alt={'file preview'}
+                        src={Utils.getFileIconPath(fileInfo)}
+                    />
                 </span>
             );
         }

@@ -6,12 +6,16 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+
+import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
+import RhsCard from 'components/rhs_card';
 import SearchBar from 'components/search_bar';
 import SearchResults from 'components/search_results';
+
+import RhsPlugin from 'plugins/rhs_plugin';
 
 export default class SidebarRight extends React.PureComponent {
     static propTypes = {
@@ -20,16 +24,39 @@ export default class SidebarRight extends React.PureComponent {
         currentUserId: PropTypes.string.isRequired,
         channel: PropTypes.object,
         postRightVisible: PropTypes.bool,
+        postCardVisible: PropTypes.bool,
         searchVisible: PropTypes.bool,
         isMentionSearch: PropTypes.bool,
         isFlaggedPosts: PropTypes.bool,
         isPinnedPosts: PropTypes.bool,
+        isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
         }),
     };
+
+    constructor(props) {
+        super(props);
+
+        this.sidebarRight = React.createRef();
+        this.state = {
+            isOpened: false,
+        };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.determineTransition);
+        this.determineTransition();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.determineTransition);
+        if (this.sidebarRight.current) {
+            this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
+        }
+    }
 
     componentDidUpdate(prevProps) {
         const wasOpen = prevProps.searchVisible || prevProps.postRightVisible;
@@ -45,6 +72,27 @@ export default class SidebarRight extends React.PureComponent {
         }
     }
 
+    determineTransition = () => {
+        const transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
+        const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
+
+        if (this.sidebarRight.current && hasTransition) {
+            this.setState({isOpened: this.props.isOpen});
+            this.sidebarRight.current.addEventListener('transitionend', this.onFinishTransition);
+        } else {
+            this.setState({isOpened: true});
+            if (this.sidebarRight.current) {
+                this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
+            }
+        }
+    }
+
+    onFinishTransition = (e) => {
+        if (e.propertyName === 'transform') {
+            this.setState({isOpened: this.props.isOpen});
+        }
+    }
+
     onShrink = () => {
         this.props.actions.setRhsExpanded(false);
     };
@@ -57,8 +105,10 @@ export default class SidebarRight extends React.PureComponent {
             isMentionSearch,
             isPinnedPosts,
             postRightVisible,
+            postCardVisible,
             previousRhsState,
             searchVisible,
+            isPluginView,
         } = this.props;
 
         let content = null;
@@ -93,6 +143,7 @@ export default class SidebarRight extends React.PureComponent {
                         toggleSize={this.toggleSize}
                         shrink={this.onShrink}
                         channelDisplayName={channelDisplayName}
+                        isOpened={this.state.isOpened}
                     />
                 </div>
             );
@@ -109,6 +160,20 @@ export default class SidebarRight extends React.PureComponent {
                     />
                 </div>
             );
+        } else if (isPluginView) {
+            content = (
+                <div className='post-right__container'>
+                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                    <RhsPlugin/>
+                </div>
+            );
+        } else if (postCardVisible) {
+            content = (
+                <div className='post-right__container'>
+                    <div className='search-bar__container channel-header alt'>{searchForm}</div>
+                    <RhsCard previousRhsState={previousRhsState}/>
+                </div>
+            );
         }
 
         if (!content) {
@@ -119,6 +184,7 @@ export default class SidebarRight extends React.PureComponent {
             <div
                 className={classNames('sidebar--right', expandedClass, {'move--left': this.props.isOpen})}
                 id='sidebar-right'
+                ref={this.sidebarRight}
             >
                 <div
                     onClick={this.onShrink}

@@ -116,6 +116,7 @@ export default class InstalledOAuthApps extends React.PureComponent {
             props = {
                 addLink: '/' + this.props.team.name + '/integrations/oauth2-apps/add',
                 addText: localizeMessage('installed_oauth_apps.add', 'Add OAuth 2.0 Application'),
+                addButtonId: 'addOauthApp',
             };
         }
 

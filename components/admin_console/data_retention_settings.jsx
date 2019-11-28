@@ -4,27 +4,18 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {JobTypes} from 'utils/constants.jsx';
+import {JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-import AdminSettings from './admin_settings.jsx';
+import AdminSettings from './admin_settings';
 import DropdownSetting from './dropdown_setting.jsx';
 import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 export default class DataRetentionSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-
-        this.renderSettings = this.renderSettings.bind(this);
-        this.renderConfirmModal = this.renderConfirmModal.bind(this);
-    }
-
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.DataRetentionSettings.EnableMessageDeletion = this.state.enableMessageDeletion === 'true';
         config.DataRetentionSettings.EnableFileDeletion = this.state.enableFileDeletion === 'true';
         config.DataRetentionSettings.MessageRetentionDays = parseInt(this.state.messageRetentionDays, 10);
@@ -61,7 +52,7 @@ export default class DataRetentionSettings extends AdminSettings {
         this.setState({showConfirmModal: false});
     };
 
-    renderConfirmModal() {
+    renderConfirmModal = () => {
         const title = (
             <FormattedMessage
                 id='admin.data_retention.confirmChangesModal.title'
@@ -167,7 +158,7 @@ export default class DataRetentionSettings extends AdminSettings {
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const enableMessageDeletionOptions = [
             {value: 'false', text: Utils.localizeMessage('admin.data_retention.keepMessagesIndefinitely', 'Keep all messages indefinitely')},
             {value: 'true', text: Utils.localizeMessage('admin.data_retention.keepMessageForTime', 'Keep messages for a set amount of time')},

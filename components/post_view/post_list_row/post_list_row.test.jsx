@@ -11,14 +11,14 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds} from 'utils/constants';
 
 import PostListRow from './post_list_row.jsx';
 
 describe('components/post_view/post_list_row', () => {
     test('should render more messages loading indicator', () => {
-        const listId = PostListRowListIds.MORE_MESSAGES_LOADER;
+        const listId = PostListRowListIds.OLDER_MESSAGES_LOADER;
         const props = {
             listId,
         };
@@ -29,18 +29,18 @@ describe('components/post_view/post_list_row', () => {
     });
 
     test('should render manual load messages trigger', () => {
-        const listId = PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES;
-        const loadMorePosts = jest.fn();
+        const listId = PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER;
+        const loadOlderPosts = jest.fn();
         const props = {
             listId,
-            loadMorePosts,
+            loadOlderPosts,
         };
         const wrapper = shallowWithIntl(
             <PostListRow {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
         wrapper.prop('onClick')();
-        expect(loadMorePosts).toHaveBeenCalledTimes(1);
+        expect(loadOlderPosts).toHaveBeenCalledTimes(1);
     });
 
     test('should render channel intro message', () => {
@@ -87,7 +87,7 @@ describe('components/post_view/post_list_row', () => {
     test('should render combined post', () => {
         const props = {
             shouldHighlight: false,
-            listId: `${PostListUtils.COMBINED_USER_ACTIVITY}-1234-5678`,
+            listId: `${PostListUtils.COMBINED_USER_ACTIVITY}1234-5678`,
             previousListId: 'abcd',
         };
         const wrapper = shallowWithIntl(

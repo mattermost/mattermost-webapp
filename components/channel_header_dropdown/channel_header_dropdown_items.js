@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {localizeMessage, isGuest} from 'utils/utils';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
@@ -20,12 +20,13 @@ import RenameChannelModal from 'components/rename_channel_modal';
 import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
+import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
+import ChannelGroupsManageModal from 'components/channel_groups_manage_modal';
 
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import MenuGroup from 'components/widgets/menu/menu_group.jsx';
-import MenuItemToggleModalRedux from 'components/widgets/menu/menu_items/menu_item_toggle_modal_redux.jsx';
+import Menu from 'components/widgets/menu/menu';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
@@ -60,6 +61,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         } = this.props;
 
         const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+        const isGroupConstrained = channel.group_constrained === true;
         const channelMembersPermission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS;
         const channelPropertiesPermission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES;
         const channelDeletePermission = isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL;
@@ -75,8 +77,8 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
 
         return (
             <React.Fragment>
-                <MenuGroup divider={divider}>
-                    <MenuItemToggleModalRedux
+                <Menu.Group divider={divider}>
+                    <Menu.ItemToggleModalRedux
                         id='channelViewInfo'
                         show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                         modalId={ModalIdentifiers.CHANNEL_INFO}
@@ -95,7 +97,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         show={isMobile}
                         channel={channel}
                     />
-                    <MenuItemToggleModalRedux
+                    <Menu.ItemToggleModalRedux
                         id='channelNotificationPreferences'
                         show={channel.type !== Constants.DM_CHANNEL && !isArchived}
                         modalId={ModalIdentifiers.CHANNEL_NOTIFICATIONS}
@@ -113,32 +115,32 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         isMuted={isMuted}
                         isArchived={isArchived}
                     />
-                </MenuGroup>
+                </Menu.Group>
 
-                <MenuGroup divider={divider}>
+                <Menu.Group divider={divider}>
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}
                         permissions={[channelMembersPermission]}
                     >
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelAddMembers'
-                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
+                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && !isGroupConstrained}
                             modalId={ModalIdentifiers.CHANNEL_INVITE}
                             dialogType={ChannelInviteModal}
                             dialogProps={{channel}}
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelAddMembers'
-                            show={channel.type === Constants.GM_CHANNEL && !isArchived}
+                            show={channel.type === Constants.GM_CHANNEL && !isArchived && !isGroupConstrained}
                             modalId={ModalIdentifiers.CREATE_DM_CHANNEL}
                             dialogType={MoreDirectChannels}
                             dialogProps={{isExistingChannel: true}}
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />
                     </ChannelPermissionGate>
-                    <MenuItemToggleModalRedux
+                    <Menu.ItemToggleModalRedux
                         id='channelViewMembers'
                         show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && (isArchived || isDefault)}
                         modalId={ModalIdentifiers.CHANNEL_MEMBERS}
@@ -151,7 +153,22 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         teamId={channel.team_id}
                         permissions={[channelMembersPermission]}
                     >
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
+                            id='channelAddGroups'
+                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained}
+                            modalId={ModalIdentifiers.ADD_GROUPS_TO_CHANNEL}
+                            dialogType={AddGroupsToChannelModal}
+                            text={localizeMessage('navbar.addGroups', 'Add Groups')}
+                        />
+                        <Menu.ItemToggleModalRedux
+                            id='channelManageGroups'
+                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained}
+                            modalId={ModalIdentifiers.MANAGE_CHANNEL_GROUPS}
+                            dialogType={ChannelGroupsManageModal}
+                            dialogProps={{channelID: channel.id}}
+                            text={localizeMessage('navbar_dropdown.manageGroups', 'Manage Groups')}
+                        />
+                        <Menu.ItemToggleModalRedux
                             id='channelManageMembers'
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
                             modalId={ModalIdentifiers.CHANNEL_MEMBERS}
@@ -166,7 +183,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         permissions={[channelMembersPermission]}
                         invert={true}
                     >
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelViewMembers'
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
                             modalId={ModalIdentifiers.CHANNEL_MEMBERS}
@@ -175,10 +192,10 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('channel_header.viewMembers', 'View Members')}
                         />
                     </ChannelPermissionGate>
-                </MenuGroup>
+                </Menu.Group>
 
-                <MenuGroup divider={divider}>
-                    <MenuItemToggleModalRedux
+                <Menu.Group divider={divider}>
+                    <Menu.ItemToggleModalRedux
                         id='channelEditHeader'
                         show={(channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) && !isArchived && !isReadonly}
                         modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
@@ -191,7 +208,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         teamId={channel.team_id}
                         permissions={[channelPropertiesPermission]}
                     >
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelEditHeader'
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isReadonly}
                             modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
@@ -199,7 +216,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             dialogProps={{channel}}
                             text={localizeMessage('channel_header.setHeader', 'Edit Channel Header')}
                         />
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelEditPurpose'
                             show={!isArchived && !isReadonly && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                             modalId={ModalIdentifiers.EDIT_CHANNEL_PURPOSE}
@@ -207,7 +224,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             dialogProps={{channel}}
                             text={localizeMessage('channel_header.setPurpose', 'Edit Channel Purpose')}
                         />
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelRename'
                             show={!isArchived && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                             modalId={ModalIdentifiers.RENAME_CHANNEL}
@@ -220,7 +237,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         teamId={channel.team_id}
                         permissions={[Permissions.MANAGE_TEAM]}
                     >
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelCovertToPrivate'
                             show={!isArchived && !isDefault && channel.type === Constants.OPEN_CHANNEL}
                             modalId={ModalIdentifiers.CONVERT_CHANNEL}
@@ -237,7 +254,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         teamId={channel.team_id}
                         permissions={[channelDeletePermission]}
                     >
-                        <MenuItemToggleModalRedux
+                        <Menu.ItemToggleModalRedux
                             id='channelArchiveChannel'
                             show={!isArchived && !isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                             modalId={ModalIdentifiers.DELETE_CHANNEL}
@@ -249,9 +266,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('channel_header.delete', 'Archive Channel')}
                         />
                     </ChannelPermissionGate>
-                </MenuGroup>
+                </Menu.Group>
 
-                <MenuGroup divider={divider}>
+                <Menu.Group divider={divider}>
                     {isMobile &&
                         <MobileChannelHeaderPlug
                             channel={channel}
@@ -261,12 +278,13 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         id='channelLeaveChannel'
                         channel={channel}
                         isDefault={isDefault}
+                        isGuestUser={isGuest(user)}
                     />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'
                         isArchived={isArchived}
                     />
-                </MenuGroup>
+                </Menu.Group>
             </React.Fragment>
         );
     }

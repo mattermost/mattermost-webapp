@@ -42,17 +42,17 @@ describe('formatWithRenderer | LinkOnlyRenderer', () => {
             outputText: 'Inline code has double backtick and triple backtick around it.',
         },
         {
-            description: 'codespan: multiline codespan',
-            inputText: 'Multiline ```\ncodespan\n```',
-            outputText: 'Multiline codespan',
+            description: 'code block: single line code block',
+            inputText: 'Code block\n```\nline\n```',
+            outputText: 'Code block line',
         },
         {
-            description: 'codespan: multiline codespan 2',
-            inputText: 'Multiline ```function(number) {\n  return number + 1;\n}```',
+            description: 'code block: multiline code block 2',
+            inputText: 'Multiline\n```function(number) {\n  return number + 1;\n}```',
             outputText: 'Multiline function(number) {   return number + 1; }',
         },
         {
-            description: 'codespan: language highlighting',
+            description: 'code block: language highlighting',
             inputText: '```javascript\nvar s = "JavaScript syntax highlighting";\nalert(s);\n```',
             outputText: 'var s = "JavaScript syntax highlighting"; alert(s);',
         },
@@ -277,6 +277,11 @@ describe('formatWithRenderer | LinkOnlyRenderer', () => {
             inputText: 'Do you like [Mattermost](http://www.mattermost.com)?',
             outputText: 'Do you like <a class="theme markdown__link" href="http://www.mattermost.com" target="_blank">' +
             'Mattermost</a>?',
+        },
+        {
+            description: 'link: link with curly brackets',
+            inputText: 'Let\'s try http://example/result?things={stuff}',
+            outputText: 'Let&#39;s try <a class="theme markdown__link" href="http://example/result?things={stuff}" target="_blank">http://example/result?things={stuff}</a>',
         },
     ];
 

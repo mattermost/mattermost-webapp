@@ -5,8 +5,9 @@ import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
 import {Posts} from 'mattermost-redux/constants';
-import {getAllPosts} from 'mattermost-redux/selectors/entities/posts';
+import {getAllPosts, getPostIdsInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
 import NewMessagesBelow from './new_messages_below';
 
@@ -34,10 +35,17 @@ export function makeCountUnreadsBelow() {
 
 function makeMapStateToProps() {
     const countUnreadsBelow = makeCountUnreadsBelow();
+    const preparePostIdsForPostList = makePreparePostIdsForPostList();
 
     return (state, ownProps) => {
+        let postIds = getPostIdsInChannel(state, ownProps.channelId);
+
+        if (postIds) {
+            postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt: ownProps.lastViewedBottom, channelId: ownProps.channelId});
+        }
+
         return {
-            newMessages: countUnreadsBelow(state, ownProps.postIds, ownProps.lastViewedBottom),
+            newMessages: countUnreadsBelow(state, postIds, ownProps.lastViewedBottom),
         };
     };
 }

@@ -32,6 +32,16 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
 />
 `;
 
+exports[`components/PostMarkdown should correctly pass postId down 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  message="message"
+  postId="post_id"
+  proxyImages={true}
+/>
+`;
+
 exports[`components/PostMarkdown should render header change properly 1`] = `
 <div>
   <FormattedMessage

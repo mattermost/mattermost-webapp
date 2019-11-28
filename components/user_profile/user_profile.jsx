@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
 
-import {FormattedMessage} from 'react-intl';
-
-import {imageURLForUser, isMobile} from 'utils/utils.jsx';
+import {imageURLForUser, isMobile, isGuest} from 'utils/utils.jsx';
 
 import ProfilePopover from 'components/profile_popover';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
 
 export default class UserProfile extends PureComponent {
     static propTypes = {
@@ -34,7 +34,13 @@ export default class UserProfile extends PureComponent {
     };
 
     hideProfilePopover = () => {
-        this.refs.overlay.hide();
+        if (this.overlay) {
+            this.overlay.hide();
+        }
+    }
+
+    setOverlaynRef = (ref) => {
+        this.overlay = ref;
     }
 
     render() {
@@ -65,41 +71,42 @@ export default class UserProfile extends PureComponent {
             profileImg = imageURLForUser(user);
         }
 
-        let tag = null;
-        if (user && user.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
-
         return (
-            <OverlayTrigger
-                ref='overlay'
-                trigger='click'
-                placement={placement}
-                rootClose={true}
-                overlay={
-                    <ProfilePopover
-                        userId={userId}
-                        src={profileImg}
-                        isBusy={isBusy}
-                        hide={this.hideProfilePopover}
-                        hideStatus={hideStatus}
-                        isRHS={isRHS}
-                        hasMention={hasMention}
-                    />
-                }
-            >
-                <div className='user-popover'>
-                    {name}
-                    {tag}
-                </div>
-            </OverlayTrigger>
+            <React.Fragment>
+                <OverlayTrigger
+                    ref={this.setOverlaynRef}
+                    trigger='click'
+                    placement={placement}
+                    rootClose={true}
+                    overlay={
+                        <ProfilePopover
+                            className='user-profile-popover'
+                            userId={userId}
+                            src={profileImg}
+                            isBusy={isBusy}
+                            hide={this.hideProfilePopover}
+                            hideStatus={hideStatus}
+                            isRHS={isRHS}
+                            hasMention={hasMention}
+                        />
+                    }
+                >
+                    <button
+                        aria-label={name.toLowerCase()}
+                        className='user-popover style--none'
+                    >
+                        {name}
+                    </button>
+                </OverlayTrigger>
+                <BotBadge
+                    show={Boolean(user && user.is_bot)}
+                    className='badge-popoverlist'
+                />
+                <GuestBadge
+                    show={Boolean(user && isGuest(user))}
+                    className='badge-popoverlist'
+                />
+            </React.Fragment>
         );
     }
 }

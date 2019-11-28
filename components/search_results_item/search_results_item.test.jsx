@@ -2,11 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
+import {Posts} from 'mattermost-redux/constants';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {browserHistory} from 'utils/browser_history';
-import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils.jsx';
-import SearchResultsItem from 'components/search_results_item/search_results_item.jsx';
+import {getDisplayNameByUser, getDirectTeammate} from 'utils/utils';
+import SearchResultsItem from 'components/search_results_item/search_results_item';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -30,7 +32,6 @@ describe('components/SearchResultsItem', () => {
     let mockFunc;
     let user;
     let post;
-    let channel;
     let defaultProps;
 
     beforeEach(() => {
@@ -60,14 +61,10 @@ describe('components/SearchResultsItem', () => {
             user_id: 'user_id',
         };
 
-        channel = {
-            id: 'channel_id',
-            name: 'channel_name',
-            type: 'O',
-        };
-
         defaultProps = {
-            channel,
+            channelId: 'channel_id',
+            channelName: 'channel_name',
+            channelType: 'O',
             compactDisplay: true,
             post,
             user,
@@ -82,15 +79,16 @@ describe('components/SearchResultsItem', () => {
             actions: {
                 closeRightHandSide: mockFunc,
                 selectPost: mockFunc,
+                selectPostCard: mockFunc,
                 setRhsExpanded: mockFunc,
             },
         };
     });
 
     test('should match snapshot for channel', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -110,28 +108,46 @@ describe('components/SearchResultsItem', () => {
             enablePostUsernameOverride: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for deleted message', () => {
+        const props = {
+            ...defaultProps,
+            post: {
+                ...post,
+                file_ids: ['id', 'id2'],
+                state: Posts.POST_DELETED,
+                props: {
+                    from_webhook: true,
+                    override_username: 'overridden_username',
+                },
+            },
+            enablePostUsernameOverride: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <SearchResultsItem {...props}/>
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot for DM', () => {
         const props = {
             ...defaultProps,
-            channel: {
-                ...channel,
-                type: 'D',
-            },
+            channelType: 'D',
             post: {
                 ...post,
                 is_pinned: true,
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
         expect(getDirectTeammate).toHaveBeenCalledWith('channel_id');
@@ -139,9 +155,9 @@ describe('components/SearchResultsItem', () => {
     });
 
     test('Check for dotmenu dropdownOpened state', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        );
+        ).dive();
 
         const instance = wrapper.instance();
         instance.handleDropdownOpened(false);
@@ -160,9 +176,9 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
         wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
         expect(selectPost).toHaveBeenCalledTimes(1);
@@ -179,11 +195,11 @@ describe('components/SearchResultsItem', () => {
             },
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
-        wrapper.find('.search-item__jump').simulate('click');
+        wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
         expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
         expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.currentTeamName}/pl/${post.id}`);
@@ -192,15 +208,12 @@ describe('components/SearchResultsItem', () => {
     test('should match snapshot for archived channel', () => {
         const props = {
             ...defaultProps,
-            channel: {
-                ...channel,
-                delete_at: 1234,
-            },
+            channelIsArchived: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });

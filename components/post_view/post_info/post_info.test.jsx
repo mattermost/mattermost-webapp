@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Posts} from 'mattermost-redux/constants';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import PostInfo from 'components/post_view/post_info/post_info.jsx';
 
 describe('components/post_view/PostInfo', () => {
@@ -31,6 +31,7 @@ describe('components/post_view/PostInfo', () => {
     const requiredProps = {
         post,
         handleCommentClick: jest.fn(),
+        handleCardClick: jest.fn(),
         handleDropdownOpened: jest.fn(),
         compactDisplay: false,
         replyCount: 0,
@@ -83,6 +84,14 @@ describe('components/post_view/PostInfo', () => {
         const requiredPropsWithEphemeralPost = {...requiredProps, post: ephemeralPost};
 
         const wrapper = shallow(<PostInfo {...requiredPropsWithEphemeralPost}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, deleted post', () => {
+        const deletedPost = {...post, state: Posts.POST_DELETED};
+        const requiredPropsWithDeletedPost = {...requiredProps, post: deletedPost};
+
+        const wrapper = shallow(<PostInfo {...requiredPropsWithDeletedPost}/>);
         expect(wrapper).toMatchSnapshot();
     });
 

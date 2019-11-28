@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ManageRolesModal from 'components/admin_console/manage_roles_modal';
 import ManageTeamsModal from 'components/admin_console/manage_teams_modal';
@@ -69,7 +69,7 @@ export default class SystemUsersList extends React.Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.teamId !== this.props.teamId) {
+        if (nextProps.teamId !== this.props.teamId || nextProps.filter !== this.props.filter) {
             this.setState({page: 0});
         }
     }
@@ -183,10 +183,6 @@ export default class SystemUsersList extends React.Component {
     getInfoForUser(user) {
         const info = [];
 
-        if (user.is_bot) {
-            return null;
-        }
-
         if (user.auth_service) {
             let service;
             if (user.auth_service === Constants.LDAP_SERVICE || user.auth_service === Constants.SAML_SERVICE) {
@@ -214,6 +210,19 @@ export default class SystemUsersList extends React.Component {
                 />
             );
         }
+
+        info.push(', ');
+        const userID = user.id;
+        info.push(
+            <FormattedMarkdownMessage
+                key='admin.user_item.user_id'
+                id='admin.user_item.user_id'
+                defaultMessage='**User ID:** {userID}'
+                values={{
+                    userID,
+                }}
+            />
+        );
 
         if (this.props.mfaEnabled) {
             info.push(', ');

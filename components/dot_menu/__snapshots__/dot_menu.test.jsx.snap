@@ -35,6 +35,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
   >
     <button
       aria-expanded="false"
+      aria-label="more actions"
       className="post__dropdown color--link style--none"
       id="CENTER_button_post_id_1"
       type="button"
@@ -46,6 +47,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     openLeft={true}
     openUp={false}
   >
+    <MenuItemAction
+      onClick={[MockFunction]}
+      show={true}
+      text="Reply"
+    />
     <Connect(ChannelPermissionGate)
       permissions={
         Array [
@@ -60,6 +66,18 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
+      id="unread_post_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      id="permalink_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Permalink"
+    />
+    <MenuItemAction
       onClick={[Function]}
       show={false}
       text="Unflag"
@@ -70,36 +88,34 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       text="Flag"
     />
     <MenuItemAction
-      onClick={[MockFunction]}
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      onClick={[Function]}
-      show={true}
-      text="Permalink"
-    />
-    <MenuItemAction
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      id="pin_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Pin"
     />
-    <MenuItemAction
-      id="delete_post_post_id_1"
-      onClick={[Function]}
-      show={true}
-      text="Delete"
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
     />
     <MenuItemAction
       id="edit_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Edit"
+    />
+    <MenuItemAction
+      id="delete_post_post_id_1"
+      isDangerous={true}
+      onClick={[Function]}
+      show={true}
+      text="Delete"
     />
     <Connect(Pluggable)
       pluggableName="PostDropdownMenuItem"
@@ -144,6 +160,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
   >
     <button
       aria-expanded="false"
+      aria-label="more actions"
       className="post__dropdown color--link style--none"
       id="CENTER_button_post_id_1"
       type="button"
@@ -155,6 +172,11 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     openLeft={true}
     openUp={false}
   >
+    <MenuItemAction
+      onClick={[MockFunction]}
+      show={true}
+      text="Reply"
+    />
     <Connect(ChannelPermissionGate)
       permissions={
         Array [
@@ -169,6 +191,18 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       />
     </Connect(ChannelPermissionGate)>
     <MenuItemAction
+      id="unread_post_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      id="permalink_post_id_1"
+      onClick={[Function]}
+      show={true}
+      text="Permalink"
+    />
+    <MenuItemAction
       onClick={[Function]}
       show={false}
       text="Unflag"
@@ -179,36 +213,34 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       text="Flag"
     />
     <MenuItemAction
-      onClick={[MockFunction]}
-      show={true}
-      text="Reply"
-    />
-    <MenuItemAction
-      onClick={[Function]}
-      show={true}
-      text="Permalink"
-    />
-    <MenuItemAction
+      id="unpin_post_post_id_1"
       onClick={[Function]}
       show={false}
       text="Unpin"
     />
     <MenuItemAction
+      id="pin_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Pin"
     />
-    <MenuItemAction
-      id="delete_post_post_id_1"
-      onClick={[Function]}
-      show={false}
-      text="Delete"
+    <li
+      className="MenuItem__divider"
+      id="divider_post_post_id_1_edit"
+      role="menuitem"
     />
     <MenuItemAction
       id="edit_post_post_id_1"
       onClick={[Function]}
       show={true}
       text="Edit"
+    />
+    <MenuItemAction
+      id="delete_post_post_id_1"
+      isDangerous={true}
+      onClick={[Function]}
+      show={false}
+      text="Delete"
     />
     <Connect(Pluggable)
       pluggableName="PostDropdownMenuItem"

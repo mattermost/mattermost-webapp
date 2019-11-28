@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {
+    clearSearch,
     getFlaggedPosts,
     getPinnedPosts,
     searchPostsWithParams,
@@ -19,7 +20,7 @@ import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {getSearchTerms, getRhsState} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluginId} from 'selectors/rhs';
 import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -42,11 +43,24 @@ export function updateRhsState(rhsState, channelId) {
 
 export function selectPostFromRightHandSideSearch(post) {
     return async (dispatch, getState) => {
-        await dispatch(PostActions.getPostThread(post.id));
+        const postRootId = Utils.getRootId(post);
+        await dispatch(PostActions.getPostThread(postRootId));
 
         dispatch({
             type: ActionTypes.SELECT_POST,
-            postId: Utils.getRootId(post),
+            postId: postRootId,
+            channelId: post.channel_id,
+            previousRhsState: getRhsState(getState()),
+            timestamp: Date.now(),
+        });
+    };
+}
+
+export function selectPostCardFromRightHandSideSearch(post) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: ActionTypes.SELECT_POST_CARD,
+            postId: post.id,
             channelId: post.channel_id,
             previousRhsState: getRhsState(getState()),
         });
@@ -63,6 +77,13 @@ export function selectPostFromRightHandSideSearchByPostId(postId) {
 export function updateSearchTerms(terms) {
     return {
         type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+        terms,
+    };
+}
+
+function updateSearchResultsTerms(terms) {
+    return {
+        type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
         terms,
     };
 }
@@ -87,12 +108,38 @@ export function showSearchResults() {
         const searchTerms = getSearchTerms(getState());
 
         dispatch(updateRhsState(RHSStates.SEARCH));
-        dispatch({
-            type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
-            terms: searchTerms,
-        });
+        dispatch(updateSearchResultsTerms(searchTerms));
 
         return dispatch(performSearch(searchTerms));
+    };
+}
+
+export function showRHSPlugin(pluginId) {
+    const action = {
+        type: ActionTypes.UPDATE_RHS_STATE,
+        state: RHSStates.PLUGIN,
+        pluginId,
+    };
+
+    return action;
+}
+
+export function hideRHSPlugin(pluginId) {
+    return (dispatch, getState) => {
+        if (getPluginId(getState()) === pluginId) {
+            dispatch(closeRightHandSide());
+        }
+    };
+}
+
+export function toggleRHSPlugin(pluginId) {
+    return (dispatch, getState) => {
+        if (getPluginId(getState()) === pluginId) {
+            dispatch(hideRHSPlugin(pluginId));
+            return;
+        }
+
+        dispatch(showRHSPlugin(pluginId));
     };
 }
 
@@ -132,10 +179,6 @@ export function showPinnedPosts(channelId) {
         const teamId = getCurrentTeamId(state);
 
         dispatch(batchActions([
-            {
-                type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                terms: '',
-            },
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 channelId: channelId || currentChannelId,
@@ -197,6 +240,7 @@ export function closeRightHandSide() {
                 type: ActionTypes.SELECT_POST,
                 postId: '',
                 channelId: '',
+                timestamp: 0,
             },
         ]));
     };
@@ -228,5 +272,24 @@ export function toggleRhsExpanded() {
 }
 
 export function selectPost(post) {
-    return {type: ActionTypes.SELECT_POST, postId: post.root_id || post.id, channelId: post.channel_id};
+    return {
+        type: ActionTypes.SELECT_POST,
+        postId: post.root_id || post.id,
+        channelId: post.channel_id,
+        timestamp: Date.now(),
+    };
+}
+
+export function selectPostCard(post) {
+    return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
+}
+
+export function openRHSSearch() {
+    return (dispatch) => {
+        dispatch(clearSearch());
+        dispatch(updateSearchTerms(''));
+        dispatch(updateSearchResultsTerms(''));
+
+        dispatch(updateRhsState(RHSStates.SEARCH));
+    };
 }

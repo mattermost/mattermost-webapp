@@ -1,0 +1,20 @@
+.team-btn {
+    @include border-radius(4px);
+    border: 1px solid transparent;
+    font-weight: bold;
+    height: 47px;
+    letter-spacing: -.5px;
+    position: relative;
+    text-align: center;
+    text-transform: capitalize;
+    vertical-align: top;
+    width: 47px;
+
+
+    &.team-btn__add {
+        font-size: 25px;
+        line-height: 41px;
+        vertical-align: middle;
+        background-color: alpha-color($black, .3);
+    }
+}

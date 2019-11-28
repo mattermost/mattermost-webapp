@@ -477,6 +477,7 @@ exports[`components/integrations/AbstractCommand should match snapshot 1`] = `
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveCommand"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"
@@ -976,6 +977,7 @@ exports[`components/integrations/AbstractCommand should match snapshot, displays
         </Link>
         <SpinnerButton
           className="btn btn-primary"
+          id="saveCommand"
           onClick={[Function]}
           spinning={false}
           spinningText="Loading"

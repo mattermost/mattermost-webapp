@@ -3,10 +3,10 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import SignupController from './signup_controller.jsx';
 

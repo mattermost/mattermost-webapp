@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/CommentedOnFilesMessage Should call snapshot when no files and call getFilesForPost 1`] = `""`;
+exports[`components/CommentedOnFilesMessage Snapshot when no files 1`] = `""`;
 
 exports[`components/CommentedOnFilesMessage should match snapshot for multiple files 1`] = `
 <span>

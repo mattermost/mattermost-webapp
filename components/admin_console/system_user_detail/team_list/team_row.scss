@@ -1,0 +1,75 @@
+@import 'compass/css3';
+@import 'sass/utils/module';
+
+.TeamRow {
+    &:nth-child(odd) {
+        background: alpha-color($white, .5);
+    }
+}
+
+.TeamRow__row {
+    align-items: center;
+    border: 2px solid $transparent;
+    display: flex;
+    flex-direction: row;
+    height: 80px;
+}
+
+.TeamRow__row .TeamRow__team-name {
+    display: inline-block;
+    min-width: 300px;
+    flex-grow: 3;
+    .TeamIcon {
+        margin-right: 0px;
+    }
+    .TeamRow__team-description {
+        min-width: 276px;
+        max-width: 400px;
+    }
+}
+
+.SystemUserDetail .TeamRow__col-description {
+    min-width: 276px;
+    max-width: 400px;
+}
+
+.TeamRow__row .TeamRow__description {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+    width: 150px;
+    max-width: 400px;
+    &.adjusted {
+        width: 120px;
+    }
+    i {
+        margin-right: 5px;
+    }
+    > a {
+        color: $black;
+        text-decoration: none;
+        padding: 3px 5px;
+        &:hover {
+            background-color: $light-gray;
+            border-radius: 3px;
+        }
+        &.warning {
+            color: $red;
+        }
+    }
+}
+
+.TeamRow__row .TeamRow__actions {
+    align-items: center;
+    justify-content: flex-end;
+    display: flex;
+    height: 100%;
+    width: 150px;
+    max-width: 400px;
+    padding-right: 15px;
+}
+
+.TeamRow__row .TeamIcon__content {
+    opacity: 1;
+}

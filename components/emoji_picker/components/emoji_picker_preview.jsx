@@ -29,6 +29,8 @@ export default class EmojiPickerPreview extends React.Component {
                 previewImage = (
                     <span className='sprite-preview'>
                         <img
+                            id='emojiPickerSpritePreview'
+                            alt={'emoji category image'}
                             src={imgTrans}
                             className={'emojisprite-preview emoji-category-' + emoji.category + '-' + emoji.batch + ' emoji-' + emoji.filename}
                         />
@@ -40,6 +42,8 @@ export default class EmojiPickerPreview extends React.Component {
                 aliases = [emoji.name];
                 previewImage = (
                     <img
+                        id='emojiPickerSpritePreview'
+                        alt={'emoji preview image'}
                         className='emoji-picker__preview-image'
                         src={getEmojiImageUrl(emoji)}
                     />
@@ -53,7 +57,10 @@ export default class EmojiPickerPreview extends React.Component {
                     </div>
                     <div className='emoji-picker__preview-image-label-box'>
                         <span className='emoji-picker__preview-name'>{name}</span>
-                        <span className='emoji-picker__preview-aliases'>
+                        <span
+                            id='emojiPickerAliasesPreview'
+                            className='emoji-picker__preview-aliases'
+                        >
                             {':' + aliases[0] + ':'}
                         </span>
                     </div>

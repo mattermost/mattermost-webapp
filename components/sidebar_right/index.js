@@ -13,10 +13,11 @@ import {
     getIsRhsOpen,
     getRhsState,
     getSelectedPostId,
+    getSelectedPostCardId,
     getSelectedChannelId,
     getPreviousRhsState,
 } from 'selectors/rhs';
-import {RHSStates} from 'utils/constants.jsx';
+import {RHSStates} from 'utils/constants';
 
 import SidebarRight from './sidebar_right.jsx';
 
@@ -46,11 +47,13 @@ function mapStateToProps(state) {
         channel,
         currentUserId: getCurrentUserId(state),
         postRightVisible: Boolean(getSelectedPostId(state)),
-        searchVisible: Boolean(rhsState),
+        postCardVisible: Boolean(getSelectedPostCardId(state)),
+        searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
         previousRhsState: getPreviousRhsState(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
+        isPluginView: rhsState === RHSStates.PLUGIN,
     };
 }
 

@@ -23,7 +23,7 @@
         &.post--root {
             border-bottom: 1px solid #ddd;
             padding-bottom: 1em;
-            padding-left: 1em;
+            padding-left: 1.5em;
 
             .post__body {
                 background: transparent !important;
@@ -59,7 +59,7 @@
                         }
                     }
 
-                    .flag-icon__container {
+                    .flag-icon__container, .card-icon__container {
                         left: auto;
                         position: relative;
                         top: 2px;
@@ -157,6 +157,11 @@
 .post-right-channel__name {
     font-weight: 600;
     margin: 0 0 15px;
+}
+
+.card-info-channel__name {
+    font-weight: 600;
+    margin: 0 0 15px 14px;
 }
 
 .post-right-root-container li {

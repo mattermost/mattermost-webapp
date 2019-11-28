@@ -64,6 +64,7 @@ export default class BackstageSidebar extends React.Component {
                                 defaultMessage='Incoming Webhooks'
                             />
                         )}
+                        id='incomingWebhooks'
                     />
                 </TeamPermissionGate>
             );
@@ -85,6 +86,7 @@ export default class BackstageSidebar extends React.Component {
                                 defaultMessage='Outgoing Webhooks'
                             />
                         )}
+                        id='outgoingWebhooks'
                     />
                 </TeamPermissionGate>
             );
@@ -106,6 +108,7 @@ export default class BackstageSidebar extends React.Component {
                                 defaultMessage='Slash Commands'
                             />
                         )}
+                        id='slashCommands'
                     />
                 </TeamPermissionGate>
             );
@@ -124,6 +127,7 @@ export default class BackstageSidebar extends React.Component {
                                 defaultMessage='OAuth 2.0 Applications'
                             />
                         }
+                        id='oauthApps'
                     />
                 </SystemPermissionGate>
             );
@@ -140,6 +144,7 @@ export default class BackstageSidebar extends React.Component {
                             defaultMessage='Bot Accounts'
                         />
                     }
+                    id='botAccounts'
                 />
             </SystemPermissionGate>
         );

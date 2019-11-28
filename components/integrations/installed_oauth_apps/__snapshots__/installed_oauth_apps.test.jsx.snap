@@ -2,6 +2,7 @@
 
 exports[`components/integrations/InstalledOAuthApps should match snapshot 1`] = `
 <BackstageList
+  addButtonId="addOauthApp"
   addLink="/test/integrations/oauth2-apps/add"
   addText="Add OAuth 2.0 Application"
   emptyText={

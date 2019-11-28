@@ -7,10 +7,12 @@
         max-width: 480px;
         overflow: hidden;
         position: relative;
+        height: 360px;
 
         iframe,
         video {
             display: block;
+            max-width: 100%;
         }
 
         .video-thumbnail {
@@ -103,5 +105,12 @@
 
     .video-loading {
         height: 368px;
+    }
+
+    .video-div__placeholder {
+        height: 360px;
+        display: flex;
+        align-items: center;
+        background-color: black;
     }
 }

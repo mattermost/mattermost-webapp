@@ -6,11 +6,10 @@ import React from 'react';
 import {intlShape} from 'react-intl';
 
 export default class BackstageHeader extends React.Component {
-    static get propTypes() {
-        return {
-            children: PropTypes.node,
-        };
-    }
+    static propTypes = {
+        children: PropTypes.node,
+    };
+
     static contextTypes = {
         intl: intlShape.isRequired,
     };

@@ -4,11 +4,11 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getMe, updateUserPassword} from 'mattermost-redux/actions/users';
+import {getAuthorizedOAuthApps, deauthorizeOAuthApp} from 'mattermost-redux/actions/integrations';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
-import {getAuthorizedApps, deauthorizeOAuthApp} from 'actions/user_actions.jsx';
 import {getPasswordConfig} from 'utils/utils.jsx';
 import {Preferences} from 'utils/constants';
 
@@ -49,7 +49,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             getMe,
             updateUserPassword,
-            getAuthorizedApps,
+            getAuthorizedOAuthApps,
             deauthorizeOAuthApp,
         }, dispatch),
     };

@@ -7,10 +7,11 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import Reaction from 'components/post_view/reaction';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
+import {localizeMessage} from 'utils/utils.jsx';
 
 const DEFAULT_EMOJI_PICKER_RIGHT_OFFSET = 15;
 const EMOJI_PICKER_WIDTH_OFFSET = 260;
@@ -41,11 +42,6 @@ export default class ReactionList extends React.PureComponent {
         actions: PropTypes.shape({
 
             /**
-             * Function to get reactions for a post
-             */
-            getReactionsForPost: PropTypes.func.isRequired,
-
-            /**
              * Function to add a reaction to the post
              */
             addReaction: PropTypes.func.isRequired,
@@ -58,12 +54,6 @@ export default class ReactionList extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
         };
-    }
-
-    componentDidMount() {
-        if (this.props.post.has_reactions && !this.props.post.metadata) {
-            this.props.actions.getReactionsForPost(this.props.post.id);
-        }
     }
 
     getTarget = () => {
@@ -85,10 +75,6 @@ export default class ReactionList extends React.PureComponent {
     }
 
     render() {
-        if (!this.props.post.has_reactions || !this.props.reactions) {
-            return null;
-        }
-
         const reactionsByName = new Map();
         const emojiNames = [];
 
@@ -103,6 +89,10 @@ export default class ReactionList extends React.PureComponent {
                     reactionsByName.set(emojiName, [reaction]);
                 }
             }
+        }
+
+        if (reactionsByName.size === 0) {
+            return null;
         }
 
         const reactions = emojiNames.map((emojiName) => {
@@ -149,7 +139,6 @@ export default class ReactionList extends React.PureComponent {
                         topOffset={-5}
                     />
                     <OverlayTrigger
-                        trigger={['hover', 'focus']}
                         placement='top'
                         delayShow={Constants.OVERLAY_TIME_DELAY}
                         overlay={addReactionTooltip}
@@ -159,17 +148,19 @@ export default class ReactionList extends React.PureComponent {
                             teamId={this.props.teamId}
                             permissions={[Permissions.ADD_REACTION]}
                         >
-                            <div
-                                className='post-reaction'
+                            <button
+                                aria-label={localizeMessage('reaction.add.ariaLabel', 'add reaction')}
+                                className='style--none post-reaction'
                                 onClick={this.toggleEmojiPicker}
                             >
                                 <span
+                                    id={`addReaction-${this.props.post.id}`}
                                     className='post-reaction__add'
                                     ref='addReactionButton'
                                 >
                                     {'+'}
                                 </span>
-                            </div>
+                            </button>
                         </ChannelPermissionGate>
                     </OverlayTrigger>
                 </span>
@@ -182,7 +173,10 @@ export default class ReactionList extends React.PureComponent {
         }
 
         return (
-            <div className='post-reaction-list'>
+            <div
+                aria-label={localizeMessage('reaction.container.ariaLabel', 'reactions')}
+                className='post-reaction-list'
+            >
                 {reactions}
                 <div className={addReactionClassName}>
                     {emojiPicker}

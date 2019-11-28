@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import FlexSearch from 'flexsearch';
+import FlexSearch from 'flexsearch/dist/flexsearch.es5';
 
-import AdminDefinition from 'components/admin_console/admin_definition.jsx';
+import {getPluginEntries} from './admin_console_plugin_index';
 
 function extractTextsFromSection(section, intl) {
     const texts = [];
@@ -62,6 +62,9 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
     for (const item of Object.values(adminDefinition.authentication)) {
         entries[item.url] = extractTextsFromSection(item, intl);
     }
+    for (const item of Object.values(adminDefinition.plugins)) {
+        entries[item.url] = extractTextsFromSection(item, intl);
+    }
     for (const item of Object.values(adminDefinition.integrations)) {
         entries[item.url] = extractTextsFromSection(item, intl);
     }
@@ -74,16 +77,23 @@ export function adminDefinitionsToUrlsAndTexts(adminDefinition, intl) {
     return entries;
 }
 
-export function generateIndex(intl) {
+export function generateIndex(AdminDefinition, plugins, intl) {
     const idx = new FlexSearch();
-    const mappingSectionsToTexts = adminDefinitionsToUrlsAndTexts(AdminDefinition, intl);
-    for (const key of Object.keys(mappingSectionsToTexts)) {
+
+    addToIndex(adminDefinitionsToUrlsAndTexts(AdminDefinition, intl), idx);
+
+    addToIndex(getPluginEntries(plugins), idx);
+
+    return idx;
+}
+
+function addToIndex(entries, idx) {
+    for (const key of Object.keys(entries)) {
         let text = '';
-        for (const str of mappingSectionsToTexts[key]) {
+        for (const str of entries[key]) {
             text += ' ' + str;
         }
         idx.add(key, text);
     }
-    return idx;
 }
 

@@ -301,11 +301,31 @@
             }
         }
 
+        .attachment__footer-container {
+            position: relative;
+            padding-top: .7em;
+            font-size: 12px;
+            color: #A3A3A3;
+
+            .attachment__footer-icon {
+                margin-top: -2px;
+                margin-right: 5px;
+            }
+        }
+
         .attachment-actions {
-            margin-top: 9px;
             position: relative;
             display: flex;
             flex-wrap: wrap;
+            padding-bottom: 4px;
+
+            .form-group {
+                margin-bottom: 0;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
 
             button {
                 @include border-radius(3px);
@@ -313,10 +333,14 @@
                 margin: 8px 8px 0 0;
                 border-width: 1px;
                 border-style: solid;
-                height: 30px;
+                height: auto;
                 font-size: 13px;
                 font-weight: 700;
-                white-space: nowrap;
+                padding: 6px 12px;
+                &[disabled] {
+                    opacity: 0.5;
+                    cursor: auto;
+                }
             }
 
             .alert {

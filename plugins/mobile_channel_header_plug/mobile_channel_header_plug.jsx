@@ -26,12 +26,32 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
         theme: PropTypes.object.isRequired,
     }
 
-    createButton(plug) {
+    createButton = (plug) => {
+        const onClick = () => this.fireAction(plug);
+
+        if (this.props.isDropdown) {
+            return (
+                <li
+                    key={'mobileChannelHeaderItem' + plug.id}
+                    role='presentation'
+                    className='MenuItem'
+                >
+                    <a
+                        role='menuitem'
+                        href='#'
+                        onClick={onClick}
+                    >
+                        {plug.dropdownText}
+                    </a>
+                </li>
+            );
+        }
+
         return (
             <li className='flex-parent--center'>
                 <button
                     className='navbar-toggle navbar-right__icon'
-                    onClick={() => this.fireAction(plug)}
+                    onClick={onClick}
                 >
                     <span className='icon navbar-plugin-button'>
                         {plug.icon}
@@ -42,22 +62,7 @@ export default class MobileChannelHeaderPlug extends React.PureComponent {
     }
 
     createList(plugs) {
-        return plugs.map((plug) => {
-            return (
-                <li
-                    key={'mobileChannelHeaderItem' + plug.id}
-                    role='presentation'
-                >
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={() => this.fireAction(plug)}
-                    >
-                        {plug.dropdownText}
-                    </a>
-                </li>
-            );
-        });
+        return plugs.map(this.createButton);
     }
 
     fireAction(plug) {

@@ -53,8 +53,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
-      focused={false}
+    <Connect(SettingItemMin)
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -62,7 +61,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add a team description."
@@ -70,7 +69,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
           values={Object {}}
         />
       }
-      focused={false}
       section="description"
       title="Team Description"
       updateSection={[Function]}
@@ -95,7 +93,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add an email domain whitelist."
@@ -103,7 +101,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
           values={Object {}}
         />
       }
-      focused={false}
       section="allowed_domains"
       title="allowedDomains"
       updateSection={[Function]}
@@ -111,9 +108,8 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe="No"
-      focused={false}
       section="open_invite"
       title="Allow any user with an account on this server to join this team"
       updateSection={[Function]}
@@ -121,9 +117,8 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe="Click 'Edit' to regenerate Invite Code."
-      focused={false}
       section="invite_id"
       title="Invite Code"
       updateSection={[Function]}
@@ -188,8 +183,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-dark first"
     />
-    <SettingItemMin
-      focused={false}
+    <Connect(SettingItemMin)
       section="name"
       title="Team Name"
       updateSection={[Function]}
@@ -197,7 +191,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add a team description."
@@ -205,7 +199,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
           values={Object {}}
         />
       }
-      focused={false}
       section="description"
       title="Team Description"
       updateSection={[Function]}
@@ -230,7 +223,7 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe={
         <FormattedMessage
           defaultMessage="Click 'Edit' to add an email domain whitelist."
@@ -238,7 +231,6 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
           values={Object {}}
         />
       }
-      focused={false}
       section="allowed_domains"
       title="allowedDomains"
       updateSection={[Function]}
@@ -246,15 +238,115 @@ exports[`components/TeamSettings hide invite code if no permissions for team inv
     <div
       className="divider-light"
     />
-    <SettingItemMin
+    <Connect(SettingItemMin)
       describe="No"
-      focused={false}
       section="open_invite"
       title="Allow any user with an account on this server to join this team"
       updateSection={[Function]}
     />
     <div
       className="divider-light"
+    />
+    <div
+      className="divider-dark"
+    />
+  </div>
+</div>
+`;
+
+exports[`components/TeamSettings should match snapshot when team is group constrained 1`] = `
+<div>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <span
+          onClick={[MockFunction]}
+        >
+          <BackIcon />
+        </span>
+      </div>
+      <FormattedMessage
+        defaultMessage="General Settings"
+        id="general_tab.title"
+        values={Object {}}
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+    >
+      <FormattedMessage
+        defaultMessage="General Settings"
+        id="general_tab.title"
+        values={Object {}}
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <Connect(SettingItemMin)
+      describe="TestTeam"
+      section="name"
+      title="Team Name"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(SettingItemMin)
+      describe="The Test Team"
+      section="description"
+      title="Team Description"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <SettingPicture
+      clientError=""
+      file={null}
+      imageContext="team"
+      loadingPicture={false}
+      onFileChange={[Function]}
+      onRemove={[Function]}
+      onSubmit={[Function]}
+      serverError=""
+      src={null}
+      submitActive={false}
+      title="Team Icon"
+      updateSection={[Function]}
+    />
+    <div
+      className="divider-light"
+    />
+    <Connect(SettingItemMin)
+      describe="No, members of this team are added and removed by linked groups."
+      section="open_invite"
+      title="Allow any user with an account on this server to join this team"
+      updateSection={[Function]}
     />
     <div
       className="divider-dark"

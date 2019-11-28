@@ -9,8 +9,8 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import FormError from 'components/form_error.jsx';
-import SpinnerButton from 'components/spinner_button.jsx';
+import FormError from 'components/form_error';
+import SpinnerButton from 'components/spinner_button';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
 export default class AbstractOAuthApp extends React.PureComponent {
@@ -222,7 +222,10 @@ export default class AbstractOAuthApp extends React.PureComponent {
         if (this.state.has_icon) {
             icon = (
                 <div className='integration__icon'>
-                    <img src={this.state.icon_url}/>
+                    <img
+                        alt={'integration icon'}
+                        src={this.state.icon_url}
+                    />
                 </div>
             );
         }
@@ -451,6 +454,7 @@ export default class AbstractOAuthApp extends React.PureComponent {
                                 spinning={this.state.saving}
                                 spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
                                 onClick={this.handleSubmit}
+                                id='saveOauthApp'
                             >
                                 <FormattedMessage
                                     id={footerToRender.id}

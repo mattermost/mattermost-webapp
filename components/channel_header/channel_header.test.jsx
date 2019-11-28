@@ -3,8 +3,10 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
+import Markdown from 'components/markdown';
+import Constants from 'utils/constants';
 
 describe('components/ChannelHeader', () => {
     const baseProps = {
@@ -15,14 +17,13 @@ describe('components/ChannelHeader', () => {
             showFlaggedPosts: jest.fn(),
             showPinnedPosts: jest.fn(),
             showMentions: jest.fn(),
+            openRHSSearch: jest.fn(),
             closeRightHandSide: jest.fn(),
-            updateRhsState: jest.fn(),
             openModal: jest.fn(),
             closeModal: jest.fn(),
             getCustomEmojisInText: jest.fn(),
             updateChannelNotifyProps: jest.fn(),
             goToLastViewedChannel: jest.fn(),
-            loadBot: jest.fn(),
         },
         teamUrl: 'team_url',
         teamId: 'team_id',
@@ -117,5 +118,29 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render bot description', () => {
+        const props = {
+            ...populatedProps,
+            channel: {
+                header: 'not the bot description',
+                type: Constants.DM_CHANNEL,
+            },
+            dmUser: {
+                id: 'user_id',
+                is_bot: true,
+                bot_description: 'the bot description',
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        );
+        expect(wrapper.containsMatchingElement(
+            <Markdown
+                message={props.currentUser.bot_description}
+            />
+        )).toEqual(true);
     });
 });

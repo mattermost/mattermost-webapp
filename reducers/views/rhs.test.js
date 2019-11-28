@@ -4,21 +4,25 @@
 import {SearchTypes, TeamTypes} from 'mattermost-redux/action_types';
 
 import rhsReducer from 'reducers/views/rhs';
-import {ActionTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, RHSStates} from 'utils/constants';
 
 describe('Reducers.RHS', () => {
     const initialState = {
         selectedPostId: '',
+        selectedPostFocussedAt: 0,
+        selectedPostCardId: '',
         selectedChannelId: '',
         previousRhsState: null,
         rhsState: null,
         searchTerms: '',
         searchResultsTerms: '',
+        pluginId: '',
         isSearchingFlaggedPost: false,
         isSearchingPinnedPost: false,
         isMenuOpen: false,
         isSidebarOpen: false,
         isSidebarExpanded: false,
+
     };
 
     test('Initial state', () => {
@@ -48,6 +52,24 @@ describe('Reducers.RHS', () => {
         });
     });
 
+    test('should match RHS state to plugin id', () => {
+        const nextState = rhsReducer(
+            {},
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.PLUGIN,
+                pluginId: '123',
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            pluginId: '123',
+            rhsState: RHSStates.PLUGIN,
+            isSidebarOpen: true,
+        });
+    });
+
     test(`should wipe selectedPostId on ${ActionTypes.UPDATE_RHS_STATE}`, () => {
         const nextState = rhsReducer(
             {
@@ -62,6 +84,25 @@ describe('Reducers.RHS', () => {
         expect(nextState).toEqual({
             ...initialState,
             selectedPostId: '',
+            rhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe selectedPostCardId on ${ActionTypes.UPDATE_RHS_STATE}`, () => {
+        const nextState = rhsReducer(
+            {
+                selectedPostCardId: '123',
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.SEARCH,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            selectedPostCardId: '',
             rhsState: RHSStates.SEARCH,
             isSidebarOpen: true,
         });
@@ -117,12 +158,14 @@ describe('Reducers.RHS', () => {
                 type: ActionTypes.SELECT_POST,
                 postId: '123',
                 channelId: '321',
+                timestamp: 1234,
             }
         );
 
         expect(nextState1).toEqual({
             ...initialState,
             selectedPostId: '123',
+            selectedPostFocussedAt: 1234,
             selectedChannelId: '321',
             isSidebarOpen: true,
         });
@@ -135,12 +178,14 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.SEARCH,
+                timestamp: 4567,
             }
         );
 
         expect(nextState2).toEqual({
             ...initialState,
             selectedPostId: '123',
+            selectedPostFocussedAt: 4567,
             selectedChannelId: '321',
             previousRhsState: RHSStates.SEARCH,
             isSidebarOpen: true,
@@ -155,12 +200,71 @@ describe('Reducers.RHS', () => {
                 postId: '123',
                 channelId: '321',
                 previousRhsState: RHSStates.FLAG,
+                timestamp: 0,
             }
         );
 
         expect(nextState3).toEqual({
             ...initialState,
             selectedPostId: '123',
+            selectedPostFocussedAt: 0,
+            selectedChannelId: '321',
+            previousRhsState: RHSStates.FLAG,
+            isSidebarOpen: true,
+        });
+    });
+
+    test('should match select_post_card state', () => {
+        const nextState1 = rhsReducer(
+            {},
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+            }
+        );
+
+        expect(nextState1).toEqual({
+            ...initialState,
+            selectedPostCardId: '123',
+            selectedChannelId: '321',
+            isSidebarOpen: true,
+        });
+
+        const nextState2 = rhsReducer(
+            {
+            },
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+                previousRhsState: RHSStates.SEARCH,
+            }
+        );
+
+        expect(nextState2).toEqual({
+            ...initialState,
+            selectedPostCardId: '123',
+            selectedChannelId: '321',
+            previousRhsState: RHSStates.SEARCH,
+            isSidebarOpen: true,
+        });
+
+        const nextState3 = rhsReducer(
+            {
+                previousRhsState: RHSStates.SEARCH,
+            },
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+                previousRhsState: RHSStates.FLAG,
+            }
+        );
+
+        expect(nextState3).toEqual({
+            ...initialState,
+            selectedPostCardId: '123',
             selectedChannelId: '321',
             previousRhsState: RHSStates.FLAG,
             isSidebarOpen: true,
@@ -184,6 +288,29 @@ describe('Reducers.RHS', () => {
             ...initialState,
             rhsState: null,
             selectedPostId: '123',
+            selectedChannelId: '321',
+            previousRhsState: RHSStates.PIN,
+            isSidebarOpen: true,
+        });
+    });
+
+    test(`should wipe rhsState on ${ActionTypes.SELECT_POST_CARD}`, () => {
+        const nextState = rhsReducer(
+            {
+                rhsState: RHSStates.PIN,
+            },
+            {
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '123',
+                channelId: '321',
+                previousRhsState: RHSStates.PIN,
+            }
+        );
+
+        expect(nextState).toEqual({
+            ...initialState,
+            rhsState: null,
+            selectedPostCardId: '123',
             selectedChannelId: '321',
             previousRhsState: RHSStates.PIN,
             isSidebarOpen: true,

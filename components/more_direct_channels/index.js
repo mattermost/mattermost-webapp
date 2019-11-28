@@ -10,6 +10,7 @@ import {
     getTotalUsersStats,
     searchProfiles,
 } from 'mattermost-redux/actions/users';
+import {searchGroupChannels} from 'mattermost-redux/actions/channels';
 import {
     getCurrentUserId,
     getProfiles as selectProfiles,
@@ -21,11 +22,12 @@ import {
 import {getChannelsWithUserProfiles} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
+import {sortByUsername, filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
 import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadProfilesForGroupChannels} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import MoreDirectChannels from './more_direct_channels.jsx';
@@ -64,7 +66,7 @@ function mapStateToProps(state, ownProps) {
         currentTeamId: team.id,
         currentTeamName: team.name,
         searchTerm,
-        users,
+        users: users.sort(sortByUsername),
         groupChannels: filteredGroupChannels,
         statuses: state.entities.users.statuses,
         currentChannelMembers,
@@ -89,9 +91,11 @@ function mapDispatchToProps(dispatch) {
             getStatusesByIds,
             getTotalUsersStats,
             loadStatusesForProfilesList,
+            loadProfilesForGroupChannels,
             openDirectChannelToUserId,
             openGroupChannelToUserIds,
             searchProfiles,
+            searchGroupChannels,
             setModalSearchTerm,
         }, dispatch),
     };

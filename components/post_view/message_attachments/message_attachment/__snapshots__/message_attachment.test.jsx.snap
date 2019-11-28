@@ -27,13 +27,12 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         rel="noopener noreferrer"
         target="_blank"
       >
-        <img
-          className="attachment__author-icon"
-          height="14"
+        <Connect(ExternalImage)
           key="attachment__author-icon"
           src="author_icon"
-          width="14"
-        />
+        >
+          <Component />
+        </Connect(ExternalImage)>
         <span
           className="attachment__author-name"
           key="attachment__author-name"
@@ -61,7 +60,6 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
-            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
@@ -76,17 +74,29 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
           <div
             className="attachment__image-container"
           >
-            <SizeAwareImage
-              className="attachment__image"
-              dimensions={
+            <Connect(ExternalImage)
+              imageMetadata={
                 Object {
                   "height": 200,
                   "width": 200,
                 }
               }
-              onImageLoaded={[Function]}
               src="image_url"
-            />
+            >
+              <Component />
+            </Connect(ExternalImage)>
+          </div>
+          <div
+            className="attachment__footer-container"
+          >
+            <Connect(ExternalImage)
+              src="footer_icon"
+            >
+              <Component />
+            </Connect(ExternalImage)>
+            <span>
+              footer
+            </span>
           </div>
           <div
             className="attachment-actions"
@@ -107,16 +117,17 @@ exports[`components/post_view/MessageAttachment should call actions.doPostAction
         <div
           className="attachment__thumb-container"
         >
-          <SizeAwareImage
-            dimensions={
+          <Connect(ExternalImage)
+            imageMetadata={
               Object {
                 "height": 200,
                 "width": 200,
               }
             }
-            onImageLoaded={[Function]}
             src="thumb_url"
-          />
+          >
+            <Component />
+          </Connect(ExternalImage)>
         </div>
         <div
           style={
@@ -158,13 +169,12 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
         rel="noopener noreferrer"
         target="_blank"
       >
-        <img
-          className="attachment__author-icon"
-          height="14"
+        <Connect(ExternalImage)
           key="attachment__author-icon"
           src="author_icon"
-          width="14"
-        />
+        >
+          <Component />
+        </Connect(ExternalImage)>
         <span
           className="attachment__author-name"
           key="attachment__author-name"
@@ -192,7 +202,6 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
           <Connect(ShowMore)
             checkOverflow={0}
             isAttachmentText={true}
-            maxHeight={200}
             text="short text"
           >
             <Connect(Markdown)
@@ -207,32 +216,160 @@ exports[`components/post_view/MessageAttachment should match snapshot 1`] = `
           <div
             className="attachment__image-container"
           >
-            <SizeAwareImage
-              className="attachment__image"
-              dimensions={
+            <Connect(ExternalImage)
+              imageMetadata={
                 Object {
                   "height": 200,
                   "width": 200,
                 }
               }
-              onImageLoaded={[Function]}
               src="image_url"
-            />
+            >
+              <Component />
+            </Connect(ExternalImage)>
+          </div>
+          <div
+            className="attachment__footer-container"
+          >
+            <Connect(ExternalImage)
+              src="footer_icon"
+            >
+              <Component />
+            </Connect(ExternalImage)>
+            <span>
+              footer
+            </span>
           </div>
         </div>
         <div
           className="attachment__thumb-container"
         >
-          <SizeAwareImage
-            dimensions={
+          <Connect(ExternalImage)
+            imageMetadata={
               Object {
                 "height": 200,
                 "width": 200,
               }
             }
-            onImageLoaded={[Function]}
             src="thumb_url"
-          />
+          >
+            <Component />
+          </Connect(ExternalImage)>
+        </div>
+        <div
+          style={
+            Object {
+              "clear": "both",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/post_view/MessageAttachment should match snapshot when no footer is provided (even if footer_icon is provided) 1`] = `
+<div
+  className="attachment attachment--pretext"
+>
+  <div
+    className="attachment__thumb-pretext"
+  >
+    <Connect(Markdown)
+      message="pretext"
+    />
+  </div>
+  <div
+    className="attachment__content"
+  >
+    <div
+      className="clearfix attachment__container"
+      style={
+        Object {
+          "borderLeftColor": "#FFF",
+        }
+      }
+    >
+      <a
+        href="author_link"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <Connect(ExternalImage)
+          key="attachment__author-icon"
+          src="author_icon"
+        >
+          <Component />
+        </Connect(ExternalImage)>
+        <span
+          className="attachment__author-name"
+          key="attachment__author-name"
+        >
+          author_name
+        </span>
+      </a>
+      <h1
+        className="attachment__title"
+      >
+        <a
+          className="attachment__title-link"
+          href="title_link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          title
+        </a>
+      </h1>
+      <div>
+        <div
+          className="attachment__body"
+          onClick={[Function]}
+        >
+          <Connect(ShowMore)
+            checkOverflow={0}
+            isAttachmentText={true}
+            text="short text"
+          >
+            <Connect(Markdown)
+              imageProps={
+                Object {
+                  "onImageLoaded": [Function],
+                }
+              }
+              message="short text"
+            />
+          </Connect(ShowMore)>
+          <div
+            className="attachment__image-container"
+          >
+            <Connect(ExternalImage)
+              imageMetadata={
+                Object {
+                  "height": 200,
+                  "width": 200,
+                }
+              }
+              src="image_url"
+            >
+              <Component />
+            </Connect(ExternalImage)>
+          </div>
+        </div>
+        <div
+          className="attachment__thumb-container"
+        >
+          <Connect(ExternalImage)
+            imageMetadata={
+              Object {
+                "height": 200,
+                "width": 200,
+              }
+            }
+            src="thumb_url"
+          >
+            <Component />
+          </Connect(ExternalImage)>
         </div>
         <div
           style={
@@ -379,6 +516,58 @@ exports[`components/post_view/MessageAttachment should match snapshot when the a
 </div>
 `;
 
+exports[`components/post_view/MessageAttachment should match snapshot when the footer is truncated 1`] = `
+<div
+  className="attachment "
+>
+  <div
+    className="attachment__content"
+  >
+    <div
+      className="clearfix attachment__container attachment__container--undefined"
+    >
+      <h1
+        className="attachment__title"
+      >
+        <Connect(Markdown)
+          message="footer"
+          options={
+            Object {
+              "autolinkedUrlSchemes": Array [],
+              "mentionHighlight": false,
+              "renderer": LinkOnlyRenderer {
+                "options": Object {},
+              },
+            }
+          }
+        />
+      </h1>
+      <div>
+        <div
+          className="attachment__body attachment__body--no_thumb"
+          onClick={[Function]}
+        >
+          <div
+            className="attachment__footer-container"
+          >
+            <span>
+              aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa…
+            </span>
+          </div>
+        </div>
+        <div
+          style={
+            Object {
+              "clear": "both",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`components/post_view/MessageAttachment should match value on getFieldsTable 1`] = `""`;
 
 exports[`components/post_view/MessageAttachment should match value on getFieldsTable 2`] = `
@@ -402,7 +591,15 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
           className="attachment-field__caption"
           width="50%"
         >
-          title_1
+          <Connect(Markdown)
+            message="title_1"
+            options={
+              Object {
+                "markdown": false,
+                "mentionHighlight": false,
+              }
+            }
+          />
         </th>
       </tr>
     </thead>
@@ -427,7 +624,15 @@ exports[`components/post_view/MessageAttachment should match value on getFieldsT
           className="attachment-field__caption"
           width="50%"
         >
-          title_2
+          <Connect(Markdown)
+            message="title_2"
+            options={
+              Object {
+                "markdown": false,
+                "mentionHighlight": false,
+              }
+            }
+          />
         </th>
       </tr>
     </thead>

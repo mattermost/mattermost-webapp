@@ -8,10 +8,9 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {updateUserActive} from 'mattermost-redux/actions/users';
+import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
 
-import {revokeAllSessions} from 'actions/user_actions.jsx';
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import AdvancedSettingsDisplay from './user_settings_advanced.jsx';
 
@@ -27,6 +26,7 @@ function makeMapStateToProps() {
         return {
             advancedSettingsCategory: getAdvancedSettingsCategory(state, Preferences.CATEGORY_ADVANCED_SETTINGS),
             sendOnCtrlEnter: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter', 'false'),
+            codeBlockOnCtrlEnter: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'code_block_ctrl_enter', 'true'),
             formatting: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', 'true'),
             joinLeave: get(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'join_leave', 'true'),
             currentUser: getCurrentUser(state),
@@ -41,7 +41,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             savePreferences,
             updateUserActive,
-            revokeAllSessions,
+            revokeAllSessionsForUser,
         }, dispatch),
     };
 }

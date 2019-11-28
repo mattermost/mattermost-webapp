@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for email invitation 1`] = `
+<div
+  className="InvitationModalConfirmStepRow"
+>
+  <div
+    className="username-or-icon"
+  >
+    <MailIcon
+      className="mail-icon"
+    />
+    <span
+      className="email"
+    >
+      test-email@test.com
+    </span>
+  </div>
+  <div
+    className="reason"
+  >
+    Test reason email
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for guest addition to channel 1`] = `
+<div
+  className="InvitationModalConfirmStepRow"
+>
+  <div
+    className="username-or-icon"
+  >
+    <Avatar
+      size="lg"
+      url="/api/v4/users/test-id/image?_=0"
+      username="test"
+    />
+    <span
+      className="name"
+    >
+      @test - first-name last-name (test-nickname)
+    </span>
+  </div>
+  <div
+    className="reason"
+  >
+    <FormattedMessage
+      defaultMessage="some message"
+      id="some-id"
+      values={
+        Object {
+          "count": 1,
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for text failure 1`] = `
+<div
+  className="InvitationModalConfirmStepRow"
+>
+  <div
+    className="username-or-icon"
+  >
+    <AlertIcon
+      className="alert-icon"
+    />
+    <span
+      className="name"
+    >
+      test
+    </span>
+  </div>
+  <div
+    className="reason"
+  >
+    Test reason for text
+  </div>
+</div>
+`;
+
+exports[`components/invitation_modal/InvitationModalConfirmStepRow should match the snapshot for user invitation 1`] = `
+<div
+  className="InvitationModalConfirmStepRow"
+>
+  <div
+    className="username-or-icon"
+  >
+    <Avatar
+      size="lg"
+      url="/api/v4/users/test-id/image?_=0"
+      username="test"
+    />
+    <span
+      className="name"
+    >
+      @test - first-name last-name (test-nickname)
+    </span>
+  </div>
+  <div
+    className="reason"
+  >
+    Test reason user
+  </div>
+</div>
+`;

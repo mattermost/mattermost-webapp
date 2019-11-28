@@ -8,18 +8,17 @@ import {
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
-import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 import {logError} from 'mattermost-redux/actions/errors';
 
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
-import ArchiveIcon from 'components/svg/archive_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import store from 'stores/redux_store.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -103,21 +102,29 @@ function channelSearchSorter(wrappedA, wrappedB) {
 }
 
 export default class SearchChannelWithPermissionsProvider extends Provider {
+    constructor(channelSearchFunc) {
+        super();
+        this.autocompleteChannelsForSearch = channelSearchFunc;
+    }
+
     makeChannelSearchFilter(channelPrefix) {
         const channelPrefixLower = channelPrefix.toLowerCase();
 
         return (channel) => {
             const state = store.getState();
-            const canManagePublicChannels = haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS});
-            const canManagePrivatehannels = haveICurrentTeamPermission(state, {permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS});
+            const channelId = channel.id;
+            const teamId = getCurrentTeamId(state);
+
             const searchString = channel.display_name;
 
-            if (canManagePublicChannels && channel.type === Constants.OPEN_CHANNEL) {
+            if (channel.type === Constants.OPEN_CHANNEL &&
+                haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS})) {
+                return searchString.toLowerCase().includes(channelPrefixLower);
+            } else if (channel.type === Constants.PRIVATE_CHANNEL &&
+                haveIChannelPermission(state, {channel: channelId, team: teamId, permission: Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS})) {
                 return searchString.toLowerCase().includes(channelPrefixLower);
             }
-            if (canManagePrivatehannels && channel.type === Constants.PRIVATE_CHANNEL) {
-                return searchString.toLowerCase().includes(channelPrefixLower);
-            }
+
             return false;
         };
     }
@@ -146,7 +153,7 @@ export default class SearchChannelWithPermissionsProvider extends Provider {
             return;
         }
 
-        const channelsAsync = ChannelActions.autocompleteChannelsForSearch(teamId, channelPrefix)(store.dispatch, store.getState);
+        const channelsAsync = this.autocompleteChannelsForSearch(teamId, channelPrefix);
 
         let channelsFromServer = [];
         try {

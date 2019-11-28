@@ -8,6 +8,7 @@ a {
 
     &:hover,
     &:focus {
+        outline: 0;
         color: $primary-color--hover;
     }
 }

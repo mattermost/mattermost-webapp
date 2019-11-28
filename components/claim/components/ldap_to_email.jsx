@@ -6,6 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
+import {t} from 'utils/i18n.jsx';
 import LoginMfa from 'components/login/login_mfa.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -19,18 +20,19 @@ export default class LDAPToEmail extends React.Component {
     constructor(props) {
         super(props);
 
-        this.submit = this.submit.bind(this);
-        this.preSubmit = this.preSubmit.bind(this);
-
         this.state = {
             passwordError: '',
             confirmError: '',
             ldapPasswordError: '',
             serverError: '',
         };
+
+        this.ldapPasswordInput = React.createRef();
+        this.passwordInput = React.createRef();
+        this.passwordConfirmInput = React.createRef();
     }
 
-    preSubmit(e) {
+    preSubmit = (e) => {
         e.preventDefault();
 
         var state = {
@@ -40,14 +42,14 @@ export default class LDAPToEmail extends React.Component {
             serverError: '',
         };
 
-        const ldapPassword = this.refs.ldappassword.value;
+        const ldapPassword = this.ldapPasswordInput.current.value;
         if (!ldapPassword) {
             state.ldapPasswordError = Utils.localizeMessage('claim.ldap_to_email.ldapPasswordError', 'Please enter your AD/LDAP password.');
             this.setState(state);
             return;
         }
 
-        const password = this.refs.password.value;
+        const password = this.passwordInput.current.value;
         if (!password) {
             state.passwordError = Utils.localizeMessage('claim.ldap_to_email.pwdError', 'Please enter your password.');
             this.setState(state);
@@ -62,7 +64,7 @@ export default class LDAPToEmail extends React.Component {
             return;
         }
 
-        const confirmPassword = this.refs.passwordconfirm.value;
+        const confirmPassword = this.passwordConfirmInput.current.value;
         if (!confirmPassword || password !== confirmPassword) {
             state.confirmError = Utils.localizeMessage('claim.ldap_to_email.pwdNotMatch', 'Passwords do not match.');
             this.setState(state);
@@ -76,7 +78,7 @@ export default class LDAPToEmail extends React.Component {
         this.submit(this.props.email, password, '', ldapPassword);
     }
 
-    submit(loginId, password, token, ldapPassword) {
+    submit = (loginId, password, token, ldapPassword) => {
         this.props.switchLdapToEmail(ldapPassword || this.state.ldapPassword, this.props.email, password, token).then(({data, error: err}) => {
             if (data && data.follow_link) {
                 window.location.href = data.follow_link;
@@ -163,7 +165,7 @@ export default class LDAPToEmail extends React.Component {
                             type='password'
                             className='form-control'
                             name='ldapPassword'
-                            ref='ldappassword'
+                            ref={this.ldapPasswordInput}
                             placeholder={passwordPlaceholder}
                             spellCheck='false'
                         />
@@ -180,8 +182,8 @@ export default class LDAPToEmail extends React.Component {
                             type='password'
                             className='form-control'
                             name='password'
-                            ref='password'
-                            placeholder={{id: 'claim.ldap_to_email.pwd', defaultMessage: 'Password'}}
+                            ref={this.passwordInput}
+                            placeholder={{id: t('claim.ldap_to_email.pwd'), defaultMessage: 'Password'}}
                             spellCheck='false'
                         />
                     </div>
@@ -191,8 +193,8 @@ export default class LDAPToEmail extends React.Component {
                             type='password'
                             className='form-control'
                             name='passwordconfirm'
-                            ref='passwordconfirm'
-                            placeholder={{id: 'claim.ldap_to_email.confirm', defaultMessage: 'Confirm Password'}}
+                            ref={this.passwordConfirmInput}
+                            placeholder={{id: t('claim.ldap_to_email.confirm'), defaultMessage: 'Confirm Password'}}
                             spellCheck='false'
                         />
                     </div>

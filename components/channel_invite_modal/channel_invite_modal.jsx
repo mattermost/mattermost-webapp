@@ -9,13 +9,14 @@ import {Client4} from 'mattermost-redux/client';
 
 import {filterProfilesMatchingTerm} from 'mattermost-redux/utils/user_utils';
 
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
-import MultiSelect from 'components/multiselect/multiselect.jsx';
-import AddIcon from 'components/icon/add_icon';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import ProfilePicture from 'components/profile_picture';
+import MultiSelect from 'components/multiselect/multiselect';
+import AddIcon from 'components/widgets/icons/fa_add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
-import {searchUsers} from 'actions/user_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 const USERS_PER_PAGE = 50;
 const MAX_SELECTABLE_VALUES = 20;
@@ -23,12 +24,14 @@ const MAX_SELECTABLE_VALUES = 20;
 export default class ChannelInviteModal extends React.Component {
     static propTypes = {
         profilesNotInCurrentChannel: PropTypes.array.isRequired,
+        profilesNotInCurrentTeam: PropTypes.array.isRequired,
         onHide: PropTypes.func.isRequired,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             addUsersToChannel: PropTypes.func.isRequired,
             getProfilesNotInChannel: PropTypes.func.isRequired,
             getTeamStats: PropTypes.func.isRequired,
+            searchProfiles: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -56,7 +59,7 @@ export default class ChannelInviteModal extends React.Component {
     };
 
     componentDidMount() {
-        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, 0).then(() => {
+        this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, 0).then(() => {
             this.setUsersLoadingState(false);
         });
         this.props.actions.getTeamStats(this.props.channel.team_id);
@@ -88,7 +91,7 @@ export default class ChannelInviteModal extends React.Component {
     handlePageChange = (page, prevPage) => {
         if (page > prevPage) {
             this.setUsersLoadingState(true);
-            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, page + 1, USERS_PER_PAGE).then(() => {
+            this.props.actions.getProfilesNotInChannel(this.props.channel.team_id, this.props.channel.id, this.props.channel.group_constrained, page + 1, USERS_PER_PAGE).then(() => {
                 this.setUsersLoadingState(false);
             });
         }
@@ -120,38 +123,39 @@ export default class ChannelInviteModal extends React.Component {
         });
     };
 
-    search = (term) => {
+    search = (searchTerm) => {
+        const term = searchTerm.trim();
         clearTimeout(this.searchTimeoutId);
         this.setState({
             term,
         });
 
         this.searchTimeoutId = setTimeout(
-            () => {
+            async () => {
                 this.setUsersLoadingState(true);
-                searchUsers(term, this.props.channel.team_id, {not_in_channel_id: this.props.channel.id}).then(() => {
-                    this.setUsersLoadingState(false);
-                });
+                const options = {
+                    team_id: this.props.channel.team_id,
+                    not_in_channel_id: this.props.channel.id,
+                    group_constrained: this.props.channel.group_constrained,
+                };
+                await this.props.actions.searchProfiles(term, options);
+                this.setUsersLoadingState(false);
             },
             Constants.SEARCH_TIMEOUT_MILLISECONDS
         );
     };
 
+    renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
+        return option.username;
+    }
+
     renderOption = (option, isSelected, onAdd) => {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
-        }
-        let tag = null;
-        if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
         }
 
         return (
@@ -163,13 +167,19 @@ export default class ChannelInviteModal extends React.Component {
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         {displayEntireNameForUser(option)}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
+                            className='popoverlist'
+                        />
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -204,8 +214,9 @@ export default class ChannelInviteModal extends React.Component {
         const buttonSubmitText = localizeMessage('multiselect.add', 'Add');
         const buttonSubmitLoadingText = localizeMessage('multiselect.adding', 'Adding...');
 
-        let users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term);
-        users = users.filter((user) => user.delete_at === 0);
+        const users = filterProfilesMatchingTerm(this.props.profilesNotInCurrentChannel, this.state.term).filter((user) => {
+            return user.delete_at === 0 && !this.props.profilesNotInCurrentTeam.includes(user);
+        });
 
         const content = (
             <MultiSelect
@@ -214,6 +225,7 @@ export default class ChannelInviteModal extends React.Component {
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
+                ariaLabelRenderer={this.renderAriaLabel}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -226,18 +238,25 @@ export default class ChannelInviteModal extends React.Component {
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.state.saving}
                 loading={this.state.loadingUsers}
+                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
             />
         );
 
         return (
             <Modal
-                dialogClassName='more-modal'
+                id='addUsersToChannelModal'
+                dialogClassName='a11y__modal more-modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='channelInviteModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='channelInviteModalLabel'
+                    >
                         <FormattedMessage
                             id='channel_invite.addNewMembers'
                             defaultMessage='Add New Members to '
@@ -245,7 +264,9 @@ export default class ChannelInviteModal extends React.Component {
                         <span className='name'>{this.props.channel.display_name}</span>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {inviteError}
                     {content}
                 </Modal.Body>

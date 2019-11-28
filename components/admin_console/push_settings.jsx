@@ -4,15 +4,15 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import AdminSettings from './admin_settings.jsx';
+import AdminSettings from './admin_settings';
 import DropdownSetting from './dropdown_setting.jsx';
 import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 const PUSH_NOTIFICATIONS_OFF = 'off';
 const PUSH_NOTIFICATIONS_MHPNS = 'mhpns';
@@ -20,27 +20,17 @@ const PUSH_NOTIFICATIONS_MTPNS = 'mtpns';
 const PUSH_NOTIFICATIONS_CUSTOM = 'custom';
 
 export default class PushSettings extends AdminSettings {
-    constructor(props) {
-        super(props);
-
-        this.canSave = this.canSave.bind(this);
-        this.handleAgreeChange = this.handleAgreeChange.bind(this);
-        this.getConfigFromState = this.getConfigFromState.bind(this);
-        this.renderSettings = this.renderSettings.bind(this);
-        this.handleDropdownChange = this.handleDropdownChange.bind(this);
-    }
-
-    canSave() {
+    canSave = () => {
         return this.state.pushNotificationServerType !== PUSH_NOTIFICATIONS_MHPNS || this.state.agree;
     }
 
-    handleAgreeChange(e) {
+    handleAgreeChange = (e) => {
         this.setState({
             agree: e.target.checked,
         });
     }
 
-    handleDropdownChange(id, value) {
+    handleDropdownChange = (id, value) => {
         if (id === 'pushNotificationServerType') {
             this.setState({
                 agree: false,
@@ -66,10 +56,10 @@ export default class PushSettings extends AdminSettings {
         this.handleChange(id, value);
     }
 
-    getConfigFromState(config) {
+    getConfigFromState = (config) => {
         config.EmailSettings.SendPushNotifications = this.state.pushNotificationServerType !== PUSH_NOTIFICATIONS_OFF;
         config.EmailSettings.PushNotificationServer = this.state.pushNotificationServer.trim();
-        config.EmailSettings.PushNotificationContents = this.state.pushNotificationContents;
+        config.TeamSettings.MaxNotificationsPerChannel = this.state.maxNotificationsPerChannel;
 
         return config;
     }
@@ -94,10 +84,12 @@ export default class PushSettings extends AdminSettings {
             pushNotificationServer = Constants.MHPNS;
         }
 
+        const maxNotificationsPerChannel = config.TeamSettings.MaxNotificationsPerChannel;
+
         return {
             pushNotificationServerType,
             pushNotificationServer,
-            pushNotificationContents: config.EmailSettings.PushNotificationContents,
+            maxNotificationsPerChannel,
             agree,
         };
     }
@@ -112,13 +104,13 @@ export default class PushSettings extends AdminSettings {
     renderTitle() {
         return (
             <FormattedMessage
-                id='admin.environment.pushNotifications'
-                defaultMessage='Push Notifications'
+                id='admin.environment.pushNotificationServer'
+                defaultMessage='Push Notification Server'
             />
         );
     }
 
-    renderSettings() {
+    renderSettings = () => {
         const pushNotificationServerTypes = [];
         pushNotificationServerTypes.push({value: PUSH_NOTIFICATIONS_OFF, text: Utils.localizeMessage('admin.email.pushOff', 'Do not send push notifications')});
         if (this.props.license.IsLicensed === 'true' && this.props.license.MHPNS === 'true') {
@@ -212,29 +204,25 @@ export default class PushSettings extends AdminSettings {
                     disabled={this.state.pushNotificationServerType !== PUSH_NOTIFICATIONS_CUSTOM}
                     setByEnv={this.isSetByEnv('EmailSettings.PushNotificationServer')}
                 />
-                <DropdownSetting
-                    id='pushNotificationContents'
-                    values={[
-                        {value: 'generic_no_channel', text: Utils.localizeMessage('admin.email.genericNoChannelPushNotification', '"Send generic description with only sender name')},
-                        {value: 'generic', text: Utils.localizeMessage('admin.email.genericPushNotification', 'Send generic description with sender and channel names')},
-                        {value: 'full', text: Utils.localizeMessage('admin.email.fullPushNotification', 'Send full message snippet')},
-                    ]}
+                <TextSetting
+                    id='maxNotificationsPerChannel'
+                    type='number'
                     label={
                         <FormattedMessage
-                            id='admin.email.pushContentTitle'
-                            defaultMessage='Push Notification Contents:'
+                            id='admin.team.maxNotificationsPerChannelTitle'
+                            defaultMessage='Max Notifications Per Channel:'
                         />
                     }
-                    value={this.state.pushNotificationContents}
-                    onChange={this.handleDropdownChange}
-                    disabled={this.state.pushNotificationServerType === PUSH_NOTIFICATIONS_OFF}
+                    placeholder={Utils.localizeMessage('admin.team.maxNotificationsPerChannelExample', 'E.g.: "1000"')}
                     helpText={
                         <FormattedMarkdownMessage
-                            id='admin.email.pushContentDesc'
-                            defaultMessage='"Send generic description with only sender name" includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n \n"Send generic description with sender and channel names" includes the name of the person who sent the message and the channel it was sent in, but not the message text.\n \n"Send full message snippet" includes a message excerpt in push notifications, which may contain confidential information sent in messages. If your Push Notification Service is outside your firewall, it is *highly recommended* this option only be used with an "https" protocol to encrypt the connection.'
+                            id='admin.team.maxNotificationsPerChannelDescription'
+                            defaultMessage='Maximum total number of users in a channel before users typing messages, @all, @here, and @channel no longer send notifications because of performance.'
                         />
                     }
-                    setByEnv={this.isSetByEnv('EmailSettings.PushNotificationContents')}
+                    value={this.state.maxNotificationsPerChannel}
+                    onChange={this.handleChange}
+                    setByEnv={this.isSetByEnv('TeamSettings.MaxNotificationsPerChannel')}
                 />
             </SettingsGroup>
         );

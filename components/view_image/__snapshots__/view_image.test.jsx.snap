@@ -3,11 +3,12 @@
 exports[`components/ViewImageModal should fall back to default preview if plugin does not need to override preview component 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -26,6 +27,7 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -41,6 +43,12 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -61,7 +69,6 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -74,11 +81,12 @@ exports[`components/ViewImageModal should fall back to default preview if plugin
 exports[`components/ViewImageModal should match snapshot for external file 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -97,6 +105,7 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -112,6 +121,12 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -132,7 +147,6 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
           fileURL="/api/v4/files/undefined?download=1"
           isExternalFile={true}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -145,11 +159,12 @@ exports[`components/ViewImageModal should match snapshot for external file 1`] =
 exports[`components/ViewImageModal should match snapshot on onModalShown and onModalHidden 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -168,6 +183,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -183,6 +199,12 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -207,7 +229,6 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           fileURL="/api/v4/files/file_id_1?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -240,11 +261,12 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
 exports[`components/ViewImageModal should match snapshot on onModalShown and onModalHidden 2`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -263,6 +285,7 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -278,6 +301,12 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -302,7 +331,6 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
           fileURL="/api/v4/files/file_id_2?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -335,11 +363,12 @@ exports[`components/ViewImageModal should match snapshot on onModalShown and onM
 exports[`components/ViewImageModal should match snapshot when plugin overrides the preview component 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -358,6 +387,7 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -373,6 +403,12 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -397,7 +433,6 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -410,11 +445,12 @@ exports[`components/ViewImageModal should match snapshot when plugin overrides t
 exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -433,6 +469,7 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -448,6 +485,12 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -472,7 +515,6 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -485,11 +527,12 @@ exports[`components/ViewImageModal should match snapshot, loaded 1`] = `
 exports[`components/ViewImageModal should match snapshot, loaded and showing footer 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -508,6 +551,7 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -523,8 +567,14 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
-          className="modal-close modal-close--show"
+          className="modal-close"
           onClick={[MockFunction]}
         />
         <div
@@ -547,7 +597,6 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={true}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -560,11 +609,12 @@ exports[`components/ViewImageModal should match snapshot, loaded and showing foo
 exports[`components/ViewImageModal should match snapshot, loaded with .js file 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image modal-code"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -583,6 +633,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -598,6 +649,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -622,7 +679,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -635,11 +691,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
 exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -658,6 +715,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -673,6 +731,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -697,7 +761,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -710,11 +773,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with .m4a file 
 exports[`components/ViewImageModal should match snapshot, loaded with .mov file 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -733,6 +797,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -748,6 +813,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -772,7 +843,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -785,11 +855,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with .mov file 
 exports[`components/ViewImageModal should match snapshot, loaded with footer 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -808,6 +879,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -823,8 +895,14 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
-          className="modal-close modal-close--show"
+          className="modal-close"
           onClick={[MockFunction]}
         />
         <div
@@ -847,7 +925,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
           fileURL="/api/v4/files/file_id_1?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={true}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -880,11 +957,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with footer 1`]
 exports[`components/ViewImageModal should match snapshot, loaded with image 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -903,6 +981,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -918,6 +997,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -942,7 +1027,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -955,11 +1039,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with image 1`] 
 exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -978,6 +1063,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -993,6 +1079,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -1017,7 +1109,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           fileURL="/api/v4/files/file_id_1?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -1050,11 +1141,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
 exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 2`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1073,6 +1165,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -1088,6 +1181,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -1112,7 +1211,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           fileURL="/api/v4/files/file_id_2?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -1145,11 +1243,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
 exports[`components/ViewImageModal should match snapshot, loaded with left and right arrows 3`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1168,6 +1267,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -1183,6 +1283,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -1207,7 +1313,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
           fileURL="/api/v4/files/file_id_2?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={3}
         />
@@ -1240,11 +1345,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with left and r
 exports[`components/ViewImageModal should match snapshot, loaded with other file 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1263,6 +1369,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -1278,6 +1385,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -1302,7 +1415,6 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -1315,11 +1427,12 @@ exports[`components/ViewImageModal should match snapshot, loaded with other file
 exports[`components/ViewImageModal should match snapshot, loading 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1338,6 +1451,7 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalBody
@@ -1353,6 +1467,12 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -1373,7 +1493,6 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />
@@ -1386,11 +1505,12 @@ exports[`components/ViewImageModal should match snapshot, loading 1`] = `
 exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="viewImageModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="modal-image"
+  dialogClassName="a11y__modal modal-image"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -1409,6 +1529,7 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
   onHide={[MockFunction]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={false}
 >
   <ModalBody
@@ -1424,6 +1545,12 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
       >
+        <ModalTitle
+          bsClass="modal-title"
+          className="hide"
+          componentClass="h1"
+          id="viewImageModalLabel"
+        />
         <div
           className="modal-close"
           onClick={[MockFunction]}
@@ -1444,7 +1571,6 @@ exports[`components/ViewImageModal should match snapshot, modal not shown 1`] = 
           fileURL="/api/v4/files/file_id?download=1"
           isExternalFile={false}
           onGetPublicLink={[Function]}
-          show={false}
           showPublicLink={true}
           totalFiles={1}
         />

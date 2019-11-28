@@ -6,8 +6,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-import SearchIcon from 'components/icon/search_icon';
+import LoadingScreen from 'components/loading_screen';
+import SearchIcon from 'components/widgets/icons/fa_search_icon';
 
 export default class BackstageList extends React.Component {
     static propTypes = {
@@ -15,6 +15,7 @@ export default class BackstageList extends React.Component {
         header: PropTypes.node.isRequired,
         addLink: PropTypes.string,
         addText: PropTypes.node,
+        addButtonId: PropTypes.string,
         emptyText: PropTypes.node,
         emptyTextSearch: PropTypes.node,
         helpText: PropTypes.node,
@@ -29,14 +30,12 @@ export default class BackstageList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateFilter = this.updateFilter.bind(this);
-
         this.state = {
             filter: '',
         };
     }
 
-    updateFilter(e) {
+    updateFilter = (e) => {
         this.setState({
             filter: e.target.value,
         });
@@ -68,7 +67,10 @@ export default class BackstageList extends React.Component {
                     }
                 } else if (this.props.emptyTextSearch) {
                     children = (
-                        <span className='backstage-list__item backstage-list__empty'>
+                        <span
+                            className='backstage-list__item backstage-list__empty'
+                            id='emptySearchResultsMessage'
+                        >
                             {React.cloneElement(this.props.emptyTextSearch, {values: {searchTerm: filter}})}
                         </span>
                     );
@@ -77,6 +79,7 @@ export default class BackstageList extends React.Component {
         }
 
         let addLink = null;
+
         if (this.props.addLink && this.props.addText) {
             addLink = (
                 <Link
@@ -86,6 +89,7 @@ export default class BackstageList extends React.Component {
                     <button
                         type='button'
                         className='btn btn-primary'
+                        id={this.props.addButtonId}
                     >
                         <span>
                             {this.props.addText}
@@ -113,6 +117,7 @@ export default class BackstageList extends React.Component {
                             value={this.state.filter}
                             onChange={this.updateFilter}
                             style={style.search}
+                            id='searchInput'
                         />
                     </div>
                 </div>

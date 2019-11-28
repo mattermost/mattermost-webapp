@@ -9,7 +9,7 @@ import {Route, Switch} from 'react-router-dom';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
 import BackButton from 'components/common/back_button.jsx';
-import LogoutIcon from 'components/icon/logout_icon';
+import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 
 import Setup from '../setup';
 import Confirm from '../confirm';
@@ -69,6 +69,7 @@ export default class MFAController extends React.Component {
                                     />
                                 </h3>
                                 <img
+                                    alt={'signup team logo'}
                                     className='signup-team-logo'
                                     src={logoImage}
                                 />

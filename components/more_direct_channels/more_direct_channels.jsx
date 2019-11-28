@@ -8,11 +8,13 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
-import {displayEntireNameForUser, localizeMessage} from 'utils/utils.jsx';
-import MultiSelect from 'components/multiselect/multiselect.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
-import AddIcon from 'components/icon/add_icon';
+import Constants from 'utils/constants';
+import {displayEntireNameForUser, localizeMessage, isGuest} from 'utils/utils.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
+import ProfilePicture from 'components/profile_picture';
+import AddIcon from 'components/widgets/icons/fa_add_icon';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
 
 import GroupMessageOption from './group_message_option';
 
@@ -54,9 +56,11 @@ export default class MoreDirectChannels extends React.Component {
             getStatusesByIds: PropTypes.func.isRequired,
             getTotalUsersStats: PropTypes.func.isRequired,
             loadStatusesForProfilesList: PropTypes.func.isRequired,
+            loadProfilesForGroupChannels: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openGroupChannelToUserIds: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            searchGroupChannels: PropTypes.func.isRequired,
             setModalSearchTerm: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -95,24 +99,30 @@ export default class MoreDirectChannels extends React.Component {
         this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.searchTerm !== nextProps.searchTerm) {
+    updateFromProps(prevProps) {
+        if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
-            const searchTerm = nextProps.searchTerm;
+            const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 this.resetPaging();
             } else {
-                const teamId = nextProps.restrictDirectMessage === 'any' ? '' : nextProps.currentTeamId;
+                const teamId = this.props.restrictDirectMessage === 'any' ? '' : this.props.currentTeamId;
 
                 this.searchTimeoutId = setTimeout(
                     async () => {
                         this.setUsersLoadingState(true);
-                        const {data} = await this.props.actions.searchProfiles(searchTerm, {team_id: teamId});
-                        if (data) {
-                            this.props.actions.loadStatusesForProfilesList(data);
-                            this.resetPaging();
+                        const [{data: profilesData}, {data: groupChannelsData}] = await Promise.all([
+                            this.props.actions.searchProfiles(searchTerm, {team_id: teamId}),
+                            this.props.actions.searchGroupChannels(searchTerm),
+                        ]);
+                        if (profilesData) {
+                            this.props.actions.loadStatusesForProfilesList(profilesData);
                         }
+                        if (groupChannelsData) {
+                            this.props.actions.loadProfilesForGroupChannels(groupChannelsData);
+                        }
+                        this.resetPaging();
                         this.setUsersLoadingState(false);
                     },
                     Constants.SEARCH_TIMEOUT_MILLISECONDS
@@ -121,11 +131,15 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         if (
-            this.props.users.length !== nextProps.users.length ||
-            Object.keys(this.props.statuses).length !== Object.keys(nextProps.statuses).length
+            prevProps.users.length !== this.props.users.length ||
+            Object.keys(prevProps.statuses).length !== Object.keys(this.props.statuses).length
         ) {
-            this.loadProfilesMissingStatus(nextProps.users, nextProps.statuses);
+            this.loadProfilesMissingStatus(this.props.users, this.props.statuses);
         }
+    }
+
+    componentDidUpdate(prevProps) {
+        this.updateFromProps(prevProps);
     }
 
     loadProfilesMissingStatus = (users = [], statuses = {}) => {
@@ -260,6 +274,13 @@ export default class MoreDirectChannels extends React.Component {
         this.setState({values});
     }
 
+    renderAriaLabel = (option) => {
+        if (!option) {
+            return null;
+        }
+        return option.username;
+    }
+
     renderOption = (option, isSelected, onAdd) => {
         if (option.type && option.type === 'G') {
             return (
@@ -303,18 +324,7 @@ export default class MoreDirectChannels extends React.Component {
         }
 
         const status = option.delete_at || option.is_bot ? null : this.props.statuses[option.id];
-
-        let tag = null;
-        if (option.is_bot) {
-            tag = (
-                <div className='bot-indicator bot-indicator__popoverlist'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
+        const email = option.is_bot ? null : option.email;
 
         return (
             <div
@@ -326,18 +336,24 @@ export default class MoreDirectChannels extends React.Component {
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
                     status={status}
-                    width='32'
-                    height='32'
+                    size='md'
                 />
                 <div
                     className='more-modal__details'
                 >
                     <div className='more-modal__name'>
                         {modalName}
-                        {tag}
+                        <BotBadge
+                            show={Boolean(option.is_bot)}
+                            className='badge-popoverlist'
+                        />
+                        <GuestBadge
+                            show={isGuest(option)}
+                            className='badge-popoverlist'
+                        />
                     </div>
                     <div className='more-modal__description'>
-                        {option.email}
+                        {email}
                     </div>
                 </div>
                 <div className='more-modal__actions'>
@@ -414,6 +430,7 @@ export default class MoreDirectChannels extends React.Component {
                 optionRenderer={this.renderOption}
                 values={this.state.values}
                 valueRenderer={this.renderValue}
+                ariaLabelRenderer={this.renderAriaLabel}
                 perPage={USERS_PER_PAGE}
                 handlePageChange={this.handlePageChange}
                 handleInput={this.search}
@@ -430,6 +447,7 @@ export default class MoreDirectChannels extends React.Component {
                 loading={this.state.loadingUsers}
                 users={this.props.users}
                 totalCount={this.props.totalCount}
+                placeholderText={localizeMessage('multiselect.placeholder', 'Search and add members')}
             />
         );
 
@@ -439,22 +457,42 @@ export default class MoreDirectChannels extends React.Component {
 
         return (
             <Modal
-                dialogClassName={'more-modal more-direct-channels'}
+                dialogClassName='a11y__modal more-modal more-direct-channels'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleExit}
+                role='dialog'
+                aria-labelledby='moreDmModalLabel'
+                id='moreDmModal'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='moreDmModalLabel'
+                    >
                         <FormattedMessage
                             id='more_direct_channels.title'
                             defaultMessage='Direct Messages'
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body
+                    role='application'
+                >
                     {body}
                 </Modal.Body>
+                <Modal.Footer className='modal-footer--invisible'>
+                    <button
+                        id='closeModalButton'
+                        type='button'
+                        className='btn btn-link'
+                    >
+                        <FormattedMessage
+                            id='general_button.close'
+                            defaultMessage='Close'
+                        />
+                    </button>
+                </Modal.Footer>
             </Modal>
         );
     }

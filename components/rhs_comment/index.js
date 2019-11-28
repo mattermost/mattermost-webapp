@@ -2,16 +2,20 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
 import {Posts} from 'mattermost-redux/constants';
 import {isChannelReadOnlyById} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {makeGetReactionsForPost, getPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
 
-import {Preferences} from 'utils/constants.jsx';
+import {markPostAsUnread} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+import {Preferences} from 'utils/constants';
 
 import RhsComment from './rhs_comment.jsx';
 
@@ -37,6 +41,9 @@ function isConsecutivePost(state, ownProps) {
 }
 
 function mapStateToProps(state, ownProps) {
+    const getReactionsForPost = makeGetReactionsForPost();
+    const getDisplayName = makeGetDisplayName();
+
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
@@ -44,6 +51,8 @@ function mapStateToProps(state, ownProps) {
     const channel = state.entities.channels.channels[ownProps.post.channel_id];
 
     return {
+        author: getDisplayName(state, ownProps.post.user_id),
+        reactions: getReactionsForPost(state, ownProps.post.id),
         enableEmojiPicker,
         enablePostUsernameOverride,
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
@@ -57,4 +66,12 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(RhsComment);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            markPostAsUnread,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RhsComment);

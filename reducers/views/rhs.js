@@ -8,12 +8,43 @@ import {
     SearchTypes,
 } from 'mattermost-redux/action_types';
 
-import {ActionTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, RHSStates} from 'utils/constants';
 
 function selectedPostId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         return action.postId;
+    case ActionTypes.SELECT_POST_CARD:
+        return '';
+    case PostTypes.REMOVE_POST:
+        if (action.data && action.data.id === state) {
+            return '';
+        }
+        return state;
+    case ActionTypes.UPDATE_RHS_STATE:
+        return '';
+    default:
+        return state;
+    }
+}
+
+// selectedPostFocussedAt keeps track of the last time a post was selected, whether or not it
+// is currently selected.
+function selectedPostFocussedAt(state = 0, action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST:
+        return action.timestamp || 0;
+    default:
+        return state;
+    }
+}
+
+function selectedPostCardId(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.SELECT_POST_CARD:
+        return action.postId;
+    case ActionTypes.SELECT_POST:
+        return '';
     case PostTypes.POST_REMOVED:
         if (action.data && action.data.id === state) {
             return '';
@@ -29,6 +60,8 @@ function selectedPostId(state = '', action) {
 function selectedChannelId(state = '', action) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
+        return action.channelId;
+    case ActionTypes.SELECT_POST_CARD:
         return action.channelId;
     case ActionTypes.UPDATE_RHS_STATE:
         if (action.state === RHSStates.PIN) {
@@ -47,6 +80,11 @@ function previousRhsState(state = null, action) {
             return action.previousRhsState;
         }
         return null;
+    case ActionTypes.SELECT_POST_CARD:
+        if (action.previousRhsState) {
+            return action.previousRhsState;
+        }
+        return null;
     default:
         return state;
     }
@@ -58,6 +96,8 @@ function rhsState(state = null, action) {
         return action.state;
     case ActionTypes.SELECT_POST:
         return null;
+    case ActionTypes.SELECT_POST_CARD:
+        return null;
     default:
         return state;
     }
@@ -67,6 +107,18 @@ function searchTerms(state = '', action) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_TERMS:
         return action.terms;
+    default:
+        return state;
+    }
+}
+
+function pluginId(state = '', action) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.state === RHSStates.PLUGIN) {
+            return action.pluginId;
+        }
+        return '';
     default:
         return state;
     }
@@ -111,6 +163,8 @@ function isSidebarOpen(state = false, action) {
         return Boolean(action.state);
     case ActionTypes.SELECT_POST:
         return Boolean(action.postId);
+    case ActionTypes.SELECT_POST_CARD:
+        return Boolean(action.postId);
     case ActionTypes.TOGGLE_RHS_MENU:
         return false;
     case ActionTypes.OPEN_RHS_MENU:
@@ -135,6 +189,8 @@ function isSidebarExpanded(state = false, action) {
     case ActionTypes.UPDATE_RHS_STATE:
         return action.state ? state : false;
     case ActionTypes.SELECT_POST:
+        return action.postId ? state : false;
+    case ActionTypes.SELECT_POST_CARD:
         return action.postId ? state : false;
     case ActionTypes.TOGGLE_RHS_MENU:
         return false;
@@ -172,11 +228,14 @@ function isMenuOpen(state = false, action) {
 
 export default combineReducers({
     selectedPostId,
+    selectedPostFocussedAt,
+    selectedPostCardId,
     selectedChannelId,
     previousRhsState,
     rhsState,
     searchTerms,
     searchResultsTerms,
+    pluginId,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,

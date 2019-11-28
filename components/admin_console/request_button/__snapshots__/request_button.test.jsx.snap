@@ -3,6 +3,7 @@
 exports[`components/admin_console/request_button/request_button.jsx should match snapshot 1`] = `
 <div
   className="form-group"
+  id={null}
 >
   <div
     className="col-sm-offset-4 col-sm-8"
@@ -61,6 +62,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       values={Object {}}
     />
   }
+  id={null}
   includeDetailedError={true}
   intl={
     Object {
@@ -116,6 +118,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 >
   <div
     className="form-group"
+    id={null}
   >
     <div
       className="col-sm-offset-4 col-sm-8"
@@ -148,16 +151,10 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <WarningIcon
               additionalClassName={null}
             >
-              <FormattedMessage
-                defaultMessage="Warning Icon"
-                id="generic_icons.warning"
-                values={Object {}}
-              >
-                <i
-                  className="fa fa-warning"
-                  title="Warning Icon"
-                />
-              </FormattedMessage>
+              <i
+                className="fa fa-warning"
+                title="Warning Icon"
+              />
             </WarningIcon>
             <FormattedMessage
               defaultMessage="Error Message: {error}"
@@ -216,6 +213,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       values={Object {}}
     />
   }
+  id={null}
   includeDetailedError={false}
   intl={
     Object {
@@ -279,6 +277,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 >
   <div
     className="form-group"
+    id={null}
   >
     <div
       className="col-sm-offset-4 col-sm-8"
@@ -311,16 +310,10 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <WarningIcon
               additionalClassName={null}
             >
-              <FormattedMessage
-                defaultMessage="Warning Icon"
-                id="generic_icons.warning"
-                values={Object {}}
-              >
-                <i
-                  className="fa fa-warning"
-                  title="Warning Icon"
-                />
-              </FormattedMessage>
+              <i
+                className="fa fa-warning"
+                title="Warning Icon"
+              />
             </WarningIcon>
             <FormattedMessage
               defaultMessage="Error Message: {error}"
@@ -379,6 +372,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       values={Object {}}
     />
   }
+  id={null}
   includeDetailedError={false}
   intl={
     Object {
@@ -434,6 +428,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 >
   <div
     className="form-group"
+    id={null}
   >
     <div
       className="col-sm-offset-4 col-sm-8"
@@ -528,6 +523,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
       values={Object {}}
     />
   }
+  id={null}
   includeDetailedError={false}
   intl={
     Object {
@@ -591,6 +587,7 @@ exports[`components/admin_console/request_button/request_button.jsx should match
 >
   <div
     className="form-group"
+    id={null}
   >
     <div
       className="col-sm-offset-4 col-sm-8"

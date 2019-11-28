@@ -11,13 +11,13 @@ import {isEmail} from 'mattermost-redux/utils/helpers';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import logoImage from 'images/logo.png';
 
 import BackButton from 'components/common/back_button.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -60,9 +60,21 @@ export default class SignupEmail extends React.Component {
     componentDidMount() {
         trackEvent('signup', 'signup_user_01_welcome');
 
+        this.setDocumentTitle(this.props.siteName);
+
         const {inviteId} = this.state;
         if (inviteId && inviteId.length > 0) {
             this.getInviteInfo(inviteId);
+        }
+    }
+
+    componentDidUpdate() {
+        this.setDocumentTitle(this.props.siteName);
+    }
+
+    setDocumentTitle = (siteName) => {
+        if (siteName) {
+            document.title = siteName;
         }
     }
 
@@ -270,11 +282,7 @@ export default class SignupEmail extends React.Component {
             >
                 <FormattedMessage
                     id='signup_user_completed.userHelp'
-                    defaultMessage="Username must begin with a letter, and contain between {min} to {max} lowercase characters made up of numbers, letters, and the symbols '.', '-' and '_'"
-                    values={{
-                        min: Constants.MIN_USERNAME_LENGTH,
-                        max: Constants.MAX_USERNAME_LENGTH,
-                    }}
+                    defaultMessage='You can use lowercase letters, numbers, periods, dashes, and underscores.'
                 />
             </span>
         );
@@ -419,7 +427,10 @@ export default class SignupEmail extends React.Component {
         let serverError = null;
         if (this.state.serverError) {
             serverError = (
-                <div className={'form-group has-error'}>
+                <div
+                    id='existingEmailErrorContainer'
+                    className={'form-group has-error'}
+                >
                     <label className='control-label'>{this.state.serverError}</label>
                 </div>
             );
@@ -466,6 +477,7 @@ export default class SignupEmail extends React.Component {
                 >
                     <div className='signup-team__container padding--less'>
                         <img
+                            alt={'signup team logo'}
                             className='signup-team-logo'
                             src={logoImage}
                         />

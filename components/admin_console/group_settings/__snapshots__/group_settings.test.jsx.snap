@@ -4,42 +4,50 @@ exports[`components/admin_console/group_settings/GroupSettings should match snap
 <div
   className="wrapper--fixed"
 >
-  <h3
-    className="admin-console-header"
+  <div
+    className="admin-console__header"
   >
     <FormattedMessage
       defaultMessage="Groups"
       id="admin.group_settings.groupsPageTitle"
       values={Object {}}
     />
-  </h3>
+  </div>
   <div
-    className="banner info"
+    className="admin-console__wrapper"
   >
     <div
-      className="banner__content"
+      className="admin-console__content"
     >
-      <InjectIntl(FormattedMarkdownMessage)
-        defaultMessage="Groups are a way to organize users and apply actions to all users within that group.
+      <div
+        className="banner info"
+      >
+        <div
+          className="banner__content"
+        >
+          <InjectIntl(FormattedMarkdownMessage)
+            defaultMessage="Groups are a way to organize users and apply actions to all users within that group.
 For more information on Groups, please see [documentation](!https://www.mattermost.com/default-ad-ldap-groups)."
-        id="admin.group_settings.introBanner"
-      />
+            id="admin.group_settings.introBanner"
+          />
+        </div>
+      </div>
+      <AdminPanel
+        className=""
+        id="ldap_groups"
+        subtitleDefault="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](http://localhost:8065/admin_console/authentication/ldap)."
+        subtitleId="admin.group_settings.ldapGroupsDescription"
+        subtitleValues={
+          Object {
+            "siteURL": "http://localhost:8065",
+          }
+        }
+        titleDefault="AD/LDAP Groups"
+        titleId="admin.group_settings.ldapGroupsTitle"
+      >
+        <Connect(GroupsList) />
+      </AdminPanel>
     </div>
   </div>
-  <AdminPanel
-    className=""
-    id="ldap_groups"
-    subtitleDefault="Link and configure groups from your AD/LDAP to Mattermost. Please ensure you have configured a [group filter](http://localhost:8065/admin_console/authentication/ldap)."
-    subtitleId="admin.group_settings.ldapGroupsDescription"
-    subtitleValues={
-      Object {
-        "siteURL": "http://localhost:8065",
-      }
-    }
-    titleDefault="AD/LDAP Groups"
-    titleId="admin.group_settings.ldapGroupsTitle"
-  >
-    <Connect(GroupsList) />
-  </AdminPanel>
 </div>
 `;

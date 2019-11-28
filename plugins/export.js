@@ -4,6 +4,9 @@
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting.jsx';
 
+// The following import has intentional side effects. Do not remove without research.
+import {openInteractiveDialog} from './interactive_dialog';
+
 // Common libraries exposed on window for plugins to use as Webpack externals.
 window.React = require('react');
 window.ReactDOM = require('react-dom');
@@ -13,3 +16,4 @@ window.ReactBootstrap = require('react-bootstrap');
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.PropTypes = require('prop-types');
 window.PDFJS = require('pdfjs-dist');
+window.openInteractiveDialog = openInteractiveDialog;

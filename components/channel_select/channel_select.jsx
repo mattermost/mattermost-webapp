@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 export default class ChannelSelect extends React.PureComponent {
@@ -74,6 +74,7 @@ export default class ChannelSelect extends React.PureComponent {
                 className='form-control'
                 value={this.props.value}
                 onChange={this.props.onChange}
+                id='channelSelect'
             >
                 {options}
             </select>

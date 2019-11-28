@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import * as UserAgent from 'utils/user_agent.jsx';
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -31,36 +29,45 @@ export default class ChannelView extends React.PureComponent {
         }),
     };
 
-    constructor(props) {
-        super(props);
-
-        this.createDeferredPostView();
-    }
-
-    createDeferredPostView = () => {
-        this.deferredPostView = deferComponentRender(
+    static createDeferredPostView = () => {
+        return deferComponentRender(
             PostView,
-            <div id='post-list'/>
+            <div
+                id='post-list'
+                className='a11y__region'
+                data-a11y-sort-order='1'
+                data-a11y-focus-child={true}
+                data-a11y-order-reversed={true}
+            />
         );
     }
 
-    componentDidMount() {
-        $('body').addClass('app__body');
-
-        // IE Detection
-        if (UserAgent.isInternetExplorer() || UserAgent.isEdge()) {
-            $('body').addClass('browser--ie');
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {};
+        if (props.match.url !== state.url) {
+            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url};
         }
+
+        if (props.channelId !== state.channelId) {
+            updatedState = {...updatedState, channelId: props.channelId, prevChannelId: state.channelId};
+        }
+
+        if (Object.keys(updatedState).length) {
+            return updatedState;
+        }
+
+        return null;
     }
 
-    componentWillUnmount() {
-        $('body').removeClass('app__body');
-    }
+    constructor(props) {
+        super(props);
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.url !== nextProps.match.url) {
-            this.createDeferredPostView();
-        }
+        this.state = {
+            url: props.match.url,
+            channelId: props.channelId,
+            prevChannelId: '',
+            deferredPostView: ChannelView.createDeferredPostView(),
+        };
     }
 
     getChannelView = () => {
@@ -130,7 +137,10 @@ export default class ChannelView extends React.PureComponent {
                         />
                     }
                     {channelIsArchived &&
-                        <div className='channel-archived__message'>
+                        <div
+                            id='channelArchivedMessage'
+                            className='channel-archived__message'
+                        >
                             <FormattedMarkdownMessage
                                 id='archivedChannelMessage'
                                 defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
@@ -150,7 +160,7 @@ export default class ChannelView extends React.PureComponent {
             );
         }
 
-        const DeferredPostView = this.deferredPostView;
+        const DeferredPostView = this.state.deferredPostView;
 
         return (
             <div
@@ -164,6 +174,7 @@ export default class ChannelView extends React.PureComponent {
                 />
                 <DeferredPostView
                     channelId={this.props.channelId}
+                    prevChannelId={this.state.prevChannelId}
                 />
                 {createPost}
             </div>

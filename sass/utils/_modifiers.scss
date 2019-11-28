@@ -131,3 +131,18 @@
 .d-block {
     display: block;
 }
+
+.a11y--focused {
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px 2px $primary-color;
+}
+
+.hidden-label {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}

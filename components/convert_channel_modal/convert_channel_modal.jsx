@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -59,12 +59,18 @@ export default class ConvertChannelModal extends React.PureComponent {
 
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={onHide}
+                role='dialog'
+                aria-labelledby='convertChannelModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <h4 className='modal-title'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='convertChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='convert_channel.title'
                             defaultMessage='Convert {display_name} to a private channel?'
@@ -72,7 +78,7 @@ export default class ConvertChannelModal extends React.PureComponent {
                                 display_name: channelDisplayName,
                             }}
                         />
-                    </h4>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>

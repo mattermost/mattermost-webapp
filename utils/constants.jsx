@@ -4,6 +4,10 @@
 /* eslint-disable no-magic-numbers */
 import keyMirror from 'key-mirror';
 
+import Permissions from 'mattermost-redux/constants/permissions';
+
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
+
 import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';
 import excelIcon from 'images/icons/excel.svg';
@@ -23,9 +27,6 @@ import mattermostDarkThemeImage from 'images/themes/mattermost_dark.png';
 import defaultThemeImage from 'images/themes/organization.png';
 import windows10ThemeImage from 'images/themes/windows_dark.png';
 import logoWebhook from 'images/webhook_icon.jpg';
-
-import Permissions from 'mattermost-redux/constants/permissions';
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import {t} from 'utils/i18n';
 
@@ -56,6 +57,11 @@ export const SettingsTypes = {
     TYPE_LANGUAGE: 'language',
     TYPE_JOBSTABLE: 'jobstable',
     TYPE_CUSTOM: 'custom',
+};
+
+export const InviteTypes = {
+    INVITE_MEMBER: 'member',
+    INVITE_GUEST: 'guest',
 };
 
 export const Preferences = {
@@ -96,6 +102,7 @@ export const Preferences = {
 export const ActionTypes = keyMirror({
     RECEIVED_FOCUSED_POST: null,
     SELECT_POST: null,
+    SELECT_POST_CARD: null,
     INCREASE_POST_VISIBILITY: null,
     LOADING_POSTS: null,
 
@@ -131,10 +138,15 @@ export const ActionTypes = keyMirror({
     RECEIVED_PLUGIN_COMPONENT: null,
     REMOVED_PLUGIN_COMPONENT: null,
     RECEIVED_PLUGIN_POST_COMPONENT: null,
+    RECEIVED_PLUGIN_POST_CARD_COMPONENT: null,
     REMOVED_PLUGIN_POST_COMPONENT: null,
+    REMOVED_PLUGIN_POST_CARD_COMPONENT: null,
     RECEIVED_WEBAPP_PLUGINS: null,
     RECEIVED_WEBAPP_PLUGIN: null,
     REMOVED_WEBAPP_PLUGIN: null,
+    RECEIVED_ADMIN_CONSOLE_REDUCER: null,
+    REMOVED_ADMIN_CONSOLE_REDUCER: null,
+    RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: null,
 
     MODAL_OPEN: null,
     MODAL_CLOSE: null,
@@ -161,6 +173,25 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_WS_ERROR_COUNT: null,
     RESET_WS_ERROR_COUNT: null,
+    RECEIVED_POSTS_FOR_CHANNEL_AT_TIME: null,
+    CHANNEL_POSTS_STATUS: null,
+    CHANNEL_SYNC_STATUS: null,
+    ALL_CHANNEL_SYNC_STATUS: null,
+
+    UPDATE_ACTIVE_SECTION: null,
+
+    RECEIVED_MARKETPLACE_PLUGINS: null,
+    INSTALLING_MARKETPLACE_PLUGIN: null,
+    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
+    FILTER_MARKETPLACE_PLUGINS: null,
+
+    POST_UNREAD_SUCCESS: null,
+});
+
+export const PostRequestTypes = keyMirror({
+    BEFORE_ID: null,
+    AFTER_ID: null,
 });
 
 export const ModalIdentifiers = {
@@ -187,6 +218,14 @@ export const ModalIdentifiers = {
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
+    ADD_TEAMS_TO_SCHEME: 'add_teams_to_scheme',
+    INVITATION: 'invitation',
+    ADD_GROUPS_TO_TEAM: 'add_groups_to_team',
+    ADD_GROUPS_TO_CHANNEL: 'add_groups_to_channel',
+    MANAGE_TEAM_GROUPS: 'manage_team_groups',
+    MANAGE_CHANNEL_GROUPS: 'manage_channel_groups',
+    MOBILE_SUBMENU: 'mobile_submenu',
+    PLUGIN_MARKETPLACE: 'plugin_marketplace',
 };
 
 export const UserStatuses = {
@@ -197,10 +236,41 @@ export const UserStatuses = {
     DND: 'dnd',
 };
 
-export const UserSearchOptions = {
-    ALLOW_INACTIVE: 'allow_inactive',
-    WITHOUT_TEAM: 'without_team',
-    ROLE: 'role',
+export const EventTypes = Object.assign(
+    {
+        KEY_DOWN: 'keydown',
+        KEY_UP: 'keyup',
+        CLICK: 'click',
+        FOCUS: 'focus',
+        BLUR: 'blur',
+        MOUSE_DOWN: 'mousedown',
+        MOUSE_UP: 'mouseup',
+    },
+    keyMirror({
+        POST_LIST_SCROLL_TO_BOTTOM: null,
+    })
+);
+
+export const A11yClassNames = {
+    REGION: 'a11y__region',
+    SECTION: 'a11y__section',
+    ACTIVE: 'a11y--active',
+    FOCUSED: 'a11y--focused',
+    MODAL: 'a11y__modal',
+    POPUP: 'a11y__popup',
+};
+
+export const A11yAttributeNames = {
+    SORT_ORDER: 'data-a11y-sort-order',
+    ORDER_REVERSE: 'data-a11y-order-reversed',
+    FOCUS_CHILD: 'data-a11y-focus-child',
+    LOOP_NAVIGATION: 'data-a11y-loop-navigation',
+};
+
+export const A11yCustomEventTypes = {
+    ACTIVATE: 'a11yactivate',
+    DEACTIVATE: 'a11ydeactivate',
+    UPDATE: 'a11yupdate',
 };
 
 export const SocketEvents = {
@@ -208,6 +278,7 @@ export const SocketEvents = {
     POST_EDITED: 'post_edited',
     POST_DELETED: 'post_deleted',
     POST_UPDATED: 'post_updated',
+    POST_UNREAD: 'post_unread',
     CHANNEL_CONVERTED: 'channel_converted',
     CHANNEL_CREATED: 'channel_created',
     CHANNEL_DELETED: 'channel_deleted',
@@ -275,6 +346,7 @@ export const PostTypes = {
     EPHEMERAL: 'system_ephemeral',
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
     REMOVE_LINK_PREVIEW: 'remove_link_preview',
+    ME: 'me',
 };
 
 export const StatTypes = keyMirror({
@@ -290,6 +362,7 @@ export const StatTypes = keyMirror({
     TOTAL_COMMANDS: null,
     TOTAL_SESSIONS: null,
     POST_PER_DAY: null,
+    BOT_POST_PER_DAY: null,
     USERS_WITH_POSTS_PER_DAY: null,
     RECENTLY_ACTIVE_USERS: null,
     NEWLY_CREATED_USERS: null,
@@ -305,9 +378,37 @@ export const SearchUserTeamFilter = {
     NO_TEAM: 'no_team',
 };
 
-export const SearchUserOptionsFilter = {
-    ALLOW_INACTIVE: 'inactive',
+// UserSearchOptions are the possible option keys for a user search request
+export const UserSearchOptions = {
+    ALLOW_INACTIVE: 'allow_inactive',
+    TEAM_ID: 'team_id',
+    NOT_IN_TEAM_ID: 'not_in_team_id',
+    WITHOUT_TEAM: 'without_team',
+    IN_CHANNEL_ID: 'in_channel_id',
+    NOT_IN_CHANNEL_ID: 'not_in_channel_id',
+    GROUP_CONSTRAINED: 'group_constrained',
+    ROLE: 'role',
+    LIMIT: 'limit',
+};
+
+// UserListOptions are the possible option keys for get users page request
+export const UserListOptions = {
+    INACTIVE: 'inactive',
+    IN_TEAM: 'in_team',
+    NOT_IN_TEAM: 'not_in_team',
+    WITHOUT_TEAM: 'without_team',
+    IN_CHANNEL: 'in_channel',
+    NOT_IN_CHANNEL: 'not_in_channel',
+    GROUP_CONSTRAINED: 'group_constrained',
+    SORT: 'sort',
+    ROLE: 'role',
+};
+
+// UserFilters are the values for UI get/search user filters
+export const UserFilters = {
+    INACTIVE: 'inactive',
     SYSTEM_ADMIN: 'system_admin',
+    SYSTEM_GUEST: 'system_guest',
 };
 
 export const SearchTypes = keyMirror({
@@ -421,7 +522,6 @@ export const NotificationSections = {
 
 export const AdvancedSections = {
     CONTROL_SEND: 'advancedCtrlSend',
-    CODE_BLOCK_ON_CTRL_ENTER: 'codeBlockOnCtrlEnter',
     FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
@@ -432,6 +532,7 @@ export const RHSStates = {
     SEARCH: 'search',
     FLAG: 'flag',
     PIN: 'pin',
+    PLUGIN: 'plugin',
 };
 
 export const UploadStatuses = {
@@ -451,8 +552,14 @@ export const SidebarChannelGroups = {
     FAVORITE: 'favorite',
 };
 
+export const AboutLinks = {
+    TERMS_OF_SERVICE: 'https://about.mattermost.com/default-terms/',
+    PRIVACY_POLICY: 'https://about.mattermost.com/default-privacy-policy/',
+};
+
 export const PermissionsScope = {
     [Permissions.INVITE_USER]: 'team_scope',
+    [Permissions.INVITE_GUEST]: 'team_scope',
     [Permissions.ADD_USER_TO_TEAM]: 'team_scope',
     [Permissions.USE_SLASH_COMMANDS]: 'channel_scope',
     [Permissions.MANAGE_SLASH_COMMANDS]: 'team_scope',
@@ -578,9 +685,10 @@ export const PostListRowListIds = {
     DATE_LINE: PostListUtils.DATE_LINE,
     START_OF_NEW_MESSAGES: PostListUtils.START_OF_NEW_MESSAGES,
     CHANNEL_INTRO_MESSAGE: 'CHANNEL_INTRO_MESSAGE',
-    MORE_MESSAGES_LOADER: 'MORE_MESSAGES_LOADER',
-    MAX_MESSAGES_LOADED: 'MAX_MESSAGES_LOADED',
-    MANUAL_TRIGGER_LOAD_MESSAGES: 'MANUAL_TRIGGER_LOAD_MESSAGES',
+    OLDER_MESSAGES_LOADER: 'OLDER_MESSAGES_LOADER',
+    NEWER_MESSAGES_LOADER: 'NEWER_MESSAGES_LOADER',
+    LOAD_OLDER_MESSAGES_TRIGGER: 'LOAD_OLDER_MESSAGES_TRIGGER',
+    LOAD_NEWER_MESSAGES_TRIGGER: 'LOAD_NEWER_MESSAGES_TRIGGER',
 };
 
 export const Constants = {
@@ -624,7 +732,7 @@ export const Constants = {
     NOTIFY_ALL_MEMBERS: 5,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
-    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg'],
+    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
     PRESENTATION_TYPES: ['ppt', 'pptx'],
@@ -1149,7 +1257,8 @@ export const Constants = {
         text: {name: 'Text', extensions: ['txt', 'log']},
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
         vbscript: {name: 'VBScript', extensions: ['vbs']},
-        verilog: {name: 'Verilog', extensions: ['v', 'veo']},
+        verilog: {name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh']},
+        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl']},
         xml: {name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist']},
         yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']},
     },
@@ -1186,7 +1295,7 @@ export const Constants = {
     MAX_TEAMNAME_LENGTH: 15,
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
-    MAX_CHANNELNAME_LENGTH: 22,
+    MAX_CHANNELNAME_LENGTH: 64,
     MIN_USERNAME_LENGTH: 3,
     MAX_USERNAME_LENGTH: 22,
     MAX_NICKNAME_LENGTH: 22,
@@ -1241,6 +1350,7 @@ export const Constants = {
     CHANNEL_ID_LENGTH: 26,
     TRANSPARENT_PIXEL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
     TRIPLE_BACK_TICKS: /```/g,
+    MAX_ATTACHMENT_FOOTER_LENGTH: 300,
 };
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
@@ -1252,5 +1362,6 @@ t('suggestion.mention.members');
 t('suggestion.mention.moremembers');
 t('suggestion.mention.nonmembers');
 t('suggestion.mention.special');
+t('suggestion.archive');
 
 export default Constants;

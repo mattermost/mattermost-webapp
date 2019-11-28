@@ -1,0 +1,215 @@
+version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@1.0.11
+
+executors:
+  default:
+    working_directory: ~/mattermost-webapp
+    docker:
+      - image: mattermost/mattermost-build-webapp:oct-2-2018
+
+aliases:
+  - &restore_cache
+    restore_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+  - &save_cache
+    save_cache:
+      key: dependencies-{{ checksum "package-lock.json" }}
+      paths:
+        - node_modules
+
+jobs:
+  install:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm ci
+          cd node_modules/mattermost-redux && npm i && npm run build
+      - *save_cache
+
+  lint:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm run check
+
+  i18n-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          cp i18n/en.json /tmp/en.json
+          mkdir -p /tmp/fake-mobile-dir/assets/base/i18n/
+          echo '{}' > /tmp/fake-mobile-dir/assets/base/i18n/en.json
+          npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
+          diff /tmp/en.json i18n/en.json
+
+  type-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm run check-types
+
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: npm run test-ci
+      - store_test_results:
+          path: build/
+
+  build:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: make package-ci
+      - store_artifacts:
+          path: ~/mattermost-webapp/mattermost-webapp.tar.gz
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  build-storybook:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: npm run build-storybook
+      - store_artifacts:
+          path: ~/mattermost-webapp/storybook-static
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  upload-storybook:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-s3/sync:
+          from: storybook-static
+          to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
+          arguments: --cache-control no-cache
+      - aws-s3/sync:
+          from: storybook-static
+          to: s3://alpha-storybook.mattermost.com/commit/${CIRCLE_SHA1}/
+          arguments: --cache-control no-cache
+
+  upload-s3:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-s3/copy:
+          from: mattermost-webapp.tar.gz
+          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
+          arguments: --cache-control no-cache
+      - aws-s3/copy:
+          from: mattermost-webapp.tar.gz
+          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
+          arguments: --cache-control no-cache
+
+  prepare-docker-build:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform-pr/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+
+            tar xf server.tar.gz
+            rm -rf mattermost/client
+            tar xf mattermost-webapp.tar.gz
+            mv client mattermost/client
+            tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
+      - store_artifacts:
+          path: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+      - aws-s3/copy:
+          from: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
+          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
+          arguments: --cache-control no-cache
+
+  build-docker:
+    working_directory: ~/
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - attach_workspace:
+          at: .
+      - setup_remote_docker
+      - run:
+          command: |
+            export TAG="${CIRCLE_SHA1:0:7}"
+
+            mkdir -p ~/.ssh/
+            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            git clone git@github.com:mattermost/mattermost-server.git
+
+            cd mattermost-server
+            export MM_PACKAGE=https://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
+            docker build --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} build
+            echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+            docker push mattermost/mattermost-enterprise-edition:${TAG}
+
+workflows:
+  version: 2
+  untagged-build:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - i18n-check:
+          requires:
+            - install
+      - type-check:
+          requires:
+            - install
+      - build:
+          requires:
+            - install
+      - upload-s3:
+          context: mattermost-ci-s3
+          requires:
+            - build
+      - prepare-docker-build:
+          context: mattermost-ci-s3
+          requires:
+            - upload-s3
+      - build-docker:
+          context: matterbuild-docker
+          requires:
+            - prepare-docker-build
+      - build-storybook:
+          requires:
+            - build
+      - upload-storybook:
+          context: mattermost-s3-storybook-alpha
+          requires:
+            - build-storybook
+      - test:
+          requires:
+            - type-check
+            - i18n-check
+            - lint

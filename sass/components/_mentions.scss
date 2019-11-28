@@ -41,6 +41,18 @@
         display: block;
     }
 
+    .Avatar {
+        margin-right: 7px;
+        margin-top: 3px;
+        text-align: center;
+        display: block;
+    }
+
+    span {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
     .admin-setting-user--align {
         margin-right: 5px;
     }
@@ -78,12 +90,12 @@
     .mention--align {
         @include clearfix;
         text-overflow: ellipsis;
-        margin-right: 5px;
     }
 }
 
 .mention__image {
     @include border-radius(20px);
+    flex: 0 0 16px;
     display: block;
     font-size: 15px;
     height: 16px;
@@ -92,6 +104,7 @@
     margin-top: 3px;
     text-align: center;
     width: 16px;
+    min-width: 16px;
 
     .mention--align {
         display: inline-block;
@@ -104,6 +117,9 @@
 
 .mention__fullname {
     @include opacity(.5);
+    margin: 0 0 0 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .mention--highlight {

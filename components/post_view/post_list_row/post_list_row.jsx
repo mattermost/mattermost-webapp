@@ -18,10 +18,10 @@ export default class PostListRow extends React.PureComponent {
     static propTypes = {
         listId: PropTypes.string.isRequired,
         previousListId: PropTypes.string,
-        channel: PropTypes.object,
         fullWidth: PropTypes.bool,
         shouldHighlight: PropTypes.bool,
-        loadMorePosts: PropTypes.func,
+        loadOlderPosts: PropTypes.func,
+        loadNewerPosts: PropTypes.func,
         togglePostMenu: PropTypes.func,
     }
 
@@ -47,18 +47,15 @@ export default class PostListRow extends React.PureComponent {
 
         if (listId === PostListRowListIds.CHANNEL_INTRO_MESSAGE) {
             return (
-                <ChannelIntroMessage
-                    channel={this.props.channel}
-                    fullWidth={this.props.fullWidth}
-                />
+                <ChannelIntroMessage/>
             );
         }
 
-        if (listId === PostListRowListIds.MANUAL_TRIGGER_LOAD_MESSAGES) {
+        if (listId === PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER || listId === PostListRowListIds.LOAD_NEWER_MESSAGES_TRIGGER) {
             return (
                 <button
                     className='more-messages-text theme style--none color--link'
-                    onClick={this.props.loadMorePosts}
+                    onClick={listId === PostListRowListIds.LOAD_OLDER_MESSAGES_TRIGGER ? this.props.loadOlderPosts : this.props.loadNewerPosts}
                 >
                     <FormattedMessage
                         id='posts_view.loadMore'
@@ -68,7 +65,7 @@ export default class PostListRow extends React.PureComponent {
             );
         }
 
-        if (listId === PostListRowListIds.MORE_MESSAGES_LOADER) {
+        if (listId === PostListRowListIds.OLDER_MESSAGES_LOADER || listId === PostListRowListIds.NEWER_MESSAGES_LOADER) {
             return (
                 <div
                     className='loading-screen'

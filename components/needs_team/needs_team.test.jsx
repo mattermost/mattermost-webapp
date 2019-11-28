@@ -26,6 +26,7 @@ jest.mock('utils/utils', () => ({
     applyTheme: jest.fn(),
     localizeMessage: jest.fn(),
     areObjectsEqual: jest.fn(),
+    isGuest: jest.fn(),
 }));
 
 describe('components/needs_team', () => {
@@ -55,12 +56,13 @@ describe('components/needs_team', () => {
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
-        markChannelAsRead: jest.fn(),
+        markChannelAsReadOnFocus: jest.fn(),
         getTeamByName: jest.fn().mockResolvedValue({data: teamData}),
         addUserToTeam: jest.fn().mockResolvedValue({data: true}),
         selectTeam: jest.fn(),
         setPreviousTeamId: jest.fn(),
-        loadStatusesForChannelAndSidebar: jest.fn(),
+        loadStatusesForChannelAndSidebar: jest.fn().mockResolvedValue({data: true}),
+        loadProfilesForDirect: jest.fn().mockResolvedValue({data: true}),
     };
     const baseProps = {
         actions,

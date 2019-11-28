@@ -18,12 +18,15 @@ import {
     showPinnedPosts,
     showMentions,
     closeRightHandSide,
+    showRHSPlugin,
+    hideRHSPlugin,
+    toggleRHSPlugin,
     toggleMenu,
     openMenu,
     closeMenu,
 } from 'actions/views/rhs';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import {ActionTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, RHSStates} from 'utils/constants';
 import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 
 const mockStore = configureStore([thunk]);
@@ -31,9 +34,14 @@ const mockStore = configureStore([thunk]);
 const currentChannelId = '123';
 const currentTeamId = '321';
 const currentUserId = 'user123';
+const pluginId = 'pluginId';
 
 const UserSelectors = require('mattermost-redux/selectors/entities/users');
 UserSelectors.getCurrentUserMentionKeys = jest.fn(() => [{key: '@here'}, {key: '@mattermost'}, {key: '@channel'}, {key: '@all'}]);
+
+// Mock Date.now() to return a constant value.
+const POST_CREATED_TIME = Date.now();
+global.Date.now = jest.fn(() => POST_CREATED_TIME);
 
 jest.mock('mattermost-redux/actions/posts', () => ({
     getPostThread: (...args) => ({type: 'MOCK_GET_POST_THREAD', args}),
@@ -115,31 +123,34 @@ describe('rhs view actions', () => {
             store.dispatch(selectPostFromRightHandSideSearch(post));
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(PostActions.getPostThread(post.id));
+            compareStore.dispatch(PostActions.getPostThread(post.root_id));
 
             expect(store.getActions()[0]).toEqual(compareStore.getActions()[0]);
         });
 
-        test(`it dispatches ${ActionTypes.SELECT_POST} correctly`, async () => {
-            store = mockStore({
-                ...initialState,
-                views: {
-                    rhs: {
-                        rhsState: RHSStates.FLAG,
+        describe(`it dispatches ${ActionTypes.SELECT_POST} correctly`, () => {
+            it('with mocked date', async () => {
+                store = mockStore({
+                    ...initialState,
+                    views: {
+                        rhs: {
+                            rhsState: RHSStates.FLAG,
+                        },
                     },
-                },
+                });
+
+                await store.dispatch(selectPostFromRightHandSideSearch(post));
+
+                const action = {
+                    type: ActionTypes.SELECT_POST,
+                    postId: post.root_id,
+                    channelId: post.channel_id,
+                    previousRhsState: RHSStates.FLAG,
+                    timestamp: POST_CREATED_TIME,
+                };
+
+                expect(store.getActions()[1]).toEqual(action);
             });
-
-            await store.dispatch(selectPostFromRightHandSideSearch(post));
-
-            const action = {
-                type: ActionTypes.SELECT_POST,
-                postId: post.root_id,
-                channelId: post.channel_id,
-                previousRhsState: RHSStates.FLAG,
-            };
-
-            expect(store.getActions()[1]).toEqual(action);
         });
     });
 
@@ -272,10 +283,6 @@ describe('rhs view actions', () => {
                     },
                     payload: [
                         {
-                            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                            terms: '',
-                        },
-                        {
                             type: ActionTypes.UPDATE_RHS_STATE,
                             channelId: currentChannelId,
                             state: RHSStates.PIN,
@@ -328,10 +335,6 @@ describe('rhs view actions', () => {
                         batch: true,
                     },
                     payload: [
-                        {
-                            type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                            terms: '',
-                        },
                         {
                             type: ActionTypes.UPDATE_RHS_STATE,
                             channelId,
@@ -413,6 +416,7 @@ describe('rhs view actions', () => {
                     type: ActionTypes.SELECT_POST,
                     postId: '',
                     channelId: '',
+                    timestamp: 0,
                 },
             ]));
 
@@ -451,5 +455,98 @@ describe('rhs view actions', () => {
         });
 
         expect(store.getActions()).toEqual(compareStore.getActions());
+    });
+
+    describe('Plugin actions', () => {
+        const stateWithPluginRhs = {
+            ...initialState,
+            views: {
+                rhs: {
+                    state: RHSStates.PLUGIN,
+                    pluginId,
+                },
+            },
+        };
+
+        const stateWithoutPluginRhs = {
+            ...initialState,
+            views: {
+                rhs: {
+                    state: RHSStates.PIN,
+                },
+            },
+        };
+
+        describe('showRHSPlugin', () => {
+            it('dispatches the right action', () => {
+                store.dispatch(showRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+                compareStore.dispatch({
+                    type: ActionTypes.UPDATE_RHS_STATE,
+                    state: RHSStates.PLUGIN,
+                    pluginId,
+                });
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+        });
+
+        describe('hideRHSPlugin', () => {
+            it('it dispatches the right action when plugin rhs is opened', () => {
+                store = mockStore(stateWithPluginRhs);
+
+                store.dispatch(hideRHSPlugin(pluginId));
+
+                const compareStore = mockStore(stateWithPluginRhs);
+                compareStore.dispatch(closeRightHandSide());
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+
+            it('it doesn\'t dispatch the action when plugin rhs is closed', () => {
+                store = mockStore(stateWithoutPluginRhs);
+
+                store.dispatch(hideRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+
+            it('it doesn\'t dispatch the action when other plugin rhs is opened', () => {
+                store = mockStore(stateWithPluginRhs);
+
+                store.dispatch(hideRHSPlugin('pluginId2'));
+
+                const compareStore = mockStore(initialState);
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+        });
+
+        describe('toggleRHSPlugin', () => {
+            it('it dispatches hide action when rhs is open', () => {
+                store = mockStore(stateWithPluginRhs);
+
+                store.dispatch(toggleRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+                compareStore.dispatch(closeRightHandSide());
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+
+            it('it dispatches hide action when rhs is closed', () => {
+                store = mockStore(stateWithoutPluginRhs);
+
+                store.dispatch(toggleRHSPlugin(pluginId));
+
+                const compareStore = mockStore(initialState);
+                compareStore.dispatch(showRHSPlugin(pluginId));
+
+                expect(store.getActions()).toEqual(compareStore.getActions());
+            });
+        });
     });
 });

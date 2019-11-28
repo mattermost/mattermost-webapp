@@ -8,7 +8,7 @@ import {showLeavePrivateChannelModal} from 'actions/global_actions';
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
+import Menu from 'components/widgets/menu/menu';
 
 export default class LeaveChannel extends React.PureComponent {
     static propTypes = {
@@ -22,6 +22,11 @@ export default class LeaveChannel extends React.PureComponent {
          * Boolean whether the channel is default
          */
         isDefault: PropTypes.bool.isRequired,
+
+        /**
+         * Boolean whether the user is a guest or no
+         */
+        isGuestUser: PropTypes.bool.isRequired,
 
         /**
          * Use for test selector
@@ -39,6 +44,10 @@ export default class LeaveChannel extends React.PureComponent {
             leaveChannel: PropTypes.func.isRequired,
         }).isRequired,
     };
+
+    static defaultProps = {
+        isGuestUser: false,
+    }
 
     handleLeave = (e) => {
         e.preventDefault();
@@ -58,12 +67,12 @@ export default class LeaveChannel extends React.PureComponent {
     }
 
     render() {
-        const {channel, isDefault, id} = this.props;
+        const {channel, isDefault, isGuestUser, id} = this.props;
 
         return (
-            <MenuItemAction
+            <Menu.ItemAction
                 id={id}
-                show={!isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
+                show={(!isDefault || isGuestUser) && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                 onClick={this.handleLeave}
                 text={localizeMessage('channel_header.leave', 'Leave Channel')}
             />

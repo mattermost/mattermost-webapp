@@ -9,8 +9,8 @@ import {Link} from 'react-router-dom';
 import {localizeMessage} from 'utils/utils.jsx';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
 import ChannelSelect from 'components/channel_select';
-import FormError from 'components/form_error.jsx';
-import SpinnerButton from 'components/spinner_button.jsx';
+import FormError from 'components/form_error';
+import SpinnerButton from 'components/spinner_button';
 
 export default class AbstractOutgoingWebhook extends React.Component {
     static propTypes = {
@@ -568,6 +568,7 @@ export default class AbstractOutgoingWebhook extends React.Component {
                                 spinning={this.state.saving}
                                 spinningText={localizeMessage(this.props.loading.id, this.props.loading.defaultMessage)}
                                 onClick={this.handleSubmit}
+                                id='saveWebhook'
                             >
                                 <FormattedMessage
                                     id={footerToRender.id}

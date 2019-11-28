@@ -18,7 +18,6 @@ import UserSettingsGeneralTab from './user_settings_general.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
 
-    const sendEmailNotifications = config.SendEmailNotifications === 'true';
     const requireEmailVerification = config.RequireEmailVerification === 'true';
     const maxFileSize = parseInt(config.MaxFileSize, 10);
     const ldapFirstNameAttributeSet = config.LdapFirstNameAttributeSet === 'true';
@@ -27,10 +26,10 @@ function mapStateToProps(state) {
     const samlLastNameAttributeSet = config.SamlLastNameAttributeSet === 'true';
     const ldapNicknameAttributeSet = config.LdapNicknameAttributeSet === 'true';
     const samlNicknameAttributeSet = config.SamlNicknameAttributeSet === 'true';
-    const positionAttributeSet = config.PositionAttributeSet === 'true';
+    const samlPositionAttributeSet = config.SamlPositionAttributeSet === 'true';
+    const ldapPositionAttributeSet = config.LdapPositionAttributeSet === 'true';
 
     return {
-        sendEmailNotifications,
         requireEmailVerification,
         maxFileSize,
         ldapFirstNameAttributeSet,
@@ -39,7 +38,8 @@ function mapStateToProps(state) {
         samlLastNameAttributeSet,
         ldapNicknameAttributeSet,
         samlNicknameAttributeSet,
-        positionAttributeSet,
+        samlPositionAttributeSet,
+        ldapPositionAttributeSet,
     };
 }
 

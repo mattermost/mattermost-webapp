@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import * as Utils from 'utils/utils.jsx';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
 
 import EmojiList from './emoji_list';
 
@@ -36,13 +36,13 @@ export default class EmojiPage extends React.Component {
         this.props.actions.loadRolesIfNeeded(['system_admin', 'team_admin', 'system_user', 'team_user']);
     }
 
-    updateTitle = (props = this.props) => {
-        document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + props.teamDisplayName + ' ' + props.siteName;
+    updateTitle = () => {
+        document.title = Utils.localizeMessage('custom_emoji.header', 'Custom Emoji') + ' - ' + this.props.teamDisplayName + ' ' + this.props.siteName;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.siteName !== nextProps.siteName) {
-            this.updateTitle(nextProps);
+    componentDidUpdate(prevProps) {
+        if (this.props.siteName !== prevProps.siteName) {
+            this.updateTitle();
         }
     }
 
@@ -56,10 +56,7 @@ export default class EmojiPage extends React.Component {
                             defaultMessage='Custom Emoji'
                         />
                     </h1>
-                    <TeamPermissionGate
-                        teamId={this.props.teamId}
-                        permissions={[Permissions.CREATE_EMOJIS]}
-                    >
+                    <AnyTeamPermissionGate permissions={[Permissions.CREATE_EMOJIS]}>
                         <Link
                             className='add-link'
                             to={'/' + this.props.teamName + '/emoji/add'}
@@ -74,7 +71,7 @@ export default class EmojiPage extends React.Component {
                                 />
                             </button>
                         </Link>
-                    </TeamPermissionGate>
+                    </AnyTeamPermissionGate>
                 </div>
                 <EmojiList scrollToTop={this.props.scrollToTop}/>
             </div>

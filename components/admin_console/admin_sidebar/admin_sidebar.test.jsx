@@ -5,7 +5,13 @@ import React from 'react';
 import {IntlProvider} from 'react-intl';
 import {shallow} from 'enzyme';
 
+import enMessages from 'i18n/en.json';
+
+import {samplePlugin1} from 'tests/helpers/admin_console_plugin_index_sample_pluings';
+
 import AdminSidebar from 'components/admin_console/admin_sidebar/admin_sidebar.jsx';
+import AdminDefinition from 'components/admin_console/admin_definition';
+import {generateIndex} from 'utils/admin_console_index';
 
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
@@ -15,8 +21,10 @@ jest.mock('utils/utils', () => {
     };
 });
 
+jest.mock('utils/admin_console_index');
+
 describe('components/AdminSidebar', () => {
-    const intlProvider = new IntlProvider({locale: 'en', defaultLocale: 'en'}, {});
+    const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
     const {intl} = intlProvider.getChildContext();
     const defaultProps = {
         license: {},
@@ -29,6 +37,7 @@ describe('components/AdminSidebar', () => {
                 EnableUploads: true,
             },
         },
+        adminDefinition: AdminDefinition,
         buildEnterpriseReady: false,
         navigationBlocked: false,
         siteName: 'test snap',
@@ -72,6 +81,7 @@ describe('components/AdminSidebar', () => {
                     EnableUploads: true,
                 },
             },
+            adminDefinition: AdminDefinition,
             buildEnterpriseReady: false,
             siteName: 'test snap',
             navigationBlocked: false,
@@ -101,6 +111,44 @@ describe('components/AdminSidebar', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot, not prevent the console from loading when empty settings_schema provided', () => {
+        const props = {
+            license: {},
+            config: {
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            adminDefinition: AdminDefinition,
+            buildEnterpriseReady: false,
+            siteName: 'test snap',
+            navigationBlocked: false,
+            plugins: {
+                plugin_0: {
+                    active: false,
+                    description: 'The plugin 0.',
+                    id: 'plugin_0',
+                    name: 'Plugin 0',
+                    version: '0.1.0',
+                    settings_schema: {},
+                    webapp: {},
+                },
+            },
+            onFilterChange: jest.fn(),
+            actions: {
+                getPlugins: jest.fn(),
+            },
+        };
+
+        const context = {router: {}, intl};
+        const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, with license (without any explicit feature)', () => {
         const props = {
             license: {
@@ -115,6 +163,7 @@ describe('components/AdminSidebar', () => {
                     EnableUploads: true,
                 },
             },
+            adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',
@@ -161,9 +210,6 @@ describe('components/AdminSidebar', () => {
                 CustomPermissionsSchemes: 'true',
             },
             config: {
-                ServiceSettings: {
-                    ExperimentalLdapGroupSync: true,
-                },
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 },
@@ -172,6 +218,7 @@ describe('components/AdminSidebar', () => {
                     EnableUploads: true,
                 },
             },
+            adminDefinition: AdminDefinition,
             buildEnterpriseReady: true,
             navigationBlocked: false,
             siteName: 'test snap',
@@ -199,5 +246,143 @@ describe('components/AdminSidebar', () => {
         const context = {router: {}, intl};
         const wrapper = shallow(<AdminSidebar {...props}/>, {context});
         expect(wrapper).toMatchSnapshot();
+    });
+
+    describe('generateIndex', () => {
+        const props = {
+            license: {},
+            config: {
+                ServiceSettings: {
+                    ExperimentalLdapGroupSync: true,
+                },
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            adminDefinition: AdminDefinition,
+            buildEnterpriseReady: true,
+            navigationBlocked: false,
+            siteName: 'test snap',
+            plugins: {
+                'mattermost-autolink': samplePlugin1,
+            },
+            onFilterChange: jest.fn(),
+            actions: {
+                getPlugins: jest.fn(),
+            },
+        };
+
+        beforeEach(() => {
+            generateIndex.mockReset();
+        });
+
+        test('should refresh the index in case idx is already present and there is a change in plugins or adminDefinition prop', () => {
+            generateIndex.mockReturnValue(['mocked-index']);
+            const context = {router: {}, intl};
+            const wrapper = shallow(<AdminSidebar {...props}/>, {context, lifecycleExperimental: true});
+            wrapper.instance().idx = ['some value'];
+
+            expect(generateIndex).toHaveBeenCalledTimes(0);
+
+            wrapper.setProps({plugins: {}});
+            expect(generateIndex).toHaveBeenCalledTimes(1);
+
+            wrapper.setProps({adminDefinition: {}});
+            expect(generateIndex).toHaveBeenCalledTimes(2);
+        });
+
+        test('should not call the generate index in case of idx is not already present', () => {
+            generateIndex.mockReturnValue(['mocked-index']);
+            const context = {router: {}, intl};
+            const wrapper = shallow(<AdminSidebar {...props}/>, {context, lifecycleExperimental: true});
+
+            expect(generateIndex).toHaveBeenCalledTimes(0);
+
+            wrapper.setProps({plugins: {}});
+            expect(generateIndex).toHaveBeenCalledTimes(0);
+
+            wrapper.setProps({adminDefinition: {}});
+            expect(generateIndex).toHaveBeenCalledTimes(0);
+        });
+
+        test('should not generate index in case of same props', () => {
+            generateIndex.mockReturnValue(['mocked-index']);
+            const context = {router: {}, intl};
+            const wrapper = shallow(<AdminSidebar {...props}/>, {context, lifecycleExperimental: true});
+            wrapper.instance().idx = ['some value'];
+
+            expect(generateIndex).toHaveBeenCalledTimes(0);
+
+            wrapper.setProps({plugins: {
+                'mattermost-autolink': samplePlugin1,
+            }});
+            expect(generateIndex).toHaveBeenCalledTimes(0);
+
+            wrapper.setProps({adminDefinition: AdminDefinition});
+            expect(generateIndex).toHaveBeenCalledTimes(0);
+        });
+    });
+
+    describe('Plugins', () => {
+        const idx = {search: jest.fn()};
+
+        beforeEach(() => {
+            idx.search.mockReset();
+            generateIndex.mockReturnValue(idx);
+        });
+
+        const props = {
+            license: {},
+            config: {
+                ServiceSettings: {
+                    ExperimentalLdapGroupSync: true,
+                },
+                ExperimentalSettings: {
+                    RestrictSystemAdmin: false,
+                },
+                PluginSettings: {
+                    Enable: true,
+                    EnableUploads: true,
+                },
+            },
+            adminDefinition: AdminDefinition,
+            buildEnterpriseReady: true,
+            navigationBlocked: false,
+            siteName: 'test snap',
+            plugins: {
+                'mattermost-autolink': samplePlugin1,
+            },
+            onFilterChange: jest.fn(),
+            actions: {
+                getPlugins: jest.fn(),
+            },
+        };
+
+        test('should match snapshot', () => {
+            const context = {router: {}, intl};
+
+            const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should filter plugins', () => {
+            const context = {router: {}, intl};
+            const wrapper = shallow(<AdminSidebar {...props}/>, {context});
+
+            idx.search.mockReturnValue(['plugin_mattermost-autolink']);
+            wrapper.find('#adminSidebarFilter').simulate('change', {target: {value: 'autolink'}});
+
+            expect(wrapper.instance().state.sections).toEqual(['plugin_mattermost-autolink']);
+            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find('AdminSidebarCategory')).toHaveLength(1);
+            expect(wrapper.find('AdminSidebarSection')).toHaveLength(1);
+            const autoLinkPluginSection = wrapper.find('AdminSidebarSection').at(0);
+            expect(autoLinkPluginSection.prop('name')).toBe('plugins/plugin_mattermost-autolink');
+        });
     });
 });

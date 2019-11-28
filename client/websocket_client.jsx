@@ -184,6 +184,14 @@ export default class WebSocketClient {
         this.sendMessage('user_typing', data, callback);
     }
 
+    userUpdateActiveStatus(userIsActive, manual, callback) {
+        const data = {
+            user_is_active: userIsActive,
+            manual,
+        };
+        this.sendMessage('user_update_active_status', data, callback);
+    }
+
     getStatuses(callback) {
         this.sendMessage('get_statuses', null, callback);
     }

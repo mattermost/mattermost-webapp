@@ -8,7 +8,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {Client4} from 'mattermost-redux/client';
 
 import DeleteEmoji from 'components/emoji/delete_emoji_modal.jsx';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import AnyTeamPermissionGate from 'components/permissions_gates/any_team_permission_gate';
 
 export default class EmojiListItem extends React.Component {
     static propTypes = {
@@ -50,26 +50,17 @@ export default class EmojiListItem extends React.Component {
         let deleteButton = null;
         if (emoji.creator_id === this.props.currentUserId) {
             deleteButton = (
-                <TeamPermissionGate
-                    teamId={this.props.currentTeam.id}
-                    permissions={[Permissions.DELETE_EMOJIS]}
-                >
+                <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
                     <DeleteEmoji onDelete={this.handleDelete}/>
-                </TeamPermissionGate>
+                </AnyTeamPermissionGate>
             );
         } else {
             deleteButton = (
-                <TeamPermissionGate
-                    teamId={this.props.currentTeam.id}
-                    permissions={[Permissions.DELETE_EMOJIS]}
-                >
-                    <TeamPermissionGate
-                        teamId={this.props.currentTeam.id}
-                        permissions={[Permissions.DELETE_OTHERS_EMOJIS]}
-                    >
+                <AnyTeamPermissionGate permissions={[Permissions.DELETE_EMOJIS]}>
+                    <AnyTeamPermissionGate permissions={[Permissions.DELETE_OTHERS_EMOJIS]}>
                         <DeleteEmoji onDelete={this.handleDelete}/>
-                    </TeamPermissionGate>
-                </TeamPermissionGate>
+                    </AnyTeamPermissionGate>
+                </AnyTeamPermissionGate>
             );
         }
 

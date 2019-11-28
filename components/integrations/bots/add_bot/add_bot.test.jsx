@@ -5,6 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import TestHelper from 'tests/helpers/client-test-helper';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import AddBot from './add_bot.jsx';
 
@@ -35,6 +36,11 @@ describe('components/integrations/bots/AddBot', () => {
             <input
                 id='description'
                 value={''}
+            />
+        )).toEqual(true);
+        expect(wrapper.containsMatchingElement(
+            <FormattedMarkdownMessage
+                id='admin.manage_roles.additionalRoles'
             />
         )).toEqual(true);
     });

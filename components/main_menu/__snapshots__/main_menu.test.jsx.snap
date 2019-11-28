@@ -2,7 +2,7 @@
 
 exports[`components/Menu should match snapshot with id 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   id="test-id"
   mobile={false}
 >
@@ -36,51 +36,37 @@ exports[`components/Menu should match snapshot with id 1`] = `
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="team-id"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={false}
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={false}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemAction
-          icon={false}
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={false}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        extraText="Add or invite people to the team"
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
         show={true}
-        text="Add Members to Team"
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -102,14 +88,67 @@ exports[`components/Menu should match snapshot with id 1`] = `
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={[Function]}
+        icon={false}
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -158,14 +197,30 @@ exports[`components/Menu should match snapshot with id 1`] = `
         id="integrations"
         show={false}
         text="Integrations"
-        to="/team name/integrations"
+        to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
       text="Custom Emoji"
-      to="/team name/emoji"
+      to="/team_name/emoji"
     />
   </MenuGroup>
   <MenuGroup>
@@ -236,7 +291,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
 
 exports[`components/Menu should match snapshot with most of the thing disabled 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -269,51 +324,37 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="team-id"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={false}
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={false}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemAction
-          icon={false}
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={false}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        extraText="Add or invite people to the team"
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
         show={true}
-        text="Add Members to Team"
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -335,14 +376,67 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={[Function]}
+        icon={false}
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -391,14 +485,30 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         id="integrations"
         show={false}
         text="Integrations"
-        to="/team name/integrations"
+        to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
       text="Custom Emoji"
-      to="/team name/emoji"
+      to="/team_name/emoji"
     />
   </MenuGroup>
   <MenuGroup>
@@ -469,7 +579,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
 
 exports[`components/Menu should match snapshot with most of the thing disabled in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -516,52 +626,11 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="team-id"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={
-            <i
-              className="fa fa-user-plus"
-            />
-          }
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={false}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemAction
-          icon={
-            <i
-              className="fa fa-link"
-            />
-          }
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={false}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={
@@ -569,10 +638,33 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             className="fa fa-user-plus"
           />
         }
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        extraText="Add or invite people to the team"
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        id="invitePeople"
+        modalId="invitation"
         show={true}
-        text="Add Members to Team"
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -598,18 +690,79 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={
-        <i
-          className="fa fa-users"
-        />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
       }
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -666,14 +819,30 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="integrations"
         show={false}
         text="Integrations"
-        to="/team name/integrations"
+        to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
       text="Custom Emoji"
-      to="/team name/emoji"
+      to="/team_name/emoji"
     />
   </MenuGroup>
   <MenuGroup>
@@ -768,7 +937,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
 
 exports[`components/Menu should match snapshot with most of the thing enabled 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -801,51 +970,37 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="team-id"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={false}
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={true}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemAction
-          icon={false}
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={true}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        extraText="Add or invite people to the team"
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
         show={true}
-        text="Add Members to Team"
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -867,14 +1022,67 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={[Function]}
+        icon={false}
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -923,14 +1131,30 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         id="integrations"
         show={true}
         text="Integrations"
-        to="/team name/integrations"
+        to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={true}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={true}
       text="Custom Emoji"
-      to="/team name/emoji"
+      to="/team_name/emoji"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1001,7 +1225,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
 
 exports[`components/Menu should match snapshot with most of the thing enabled in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -1048,52 +1272,11 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="team-id"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={
-            <i
-              className="fa fa-user-plus"
-            />
-          }
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={true}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemAction
-          icon={
-            <i
-              className="fa fa-link"
-            />
-          }
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={true}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={
@@ -1101,10 +1284,33 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             className="fa fa-user-plus"
           />
         }
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        extraText="Add or invite people to the team"
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        id="invitePeople"
+        modalId="invitation"
         show={true}
-        text="Add Members to Team"
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1130,18 +1336,79 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={
-        <i
-          className="fa fa-users"
-        />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
       }
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -1198,14 +1465,30 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="integrations"
         show={false}
         text="Integrations"
-        to="/team name/integrations"
+        to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
       text="Custom Emoji"
-      to="/team name/emoji"
+      to="/team_name/emoji"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1300,7 +1583,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
 
 exports[`components/Menu should match snapshot with plugins 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={false}
 >
   <MenuGroup>
@@ -1333,51 +1616,37 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="team-id"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={false}
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={false}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemAction
-          icon={false}
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={false}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={false}
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        extraText="Add or invite people to the team"
+        icon={false}
+        id="invitePeople"
+        modalId="invitation"
         show={true}
-        text="Add Members to Team"
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1399,14 +1668,67 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={false}
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={[Function]}
+        icon={false}
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={false}
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -1472,14 +1794,30 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         id="integrations"
         show={false}
         text="Integrations"
-        to="/team name/integrations"
+        to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
       text="Custom Emoji"
-      to="/team name/emoji"
+      to="/team_name/emoji"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1550,7 +1888,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
 
 exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
 <Menu
-  ariaLabel="Main Menu"
+  ariaLabel="main menu"
   mobile={true}
 >
   <MenuGroup>
@@ -1597,52 +1935,11 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     <Connect(TeamPermissionGate)
       permissions={
         Array [
-          "add_user_to_team",
+          "manage_team",
         ]
       }
       teamId="team-id"
     >
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemToggleModalRedux
-          dialogType={[Function]}
-          icon={
-            <i
-              className="fa fa-user-plus"
-            />
-          }
-          id="sendEmailInvite"
-          modalId="email_invite"
-          show={false}
-          text="Send Email Invite"
-        />
-      </Connect(TeamPermissionGate)>
-      <Connect(TeamPermissionGate)
-        permissions={
-          Array [
-            "invite_user",
-          ]
-        }
-        teamId="team-id"
-      >
-        <MenuItemAction
-          icon={
-            <i
-              className="fa fa-link"
-            />
-          }
-          id="getTeamInviteLink"
-          onClick={[Function]}
-          show={false}
-          text="Get Team Invite Link"
-        />
-      </Connect(TeamPermissionGate)>
       <MenuItemToggleModalRedux
         dialogType={[Function]}
         icon={
@@ -1650,10 +1947,33 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             className="fa fa-user-plus"
           />
         }
-        id="addUsersToTeam"
-        modalId="add_user_to_team"
+        id="addGroupsToTeam"
+        modalId="add_groups_to_team"
+        show={false}
+        text="Add Groups to Team"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        extraText="Add or invite people to the team"
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        id="invitePeople"
+        modalId="invitation"
         show={true}
-        text="Add Members to Team"
+        text="Invite People"
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1679,18 +1999,79 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         text="Team Settings"
       />
     </Connect(TeamPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogType={[Function]}
-      icon={
-        <i
-          className="fa fa-users"
-        />
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_team",
+        ]
       }
-      id="manageMembers"
-      modalId="team_members"
-      show={true}
-      text="Manage Members"
-    />
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "teamID": "team-id",
+          }
+        }
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-user-plus"
+          />
+        }
+        id="manageGroups"
+        modalId="manage_team_groups"
+        show={false}
+        text="Manage Groups"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="manageMembers"
+        modalId="team_members"
+        show={true}
+        text="Manage Members"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      invert={true}
+      permissions={
+        Array [
+          "remove_user_from_team",
+          "manage_team_roles",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        icon={
+          <i
+            className="fa fa-users"
+          />
+        }
+        id="viewMembers"
+        modalId="team_members"
+        show={true}
+        text="View Members"
+      />
+    </Connect(TeamPermissionGate)>
+  </MenuGroup>
+  <MenuGroup>
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -1764,14 +2145,30 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="integrations"
         show={false}
         text="Integrations"
-        to="/team name/integrations"
+        to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
       text="Custom Emoji"
-      to="/team name/emoji"
+      to="/team_name/emoji"
     />
   </MenuGroup>
   <MenuGroup>

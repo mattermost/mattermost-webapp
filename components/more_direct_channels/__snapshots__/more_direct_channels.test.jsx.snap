@@ -7,11 +7,12 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
 >
   <ProfilePicture
     hasMention={false}
-    height="32"
+    isEmoji={false}
     isRHS={false}
+    size="md"
     src="/api/v4/users/user_id_1/image"
     status="online"
-    width="32"
+    wrapperClass=""
   />
   <div
     className="more-modal__details"
@@ -20,6 +21,14 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
       className="more-modal__name"
     >
       @undefined
+      <BotBadge
+        className="badge-popoverlist"
+        show={false}
+      />
+      <GuestBadge
+        className="badge-popoverlist"
+        show={false}
+      />
     </div>
     <div
       className="more-modal__description"
@@ -40,12 +49,14 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
 exports[`components/MoreDirectChannels should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="moreDmModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="more-modal more-direct-channels"
+  dialogClassName="a11y__modal more-modal more-direct-channels"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="moreDmModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -63,6 +74,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -72,7 +84,8 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="moreDmModalLabel"
     >
       <FormattedMessage
         defaultMessage="Direct Messages"
@@ -84,8 +97,10 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
   <ModalBody
     bsClass="modal-body"
     componentClass="div"
+    role="application"
   >
     <MultiSelect
+      ariaLabelRenderer={[Function]}
       buttonSubmitLoadingText="Loading.."
       buttonSubmitText="Go"
       handleAdd={[Function]}
@@ -113,18 +128,25 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           Object {
             "delete_at": 0,
             "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_3",
+            "label": "user_id_3",
+            "value": "user_id_3",
           },
         ]
       }
       perPage={50}
+      placeholderText="Search and add members"
       saving={false}
       submitImmediatelyOn={[Function]}
       users={
@@ -132,14 +154,20 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           Object {
             "delete_at": 0,
             "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_3",
+            "label": "user_id_3",
+            "value": "user_id_3",
           },
         ]
       }
@@ -148,14 +176,35 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
         Array [
           Object {
             "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
           },
           Object {
             "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
           },
         ]
       }
     />
   </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    className="modal-footer--invisible"
+    componentClass="div"
+  >
+    <button
+      className="btn btn-link"
+      id="closeModalButton"
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Close"
+        id="general_button.close"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
 </Modal>
 `;
 

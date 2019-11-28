@@ -3,9 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -16,15 +17,17 @@ import UserProfile from 'components/user_profile';
 import DateSeparator from 'components/post_view/date_separator';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
-import ArchiveIcon from 'components/svg/archive_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import PostTime from 'components/post_view/post_time';
 import {browserHistory} from 'utils/browser_history';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
-import Constants, {Locations} from 'utils/constants.jsx';
+import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class SearchResultsItem extends React.PureComponent {
+class SearchResultsItem extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -33,14 +36,19 @@ export default class SearchResultsItem extends React.PureComponent {
         post: PropTypes.object,
 
         /**
+         * The function to create an aria-label
+         */
+        createAriaLabel: PropTypes.func,
+
+        /**
         * An array of strings in this post that were matched by the search
         */
         matches: PropTypes.array,
 
-        /**
-        *  channel object for rendering channel name on top of result
-        */
-        channel: PropTypes.object,
+        channelId: PropTypes.string,
+        channelName: PropTypes.string,
+        channelType: PropTypes.string,
+        channelIsArchived: PropTypes.bool,
 
         /**
         *  Flag for determining result display setting
@@ -82,18 +90,27 @@ export default class SearchResultsItem extends React.PureComponent {
          */
         isBot: PropTypes.bool.isRequired,
 
+        a11yIndex: PropTypes.number,
+
         /**
         *  Function used for closing LHS
         */
         actions: PropTypes.shape({
             closeRightHandSide: PropTypes.func.isRequired,
             selectPost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
             setRhsExpanded: PropTypes.func.isRequired,
         }).isRequired,
+
+        /**
+         * react-intl helper object
+         */
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
         isBot: false,
+        channelIsArchived: false,
     };
 
     constructor(props) {
@@ -109,7 +126,8 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.selectPost(this.props.post);
     };
 
-    handleJumpClick = () => {
+    handleJumpClick = (e) => {
+        e.preventDefault();
         if (Utils.isMobile()) {
             this.props.actions.closeRightHandSide();
         }
@@ -117,6 +135,14 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.setRhsExpanded(false);
         browserHistory.push(`/${this.props.currentTeamName}/pl/${this.props.post.id}`);
     };
+
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -154,26 +180,29 @@ export default class SearchResultsItem extends React.PureComponent {
         return className;
     };
 
-    render() {
-        let channelName = null;
-        const {channel, post} = this.props;
+    handleSearchItemFocus = () => {
+        this.setState({currentAriaLabel: `${this.getChannelName()}, ${this.props.createAriaLabel(this.props.intl)}`});
+    }
 
-        const channelIsArchived = channel ? channel.delete_at !== 0 : true;
+    getChannelName = () => {
+        const {channelId, channelType} = this.props;
+        let {channelName} = this.props;
 
-        if (channel) {
-            channelName = channel.display_name;
-            if (channel.type === Constants.DM_CHANNEL) {
-                channelName = (
-                    <FormattedMessage
-                        id='search_item.direct'
-                        defaultMessage='Direct Message (with {username})'
-                        values={{
-                            username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channel.id)),
-                        }}
-                    />
-                );
-            }
+        if (channelType === Constants.DM_CHANNEL) {
+            channelName = this.props.intl.formatMessage({
+                id: 'search_item.direct',
+                defaultMessage: 'Direct Message (with {username})',
+            }, {
+                username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+            });
         }
+
+        return channelName;
+    }
+
+    render() {
+        const {post, channelIsArchived} = this.props;
+        const channelName = this.getChannelName();
 
         let overrideUsername;
         let disableProfilePopover = false;
@@ -183,18 +212,6 @@ export default class SearchResultsItem extends React.PureComponent {
             this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
             disableProfilePopover = true;
-        }
-
-        let botIndicator;
-        if (post.props && post.props.from_webhook && !this.props.isBot) {
-            botIndicator = (
-                <div className='bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
         }
 
         const profilePic = (
@@ -224,8 +241,9 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let message;
         let flagContent;
+        let postInfoIcon;
         let rhsControls;
-        if (post.state === Constants.POST_DELETED) {
+        if (post.state === Constants.POST_DELETED || post.state === Posts.POST_DELETED) {
             message = (
                 <p>
                     <FormattedMessage
@@ -242,6 +260,36 @@ export default class SearchResultsItem extends React.PureComponent {
                     isFlagged={this.props.isFlagged}
                 />
             );
+
+            if (post.props && post.props.card) {
+                postInfoIcon = (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={
+                            <Tooltip>
+                                <FormattedMessage
+                                    id='post_info.info.view_additional_info'
+                                    defaultMessage='View additional info'
+                                />
+                            </Tooltip>
+                        }
+                    >
+                        <button
+                            className='card-icon__container icon--show style--none'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                this.handleCardClick(this.props.post);
+                            }}
+                        >
+                            <InfoSmallIcon
+                                className='icon icon__info'
+                                aria-hidden='true'
+                            />
+                        </button>
+                    </OverlayTrigger>
+                );
+            }
 
             rhsControls = (
                 <div className='col__controls col__reply'>
@@ -260,6 +308,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         searchStyle={'search-item__comment'}
                     />
                     <a
+                        href='#'
                         onClick={this.handleJumpClick}
                         className='search-item__jump'
                     >
@@ -286,6 +335,7 @@ export default class SearchResultsItem extends React.PureComponent {
                             searchMatches: this.props.matches,
                             mentionHighlight: this.props.isMentionSearch,
                         }}
+                        isRHS='true'
                     />
                 </PostBodyAdditionalContent>
             );
@@ -306,10 +356,21 @@ export default class SearchResultsItem extends React.PureComponent {
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
 
         return (
-            <div className='search-item__container'>
+            <div
+                data-testid='search-item-container'
+                className='search-item__container'
+            >
                 <DateSeparator date={currentPostDay}/>
-                <div className={this.getClassName()}>
-                    <div className='search-channel__name'>
+                <div
+                    className={`a11y__section ${this.getClassName()}`}
+                    aria-label={this.state.currentAriaLabel}
+                    onFocus={this.handleSearchItemFocus}
+                    data-a11y-sort-order={this.props.a11yIndex}
+                >
+                    <div
+                        className='search-channel__name'
+                        aria-hidden='true'
+                    >
                         {channelName}
                         {channelIsArchived &&
                             <span className='search-channel__archived'>
@@ -321,24 +382,26 @@ export default class SearchResultsItem extends React.PureComponent {
                             </span>
                         }
                     </div>
-                    <div className='post__content'>
+                    <div
+                        role='application'
+                        className='post__content'
+                    >
                         {profilePicContainer}
                         <div>
                             <div className='post__header'>
                                 <div className='col col__name'>
-                                    <strong>
-                                        <UserProfile
-                                            userId={post.user_id}
-                                            overwriteName={overrideUsername}
-                                            disablePopover={disableProfilePopover}
-                                            isRHS={true}
-                                        />
-                                    </strong>
+                                    <UserProfile
+                                        userId={post.user_id}
+                                        overwriteName={overrideUsername}
+                                        disablePopover={disableProfilePopover}
+                                        isRHS={true}
+                                    />
+                                    <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 </div>
-                                {botIndicator}
                                 <div className='col'>
                                     {this.renderPostTime()}
                                     {pinnedBadge}
+                                    {postInfoIcon}
                                     {flagContent}
                                 </div>
                                 {rhsControls}
@@ -356,3 +419,5 @@ export default class SearchResultsItem extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(SearchResultsItem);

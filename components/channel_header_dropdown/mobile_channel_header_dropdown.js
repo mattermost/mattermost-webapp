@@ -22,6 +22,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
         user: PropTypes.object.isRequired,
         channel: PropTypes.object.isRequired,
         teammateId: PropTypes.string,
+        teammateIsBot: PropTypes.bool,
         teammateStatus: PropTypes.string,
     }
 
@@ -45,15 +46,20 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
     }
 
     render() {
-        const {
-            teammateStatus,
-        } = this.props;
+        const {teammateIsBot, teammateStatus} = this.props;
+        let dmHeaderIconStatus;
+
+        if (!teammateIsBot) {
+            dmHeaderIconStatus = (
+                <StatusIcon status={teammateStatus}/>
+            );
+        }
 
         return (
             <MenuWrapper animationComponent={MobileChannelHeaderDropdownAnimation}>
                 <a>
                     <span className='heading'>
-                        <StatusIcon status={teammateStatus}/>
+                        {dmHeaderIconStatus}
                         {this.getChannelTitle()}
                     </span>
                     <FormattedMessage
@@ -76,7 +82,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     {(ariaLabel) => (
                         <Menu ariaLabel={ariaLabel}>
                             <ChannelHeaderDropdownItems isMobile={true}/>
-                            <div className='close visible-xs-block'>
+                            <div className='Menu__close visible-xs-block'>
                                 {'×'}
                             </div>
                         </Menu>

@@ -8,10 +8,11 @@ import {FormattedMessage} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Locations} from 'utils/constants.jsx';
+import {Locations} from 'utils/constants';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
-import EmojiIcon from 'components/svg/emoji_icon';
+import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 
 const TOP_OFFSET = -7;
@@ -73,6 +74,7 @@ export default class PostReaction extends React.PureComponent {
                         onEmojiClick={this.handleAddEmoji}
                         topOffset={TOP_OFFSET}
                         spaceRequiredAbove={spaceRequiredAbove}
+                        n={true}
                         spaceRequiredBelow={spaceRequiredBelow}
                     />
                     <OverlayTrigger
@@ -93,6 +95,7 @@ export default class PostReaction extends React.PureComponent {
                     >
                         <button
                             id={`${location}_reaction_${postId}`}
+                            aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
                             className='reacticon__container color--link style--none'
                             onClick={this.props.toggleEmojiPicker}
                         >

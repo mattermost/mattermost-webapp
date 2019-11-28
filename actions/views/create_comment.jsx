@@ -22,13 +22,13 @@ import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions.jsx';
 import {executeCommand} from 'actions/command';
-import {runMessageWillBePostedHooks} from 'actions/hooks';
+import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (key, value) => {
@@ -81,6 +81,8 @@ export function submitPost(channelId, rootId, draft) {
             pending_post_id: `${userId}:${time}`,
             user_id: userId,
             create_at: time,
+            metadata: {},
+            props: {},
         };
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));
@@ -110,24 +112,36 @@ export function submitCommand(channelId, rootId, draft) {
 
         const teamId = getCurrentTeamId(state);
 
-        const args = {
+        let args = {
             channel_id: channelId,
             team_id: teamId,
             root_id: rootId,
             parent_id: rootId,
         };
 
-        const {message} = draft;
+        let {message} = draft;
+
+        const hookResult = await dispatch(runSlashCommandWillBePostedHooks(message, args));
+        if (hookResult.error) {
+            return {error: hookResult.error};
+        } else if (!hookResult.data.message && !hookResult.data.args) {
+            // do nothing with an empty return from a hook
+            return {};
+        }
+
+        message = hookResult.data.message;
+        args = hookResult.data.args;
 
         const {error} = await dispatch(executeCommand(message, args));
 
         if (error) {
             if (error.sendMessage) {
-                await dispatch(submitPost(channelId, rootId, draft));
-            } else {
-                throw (error);
+                return dispatch(submitPost(channelId, rootId, draft));
             }
+            throw (error);
         }
+
+        return {};
     };
 }
 
@@ -193,7 +207,7 @@ function makeGetCurrentUsersLatestPost(channelId, rootId) {
             }
 
             return lastPost;
-        }
+        },
     );
 }
 
@@ -215,7 +229,7 @@ export function makeOnEditLatestPost(channelId, rootId) {
             getCommentCount(state, {post: lastPost}),
             'reply_textbox',
             Utils.localizeMessage('create_comment.commentTitle', 'Comment'),
-            true
+            true,
         ));
     };
 }

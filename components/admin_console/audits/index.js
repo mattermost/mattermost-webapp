@@ -11,7 +11,7 @@ import Audits from './audits.jsx';
 
 function mapStateToProps(state) {
     const license = getLicense(state);
-    const isLicensed = license.IsLicensed === 'true';
+    const isLicensed = license.Compliance === 'true';
 
     return {
         isLicensed,

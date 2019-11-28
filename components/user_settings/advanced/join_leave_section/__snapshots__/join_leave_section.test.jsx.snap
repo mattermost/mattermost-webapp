@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/user_settings/advanced/JoinLeaveSection should match snapshot 1`] = `
-<SettingItemMin
-  focused={false}
+<Connect(SettingItemMin)
   section="joinLeave"
   title={
     <FormattedMessage
@@ -21,7 +20,16 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
   infoPosition="bottom"
   inputs={
     Array [
-      <div>
+      <fieldset>
+        <legend
+          className="form-legend hidden-label"
+        >
+          <FormattedMessage
+            defaultMessage="Enable Join/Leave Messages"
+            id="user.settings.advance.joinLeaveTitle"
+            values={Object {}}
+          />
+        </legend>
         <div
           className="radio"
         >
@@ -62,15 +70,16 @@ exports[`components/user_settings/advanced/JoinLeaveSection should match snapsho
           </label>
           <br />
         </div>
-        <div>
-          <br />
+        <div
+          className="margin-top x3"
+        >
           <FormattedMessage
             defaultMessage="When \\"On\\", System Messages saying a user has joined or left a channel will be visible. When \\"Off\\", the System Messages about joining or leaving a channel will be hidden. A message will still show up when you are added to a channel, so you can receive a notification."
             id="user.settings.advance.joinLeaveDesc"
             values={Object {}}
           />
         </div>
-      </div>,
+      </fieldset>,
     ]
   }
   saving={false}

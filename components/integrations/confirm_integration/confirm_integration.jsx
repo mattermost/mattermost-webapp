@@ -8,9 +8,9 @@ import {Link} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants.jsx';
-import CopyText from 'components/copy_text.jsx';
+import CopyText from 'components/copy_text';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class ConfirmIntegration extends React.Component {
@@ -113,7 +113,7 @@ export default class ConfirmIntegration extends React.Component {
                         id='add_incoming_webhook.url'
                         defaultMessage='**URL**: {url}'
                         values={{
-                            url: incomingHookToken,
+                            url: '`' + incomingHookToken + '`',
                         }}
                     />
                     <CopyText
@@ -256,6 +256,12 @@ export default class ConfirmIntegration extends React.Component {
                     <CopyText
                         value={botToken}
                     />
+                    <br/>
+                    <br/>
+                    <FormattedMarkdownMessage
+                        id='add_outgoing_webhook.token.message'
+                        defaultMessage='Make sure to add this bot account to teams and channels you want it to interact in. See [documentation](https://mattermost.com/pl/default-bot-accounts) to learn more.'
+                    />
                 </p>
             );
         } else {
@@ -275,7 +281,10 @@ export default class ConfirmIntegration extends React.Component {
                     />
                 </BackstageHeader>
                 <div className='backstage-form backstage-form__confirmation'>
-                    <h4 className='backstage-form__title'>
+                    <h4
+                        className='backstage-form__title'
+                        id='formTitle'
+                    >
                         <FormattedMessage
                             id='integrations.successful'
                             defaultMessage='Setup Successful'
@@ -288,6 +297,7 @@ export default class ConfirmIntegration extends React.Component {
                             className='btn btn-primary'
                             type='submit'
                             to={'/' + this.props.team.name + '/integrations/' + this.state.type}
+                            id='doneButton'
                         >
                             <FormattedMessage
                                 id='integrations.done'

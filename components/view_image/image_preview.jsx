@@ -21,7 +21,10 @@ export default function ImagePreview({fileInfo, canDownloadFiles}) {
             rel='noopener noreferrer'
             download={true}
         >
-            <img src={previewUrl}/>
+            <img
+                alt={'preview url image'}
+                src={previewUrl}
+            />
         </a>
     );
 }

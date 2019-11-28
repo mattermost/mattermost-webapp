@@ -3,9 +3,11 @@
 exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="removeFromChannelModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
+  dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -25,6 +27,7 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -34,7 +37,8 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="removeFromChannelModalLabel"
     >
       <FormattedMessage
         defaultMessage="Removed from "
@@ -71,6 +75,7 @@ exports[`components/RemoveFromChannelModal should match snapshot 1`] = `
   >
     <button
       className="btn btn-primary"
+      id="removedChannelBtn"
       onClick={[Function]}
       type="button"
     >

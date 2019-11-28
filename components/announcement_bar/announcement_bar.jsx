@@ -3,8 +3,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 
-import {AnnouncementBarTypes} from 'utils/constants.jsx';
+import {Constants, AnnouncementBarTypes} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class AnnouncementBar extends React.PureComponent {
@@ -25,23 +26,21 @@ export default class AnnouncementBar extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.setBodyClass(!this.props.showCloseButton);
+        let announcementBarCount = document.body.getAttribute('announcementBarCount') || 0;
+        announcementBarCount++;
+        document.body.classList.add('announcement-bar--fixed');
+
+        // keeping a track of mounted AnnouncementBars so that on the last AnnouncementBars unmount we can remove the class on body
+        document.body.setAttribute('announcementBarCount', announcementBarCount);
     }
 
     componentWillUnmount() {
-        document.body.classList.remove('announcement-bar--fixed');
-    }
+        let announcementBarCount = document.body.getAttribute('announcementBarCount');
+        announcementBarCount--;
+        document.body.setAttribute('announcementBarCount', announcementBarCount);
 
-    componentDidUpdate(prevProps) {
-        if (this.props.showCloseButton !== prevProps.showCloseButton) {
-            this.setBodyClass(!this.props.showCloseButton);
-        }
-    }
-
-    setBodyClass = (fixed) => {
-        if (fixed) {
-            document.body.classList.add('announcement-bar--fixed');
-        } else {
+        // remove the class on body as it is the last announcementBar
+        if (announcementBarCount === 0) {
             document.body.classList.remove('announcement-bar--fixed');
         }
     }
@@ -59,7 +58,6 @@ export default class AnnouncementBar extends React.PureComponent {
         }
 
         let barClass = 'announcement-bar';
-        let dismissClass = ' announcement-bar--fixed';
         const barStyle = {};
         const linkStyle = {};
         if (this.props.color && this.props.textColor) {
@@ -76,7 +74,6 @@ export default class AnnouncementBar extends React.PureComponent {
 
         let closeButton;
         if (this.props.showCloseButton) {
-            dismissClass = '';
             closeButton = (
                 <a
                     href='#'
@@ -96,14 +93,26 @@ export default class AnnouncementBar extends React.PureComponent {
             );
         }
 
+        const announcementTooltip = (
+            <Tooltip id='announcement-bar__tooltip'>
+                {message}
+            </Tooltip>
+        );
+
         return (
             <div
-                className={barClass + dismissClass}
+                className={barClass}
                 style={barStyle}
             >
-                <span>
-                    {message}
-                </span>
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='bottom'
+                    overlay={announcementTooltip}
+                >
+                    <span>
+                        {message}
+                    </span>
+                </OverlayTrigger>
                 {closeButton}
             </div>
         );

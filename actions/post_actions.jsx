@@ -14,14 +14,14 @@ import * as StorageActions from 'actions/storage';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import * as RhsActions from 'actions/views/rhs';
 import {isEmbedVisible} from 'selectors/posts';
-import {getSelectedPostId, getRhsState} from 'selectors/rhs';
+import {getSelectedPostId, getSelectedPostCardId, getRhsState} from 'selectors/rhs';
 import {
     ActionTypes,
     Constants,
     RHSStates,
     StoragePrefixes,
 } from 'utils/constants';
-import {EMOJI_PATTERN} from 'utils/emoticons.jsx';
+import {matchEmoticons} from 'utils/emoticons';
 import * as UserAgent from 'utils/user_agent';
 
 import {completePostReceive} from './post_utils';
@@ -83,7 +83,7 @@ export function unflagPost(postId) {
 export function createPost(post, files) {
     return async (dispatch) => {
         // parse message and emit emoji event
-        const emojis = post.message.match(EMOJI_PATTERN);
+        const emojis = matchEmoticons(post.message);
         if (emojis) {
             for (const emoji of emojis) {
                 const trimmed = emoji.substring(1, emoji.length - 1);
@@ -225,6 +225,14 @@ export function setEditingPost(postId = '', commentCount = 0, refocusId = '', ti
     };
 }
 
+export function markPostAsUnread(post) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const userId = getCurrentUserId(state);
+        await dispatch(PostActions.setUnreadPost(userId, post.id));
+    };
+}
+
 export function hideEditPostModal() {
     return {
         type: ActionTypes.HIDE_EDIT_POST_MODAL,
@@ -243,6 +251,15 @@ export function deleteAndRemovePost(post) {
                 type: ActionTypes.SELECT_POST,
                 postId: '',
                 channelId: '',
+                timestamp: 0,
+            });
+        }
+
+        if (post.id === getSelectedPostCardId(getState())) {
+            dispatch({
+                type: ActionTypes.SELECT_POST_CARD,
+                postId: '',
+                channelId: '',
             });
         }
 
@@ -254,9 +271,11 @@ export function deleteAndRemovePost(post) {
 
 export function toggleEmbedVisibility(postId) {
     return (dispatch, getState) => {
-        const visible = isEmbedVisible(getState(), postId);
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const visible = isEmbedVisible(state, postId);
 
-        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + postId, !visible));
+        dispatch(StorageActions.setGlobalItem(StoragePrefixes.EMBED_VISIBLE + currentUserId + '_' + postId, !visible));
     };
 }
 

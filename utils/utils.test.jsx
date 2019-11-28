@@ -104,6 +104,9 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
     const userH = {id: 'h', username: 'h_user', nickname: 'ch_nickname', first_name: 'c_first_name', last_name: 'ch_last_name'};
     const userI = {id: 'i', username: 'i_user', nickname: 'bi_nickname', first_name: 'c_first_name', last_name: 'bi_last_name'};
     const userJ = {id: 'j', username: 'j_user', nickname: 'aj_nickname', first_name: 'c_first_name', last_name: 'aj_last_name'};
+    const userK = {id: 'k', username: 'k_bot', nickname: 'ak_nickname', first_name: 'a_first_name', last_name: 'aABot_last_name', is_bot: true};
+    const userL = {id: 'l', username: 'l_bot', nickname: 'al_nickname', first_name: 'b_first_name', last_name: 'aBBot_last_name', is_bot: true};
+    const userM = {id: 'm', username: 'm_bot', nickname: 'am_nickname', first_name: 'c_first_name', last_name: 'aCBot_last_name', is_bot: true};
     const statusesByUserId = {
         a: 'dnd',
         b: 'away',
@@ -115,6 +118,9 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
         h: 'away',
         i: 'offline',
         j: 'online',
+        k: 'offline',
+        l: 'offline',
+        m: 'offline',
     };
 
     test('Users sort by status and displayname, TeammateNameDisplay set to username', () => {
@@ -127,16 +133,16 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
 
         for (const data of [
             {
-                users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userE, userF, userB, userA, userC],
+                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
+                result: [userD, userE, userF, userB, userA, userC, userK, userL, userM],
             },
             {
-                users: [userJ, userI, userH, userG, userF, userE],
-                result: [userE, userF, userJ, userH, userG, userI],
+                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
+                result: [userE, userF, userJ, userH, userG, userI, userK, userL, userM],
             },
             {
-                users: [userJ, userF, userE, userD],
-                result: [userD, userE, userF, userJ],
+                users: [userL, userM, userK, userJ, userF, userE, userD],
+                result: [userD, userE, userF, userJ, userK, userL, userM],
             },
         ]) {
             const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
@@ -156,16 +162,16 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
 
         for (const data of [
             {
-                users: [userF, userA, userB, userC, userD, userE],
-                result: [userF, userE, userD, userB, userA, userC],
+                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
+                result: [userF, userE, userD, userB, userA, userC, userK, userL, userM],
             },
             {
-                users: [userJ, userI, userH, userG, userF, userE],
-                result: [userJ, userF, userE, userH, userG, userI],
+                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
+                result: [userJ, userF, userE, userH, userG, userI, userK, userL, userM],
             },
             {
-                users: [userJ, userF, userE, userD],
-                result: [userJ, userF, userE, userD],
+                users: [userL, userM, userK, userJ, userF, userE, userD],
+                result: [userJ, userF, userE, userD, userK, userL, userM],
             },
         ]) {
             const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
@@ -185,16 +191,16 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
 
         for (const data of [
             {
-                users: [userF, userA, userB, userC, userD, userE],
-                result: [userD, userF, userE, userB, userA, userC],
+                users: [userM, userK, userL, userF, userA, userB, userC, userD, userE],
+                result: [userD, userF, userE, userB, userA, userC, userK, userL, userM],
             },
             {
-                users: [userJ, userI, userH, userG, userF, userE],
-                result: [userF, userE, userJ, userH, userG, userI],
+                users: [userM, userL, userK, userJ, userI, userH, userG, userF, userE],
+                result: [userF, userE, userJ, userH, userG, userI, userK, userL, userM],
             },
             {
-                users: [userJ, userF, userE, userD],
-                result: [userD, userF, userE, userJ],
+                users: [userL, userM, userK, userJ, userF, userE, userD],
+                result: [userD, userF, userE, userJ, userK, userL, userM],
             },
         ]) {
             const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);

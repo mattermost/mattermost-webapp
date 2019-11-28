@@ -3,10 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider.jsx';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
@@ -16,10 +16,11 @@ import SearchDateProvider from 'components/suggestion/search_date_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
-import FlagIcon from 'components/svg/flag_icon';
-import MentionsIcon from 'components/svg/mentions_icon';
-import SearchIcon from 'components/svg/search_icon';
-import LoadingSpinner from 'components/widgets/loading/loading_spinner.jsx';
+import FlagIcon from 'components/widgets/icons/flag_icon';
+import MentionsIcon from 'components/widgets/icons/mentions_icon';
+import SearchIcon from 'components/widgets/icons/search_icon';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import Popover from 'components/widgets/popover';
 
 const {KeyCodes} = Constants;
 
@@ -37,6 +38,7 @@ export default class SearchBar extends React.Component {
             showMentions: PropTypes.func,
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func,
+            autocompleteChannelsForSearch: PropTypes.func.isRequired,
         }),
     };
 
@@ -45,14 +47,14 @@ export default class SearchBar extends React.Component {
         isFocus: false,
     };
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             focused: false,
         };
 
-        this.suggestionProviders = [new SearchChannelProvider(), new SearchUserProvider(), new SearchDateProvider()];
+        this.suggestionProviders = [new SearchChannelProvider(props.actions.autocompleteChannelsForSearch), new SearchUserProvider(), new SearchDateProvider()];
     }
 
     componentDidMount() {
@@ -147,6 +149,10 @@ export default class SearchBar extends React.Component {
     }
 
     renderHintPopover() {
+        if (Utils.isMobile()) {
+            return null;
+        }
+
         let helpClass = 'search-help-popover';
         if (!this.props.searchTerms && this.state.focused) {
             helpClass += ' visible';
@@ -181,6 +187,7 @@ export default class SearchBar extends React.Component {
                             aria-hidden='true'
                         />
                     }
+                    ariaLabel={true}
                     buttonClass={'channel-header__icon style--none ' + mentionBtnClass}
                     buttonId={'channelHeaderMentionButton'}
                     onClick={this.searchMentions}
@@ -195,6 +202,7 @@ export default class SearchBar extends React.Component {
                     iconComponent={
                         <FlagIcon className='icon icon__flag'/>
                     }
+                    ariaLabel={true}
                     buttonClass={'channel-header__icon style--none ' + flagBtnClass}
                     buttonId={'channelHeaderFlagButton'}
                     onClick={this.getFlagged}
@@ -245,21 +253,23 @@ export default class SearchBar extends React.Component {
                     className='search-form__container'
                 >
                     <form
-                        role='form'
+                        role='application'
                         className={searchFormClass}
                         onSubmit={this.handleSubmit}
                         style={style.searchForm}
                         autoComplete='off'
                     >
                         <SearchIcon
-                            id='searchIcon'
                             className='search__icon'
                             aria-hidden='true'
                         />
                         <SuggestionBox
-                            id='searchBox'
                             ref={this.getSearch}
-                            className='search-bar'
+                            id='searchBox'
+                            tabIndex='0'
+                            className='search-bar a11y__region'
+                            data-a11y-sort-order='8'
+                            aria-describedby='searchbar-help-popup'
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
@@ -281,7 +291,6 @@ export default class SearchBar extends React.Component {
                                 onClick={this.handleClear}
                             >
                                 <OverlayTrigger
-                                    trigger={['hover', 'focus']}
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='bottom'
                                     overlay={searchClearTooltip}

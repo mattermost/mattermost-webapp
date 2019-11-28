@@ -16,7 +16,7 @@ function mapStateToProps(state, ownProps) {
         canDownloadFiles: canDownloadFiles(config),
         enablePublicLink: config.EnablePublicLink === 'true',
         pluginFilePreviewComponents: state.plugins.components.FilePreview,
-        post: getPost(state, ownProps.postId),
+        post: ownProps.post || getPost(state, ownProps.postId),
     };
 }
 

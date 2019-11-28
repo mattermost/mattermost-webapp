@@ -19,7 +19,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
-    getCurrentUser,
     getCurrentUserId,
     getUserIdsInChannels,
     getUser,
@@ -35,39 +34,23 @@ import {
     isUnreadChannel,
 } from 'mattermost-redux/utils/channel_utils';
 
-import {FormattedMessage} from 'react-intl';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import Avatar from 'components/widgets/users/avatar';
 
-import DraftIcon from 'components/svg/draft_icon';
-import GlobeIcon from 'components/svg/globe_icon';
-import LockIcon from 'components/svg/lock_icon';
-import ArchiveIcon from 'components/svg/archive_icon';
+import DraftIcon from 'components/widgets/icons/draft_icon';
+import GlobeIcon from 'components/widgets/icons/globe_icon';
+import LockIcon from 'components/widgets/icons/lock_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
-import {Constants, StoragePrefixes} from 'utils/constants.jsx';
+import {Constants, StoragePrefixes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
 
 const getState = store.getState;
-
-function getChannelDisplayName(channel) {
-    if (channel.type !== Constants.GM_CHANNEL) {
-        return channel.display_name;
-    }
-
-    const currentUser = getCurrentUser(getState());
-
-    if (currentUser) {
-        return channel.display_name.
-            split(',').
-            map((username) => username.trim()).
-            filter((username) => username !== currentUser.username).
-            join(', ');
-    }
-
-    return channel.display_name;
-}
 
 class SwitchChannelSuggestion extends Suggestion {
     static get propTypes() {
@@ -96,7 +79,7 @@ class SwitchChannelSuggestion extends Suggestion {
             className += ' suggestion--selected';
         }
 
-        let displayName = channel.display_name;
+        const displayName = channel.display_name;
         let icon = null;
         if (channelIsArchived) {
             icon = (
@@ -115,14 +98,13 @@ class SwitchChannelSuggestion extends Suggestion {
                 <LockIcon className='icon icon__lock icon--body'/>
             );
         } else if (channel.type === Constants.GM_CHANNEL) {
-            displayName = getChannelDisplayName(channel);
             icon = <div className='status status--group'>{'G'}</div>;
         } else {
             icon = (
                 <div className='pull-left'>
-                    <img
-                        className='mention__image'
-                        src={Utils.imageURLForUser(channel.userId)}
+                    <Avatar
+                        size='xs'
+                        url={Utils.imageURLForUser(channel.userId)}
                     />
                 </div>
             );
@@ -131,16 +113,21 @@ class SwitchChannelSuggestion extends Suggestion {
         let tag = null;
         if (channel.type === Constants.DM_CHANNEL) {
             var teammate = Utils.getDirectTeammate(channel.id);
-            if (teammate && teammate.is_bot) {
-                tag = (
-                    <div className='bot-indicator bot-indicator__autocomplete'>
-                        <FormattedMessage
-                            id='post_info.bot'
-                            defaultMessage='BOT'
-                        />
-                    </div>
-                );
+            if (Utils.isEmptyObject(teammate)) {
+                teammate = getUser(getState(), channel.userId);
             }
+            tag = (
+                <React.Fragment>
+                    <BotBadge
+                        show={Boolean(teammate && teammate.is_bot)}
+                        className='badge-autocomplete'
+                    />
+                    <GuestBadge
+                        show={Boolean(teammate && Utils.isGuest(teammate))}
+                        className='badge-autocomplete'
+                    />
+                </React.Fragment>
+            );
         }
 
         return (
@@ -148,10 +135,11 @@ class SwitchChannelSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 className={className}
                 id={`switchChannel_${channel.name}`}
+                data-testid={channel.name}
                 {...Suggestion.baseProps}
             >
                 {icon}
-                {displayName}
+                <span>{displayName}</span>
                 {tag}
                 {badge}
             </div>
@@ -195,8 +183,8 @@ function quickSwitchSorter(wrappedA, wrappedB) {
     const a = wrappedA.channel;
     const b = wrappedB.channel;
 
-    let aDisplayName = getChannelDisplayName(a).toLowerCase();
-    let bDisplayName = getChannelDisplayName(b).toLowerCase();
+    let aDisplayName = a.display_name.toLowerCase();
+    let bDisplayName = b.display_name.toLowerCase();
 
     if (a.type === Constants.DM_CHANNEL) {
         aDisplayName = aDisplayName.substring(1);
@@ -389,7 +377,7 @@ export default class SwitchChannelProvider extends Provider {
                 } else if (channelIsArchived && !members[channel.id]) {
                     continue;
                 } else if (newChannel.type === Constants.GM_CHANNEL) {
-                    newChannel.name = getChannelDisplayName(newChannel);
+                    newChannel.name = newChannel.display_name;
                     wrappedChannel.name = newChannel.name;
                     const isGMVisible = isGroupChannelVisible(config, getMyPreferences(state), channel, getLastPostPerChannel(state)[channel.id], isUnreadChannel(getMyChannelMemberships(state), channel));
                     if (isGMVisible) {
@@ -490,7 +478,7 @@ export default class SwitchChannelProvider extends Provider {
 
             let wrappedChannel = {channel, name: channel.name, deactivated: false};
             if (channel.type === Constants.GM_CHANNEL) {
-                wrappedChannel.name = getChannelDisplayName(channel);
+                wrappedChannel.name = channel.display_name;
             } else if (channel.type === Constants.DM_CHANNEL) {
                 const user = getUser(getState(), Utils.getUserIdFromChannelId(channel.name));
 

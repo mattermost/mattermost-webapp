@@ -45,7 +45,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   saving={false}
   sendEmailNotifications={true}
   serverError=""
-  siteName="Mattermost"
   updateSection={[MockFunction]}
 >
   <SettingItemMax
@@ -53,14 +52,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     infoPosition="bottom"
     inputs={
       Array [
-        <div>
-          <label>
+        <fieldset>
+          <legend
+            className="form-legend"
+          >
             <FormattedMessage
               defaultMessage="Send email notifications"
               id="user.settings.notifications.email.send"
               values={Object {}}
             />
-          </label>
+          </legend>
           <div
             className="radio"
           >
@@ -101,20 +102,17 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               />
             </label>
           </div>
-          <br />
-          <div>
+          <div
+            className="margin-top x2"
+          >
             <FormattedMessage
-              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
-              values={
-                Object {
-                  "siteName": "Mattermost",
-                }
-              }
+              values={Object {}}
             />
              
           </div>
-        </div>,
+        </fieldset>,
       ]
     }
     saving={false}
@@ -138,14 +136,19 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <ul
           className="setting-list"
+          role="presentation"
+          tabIndex="-1"
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
-            <div
+            <fieldset
               key="userNotificationEmailOptions"
             >
-              <label>
+              <legend
+                className="form-legend"
+              >
                 <FormattedMessage
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
@@ -155,7 +158,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     Send email notifications
                   </span>
                 </FormattedMessage>
-              </label>
+              </legend>
               <div
                 className="radio"
               >
@@ -204,24 +207,21 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </FormattedMessage>
                 </label>
               </div>
-              <br />
-              <div>
+              <div
+                className="margin-top x2"
+              >
                 <FormattedMessage
-                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
-                  values={
-                    Object {
-                      "siteName": "Mattermost",
-                    }
-                  }
+                  values={Object {}}
                 >
                   <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                    Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
                   </span>
                 </FormattedMessage>
                  
               </div>
-            </div>
+            </fieldset>
           </li>
           <li
             className="setting-list-item"
@@ -245,12 +245,14 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
             <button
-              className="btn btn-sm cursor--pointer style--none"
+              className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
               onClick={[Function]}
             >
@@ -273,7 +275,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications !== true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="Email notifications are not enabled"
@@ -281,7 +283,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       values={Object {}}
     />
   }
-  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
@@ -289,7 +290,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email and SendEmailNotifications = true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="Never"
@@ -297,7 +298,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       values={Object {}}
     />
   }
-  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
@@ -305,7 +305,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 `;
 
 exports[`components/user_settings/notifications/EmailNotificationSetting should match snapshot, active section != email, SendEmailNotifications = true and enableEmail = true 1`] = `
-<SettingItemMin
+<Connect(SettingItemMin)
   describe={
     <FormattedMessage
       defaultMessage="Never"
@@ -313,7 +313,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       values={Object {}}
     />
   }
-  focused={false}
   section="email"
   title="Email notifications"
   updateSection={[Function]}
@@ -365,7 +364,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   saving={false}
   sendEmailNotifications={true}
   serverError=""
-  siteName="Mattermost"
   updateSection={[MockFunction]}
 >
   <SettingItemMax
@@ -373,14 +371,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     infoPosition="bottom"
     inputs={
       Array [
-        <div>
-          <label>
+        <fieldset>
+          <legend
+            className="form-legend"
+          >
             <FormattedMessage
               defaultMessage="Send email notifications"
               id="user.settings.notifications.email.send"
               values={Object {}}
             />
-          </label>
+          </legend>
           <div
             className="radio"
           >
@@ -401,7 +401,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               />
             </label>
           </div>
-          <div>
+          <fieldset>
             <div
               className="radio"
             >
@@ -446,7 +446,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 />
               </label>
             </div>
-          </div>
+          </fieldset>
           <div
             className="radio"
           >
@@ -467,16 +467,13 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               />
             </label>
           </div>
-          <br />
-          <div>
+          <div
+            className="margin-top x2"
+          >
             <FormattedMessage
-              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
-              values={
-                Object {
-                  "siteName": "Mattermost",
-                }
-              }
+              values={Object {}}
             />
              
             <FormattedMessage
@@ -485,7 +482,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               values={Object {}}
             />
           </div>
-        </div>,
+        </fieldset>,
       ]
     }
     saving={false}
@@ -509,14 +506,19 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
       >
         <ul
           className="setting-list"
+          role="presentation"
+          tabIndex="-1"
         >
           <li
             className="setting-list-item"
+            role="presentation"
           >
-            <div
+            <fieldset
               key="userNotificationEmailOptions"
             >
-              <label>
+              <legend
+                className="form-legend"
+              >
                 <FormattedMessage
                   defaultMessage="Send email notifications"
                   id="user.settings.notifications.email.send"
@@ -526,7 +528,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     Send email notifications
                   </span>
                 </FormattedMessage>
-              </label>
+              </legend>
               <div
                 className="radio"
               >
@@ -551,7 +553,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </FormattedMessage>
                 </label>
               </div>
-              <div>
+              <fieldset>
                 <div
                   className="radio"
                 >
@@ -604,7 +606,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     </FormattedMessage>
                   </label>
                 </div>
-              </div>
+              </fieldset>
               <div
                 className="radio"
               >
@@ -629,19 +631,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </FormattedMessage>
                 </label>
               </div>
-              <br />
-              <div>
+              <div
+                className="margin-top x2"
+              >
                 <FormattedMessage
-                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
-                  values={
-                    Object {
-                      "siteName": "Mattermost",
-                    }
-                  }
+                  values={Object {}}
                 >
                   <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                    Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
                   </span>
                 </FormattedMessage>
                  
@@ -655,7 +654,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   </span>
                 </FormattedMessage>
               </div>
-            </div>
+            </fieldset>
           </li>
           <li
             className="setting-list-item"
@@ -679,12 +678,14 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                   loading={false}
                   text="Saving"
                 >
-                  Save
+                  <span>
+                    Save
+                  </span>
                 </LoadingWrapper>
               </button>
             </SaveButton>
             <button
-              className="btn btn-sm cursor--pointer style--none"
+              className="btn btn-sm btn-cancel cursor--pointer style--none"
               id="cancelSetting"
               onClick={[Function]}
             >
@@ -737,14 +738,16 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   infoPosition="bottom"
   inputs={
     Array [
-      <div>
-        <label>
+      <fieldset>
+        <legend
+          className="form-legend"
+        >
           <FormattedMessage
             defaultMessage="Send email notifications"
             id="user.settings.notifications.email.send"
             values={Object {}}
           />
-        </label>
+        </legend>
         <div
           className="radio"
         >
@@ -785,20 +788,17 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             />
           </label>
         </div>
-        <br />
-        <div>
+        <div
+          className="margin-top x2"
+        >
           <FormattedMessage
-            defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+            defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
             id="user.settings.notifications.emailInfo"
-            values={
-              Object {
-                "siteName": "Mattermost",
-              }
-            }
+            values={Object {}}
           />
            
         </div>
-      </div>,
+      </fieldset>,
     ]
   }
   saving={false}

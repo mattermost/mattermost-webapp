@@ -6,6 +6,8 @@ import {shallow} from 'enzyme';
 
 import {FormattedMessage} from 'react-intl';
 
+import Markdown from 'components/markdown';
+
 import TestHelper from 'tests/helpers/client-test-helper';
 
 import Bot from './bot.jsx';
@@ -25,26 +27,28 @@ describe('components/integrations/bots/Bot', () => {
         );
 
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
-        expect(wrapper.contains(bot.description)).toEqual(true);
+        expect(wrapper.contains(<Markdown message={bot.description}/>)).toEqual(true);
         expect(wrapper.contains('plugin')).toEqual(true);
+
+        // if bot managed by plugin, remove ability to edit from UI
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.create_token'
                 defaultMessage='Create New Token'
             />
-        )).toEqual(true);
+        )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bots.manage.edit'
                 defaultMessage='Edit'
             />
-        )).toEqual(true);
+        )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.disable'
                 defaultMessage='Disable'
             />
-        )).toEqual(true);
+        )).toEqual(false);
         expect(wrapper.contains(
             <FormattedMessage
                 id='bot.manage.enable'
@@ -65,7 +69,7 @@ describe('components/integrations/bots/Bot', () => {
             />
         );
         expect(wrapper.contains(bot.display_name + ' (@' + bot.username + ')')).toEqual(true);
-        expect(wrapper.contains(bot.description)).toEqual(true);
+        expect(wrapper.contains(<Markdown message={bot.description}/>)).toEqual(true);
         expect(wrapper.contains('plugin')).toEqual(true);
         expect(wrapper.contains(
             <FormattedMessage
@@ -106,6 +110,26 @@ describe('components/integrations/bots/Bot', () => {
         );
         expect(wrapper.contains(user.username)).toEqual(true);
         expect(wrapper.contains('plugin')).toEqual(false);
+
+        // if bot is not managed by plugin, ability to edit from UI is retained
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='bot.manage.create_token'
+                defaultMessage='Create New Token'
+            />
+        )).toEqual(true);
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='bots.manage.edit'
+                defaultMessage='Edit'
+            />
+        )).toEqual(true);
+        expect(wrapper.contains(
+            <FormattedMessage
+                id='bot.manage.disable'
+                defaultMessage='Disable'
+            />
+        )).toEqual(true);
     });
 
     it('bot with access tokens', () => {

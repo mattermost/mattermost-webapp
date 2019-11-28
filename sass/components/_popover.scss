@@ -7,6 +7,10 @@
     font-family: inherit;
     padding: 0;
 
+    &.channel-header__popover {
+        z-index: 999;
+    }
+
     &.bottom,
     &.right,
     &.top,
@@ -117,9 +121,50 @@
     white-space: nowrap;
 }
 
-#user-profile-popover .user-popover__username:only-child,
-#user-profile-popover .user-popover__username:only-child > a{
+.user-profile-popover .user-popover__username:only-child,
+.user-profile-popover .user-popover__username:only-child > a{
     max-width: 100%;
+}
+.user-profile-popover .Avatar {
+    margin: 5px auto;
+    display: block;
+}
+
+.user-profile-popover {
+    border: none;
+    box-shadow: none !important;
+    background: transparent !important;;
+    padding: 7rem 0;
+
+    .popover-title {
+        border: 1px solid v(center-channel-color-10);
+        border-radius: $border-rad $border-rad 0 0;
+        background: v(center-channel-bg);
+        position: relative;
+
+        &:before {
+            position: absolute;
+            background: v(center-channel-color-05) !important;
+            content: '';
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        span {
+            z-index: 1;
+            position: relative;
+        }
+    }
+
+    .popover-content {
+        border-radius: 0 0 $border-rad $border-rad;
+        border: 1px solid v(center-channel-color-10);
+        border-top: none;
+        @include box-shadow(v(center-channel-color-10) 0px 17px 50px 0px, v(center-channel-color-10) 0px 12px 15px 0px);
+        background: v(center-channel-bg);
+    }
 }
 
 .user-popover__role {
@@ -132,11 +177,6 @@
     color: $white;
 }
 
-.user-popover__image {
-    @include border-radius(128px);
-    margin: 5px auto;
-    display: block;
-}
 
 .user-popover__email {
     display: block;
@@ -146,12 +186,14 @@
 }
 
 .search-help-popover {
-    @include single-transition(opacity, .3s, ease-in);
     font-size: em(13px);
     max-width: 350px;
     top: 36px;
+    @include opacity(0);
     visibility: hidden;
-    width: 100%;
+    width: 298px;
+    left: auto;
+    right: 0;
 
     &.autocomplete {
         display: block;
@@ -195,6 +237,8 @@
     .search-autocomplete__item {
         @include border-radius(2px);
         cursor: pointer;
+        display: flex;
+        align-items: center;
         margin: 3px 0 0 5px;
         overflow: hidden;
         padding: 6px 8px;
@@ -207,22 +251,29 @@
 
         &.selected {
             background: alpha-color($black, .2);
+            box-shadow: none;
         }
 
         .mention--align {
-            display: inline;
+            display: inline-flex;
+            overflow: hidden;
+        }
+
+        .search-autocomplete__name {
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
 
         .fa {
             @include opacity(.5);
             margin-right: 5px;
+            top: 1px;
+            position: relative;
         }
 
-        .profile-img {
-            height: 16px;
+        .Avatar {
             margin-right: 6px;
             margin-top: -1px;
-            width: 16px;
         }
     }
 
@@ -260,9 +311,30 @@
         max-width: 100%;
     }
 
+    body.enable-animations & {
+        @include transition-property(opacity, visibility);
+        @include transition-duration(0.1s);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in, step-end);
+}
+
     &.visible {
         @include opacity(1);
         visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration(0.3s);
+            @include transition-delay(0.2s);
+            @include transition-timing-function(ease-out, step-start);
+        }
+
+        body.enable-animations .sidebar--right & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration(0.3s);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
     }
 }
 
@@ -291,6 +363,14 @@
         span {
             font-weight: 600;
         }
+
+        .subhead {
+            font-size: 12px;
+            opacity: 0.6;
+            span {
+                font-weight: normal;
+            }
+        }
     }
 
     .more-modal__button {
@@ -306,10 +386,23 @@
             height: 50px;
             margin: 1px 0;
             overflow: hidden;
-            padding: 0 20px;
+            padding: 0 12px 0 20px;
 
             .more-modal__actions {
-                padding-left: 12px;
+                opacity: 1;
+                padding: 0;
+                margin-left: 12px;
+
+                button {
+                    opacity: 0;
+                    line-height: 0;
+                    width: 2em;
+                    height: 2em;
+
+                    &.a11y--focused {
+                        opacity: 1;
+                    }
+                }
             }
 
             &:hover {
@@ -317,7 +410,9 @@
                 padding-left: 17px;
 
                 .more-modal__actions {
-                    @include opacity(1);
+                    button {
+                        @include opacity(1);
+                    }
                 }
 
                 .more-modal__name {
@@ -342,6 +437,7 @@
         }
 
         .more-modal__name {
+            display: block;
             font-size: 13.5px;
             font-weight: normal;
         }

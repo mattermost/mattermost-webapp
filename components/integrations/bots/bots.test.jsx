@@ -13,7 +13,7 @@ import Bots from './bots.jsx';
 describe('components/integrations/bots/Bots', () => {
     const team = TestHelper.fakeTeam();
     const actions = {
-        loadBots: jest.fn().mockReturnValue(Promise.resolve()),
+        loadBots: jest.fn().mockReturnValue(Promise.resolve({})),
         getUserAccessTokensForUser: jest.fn(),
         createUserAccessToken: jest.fn(),
         revokeUserAccessToken: jest.fn(),

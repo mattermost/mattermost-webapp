@@ -97,17 +97,22 @@ export default class ConfirmModal extends React.Component {
         return nextProps.show !== this.props.show;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.show && !nextProps.show) {
+    componentDidUpdate(prevProps) {
+        if (prevProps.show && !this.props.show) {
             document.removeEventListener('keydown', this.handleKeypress);
-        } else if (!this.props.show && nextProps.show) {
+        } else if (!prevProps.show && this.props.show) {
             document.addEventListener('keydown', this.handleKeypress);
         }
     }
 
     handleKeypress = (e) => {
         if (e.key === 'Enter' && this.props.show) {
-            this.handleConfirm();
+            const cancelButton = document.getElementById('cancelModalButton');
+            if (cancelButton && cancelButton === document.activeElement) {
+                this.handleCancel();
+            } else {
+                this.handleConfirm();
+            }
         }
     }
 
@@ -156,6 +161,7 @@ export default class ConfirmModal extends React.Component {
                     type='button'
                     className='btn btn-link btn-cancel'
                     onClick={this.handleCancel}
+                    id='cancelModalButton'
                 >
                     {cancelText}
                 </button>
@@ -165,13 +171,21 @@ export default class ConfirmModal extends React.Component {
         return (
             <Modal
                 className={'modal-confirm ' + this.props.modalClass}
+                dialogClassName='a11y__modal'
                 show={this.props.show}
                 onHide={this.props.onCancel}
                 onExited={this.props.onExited}
                 id='confirmModal'
+                role='dialog'
+                aria-labelledby='confirmModalLabel'
             >
                 <Modal.Header closeButton={false}>
-                    <Modal.Title>{this.props.title}</Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='confirmModalLabel'
+                    >
+                        {this.props.title}
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {this.props.message}

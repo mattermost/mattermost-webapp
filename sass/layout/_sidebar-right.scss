@@ -21,9 +21,9 @@
     .sidebar--right__bg {
         @include single-transition(background-color, .5s, ease);
         background-color: alpha-color($black, 0);
-        height: 100%;
+        height: 110%;
         position: absolute;
-        top: 0;
+        top: -70px;
         visibility: hidden;
         width: 300%;
     }
@@ -61,6 +61,10 @@
 
     .post {
         &.post--compact {
+            .card-icon__container {
+                margin: 0px 0 0 6px;
+            }
+
             .post__pinned-badge {
                 margin: 0 0 0 5px;
             }
@@ -78,20 +82,12 @@
 
         .post__header {
             .col__name {
-                .user-popover {
-                    width: 100%;
-                }
-
-                + .col {
-                    flex: auto;
-                }
-
-                &.bot-indicator {
+                &.Badge {
                     flex: none;
                 }
             }
 
-            .flag-icon__container {
+            .flag-icon__container, .card-icon__container {
                 z-index: 5;
             }
         }
@@ -99,24 +95,30 @@
 
     .post-create__container {
         form {
+            padding: 0;
+        }
+
+        .post-create {
             padding: .5em 15px 0;
         }
 
-        .post-create-footer {
-            @include clearfix;
-            clear: both;
-            font-size: 13px;
-            overflow: visible;
-            position: relative;
+        .msg-typing {
+            margin: 0 0 8px;
 
+            &:empty {
+                display: none;
+            }
+        }
+
+        .post-create-footer {
             .post-error {
                 @include opacity(.55);
                 display: inline-block;
                 font-size: .85em;
                 font-weight: normal;
                 margin-bottom: 0;
-                position: absolute;
-                top: -25px;
+                position: relative;
+                top: 0;
             }
         }
     }
@@ -169,8 +171,19 @@
             position: relative;
             height: 40px;
             padding: 0px;
+
             .loading__content {
                 height: 40px;
+            }
+        }
+
+        .info-card {
+            padding: 5px 15px 60px 15px;
+        }
+
+        .scrollbar--view {
+            .emoji-picker--active & {
+                pointer-events: none;
             }
         }
     }
@@ -198,21 +211,27 @@
         background: none;
         border: none;
         font-size: 20px;
-        height: 22px;
+        height: 30px;
         line-height: 0;
-        margin: 11px 0 0;
-        opacity: .5;
+        margin: 6px 0 0;
         outline: none;
         padding: 0;
         width: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         &:hover,
         &:active {
-            opacity: .8;
+            i {
+                opacity: .8;
+            }
         }
 
         i {
+            opacity: .5;
             position: relative;
+            top: 1px;
         }
     }
 
@@ -221,7 +240,7 @@
         font-size: 17px;
 
         i {
-            top: -2px;
+            top: 0;
         }
 
         .fa-compress {
@@ -287,7 +306,7 @@
 }
 
 .sidebar-right-container {
-    height: 100%;
+    height: calc(100% - 63px);
 }
 
 .sidebar-collapse__container {

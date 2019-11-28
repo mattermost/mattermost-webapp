@@ -28,12 +28,13 @@
     top: 6px;
 
     svg {
-        @include single-transition(all, .3s, ease-out);
+        body.enable-animations & {
+            @include single-transition(all, $transition-quick, ease-out);
+        }
     }
 }
 
 .sidebar__search-clear {
-    @include single-transition(all, .3s, ease-out);
     @include opacity(.5);
     cursor: pointer;
     margin-right: 20px;
@@ -52,6 +53,10 @@
     &.visible {
         visibility: visible;
     }
+
+    body.enable-animations & {
+        @include single-transition(all, $transition-quick, ease-out);
+    }
 }
 
 .search-bar__container {
@@ -64,14 +69,20 @@
 
     .search-bar__container & {
         @include border-radius(50px);
-        @include single-transition(all, .3s, ease-out);
         border: 1px solid $light-gray;
         margin: 16px 0 0;
         width: 180px;
     }
 
-    .sidebar--right & {
-        width: 100%;
+    body.enable-animations .search-bar__container & {
+        @include transition-property(border-color, width);
+        @include transition-duration($transition-quick, 0.3s);
+        @include transition-delay(0s);
+        @include transition-timing-function(ease-in-out, ease-out);
+    }
+
+    .inner-wrap.move--left & {
+        width: 300px;
     }
 
     .search-bar {
@@ -83,6 +94,10 @@
         outline: none;
         padding-bottom: 2px;
         width: 100%;
+
+        &.a11y--focused {
+            box-shadow: none;
+        }
     }
 
     .LoadingSpinner {

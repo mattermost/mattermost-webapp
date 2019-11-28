@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' cdn.segment.com/analytics.js/">
 
     <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'>
     <meta name='robots' content='noindex, nofollow'>
@@ -58,7 +57,7 @@
         }
     </style>
 </head>
-<body class='font--open_sans'>
+<body class='font--open_sans enable-animations'>
     <div id='root'>
         <div class='error-screen'>
             <h2>Cannot connect to Mattermost</h2>
@@ -77,6 +76,7 @@
             </div>
         </div>
     </div>
+    <div id='root-portal'></div>
     <noscript>
         To use Mattermost, please enable JavaScript.
     </noscript>

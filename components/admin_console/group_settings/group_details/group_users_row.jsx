@@ -7,6 +7,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
 
+import Avatar from 'components/widgets/users/avatar';
+
 export default class GroupUsersRow extends React.PureComponent {
     static propTypes = {
         username: PropTypes.string.isRequired,
@@ -19,10 +21,10 @@ export default class GroupUsersRow extends React.PureComponent {
     render = () => {
         return (
             <div className='group-users-row'>
-                <img
-                    className='profile-picture'
-                    alt={'user profile image'}
-                    src={Client4.getProfilePictureUrl(this.props.userId, this.props.lastPictureUpdate)}
+                <Avatar
+                    username={this.props.username}
+                    url={Client4.getProfilePictureUrl(this.props.userId, this.props.lastPictureUpdate)}
+                    size='lg'
                 />
                 <div className='user-data'>
                     <div className='name-row'>

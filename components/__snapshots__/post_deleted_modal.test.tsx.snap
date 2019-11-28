@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelInfoModal should match snapshot when modal is not showing 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="postDeletedModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={false}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="postDeletedModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Comment could not be posted"
+        id="post_delete.notPosted"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <p>
+      <FormattedMessage
+        defaultMessage="Someone deleted the message on which you tried to post a comment."
+        id="post_delete.someone"
+        values={Object {}}
+      />
+    </p>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      autoFocus={true}
+      className="btn btn-primary"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Okay"
+        id="post_delete.okay"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
+</Modal>
+`;
+
+exports[`components/ChannelInfoModal should match snapshot when modal is showing 1`] = `
+<Modal
+  animation={true}
+  aria-labelledby="postDeletedModalLabel"
+  autoFocus={true}
+  backdrop={true}
+  bsClass="modal"
+  dialogClassName="a11y__modal"
+  dialogComponentClass={[Function]}
+  enforceFocus={true}
+  keyboard={true}
+  manager={
+    ModalManager {
+      "add": [Function],
+      "containers": Array [],
+      "data": Array [],
+      "handleContainerOverflow": true,
+      "hideSiblingNodes": true,
+      "isTopModal": [Function],
+      "modals": Array [],
+      "remove": [Function],
+    }
+  }
+  onHide={[Function]}
+  renderBackdrop={[Function]}
+  restoreFocus={true}
+  role="dialog"
+  show={true}
+>
+  <ModalHeader
+    bsClass="modal-header"
+    closeButton={true}
+    closeLabel="Close"
+  >
+    <ModalTitle
+      bsClass="modal-title"
+      componentClass="h1"
+      id="postDeletedModalLabel"
+    >
+      <FormattedMessage
+        defaultMessage="Comment could not be posted"
+        id="post_delete.notPosted"
+        values={Object {}}
+      />
+    </ModalTitle>
+  </ModalHeader>
+  <ModalBody
+    bsClass="modal-body"
+    componentClass="div"
+  >
+    <p>
+      <FormattedMessage
+        defaultMessage="Someone deleted the message on which you tried to post a comment."
+        id="post_delete.someone"
+        values={Object {}}
+      />
+    </p>
+  </ModalBody>
+  <ModalFooter
+    bsClass="modal-footer"
+    componentClass="div"
+  >
+    <button
+      autoFocus={true}
+      className="btn btn-primary"
+      onClick={[Function]}
+      type="button"
+    >
+      <FormattedMessage
+        defaultMessage="Okay"
+        id="post_delete.okay"
+        values={Object {}}
+      />
+    </button>
+  </ModalFooter>
+</Modal>
+`;

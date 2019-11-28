@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header.jsx';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import LogList from './log_list.jsx';
 
@@ -44,9 +44,9 @@ export default class Logs extends React.Component {
         );
     }
 
-    UNSAFE_componentWillUpdate(nextProps, nextState) { // eslint-disable-line camelcase
-        if (this.state.page !== nextState.page) {
-            this.props.actions.getLogs(nextState.page, nextState.perPage).then(
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.page !== prevState.page) {
+            this.props.actions.getLogs(this.state.page, this.state.perPage).then(
                 () => this.setState({loadingLogs: false})
             );
         }
@@ -90,25 +90,30 @@ export default class Logs extends React.Component {
                     id='admin.logs.title'
                     defaultMessage='Server Logs'
                 />
-                <div className='banner'>
-                    <div className='banner__content'>
-                        <FormattedMessage
-                            id='admin.logs.bannerDesc'
-                            defaultMessage='To look up users by User ID or Token ID, go to Reporting > Users and paste the ID into the search filter.'
-                        />
+
+                <div className='admin-console__wrapper'>
+                    <div className='admin-console__content'>
+                        <div className='banner'>
+                            <div className='banner__content'>
+                                <FormattedMessage
+                                    id='admin.logs.bannerDesc'
+                                    defaultMessage='To look up users by User ID or Token ID, go to Reporting > Users and paste the ID into the search filter.'
+                                />
+                            </div>
+                        </div>
+                        <button
+                            type='submit'
+                            className='btn btn-primary'
+                            onClick={this.reload}
+                        >
+                            <FormattedMessage
+                                id='admin.logs.reload'
+                                defaultMessage='Reload'
+                            />
+                        </button>
+                        {content}
                     </div>
                 </div>
-                <button
-                    type='submit'
-                    className='btn btn-primary'
-                    onClick={this.reload}
-                >
-                    <FormattedMessage
-                        id='admin.logs.reload'
-                        defaultMessage='Reload'
-                    />
-                </button>
-                {content}
             </div>
         );
     }

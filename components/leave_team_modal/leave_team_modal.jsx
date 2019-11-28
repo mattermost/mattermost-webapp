@@ -3,13 +3,13 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
-class LeaveTeamModal extends React.PureComponent {
+export default class LeaveTeamModal extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -33,8 +33,6 @@ class LeaveTeamModal extends React.PureComponent {
          */
 
         show: PropTypes.bool.isRequired,
-
-        intl: intlShape.isRequired,
 
         actions: PropTypes.shape({
 
@@ -77,13 +75,19 @@ class LeaveTeamModal extends React.PureComponent {
     render() {
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 className='modal-confirm'
                 show={this.props.show}
                 onHide={this.props.onHide}
                 id='leaveTeamModal'
+                role='dialog'
+                aria-labelledby='leaveTeamModalLabel'
             >
                 <Modal.Header closeButton={false}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='leaveTeamModalLabel'
+                    >
                         <FormattedMessage
                             id='leave_team_modal.title'
                             defaultMessage='Leave the team?'
@@ -124,5 +128,3 @@ class LeaveTeamModal extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(LeaveTeamModal);

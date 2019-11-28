@@ -14,8 +14,12 @@ describe('components/channel_invite_modal', () => {
 
     const users = [{
         id: 'user-1',
+        label: 'user-1',
+        value: 'user-1',
     }, {
         id: 'user-2',
+        label: 'user-2',
+        value: 'user-2',
     }];
 
     const channel = {
@@ -38,6 +42,7 @@ describe('components/channel_invite_modal', () => {
     const baseProps = {
         channel,
         profilesNotInCurrentChannel: [],
+        profilesNotInCurrentTeam: [],
         actions: {
             addUsersToChannel: jest.fn().mockImplementation(() => {
                 const error = {
@@ -48,6 +53,7 @@ describe('components/channel_invite_modal', () => {
             }),
             getProfilesNotInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn(),
+            searchProfiles: jest.fn(),
         },
         onHide: jest.fn(),
     };
@@ -124,5 +130,14 @@ describe('components/channel_invite_modal', () => {
             expect(wrapper.state('show')).toEqual(false);
             done();
         });
+    });
+
+    test('should trim the search term', () => {
+        const wrapper = shallow(
+            <ChannelInviteModal {...baseProps}/>
+        );
+
+        wrapper.instance().search(' something ');
+        expect(wrapper.state('term')).toEqual('something');
     });
 });

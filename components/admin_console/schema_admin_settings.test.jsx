@@ -4,7 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SchemaAdminSettings from 'components/admin_console/schema_admin_settings.jsx';
+import SchemaText from 'components/admin_console/schema_text';
+
+import SchemaAdminSettings from './schema_admin_settings';
 
 describe('components/admin_console/SchemaAdminSettings', () => {
     let schema = null;
@@ -198,6 +200,15 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                     help_text_default: 'This is some help text for the permissions field.',
                     permissions_mapping_name: 'enableOnlyAdminIntegrations',
                 },
+                {
+                    key: 'EscapedSettings.com+example+setting.a',
+                    label: 'escaped-label-a',
+                    label_default: 'Escaped Setting A',
+                    type: 'bool',
+                    default: false,
+                    help_text: 'escaped-help-text-a',
+                    help_text_default: 'This is some help text for the first escaped field.',
+                },
             ],
         };
 
@@ -215,6 +226,11 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 settingg: 7,
                 settingh: 100,
             },
+            EscapedSettings: {
+                'com.example.setting': {
+                    a: true,
+                },
+            },
         };
 
         environmentConfig = {
@@ -230,6 +246,7 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 config={config}
                 environmentConfig={environmentConfig}
                 schema={{...schema}}
+                updateConfig={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
@@ -241,8 +258,53 @@ describe('components/admin_console/SchemaAdminSettings', () => {
                 config={config}
                 environmentConfig={environmentConfig}
                 schema={{component: () => <p>{'Test'}</p>}}
+                updateConfig={jest.fn()}
             />
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render header using a SchemaText', () => {
+        const headerText = 'This is [a link](!https://example.com) in the header';
+        const props = {
+            config,
+            environmentConfig,
+            schema: {
+                ...schema,
+                header: headerText,
+            },
+            updateConfig: jest.fn(),
+        };
+
+        const wrapper = shallow(<SchemaAdminSettings {...props}/>);
+
+        const header = wrapper.find(SchemaText);
+        expect(header.exists()).toBe(true);
+        expect(header.props()).toMatchObject({
+            text: headerText,
+            isMarkdown: true,
+        });
+    });
+
+    test('should render footer using a SchemaText', () => {
+        const footerText = 'This is [a link](https://example.com) in the footer';
+        const props = {
+            config,
+            environmentConfig,
+            schema: {
+                ...schema,
+                footer: footerText,
+            },
+            updateConfig: jest.fn(),
+        };
+
+        const wrapper = shallow(<SchemaAdminSettings {...props}/>);
+
+        const footer = wrapper.find(SchemaText);
+        expect(footer.exists()).toBe(true);
+        expect(footer.props()).toMatchObject({
+            text: footerText,
+            isMarkdown: true,
+        });
     });
 });

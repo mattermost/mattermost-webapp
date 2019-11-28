@@ -27,6 +27,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
   >
     <h4
       className="backstage-form__title"
+      id="formTitle"
     >
       <FormattedMessage
         defaultMessage="Setup Successful"
@@ -63,6 +64,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, comma
     >
       <Link
         className="btn btn-primary"
+        id="doneButton"
         to="/team_test/integrations/commands"
         type="submit"
       >
@@ -102,6 +104,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
   >
     <h4
       className="backstage-form__title"
+      id="formTitle"
     >
       <FormattedMessage
         defaultMessage="Setup Successful"
@@ -123,7 +126,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
         id="add_incoming_webhook.url"
         values={
           Object {
-            "url": "http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic",
+            "url": "\`http://localhost:8065/hooks/r5tpgt4iepf45jt768jz84djic\`",
           }
         }
       />
@@ -138,6 +141,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, incom
     >
       <Link
         className="btn btn-primary"
+        id="doneButton"
         to="/team_test/integrations/incoming_webhooks"
         type="submit"
       >
@@ -177,6 +181,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
   >
     <h4
       className="backstage-form__title"
+      id="formTitle"
     >
       <FormattedMessage
         defaultMessage="Setup Successful"
@@ -252,6 +257,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, oauth
     >
       <Link
         className="btn btn-primary"
+        id="doneButton"
         to="/team_test/integrations/oauth2-apps"
         type="submit"
       >
@@ -293,6 +299,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
   >
     <h4
       className="backstage-form__title"
+      id="formTitle"
     >
       <FormattedMessage
         defaultMessage="Setup Successful"
@@ -329,6 +336,7 @@ exports[`components/integrations/ConfirmIntegration should match snapshot, outgo
     >
       <Link
         className="btn btn-primary"
+        id="doneButton"
         to="/team_test/integrations/outgoing_webhooks"
         type="submit"
       >

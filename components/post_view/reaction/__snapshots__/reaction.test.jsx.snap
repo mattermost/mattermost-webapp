@@ -1,299 +1,315 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/post_view/Reaction should disable add reaction when you do not have permissions 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={1000}
-  onEnter={[Function]}
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="post_id_1-smile-reaction"
-      placement="right"
-    >
-      <FormattedMessage
-        defaultMessage="{users} {reactionVerb} with {emoji}"
-        id="reaction.reacted"
-        values={
-          Object {
-            "emoji": <b>
-              :smile:
-            </b>,
-            "reactionVerb": <FormattedMessage
-              defaultMessage="reacted"
-              id="reaction.reactionVerb.users"
-              values={Object {}}
-            />,
-            "users": <b>
-              <FormattedMessage
-                defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
-                id="reaction.usersAndOthersReacted"
-                values={
-                  Object {
-                    "otherUsers": 2,
-                    "users": "username_2",
+<button
+  aria-label="react with smile"
+  className="style--none post-reaction post-reaction--read-only"
+  id="postReaction-post_id_1-smile"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    onEnter={[Function]}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="post_id_1-smile-reaction"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="{users} {reactionVerb} with {emoji}"
+          id="reaction.reacted"
+          values={
+            Object {
+              "emoji": <b>
+                :smile:
+              </b>,
+              "reactionVerb": <FormattedMessage
+                defaultMessage="reacted"
+                id="reaction.reactionVerb.users"
+                values={Object {}}
+              />,
+              "users": <b>
+                <FormattedMessage
+                  defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
+                  id="reaction.usersAndOthersReacted"
+                  values={
+                    Object {
+                      "otherUsers": 2,
+                      "users": "username_2",
+                    }
                   }
-                }
-              />
-            </b>,
+                />
+              </b>,
+            }
+          }
+        />
+        <br />
+      </Tooltip>
+    }
+    placement="top"
+    shouldUpdatePosition={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <span>
+      <span
+        className="post-reaction__emoji emoticon"
+        style={
+          Object {
+            "backgroundImage": "url(emoji_image_url)",
           }
         }
       />
-      <br />
-    </Tooltip>
-  }
-  placement="top"
-  shouldUpdatePosition={true}
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
->
-  <div
-    className="post-reaction post-reaction--read-only"
-  >
-    <span
-      className="post-reaction__emoji emoticon"
-      style={
-        Object {
-          "backgroundImage": "url(emoji_image_url)",
-        }
-      }
-    />
-    <span
-      className="post-reaction__count"
-    >
-      2
+      <span
+        className="post-reaction__count"
+      >
+        2
+      </span>
     </span>
-  </div>
-</OverlayTrigger>
+  </OverlayTrigger>
+</button>
 `;
 
 exports[`components/post_view/Reaction should disable remove reaction when you do not have permissions 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={1000}
-  onEnter={[Function]}
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="post_id_1-smile-reaction"
-      placement="right"
-    >
-      <FormattedMessage
-        defaultMessage="{users} {reactionVerb} with {emoji}"
-        id="reaction.reacted"
-        values={
-          Object {
-            "emoji": <b>
-              :smile:
-            </b>,
-            "reactionVerb": <FormattedMessage
-              defaultMessage="reacted"
-              id="reaction.reactionVerb.youAndUsers"
-              values={Object {}}
-            />,
-            "users": <b>
-              <FormattedMessage
-                defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
-                id="reaction.usersAndOthersReacted"
-                values={
-                  Object {
-                    "otherUsers": 2,
-                    "users": "You",
+<button
+  aria-label="react with smile"
+  className="style--none post-reaction post-reaction--read-only post-reaction--current-user"
+  id="postReaction-post_id_1-smile"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    onEnter={[Function]}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="post_id_1-smile-reaction"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="{users} {reactionVerb} with {emoji}"
+          id="reaction.reacted"
+          values={
+            Object {
+              "emoji": <b>
+                :smile:
+              </b>,
+              "reactionVerb": <FormattedMessage
+                defaultMessage="reacted"
+                id="reaction.reactionVerb.youAndUsers"
+                values={Object {}}
+              />,
+              "users": <b>
+                <FormattedMessage
+                  defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
+                  id="reaction.usersAndOthersReacted"
+                  values={
+                    Object {
+                      "otherUsers": 2,
+                      "users": "You",
+                    }
                   }
-                }
-              />
-            </b>,
+                />
+              </b>,
+            }
+          }
+        />
+        <br />
+      </Tooltip>
+    }
+    placement="top"
+    shouldUpdatePosition={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <span>
+      <span
+        className="post-reaction__emoji emoticon"
+        style={
+          Object {
+            "backgroundImage": "url(emoji_image_url)",
           }
         }
       />
-      <br />
-    </Tooltip>
-  }
-  placement="top"
-  shouldUpdatePosition={true}
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
->
-  <div
-    className="post-reaction post-reaction--read-only post-reaction--current-user"
-  >
-    <span
-      className="post-reaction__emoji emoticon"
-      style={
-        Object {
-          "backgroundImage": "url(emoji_image_url)",
-        }
-      }
-    />
-    <span
-      className="post-reaction__count"
-    >
-      2
+      <span
+        className="post-reaction__count"
+      >
+        2
+      </span>
     </span>
-  </div>
-</OverlayTrigger>
+  </OverlayTrigger>
+</button>
 `;
 
 exports[`components/post_view/Reaction should match snapshot 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={1000}
-  onEnter={[Function]}
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="post_id_1-smile-reaction"
-      placement="right"
-    >
-      <FormattedMessage
-        defaultMessage="{users} {reactionVerb} with {emoji}"
-        id="reaction.reacted"
-        values={
-          Object {
-            "emoji": <b>
-              :smile:
-            </b>,
-            "reactionVerb": <FormattedMessage
-              defaultMessage="reacted"
-              id="reaction.reactionVerb.users"
-              values={Object {}}
-            />,
-            "users": <b>
-              <FormattedMessage
-                defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
-                id="reaction.usersAndOthersReacted"
-                values={
-                  Object {
-                    "otherUsers": 2,
-                    "users": "username_2",
+<button
+  aria-label="react with smile"
+  className="style--none post-reaction"
+  id="postReaction-post_id_1-smile"
+  onClick={[Function]}
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    onEnter={[Function]}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="post_id_1-smile-reaction"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="{users} {reactionVerb} with {emoji}"
+          id="reaction.reacted"
+          values={
+            Object {
+              "emoji": <b>
+                :smile:
+              </b>,
+              "reactionVerb": <FormattedMessage
+                defaultMessage="reacted"
+                id="reaction.reactionVerb.users"
+                values={Object {}}
+              />,
+              "users": <b>
+                <FormattedMessage
+                  defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
+                  id="reaction.usersAndOthersReacted"
+                  values={
+                    Object {
+                      "otherUsers": 2,
+                      "users": "username_2",
+                    }
                   }
-                }
-              />
-            </b>,
+                />
+              </b>,
+            }
+          }
+        />
+        <br />
+        <FormattedMessage
+          defaultMessage="(click to add)"
+          id="reaction.clickToAdd"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="top"
+    shouldUpdatePosition={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <span>
+      <span
+        className="post-reaction__emoji emoticon"
+        style={
+          Object {
+            "backgroundImage": "url(emoji_image_url)",
           }
         }
       />
-      <br />
-      <FormattedMessage
-        defaultMessage="(click to add)"
-        id="reaction.clickToAdd"
-        values={Object {}}
-      />
-    </Tooltip>
-  }
-  placement="top"
-  shouldUpdatePosition={true}
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
->
-  <div
-    className="post-reaction"
-    onClick={[Function]}
-  >
-    <span
-      className="post-reaction__emoji emoticon"
-      style={
-        Object {
-          "backgroundImage": "url(emoji_image_url)",
-        }
-      }
-    />
-    <span
-      className="post-reaction__count"
-    >
-      2
+      <span
+        className="post-reaction__count"
+      >
+        2
+      </span>
     </span>
-  </div>
-</OverlayTrigger>
+  </OverlayTrigger>
+</button>
 `;
 
 exports[`components/post_view/Reaction should match snapshot when a current user reacted to a post 1`] = `
-<OverlayTrigger
-  defaultOverlayShown={false}
-  delayShow={1000}
-  onEnter={[Function]}
-  overlay={
-    <Tooltip
-      bsClass="tooltip"
-      id="post_id_1-smile-reaction"
-      placement="right"
-    >
-      <FormattedMessage
-        defaultMessage="{users} {reactionVerb} with {emoji}"
-        id="reaction.reacted"
-        values={
-          Object {
-            "emoji": <b>
-              :smile:
-            </b>,
-            "reactionVerb": <FormattedMessage
-              defaultMessage="reacted"
-              id="reaction.reactionVerb.youAndUsers"
-              values={Object {}}
-            />,
-            "users": <b>
-              <FormattedMessage
-                defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
-                id="reaction.usersAndOthersReacted"
-                values={
-                  Object {
-                    "otherUsers": 1,
-                    "users": "You",
+<button
+  aria-label="remove reaction smile"
+  className="style--none post-reaction post-reaction--current-user"
+  id="postReaction-post_id_1-smile"
+  onClick={[Function]}
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={1000}
+    onEnter={[Function]}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="post_id_1-smile-reaction"
+        placement="right"
+      >
+        <FormattedMessage
+          defaultMessage="{users} {reactionVerb} with {emoji}"
+          id="reaction.reacted"
+          values={
+            Object {
+              "emoji": <b>
+                :smile:
+              </b>,
+              "reactionVerb": <FormattedMessage
+                defaultMessage="reacted"
+                id="reaction.reactionVerb.youAndUsers"
+                values={Object {}}
+              />,
+              "users": <b>
+                <FormattedMessage
+                  defaultMessage="{users} and {otherUsers, number} other {otherUsers, plural, one {user} other {users}}"
+                  id="reaction.usersAndOthersReacted"
+                  values={
+                    Object {
+                      "otherUsers": 1,
+                      "users": "You",
+                    }
                   }
-                }
-              />
-            </b>,
+                />
+              </b>,
+            }
+          }
+        />
+        <br />
+        <FormattedMessage
+          defaultMessage="(click to remove)"
+          id="reaction.clickToRemove"
+          values={Object {}}
+        />
+      </Tooltip>
+    }
+    placement="top"
+    shouldUpdatePosition={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <span>
+      <span
+        className="post-reaction__emoji emoticon"
+        style={
+          Object {
+            "backgroundImage": "url(emoji_image_url)",
           }
         }
       />
-      <br />
-      <FormattedMessage
-        defaultMessage="(click to remove)"
-        id="reaction.clickToRemove"
-        values={Object {}}
-      />
-    </Tooltip>
-  }
-  placement="top"
-  shouldUpdatePosition={true}
-  trigger={
-    Array [
-      "hover",
-      "focus",
-    ]
-  }
->
-  <div
-    className="post-reaction post-reaction--current-user"
-    onClick={[Function]}
-  >
-    <span
-      className="post-reaction__emoji emoticon"
-      style={
-        Object {
-          "backgroundImage": "url(emoji_image_url)",
-        }
-      }
-    />
-    <span
-      className="post-reaction__count"
-    >
-      2
+      <span
+        className="post-reaction__count"
+      >
+        2
+      </span>
     </span>
-  </div>
-</OverlayTrigger>
+  </OverlayTrigger>
+</button>
 `;
 
 exports[`components/post_view/Reaction should return null/empty if no emojiImageUrl 1`] = `""`;

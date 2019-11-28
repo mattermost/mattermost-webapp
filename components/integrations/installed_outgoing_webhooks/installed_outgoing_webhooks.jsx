@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -76,8 +76,6 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.outgoingWebhookCompare = this.outgoingWebhookCompare.bind(this);
-
         this.state = {
             loading: true,
         };
@@ -103,7 +101,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
         this.props.actions.removeOutgoingHook(outgoingWebhook.id);
     }
 
-    outgoingWebhookCompare(a, b) {
+    outgoingWebhookCompare = (a, b) => {
         let displayNameA = a.display_name;
         if (!displayNameA) {
             const channelA = this.props.channels[a.channel_id];
@@ -162,6 +160,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent {
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
+                addButtonId='addOutgoingWebhook'
                 emptyText={
                     <FormattedMessage
                         id='installed_outgoing_webhooks.empty'

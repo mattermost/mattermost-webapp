@@ -10,9 +10,11 @@ import {
     getCurrentRelativeTeamUrl,
     getTeamMember,
 } from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentChannel, getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/channels';
-import {loadBot} from 'mattermost-redux/actions/bots';
-import {getBotAccounts} from 'mattermost-redux/selectors/entities/bots';
+import {
+    getCurrentChannel,
+    getChannelMembersInChannels,
+    canManageAnyChannelMembersInCurrentTeam,
+} from 'mattermost-redux/selectors/entities/channels';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {getMembershipForCurrentEntities} from 'actions/views/profile_popover';
@@ -56,10 +58,11 @@ function mapStateToProps(state, ownProps) {
         enableTimezone: areTimezonesEnabledAndSupported(state),
         isTeamAdmin,
         isChannelAdmin,
+        isInCurrentTeam: Boolean(teamMember) && teamMember.delete_at === 0,
+        canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
         status: getStatusForUserId(state, userId),
         teamUrl: getCurrentRelativeTeamUrl(state),
         user: getUser(state, userId),
-        bot: getBotAccounts(state)[userId],
     };
 }
 
@@ -69,7 +72,6 @@ function mapDispatchToProps(dispatch) {
             openDirectChannelToUserId,
             openModal,
             getMembershipForCurrentEntities,
-            loadBot,
         }, dispatch),
     };
 }

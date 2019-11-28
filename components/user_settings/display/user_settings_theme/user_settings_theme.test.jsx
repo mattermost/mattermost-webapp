@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import UserSettingsTheme from 'components/user_settings/display/user_settings_theme/user_settings_theme.jsx';
 
 describe('components/user_settings/display/user_settings_theme/user_settings_theme.jsx', () => {
@@ -18,7 +18,8 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
         setRequireConfirm: jest.fn(),
         setEnforceFocus: jest.fn(),
         actions: {
-            saveTheme: jest.fn(() => Promise.resolve()),
+            saveTheme: jest.fn().mockResolvedValue({data: true}),
+            deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
         },
         focused: false,
     };
@@ -43,5 +44,26 @@ describe('components/user_settings/display/user_settings_theme/user_settings_the
 
         expect(requiredProps.updateSection).toHaveBeenCalledTimes(1);
         expect(requiredProps.updateSection).toHaveBeenCalledWith('');
+
+        expect(requiredProps.actions.saveTheme).toHaveBeenCalled();
+    });
+
+    it('should deleteTeamSpecificThemes if applyToAllTeams is enabled', async () => {
+        const props = {
+            ...requiredProps,
+            actions: {
+                saveTheme: jest.fn().mockResolvedValue({data: true}),
+                deleteTeamSpecificThemes: jest.fn().mockResolvedValue({data: true}),
+            },
+        };
+
+        const wrapper = shallowWithIntl(
+            <UserSettingsTheme {...props}/>
+        );
+
+        wrapper.instance().setState({applyToAllTeams: true});
+        await wrapper.instance().submitTheme();
+
+        expect(props.actions.deleteTeamSpecificThemes).toHaveBeenCalled();
     });
 });

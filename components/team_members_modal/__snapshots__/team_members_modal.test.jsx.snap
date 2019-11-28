@@ -3,12 +3,14 @@
 exports[`components/TeamMembersModal should match snapshot 1`] = `
 <Modal
   animation={true}
+  aria-labelledby="teamMemberModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="more-modal"
+  dialogClassName="a11y__modal more-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="teamMembersModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -26,6 +28,7 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
   onHide={[Function]}
   renderBackdrop={[Function]}
   restoreFocus={true}
+  role="dialog"
   show={true}
 >
   <ModalHeader
@@ -35,7 +38,8 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
   >
     <ModalTitle
       bsClass="modal-title"
-      componentClass="h4"
+      componentClass="h1"
+      id="teamMemberModalLabel"
     >
       <FormattedMessage
         defaultMessage="{team} Members"
@@ -47,6 +51,27 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
         }
       />
     </ModalTitle>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+    >
+      <button
+        className="btn btn-primary invite-people-btn"
+        id="invitePeople"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Invite People"
+          id="team_member_modal.invitePeople"
+          values={Object {}}
+        />
+      </button>
+    </Connect(TeamPermissionGate)>
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"

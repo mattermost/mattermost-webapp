@@ -8,7 +8,7 @@
     left: 0;
     position: fixed;
     width: 220px;
-    z-index: 10;
+    z-index: 12;
 
     body.announcement-bar--fixed & {
         height: calc(100% - #{$announcement-bar-height});
@@ -33,7 +33,7 @@
         }
 
         .icon__lock {
-            top: 2px;
+            top: 1px;
         }
 
         .icon__globe {
@@ -129,6 +129,13 @@
                     @include opacity(1);
                 }
             }
+
+            body.enable-animations & {
+                @include transition-property(background-color);
+                @include transition-duration($transition-quick);
+                @include transition-delay(0s);
+                @include transition-timing-function(ease-in-out);
+            }
         }
 
         .switch__shortcut {
@@ -164,27 +171,47 @@
         position: relative;
         width: 100%;
         padding-bottom: 10px;
+        li {
+            >h4, >.nav-more {
+                color: var(--sidebar-text-60);
+            }
+        }
     }
 
     .nav-pills__unread-indicator {
-        @include border-radius(50px);
-        font-size: 13.5px;
-        cursor: pointer;
-        left: 15px;
-        margin: 0 auto;
-        padding: 4px 0 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: absolute;
+        margin-left: 50%;
+        width: 188px;
+        font-size: 14px;
+        line-height: 28px;
         text-align: center;
-        width: 190px;
+        @include border-radius(14px);
         z-index: 1;
+        cursor: pointer;
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
 
         .icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
             margin-left: 5px;
+        }
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in, step-end);
         }
     }
 
     .nav-pills__unread-indicator-top {
-        top: 15px;
+        top: 16px;
 
         .icon {
             svg {
@@ -194,7 +221,19 @@
     }
 
     .nav-pills__unread-indicator-bottom {
-        bottom: 15px;
+        bottom: 16px;
+    }
+
+    .nav-pills__unread-indicator--visible {
+        opacity: 1;
+        visibility: visible;
+
+        body.enable-animations & {
+            @include transition-property(opacity, visibility);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-out, step-start);
+        }
     }
 
     .nav {
@@ -209,15 +248,22 @@
             cursor: pointer;
         }
 
+        .sidebar-section__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            margin: 1em 0 0.3em;
+            padding: 0 12px 0 15px;
+            text-transform: uppercase;
+            height: 28px;
+        }
+
         li {
             > h4 {
-                align-items: end;
-                display: flex;
                 font-size: 1em;
                 font-weight: 600;
-                margin: 1.5em 0 .7em;
-                padding: 0 12px 0 15px;
-                text-transform: uppercase;
+                margin: 0;
 
                 span {
                     flex: 1;
@@ -239,10 +285,18 @@
                 padding: 5px 0 5px 15px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+
+                body.enable-animations & {
+                    @include transition-property(color, background-color);
+                    @include transition-duration($transition-quick);
+                    @include transition-delay(0s);
+                    @include transition-timing-function(ease-in-out);
+                }
             }
 
             .sidebar-item {
                 @include single-transition(none);
+                color: v(sidebar-text-60);
                 align-items: center;
                 border-radius: 0;
                 display: flex;
@@ -274,13 +328,13 @@
                     &:hover {
                         .btn-close {
                             @include opacity(.8);
-                            display: block;
+                            visibility: visible;
                         }
                     }
 
                     .btn-close {
                         @include opacity(0);
-                        display: none;
+                        visibility: hidden;
                         font-family: 'Open Sans', sans-serif;
                         font-size: 21px;
                         font-weight: 600;
@@ -308,6 +362,8 @@
             }
 
             &.active {
+                color: v(sidebar-text);
+
                 .muted {
                     opacity: 1;
                 }
@@ -357,59 +413,30 @@
         float: right;
         font-size: 1.9em;
         font-weight: 700;
-        line-height: 18px;
-        margin: -2px 0 0 0;
-        outline: none;
-        padding: 0 5px;
         text-decoration: none;
+        border-radius: 50%;
+        line-height: 0;
+        height: 28px;
+        color: var(--sidebar-text-80);
 
-        &:hover {
-            color: #666666;
+        &:hover, &:focus {
+            color: var(--sidebar-text);
         }
-    }
 
-    .status-wrapper {
-        height: 36px;
-        width: 36px;
+        span {
+            margin: -7px 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        .status {
-            bottom: -4px;
-            height: 18px;
-            right: -5px;
-            width: 18px;
-
-            &.status-edit {
-                .fa {
-                    top: 4px;
-                }
-            }
-
-            .fa {
-                position: relative;
-                top: 2px;
-            }
-
-            .icon__container {
-                &:after {
-                    border-radius: 20px;
-                    content: '';
-                    height: 10px;
-                    left: 4px;
-                    position: absolute;
-                    top: 4px;
-                    width: 10px;
-                }
-            }
-
-            svg {
-                height: 13px;
-                left: 3px;
-                max-height: initial;
-                position: relative;
-                top: 3px;
-                width: 13px;
-                z-index: 1;
-            }
+        body.enable-animations & {
+            @include transition-property(color);
+            @include transition-duration($transition-quick);
+            @include transition-delay(0s);
+            @include transition-timing-function(ease-in-out);
         }
     }
 }

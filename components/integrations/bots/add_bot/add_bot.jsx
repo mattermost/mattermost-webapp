@@ -14,9 +14,10 @@ import BotDefaultIcon from 'images/bot_default_icon.png';
 
 import {browserHistory} from 'utils/browser_history';
 import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
-import SpinnerButton from 'components/spinner_button.jsx';
-import FormError from 'components/form_error.jsx';
-import {AcceptedProfileImageTypes, OVERLAY_TIME_DELAY} from 'utils/constants.jsx';
+import SpinnerButton from 'components/spinner_button';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormError from 'components/form_error';
+import {AcceptedProfileImageTypes, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import * as FileUtils from 'utils/file_utils.jsx';
 
@@ -242,7 +243,7 @@ export default class AddBot extends React.Component {
         });
 
         const bot = {
-            username: this.state.username.toLowerCase(),
+            username: this.state.username.toLowerCase().trim(),
             display_name: this.state.displayName,
             description: this.state.description,
         };
@@ -262,7 +263,7 @@ export default class AddBot extends React.Component {
                 if (this.state.pictureFile && this.state.pictureFile !== 'default') {
                     const imageResult = await this.props.actions.uploadProfileImage(data.user_id, this.state.pictureFile);
                     error = imageResult.error;
-                } else {
+                } else if (this.state.pictureFile && this.state.pictureFile === 'default') {
                     await this.props.actions.setDefaultProfileImage(data.user_id);
                 }
             }
@@ -276,6 +277,15 @@ export default class AddBot extends React.Component {
                 return;
             }
         } else {
+            const usernameError = Utils.isValidBotUsername(bot.username);
+            if (usernameError) {
+                this.setState({
+                    adding: false,
+                    error: usernameError,
+                });
+                return;
+            }
+
             const result = await this.props.actions.createBot(bot);
             if (result) {
                 data = result.data;
@@ -370,8 +380,7 @@ export default class AddBot extends React.Component {
         let imageURL = '';
         let removeImageIcon = (
             <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={OVERLAY_TIME_DELAY}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='right'
                 overlay={(
                     <Tooltip id='removeIcon'>
@@ -569,6 +578,14 @@ export default class AddBot extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <div className='row bot-profile__section'>
+                            <div className='col-md-5 col-sm-8 col-sm-offset-4'>
+                                <FormattedMarkdownMessage
+                                    id='admin.manage_roles.additionalRoles'
+                                    defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://about.mattermost.com/default-permissions).'
+                                />
+                            </div>
+                        </div>
                         <div className='form-group'>
                             <label
                                 className='control-label col-sm-4'
@@ -580,13 +597,21 @@ export default class AddBot extends React.Component {
                                 />
                             </label>
                             <div className='col-md-5 col-sm-8 checkbox'>
-                                <input
-                                    id='postAll'
-                                    type='checkbox'
-                                    checked={this.state.postAll || this.state.role === roleOptionSystemAdmin}
-                                    onChange={this.updatePostAll}
-                                    disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin}
-                                />
+                                <div className='checkbox no-padding'>
+                                    <label htmlFor='postAll'>
+                                        <input
+                                            id='postAll'
+                                            type='checkbox'
+                                            checked={this.state.postAll || this.state.role === roleOptionSystemAdmin}
+                                            onChange={this.updatePostAll}
+                                            disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin}
+                                        />
+                                        <FormattedMessage
+                                            id='bot.add.post_all.enabled'
+                                            defaultMessage='Enabled'
+                                        />
+                                    </label>
+                                </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.post_all.help'
@@ -606,13 +631,21 @@ export default class AddBot extends React.Component {
                                 />
                             </label>
                             <div className='col-md-5 col-sm-8 checkbox'>
-                                <input
-                                    id='postChannels'
-                                    type='checkbox'
-                                    checked={this.state.postChannels || this.state.role === roleOptionSystemAdmin || this.state.postAll}
-                                    onChange={this.updatePostChannels}
-                                    disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin || this.state.postAll}
-                                />
+                                <div className='checkbox no-padding'>
+                                    <label htmlFor='postChannels'>
+                                        <input
+                                            id='postChannels'
+                                            type='checkbox'
+                                            checked={this.state.postChannels || this.state.role === roleOptionSystemAdmin || this.state.postAll}
+                                            onChange={this.updatePostChannels}
+                                            disabled={!this.props.editingUserHasManageSystem || this.state.role === roleOptionSystemAdmin || this.state.postAll}
+                                        />
+                                        <FormattedMessage
+                                            id='bot.add.post_channels.enabled'
+                                            defaultMessage='Enabled'
+                                        />
+                                    </label>
+                                </div>
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='bot.add.post_channels.help'
@@ -641,6 +674,7 @@ export default class AddBot extends React.Component {
                                 spinning={this.state.adding}
                                 spinningText={buttonActiveText}
                                 onClick={this.handleSubmit}
+                                id='saveBot'
                             >
                                 {buttonText}
                             </SpinnerButton>

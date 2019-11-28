@@ -9,10 +9,11 @@ exports[`components/SingleImageView should match snapshot 1`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
-      <a
+      <button
         aria-label="Toggle Embed Visibility"
-        className="post__embed-visibility"
+        className="style--none post__embed-visibility color--link"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
@@ -39,6 +40,17 @@ exports[`components/SingleImageView should match snapshot 1`] = `
               "width": 350,
             }
           }
+          fileInfo={
+            Object {
+              "extension": "jpg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "file_info_id",
+              "name": "name",
+              "post_id": "post_id",
+              "width": 350,
+            }
+          }
           onClick={[Function]}
           onImageLoaded={[Function]}
           showLoader={true}
@@ -59,10 +71,11 @@ exports[`components/SingleImageView should match snapshot 2`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
-      <a
+      <button
         aria-label="Toggle Embed Visibility"
-        className="post__embed-visibility"
+        className="style--none post__embed-visibility color--link"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
@@ -86,6 +99,17 @@ exports[`components/SingleImageView should match snapshot 2`] = `
           dimensions={
             Object {
               "height": 200,
+              "width": 350,
+            }
+          }
+          fileInfo={
+            Object {
+              "extension": "jpg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "file_info_id",
+              "name": "name",
+              "post_id": "post_id",
               "width": 350,
             }
           }
@@ -127,10 +151,11 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
-      <a
+      <button
         aria-label="Toggle Embed Visibility"
-        className="post__embed-visibility"
+        className="style--none post__embed-visibility color--link"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
@@ -145,8 +170,8 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
       className="image-container"
       style={
         Object {
-          "height": 150,
-          "width": "auto",
+          "height": 350,
+          "maxWidth": "100%",
         }
       }
     >
@@ -160,6 +185,14 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
             Object {
               "height": undefined,
               "width": undefined,
+            }
+          }
+          fileInfo={
+            Object {
+              "extension": "svg",
+              "id": "svg_file_info_id",
+              "name": "name_svg",
+              "post_id": "post_id",
             }
           }
           onClick={[Function]}
@@ -182,10 +215,11 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
-      <a
+      <button
         aria-label="Toggle Embed Visibility"
-        className="post__embed-visibility"
+        className="style--none post__embed-visibility color--link"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
@@ -200,8 +234,8 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
       className="image-container"
       style={
         Object {
-          "height": 150,
-          "width": "auto",
+          "height": 350,
+          "maxWidth": "100%",
         }
       }
     >
@@ -215,6 +249,14 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
             Object {
               "height": undefined,
               "width": undefined,
+            }
+          }
+          fileInfo={
+            Object {
+              "extension": "svg",
+              "id": "svg_file_info_id",
+              "name": "name_svg",
+              "post_id": "post_id",
             }
           }
           onClick={[Function]}
@@ -252,10 +294,11 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
   >
     <div
       className="image-name"
+      data-testid="image-name"
     >
-      <a
+      <button
         aria-label="Toggle Embed Visibility"
-        className="post__embed-visibility"
+        className="style--none post__embed-visibility color--link"
         data-expanded={true}
         key="toggle"
         onClick={[Function]}
@@ -279,6 +322,17 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
           dimensions={
             Object {
               "height": 200,
+              "width": 350,
+            }
+          }
+          fileInfo={
+            Object {
+              "extension": "jpg",
+              "has_preview_image": true,
+              "height": 200,
+              "id": "file_info_id",
+              "name": "name",
+              "post_id": "post_id",
               "width": 350,
             }
           }

@@ -10,6 +10,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
     className="integration__icon integration-list__icon"
   >
     <img
+      alt="get app screenshot"
       src="https://test.com/icon"
     />
   </div>
@@ -17,13 +18,55 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         testApp
-      </span>
+      </strong>
+      <div
+        className="item-actions"
+      >
+        <button
+          className="style--none color--link"
+          id="showSecretButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Show Secret"
+            id="installed_integrations.showSecret"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <button
+          className="style--none color--link"
+          id="regenerateSecretButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Regenerate Secret"
+            id="installed_integrations.regenSecret"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <Link
+          to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          />
+        </Link>
+         - 
+        <DeleteIntegration
+          messageId="installed_oauth_apps.delete.confirm"
+          onDelete={[Function]}
+        />
+      </div>
     </div>
     <div
       className="item-details__row"
@@ -126,48 +169,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       </span>
     </div>
   </div>
-  <div
-    className="item-actions"
-  >
-    <button
-      className="style--none color--link"
-      id="showSecretButton"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Show Secret"
-        id="installed_integrations.showSecret"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <button
-      className="style--none color--link"
-      id="regenerateSecretButton"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Regenerate Secret"
-        id="installed_integrations.regenSecret"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <Link
-      to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
-    >
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="installed_integrations.edit"
-        values={Object {}}
-      />
-    </Link>
-     - 
-    <DeleteIntegration
-      messageId="installed_oauth_apps.delete.confirm"
-      onDelete={[Function]}
-    />
-  </div>
 </div>
 `;
 
@@ -179,6 +180,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
     className="integration__icon integration-list__icon"
   >
     <img
+      alt="get app screenshot"
       src="https://test.com/icon"
     />
   </div>
@@ -186,9 +188,9 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -196,7 +198,49 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
           id="installed_integrations.unnamed_oauth_app"
           values={Object {}}
         />
-      </span>
+      </strong>
+      <div
+        className="item-actions"
+      >
+        <button
+          className="style--none color--link"
+          id="showSecretButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Show Secret"
+            id="installed_integrations.showSecret"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <button
+          className="style--none color--link"
+          id="regenerateSecretButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Regenerate Secret"
+            id="installed_integrations.regenSecret"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <Link
+          to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          />
+        </Link>
+         - 
+        <DeleteIntegration
+          messageId="installed_oauth_apps.delete.confirm"
+          onDelete={[Function]}
+        />
+      </div>
     </div>
     <FormError
       error="error"
@@ -303,48 +347,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       </span>
     </div>
   </div>
-  <div
-    className="item-actions"
-  >
-    <button
-      className="style--none color--link"
-      id="showSecretButton"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Show Secret"
-        id="installed_integrations.showSecret"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <button
-      className="style--none color--link"
-      id="regenerateSecretButton"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Regenerate Secret"
-        id="installed_integrations.regenSecret"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <Link
-      to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
-    >
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="installed_integrations.edit"
-        values={Object {}}
-      />
-    </Link>
-     - 
-    <DeleteIntegration
-      messageId="installed_oauth_apps.delete.confirm"
-      onDelete={[Function]}
-    />
-  </div>
 </div>
 `;
 
@@ -356,6 +358,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
     className="integration__icon integration-list__icon"
   >
     <img
+      alt="get app screenshot"
       src="https://test.com/icon"
     />
   </div>
@@ -363,9 +366,9 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
     className="item-details"
   >
     <div
-      className="item-details__row"
+      className="item-details__row d-flex flex-column flex-md-row justify-content-between"
     >
-      <span
+      <strong
         className="item-details__name"
       >
         <FormattedMessage
@@ -373,7 +376,49 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
           id="installed_integrations.unnamed_oauth_app"
           values={Object {}}
         />
-      </span>
+      </strong>
+      <div
+        className="item-actions"
+      >
+        <button
+          className="style--none color--link"
+          id="showSecretButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Show Secret"
+            id="installed_integrations.showSecret"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <button
+          className="style--none color--link"
+          id="regenerateSecretButton"
+          onClick={[Function]}
+        >
+          <FormattedMessage
+            defaultMessage="Regenerate Secret"
+            id="installed_integrations.regenSecret"
+            values={Object {}}
+          />
+        </button>
+         - 
+        <Link
+          to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="installed_integrations.edit"
+            values={Object {}}
+          />
+        </Link>
+         - 
+        <DeleteIntegration
+          messageId="installed_oauth_apps.delete.confirm"
+          onDelete={[Function]}
+        />
+      </div>
     </div>
     <div
       className="item-details__row"
@@ -475,48 +520,6 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
         />
       </span>
     </div>
-  </div>
-  <div
-    className="item-actions"
-  >
-    <button
-      className="style--none color--link"
-      id="showSecretButton"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Show Secret"
-        id="installed_integrations.showSecret"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <button
-      className="style--none color--link"
-      id="regenerateSecretButton"
-      onClick={[Function]}
-    >
-      <FormattedMessage
-        defaultMessage="Regenerate Secret"
-        id="installed_integrations.regenSecret"
-        values={Object {}}
-      />
-    </button>
-     - 
-    <Link
-      to="/team_name/integrations/oauth2-apps/edit?id=facxd9wpzpbpfp8pad78xj75pr"
-    >
-      <FormattedMessage
-        defaultMessage="Edit"
-        id="installed_integrations.edit"
-        values={Object {}}
-      />
-    </Link>
-     - 
-    <DeleteIntegration
-      messageId="installed_oauth_apps.delete.confirm"
-      onDelete={[Function]}
-    />
   </div>
 </div>
 `;

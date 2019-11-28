@@ -1,14 +1,27 @@
-.PHONY: build test run clean stop check-style run-unit emojis help
+.PHONY: build test run clean stop check-style run-unit emojis help package-ci storybook build-storybook
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
 MM_UTILITIES_DIR = ../mattermost-utilities
 EMOJI_TOOLS_DIR = ./build/emoji
 
+build-storybook: node_modules ## Build the storybook
+	@echo Building storybook
+
+	npm run build-storybook
+
+storybook: node_modules ## Run the storybook development environment
+	npm run storybook
+
 check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
 
 	npm run check
+
+check-types: node_modules ## Checks TS file for TypeScript confirmity
+	@echo Checking for TypeScript compliance
+
+	npm run check-types
 
 test: node_modules ## Runs tests
 	@echo Running jest unit/component testing
@@ -32,6 +45,20 @@ package: build ## Packages app
 	mv tmp/client dist
 	rmdir tmp
 
+package-ci: ## used in the CI to build the package and bypass the npm install
+	@echo Building mattermost Webapp
+
+	rm -rf dist
+	npm run build
+
+	@echo Packaging webapp
+
+	mkdir tmp
+	mv dist tmp/client
+	tar -C tmp -czf mattermost-webapp.tar.gz client
+	mv tmp/client dist
+	rmdir tmp
+
 build: node_modules ## Builds the app
 	@echo Building mattermost Webapp
 
@@ -43,6 +70,9 @@ run: node_modules ## Runs app
 	@echo Running mattermost Webapp for development
 
 	npm run run &
+
+dev: node_modules ## Runs webpack-dev-server
+	npm run dev-server
 
 run-fullmap: node_modules ## Legacy alias to run
 	@echo Running mattermost Webapp for development
@@ -69,7 +99,7 @@ clean: ## Clears cached; deletes node_modules and dist directories
 	rm -rf dist
 	rm -rf node_modules
 
-e2e: node_modules
+e2e-test: node_modules
 	@echo E2E: Running mattermost-mysql-e2e
 	@if [ $(shell docker ps -a | grep -ci mattermost-mysql-e2e) -eq 0 ]; then \
 		echo starting mattermost-mysql-e2e; \
@@ -81,8 +111,8 @@ e2e: node_modules
 	fi
 
 	cd $(BUILD_SERVER_DIR) && [[ -f config/config.json ]] && \
-		cp config/config.json config/config-backup.json && cp config/default.json config/config.json || \
-		echo "config.json not found" && cp config/default.json config/config.json
+		cp config/config.json config/config-backup.json && make config-reset || \
+		echo "config.json not found" && make config-reset
 
 	@echo E2E: Starting the server
 	cd $(BUILD_SERVER_DIR) && $(MAKE) run
@@ -91,7 +121,7 @@ e2e: node_modules
 	cd $(BUILD_SERVER_DIR) && $(MAKE) test-data
 
 	@echo E2E: Running end-to-end testing
-	npm run cypress:run
+	cd e2e && npm install && npm run cypress:run
 
 	@echo E2E: Stoppping the server
 	cd $(BUILD_SERVER_DIR) && $(MAKE) stop
@@ -115,11 +145,11 @@ clean-e2e:
 		cp config/config-backup.json config/config.json && echo "revert local config.json" || \
 		echo "config-backup.json not found" && sed -i'' -e 's|"DataSource": ".*"|"DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8\u0026readTimeout=30s\u0026writeTimeout=30s"|g' config/config.json
 
-emojis: ## Creates emoji JSX file and extracts emoji images from the system font
+emojis: ## Creates emoji JSON, JSX and Go files and extracts emoji images from the system font
 	gem install bundler
 	bundle install --gemfile=$(EMOJI_TOOLS_DIR)/Gemfile
-	BUNDLE_GEMFILE=$(EMOJI_TOOLS_DIR)/Gemfile bundle exec $(EMOJI_TOOLS_DIR)/make-emojis
+	BUNDLE_GEMFILE=$(EMOJI_TOOLS_DIR)/Gemfile SERVER_DIR=$(BUILD_SERVER_DIR) bundle exec $(EMOJI_TOOLS_DIR)/make-emojis
 
 ## Help documentatin à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

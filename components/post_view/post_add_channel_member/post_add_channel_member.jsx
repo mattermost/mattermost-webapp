@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {sendAddToChannelEphemeralPost} from 'actions/global_actions.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import {t} from 'utils/i18n';
 import AtMention from 'components/at_mention';
 
@@ -153,7 +153,7 @@ export default class PostAddChannelMember extends React.PureComponent {
         const outOfGroupsAtMentions = this.generateAtMentions(noGroupsUsernames);
         if (noGroupsUsernames.length) {
             outOfGroupsMessageID = t('post_body.check_for_out_of_channel_groups_mentions.message');
-            outOfGroupsMessageText = 'did not get notified by this mention because they are not in the channel. They are also not a member of the groups linked to this channel.';
+            outOfGroupsMessageText = 'did not get notified by this mention because they are not in the channel. They cannot be added to the channel because they are not a member of the linked groups. To add them to this channel, they must be added to the linked groups.';
         }
 
         var outOfChannelMessage = null;

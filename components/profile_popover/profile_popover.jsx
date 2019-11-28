@@ -3,23 +3,23 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
-import {Permissions} from 'mattermost-redux/constants';
 
 import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
-import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import Avatar from 'components/widgets/users/avatar';
+import Popover from 'components/widgets/popover';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -41,11 +41,6 @@ class ProfilePopover extends React.PureComponent {
          * User the popover is being opened for
          */
         user: PropTypes.object,
-
-        /**
-         * The bot this profile picture is being opened for (if bot)
-         */
-        bot: PropTypes.object,
 
         /**
          * Status for the user, either 'offline', 'away', 'dnd' or 'online'
@@ -70,12 +65,17 @@ class ProfilePopover extends React.PureComponent {
         /**
          * @internal
          */
+        currentUserId: PropTypes.string.isRequired,
+
+        /**
+         * @internal
+         */
         hasMention: PropTypes.bool,
 
         /**
          * @internal
          */
-        currentUserId: PropTypes.string.isRequired,
+        isInCurrentTeam: PropTypes.bool.isRequired,
 
         /**
          * @internal
@@ -95,11 +95,15 @@ class ProfilePopover extends React.PureComponent {
         /**
          * @internal
          */
+        canManageAnyChannelMembersInCurrentTeam: PropTypes.bool.isRequired,
+
+        /**
+         * @internal
+         */
         actions: PropTypes.shape({
             getMembershipForCurrentEntities: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
-            loadBot: PropTypes.func.isRequired,
         }).isRequired,
 
         /**
@@ -119,9 +123,6 @@ class ProfilePopover extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleShowDirectChannel = this.handleShowDirectChannel.bind(this);
-        this.handleMentionKeyClick = this.handleMentionKeyClick.bind(this);
-        this.handleEditAccountSettings = this.handleEditAccountSettings.bind(this);
         this.state = {
             loadingDMChannel: -1,
         };
@@ -129,10 +130,9 @@ class ProfilePopover extends React.PureComponent {
 
     componentDidMount() {
         this.props.actions.getMembershipForCurrentEntities(this.props.userId);
-        this.props.actions.loadBot(this.props.userId);
     }
 
-    handleShowDirectChannel(e) {
+    handleShowDirectChannel = (e) => {
         const {actions} = this.props;
         e.preventDefault();
 
@@ -162,7 +162,7 @@ class ProfilePopover extends React.PureComponent {
         });
     }
 
-    handleMentionKeyClick(e) {
+    handleMentionKeyClick = (e) => {
         e.preventDefault();
 
         if (!this.props.user) {
@@ -174,7 +174,7 @@ class ProfilePopover extends React.PureComponent {
         EventEmitter.emit('mention_key_click', this.props.user.username, this.props.isRHS);
     }
 
-    handleEditAccountSettings(e) {
+    handleEditAccountSettings = (e) => {
         e.preventDefault();
 
         if (!this.props.user) {
@@ -209,20 +209,19 @@ class ProfilePopover extends React.PureComponent {
         delete popoverProps.actions;
         delete popoverProps.isTeamAdmin;
         delete popoverProps.isChannelAdmin;
+        delete popoverProps.canManageAnyChannelMembersInCurrentTeam;
         delete popoverProps.intl;
 
         const {formatMessage} = this.props.intl;
 
         var dataContent = [];
         dataContent.push(
-            <img
-                className='user-popover__image'
-                alt={`${this.props.user.username || 'user'} profile image`}
-                src={this.props.src}
-                height='128'
-                width='128'
+            <Avatar
+                size='xxl'
+                username={this.props.user.username}
+                url={this.props.src}
                 key='user-popover-image'
-            />
+            />,
         );
 
         const fullname = Utils.getFullName(this.props.user);
@@ -232,7 +231,7 @@ class ProfilePopover extends React.PureComponent {
                 <hr
                     key='user-popover-hr'
                     className='divider divider--expanded'
-                />
+                />,
             );
         }
 
@@ -249,18 +248,18 @@ class ProfilePopover extends React.PureComponent {
                     >
                         <strong>{fullname}</strong>
                     </div>
-                </OverlayTrigger>
+                </OverlayTrigger>,
             );
         }
 
-        if (this.props.user.is_bot && this.props.bot) {
+        if (this.props.user.is_bot) {
             dataContent.push(
                 <div
                     key='bot-description'
                     className='overflow--ellipsis text-nowrap'
                 >
-                    {this.props.bot.description}
-                </div>
+                    {this.props.user.bot_description}
+                </div>,
             );
         }
 
@@ -278,7 +277,7 @@ class ProfilePopover extends React.PureComponent {
                     >
                         {position}
                     </div>
-                </OverlayTrigger>
+                </OverlayTrigger>,
             );
         }
 
@@ -288,7 +287,7 @@ class ProfilePopover extends React.PureComponent {
                 <hr
                     key='user-popover-hr2'
                     className='divider divider--expanded'
-                />
+                />,
             );
 
             dataContent.push(
@@ -303,7 +302,7 @@ class ProfilePopover extends React.PureComponent {
                     >
                         {email}
                     </a>
-                </div>
+                </div>,
             );
         }
 
@@ -312,8 +311,9 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable2'
                 pluggableName='PopoverUserAttributes'
                 user={this.props.user}
+                hide={this.props.hide}
                 status={this.props.hideStatus ? null : this.props.status}
-            />
+            />,
         );
 
         if (this.props.enableTimezone && this.props.user.timezone) {
@@ -327,7 +327,7 @@ class ProfilePopover extends React.PureComponent {
                         defaultMessage='Local Time: '
                     />
                     <LocalDateTime userTimezone={this.props.user.timezone}/>
-                </div>
+                </div>,
             );
         }
 
@@ -351,7 +351,7 @@ class ProfilePopover extends React.PureComponent {
                             defaultMessage='Edit Account Settings'
                         />
                     </a>
-                </div>
+                </div>,
             );
         }
 
@@ -376,24 +376,23 @@ class ProfilePopover extends React.PureComponent {
                             defaultMessage='Send Message'
                         />
                     </a>
-                </div>
+                </div>,
             );
 
-            dataContent.push(
-                <TeamPermissionGate
-                    teamId={this.props.currentTeamId}
-                    permissions={[Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS, Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
-                    key='user-popover-add-to-channel'
-                >
+            if (this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) {
+                const addToChannelMessage = formatMessage({id: 'user_profile.add_user_to_channel', defaultMessage: 'Add to a Channel'});
+                dataContent.push(
                     <div
                         data-toggle='tooltip'
                         className='popover__row first'
+                        key='user-popover-add-to-channel'
                     >
                         <a
                             href='#'
                             className='text-nowrap'
                         >
                             <ToggleModalButtonRedux
+                                accessibilityLabel={addToChannelMessage}
                                 ref='addUserToChannelModalButton'
                                 modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
                                 role='menuitem'
@@ -405,15 +404,12 @@ class ProfilePopover extends React.PureComponent {
                                     className='fa fa-user-plus'
                                     title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
                                 />
-                                <FormattedMessage
-                                    id='user_profile.add_user_to_channel'
-                                    defaultMessage='Add to a Channel'
-                                />
+                                {addToChannelMessage}
                             </ToggleModalButtonRedux>
                         </a>
-                    </div>
-                </TeamPermissionGate>
-            );
+                    </div>,
+                );
+            }
         }
 
         dataContent.push(
@@ -421,13 +417,16 @@ class ProfilePopover extends React.PureComponent {
                 key='profilePopoverPluggable3'
                 pluggableName='PopoverUserActions'
                 user={this.props.user}
+                hide={this.props.hide}
                 status={this.props.hideStatus ? null : this.props.status}
-            />
+            />,
         );
 
         let roleTitle;
         if (this.props.user.is_bot) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('bots.is_bot', 'BOT')}</span>;
+        } else if (Utils.isGuest(this.props.user)) {
+            roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('post_info.guest', 'GUEST')}</span>;
         } else if (Utils.isSystemAdmin(this.props.user.roles)) {
             roleTitle = <span className='user-popover__role'>{Utils.localizeMessage('admin.permissions.roles.system_admin.name', 'System Admin')}</span>;
         } else if (this.props.isTeamAdmin) {
@@ -440,8 +439,9 @@ class ProfilePopover extends React.PureComponent {
         if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }
+
         title = (
-            <span>
+            <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
                 <span className='user-popover__username'>
                     {title}
                 </span>

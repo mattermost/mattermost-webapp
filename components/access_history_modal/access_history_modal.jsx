@@ -9,7 +9,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {isMobile} from 'utils/utils.jsx';
 import AuditTable from 'components/audit_table';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 
 export default class AccessHistoryModal extends React.PureComponent {
     static propTypes = {
@@ -76,14 +76,19 @@ export default class AccessHistoryModal extends React.PureComponent {
 
         return (
             <Modal
-                dialogClassName='modal--scroll'
+                dialogClassName='a11y__modal modal--scroll'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
                 bsSize='large'
+                role='dialog'
+                aria-labelledby='accessHistoryModalLabel'
             >
                 <Modal.Header closeButton={true}>
-                    <Modal.Title>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='accessHistoryModalLabel'
+                    >
                         <FormattedMessage
                             id='access_history.title'
                             defaultMessage='Access History'
@@ -93,6 +98,18 @@ export default class AccessHistoryModal extends React.PureComponent {
                 <Modal.Body ref='modalBody'>
                     {content}
                 </Modal.Body>
+                <Modal.Footer className='modal-footer--invisible'>
+                    <button
+                        id='closeModalButton'
+                        type='button'
+                        className='btn btn-link'
+                    >
+                        <FormattedMessage
+                            id='general_button.close'
+                            defaultMessage='Close'
+                        />
+                    </button>
+                </Modal.Footer>
             </Modal>
         );
     }

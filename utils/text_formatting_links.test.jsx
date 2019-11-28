@@ -29,11 +29,6 @@ describe('Markdown.Links', () => {
         );
 
         assert.equal(
-            Markdown.format('test.:test').trim(),
-            '<p>test.:test</p>'
-        );
-
-        assert.equal(
             Markdown.format('`https://example.com`').trim(),
             '<p>' +
                 '<span class="codespan__pre-wrap">' +
@@ -51,6 +46,11 @@ describe('Markdown.Links', () => {
     });
 
     it('External links', () => {
+        assert.equal(
+            Markdown.format('test.:test').trim(),
+            '<p><a class="theme markdown__link" href="test.:test" rel="noreferrer" target="_blank">test.:test</a></p>'
+        );
+
         assert.equal(
             Markdown.format('http://example.com').trim(),
             '<p><a class="theme markdown__link" href="http://example.com" rel="noreferrer" target="_blank">http://example.com</a></p>'
@@ -230,11 +230,11 @@ describe('Markdown.Links', () => {
     it('Email addresses', () => {
         assert.equal(
             Markdown.format('test@example.com').trim(),
-            '<p><a class="theme" href="mailto:test@example.com">test@example.com</a></p>'
+            '<p><a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a></p>'
         );
         assert.equal(
             Markdown.format('test_underscore@example.com').trim(),
-            '<p><a class="theme" href="mailto:test_underscore@example.com">test_underscore@example.com</a></p>'
+            '<p><a class="theme" href="mailto:test_underscore@example.com" rel="noreferrer" target="_blank">test_underscore@example.com</a></p>'
         );
 
         assert.equal(
@@ -429,17 +429,17 @@ describe('Markdown.Links', () => {
 
         assert.equal(
             Markdown.format('(test@example.com)').trim(),
-            '<p>(<a class="theme" href="mailto:test@example.com">test@example.com</a>)</p>'
+            '<p>(<a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a>)</p>'
         );
 
         assert.equal(
             Markdown.format('(email test@example.com)').trim(),
-            '<p>(email <a class="theme" href="mailto:test@example.com">test@example.com</a>)</p>'
+            '<p>(email <a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a>)</p>'
         );
 
         assert.equal(
             Markdown.format('(test@example.com email)').trim(),
-            '<p>(<a class="theme" href="mailto:test@example.com">test@example.com</a> email)</p>'
+            '<p>(<a class="theme" href="mailto:test@example.com" rel="noreferrer" target="_blank">test@example.com</a> email)</p>'
         );
 
         assert.equal(
@@ -528,7 +528,7 @@ describe('Markdown.Links', () => {
 
         test('only matching links are rendered when schemes are provided', () => {
             const options = {
-                autolinkedUrlSchemes: ['https', 'git', 'test'],
+                autolinkedUrlSchemes: ['https', 'git', 'test', 'test.', 'taco+what', 'taco.what'],
             };
 
             expect(Markdown.format('http://example.com', options).trim()).toBe('<p>http://example.com</p>');
@@ -544,6 +544,12 @@ describe('Markdown.Links', () => {
             expect(Markdown.format('git://git.example.com', options).trim()).toBe(`<p>${link('git://git.example.com')}</p>`);
 
             expect(Markdown.format('test:test', options).trim()).toBe(`<p>${link('test:test')}</p>`);
+
+            expect(Markdown.format('test.:test', options).trim()).toBe(`<p>${link('test.:test')}</p>`);
+
+            expect(Markdown.format('taco+what://example.com', options).trim()).toBe(`<p>${link('taco+what://example.com')}</p>`);
+
+            expect(Markdown.format('taco.what://example.com', options).trim()).toBe(`<p>${link('taco.what://example.com')}</p>`);
         });
 
         test('explicit links are not affected by this setting', () => {

@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import icon50 from 'images/icon50x50.png';
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 import {browserHistory} from 'utils/browser_history';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
@@ -24,9 +24,6 @@ export default class Authorize extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.handleAllow = this.handleAllow.bind(this);
-        this.handleDeny = this.handleDeny.bind(this);
 
         this.state = {};
     }
@@ -53,7 +50,7 @@ export default class Authorize extends React.Component {
         }
     }
 
-    handleAllow() {
+    handleAllow = () => {
         const searchParams = new URLSearchParams(this.props.location.search);
         const params = {
             responseType: searchParams.get('response_type'),
@@ -74,7 +71,7 @@ export default class Authorize extends React.Component {
         );
     }
 
-    handleDeny() {
+    handleDeny = () => {
         const redirectUri = (new URLSearchParams(this.props.location.search)).get('redirect_uri');
         if (redirectUri.startsWith('https://') || redirectUri.startsWith('http://')) {
             window.location.href = redirectUri + '?error=access_denied';
@@ -112,10 +109,10 @@ export default class Authorize extends React.Component {
                     <div className='prompt__heading'>
                         <div className='prompt__app-icon'>
                             <img
+                                alt={'prompt icon'}
                                 src={icon}
                                 width='50'
                                 height='50'
-                                alt=''
                             />
                         </div>
                         <div className='text'>

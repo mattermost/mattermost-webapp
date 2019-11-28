@@ -5,7 +5,7 @@ exports[`CommandSuggestion should match snapshot 1`] = `
   className="command suggestion--selected"
   onClick={[Function]}
   role="button"
-  tabIndex={0}
+  tabIndex={-1}
 >
   <div
     className="command__title"

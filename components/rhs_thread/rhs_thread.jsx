@@ -8,10 +8,10 @@ import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {Posts} from 'mattermost-redux/constants';
 
-import Constants from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
+import Constants from 'utils/constants';
+import DelayedAction from 'utils/delayed_action';
 import * as Utils from 'utils/utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import CreateComment from 'components/create_comment';
 import DateSeparator from 'components/post_view/date_separator';
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -53,9 +53,21 @@ export default class RhsThread extends React.Component {
         currentUserId: PropTypes.string.isRequired,
         previewCollapsed: PropTypes.string.isRequired,
         previewEnabled: PropTypes.bool.isRequired,
+        socketConnectionStatus: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             removePost: PropTypes.func.isRequired,
+            selectPostCard: PropTypes.func.isRequired,
+            getPostThread: PropTypes.func.isRequired,
         }).isRequired,
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {selected: props.selected};
+        if (state.selected && props.selected && state.selected.id !== props.selected.id) {
+            updatedState = {...updatedState, openTime: (new Date()).getTime()};
+        }
+
+        return updatedState;
     }
 
     constructor(props) {
@@ -83,21 +95,13 @@ export default class RhsThread extends React.Component {
         window.removeEventListener('resize', this.handleResize);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.selected || !nextProps.selected) {
-            return;
-        }
-
-        if (this.props.selected.id !== nextProps.selected.id) {
-            this.setState({
-                openTime: (new Date()).getTime(),
-            });
-        }
-    }
-
     componentDidUpdate(prevProps) {
         const prevPostsArray = prevProps.posts || [];
         const curPostsArray = this.props.posts || [];
+
+        if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
+            this.props.actions.getPostThread(this.props.selected.id, false);
+        }
 
         if (prevPostsArray.length >= curPostsArray.length) {
             return;
@@ -147,6 +151,22 @@ export default class RhsThread extends React.Component {
         if (UserAgent.isMobile() && document.activeElement.id === 'reply_textbox') {
             this.scrollToBottom();
         }
+    }
+
+    handleCardClick = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
+    }
+
+    handleCardClickPost = (post) => {
+        if (!post) {
+            return;
+        }
+
+        this.props.actions.selectPostCard(post);
     }
 
     onBusy = (isBusy) => {
@@ -245,6 +265,7 @@ export default class RhsThread extends React.Component {
 
         const commentsLists = [];
         const postsLength = postsArray.length;
+        let a11yIndex = 1;
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
             const previousPostId = i > 0 ? postsArray[i - 1].id : '';
@@ -273,6 +294,8 @@ export default class RhsThread extends React.Component {
                     removePost={this.props.actions.removePost}
                     previewCollapsed={this.props.previewCollapsed}
                     previewEnabled={this.props.previewEnabled}
+                    handleCardClick={this.handleCardClickPost}
+                    a11yIndex={a11yIndex++}
                 />
             );
         }
@@ -346,23 +369,34 @@ export default class RhsThread extends React.Component {
                     onScroll={this.handleScroll}
                 >
                     <div className='post-right__scroll'>
-                        {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
-                        <RhsRootPost
-                            ref={selected.id}
-                            post={selected}
-                            commentCount={postsLength}
-                            teamId={this.props.channel.team_id}
-                            currentUserId={this.props.currentUserId}
-                            previewCollapsed={this.props.previewCollapsed}
-                            previewEnabled={this.props.previewEnabled}
-                            isBusy={this.state.isBusy}
-                        />
-                        {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                         <div
-                            ref='rhspostlist'
-                            className='post-right-comments-container'
+                            role='application'
+                            id='rhsContent'
+                            aria-label={Utils.localizeMessage('accessibility.sections.rhsContent', 'message details complimentary region')}
+                            className='post-right__content a11y__region'
+                            data-a11y-sort-order='3'
+                            data-a11y-focus-child={true}
+                            data-a11y-order-reversed={true}
                         >
-                            {commentsLists}
+                            {!isFakeDeletedPost && <DateSeparator date={rootPostDay}/>}
+                            <RhsRootPost
+                                ref={selected.id}
+                                post={selected}
+                                commentCount={postsLength}
+                                teamId={this.props.channel.team_id}
+                                currentUserId={this.props.currentUserId}
+                                previewCollapsed={this.props.previewCollapsed}
+                                previewEnabled={this.props.previewEnabled}
+                                isBusy={this.state.isBusy}
+                                handleCardClick={this.handleCardClick}
+                            />
+                            {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
+                            <div
+                                ref='rhspostlist'
+                                className='post-right-comments-container'
+                            >
+                                {commentsLists}
+                            </div>
                         </div>
                         {createComment}
                     </div>

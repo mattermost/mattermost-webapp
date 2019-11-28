@@ -3,22 +3,20 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
-import {useSafeUrl} from 'utils/url.jsx';
+import {useSafeUrl} from 'utils/url';
 import AppIcons from 'images/appIcons.png';
 import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
-import InviteMemberModal from 'components/invite_member_modal';
+import InvitationModal from 'components/invitation_modal';
 
 const NUM_SCREENS = 3;
 
 export default class TutorialIntroScreens extends React.Component {
     static propTypes = {
         currentUserId: PropTypes.string.isRequired,
-        teamType: PropTypes.string,
         step: PropTypes.number,
         townSquareDisplayName: PropTypes.string.isRequired,
         appDownloadLink: PropTypes.string,
@@ -28,6 +26,10 @@ export default class TutorialIntroScreens extends React.Component {
         actions: PropTypes.shape({
             savePreferences: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -176,6 +178,7 @@ export default class TutorialIntroScreens extends React.Component {
                     rel='noopener noreferrer'
                 >
                     <img
+                        alt={'tutorial icons'}
                         className='tutorial__app-icons'
                         src={AppIcons}
                     />
@@ -213,38 +216,21 @@ export default class TutorialIntroScreens extends React.Component {
     createScreenThree() {
         let inviteModalLink;
         let inviteText;
-        const {teamType} = this.props;
 
         if (!this.props.isLicensed || !this.props.restrictTeamInvite) {
-            if (teamType === Constants.INVITE_TEAM) {
-                inviteModalLink = (
-                    <ModalToggleButtonRedux
-                        id='tutorialIntroInvite'
-                        className='intro-links color--link style--none'
-                        modalId={ModalIdentifiers.EMAIL_INVITE}
-                        dialogType={InviteMemberModal}
-                        dialogProps={{}}
-                    >
-                        <FormattedMessage
-                            id='tutorial_intro.invite'
-                            defaultMessage='Invite teammates'
-                        />
-                    </ModalToggleButtonRedux>
-                );
-            } else {
-                inviteModalLink = (
-                    <button
-                        id='tutorialIntroInvite'
-                        className='intro-links color--link style--none'
-                        onClick={GlobalActions.showGetTeamInviteLinkModal}
-                    >
-                        <FormattedMessage
-                            id='tutorial_intro.teamInvite'
-                            defaultMessage='Invite teammates'
-                        />
-                    </button>
-                );
-            }
+            inviteModalLink = (
+                <ModalToggleButtonRedux
+                    id='tutorialIntroInvite'
+                    className='intro-links color--link style--none'
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                >
+                    <FormattedMessage
+                        id='tutorial_intro.invite'
+                        defaultMessage='Invite teammates'
+                    />
+                </ModalToggleButtonRedux>
+            );
 
             inviteText = (
                 <p>

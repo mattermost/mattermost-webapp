@@ -1,5 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`messageHtmlToComponent Inline markdown image 1`] = `
+<div
+  className="style--none"
+>
+  <MarkdownImage
+    alt="Mattermost"
+    className="markdown-inline-img"
+    imageIsLink={false}
+    imageMetadata={Object {}}
+    postId="post_id"
+    src="/images/icon.png"
+  />
+</div>
+`;
+
+exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = `
+<div
+  className="style--none"
+>
+  <a
+    className="theme markdown__link"
+    href="http://images/icon.png"
+    rel="noreferrer"
+    target="_blank"
+  >
+    <MarkdownImage
+      alt="Mattermost"
+      className="markdown-inline-img"
+      imageIsLink={true}
+      imageMetadata={Object {}}
+      postId="post_id"
+      src="images/icon.png"
+    />
+  </a>
+</div>
+`;
+
 exports[`messageHtmlToComponent latex 1`] = `
 Array [
   <p>
@@ -7,13 +44,11 @@ Array [
   </p>,
   "
 ",
-  <LatexBlock
-    content="x^2 + y^2 = z^2
-"
+  <Connect(LatexBlock)
+    content="x^2 + y^2 = z^2"
   />,
-  <LatexBlock
-    content="F_m - 2 = F_0 F_1 \\\\dots F_{m-1}
-"
+  <Connect(LatexBlock)
+    content="F_m - 2 = F_0 F_1 \\\\dots F_{m-1}"
   />,
   <p>
     That was some latex!

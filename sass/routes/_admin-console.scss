@@ -1,18 +1,36 @@
 @charset 'UTF-8';
 
 .admin-console__wrapper {
-    height: calc(100% - 55px);
     overflow: auto;
-    margin-top: 65px;
 }
 
 .admin-console {
     -webkit-overflow-scrolling: touch;
     color: #333;
     height: 100%;
-    margin-left: 220px;
-    overflow: auto;
-    padding: 10px 20px 0;
+    padding-left: 220px;
+
+    .wrapper--fixed {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+
+        .announcement-bar--fixed & {
+            height: calc(100vh - 32px);
+        }
+    }
+
+    .admin-console__wrapper {
+        -webkit-flex: 1 1 auto;
+        flex: 1 1 auto;
+        height: 100%;
+        overflow: auto;
+        padding: 20px;
+    }
+
+    .admin-console__content {
+        max-width: 920px;
+    }
 
     mark {
         border-radius: 5%;
@@ -51,7 +69,7 @@
     }
 
     .filtered-user-list {
-        height: calc(100vh - 120px);
+        height: calc(100vh - 160px);
     }
 
     .Select-value-label {
@@ -137,13 +155,7 @@
         padding: 0 40px 20px;
     }
 
-    .wrapper--fixed {
-        max-width: 920px;
-    }
-
     .form-horizontal {
-        margin: 1em 0 7em;
-
         .control-label {
             font-weight: 600;
             padding-right: 0;
@@ -224,7 +236,7 @@
         background: $white;
         border: $border-gray;
         font-size: .95em;
-        margin: 1em 0 2em;
+        margin: 4px 0 2em;
         padding: .8em 1.5rem;
 
         &.banner--url {
@@ -253,8 +265,14 @@
             margin-bottom: 0.5em;
         }
 
+        .banner__icon {
+            padding: 5px 10px 5px 5px;
+        }
+
         &.warning {
-            background: #e60000;
+            background: #fcf8e3; 
+            border-color: #faebcc;
+            color: #8a6d3b;
         }
     }
 
@@ -349,17 +367,15 @@
         margin-top: 8px;
     }
 
-    .admin-console-header {
+    .admin-console__header {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         border-bottom: 1px solid alpha-color($black, .1);
         background: white;
-        position: absolute;
-        top: 0;
-        left: 0;
         height: 65px;
-        width: calc(100% - 220px);
-        margin: 0 0 0 220px;
+        -webkit-flex: 0 0 65px;
+        flex: 0 0 65px;
         padding: 10px 20px;
         font-size: 22px;
         font-weight: normal;
@@ -368,6 +384,11 @@
 
         &.with-back {
             padding: 0;
+
+            > div {
+                display: flex;
+                align-items: center;
+            }
 
             .back {
                 display: flex;
@@ -385,9 +406,6 @@
                     position: relative;
                 }
             }
-
-            span {
-            }
          }
     }
 
@@ -396,21 +414,19 @@
         align-items: center;
         border-top: 1px solid alpha-color($black, .1);
         background: white;
-        position: absolute;
-        bottom: 0;
-        left: 0;
         height: 60px;
-        width: calc(100% - 220px);
-        margin: 0 0 0 220px;
-        padding: 13px 0;
+        padding: 0 10px;
         z-index: 100;
+        -webkit-flex: 0 0 60px;
+        flex: 0 0 60px;
+        width: 100%;
 
         .save-button {
             @include opacity(1);
             background: $light-gray;
             min-width: 100px;
             height: 34px;
-            margin: 0 10px 0 13px;
+            margin: 0 10px;
             color: alpha-color($black, .5);
 
             &.btn-primary {
@@ -492,22 +508,13 @@
     width: 100%;
 }
 
-.job-table__panel {
-}
-
-
-.brand-img {
-    margin-bottom: 1.5em;
-    max-width: 150px;
-}
-
 .admin-console__disabled-text {
     color: #777;
     margin: 10px 0 0 15px;
 }
 
 .admin-sidebar {
-    background: #333;
+    background: #111;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -539,7 +546,6 @@
 
     .nav-pills__container {
         @include font-smoothing(initial);
-        background: #111;
         height: calc(100% - 68px);
         margin-top: 1px;
         padding-bottom: 20px;
@@ -587,34 +593,30 @@
 
     .sidebar-category {
         margin-top: 0px;
+
         .category-title {
+            background: alpha-color($white, .15);
             color: $white;
             line-height: 15.4px;
-            padding: 10px;
+            padding: 10px 12px;
             text-transform: uppercase;
 
             .category-icon {
-                font-size: 15px;
-                margin-right: 7px;
+                margin-right: 6px;
                 overflow: hidden;
-                right: 12px;
-                text-align: center;
                 top: 6px;
                 vertical-align: bottom;
                 width: 16px;
+                text-align: center;
 
-                &.fa-user {
-                    font-size: 14px;
-                }
-
-                &.fa-bar-chart {
-                    font-size: 16px;
+                &.fa-users {
+                    font-size: 13px;
                 }
             }
         }
 
         .sections {
-            padding: 3px 0;
+            padding: 5px 0;
         }
     }
 
@@ -646,11 +648,11 @@
     }
 
     .sidebar-section-title {
-        padding: 6px 35px 6px 17px;
+        padding: 6px 35px 6px 12px;
     }
 
     .sidebar-subsection-title {
-        padding: 6px 35px 6px 35px;
+        padding: 6px 35px 6px 30px;
     }
 
     .sidebar-section-title,
@@ -821,12 +823,6 @@
         }
     }
 
-    .manage-teams__profile-picture {
-        border-radius: 20px;
-        height: 40px;
-        width: 40px;
-    }
-
     .manage-teams__info {
         flex: 1;
         margin-left: 10px;
@@ -913,26 +909,6 @@
         right: 11px;
         top: 15px;
         width: 0;
-    }
-}
-
-.admin-setting-user__image {
-    @include border-radius(20px);
-    display: block;
-    font-size: 15px;
-    height: 16px;
-    line-height: 16px;
-    margin-right: 7px;
-    margin-top: 3px;
-    text-align: center;
-    width: 16px;
-
-    .admin-setting-user--align {
-        display: inline-block;
-        max-width: 80%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
 

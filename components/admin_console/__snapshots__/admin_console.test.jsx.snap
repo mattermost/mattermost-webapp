@@ -38,6 +38,11 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
+          key="user_management/user/:user_id"
+          path="/user_management/user/:user_id"
+          render={[Function]}
+        />
+        <Route
           key="user_management/users"
           path="/user_management/users"
           render={[Function]}
@@ -63,13 +68,13 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="environment/notifications_email"
-          path="/environment/notifications_email"
+          key="environment/smtp"
+          path="/environment/smtp"
           render={[Function]}
         />
         <Route
-          key="environment/push"
-          path="/environment/push"
+          key="environment/push_notification_server"
+          path="/environment/push_notification_server"
           render={[Function]}
         />
         <Route
@@ -105,6 +110,11 @@ exports[`components/AdminConsole should generate the routes 1`] = `
         <Route
           key="site_config/users_and_teams"
           path="/site_config/users_and_teams"
+          render={[Function]}
+        />
+        <Route
+          key="environment/notifications"
+          path="/environment/notifications"
           render={[Function]}
         />
         <Route
@@ -153,8 +163,23 @@ exports[`components/AdminConsole should generate the routes 1`] = `
           render={[Function]}
         />
         <Route
-          key="integrations/features"
-          path="/integrations/features"
+          key="plugins/plugin_management"
+          path="/plugins/plugin_management"
+          render={[Function]}
+        />
+        <Route
+          key="plugins/plugin_:plugin_id"
+          path="/plugins/plugin_:plugin_id"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/integration_management"
+          path="/integrations/integration_management"
+          render={[Function]}
+        />
+        <Route
+          key="integrations/bot_accounts"
+          path="/integrations/bot_accounts"
           render={[Function]}
         />
         <Route
@@ -165,16 +190,6 @@ exports[`components/AdminConsole should generate the routes 1`] = `
         <Route
           key="integrations/cors"
           path="/integrations/cors"
-          render={[Function]}
-        />
-        <Route
-          key="integrations/plugins"
-          path="/integrations/plugins"
-          render={[Function]}
-        />
-        <Route
-          key="integrations/plugin_:plugin_id"
-          path="/integrations/plugin_:plugin_id"
           render={[Function]}
         />
         <Route
@@ -197,8 +212,8 @@ exports[`components/AdminConsole should generate the routes 1`] = `
 </div>
 `;
 
-exports[`components/AdminConsole should redirect to / when not system admin 1`] = `
+exports[`components/AdminConsole should redirect to town-square when not system admin 1`] = `
 <Redirect
-  to="/"
+  to="/team-id/channels/town-square"
 />
 `;

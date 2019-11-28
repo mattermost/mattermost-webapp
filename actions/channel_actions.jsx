@@ -13,13 +13,9 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
-import store from 'stores/redux_store.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
-
-const doDispatch = store.dispatch;
-const doGetState = store.getState;
 
 export function openDirectChannelToUserId(userId) {
     return async (dispatch, getState) => {
@@ -93,7 +89,7 @@ export function loadChannelsForCurrentUser() {
     };
 }
 
-export function searchMoreChannels(term) {
+export function searchMoreChannels(term, showArchivedChannels) {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
@@ -102,10 +98,12 @@ export function searchMoreChannels(term) {
             throw new Error('No team id');
         }
 
-        const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term));
+        const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term, showArchivedChannels));
         if (data) {
             const myMembers = getMyChannelMemberships(state);
-            const channels = data.filter((c) => !myMembers[c.id]);
+
+            // When searching public channels, only get channels user is not a member of
+            const channels = showArchivedChannels ? data : data.filter((c) => !myMembers[c.id]);
             return {data: channels};
         }
 
@@ -113,34 +111,39 @@ export function searchMoreChannels(term) {
     };
 }
 
-export async function autocompleteChannels(term, success, error) {
-    const state = doGetState();
-    const teamId = getCurrentTeamId(state);
-    if (!teamId) {
-        return;
-    }
+export function autocompleteChannels(term, success, error) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
+        if (!teamId) {
+            return;
+        }
 
-    const {data, error: err} = await ChannelActions.autocompleteChannels(teamId, term)(doDispatch, doGetState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+        const {data, error: err} = await dispatch(ChannelActions.autocompleteChannels(teamId, term));
+        if (data && success) {
+            success(data);
+        } else if (err && error) {
+            error({id: err.server_error_id, ...err});
+        }
+    };
 }
 
-export async function autocompleteChannelsForSearch(term, success, error) {
-    const state = doGetState();
-    const teamId = getCurrentTeamId(state);
-    if (!teamId) {
-        return;
-    }
+export function autocompleteChannelsForSearch(term, success, error) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const teamId = getCurrentTeamId(state);
 
-    const {data, error: err} = await ChannelActions.autocompleteChannelsForSearch(teamId, term)(doDispatch, doGetState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
+        if (!teamId) {
+            return;
+        }
+
+        const {data, error: err} = await dispatch(ChannelActions.autocompleteChannelsForSearch(teamId, term));
+        if (data && success) {
+            success(data);
+        } else if (err && error) {
+            error({id: err.server_error_id, ...err});
+        }
+    };
 }
 
 export function addUsersToChannel(channelId, userIds) {

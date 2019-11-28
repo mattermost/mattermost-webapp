@@ -6,7 +6,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils.jsx';
-import SaveButton from 'components/save_button.jsx';
+import {t} from 'utils/i18n.jsx';
+import SaveButton from 'components/save_button';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 export default class LoginMfa extends React.PureComponent {
@@ -89,7 +90,7 @@ export default class LoginMfa extends React.PureComponent {
                             type='text'
                             className='form-control'
                             name='token'
-                            placeholder={{id: 'login_mfa.token', defaultMessage: 'MFA Token'}}
+                            placeholder={{id: t('login_mfa.token'), defaultMessage: 'MFA Token'}}
                             spellCheck='false'
                             autoComplete='off'
                             autoFocus={true}

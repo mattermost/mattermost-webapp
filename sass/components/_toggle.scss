@@ -1,0 +1,104 @@
+// Based on https://codepen.io/aanjulena/pen/ZLZjzV
+// Colors
+$brand-primary: #2A9FD8;
+$gray: #6b7381;
+$gray-light: lighten($gray, 15%);
+$gray-lighter: lighten($gray, 30%);
+
+// Button Colors
+$btn-default-color: $gray;
+$btn-default-bg: $gray-lighter;
+
+// Toggle Sizes
+$toggle-default-size: 1.5rem;
+$toggle-default-margin: 4rem;
+$toggle-default-font-size: .75rem;
+
+
+// Mixin for Switch Colors
+// Variables: $color, $bg, $active-bg
+@mixin toggle-color($color: $btn-default-color, $bg: $btn-default-bg, $active-bg: $brand-primary){
+    color: $color;
+    background: $bg;
+    &.active {
+        background-color: $active-bg;
+    }
+}
+
+// Mixin for Default Switch Styles
+// Variables: $size, $margin, $color, $bg, $active-bg, $font-size
+@mixin toggle-mixin($size: $toggle-default-size, $margin: $toggle-default-margin, $font-size: $toggle-default-font-size){
+    // color: $color;
+    // background: $bg;
+    padding: 0;
+    position: relative;
+    border: none;
+    height: $size;
+    min-width: $size * 2;
+    border-radius: $size;
+    float: right;
+
+    &:focus,
+    &.focus {
+        &,
+        &.active {
+            outline: none;
+        }
+    }
+
+    > .handle {
+        position: absolute;
+        top: 0.4rem;
+        left: 0.4rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 1rem;
+        background: #fff;
+        transition: left .25s;
+    }
+    &.active {
+        transition: background-color .25s;
+        > .handle {
+            left: inherit;
+            right: 0.4rem;
+            transition: left .25s;
+        }
+    }
+
+}
+
+
+
+// Apply Mixin to different sizes & colors
+.btn-toggle {
+    @include toggle-color;
+    &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &.btn-lg {
+        @include toggle-mixin($size: 2.8rem, $font-size: 1rem, $margin: 5rem);
+    }
+
+    &.btn-sm {
+        @include toggle-mixin($font-size: .55rem, $margin: .5rem);
+    }
+
+    &.btn-xs {
+        @include toggle-mixin($size:1rem,$margin:0);
+    }
+
+    .bg-text {
+        font-size: 1.4rem;
+        color: #fff;
+        font-weight: 600;
+
+        &.off {
+            padding: 0 1.6rem 0 3.4rem;
+        }
+        &.on {
+            padding: 0 3.4rem 0 1.6rem;
+        }
+    }
+}

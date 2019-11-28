@@ -71,6 +71,15 @@
     max-height: 2000px;
     padding: .8em 1.5rem;
 
+    &.guest {
+        .permission-group {
+            .permission-group-row {
+                .permission-name {
+                    min-width: 300px;
+                }
+            }
+        }
+    }
     .permissions-tree--header {
         border-bottom: 1px solid #cccccc;
         display: flex;
@@ -333,50 +342,15 @@
     }
 }
 
-.team-info-block {
-    display: flex;
-    flex-grow: 1;
-    align-items: center;
-
-    .icon {
-        @include border-radius(4px);
-        background-color: $primary-color;
-        color: $white;
-        font-weight: bold;
-        height: 44px;
-        letter-spacing: -.5px;
-        line-height: 42px;
-        position: relative;
-        text-align: center;
-        text-transform: capitalize;
-        vertical-align: top;
-        width: 44px;
-
-        .team-btn__image {
-            border-radius: 4px;
-            overflow: hidden;
-            background-color: white;
-            background-repeat: round;
-            background-size: contain;
-            height: 100%;
-            width: 100%;
-        }
-
-        .team-btn__content {
-            bottom: 4px;
-            font-size: 8.5px;
-            font-weight: normal;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            width: 31px;
-        }
-    }
-    .team-data {
-        flex-grow: 1;
-        padding: 0 0 0 10px;
-        .title {
-            font-weight: bold;
-        }
-    }
+.team-info-block {	
+    display: flex;	
+    flex-grow: 1;	
+    align-items: center;		
+    .team-data {	
+        flex-grow: 1;	
+        padding: 0 0 0 10px;	
+        .title {	
+            font-weight: bold;	
+        }	
+    }	
 }

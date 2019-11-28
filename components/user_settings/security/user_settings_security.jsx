@@ -6,13 +6,13 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import SettingItemMin from 'components/setting_item_min.jsx';
+import SettingItemMin from 'components/setting_item_min';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 
 import MfaSection from './mfa_section';
@@ -24,7 +24,7 @@ const SECTION_SIGNIN = 'signin';
 const SECTION_APPS = 'apps';
 const SECTION_TOKENS = 'tokens';
 
-export default class SecurityTab extends React.Component {
+export default class SecurityTab extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         activeSection: PropTypes.string,
@@ -68,10 +68,15 @@ export default class SecurityTab extends React.Component {
         actions: PropTypes.shape({
             getMe: PropTypes.func.isRequired,
             updateUserPassword: PropTypes.func.isRequired,
-            getAuthorizedApps: PropTypes.func.isRequired,
+            getAuthorizedOAuthApps: PropTypes.func.isRequired,
             deauthorizeOAuthApp: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static defaultProps = {
+        user: {},
+        activeSection: '',
+    };
 
     constructor(props) {
         super(props);
@@ -94,19 +99,20 @@ export default class SecurityTab extends React.Component {
 
     componentDidMount() {
         if (this.props.enableOAuthServiceProvider) {
-            this.props.actions.getAuthorizedApps().then(
-                ({data, error}) => {
-                    if (data) {
-                        this.setState({authorizedApps: data, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
-                    } else if (error) {
-                        this.setState({serverError: error.message}); //eslint-disable-line react/no-did-mount-set-state
-                    }
-                }
-            );
+            this.loadAuthorizedOAuthApps();
         }
     }
 
-    submitPassword = () => {
+    loadAuthorizedOAuthApps = async () => {
+        const {data, error} = await this.props.actions.getAuthorizedOAuthApps();
+        if (data) {
+            this.setState({authorizedApps: data, serverError: null}); //eslint-disable-line react/no-did-mount-set-state
+        } else if (error) {
+            this.setState({serverError: error.message}); //eslint-disable-line react/no-did-mount-set-state
+        }
+    }
+
+    submitPassword = async () => {
         const user = this.props.user;
         const currentPassword = this.state.currentPassword;
         const newPassword = this.state.newPassword;
@@ -134,26 +140,25 @@ export default class SecurityTab extends React.Component {
 
         this.setState({savingPassword: true});
 
-        this.props.actions.updateUserPassword(
+        const {data, error: err} = await this.props.actions.updateUserPassword(
             user.id,
             currentPassword,
-            newPassword).
-            then(({data, error: err}) => {
-                if (data) {
-                    this.props.updateSection('');
-                    this.props.actions.getMe();
-                    this.setState(this.getDefaultState());
-                } else if (err) {
-                    var state = this.getDefaultState();
-                    if (err.message) {
-                        state.serverError = err.message;
-                    } else {
-                        state.serverError = err;
-                    }
-                    state.passwordError = '';
-                    this.setState(state);
-                }
-            });
+            newPassword
+        );
+        if (data) {
+            this.props.updateSection('');
+            this.props.actions.getMe();
+            this.setState(this.getDefaultState());
+        } else if (err) {
+            const state = this.getDefaultState();
+            if (err.message) {
+                state.serverError = err.message;
+            } else {
+                state.serverError = err;
+            }
+            state.passwordError = '';
+            this.setState(state);
+        }
     }
 
     updateCurrentPassword = (e) => {
@@ -168,22 +173,20 @@ export default class SecurityTab extends React.Component {
         this.setState({confirmPassword: e.target.value});
     }
 
-    deauthorizeApp = (e) => {
+    deauthorizeApp = async (e) => {
         e.preventDefault();
-        const appId = e.currentTarget.getAttribute('data-app');
-        this.props.actions.deauthorizeOAuthApp(appId).then(
-            ({data, error}) => {
-                if (data) {
-                    const authorizedApps = this.state.authorizedApps.filter((app) => {
-                        return app.id !== appId;
-                    });
 
-                    this.setState({authorizedApps, serverError: null});
-                } else if (error) {
-                    this.setState({serverError: error.message});
-                }
-            }
-        );
+        const appId = e.currentTarget.getAttribute('data-app');
+
+        const {data, error} = await this.props.actions.deauthorizeOAuthApp(appId);
+        if (data) {
+            const authorizedApps = this.state.authorizedApps.filter((app) => {
+                return app.id !== appId;
+            });
+            this.setState({authorizedApps, serverError: null});
+        } else if (error) {
+            this.setState({serverError: error.message});
+        }
     }
 
     handleUpdateSection = (section) => {
@@ -242,6 +245,7 @@ export default class SecurityTab extends React.Component {
                                 type='password'
                                 onChange={this.updateCurrentPassword}
                                 value={this.state.currentPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.currentPassword', 'Current Password')}
                             />
                         </div>
                     </div>
@@ -264,6 +268,7 @@ export default class SecurityTab extends React.Component {
                                 type='password'
                                 onChange={this.updateNewPassword}
                                 value={this.state.newPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.newPassword', 'New Password')}
                             />
                         </div>
                     </div>
@@ -286,6 +291,7 @@ export default class SecurityTab extends React.Component {
                                 type='password'
                                 onChange={this.updateConfirmPassword}
                                 value={this.state.confirmPassword}
+                                aria-label={Utils.localizeMessage('user.settings.security.retypePassword', 'Retype New Password')}
                             />
                         </div>
                     </div>
@@ -944,8 +950,3 @@ export default class SecurityTab extends React.Component {
         );
     }
 }
-
-SecurityTab.defaultProps = {
-    user: {},
-    activeSection: '',
-};

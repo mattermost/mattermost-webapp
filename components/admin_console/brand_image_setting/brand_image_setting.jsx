@@ -5,13 +5,12 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 
-import {uploadBrandImage} from 'actions/admin_actions.jsx';
-import {UploadStatuses} from 'utils/constants.jsx';
-import FormError from 'components/form_error.jsx';
-
-import UploadButton from './upload_button.jsx';
+import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
+import {Constants} from 'utils/constants';
+import FormError from 'components/form_error';
 
 const HTTP_STATUS_OK = 200;
 
@@ -22,24 +21,36 @@ export default class BrandImageSetting extends React.PureComponent {
          * Set to disable the setting
          */
         disabled: PropTypes.bool.isRequired,
+
+        /*
+        * Set the save needed in the admin schema settings to trigger the save button to turn on
+        */
+        setSaveNeeded: PropTypes.func.isRequired,
+
+        /*
+        * Registers the function suppose to be run when the save button is pressed
+        */
+        registerSaveAction: PropTypes.func.isRequired,
+
+        /*
+        * Unregisters the function on unmount of the component suppose to be run when the save button is pressed
+        */
+        unRegisterSaveAction: PropTypes.func.isRequired,
     }
 
     constructor(props) {
         super(props);
 
-        this.handleImageChange = this.handleImageChange.bind(this);
-        this.handleImageSubmit = this.handleImageSubmit.bind(this);
-
         this.state = {
+            deleteBrandImage: false,
             brandImage: null,
             brandImageExists: false,
             brandImageTimestamp: Date.now(),
             error: '',
-            status: UploadStatuses.DEFAULT,
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(
             (resp) => {
                 if (resp.status === HTTP_STATUS_OK) {
@@ -49,6 +60,12 @@ export default class BrandImageSetting extends React.PureComponent {
                 }
             }
         );
+
+        this.props.registerSaveAction(this.handleSave);
+    }
+
+    componentWillUnmount() {
+        this.props.unRegisterSaveAction(this.handleSave);
     }
 
     componentDidUpdate() {
@@ -64,58 +81,66 @@ export default class BrandImageSetting extends React.PureComponent {
         }
     }
 
-    handleImageChange() {
+    handleImageChange = () => {
         const element = $(this.refs.fileInput);
-
         if (element.prop('files').length > 0) {
+            this.props.setSaveNeeded();
             this.setState({
                 brandImage: element.prop('files')[0],
-                status: UploadStatuses.DEFAULT,
+                deleteBrandImage: false,
             });
         }
     }
 
-    handleImageSubmit(e) {
-        e.preventDefault();
+    handleDeleteButtonPressed = () => {
+        this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
+        this.props.setSaveNeeded();
+    }
 
-        if (!this.state.brandImage) {
-            return;
-        }
-
-        if (this.state.status === UploadStatuses.LOADING) {
-            return;
-        }
-
+    handleSave = async () => {
         this.setState({
             error: '',
-            status: UploadStatuses.LOADING,
         });
 
-        uploadBrandImage(
-            this.state.brandImage,
-            () => {
-                this.setState({
-                    brandImageExists: true,
-                    brandImage: null,
-                    brandImageTimestamp: Date.now(),
-                    status: UploadStatuses.COMPLETE,
-                });
-            },
-            (err) => {
-                this.setState({
-                    error: err.message,
-                    status: UploadStatuses.DEFAULT,
-                });
-            }
-        );
+        let error;
+        if (this.state.deleteBrandImage) {
+            await deleteBrandImage(
+                () => {
+                    this.setState({
+                        deleteBrandImage: false,
+                        brandImageExists: false,
+                        brandImage: null,
+                    });
+                },
+                (err) => {
+                    error = err;
+                    this.setState({
+                        error: err.message,
+                    });
+                }
+            );
+        } else if (this.state.brandImage) {
+            await uploadBrandImage(
+                this.state.brandImage,
+                () => {
+                    this.setState({
+                        brandImageExists: true,
+                        brandImage: null,
+                        brandImageTimestamp: Date.now(),
+                    });
+                },
+                (err) => {
+                    error = err;
+                    this.setState({
+                        error: err.message,
+                    });
+                }
+            );
+        }
+        return {error};
     }
 
     render() {
-        let btnPrimaryClass = 'btn';
-        if (this.state.brandImage) {
-            btnPrimaryClass += ' btn-primary';
-        }
-
         let letbtnDefaultClass = 'btn';
         if (!this.props.disabled) {
             letbtnDefaultClass += ' btn-default';
@@ -124,22 +149,53 @@ export default class BrandImageSetting extends React.PureComponent {
         let img = null;
         if (this.state.brandImage) {
             img = (
-                <img
-                    ref='image'
-                    className='brand-img'
-                    src=''
-                />
+                <div className='remove-image__img margin-bottom x3'>
+                    <img
+                        ref='image'
+                        alt='brand image'
+                        src=''
+                    />
+                </div>
             );
         } else if (this.state.brandImageExists) {
+            let overlay;
+            if (!this.props.disabled) {
+                overlay = (
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='right'
+                        overlay={(
+                            <Tooltip id='removeIcon'>
+                                <div aria-hidden={true}>
+                                    <FormattedMessage
+                                        id='admin.team.removeBrandImage'
+                                        defaultMessage='Remove brand image'
+                                    />
+                                </div>
+                            </Tooltip>
+                        )}
+                    >
+                        <button
+                            className='remove-image__btn'
+                            onClick={this.handleDeleteButtonPressed}
+                        >
+                            <span aria-hidden={true}>{'×'}</span>
+                        </button>
+                    </OverlayTrigger>
+                );
+            }
             img = (
-                <img
-                    className='brand-img'
-                    src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
-                />
+                <div className='remove-image__img margin-bottom x3'>
+                    <img
+                        alt='brand image'
+                        src={Client4.getBrandImageUrl(this.state.brandImageTimestamp)}
+                    />
+                    {overlay}
+                </div>
             );
         } else {
             img = (
-                <p>
+                <p className='margin-top'>
                     <FormattedMessage
                         id='admin.team.noBrandImage'
                         defaultMessage='No brand image uploaded'
@@ -157,18 +213,20 @@ export default class BrandImageSetting extends React.PureComponent {
                     />
                 </label>
                 <div className='col-sm-8'>
-                    {img}
+                    <div className='remove-image'>
+                        {img}
+                    </div>
                 </div>
                 <div className='col-sm-4'/>
                 <div className='col-sm-8'>
-                    <div className='file__upload'>
+                    <div className='file__upload margin-top x3'>
                         <button
                             className={letbtnDefaultClass}
                             disabled={this.props.disabled}
                         >
                             <FormattedMessage
                                 id='admin.team.chooseImage'
-                                defaultMessage='Choose New Image'
+                                defaultMessage='Select Image'
                             />
                         </button>
                         <input
@@ -179,12 +237,6 @@ export default class BrandImageSetting extends React.PureComponent {
                             onChange={this.handleImageChange}
                         />
                     </div>
-                    <UploadButton
-                        primaryClass={btnPrimaryClass}
-                        status={this.state.status}
-                        disabled={this.props.disabled || !this.state.brandImage}
-                        onClick={this.handleImageSubmit}
-                    />
                     <br/>
                     <FormError error={this.state.error}/>
                     <p className='help-text no-margin'>

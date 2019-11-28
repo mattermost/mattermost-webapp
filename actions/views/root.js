@@ -7,6 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {ActionTypes} from 'utils/constants';
 import en from 'i18n/en.json';
+import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 export function loadMeAndConfig() {
     return async (dispatch) => {
@@ -30,6 +31,16 @@ const pluginTranslationSources = {};
 
 export function registerPluginTranslationsSource(pluginId, sourceFunction) {
     pluginTranslationSources[pluginId] = sourceFunction;
+    return (dispatch, getState) => {
+        const state = getState();
+        const locale = getCurrentLocale(state);
+        const immutableTranslations = getTranslations(state, locale);
+        const translations = {};
+        Object.assign(translations, immutableTranslations);
+        if (immutableTranslations) {
+            copyAndDispatchTranslations(dispatch, translations, sourceFunction(locale), locale);
+        }
+    };
 }
 
 export function unregisterPluginTranslationsSource(pluginId) {
@@ -45,34 +56,22 @@ export function loadTranslations(locale, url) {
 
         // No need to go to the server for EN
         if (locale === 'en') {
-            Object.assign(translations, en);
-            dispatch({
-                type: ActionTypes.RECEIVED_TRANSLATIONS,
-                data: {
-                    locale,
-                    translations,
-                },
-            });
+            copyAndDispatchTranslations(dispatch, translations, en, locale);
             return;
         }
         Client4.getTranslations(url).then((serverTranslations) => {
-            Object.assign(translations, serverTranslations);
-            dispatch({
-                type: ActionTypes.RECEIVED_TRANSLATIONS,
-                data: {
-                    locale,
-                    translations,
-                },
-            });
+            copyAndDispatchTranslations(dispatch, translations, serverTranslations, locale);
         }).catch(() => {}); // eslint-disable-line no-empty-function
     };
 }
 
-export function clearUserCookie() {
-    // We need to clear the cookie both with and without the domain set because we can't tell if the server set
-    // the cookie with it. At this time, the domain will be set if ServiceSettings.EnableCookiesForSubdomains is true.
-    document.cookie = 'MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
-    document.cookie = `MMUSERID=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=${window.location.hostname};path=/`;
-    document.cookie = 'MMCSRF=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
-    document.cookie = `MMCSRF=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=${window.location.hostname};path=/`;
+function copyAndDispatchTranslations(dispatch, translations, from, locale) {
+    Object.assign(translations, from);
+    dispatch({
+        type: ActionTypes.RECEIVED_TRANSLATIONS,
+        data: {
+            locale,
+            translations,
+        },
+    });
 }

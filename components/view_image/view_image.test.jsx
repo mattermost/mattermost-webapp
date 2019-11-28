@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
 
 import {generateId} from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import ViewImageModal from 'components/view_image/view_image.jsx';
 
 describe('components/ViewImageModal', () => {
@@ -89,7 +89,7 @@ describe('components/ViewImageModal', () => {
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
 
-        wrapper.setState({loaded: [true, true, true], showFooter: false});
+        wrapper.setState({loaded: [true, true, true], showCloseBtn: false});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#previewArrowLeft').exists()).toBe(true);
         expect(wrapper.find('#previewArrowRight').exists()).toBe(true);
@@ -116,7 +116,7 @@ describe('components/ViewImageModal', () => {
         const props = {...requiredProps, fileInfos};
         const wrapper = shallow(<ViewImageModal {...props}/>);
 
-        wrapper.setState({loaded: [true, true, true], showFooter: true});
+        wrapper.setState({loaded: [true, true, true]});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -130,7 +130,7 @@ describe('components/ViewImageModal', () => {
     test('should match snapshot, loaded and showing footer', () => {
         const wrapper = shallow(<ViewImageModal {...requiredProps}/>);
 
-        wrapper.setState({loaded: [true], showFooter: true});
+        wrapper.setState({loaded: [true]});
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -164,10 +164,10 @@ describe('components/ViewImageModal', () => {
         wrapper.setState({loaded: [true]});
 
         wrapper.instance().onMouseEnterImage();
-        expect(wrapper.state('showFooter')).toBe(true);
+        expect(wrapper.state('showCloseBtn')).toBe(true);
 
         wrapper.instance().onMouseLeaveImage();
-        expect(wrapper.state('showFooter')).toBe(false);
+        expect(wrapper.state('showCloseBtn')).toBe(false);
     });
 
     test('should have called onModalDismissed', () => {
@@ -176,7 +176,7 @@ describe('components/ViewImageModal', () => {
         const wrapper = shallow(<ViewImageModal {...props}/>);
         wrapper.setState({
             loaded: [true],
-            showFooter: true,
+            showCloseBtn: true,
         });
         wrapper.instance().handleGetPublicLink();
 

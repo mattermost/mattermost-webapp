@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import {
+    getUser,
     getCurrentUser,
     getUserStatuses,
 } from 'mattermost-redux/selectors/entities/users';
@@ -61,12 +62,25 @@ const mapStateToProps = (state) => ({
     penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
 });
 
-const mobileMapStateToProps = (state) => ({
-    user: getCurrentUser(state),
-    channel: getCurrentChannel(state),
-    teammateId: getTeammateId(state),
-    teammateStatus: getTeammateStatus(state),
-});
+const mobileMapStateToProps = (state) => {
+    const user = getCurrentUser(state);
+    const channel = getCurrentChannel(state);
+    const teammateId = getTeammateId(state);
+
+    let teammateIsBot = false;
+    if (teammateId) {
+        const teammate = getUser(state, teammateId);
+        teammateIsBot = teammate && teammate.is_bot;
+    }
+
+    return {
+        user,
+        channel,
+        teammateId,
+        teammateIsBot,
+        teammateStatus: getTeammateStatus(state),
+    };
+};
 
 export const ChannelHeaderDropdown = Desktop;
 export const ChannelHeaderDropdownItems = connect(mapStateToProps)(Items);

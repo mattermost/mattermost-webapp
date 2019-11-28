@@ -5,19 +5,32 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import Constants from 'utils/constants';
+import LoadingScreen from 'components/loading_screen';
 
 import UserListRow from './user_list_row';
 
 export default class UserList extends React.Component {
-    constructor(props) {
-        super(props);
+    static propTypes = {
+        users: PropTypes.arrayOf(PropTypes.object),
+        extraInfo: PropTypes.object,
+        actions: PropTypes.arrayOf(PropTypes.func),
+        actionProps: PropTypes.object,
+        actionUserProps: PropTypes.object,
 
-        this.scrollToTop = this.scrollToTop.bind(this);
+        // the type of user list row to render
+        rowComponentType: PropTypes.func,
     }
 
-    scrollToTop() {
+    static defaultProps = {
+        users: [],
+        extraInfo: {},
+        actions: [],
+        actionProps: {},
+        rowComponentType: UserListRow,
+    }
+
+    scrollToTop = () => {
         if (this.refs.container) {
             this.refs.container.scrollTop = 0;
         }
@@ -69,22 +82,3 @@ export default class UserList extends React.Component {
         );
     }
 }
-
-UserList.defaultProps = {
-    users: [],
-    extraInfo: {},
-    actions: [],
-    actionProps: {},
-    rowComponentType: UserListRow,
-};
-
-UserList.propTypes = {
-    users: PropTypes.arrayOf(PropTypes.object),
-    extraInfo: PropTypes.object,
-    actions: PropTypes.arrayOf(PropTypes.func),
-    actionProps: PropTypes.object,
-    actionUserProps: PropTypes.object,
-
-    // the type of user list row to render
-    rowComponentType: PropTypes.func,
-};

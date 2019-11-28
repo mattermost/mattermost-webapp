@@ -4,10 +4,12 @@
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
-import {FormattedMessage} from 'react-intl';
-
 import {autocompleteUsers} from 'actions/user_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
+
+import GuestBadge from 'components/widgets/badges/guest_badge';
+import BotBadge from 'components/widgets/badges/bot_badge';
+import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -32,36 +34,26 @@ class UserSuggestion extends Suggestion {
             description = `- ${Utils.getFullName(item)}`;
         }
 
-        let tag = null;
-        if (item.is_bot) {
-            tag = (
-                <div className='bot-indicator'>
-                    <FormattedMessage
-                        id='post_info.bot'
-                        defaultMessage='BOT'
-                    />
-                </div>
-            );
-        }
-
         return (
             <div
                 className={className}
                 onClick={this.handleClick}
                 {...Suggestion.baseProps}
             >
-                <img
-                    className='admin-setting-user__image'
-                    src={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
+                <Avatar
+                    size='xs'
+                    username={username}
+                    url={Client4.getUsersRoute() + '/' + item.id + '/image?_=' + (item.last_picture_update || 0)}
                 />
                 <span className='admin-setting-user--align'>
                     {'@' + username}
                 </span>
-                {tag}
                 <span className='admin-setting-user__fullname'>
                     {' '}
                     {description}
                 </span>
+                <BotBadge show={Boolean(item.is_bot)}/>
+                <GuestBadge show={Utils.isGuest(item)}/>
             </div>
         );
     }

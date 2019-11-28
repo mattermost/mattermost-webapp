@@ -114,6 +114,7 @@ export default class InstalledCommands extends React.PureComponent {
                     />
                 }
                 addLink={'/' + this.props.team.name + '/integrations/commands/add'}
+                addButtonId='addSlashCommand'
                 emptyText={
                     <FormattedMessage
                         id='installed_commands.empty'

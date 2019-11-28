@@ -16,7 +16,7 @@ export default class PinPostSearchHint extends PureComponent {
     render() {
         return (
             <React.Fragment>
-                <h4>
+                <h4 id='noResultsMessage'>
                     <FormattedMessage
                         id='search_results.noResults'
                         defaultMessage='No results found. Try again?'

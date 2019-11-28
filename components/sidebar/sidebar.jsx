@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -14,7 +14,7 @@ import {SpringSystem, MathUtil} from 'rebound';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
-import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -23,7 +23,7 @@ import MoreChannels from 'components/more_channels';
 import MoreDirectChannels from 'components/more_direct_channels';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import NewChannelFlow from 'components/new_channel_flow';
-import UnreadChannelIndicator from 'components/unread_channel_indicator.jsx';
+import UnreadChannelIndicator from 'components/unread_channel_indicator';
 import Pluggable from 'plugins/pluggable';
 
 import SidebarHeader from './header';
@@ -133,6 +133,11 @@ export default class Sidebar extends React.PureComponent {
          */
         channelSwitcherOption: PropTypes.bool.isRequired,
 
+        /**
+         * Setting that enables user to view archived channels
+         */
+        viewArchivedChannels: PropTypes.bool,
+
         actions: PropTypes.shape({
             close: PropTypes.func.isRequired,
             switchToChannelById: PropTypes.func.isRequired,
@@ -143,6 +148,10 @@ export default class Sidebar extends React.PureComponent {
     static defaultProps = {
         currentChannel: {},
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     constructor(props) {
         super(props);
@@ -161,6 +170,7 @@ export default class Sidebar extends React.PureComponent {
             showDirectChannelsModal: false,
             showMoreChannelsModal: false,
             showMorePublicChannelsModal: false,
+            morePublicChannelsModalType: 'public',
         };
 
         this.animate = new SpringSystem();
@@ -292,13 +302,11 @@ export default class Sidebar extends React.PureComponent {
             currentTeammate,
             unreads,
         } = this.props;
+        const {formatMessage} = this.context.intl;
 
-        if (currentChannel && currentTeam) {
-            let currentSiteName = '';
-            if (config.SiteName != null) {
-                currentSiteName = config.SiteName;
-            }
+        const currentSiteName = config.SiteName || '';
 
+        if (currentChannel && currentTeam && currentChannel.id) {
             let currentChannelName = currentChannel.display_name;
             if (currentChannel.type === Constants.DM_CHANNEL) {
                 if (currentTeammate != null) {
@@ -309,6 +317,8 @@ export default class Sidebar extends React.PureComponent {
             const mentionTitle = unreads.mentionCount > 0 ? '(' + unreads.mentionCount + ') ' : '';
             const unreadTitle = unreads.messageCount > 0 ? '* ' : '';
             document.title = mentionTitle + unreadTitle + currentChannelName + ' - ' + this.props.currentTeam.display_name + ' ' + currentSiteName;
+        } else {
+            document.title = formatMessage({id: 'sidebar.team_select', defaultMessage: '{siteName} - Join a team'}, {siteName: currentSiteName || 'Mattermost'});
         }
     }
 
@@ -491,8 +501,8 @@ export default class Sidebar extends React.PureComponent {
         this.showNewChannelModal(Constants.OPEN_CHANNEL);
     }
 
-    showMoreChannelsModal = () => {
-        this.setState({showMoreChannelsModal: true});
+    showMoreChannelsModal = (type) => {
+        this.setState({showMoreChannelsModal: true, morePublicChannelsModalType: type});
         trackEvent('ui', 'ui_channels_more_public');
     }
 
@@ -579,36 +589,45 @@ export default class Sidebar extends React.PureComponent {
                         }
 
                         const sectionId = `${section.type}Channel`;
+                        const ariaLabel = section.name.toLowerCase();
 
                         return (
                             <ul
                                 key={section.type}
-                                className='nav nav-pills nav-stacked'
+                                aria-label={ariaLabel}
+                                className='nav nav-pills nav-stacked a11y__section'
+                                id={sectionId + 'List'}
+                                tabIndex='-1'
                             >
-                                <li>
-                                    <h4 id={sectionId}>
+                                <li className='sidebar-section__header'>
+                                    <h4
+                                        role='presentation'
+                                        id={sectionId}
+                                    >
                                         <ChannelName
                                             sectionType={section.type}
                                             channelName={section.name}
                                             browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
                                         />
-                                        <ChannelCreate
-                                            sectionType={section.type}
-                                            canCreatePublicChannel={this.props.canCreatePublicChannel}
-                                            canCreatePrivateChannel={this.props.canCreatePrivateChannel}
-                                            createPublicChannel={this.showNewPublicChannelModal}
-                                            createPrivateChannel={this.showNewPrivateChannelModal}
-                                            createDirectMessage={this.handleOpenMoreDirectChannelsModal}
-                                            createPublicDirectChannel={this.showNewPublicChannelModal}
-                                        />
                                     </h4>
+                                    <ChannelCreate
+                                        sectionType={section.type}
+                                        canCreatePublicChannel={this.props.canCreatePublicChannel}
+                                        canCreatePrivateChannel={this.props.canCreatePrivateChannel}
+                                        createPublicChannel={this.showNewPublicChannelModal}
+                                        createPrivateChannel={this.showNewPrivateChannelModal}
+                                        createDirectMessage={this.handleOpenMoreDirectChannelsModal}
+                                        createPublicDirectChannel={this.showNewPublicChannelModal}
+                                    />
                                 </li>
                                 {section.items}
                                 <ChannelMore
+                                    currentTeamId={this.props.currentTeam.id}
                                     sectionType={section.type}
                                     moreChannels={this.showMoreChannelsModal}
                                     moreDirectMessages={this.handleOpenMoreDirectChannelsModal}
                                     browsePublicDirectChannels={this.showMorePublicDirectChannelsModal}
+                                    viewArchivedChannels={this.props.viewArchivedChannels}
                                 />
                             </ul>
                         );
@@ -620,6 +639,7 @@ export default class Sidebar extends React.PureComponent {
 
     render() {
         const {channelSwitcherOption} = this.props;
+        const ariaLabel = Utils.localizeMessage('accessibility.sections.lhsList', 'channel sidebar region');
 
         // Check if we have all info needed to render
         if (this.props.currentTeam == null || this.props.currentUser == null) {
@@ -670,6 +690,7 @@ export default class Sidebar extends React.PureComponent {
                         this.hideMoreChannelsModal();
                         this.showNewChannelModal(Constants.OPEN_CHANNEL);
                     }}
+                    morePublicChannelsModalType={this.state.morePublicChannelsModalType}
                 />
             );
         }
@@ -743,7 +764,14 @@ export default class Sidebar extends React.PureComponent {
                     <Pluggable pluggableName='LeftSidebarHeader'/>
                 </div>
 
-                <div className='sidebar--left__list'>
+                <div
+                    id='lhsList'
+                    role='application'
+                    aria-label={ariaLabel}
+                    tabIndex='-1'
+                    className='sidebar--left__list a11y__region'
+                    data-a11y-sort-order='6'
+                >
                     <UnreadChannelIndicator
                         name='Top'
                         show={this.state.showTopUnread}

@@ -9,21 +9,21 @@ import {Route, Switch, Redirect} from 'react-router-dom';
 
 import AnnouncementBar from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
-import {reloadIfServerVersionChanged} from 'actions/global_actions.jsx';
 import ModalController from 'components/modal_controller';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
-import DiscardChangesModal from 'components/discard_changes_modal.jsx';
+import DiscardChangesModal from 'components/discard_changes_modal';
 
 import AdminSidebar from './admin_sidebar';
-import AdminDefinition from './admin_definition';
 import Highlight from './highlight';
 
 export default class AdminConsole extends React.Component {
     static propTypes = {
         config: PropTypes.object.isRequired,
+        adminDefinition: PropTypes.object.isRequired,
         environmentConfig: PropTypes.object,
         license: PropTypes.object.isRequired,
+        unauthorizedRoute: PropTypes.string.isRequired,
         buildEnterpriseReady: PropTypes.bool,
         roles: PropTypes.object.isRequired,
         match: PropTypes.shape({
@@ -40,6 +40,7 @@ export default class AdminConsole extends React.Component {
             cancelNavigation: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
+            updateConfig: PropTypes.func,
         }).isRequired,
     }
 
@@ -54,7 +55,6 @@ export default class AdminConsole extends React.Component {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
-        reloadIfServerVersionChanged();
     }
 
     onFilterChange = (filter) => {
@@ -74,7 +74,7 @@ export default class AdminConsole extends React.Component {
     }
 
     renderRoutes = (extraProps) => {
-        const schemas = Object.values(AdminDefinition).reduce((acc, section) => {
+        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section) => {
             const items = Object.values(section).filter((item) => {
                 if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                     return false;
@@ -119,11 +119,11 @@ export default class AdminConsole extends React.Component {
             showNavigationPrompt,
             roles,
         } = this.props;
-        const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole} = this.props.actions;
+        const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole, updateConfig} = this.props.actions;
 
         if (!this.props.isCurrentUserSystemAdmin) {
             return (
-                <Redirect to='/'/>
+                <Redirect to={this.props.unauthorizedRoute}/>
             );
         }
 
@@ -159,8 +159,8 @@ export default class AdminConsole extends React.Component {
             setNavigationBlocked,
             roles,
             editRole,
+            updateConfig,
         };
-
         return (
             <div
                 className='admin-console__wrapper'

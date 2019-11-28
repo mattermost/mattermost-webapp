@@ -12,64 +12,68 @@ import {setUrl} from 'mattermost-redux/actions/general';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
 import {trackLoadTime} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import BrowserStore from 'stores/browser_store.jsx';
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions.jsx';
-import * as I18n from 'i18n/i18n.jsx';
 import {initializePlugins} from 'plugins';
 import 'plugins/export.js';
-import Constants, {StoragePrefixes} from 'utils/constants.jsx';
+import Constants, {StoragePrefixes} from 'utils/constants';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import IntlProvider from 'components/intl_provider';
 import NeedsTeam from 'components/needs_team';
+import PermalinkRedirector from 'components/permalink_redirector';
 import {makeAsyncComponent} from 'components/async_load';
-import loadErrorPage from 'bundle-loader?lazy!components/error_page';
-import loadLoginController from 'bundle-loader?lazy!components/login/login_controller';
-import loadAdminConsole from 'bundle-loader?lazy!components/admin_console';
-import loadLoggedIn from 'bundle-loader?lazy!components/logged_in';
-import loadPasswordResetSendLink from 'bundle-loader?lazy!components/password_reset_send_link';
-import loadPasswordResetForm from 'bundle-loader?lazy!components/password_reset_form';
-import loadSignupController from 'bundle-loader?lazy!components/signup/signup_controller';
-import loadSignupEmail from 'bundle-loader?lazy!components/signup/signup_email';
-import loadTermsOfService from 'bundle-loader?lazy!components/terms_of_service';
-import loadShouldVerifyEmail from 'bundle-loader?lazy!components/should_verify_email';
-import loadDoVerifyEmail from 'bundle-loader?lazy!components/do_verify_email';
-import loadClaimController from 'bundle-loader?lazy!components/claim';
-import loadHelpController from 'bundle-loader?lazy!components/help/help_controller';
-import loadGetIosApp from 'bundle-loader?lazy!components/get_ios_app';
-import loadGetAndroidApp from 'bundle-loader?lazy!components/get_android_app';
-import loadGoToNativeApp from 'bundle-loader?lazy!components/go_to_native_app';
-import loadSelectTeam from 'bundle-loader?lazy!components/select_team';
-import loadAuthorize from 'bundle-loader?lazy!components/authorize';
-import loadCreateTeam from 'bundle-loader?lazy!components/create_team';
-import loadMfa from 'bundle-loader?lazy!components/mfa/mfa_controller';
+
+const LazyErrorPage = React.lazy(() => import('components/error_page'));
+const LazyLoginController = React.lazy(() => import('components/login/login_controller'));
+const LazyAdminConsole = React.lazy(() => import('components/admin_console'));
+const LazyLoggedIn = React.lazy(() => import('components/logged_in'));
+const LazyPasswordResetSendLink = React.lazy(() => import('components/password_reset_send_link'));
+const LazyPasswordResetForm = React.lazy(() => import('components/password_reset_form'));
+const LazySignupController = React.lazy(() => import('components/signup/signup_controller'));
+const LazySignupEmail = React.lazy(() => import('components/signup/signup_email'));
+const LazyTermsOfService = React.lazy(() => import('components/terms_of_service'));
+const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_email'));
+const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email'));
+const LazyClaimController = React.lazy(() => import('components/claim'));
+const LazyHelpController = React.lazy(() => import('components/help/help_controller'));
+const LazyGetIosApp = React.lazy(() => import('components/get_ios_app'));
+const LazyGetAndroidApp = React.lazy(() => import('components/get_android_app'));
+const LazyGoToNativeApp = React.lazy(() => import('components/go_to_native_app'));
+const LazySelectTeam = React.lazy(() => import('components/select_team'));
+const LazyAuthorize = React.lazy(() => import('components/authorize'));
+const LazyCreateTeam = React.lazy(() => import('components/create_team'));
+const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
+
 import store from 'stores/redux_store.jsx';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import {enableDevModeFeatures, isDevMode} from 'utils/utils';
 
-const CreateTeam = makeAsyncComponent(loadCreateTeam);
-const ErrorPage = makeAsyncComponent(loadErrorPage);
-const TermsOfService = makeAsyncComponent(loadTermsOfService);
-const LoginController = makeAsyncComponent(loadLoginController);
-const AdminConsole = makeAsyncComponent(loadAdminConsole);
-const LoggedIn = makeAsyncComponent(loadLoggedIn);
-const PasswordResetSendLink = makeAsyncComponent(loadPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(loadPasswordResetForm);
-const SignupController = makeAsyncComponent(loadSignupController);
-const SignupEmail = makeAsyncComponent(loadSignupEmail);
-const ShouldVerifyEmail = makeAsyncComponent(loadShouldVerifyEmail);
-const DoVerifyEmail = makeAsyncComponent(loadDoVerifyEmail);
-const ClaimController = makeAsyncComponent(loadClaimController);
-const HelpController = makeAsyncComponent(loadHelpController);
-const GetIosApp = makeAsyncComponent(loadGetIosApp);
-const GetAndroidApp = makeAsyncComponent(loadGetAndroidApp);
-const GoToNativeApp = makeAsyncComponent(loadGoToNativeApp);
-const SelectTeam = makeAsyncComponent(loadSelectTeam);
-const Authorize = makeAsyncComponent(loadAuthorize);
-const Mfa = makeAsyncComponent(loadMfa);
+import A11yController from 'utils/a11y_controller';
+
+const CreateTeam = makeAsyncComponent(LazyCreateTeam);
+const ErrorPage = makeAsyncComponent(LazyErrorPage);
+const TermsOfService = makeAsyncComponent(LazyTermsOfService);
+const LoginController = makeAsyncComponent(LazyLoginController);
+const AdminConsole = makeAsyncComponent(LazyAdminConsole);
+const LoggedIn = makeAsyncComponent(LazyLoggedIn);
+const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
+const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
+const SignupController = makeAsyncComponent(LazySignupController);
+const SignupEmail = makeAsyncComponent(LazySignupEmail);
+const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
+const DoVerifyEmail = makeAsyncComponent(LazyDoVerifyEmail);
+const ClaimController = makeAsyncComponent(LazyClaimController);
+const HelpController = makeAsyncComponent(LazyHelpController);
+const GetIosApp = makeAsyncComponent(LazyGetIosApp);
+const GetAndroidApp = makeAsyncComponent(LazyGetAndroidApp);
+const GoToNativeApp = makeAsyncComponent(LazyGoToNativeApp);
+const SelectTeam = makeAsyncComponent(LazySelectTeam);
+const Authorize = makeAsyncComponent(LazyAuthorize);
+const Mfa = makeAsyncComponent(LazyMfa);
 
 const LoggedInRoute = ({component: Component, ...rest}) => (
     <Route
@@ -95,6 +99,8 @@ export default class Root extends React.Component {
 
     constructor(props) {
         super(props);
+        this.currentCategoryFocus = 0;
+        this.currentSidebarFocus = 0;
 
         // Redux
         setUrl(getSiteURL());
@@ -142,6 +148,11 @@ export default class Root extends React.Component {
         this.state = {
             configLoaded: false,
         };
+
+        // Keyboard navigation for accessibility
+        if (!UserAgent.isInternetExplorer()) {
+            this.a11yController = new A11yController();
+        }
     }
 
     onConfigLoaded = () => {
@@ -188,20 +199,13 @@ export default class Root extends React.Component {
         }
         /*eslint-enable */
 
-        const afterIntl = () => {
-            if (this.props.location.pathname === '/' && this.props.noAccounts) {
-                this.props.history.push('/signup_user_complete');
-            }
-
-            initializePlugins().then(() => {
-                this.setState({configLoaded: true});
-            });
-        };
-        if (global.Intl) {
-            afterIntl();
-        } else {
-            I18n.safariFix(afterIntl);
+        if (this.props.location.pathname === '/' && this.props.noAccounts) {
+            this.props.history.push('/signup_user_complete');
         }
+
+        initializePlugins().then(() => {
+            this.setState({configLoaded: true});
+        });
 
         loadRecentlyUsedCustomEmojis()(store.dispatch, store.getState);
 
@@ -331,6 +335,10 @@ export default class Root extends React.Component {
                     <LoggedInRoute
                         path={'/mfa'}
                         component={Mfa}
+                    />
+                    <LoggedInRoute
+                        path={['/_redirect/integrations*', '/_redirect/pl/:postid']}
+                        component={PermalinkRedirector}
                     />
                     <LoggedInRoute
                         path={'/:team'}

@@ -29,15 +29,16 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
-import {runMessageWillBePostedHooks} from 'actions/hooks';
+import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getEmojiMap} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
-import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants.jsx';
+import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
 
 import CreatePost from './create_post.jsx';
@@ -117,6 +118,8 @@ function mapDispatchToProps(dispatch) {
             executeCommand,
             getChannelTimezones,
             runMessageWillBePostedHooks,
+            runSlashCommandWillBePostedHooks,
+            scrollPostListToBottom,
         }, dispatch),
     };
 }

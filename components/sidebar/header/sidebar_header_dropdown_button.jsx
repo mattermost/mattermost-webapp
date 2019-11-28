@@ -6,8 +6,9 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import MenuIcon from 'components/svg/menu_icon';
-import Constants from 'utils/constants.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
+import MenuIcon from 'components/widgets/icons/menu_icon';
+import Constants from 'utils/constants';
 
 import MenuTutorialTip from 'components/tutorial/menu_tutorial_tip';
 
@@ -49,7 +50,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
         if (this.props.teamDescription) {
             teamNameWithToolTip = (
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={<Tooltip id='team-name__tooltip'>{this.props.teamDescription}</Tooltip>}
@@ -67,7 +67,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
             >
                 {tutorialTip}
                 <OverlayTrigger
-                    trigger={['hover', 'focus']}
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='right'
                     overlay={mainMenuToolTip}
@@ -83,7 +82,12 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                         >
                             {'@' + this.props.currentUser.username}
                         </div>
-                        <MenuIcon className='sidebar-header-dropdown__icon'/>
+                        <button
+                            className='style--none sidebar-header-dropdown__icon'
+                            aria-label={localizeMessage('navbar_dropdown.menuAriaLabel', 'main menu')}
+                        >
+                            <MenuIcon/>
+                        </button>
                     </div>
                 </OverlayTrigger>
             </div>

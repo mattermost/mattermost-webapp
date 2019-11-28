@@ -4,14 +4,16 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover} from 'react-bootstrap';
+import {OverlayTrigger} from 'react-bootstrap';
 import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
 
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
+
+import Popover from 'components/widgets/popover';
 
 import ColorChooser from './color_chooser.jsx';
 
@@ -269,18 +271,19 @@ export default class CustomThemeChooser extends React.Component {
                             value={codeTheme.id}
                         >
                             {codeTheme.uiName}
-                        </option>
+                        </option>,
                     );
                 });
 
                 var popoverContent = (
                     <Popover
-                        bsStyle='info'
+                        popoverStyle='info'
                         id='code-popover'
                         className='code-popover'
                     >
                         <img
                             width='200'
+                            alt={'code theme image'}
                             src={codeThemeURL}
                         />
                     </Popover>
@@ -305,19 +308,19 @@ export default class CustomThemeChooser extends React.Component {
                                 {codeThemeOptions}
                             </select>
                             <OverlayTrigger
-                                trigger={['hover', 'focus']}
                                 placement='top'
                                 overlay={popoverContent}
                                 ref='headerOverlay'
                             >
                                 <span className='input-group-addon'>
                                     <img
+                                        alt={'code theme image'}
                                         src={codeThemeURL}
                                     />
                                 </span>
                             </OverlayTrigger>
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (element.group === 'centerChannelElements') {
                 centerChannelElements.push(
@@ -331,7 +334,7 @@ export default class CustomThemeChooser extends React.Component {
                             color={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
-                    </div>
+                    </div>,
                 );
             } else if (element.group === 'sidebarElements') {
                 // Need to support old typo mentionBj element for mentionBg
@@ -351,7 +354,7 @@ export default class CustomThemeChooser extends React.Component {
                             color={color}
                             onChange={this.handleColorChange}
                         />
-                    </div>
+                    </div>,
                 );
             } else {
                 linkAndButtonElements.push(
@@ -365,7 +368,7 @@ export default class CustomThemeChooser extends React.Component {
                             color={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
-                    </div>
+                    </div>,
                 );
             }
         });
@@ -395,6 +398,7 @@ export default class CustomThemeChooser extends React.Component {
                 <div className='theme-elements row'>
                     <div
                         ref='sidebarStylesHeader'
+                        id='sidebarStyles'
                         className='theme-elements__header'
                         onClick={this.toggleSidebarStyles}
                     >
@@ -420,12 +424,10 @@ export default class CustomThemeChooser extends React.Component {
                         {sidebarElements}
                     </div>
                 </div>
-                <div
-                    id='centerChannelStyles'
-                    className='theme-elements row'
-                >
+                <div className='theme-elements row'>
                     <div
                         ref='centerChannelStylesHeader'
+                        id='centerChannelStyles'
                         className='theme-elements__header'
                         onClick={this.toggleCenterChannelStyles}
                     >
@@ -446,14 +448,16 @@ export default class CustomThemeChooser extends React.Component {
                     </div>
                     <div
                         ref='centerChannelStyles'
+                        id='centerChannelStyles'
                         className='theme-elements__body'
                     >
                         {centerChannelElements}
                     </div>
                 </div>
-                <div className='theme-elements row form-group'>
+                <div className='theme-elements row'>
                     <div
                         ref='linkAndButtonStylesHeader'
+                        id='linkAndButtonsStyles'
                         className='theme-elements__header'
                         onClick={this.toggleLinkAndButtonStyles}
                     >
@@ -479,7 +483,7 @@ export default class CustomThemeChooser extends React.Component {
                         {linkAndButtonElements}
                     </div>
                 </div>
-                <div className='row'>
+                <div className='row margin-top x2'>
                     {pasteBox}
                 </div>
             </div>

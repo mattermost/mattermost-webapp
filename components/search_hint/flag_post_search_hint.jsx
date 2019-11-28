@@ -5,7 +5,7 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
-import FlagIcon from 'components/svg/flag_icon';
+import FlagIcon from 'components/widgets/icons/flag_icon';
 
 import DataRetentionHint from './data_retention_hint';
 

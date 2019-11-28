@@ -8,14 +8,13 @@ import ReactDOM from 'react-dom';
 import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
-import {AsyncComponent} from 'components/async_load';
 
-import loadUserSettings from 'bundle-loader?lazy!components/user_settings';
-import loadSettingsSidebar from 'bundle-loader?lazy!../../settings_sidebar.jsx';
+const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'components/user_settings'));
+const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar.tsx'));
 
 const holders = defineMessages({
     general: {
@@ -76,7 +75,6 @@ class UserSettingsModal extends React.Component {
         this.state = {
             active_tab: 'general',
             active_section: '',
-            prev_active_section: 'dummySectionName', // dummy value that should never match any section name
             showConfirmModal: false,
             enforceFocus: true,
             show: true,
@@ -88,6 +86,8 @@ class UserSettingsModal extends React.Component {
         // If set by a child, it will be called in place of showing the regular confirm
         // modal. It will be passed a function to call on modal confirm
         this.customConfirmAction = null;
+
+        this.modalBodyRef = React.createRef();
     }
 
     handleResend = (email) => {
@@ -110,9 +110,13 @@ class UserSettingsModal extends React.Component {
         document.removeEventListener('keydown', this.handleKeyDown);
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (!Utils.isMobile()) {
             $('.settings-content .minimize-settings').perfectScrollbar('update');
+        }
+
+        if (this.state.active_tab !== prevState.active_tab) {
+            $(ReactDOM.findDOMNode(this.modalBodyRef.current)).scrollTop(0);
         }
     }
 
@@ -139,19 +143,17 @@ class UserSettingsModal extends React.Component {
         this.setState({
             active_tab: 'general',
             active_section: '',
-            prev_active_section: 'dummySectionName',
         });
         this.props.onHide();
     }
 
     // Called to hide the settings pane when on mobile
     handleCollapse = () => {
-        $(ReactDOM.findDOMNode(this.refs.modalBody)).closest('.modal-dialog').removeClass('display--content');
+        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content');
 
         this.setState({
             active_tab: '',
             active_section: '',
-            prev_active_section: '',
         });
     }
 
@@ -220,7 +222,6 @@ class UserSettingsModal extends React.Component {
             this.setState({
                 active_tab: tab,
                 active_section: '',
-                prev_active_section: 'dummySectionName',
             });
         }
     }
@@ -230,7 +231,6 @@ class UserSettingsModal extends React.Component {
             this.showConfirmModal(() => this.updateSection(section, true));
         } else {
             this.setState({
-                prev_active_section: section ? '' : this.state.active_section,
                 active_section: section,
             });
         }
@@ -253,52 +253,57 @@ class UserSettingsModal extends React.Component {
         return (
             <Modal
                 id='accountSettingsModal'
-                dialogClassName='settings-modal'
+                dialogClassName='a11y__modal settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
                 enforceFocus={this.state.enforceFocus}
+                role='dialog'
+                aria-labelledby='accountSettingsModalLabel'
             >
                 <Modal.Header
                     id='accountSettingsHeader'
                     closeButton={true}
                 >
-                    <Modal.Title id='accountSettingsTitle'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='accountSettingsModalLabel'
+                    >
                         <FormattedMessage
                             id='user.settings.modal.title'
                             defaultMessage='Account Settings'
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <AsyncComponent
-                                doLoad={loadSettingsSidebar}
-                                tabs={tabs}
-                                activeTab={this.state.active_tab}
-                                updateTab={this.updateTab}
-                            />
+                            <React.Suspense fallback={null}>
+                                <SettingsSidebar
+                                    tabs={tabs}
+                                    activeTab={this.state.active_tab}
+                                    updateTab={this.updateTab}
+                                />
+                            </React.Suspense>
                         </div>
                         <div className='settings-content minimize-settings'>
-                            <AsyncComponent
-                                doLoad={loadUserSettings}
-                                ref='userSettings'
-                                activeTab={this.state.active_tab}
-                                activeSection={this.state.active_section}
-                                prevActiveSection={this.state.prev_active_section}
-                                updateSection={this.updateSection}
-                                updateTab={this.updateTab}
-                                closeModal={this.closeModal}
-                                collapseModal={this.collapseModal}
-                                setEnforceFocus={(enforceFocus) => this.setState({enforceFocus})}
-                                setRequireConfirm={
-                                    (requireConfirm, customConfirmAction) => {
-                                        this.requireConfirm = requireConfirm;
-                                        this.customConfirmAction = customConfirmAction;
+                            <React.Suspense fallback={null}>
+                                <UserSettings
+                                    activeTab={this.state.active_tab}
+                                    activeSection={this.state.active_section}
+                                    updateSection={this.updateSection}
+                                    updateTab={this.updateTab}
+                                    closeModal={this.closeModal}
+                                    collapseModal={this.collapseModal}
+                                    setEnforceFocus={(enforceFocus) => this.setState({enforceFocus})}
+                                    setRequireConfirm={
+                                        (requireConfirm, customConfirmAction) => {
+                                            this.requireConfirm = requireConfirm;
+                                            this.customConfirmAction = customConfirmAction;
+                                        }
                                     }
-                                }
-                            />
+                                />
+                            </React.Suspense>
                         </div>
                     </div>
                 </Modal.Body>

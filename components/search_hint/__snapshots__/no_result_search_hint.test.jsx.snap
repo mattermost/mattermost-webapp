@@ -2,7 +2,9 @@
 
 exports[`components/NoResultSearchHint should match snapshot, with data retention 1`] = `
 <Fragment>
-  <h4>
+  <h4
+    id="noResultsMessage"
+  >
     <FormattedMessage
       defaultMessage="No results found. Try again?"
       id="search_results.noResults"
@@ -33,7 +35,9 @@ exports[`components/NoResultSearchHint should match snapshot, with data retentio
 
 exports[`components/NoResultSearchHint should match snapshot, without data retention 1`] = `
 <Fragment>
-  <h4>
+  <h4
+    id="noResultsMessage"
+  >
     <FormattedMessage
       defaultMessage="No results found. Try again?"
       id="search_results.noResults"

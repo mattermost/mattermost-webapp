@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import NotifyCounts from 'components/notify_counts';
-import MenuIcon from 'components/svg/menu_icon';
+import MenuIcon from 'components/widgets/icons/menu_icon';
 
 const CollapseLhsButton = ({
     actions: {
@@ -27,7 +27,7 @@ const CollapseLhsButton = ({
                 defaultMessage='Toggle sidebar'
             />
         </span>
-        <MenuIcon className='icon icon__menu icon--sidebarHeaderTextColor'/>
+        <MenuIcon className='style--none icon icon__menu icon--sidebarHeaderTextColor'/>
         <NotifyCounts/>
     </button>
 );

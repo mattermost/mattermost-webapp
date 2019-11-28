@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class DeleteChannelModal extends React.PureComponent {
@@ -44,12 +44,10 @@ export default class DeleteChannelModal extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleDelete = this.handleDelete.bind(this);
-        this.onHide = this.onHide.bind(this);
         this.state = {show: true};
     }
 
-    handleDelete() {
+    handleDelete = () => {
         if (this.props.channel.id.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
         }
@@ -61,7 +59,7 @@ export default class DeleteChannelModal extends React.PureComponent {
         this.onHide();
     }
 
-    onHide() {
+    onHide = () => {
         this.setState({show: false});
     }
 
@@ -69,17 +67,24 @@ export default class DeleteChannelModal extends React.PureComponent {
         const {canViewArchivedChannels} = this.props;
         return (
             <Modal
+                dialogClassName='a11y__modal'
                 show={this.state.show}
                 onHide={this.onHide}
                 onExited={this.props.onHide}
+                role='dialog'
+                aria-labelledby='deleteChannelModalLabel'
+                id='deleteChannelModal'
             >
                 <Modal.Header closeButton={true}>
-                    <h4 className='modal-title'>
+                    <Modal.Title
+                        componentClass='h1'
+                        id='deleteChannelModalLabel'
+                    >
                         <FormattedMessage
                             id='delete_channel.confirm'
                             defaultMessage='Confirm ARCHIVE Channel'
                         />
-                    </h4>
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='alert alert-danger'>
@@ -118,6 +123,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                         data-dismiss='modal'
                         onClick={this.handleDelete}
                         autoFocus={true}
+                        id='deleteChannelModalDeleteButton'
                     >
                         <FormattedMessage
                             id='delete_channel.del'

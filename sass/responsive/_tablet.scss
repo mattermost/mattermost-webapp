@@ -4,7 +4,8 @@
     .sidebar--right {
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
-        z-index: 10;
+        z-index: 12;
+        top: 0px !important;
 
         &.move--left {
             -webkit-transform: translateX(0) !important;
@@ -24,17 +25,39 @@
 
             .search-bar__container {
                 z-index: 5;
+                display: block !important;
+
+                 .search__form {
+                     width: 100% !important;
+                 }
             }
         }
     }
 
     .inner-wrap {
         &:not(.move--left) {
-            margin-right: 0 !important;
+            .app__content {
+                > #post-list {
+                    margin-right: 0 !important;
+                }
+                > #post-create {
+                    width: 100% !important;
+                }
+            }
         }
 
         &.move--left {
-            margin-right: 0 !important;
+            .search-bar__container {
+                display: none;
+            }
+            .app__content {
+                > #post-list {
+                    margin-right: 0 !important;
+                }
+                > #post-create {
+                    width: 100% !important;
+                }
+            }
 
             .channel-header__links {
                 position: relative;
@@ -93,7 +116,7 @@
                 }
 
                 .modal-image__content {
-                    max-height: 93vh;
+                    max-height: calc(100vh - 100px);
                 }
 
                 .modal-button-bar {
@@ -185,7 +208,7 @@
 }
 
 // Tablet and desktop
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
     .channel-header__popover {
         left: 236px !important;
         top: 44px !important;
@@ -210,12 +233,22 @@
     }
 
     .sidebar--right {
+        top: 63px;
+
         &.move--left {
             @include translateX(0);
+
+            .search-bar__container {
+                display: none;
+            }
         }
 
         &.sidebar--right--expanded {
-            width: calc(100% - 280px);
+            width: calc(100% - 220px);
+
+            .multi-teams & {
+                width: calc(100% - 285px);
+            }
 
             .sidebar--right__bg {
                 background-color: alpha-color($black, .4);
@@ -252,7 +285,14 @@
 
     .inner-wrap {
         &.move--left {
-            margin-right: 400px;
+            .app__content {
+                > #post-list {
+                    margin-right: 400px;
+                }
+                > #post-create {
+                    width: calc(100% - 400px);
+                }
+            }
         }
     }
 
@@ -270,11 +310,12 @@
         }
 
         &.post--compact {
-            .post-message {
-                &.post-message--overflow {
-                    @include clearfix;
-                    margin-top: 22px;
-                }
+            .post-message--overflow {
+                @include clearfix;
+                margin-top: 22px; //Any value change to this needs to reflect for MARGIN_CHANGE_FOR_COMPACT_POST variable in show_more component
+            }
+            .attachment__body .post-message--overflow {
+                margin-top: 0px; //The above margin was added for wrapping texg in compact view but it isnt needed for attachment text
             }
 
             &.same--root {
@@ -306,13 +347,16 @@
             }
 
             .channel__wrap & {
+                .post__permalink {
+                    position: absolute;
+                    left: -76px;
+                    top: 1px;
+                    width: 60px;
+                    text-align: right;
+                }
+
                 .post__time {
                     font-size: .85em;
-                    left: -79px;
-                    position: absolute;
-                    text-align: right;
-                    top: 3px;
-                    width: 60px;
                 }
 
                 .star-icon__container {
@@ -330,7 +374,7 @@
             }
 
             &:not(.post--thread) {
-                padding: 0 .5em 0 77px;
+                padding: 0 .5em 0 77px; // .post-row__padding.bottom needs to be changed accordingly if this is changed
 
                 .post__link {
                     margin: 3px 0 7px;
@@ -395,13 +439,13 @@
                 }
             }
 
-            .flag-icon__container {
-                left: -21px;
+            .flag-icon__container, .card-icon-container {
+                left: -16px;
                 position: absolute;
                 top: 4px;
             }
 
-            .sidebar--right & .flag-icon__container {
+            .sidebar--right & .flag-icon__container, .sidebar--right & .card-icon__container {
                 left: auto;
                 position: relative;
                 top: 1px;
@@ -412,8 +456,8 @@
                     padding-left: 77px;
                     padding-top: 0;
 
-                    .flag-icon__container {
-                        left: -21px;
+                    .flag-icon__container, .card-icon__container {
+                        left: -16px;
                         position: absolute;
                         top: 4px;
                     }
@@ -444,8 +488,6 @@
                 }
 
                 &.post--comment {
-                    padding-top: 1px;
-
                     &.same--user {
                         .post__img {
                             img {
@@ -497,26 +539,24 @@
                         }
                     }
 
-                    .flag-icon__container {
+                    .post__permalink {
+                        position: absolute;
+                        left: -18px;
+                        top: 3px;
+
                         .sidebar--right & {
-                            left: 30px;
+                            left: -18px;
+                            top: 4px;
                         }
                     }
 
                     .post__time {
                         display: inline-block;
-                        font-size: 11px;
-                        left: -18px;
+                        font-size: 12px;
                         line-height: 20px;
-                        position: absolute;
                         text-align: right;
                         text-rendering: auto;
-                        top: 4px;
                         width: 51px;
-
-                        .sidebar--right & {
-                            left: -20px;
-                        }
 
                         &:hover {
                             text-decoration: underline;
@@ -531,5 +571,13 @@
                 }
             }
         }
+    }
+
+    .post-row__padding.top .post--compact {
+        padding-top: 1em;
+    }
+
+    .post-row__padding.bottom .post--compact {
+        padding-bottom: 1em;
     }
 }

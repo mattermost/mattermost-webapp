@@ -70,7 +70,10 @@ export default class CommentedOn extends PureComponent {
         );
 
         return (
-            <div className='post__link'>
+            <div
+                data-testid='post-link'
+                className='post__link'
+            >
                 <span>
                     <FormattedMessage
                         id='post_body.commentedOn'

@@ -29,7 +29,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             savePreferences: jest.fn(),
             updateUserActive: jest.fn().mockResolvedValue({data: true}),
-            revokeAllSessions: jest.fn().mockResolvedValue({data: true}),
+            revokeAllSessionsForUser: jest.fn().mockResolvedValue({data: true}),
         },
         advancedSettingsCategory: [],
         sendOnCtrlEnter: '',
@@ -73,14 +73,14 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const wrapper = shallow(<AdvancedSettingsDisplay {...requiredProps}/>);
 
         wrapper.instance().handleDeactivateAccountSubmit();
-        expect(requiredProps.actions.revokeAllSessions).toHaveBeenCalled();
-        expect(requiredProps.actions.revokeAllSessions).toHaveBeenCalledWith(requiredProps.currentUser.id);
+        expect(requiredProps.actions.revokeAllSessionsForUser).toHaveBeenCalled();
+        expect(requiredProps.actions.revokeAllSessionsForUser).toHaveBeenCalledWith(requiredProps.currentUser.id);
     });
 
     test('handleDeactivateAccountSubmit() should have updated state.serverError', async () => {
         const error = {message: 'error'};
-        const revokeAllSessions = () => Promise.resolve({error});
-        const props = {...requiredProps, actions: {...requiredProps.actions, revokeAllSessions}};
+        const revokeAllSessionsForUser = () => Promise.resolve({error});
+        const props = {...requiredProps, actions: {...requiredProps.actions, revokeAllSessionsForUser}};
         const wrapper = shallow(<AdvancedSettingsDisplay {...props}/>);
 
         await wrapper.instance().handleDeactivateAccountSubmit();

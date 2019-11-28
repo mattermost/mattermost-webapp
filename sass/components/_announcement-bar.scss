@@ -1,22 +1,24 @@
 @charset 'UTF-8';
 
 .announcement-bar {
-    background-color: darken($primary-color, 5%);
+    background-color: #113166;
     color: $white;
-    padding: 2px 30px;
     min-height: $announcement-bar-height;
     position: fixed;
     text-align: center;
     top: 0;
     width: 100%;
     z-index: 9999;
+    overflow: hidden;
+    padding: 5px 30px;
+    max-height: $announcement-bar-height;
 
-    &.announcement-bar--fixed {
+    > span {
+        max-width: 100%;
+        display: block;
         overflow: hidden;
-        padding: 1px 30px;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-height: $announcement-bar-height;
     }
 
     a {
@@ -38,7 +40,7 @@
             position: absolute;
             right: 0;
             text-decoration: none;
-            top: -2px;
+            top: 1px;
 
             &:hover {
                 color: $white;
