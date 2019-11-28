@@ -245,6 +245,7 @@ export default class Textbox extends React.Component {
                     disabled={this.props.disabled}
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
+                    wrapperRef={this.refs.wrapper}
                 />
                 {preview}
             </div>
