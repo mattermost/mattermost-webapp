@@ -228,7 +228,7 @@ export default class PluginRegistry {
     // Register a channel menu list item by providing some text and an action function.
     // Accepts the following:
     // - text - A string or React element to display in the menu
-    // - action - A function to trigger when component is clicked on (channelid) => {}
+    // - action - A function that receives the channelId and is called when the menu items is clicked.
     // Returns a unique identifier.
     registerChannelHeaderMenuAction(text, action) {
         const id = generateId();
