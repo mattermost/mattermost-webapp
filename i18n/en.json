@@ -1543,7 +1543,7 @@
   "admin.team_channel_settings.usersToBeRemovedModal.message": "The members listed below are not in any of the groups currently linked to this team. Because this team is set to be managed by group sync they will all be removed once saved.",
   "admin.team_channel_settings.usersToBeRemovedModal.title": "**{total, number} {total, plural, one {User} other {Users}}** To Be Removed",
   "admin.team_channel_settings.view_removed_users": "View These Users",
-  "admin.team_settings.description": "Showing {startCount, number} - {endCount, number} of {total, number} teams. Manage team settings.",
+  "admin.team_settings.description": "Manage team settings.",
   "admin.team_settings.groupsPageTitle": "{siteName} Teams",
   "admin.team_settings.team_detail.group_configuration": "Team Configuration",
   "admin.team_settings.team_detail.groupsDescription": "Group members will be added to the team.",
