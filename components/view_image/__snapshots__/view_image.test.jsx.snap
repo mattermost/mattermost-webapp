@@ -614,7 +614,7 @@ exports[`components/ViewImageModal should match snapshot, loaded with .js file 1
   backdrop={true}
   bsClass="modal"
   className="modal-image"
-  dialogClassName="a11y__modal modal-image"
+  dialogClassName="a11y__modal modal-image modal-code"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}

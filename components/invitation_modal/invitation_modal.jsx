@@ -36,6 +36,7 @@ export default class InvitationModal extends React.Component {
             sendGuestsInvites: PropTypes.func.isRequired,
             sendMembersInvites: PropTypes.func.isRequired,
             searchProfiles: PropTypes.func.isRequired,
+            searchChannels: PropTypes.func.isRequired,
             getTeam: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -284,6 +285,7 @@ export default class InvitationModal extends React.Component {
                         }
                         {this.state.step === STEPS_INVITE_MEMBERS &&
                             <InvitationModalMembersStep
+                                teamName={this.props.currentTeam.display_name}
                                 inviteId={this.props.currentTeam.invite_id}
                                 searchProfiles={this.props.actions.searchProfiles}
                                 onSubmit={this.onMembersSubmit}
@@ -292,9 +294,11 @@ export default class InvitationModal extends React.Component {
                         }
                         {this.state.step === STEPS_INVITE_GUESTS &&
                             <InvitationModalGuestsStep
+                                teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
                                 myInvitableChannels={this.props.invitableChannels}
                                 searchProfiles={this.props.actions.searchProfiles}
+                                searchChannels={this.props.actions.searchChannels}
                                 defaultChannels={this.state.lastInviteChannels}
                                 defaultMessage={this.state.lastInviteMessage}
                                 onSubmit={this.onGuestsSubmit}

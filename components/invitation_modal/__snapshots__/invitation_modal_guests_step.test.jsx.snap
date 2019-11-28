@@ -11,8 +11,13 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   </div>
   <h1>
     <InjectIntl(FormattedMarkdownMessage)
-      defaultMessage="Invite **Guests**"
+      defaultMessage="Invite **Guests** to {teamName}"
       id="invitation_modal.guests.title"
+      values={
+        Object {
+          "teamName": "Test Team",
+        }
+      }
     />
   </h1>
   <div
@@ -41,7 +46,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Search and add guests or email invite new users."
+        defaultMessage="Add existing guests or send email invites to new guests."
         id="invitation_modal.guests.add_people.description"
         values={Object {}}
       />

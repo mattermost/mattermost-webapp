@@ -2,13 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import RemovedFromChannelModal from './removed_from_channel_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+    const remover = getUser(state, ownProps.removerId);
     return {
         currentUserId: getCurrentUserId(state),
+        remover: remover && remover.username,
     };
 }
 

@@ -32,7 +32,7 @@ exports[`components/ColorInput should match snapshot, click on picker 1`] = `
   >
     <ColorPicker
       color="#ffffff"
-      disableAlpha={false}
+      disableAlpha={true}
       onChange={[Function]}
       styles={Object {}}
       width={225}
@@ -102,7 +102,7 @@ exports[`components/ColorInput should match snapshot, opened 1`] = `
   >
     <ColorPicker
       color="#ffffff"
-      disableAlpha={false}
+      disableAlpha={true}
       onChange={[Function]}
       styles={Object {}}
       width={225}
