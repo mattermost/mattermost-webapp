@@ -20,7 +20,7 @@ describe('Customization', () => {
                     HelpLink: config.SupportSettings.HelpLink,
                 },
                 TeamSettings: {
-                    SiteName: config.TeamSettings.SiteName
+                    SiteName: config.TeamSettings.SiteName,
                 },
             };
         });
@@ -36,7 +36,7 @@ describe('Customization', () => {
 
     it('SC20335 - Can change Site Name setting', () => {
         // * Verify site name's setting name for is visible and matches the text
-        cy.findByTestId('TeamSettings.SiteNamelabel').should('be.visible').and('have.text', 'Site Name:');
+        cy.findByTestId('TeamSettings.SiteNamelabel').scrollIntoView().should('be.visible').and('have.text', 'Site Name:');
 
         // * Verify the site name input box has default value. The default value depends on the setup before running the test.
         cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', origConfig.TeamSettings.SiteName);
@@ -58,17 +58,13 @@ describe('Customization', () => {
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
         });
-
-        // # Login as sysadmin and visit customization system console page
-        cy.apiLogin('sysadmin');
-        cy.visit('/admin_console/site_config/customization');
     });
 
     it('SC20341 Can change About Link setting', () => {
         const newAboutLink = 'https://about.mattermost.com/new-about-page/';
 
         // * Verify that setting is visible and has the correct label text
-        cy.findByTestId('SupportSettings.AboutLinklabel').should('be.visible').and('have.text', 'About Link:');
+        cy.findByTestId('SupportSettings.AboutLinklabel').scrollIntoView().should('be.visible').and('have.text', 'About Link:');
 
         // * Verify that the help text is visible and matches text content
         cy.findByTestId('SupportSettings.AboutLinkhelp-text').

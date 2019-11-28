@@ -75,7 +75,7 @@ export default class TextSetting extends React.Component<WidgetTextSettingProps>
 
             input = (
                 <input
-                    data-testId={this.props.id + type}
+                    data-testid={this.props.id + type}
                     id={this.props.id}
                     className='form-control'
                     type={type}

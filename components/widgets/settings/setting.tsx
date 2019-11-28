@@ -34,10 +34,7 @@ const Setting: React.FC<Props> = ({
             >
                 {label}
             </label>
-            <div
-                data-testid={inputId + 'help-text'}
-                className={inputClassName}
-            >
+            <div className={inputClassName}>
                 {children}
                 <div
                     data-testid={inputId + 'help-text'}
