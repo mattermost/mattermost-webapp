@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -109,7 +109,7 @@ class ProfilePopover extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
 
         ...Popover.propTypes,
     }
