@@ -26,7 +26,7 @@ export default class SearchableUserListContainer extends React.Component {
         this.state = {
             term: '',
             page: 0,
-            pageLoading: false,
+            loading: false,
         };
     }
 
@@ -35,13 +35,13 @@ export default class SearchableUserListContainer extends React.Component {
     }
 
     nextPage = async () => {
-        if (this.state.pageLoading) {
+        if (this.state.loading) {
             return;
         }
 
-        this.setState({pageLoading: true});
-        await this.props.nextPage(this.state.page);
-        this.setState({page: this.state.page + 1, pageLoading: false});
+        this.setState({loading: true});
+        await this.props.nextPage(this.state.page + 1);
+        this.setState({page: this.state.page + 1, loading: false});
     }
 
     search = (term) => {
@@ -56,6 +56,7 @@ export default class SearchableUserListContainer extends React.Component {
         return (
             <SearchableUserList
                 {...this.props}
+                loading={this.loading}
                 nextPage={this.nextPage}
                 search={this.search}
                 page={this.state.page}

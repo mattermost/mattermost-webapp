@@ -99,7 +99,7 @@ export default class MemberListTeam extends React.Component {
     }
 
     nextPage = async (page) => {
-        this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
+        await this.props.actions.loadProfilesAndTeamMembers(page + 1, USERS_PER_PAGE);
     }
 
     search = (term) => {

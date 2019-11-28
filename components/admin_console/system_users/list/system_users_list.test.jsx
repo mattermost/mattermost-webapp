@@ -74,7 +74,7 @@ describe('components/admin_console/system_users/list', () => {
 
     describe('should reset page', () => {
         it('when team changes', async () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <SystemUsersList {...defaultProps}/>
             );
 
@@ -86,7 +86,7 @@ describe('components/admin_console/system_users/list', () => {
         });
 
         it('when filter changes', async () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <SystemUsersList {...defaultProps}/>
             );
 
@@ -100,7 +100,7 @@ describe('components/admin_console/system_users/list', () => {
 
     describe('should not reset page', () => {
         it('when term changes', async () => {
-            const wrapper = shallowWithIntl(
+            const wrapper = shallow(
                 <SystemUsersList {...defaultProps}/>
             );
 

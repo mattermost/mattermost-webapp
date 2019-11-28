@@ -82,15 +82,15 @@ export default class SystemUsersList extends React.Component {
     }
 
     nextPage = async () => {
-        if (this.state.pageLoading) {
+        if (this.state.loading) {
             return;
         }
 
-        this.setState({pageLoading: true});
+        this.setState({loading: true});
 
         await this.props.nextPage(this.state.page + 1);
 
-        this.setState({page: this.state.page + 1, pageLoading: false});
+        this.setState({page: this.state.page + 1, loading: false});
     }
 
     search = (term) => {
@@ -309,7 +309,7 @@ export default class SystemUsersList extends React.Component {
                         doManageTokens: this.doManageTokens,
                     }}
                     nextPage={this.nextPage}
-                    pageLoading={this.state.pageLoading}
+                    loading={this.state.loading}
                     search={this.search}
                     page={this.state.page}
                     term={this.props.term}

@@ -18,7 +18,7 @@ export default class SearchableUserList extends React.Component {
         total: PropTypes.number,
         extraInfo: PropTypes.object,
         nextPage: PropTypes.func.isRequired,
-        pageLoading: PropTypes.bool,
+        loading: PropTypes.bool,
         search: PropTypes.func.isRequired,
         actions: PropTypes.arrayOf(PropTypes.func),
         actionProps: PropTypes.object,
@@ -65,8 +65,8 @@ export default class SearchableUserList extends React.Component {
         clearTimeout(this.nextTimeoutId);
     }
 
-    nextPage = () => {
-        this.props.nextPage();
+    nextPage = async () => {
+        await this.props.nextPage();
     }
 
     focusSearchBar = () => {
@@ -96,7 +96,8 @@ export default class SearchableUserList extends React.Component {
             return this.props.renderCount(count, this.props.total);
         }
 
-        if (this.props.total) {
+        // Only show '0 members of X' if the component is not loading more users
+        if ((this.props.total && count) || (!count && this.loading)) {
             return (
                 <FormattedMessage
                     id='filtered_user_list.countTotal'
@@ -170,7 +171,7 @@ export default class SearchableUserList extends React.Component {
                         ref='userList'
                         hasMore={hasMore}
                         loadMore={this.nextPage}
-                        pageLoading={this.props.pageLoading}
+                        loading={this.props.loading}
                         users={usersToDisplay}
                         extraInfo={this.props.extraInfo}
                         actions={this.props.actions}

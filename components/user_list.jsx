@@ -24,7 +24,7 @@ export default class UserList extends React.Component {
         rowComponentType: PropTypes.func,
         hasMore: PropTypes.bool,
         loadMore: PropTypes.func,
-        pageLoading: PropTypes.bool,
+        loading: PropTypes.bool,
     }
 
     static defaultProps = {
@@ -33,7 +33,7 @@ export default class UserList extends React.Component {
         actions: [],
         actionProps: {},
         rowComponentType: UserListRow,
-        pageLoading: false,
+        loading: true,
     }
 
     scrollToTop = () => {
@@ -48,7 +48,7 @@ export default class UserList extends React.Component {
 
         if (users == null) {
             return <LoadingScreen/>;
-        } else if (!users.length) {
+        } else if (!users.length && !this.props.loading) {
             return (
                 <div ref='container'>
                     <div
@@ -103,7 +103,7 @@ export default class UserList extends React.Component {
                     {content}
 
                 </InfiniteScroll>
-                {this.props.pageLoading && this.props.hasMore && loadingMore}
+                {this.props.loading && this.props.hasMore && loadingMore}
             </div>
         );
     }
