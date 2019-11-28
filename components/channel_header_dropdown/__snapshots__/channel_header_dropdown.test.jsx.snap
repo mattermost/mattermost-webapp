@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ChannelHeaderDropdown should match snapshot with most of the thing disabled 1`] = `
+<Menu
+  ariaLabel="channel menu"
+  id="channelHeaderDropdownMenu"
+>
+  <Connect(ChannelHeaderDropdown)
+    isMobile={false}
+  />
+</Menu>
+`;
+
+exports[`components/ChannelHeaderDropdown should match snapshot with no plugin items 1`] = `
+<Menu
+  ariaLabel="channel menu"
+  id="channelHeaderDropdownMenu"
+>
+  <Connect(ChannelHeaderDropdown)
+    isMobile={false}
+  />
+</Menu>
+`;
+
+exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`] = `
+<Menu
+  ariaLabel="channel menu"
+  id="channelHeaderDropdownMenu"
+>
+  <Connect(ChannelHeaderDropdown)
+    isMobile={false}
+  />
+</Menu>
+`;

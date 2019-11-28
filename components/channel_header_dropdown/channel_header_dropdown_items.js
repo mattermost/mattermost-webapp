@@ -283,7 +283,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>
-
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
                 <Menu.Group divider={divider}>
                     {isMobile &&
                         <MobileChannelHeaderPlug
@@ -300,10 +302,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         id='channelCloseChannel'
                         isArchived={isArchived}
                     />
-                </Menu.Group>
-
-                <Menu.Group>
-                    {pluginItems}
                 </Menu.Group>
             </React.Fragment>
         );
