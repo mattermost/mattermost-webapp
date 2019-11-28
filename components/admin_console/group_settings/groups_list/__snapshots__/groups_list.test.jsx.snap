@@ -60,17 +60,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -226,17 +230,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -313,17 +321,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -437,17 +449,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -561,17 +577,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -684,17 +704,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -845,17 +869,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -1111,17 +1139,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -1377,17 +1409,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -1538,17 +1574,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"
@@ -1626,17 +1666,21 @@ exports[`components/admin_console/group_settings/GroupsList should match snapsho
       />
     </div>
     <div
-      className="group-description"
+      className="group-content"
     >
-      <FormattedMessage
-        defaultMessage="Mattermost Linking"
-        id="admin.group_settings.groups_list.mappingHeader"
-        values={Object {}}
+      <div
+        className="group-description"
+      >
+        <FormattedMessage
+          defaultMessage="Mattermost Linking"
+          id="admin.group_settings.groups_list.mappingHeader"
+          values={Object {}}
+        />
+      </div>
+      <div
+        className="group-actions"
       />
     </div>
-    <div
-      className="group-actions"
-    />
   </div>
   <div
     className="groups-list--body"

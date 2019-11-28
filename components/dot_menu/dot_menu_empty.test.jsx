@@ -29,6 +29,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             isLicensed: false,
             postEditTimeLimit: '-1',
             enableEmojiPicker: true,
+            components: {},
             actions: {
                 flagPost: jest.fn(),
                 unflagPost: jest.fn(),
