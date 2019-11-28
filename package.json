@@ -211,8 +211,8 @@
     "output": "build/test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
-    "fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
+    "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --cache",
+    "fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix --cache",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",
