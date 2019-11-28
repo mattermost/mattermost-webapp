@@ -198,7 +198,7 @@ exports[`components/post_view/CombinedSystemMessage should match snapshot, when 
     }
   />
   <br />
-  <injectIntl(LastUsers)
+  <LastUsers
     actor="you"
     expandedLocale={
       Object {
