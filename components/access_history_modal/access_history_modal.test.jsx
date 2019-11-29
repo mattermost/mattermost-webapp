@@ -3,8 +3,6 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import $ from 'jquery';
-require('perfect-scrollbar/jquery')($);
 
 import AccessHistoryModal from 'components/access_history_modal/access_history_modal.jsx';
 import AuditTable from 'components/audit_table';
