@@ -405,9 +405,17 @@ export default class EmojiPicker extends React.PureComponent {
             }
             break;
         case 'ArrowLeft':
-            if (this.state.cursor[0] !== -1 || this.state.cursor[1] !== -1) {
+            if (this.state.cursor[0] > 0 || this.state.cursor[1] > 0) {
                 e.preventDefault();
                 this.selectPrevEmoji();
+            } else if (this.state.cursor[0] === 0 && this.state.cursor[1] === 0) {
+                this.setState({
+                    cursor: [-1, -1],
+                });
+                e.target.selectionStart = this.state.filter.length;
+                e.target.selectionEnd = this.state.filter.length;
+                e.preventDefault();
+                this.searchInput.focus();
             }
             break;
         case 'ArrowUp':
@@ -415,6 +423,8 @@ export default class EmojiPicker extends React.PureComponent {
                 this.setState({
                     cursor: [-1, -1],
                 });
+                e.target.selectionStart = this.state.filter.length;
+                e.target.selectionEnd = this.state.filter.length;
                 this.searchInput.focus();
             } else {
                 e.preventDefault();
@@ -422,8 +432,13 @@ export default class EmojiPicker extends React.PureComponent {
             }
             break;
         case 'ArrowDown':
-            e.preventDefault();
-            this.selectNextEmoji(EMOJI_PER_ROW);
+            if (e.target.selectionStart === 0) {
+                e.target.selectionStart = this.state.filter.length;
+                e.target.selectionEnd = this.state.filter.length;
+            } else {
+                e.preventDefault();
+                this.selectNextEmoji(EMOJI_PER_ROW);
+            }
             break;
         case 'Enter':
             e.preventDefault();
