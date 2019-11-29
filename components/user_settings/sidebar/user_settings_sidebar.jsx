@@ -619,7 +619,13 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     }
                     inputs={[
-                        <div key='channelSwitcherSectionSetting'>
+                        <fieldset key='channelSwitcherSectionSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.sidebar.channelSwitcherSectionTitle'
+                                    defaultMessage='Channel Switcher'
+                                />
+                            </legend>
                             <div
                                 id='channelSwitcherRadioOn'
                                 className='radio'
@@ -662,7 +668,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 <br/>
                                 {helpChannelSwitcherText}
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={'channel_switcher_section'}
                     submit={this.handleSubmit}

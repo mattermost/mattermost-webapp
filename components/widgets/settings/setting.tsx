@@ -23,14 +23,21 @@ const Setting: React.FC<Props> = ({
     helpText,
 }: Props) => {
     return (
-        <div className='form-group'>
+        <div
+            data-testid={inputId}
+            className='form-group'
+        >
             <label
+                data-testid={inputId + 'label'}
                 className={'control-label ' + labelClassName}
                 htmlFor={inputId}
             >
                 {label}
             </label>
-            <div className={inputClassName}>
+            <div
+                data-testid={inputId + 'help-text'}
+                className={inputClassName}
+            >
                 {children}
                 <div className='help-text'>
                     {helpText}

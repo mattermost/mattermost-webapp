@@ -58,6 +58,12 @@ exports[`components/ListModal should match snapshot 1`] = `
           <div
             className="col-xs-12"
           >
+            <label
+              className="hidden-label"
+              htmlFor="searchUsersInput"
+            >
+              search for foos
+            </label>
             <input
               className="form-control filter-textbox"
               id="searchUsersInput"
@@ -165,6 +171,12 @@ exports[`components/ListModal should match snapshot with title bar button 1`] = 
           <div
             className="col-xs-12"
           >
+            <label
+              className="hidden-label"
+              htmlFor="searchUsersInput"
+            >
+              search for foos
+            </label>
             <input
               className="form-control filter-textbox"
               id="searchUsersInput"

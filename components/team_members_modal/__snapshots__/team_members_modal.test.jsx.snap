@@ -51,6 +51,27 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
         }
       />
     </ModalTitle>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "add_user_to_team",
+          "invite_guest",
+        ]
+      }
+    >
+      <button
+        className="btn btn-primary invite-people-btn"
+        id="invitePeople"
+        onClick={[Function]}
+        type="button"
+      >
+        <FormattedMessage
+          defaultMessage="Invite People"
+          id="team_member_modal.invitePeople"
+          values={Object {}}
+        />
+      </button>
+    </Connect(TeamPermissionGate)>
   </ModalHeader>
   <ModalBody
     bsClass="modal-body"
