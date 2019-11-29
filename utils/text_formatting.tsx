@@ -185,12 +185,12 @@ export function formatText(
 
     let output = text;
     const options = Object.assign({}, inputOptions);
-    const hasPhrases = (/"([^"]*)"/).test(options.searchTerm);
+    const hasPhrases = (/"([^"]*)"/).test(options.searchTerm || '');
 
     if (options.searchMatches && !hasPhrases) {
         options.searchPatterns = options.searchMatches.map(convertSearchTermToRegex);
     } else {
-        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex).sort((a, b) => {
+        options.searchPatterns = parseSearchTerms(options.searchTerm || '').map(convertSearchTermToRegex).sort((a, b) => {
             return b.term.length - a.term.length;
         });
     }
@@ -288,12 +288,12 @@ export function sanitizeHtml(text: string) {
 }
 
 // Copied from our fork of commonmark.js
-var emailAlphaNumericChars = '\\p{L}\\p{Nd}';
-var emailSpecialCharacters = "!#$%&'*+\\-\\/=?^_`{|}~";
-var emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
-var emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
-var emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
-var emailStartPattern =
+const emailAlphaNumericChars = '\\p{L}\\p{Nd}';
+const emailSpecialCharacters = "!#$%&'*+\\-\\/=?^_`{|}~";
+const emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
+const emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
+const emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
+const emailStartPattern =
   '(?:[' +
   emailValidCharacters +
   '](?:[' +
@@ -301,7 +301,7 @@ var emailStartPattern =
   ']|\\.(?!\\.|@))*|\\"[' +
   emailValidRestrictedCharacters +
   '.]+\\")@';
-var reEmail = XRegExp.cache(
+const reEmail = XRegExp.cache(
     '(^|[^\\pL\\d])(' +
     emailStartPattern +
     '[\\pL\\d.\\-]+[.]\\pL{2,4}(?=$|[^\\p{L}]))',
@@ -478,7 +478,7 @@ function highlightCurrentMentions(
     let output = text;
 
     // look for any existing tokens which are self mentions and should be highlighted
-    var newTokens = new Map();
+    const newTokens = new Map();
     for (const [alias, token] of tokens) {
         const tokenTextLower = token.originalText.toLowerCase();
 
@@ -549,11 +549,11 @@ function highlightCurrentMentions(
 function autolinkHashtags(
     text: string,
     tokens: Tokens,
-    minimumHashtagLength: number = 3
+    minimumHashtagLength = 3
 ) {
     let output = text;
 
-    var newTokens = new Map();
+    const newTokens = new Map();
     for (const [alias, token] of tokens) {
         if (token.originalText.lastIndexOf('#', 0) === 0) {
             const index = tokens.size + newTokens.size;
@@ -606,7 +606,7 @@ function autolinkHashtags(
 const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
 const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
 
-export function parseSearchTerms(searchTerm) {
+export function parseSearchTerms(searchTerm: string) {
     let terms = [];
 
     let termString = searchTerm;
@@ -721,7 +721,7 @@ export function highlightSearchTerms(
 
     for (const pattern of searchPatterns) {
         // highlight existing tokens matching search terms
-        var newTokens = new Map();
+        const newTokens = new Map();
         for (const [alias, token] of tokens) {
             if (pattern.pattern.test(token.originalText)) {
                 // If it's a Hashtag, skip it unless the search term is an exact match.
@@ -788,13 +788,13 @@ function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text, emojiMap, searchPattern) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
     output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
-        const emojiCode = emojiMatch.codePointAt(0).toString(16);
+        const emojiCode = emojiMatch.codePointAt(0)!.toString(16);
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
         if (emojiMap.hasUnicode(emojiCode)) {
