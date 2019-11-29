@@ -213,6 +213,21 @@ describe('parseSearchTerms', () => {
             input: 'from:someone someword "some phrase" in:somechannel',
             expected: ['someword', 'some phrase'],
         },
+        {
+            description: 'with negative search flags after',
+            input: 'someword "some phrase" -from:someone -in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags before',
+            input: '-from:someone -in: channel someword "some phrase"',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative search flags before and after',
+            input: '-from:someone someword "some phrase" -in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
     ];
 
     for (const t of tests) {
