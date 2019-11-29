@@ -37,6 +37,8 @@ export default class SuggestionList extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.content = React.createRef();
+        this.itemRefs = new Map();
         this.suggestionReadOut = React.createRef();
         this.currentLabel = '';
         this.currentItem = {};
@@ -91,7 +93,7 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     getContent = () => {
-        return $(ReactDOM.findDOMNode(this.refs.content));
+        return $(this.content.current);
     }
 
     scrollToItem = (term) => {
@@ -108,7 +110,7 @@ export default class SuggestionList extends React.PureComponent {
             const contentTopPadding = parseInt(content.css('padding-top'), 10);
             const contentBottomPadding = parseInt(content.css('padding-top'), 10);
 
-            const item = $(ReactDOM.findDOMNode(this.refs[term]));
+            const item = $(ReactDOM.findDOMNode(this.itemRefs.get(term)));
             if (item.length === 0) {
                 return;
             }
@@ -197,7 +199,7 @@ export default class SuggestionList extends React.PureComponent {
             items.push(
                 <Component
                     key={term}
-                    ref={term}
+                    ref={(ref) => this.itemRefs.set(term, ref)}
                     item={this.props.items[i]}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
@@ -214,7 +216,7 @@ export default class SuggestionList extends React.PureComponent {
             <div className={mainClass}>
                 <div
                     id='suggestionList'
-                    ref='content'
+                    ref={this.content}
                     className={contentClass}
                     onMouseDown={this.props.preventClose}
                 >

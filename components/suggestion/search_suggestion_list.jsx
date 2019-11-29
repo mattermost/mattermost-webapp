@@ -19,6 +19,9 @@ export default class SearchSuggestionList extends SuggestionList {
 
     constructor(props) {
         super(props);
+
+        this.itemRefs = new Map();
+        this.popover = React.createRef();
         this.suggestionReadOut = React.createRef();
     }
 
@@ -46,7 +49,7 @@ export default class SearchSuggestionList extends SuggestionList {
     }
 
     getContent() {
-        return $(ReactDOM.findDOMNode(this.refs.popover)).find('.popover-content');
+        return $(ReactDOM.findDOMNode(this.popover.current)).find('.popover-content');
     }
 
     renderChannelDivider(type) {
@@ -118,7 +121,7 @@ export default class SearchSuggestionList extends SuggestionList {
             items.push(
                 <Component
                     key={term}
-                    ref={term}
+                    ref={(ref) => this.itemRefs.set(term, ref)}
                     item={item}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
@@ -130,7 +133,7 @@ export default class SearchSuggestionList extends SuggestionList {
 
         return (
             <Popover
-                ref='popover'
+                ref={this.popover}
                 id='search-autocomplete__popover'
                 className='search-help-popover autocomplete visible'
                 placement='bottom'
