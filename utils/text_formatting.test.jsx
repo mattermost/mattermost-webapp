@@ -214,6 +214,11 @@ describe('parseSearchTerms', () => {
             expected: ['someword', 'some phrase'],
         },
         {
+            description: 'with date search flags before and after',
+            input: 'on:1970-01-01 someword "some phrase" after:1970-01-01 before: 1970-01-01',
+            expected: ['someword', 'some phrase'],
+        },
+        {
             description: 'with negative search flags after',
             input: 'someword "some phrase" -from:someone -in:somechannel',
             expected: ['someword', 'some phrase'],
@@ -226,6 +231,11 @@ describe('parseSearchTerms', () => {
         {
             description: 'with negative search flags before and after',
             input: '-from:someone someword "some phrase" -in:somechannel',
+            expected: ['someword', 'some phrase'],
+        },
+        {
+            description: 'with negative date search flags before and after',
+            input: '-on:1970-01-01 someword "some phrase" -after:1970-01-01 -before: 1970-01-01',
             expected: ['someword', 'some phrase'],
         },
     ];
