@@ -131,7 +131,7 @@ export default class SuggestionBox extends React.Component {
         /**
          * Passes the wrapper reference for height calculation
          */
-        wrapperRef: PropTypes.object,
+        wrapperHeight: PropTypes.number,
     }
 
     static defaultProps = {
@@ -697,7 +697,7 @@ export default class SuggestionBox extends React.Component {
                         terms={this.state.terms}
                         selection={this.state.selection}
                         components={this.state.components}
-                        wrapperRef={this.props.wrapperRef}
+                        wrapperHeight={this.props.wrapperHeight}
                     />
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
