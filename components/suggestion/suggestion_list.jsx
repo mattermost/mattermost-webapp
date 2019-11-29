@@ -28,7 +28,7 @@ export default class SuggestionList extends React.PureComponent {
         terms: PropTypes.array.isRequired,
         selection: PropTypes.string.isRequired,
         components: PropTypes.array.isRequired,
-        wrapperRef: PropTypes.object,
+        wrapperHeight: PropTypes.number,
     };
 
     static defaultProps = {
@@ -211,16 +211,15 @@ export default class SuggestionList extends React.PureComponent {
 
         const mainClass = 'suggestion-list suggestion-list--' + this.props.location;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.location;
-        let suggestionListMaxHeight = '';
-
-        suggestionListMaxHeight = windowHeight() - (this.props.wrapperRef.clientHeight + Constants.PREVIEWER_HEIGHT);
-        if (suggestionListMaxHeight > Constants.SUGGESTION_LIST_MAXHEIGHT) {
-            suggestionListMaxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
+        let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
+        if (this.props.wrapperHeight) {
+            maxHeight = Math.min(
+                windowHeight() - (this.props.wrapperHeight + Constants.PREVIEWER_HEIGHT),
+                Constants.SUGGESTION_LIST_MAXHEIGHT
+            );
         }
 
-        const contentStyle = {
-            maxHeight: suggestionListMaxHeight,
-        };
+        const contentStyle = {maxHeight};
 
         return (
             <div className={mainClass}>
