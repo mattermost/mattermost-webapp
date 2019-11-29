@@ -175,6 +175,8 @@ export default class SuggestionBox extends React.Component {
             allowDividers: true,
             presentationType: 'text',
         };
+
+        this.inputRef = React.createRef();
     }
 
     componentDidMount() {
@@ -220,11 +222,11 @@ export default class SuggestionBox extends React.Component {
     }
 
     getTextbox = () => {
-        if (!this.refs.input) {
+        if (!this.inputRef.current) {
             return null;
         }
 
-        const input = this.refs.input.getInput();
+        const input = this.inputRef.current.getInput();
 
         if (input.getDOMNode) {
             return input.getDOMNode();
@@ -236,7 +238,7 @@ export default class SuggestionBox extends React.Component {
     recalculateSize = () => {
         // Pretty hacky way to force an AutosizeTextarea to recalculate its height if that's what
         // we're rendering as the input
-        const input = this.refs.input.getInput();
+        const input = this.inputRef.current.getInput();
 
         if (input.recalculateSize) {
             input.recalculateSize();
@@ -433,7 +435,7 @@ export default class SuggestionBox extends React.Component {
 
         this.clear();
 
-        this.refs.input.focus();
+        this.inputRef.current.focus();
 
         for (const provider of this.props.providers) {
             if (provider.handleCompleteWord) {
@@ -602,7 +604,7 @@ export default class SuggestionBox extends React.Component {
     }
 
     blur = () => {
-        this.refs.input.blur();
+        this.inputRef.current.blur();
     }
 
     setContainerRef = (container) => {
@@ -666,7 +668,7 @@ export default class SuggestionBox extends React.Component {
                     className='sr-only'
                 />
                 <QuickInput
-                    ref='input'
+                    ref={this.inputRef}
                     autoComplete='off'
                     {...props}
                     onInput={this.handleChange}
@@ -677,7 +679,6 @@ export default class SuggestionBox extends React.Component {
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
                     <SuggestionListComponent
-                        ref='list'
                         ariaLiveRef={this.suggestionReadOut}
                         open={this.state.focused}
                         pretext={this.pretext}
@@ -696,7 +697,6 @@ export default class SuggestionBox extends React.Component {
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent
-                        ref='date'
                         items={this.state.items}
                         terms={this.state.terms}
                         components={this.state.components}
