@@ -19,6 +19,9 @@ describe('Customization', () => {
                     HelpLink: config.SupportSettings.HelpLink,
                     SupportEmail: config.SupportSettings.SupportEmail,
                 },
+                NativeAppSettings: {
+                    AndroidAppDownloadLink: config.NativeAppSettings.AndroidAppDownloadLink
+                },
                 TeamSettings: {SiteName: config.TeamSettings.SiteName},
             };
         });
@@ -83,6 +86,33 @@ describe('Customization', () => {
         // * Verify that the config is correctly saved in the server
         cy.apiGetConfig().then((response) => {
             expect(response.body.SupportSettings.SupportEmail).to.equal(newEmail);
+        });
+    });
+
+    it('SC20338 Can change Android App Download Link setting', () => {
+        // # Scroll Android App Download Link section into view and verify that it's visible
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLink').scrollIntoView().should('be.visible');
+
+        // * Verify that Android App Download Link label is visible and matches text content
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinklabel').should('be.visible').and('have.text', 'Android App Download Link:');
+
+        // * Verify the Android App Download Link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.AndroidAppDownloadLink);
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to download the Android app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.');
+
+        const newAndroidAppDownloadLink = 'https://example.com/android-app/';
+
+        // * Verify that set value is visible and matches text
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkinput').clear().type(newAndroidAppDownloadLink).should('have.value', newAndroidAppDownloadLink);
+
+        // # Update Support Email
+        cy.get('#saveSetting').click();
+
+        // * Verify that the config is correctly saved in the server
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
         });
     });
 });
