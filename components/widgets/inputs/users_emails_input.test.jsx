@@ -12,6 +12,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
         const wrapper = shallowWithIntl(
             <UsersEmailsInput
                 placeholder='test'
+                ariaLabel='test'
                 usersLoader={jest.fn()}
                 onChange={jest.fn()}
                 value={['test@email.com', {id: 'test-user-id', username: 'test-username', first_name: 'test', last_name: 'user'}]}
@@ -19,6 +20,7 @@ describe('components/widgets/inputs/UsersEmailsInput', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Async
+  aria-label="test"
   cacheOptions={false}
   className="UsersEmailsInput"
   classNamePrefix="users-emails-input"

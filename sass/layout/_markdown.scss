@@ -113,8 +113,10 @@ h6 {
         @include opacity(1);
     }
 
-    &--wrap code {
-        white-space: pre-wrap;
+    &.post-code--wrap {
+        code {
+            white-space: pre-wrap;
+        }
     }
 
     .hljs {

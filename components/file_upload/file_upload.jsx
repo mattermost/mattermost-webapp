@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
+import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -21,6 +21,7 @@ import {
     isKeyPressed,
     generateId,
     isFileTransfer,
+    isUriDrop,
     localizeMessage,
 } from 'utils/utils.jsx';
 
@@ -69,13 +70,8 @@ const customStyles = {
     top: 'auto',
 };
 
-class FileUpload extends PureComponent {
+export default class FileUpload extends PureComponent {
     static propTypes = {
-
-        /**
-         * react-intl API
-        */
-        intl: PropTypes.any,
 
         /**
          * Current channel's ID
@@ -161,6 +157,10 @@ class FileUpload extends PureComponent {
              */
             handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     static defaultProps = {
@@ -305,7 +305,7 @@ class FileUpload extends PureComponent {
 
         this.props.onUploadStart(clientIds, currentChannelId);
 
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const errors = [];
         if (sortedFiles.length > uploadsRemaining) {
             errors.push(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
@@ -355,7 +355,7 @@ class FileUpload extends PureComponent {
         const files = [];
         Array.from(droppedFiles).forEach((file, index) => {
             const item = items[index];
-            if (item && item.webkitGetAsEntry && item.webkitGetAsEntry().isDirectory) {
+            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || item.webkitGetAsEntry().isDirectory)) {
                 return;
             }
             files.push(file);
@@ -363,6 +363,10 @@ class FileUpload extends PureComponent {
 
         const types = e.dataTransfer.types;
         if (types) {
+            if (isUriDrop(e.dataTransfer)) {
+                return;
+            }
+
             // For non-IE browsers
             if (types.includes && !types.includes('Files')) {
                 return;
@@ -400,15 +404,14 @@ class FileUpload extends PureComponent {
             dragsterActions = {
                 enter(e) {
                     var files = e.detail.dataTransfer;
-
-                    if (isFileTransfer(files)) {
+                    if (!isUriDrop(files) && isFileTransfer(files)) {
                         overlay.classList.remove('hidden');
                     }
                 },
                 leave(e) {
                     var files = e.detail.dataTransfer;
 
-                    if (isFileTransfer(files)) {
+                    if (!isUriDrop(files) && isFileTransfer(files)) {
                         overlay.classList.add('hidden');
                     }
 
@@ -419,7 +422,6 @@ class FileUpload extends PureComponent {
                 },
                 drop(e) {
                     overlay.classList.add('hidden');
-
                     dragTimeout.cancel();
 
                     self.handleDrop(e.detail);
@@ -439,7 +441,7 @@ class FileUpload extends PureComponent {
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
 
     pasteUpload = (e) => {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         if (!e.clipboardData || !e.clipboardData.items || getTable(e.clipboardData)) {
             return;
@@ -543,7 +545,7 @@ class FileUpload extends PureComponent {
         }
 
         const {onUploadError} = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
     }
@@ -569,7 +571,7 @@ class FileUpload extends PureComponent {
     }
 
     render() {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         let multiple = true;
         if (isMobileApp()) {
             // iOS WebViews don't upload videos properly in multiple mode
@@ -695,5 +697,3 @@ class FileUpload extends PureComponent {
         );
     }
 }
-
-export default injectIntl(FileUpload);

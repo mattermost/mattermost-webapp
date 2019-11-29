@@ -118,6 +118,12 @@
     &.modal-image {
         overflow: hidden;
 
+        .modal-code {
+            .modal-image__content {
+                background: transparent;
+            }
+        }
+
         .modal-backdrop {
             &.in {
                 @include opacity(.7);
@@ -348,7 +354,12 @@
             }
 
             .post-code {
-                background: $white;
+                background: transparent;
+
+                code {
+                    margin: 0;
+                    padding: 5px 0;
+                }
             }
 
             audio,
@@ -709,10 +720,10 @@
     font-weight: 600;
     span {
         font-size: .9em;
-        color:#3d3c40;
+        color: var(--center-channel-color);
     }
     a:hover {
-        color: #3d3c40;
+        color: var(--center-channel-color);
         text-decoration: none;
     }
 }

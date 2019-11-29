@@ -3,17 +3,20 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {intlShape} from 'react-intl';
 
-class BackstageHeader extends React.Component {
+export default class BackstageHeader extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
         children: PropTypes.node,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     render() {
         const children = [];
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         React.Children.forEach(this.props.children, (child, index) => {
             if (index !== 0) {
@@ -42,5 +45,3 @@ class BackstageHeader extends React.Component {
         );
     }
 }
-
-export default injectIntl(BackstageHeader);

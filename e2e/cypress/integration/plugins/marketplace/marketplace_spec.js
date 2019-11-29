@@ -22,14 +22,16 @@ describe('Plugin Marketplace', () => {
 
     describe('should not render in main menu', () => {
         afterEach(() => {
-            // # Click hamburger main menu
-            cy.get('#sidebarHeaderDropdownButton').click();
+            cy.get('#lhsHeader').should('be.visible').within(() => {
+                // # Click hamburger main menu
+                cy.get('#sidebarHeaderDropdownButton').click();
 
-            // * Dropdown menu should be visible
-            cy.get('#sidebarDropdownMenu').should('be.visible');
-
-            // * Marketplace button should not be visible
-            cy.get('#marketplaceModal').should('not.be.visible');
+                // * Dropdown menu should be visible
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
+                    // * Plugin Marketplace button should not be visible
+                    cy.findByText('Plugin Marketplace').should('not.be.visible');
+                });
+            });
         });
 
         it('for non-admin', () => {
@@ -96,17 +98,16 @@ describe('Plugin Marketplace', () => {
         cy.apiLogin('sysadmin');
         cy.visit('/');
 
-        // # Click hamburger main menu
-        cy.get('#sidebarHeaderDropdownButton').click();
+        cy.get('#lhsHeader').should('be.visible').within(() => {
+            // # Click hamburger main menu
+            cy.get('#sidebarHeaderDropdownButton').click();
 
-        // * Dropdown menu should be visible
-        cy.get('#sidebarDropdownMenu').should('be.visible');
-
-        // * Marketplace button should be visible
-        cy.get('#marketplaceModal').should('be.visible');
-
-        // # Open up marketplace modal
-        cy.get('#marketplaceModal').click();
+            // * Dropdown menu should be visible
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                // * Plugin Marketplace button should be visible then click
+                cy.findByText('Plugin Marketplace').should('be.visible').click();
+            });
+        });
 
         // * Should be an error connecting to the marketplace server
         cy.get('#error_bar').contains('Error connecting to the marketplace server');
@@ -136,20 +137,16 @@ describe('Plugin Marketplace', () => {
             cy.apiLogin('sysadmin');
             cy.visit('/');
 
-            // # Click hamburger main menu
-            cy.get('#sidebarHeaderDropdownButton').click();
+            cy.get('#lhsHeader').should('be.visible').within(() => {
+                // # Click hamburger main menu
+                cy.get('#sidebarHeaderDropdownButton').click();
 
-            // * Dropdown menu should be visible
-            cy.get('#sidebarDropdownMenu').should('be.visible');
-
-            // * Marketplace button should be visible
-            cy.get('#marketplaceModal').should('be.visible');
-
-            // # Open up marketplace modal
-            cy.get('#marketplaceModal').click();
-
-            // * marketplace should be visible
-            cy.get('#modal_marketplace').should('be.visible');
+                // * Dropdown menu should be visible
+                cy.get('.dropdown-menu').should('be.visible').within(() => {
+                    // * Plugin Marketplace button should be visible then click
+                    cy.findByText('Plugin Marketplace').should('be.visible').click();
+                });
+            });
 
             // * error bar should not be visible
             cy.get('#error_bar').should('not.be.visible');
@@ -206,9 +203,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
         });
 
-        // This test is disabled, since it's not currently possible to update the config without
-        // also triggering a logout, which interrupts the state setup for this test.
-        xit('should show an error bar on failing to filter', () => {
+        it('should show an error bar on failing to filter', () => {
             // # Set ServiceSettings to expected values
             const newSettings = {
                 PluginSettings: {
@@ -217,16 +212,17 @@ describe('Plugin Marketplace', () => {
                     MarketplaceUrl: 'example.com',
                 },
             };
-            cy.apiUpdateConfig(newSettings);
+            cy.apiUpdateConfigBasic(newSettings);
 
             // # filter to jira plugin only
-            cy.get('#searchMarketplaceTextbox').type('jira');
+            cy.get('#searchMarketplaceTextbox').type('jira', {force: true});
 
             // * Should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
 
-        it('should install a plugin on demand', () => {
+        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
+        xit('should install a plugin on demand', () => {
             // # uninstall any existing webex plugin
             cy.uninstallPluginById('com.mattermost.webex');
 
@@ -240,7 +236,8 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: 60000}).should('be.visible').and('have.text', 'Configure');
         });
 
-        it('should install a plugin from search results on demand', () => {
+        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
+        xit('should install a plugin from search results on demand', () => {
             // # uninstall any existing webex plugin
             cy.uninstallPluginById('com.mattermost.webex');
 
@@ -263,7 +260,8 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
         });
 
-        it('should prompt to update an old GitHub plugin from all plugins', () => {
+        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
+        xit('should prompt to update an old GitHub plugin from all plugins', () => {
             // # Install GitHub 0.7.0 plugin
             cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
