@@ -1,52 +1,70 @@
+
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
-
-import Constants from 'utils/constants';
+import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
-
 import ConfirmModal from './confirm_modal.jsx';
 
-export default class DeleteModalTrigger extends React.PureComponent {
-    static propTypes = {
-        onDelete: PropTypes.func.isRequired,
-    }
+type Props = {
+    onDelete: () => void;
+}
 
-    constructor(props) {
+type State = {
+    showDeleteModal: boolean;
+}
+
+
+
+export default class DeleteModalTrigger extends React.PureComponent<Props, State>  {  
+
+    constructor(props: Props) {
         super(props);
-        if (this.constructor === DeleteModalTrigger) {
+
+        if (this.constructor == DeleteModalTrigger) { 
             throw new TypeError('Can not construct abstract class.');
         }
 
-        this.state = {
-            showDeleteModal: false,
-        };
+        this.state = {showDeleteModal: false,};
     }
 
-    handleOpenModal = (e) => {
+    handleOpenModal = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        this.setState({
-            showDeleteModal: true,
-        });
-    }
+        //this.setState({showDeleteModal: true,});
+        this.setState({showDeleteModal: true,});
+    }   
 
-    handleConfirm = () => {
+    public handleConfirm = () => {
         this.props.onDelete();
     }
 
     handleCancel = () => {
-        this.setState({
-            showDeleteModal: false,
-        });
+        this.setState({showDeleteModal: false,});
     }
 
-    handleKeyDown = (e) => {
+    handleKeyDown = (e: React.KeyboardEvent) => {
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ENTER)) {
-            this.handleConfirm(e);
+            this.handleConfirm();
         }
+    }
+
+    get triggerTitle() {
+        return ""
+    }
+
+    get modalTitle() {
+        return ""
+    }
+
+    get modalMessage() {
+        return ""
+    }
+
+    get modalConfirmButton() {
+        return ""
     }
 
     render() {

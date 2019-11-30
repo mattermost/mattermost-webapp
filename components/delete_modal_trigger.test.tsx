@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Constants from 'utils/constants';
-import DeleteModalTrigger from 'components/delete_modal_trigger.jsx';
+import DeleteModalTrigger from 'components/delete_modal_trigger';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
 describe('components/DeleteModalTrigger', () => {
@@ -148,12 +148,13 @@ describe('components/DeleteModalTrigger', () => {
         const wrapper = shallow(
             <ChildModal onDelete={onDelete}/>
         );
-        const evt = {key: Constants.KeyCodes.ENTER[0]};
-        const instance = wrapper.instance();
+        
+        const instance = wrapper.instance() as ChildModal;
+        const evt = {key: Constants.KeyCodes.ENTER[0]} as React.KeyboardEvent;
         instance.handleConfirm = jest.fn();
 
         wrapper.setState({showDeleteModal: false});
-        wrapper.instance().handleKeyDown(evt);
-        expect(instance.handleConfirm).toHaveBeenCalledWith(evt);
+        instance.handleKeyDown(evt);
+        expect(instance.handleConfirm).toHaveBeenCalled();
     });
 });
