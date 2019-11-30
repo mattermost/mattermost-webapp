@@ -230,6 +230,7 @@ export default class InvitationModal extends React.Component {
                         }
                         {this.state.step === STEPS_INVITE_MEMBERS &&
                             <InvitationModalMembersStep
+                                teamName={this.props.currentTeam.display_name}
                                 inviteId={this.props.currentTeam.invite_id}
                                 searchProfiles={this.props.actions.searchProfiles}
                                 onSubmit={this.onMembersSubmit}
@@ -238,6 +239,7 @@ export default class InvitationModal extends React.Component {
                         }
                         {this.state.step === STEPS_INVITE_GUESTS &&
                             <InvitationModalGuestsStep
+                                teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
                                 myInvitableChannels={this.props.invitableChannels}
                                 searchProfiles={this.props.actions.searchProfiles}
