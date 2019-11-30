@@ -207,27 +207,9 @@ export class MarketplaceModal extends React.Component {
                         inputComponent={LocalizedInput}
                         onInput={this.onInput}
                         value={this.state.filter}
+                        clearable={true}
+                        handleClear={this.handleClearSearch}
                     />
-                    {this.state.filter && this.state.filter.trim() !== '' &&
-                        <div
-                            id='searchClearButton'
-                            className='sidebar__search-clear visible'
-                            onClick={this.handleClearSearch}
-                        >
-                            <OverlayTrigger
-                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                placement='bottom'
-                                overlay={searchClearTooltip}
-                            >
-                                <span
-                                    className='sidebar__search-clear-x'
-                                    aria-hidden='true'
-                                >
-                                    {'×'}
-                                </span>
-                            </OverlayTrigger>
-                        </div>
-                    }
                 </div>
             </div>
         );

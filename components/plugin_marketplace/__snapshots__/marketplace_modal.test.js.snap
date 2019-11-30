@@ -199,7 +199,9 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
+            handleClear={[Function]}
             id="searchMarketplaceTextbox"
             inputComponent={
               Object {
@@ -277,7 +279,9 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
+            handleClear={[Function]}
             id="searchMarketplaceTextbox"
             inputComponent={
               Object {
@@ -355,7 +359,9 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
+            handleClear={[Function]}
             id="searchMarketplaceTextbox"
             inputComponent={
               Object {

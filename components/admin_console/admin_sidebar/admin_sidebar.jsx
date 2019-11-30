@@ -18,6 +18,7 @@ import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
 import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon.jsx';
+import QuickInput from 'components/quick_input';
 
 const renderScrollView = (props) => (
     <div
@@ -320,7 +321,7 @@ export default class AdminSidebar extends React.Component {
                                         className='search__icon'
                                         aria-hidden='true'
                                     />
-                                    <input
+                                    <QuickInput
                                         className={'filter ' + (this.state.filter ? 'active' : '')}
                                         type='text'
                                         onChange={this.onFilterChange}
@@ -328,25 +329,9 @@ export default class AdminSidebar extends React.Component {
                                         placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
                                         ref={this.searchRef}
                                         id='adminSidebarFilter'
+                                        clearable={true}
+                                        handleClear={this.handleClearFilter}
                                     />
-                                    {this.state.filter &&
-                                        <div
-                                            className='sidebar__search-clear visible'
-                                            onClick={this.handleClearFilter}
-                                        >
-                                            <OverlayTrigger
-                                                delayShow={Constants.OVERLAY_TIME_DELAY}
-                                                placement='bottom'
-                                                overlay={filterClearTooltip}
-                                            >
-                                                <span
-                                                    className='sidebar__search-clear-x'
-                                                    aria-hidden='true'
-                                                >
-                                                    {'×'}
-                                                </span>
-                                            </OverlayTrigger>
-                                        </div>}
                                 </li>
                                 {this.renderRootMenu(this.props.adminDefinition)}
                             </ul>

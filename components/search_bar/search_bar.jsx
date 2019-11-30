@@ -283,26 +283,9 @@ export default class SearchBar extends React.Component {
                             autoFocus={this.props.isFocus && this.props.searchTerms === ''}
                             delayInputUpdate={true}
                             renderDividers={true}
+                            clearable={true}
+                            handleClear={this.handleClear}
                         />
-                        {showClear &&
-                            <div
-                                id='searchClearButton'
-                                className='sidebar__search-clear visible'
-                                onClick={this.handleClear}
-                            >
-                                <OverlayTrigger
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    placement='bottom'
-                                    overlay={searchClearTooltip}
-                                >
-                                    <span
-                                        className='sidebar__search-clear-x'
-                                        aria-hidden='true'
-                                    >
-                                        {'×'}
-                                    </span>
-                                </OverlayTrigger>
-                            </div>}
                         {this.props.isSearchingTerm && <LoadingSpinner/>}
                         {this.renderHintPopover()}
                     </form>

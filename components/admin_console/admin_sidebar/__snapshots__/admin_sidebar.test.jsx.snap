@@ -38,50 +38,17 @@ exports[`components/AdminSidebar Plugins should filter plugins 1`] = `
               aria-hidden="true"
               className="search__icon"
             />
-            <input
+            <QuickInput
               className="filter active"
+              clearable={true}
+              delayInputUpdate={false}
+              handleClear={[Function]}
               id="adminSidebarFilter"
               onChange={[Function]}
               placeholder="Find settings"
               type="text"
               value="autolink"
             />
-            <div
-              className="sidebar__search-clear visible"
-              onClick={[Function]}
-            >
-              <OverlayTrigger
-                defaultOverlayShown={false}
-                delayShow={400}
-                overlay={
-                  <Tooltip
-                    bsClass="tooltip"
-                    id="admin-sidebar-fitler-clear"
-                    placement="right"
-                  >
-                    <FormattedMessage
-                      defaultMessage="Clear search"
-                      id="admin.sidebar.filter-clear"
-                      values={Object {}}
-                    />
-                  </Tooltip>
-                }
-                placement="bottom"
-                trigger={
-                  Array [
-                    "hover",
-                    "focus",
-                  ]
-                }
-              >
-                <span
-                  aria-hidden="true"
-                  className="sidebar__search-clear-x"
-                >
-                  ×
-                </span>
-              </OverlayTrigger>
-            </div>
           </li>
           <AdminSidebarCategory
             icon="fa-plug"
@@ -149,8 +116,11 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               aria-hidden="true"
               className="search__icon"
             />
-            <input
+            <QuickInput
               className="filter "
+              clearable={true}
+              delayInputUpdate={false}
+              handleClear={[Function]}
               id="adminSidebarFilter"
               onChange={[Function]}
               placeholder="Find settings"
@@ -778,8 +748,11 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               aria-hidden="true"
               className="search__icon"
             />
-            <input
+            <QuickInput
               className="filter "
+              clearable={true}
+              delayInputUpdate={false}
+              handleClear={[Function]}
               id="adminSidebarFilter"
               onChange={[Function]}
               placeholder="Find settings"
@@ -1380,8 +1353,11 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               aria-hidden="true"
               className="search__icon"
             />
-            <input
+            <QuickInput
               className="filter "
+              clearable={true}
+              delayInputUpdate={false}
+              handleClear={[Function]}
               id="adminSidebarFilter"
               onChange={[Function]}
               placeholder="Find settings"
@@ -1975,8 +1951,11 @@ exports[`components/AdminSidebar should match snapshot, not render the plugin in
               aria-hidden="true"
               className="search__icon"
             />
-            <input
+            <QuickInput
               className="filter "
+              clearable={true}
+              delayInputUpdate={false}
+              handleClear={[Function]}
               id="adminSidebarFilter"
               onChange={[Function]}
               placeholder="Find settings"
@@ -2570,8 +2549,11 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               aria-hidden="true"
               className="search__icon"
             />
-            <input
+            <QuickInput
               className="filter "
+              clearable={true}
+              delayInputUpdate={false}
+              handleClear={[Function]}
               id="adminSidebarFilter"
               onChange={[Function]}
               placeholder="Find settings"
@@ -3401,8 +3383,11 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               aria-hidden="true"
               className="search__icon"
             />
-            <input
+            <QuickInput
               className="filter "
+              clearable={true}
+              delayInputUpdate={false}
+              handleClear={[Function]}
               id="adminSidebarFilter"
               onChange={[Function]}
               placeholder="Find settings"
