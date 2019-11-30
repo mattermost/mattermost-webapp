@@ -17,6 +17,7 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 import './invitation_modal_guests_step.scss';
 
 import {t} from 'utils/i18n.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class InvitationModalGuestsStep extends React.Component {
     static propTypes = {
@@ -165,6 +166,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                                 <UsersEmailsInput
                                     usersLoader={this.usersLoader}
                                     placeholder={placeholder}
+                                    ariaLabel={localizeMessage('invitation_modal.guests.add_people.title', 'Invite People')}
                                     onChange={this.onUsersEmailsChange}
                                     value={this.state.usersAndEmails}
                                     onInputChange={this.onUsersInputChange}
@@ -202,6 +204,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                             {(placeholder) => (
                                 <ChannelsInput
                                     placeholder={placeholder}
+                                    ariaLabel={localizeMessage('invitation_modal.guests.add_channels.title', 'Search and Add Channels')}
                                     channelsLoader={this.channelsLoader}
                                     onChange={this.onChannelsChange}
                                     onInputChange={this.onChannelsInputChange}

@@ -103,19 +103,21 @@ export default class ChannelList extends React.PureComponent {
                             defaultMessage='Name'
                         />
                     </div>
-                    <div className='group-description'>
-                        <FormattedMessage
-                            id='admin.channel_settings.channel_list.teamHeader'
-                            defaultMessage='Team'
-                        />
+                    <div className='group-content'>
+                        <div className='group-description'>
+                            <FormattedMessage
+                                id='admin.channel_settings.channel_list.teamHeader'
+                                defaultMessage='Team'
+                            />
+                        </div>
+                        <div className='group-description adjusted'>
+                            <FormattedMessage
+                                id='admin.channel_settings.channel_list.managementHeader'
+                                defaultMessage='Management'
+                            />
+                        </div>
+                        <div className='group-actions'/>
                     </div>
-                    <div className='group-description adjusted'>
-                        <FormattedMessage
-                            id='admin.channel_settings.channel_list.managementHeader'
-                            defaultMessage='Management'
-                        />
-                    </div>
-                    <div className='group-actions'/>
                 </div>
             </>
         );

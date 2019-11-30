@@ -23,7 +23,10 @@ const Setting: React.FC<Props> = ({
     helpText,
 }: Props) => {
     return (
-        <div className='form-group'>
+        <div
+            data-testid={inputId}
+            className='form-group'
+        >
             <label
                 data-testid={inputId + 'label'}
                 className={'control-label ' + labelClassName}
@@ -31,7 +34,10 @@ const Setting: React.FC<Props> = ({
             >
                 {label}
             </label>
-            <div className={inputClassName}>
+            <div
+                data-testid={inputId + 'help-text'}
+                className={inputClassName}
+            >
                 {children}
                 <div
                     data-testid={inputId + 'help-text'}
