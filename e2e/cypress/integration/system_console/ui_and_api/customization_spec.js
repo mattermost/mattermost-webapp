@@ -78,5 +78,4 @@ describe('Customization', () => {
             expect(response.body.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
         });
     });
-
 });
