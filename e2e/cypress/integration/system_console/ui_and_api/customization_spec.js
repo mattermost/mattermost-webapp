@@ -58,13 +58,13 @@ describe('Customization', () => {
     it('SC20330 - Can change Help Link setting', () => {
         // * Verify that setting is visible and matches text content
         const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.'];
-        cy.findByTestId('SupportSettings.HelpLinklabel').should('be.visible').and('have.text', 'Help Link:');
+        cy.findByTestId('SupportSettings.HelpLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Help Link:');
 
         // * Verify that help setting is visible and matches text content
-        cy.findByTestId('SupportSettings.HelpLinkhelp-text').find('span').should('be.visible').and('have.text', contents[0]);
+        cy.findByTestId('SupportSettings.HelpLinkhelp-text').scrollIntoView().find('span').should('be.visible').and('have.text', contents[0]);
 
         // * Verify the input box visible and has default value
-        cy.findByTestId('SupportSettings.HelpLinkinput').should('have.value', origConfig.SupportSettings.HelpLink).and('be.visible');
+        cy.findByTestId('SupportSettings.HelpLinkinput').scrollIntoView().should('have.value', origConfig.SupportSettings.HelpLink).and('be.visible');
 
         // # Fill input field with value
         const stringToSave = 'https://some.com';
