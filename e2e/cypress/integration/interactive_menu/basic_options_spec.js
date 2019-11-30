@@ -147,7 +147,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyMessageId}`).within(() => {
                     cy.get('.post__link').should('not.be.visible');
-                    cy.get(`#postMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
+                    cy.get(`#rhsPostMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
             });
         });

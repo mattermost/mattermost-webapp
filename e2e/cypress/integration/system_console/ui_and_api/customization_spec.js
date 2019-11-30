@@ -15,7 +15,9 @@ describe('Customization', () => {
         cy.apiGetConfig().then((response) => {
             const config = response.body;
             origConfig = {
-                SupportSettings: {PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink},
+                SupportSettings: {HelpLink: config.SupportSettings.HelpLink,
+                    PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink},
+                TeamSettings: {SiteName: config.TeamSettings.SiteName}
             };
         });
 
@@ -26,6 +28,32 @@ describe('Customization', () => {
 
     after(() => {
         cy.apiUpdateConfig(origConfig);
+    });
+
+    it('SC20335 - Can change Site Name setting', () => {
+        // * Verify site name's setting name for is visible and matches the text
+        cy.findByTestId('TeamSettings.SiteNamelabel').should('be.visible').and('have.text', 'Site Name:');
+
+        // * Verify the site name input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', origConfig.TeamSettings.SiteName);
+
+        // * Verify the site name's help text is visible and matches the text
+        cy.findByTestId('TeamSettings.SiteNamehelp-text').find('span').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
+
+        // # Generate and enter a random site name
+        const siteName = 'New site name';
+        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(siteName);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            const config = response.body;
+
+            // * Verify the site name is saved, directly via REST API
+            expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
     });
 
     it('SC20330 - Can change Privacy Policy Link setting', () => {
@@ -50,4 +78,5 @@ describe('Customization', () => {
             expect(response.body.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
         });
     });
+
 });
