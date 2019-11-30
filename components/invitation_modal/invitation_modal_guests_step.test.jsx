@@ -10,10 +10,11 @@ describe('components/invitation_modal/InvitationModalGuestsStep', () => {
     test('should match the snapshot', () => {
         const wrapper = shallow(
             <InvitationModalGuestsStep
+                teamName='Test Team'
                 currentTeamId='123'
                 myInvitableChannels={[]}
                 searchProfiles={jest.fn()}
-                goBack={jest.fn()}
+                searchChannels={jest.fn()}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
             />

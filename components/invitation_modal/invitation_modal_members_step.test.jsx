@@ -11,13 +11,13 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
     test('should match the snapshot', () => {
         const wrapper = shallowWithIntl(
             <InvitationModalMembersStep
+                teamName='Test Team'
                 inviteId='123'
                 searchProfiles={jest.fn()}
-                goBack={jest.fn()}
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
             />
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 });

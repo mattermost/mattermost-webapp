@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
@@ -17,9 +17,8 @@ import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
 import groupsAvatar from 'images/groups-avatar.png';
 
-class TeamGroupsManageModal extends React.PureComponent {
+export default class TeamGroupsManageModal extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         team: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroupsAssociatedToTeam: PropTypes.func.isRequired,
@@ -27,6 +26,10 @@ class TeamGroupsManageModal extends React.PureComponent {
             closeModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     state = {
@@ -118,7 +121,7 @@ class TeamGroupsManageModal extends React.PureComponent {
     };
 
     render() {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const memberCount = this.state.item.member_count;
         return (
             <>
@@ -144,5 +147,3 @@ class TeamGroupsManageModal extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(TeamGroupsManageModal);
