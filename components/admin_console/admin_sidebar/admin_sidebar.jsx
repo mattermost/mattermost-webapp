@@ -4,12 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage, intlShape} from 'react-intl';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
 
@@ -293,14 +291,6 @@ export default class AdminSidebar extends React.Component {
     }
 
     render() {
-        const filterClearTooltip = (
-            <Tooltip id='admin-sidebar-fitler-clear'>
-                <FormattedMessage
-                    id='admin.sidebar.filter-clear'
-                    defaultMessage='Clear search'
-                />
-            </Tooltip>
-        );
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>

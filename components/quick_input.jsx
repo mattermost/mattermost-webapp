@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+
 import Constants from 'utils/constants.jsx';
 
 // A component that can be used to make controlled inputs that function properly in certain
@@ -90,19 +91,16 @@ export default class QuickInput extends React.PureComponent {
     handleClear = () => {
         if (this.props.handleClear) {
             this.props.handleClear();
-            this.value = '';
-            return;
         }
 
         this.value = '';
-        if (this.props.onInput) this.props.onInput();
     }
 
     render() {
         const clearableTooltip = (
-            <Tooltip id={this.props.id + 'ClearTooltip'}>
+            <Tooltip id={'InputClearTooltip'}>
                 <FormattedMessage
-                    id={this.props.id + '.clear'}
+                    id={'input.clear'}
                     defaultMessage='Clear input'
                 />
             </Tooltip>
@@ -124,7 +122,7 @@ export default class QuickInput extends React.PureComponent {
 
         return (<div>
             {inputElement}
-            {clearable && this.input && this.value && this.value != '' &&
+            {clearable && this.input && this.value && this.value !== '' &&
                 <div
                     className='input-clear visible'
                     onClick={this.handleClear}
@@ -143,6 +141,6 @@ export default class QuickInput extends React.PureComponent {
                     </OverlayTrigger>
                 </div>
             }
-        </div>)
+        </div>);
     }
 }

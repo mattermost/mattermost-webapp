@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
@@ -211,21 +210,10 @@ export default class SearchBar extends React.Component {
             );
         }
 
-        const showClear = !this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '';
-
         let searchFormClass = 'search__form';
         if (this.state.focused) {
             searchFormClass += ' focused';
         }
-
-        const searchClearTooltip = (
-            <Tooltip id='searchClearTooltip'>
-                <FormattedMessage
-                    id='search_bar.clear'
-                    defaultMessage='Clear search query'
-                />
-            </Tooltip>
-        );
 
         return (
             <div className='sidebar-right__table'>
