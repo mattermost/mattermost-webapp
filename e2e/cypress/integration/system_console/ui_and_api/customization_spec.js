@@ -8,12 +8,15 @@
 // ***************************************************************
 
 describe('Customization', () => {
-    let config;
+    let origConfig;
 
     before(() => {
         // Get config
         cy.apiGetConfig().then((response) => {
-            config = response.body;
+            const config = response.body;
+            origConfig = {
+                SupportSettings: {PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink},
+            };
         });
 
         // # Login as sysadmin and visit customization system console page
@@ -21,17 +24,20 @@ describe('Customization', () => {
         cy.visit('/admin_console/site_config/customization');
     });
 
-    it('SC20330 - Can change Privacy Policy Link setting', () => {
-        const contents = ['The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.'];
+    after(() => {
+        cy.apiUpdateConfig(origConfig);
+    });
 
+    it('SC20330 - Can change Privacy Policy Link setting', () => {
         // * Verify that setting is visible and matches text content
-        cy.findByTestId('SupportSettings.PrivacyPolicyLinklabel').should('be.visible').and('have.text', 'Privacy Policy Link:');
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Privacy Policy Link:');
 
         // * Verify that help setting is visible and matches text content
-        cy.findByTestId('SupportSettings.PrivacyPolicyLinkhelp-text').find('span').should('be.visible').and('have.text', contents[0]);
+        const content = 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.';
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkhelp-text').scrollIntoView().find('span').should('be.visible').and('have.text', content);
 
         // * Verify the input box visible and has default value
-        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').should('have.value', config.SupportSettings.PrivacyPolicyLink).and('be.visible');
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').scrollIntoView().should('have.value', origConfig.SupportSettings.PrivacyPolicyLink).and('be.visible');
 
         // # Fill input field with value
         const stringToSave = 'https://some.com';
