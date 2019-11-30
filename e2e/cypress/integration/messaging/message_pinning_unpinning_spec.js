@@ -100,7 +100,7 @@ describe('Messaging', () => {
                     cy.get('#search-items-container').children().should('have.length', 2);
 
                     // * Right-hand-side does not have the last pinned post.
-                    cy.get('#search-items-container').children().should('not.contain', `#postMessageText_${postId}`);
+                    cy.get('#search-items-container').children().should('not.contain', `#rhsPostMessageText_${postId}`);
                 });
             });
         });

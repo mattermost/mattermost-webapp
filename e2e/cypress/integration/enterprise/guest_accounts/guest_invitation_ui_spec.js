@@ -31,9 +31,7 @@ function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, 
     });
 }
 
-function invitePeople(typeText, resultsCount, verifyText) {
-    const channelName = 'Town Square';
-
+function invitePeople(typeText, resultsCount, verifyText, channelName = 'Town Square') {
     // # Open Invite People
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#invitePeople').should('be.visible').click();
@@ -158,7 +156,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the header has changed in the modal
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', 'Invite Guests');
+            cy.get('h1').should('have.text', 'Invite Guests to Test Team');
         });
 
         // *Verify Invite Guests button is disabled by default
@@ -168,7 +166,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         const email = `temp-${getRandomInt(9999)}@mattermost.com`;
         cy.findByTestId('addPeople').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Invite People');
-            cy.get('.help-text > span').should('have.text', 'Search and add guests or email invite new users.');
+            cy.get('.help-text > span').should('have.text', 'Add existing guests or send email invites to new guests.');
         });
         cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
             // * Verify the input placeholder text
@@ -253,10 +251,10 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.demoteUser(newUser.id);
 
         // # Search and add an existing guest by first name, who is part of the team but not channel
-        invitePeople(newUser.firstName, 1, newUser.username);
+        invitePeople(newUser.firstName, 1, newUser.username, 'Off-Topic');
 
         // * Verify the content and message in next screen
-        verifyInvitationSuccess(newUser.username, 'This guest has been added to the team and channel.', true);
+        verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
 
         // # Search and add an existing guest by last name, who is part of the team and channel
         invitePeople(newUser.lastName, 1, newUser.username);
@@ -295,12 +293,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
-        cy.findByTestId('invitationModal').find('h1').should('have.text', 'Invite Members');
+        cy.findByTestId('invitationModal').find('h1').should('have.text', 'Invite Members to Test Team');
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Share This Link');
-            cy.get('.help-text > span').should('have.text', 'Share this link to grant member access to this team.');
+            cy.get('.help-text > span').should('have.text', 'Share this link to invite people to this team.');
         });
 
         // # Close the Modal

@@ -3,20 +3,23 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 import * as Utils from 'utils/utils.jsx';
 
-class SelectTeamItem extends React.PureComponent {
+export default class SelectTeamItem extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         team: PropTypes.object.isRequired,
         onTeamClick: PropTypes.func.isRequired,
         loading: PropTypes.bool.isRequired,
         canJoinPublicTeams: PropTypes.bool.isRequired,
         canJoinPrivateTeams: PropTypes.bool.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     handleTeamClick = (e) => {
@@ -51,7 +54,7 @@ class SelectTeamItem extends React.PureComponent {
     }
 
     render() {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const {canJoinPublicTeams, canJoinPrivateTeams, loading, team} = this.props;
         let icon;
         if (loading) {
@@ -93,5 +96,3 @@ class SelectTeamItem extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(SelectTeamItem);

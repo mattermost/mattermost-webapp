@@ -92,6 +92,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                         <ChromePicker
                             color={color}
                             onChange={this.handleChange}
+                            disableAlpha={true}
                         />
                     </div>
                 )}

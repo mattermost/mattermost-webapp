@@ -23,8 +23,10 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -79,8 +81,10 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -135,8 +139,10 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."
@@ -191,8 +197,10 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
     <div
       className="admin-console-save"
     >
-      <injectIntl(SaveButton)
+      <SaveButton
+        btnClass="btn-primary"
         disabled={true}
+        extraClasses=""
         onClick={[Function]}
         saving={false}
         savingMessage="Saving Config..."

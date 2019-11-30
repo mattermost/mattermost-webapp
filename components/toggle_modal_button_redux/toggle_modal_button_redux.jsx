@@ -3,11 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import {intlShape} from 'react-intl';
 
-class ModalToggleButtonRedux extends React.Component {
+export default class ModalToggleButtonRedux extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
         accessibilityLabel: PropTypes.string,
         children: PropTypes.node.isRequired,
         modalId: PropTypes.string.isRequired,
@@ -23,6 +22,10 @@ class ModalToggleButtonRedux extends React.Component {
     static defaultProps = {
         dialogProps: {},
         className: '',
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     show(e) {
@@ -43,7 +46,7 @@ class ModalToggleButtonRedux extends React.Component {
 
     render() {
         const {children, onClick, ...props} = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const ariaLabel = `${props.accessibilityLabel} ${formatMessage({id: 'accessibility.button.dialog', defaultMessage: 'Dialog'})}`;
 
         // removing these three props since they are not valid props on buttons
@@ -76,4 +79,3 @@ class ModalToggleButtonRedux extends React.Component {
     }
 }
 
-export default injectIntl(ModalToggleButtonRedux);
