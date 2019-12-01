@@ -843,7 +843,10 @@ export default class SchemaAdminSettings extends React.Component {
         config = this.getConfigFromState(config);
 
         try {
-            await this.props.updateConfig(config);
+            let response = await this.props.updateConfig(config);
+            if (typeof response.error !== 'undefined'){
+                throw response.error
+            }
             this.setState(getStateFromConfig(config));
         } catch (err) {
             this.setState({
