@@ -28,4 +28,16 @@ describe('components/analytics/statistic_count.tsx', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot, loaded with zero value', () => {
+        const wrapper = shallow(
+            <StatisticCount
+                title='Test Zero'
+                icon='test-icon'
+                count={0}
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
 });

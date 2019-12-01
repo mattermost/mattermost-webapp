@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {injectIntl} from 'react-intl';
+import {injectIntl, intlShape} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
@@ -109,7 +109,7 @@ class SearchResults extends React.Component {
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
-        intl: PropTypes.object.isRequired,
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {

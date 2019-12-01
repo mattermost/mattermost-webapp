@@ -13,20 +13,32 @@ describe('components/widgets/loading/LoadingWrapper', () => {
             loading: true,
             text: 'test',
             children: 'children',
+            snapshot: `
+<LoadingSpinner
+  text="test"
+/>
+`,
         },
         {
             name: 'showing spinner without text',
             loading: true,
             children: 'text',
+            snapshot: `
+<LoadingSpinner
+  text={null}
+/>
+`,
         },
         {
             name: 'showing content with children',
             loading: false,
             children: 'text',
+            snapshot: '"text"',
         },
         {
             name: 'showing content without children',
             loading: false,
+            snapshot: '""',
         },
     ];
     for (const testCase of testCases) {
@@ -39,7 +51,7 @@ describe('components/widgets/loading/LoadingWrapper', () => {
                     {testCase.children}
                 </LoadingWrapper>
             );
-            expect(wrapper).toMatchSnapshot(testCase.name);
+            expect(wrapper).toMatchInlineSnapshot(testCase.snapshot, '""');
         });
     }
 });

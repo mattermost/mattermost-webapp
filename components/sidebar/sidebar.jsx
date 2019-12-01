@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage, intlShape} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -57,7 +57,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-class Sidebar extends React.PureComponent {
+export default class Sidebar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -143,12 +143,14 @@ class Sidebar extends React.PureComponent {
             switchToChannelById: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
-
-        intl: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         currentChannel: {},
+    }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -215,6 +217,11 @@ class Sidebar extends React.PureComponent {
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
             this.refs.scrollbar.scrollToTop();
+        }
+
+        // Scroll to selected channel so it's in view
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.updateScrollbarOnChannelChange(this.props.currentChannel.id);
         }
 
         // close the LHS on mobile when you change channels
@@ -299,8 +306,8 @@ class Sidebar extends React.PureComponent {
             currentTeam,
             currentTeammate,
             unreads,
-            intl: {formatMessage},
         } = this.props;
+        const {formatMessage} = this.context.intl;
 
         const currentSiteName = config.SiteName || '';
 
@@ -792,5 +799,3 @@ class Sidebar extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(Sidebar);

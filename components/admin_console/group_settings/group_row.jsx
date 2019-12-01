@@ -156,20 +156,24 @@ export default class GroupRow extends React.Component {
                 onClick={this.onRowClick}
             >
                 <div className='group-row'>
-                    <div
-                        className={'group-check ' + (this.props.checked ? 'checked' : '')}
-                    >
-                        {this.props.checked && <CheckboxCheckedIcon/>}
+                    <div className='group-name'>
+                        <div
+                            className={'group-check ' + (this.props.checked ? 'checked' : '')}
+                        >
+                            {this.props.checked && <CheckboxCheckedIcon/>}
+                        </div>
+                        <span>
+                            {this.props.name}
+                        </span>
                     </div>
-                    <span className='group-name'>
-                        {this.props.name}
-                    </span>
-                    <span className='group-description'>
-                        {this.renderLinked()}
-                    </span>
-                    <span className='group-actions'>
-                        {this.renderActions()}
-                    </span>
+                    <div className='group-content'>
+                        <span className='group-description'>
+                            {this.renderLinked()}
+                        </span>
+                        <span className='group-actions'>
+                            {this.renderActions()}
+                        </span>
+                    </div>
                 </div>
             </div>
         );

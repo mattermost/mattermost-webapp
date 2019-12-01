@@ -144,7 +144,10 @@ export default class ManageLanguage extends React.Component {
         const input = (
             <div key='changeLanguage'>
                 <br/>
-                <label className='control-label'>
+                <label
+                    className='control-label'
+                    id='changeInterfaceLanguageLabel'
+                >
                     <FormattedMessage
                         id='user.settings.languages.change'
                         defaultMessage='Change interface language'
@@ -168,6 +171,7 @@ export default class ManageLanguage extends React.Component {
                         value={this.state.selectedOption}
                         onMenuClose={this.handleMenuClose}
                         onMenuOpen={this.handleMenuOpen}
+                        aria-labelledby='changeInterfaceLanguageLabel'
                     />
                     {serverError}
                 </div>
