@@ -69,7 +69,7 @@ jobs:
       - checkout
       - *restore_cache
       - run: |
-          TESTFILES=$(circleci tests glob "**/*.test.js" | circleci tests split --split-by=timings)
+          TESTFILES=$(circleci tests glob "**/*.test.{js,jsx,ts,tsx}" | circleci tests split --split-by=timings)
           npm run test-ci $TESTFILES
       - store_test_results:
           path: build/
