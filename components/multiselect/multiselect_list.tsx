@@ -23,7 +23,7 @@ export type Props = {
         option: Value,
         isSelected: boolean,
         onAdd: (value: Value) => void,
-        onMouseMove: () => void
+        onMouseMove: (value: Value) => void
     ) => void;
     options: Value[];
     page: number;
@@ -126,7 +126,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         this.props.onSelect(options[selected]);
     }
 
-    private defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd'], onMouseMove: () => void) => {
+    private defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd'], onMouseMove: (value: Value) => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -138,16 +138,24 @@ export default class MultiSelectList extends React.Component<Props, State> {
                 className={rowSelected}
                 key={'multiselectoption' + option.value}
                 onClick={() => onAdd(option)}
-                onMouseMove={() => onMouseMove}
+                onMouseMove={() => onMouseMove(option)}
             >
                 {option.label}
             </div>
         );
     }
 
-    private onMouseMove = (option: number) => () => {
-        if (this.state.selected !== option) {
-            this.setSelected(option);
+    private onMouseMove = (option: Value) => {
+        let i;
+        for (i = 0; i < this.props.options.length; i++) {
+            if (option === this.props.options[i]) {
+                break;
+            }
+        }
+        if (i < this.props.options.length) {
+            if (this.state.selected !== i) {
+                this.setSelected(i);
+            }
         }
     }
 
@@ -186,7 +194,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
                 renderer = this.defaultOptionRenderer;
             }
 
-            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove(i)));
+            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove));
 
             const selectedOption = options[this.state.selected];
             const ariaLabel = this.props.ariaLabelRenderer(selectedOption);
