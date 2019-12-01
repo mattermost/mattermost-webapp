@@ -65,7 +65,7 @@ jobs:
   test:
     executor:
       name: default
-    parallelism: 4
+    parallelism: 8
     steps:
       - checkout
       - *restore_cache
