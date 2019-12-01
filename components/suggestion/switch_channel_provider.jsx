@@ -133,6 +133,7 @@ class SwitchChannelSuggestion extends Suggestion {
         return (
             <div
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 className={className}
                 id={`switchChannel_${channel.name}`}
                 data-testid={channel.name}

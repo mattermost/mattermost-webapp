@@ -22,7 +22,8 @@ export type Props = {
     optionRenderer: (
         option: Value,
         isSelected: boolean,
-        onAdd: (value: Value) => void
+        onAdd: (value: Value) => void,
+        onMouseMove: () => void
     ) => void;
     options: Value[];
     page: number;
@@ -125,7 +126,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
         this.props.onSelect(options[selected]);
     }
 
-    private defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd']) => {
+    private defaultOptionRenderer = (option: Value, isSelected: boolean, onAdd: Props['onAdd'], onMouseMove: () => void) => {
         let rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -137,10 +138,17 @@ export default class MultiSelectList extends React.Component<Props, State> {
                 className={rowSelected}
                 key={'multiselectoption' + option.value}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove}
             >
                 {option.label}
             </div>
         );
+    }
+
+    private onMouseMove = (option: number) => () => {
+        if (this.state.selected !== option) {
+            this.setSelected(option);
+        }
     }
 
     public render() {
@@ -178,7 +186,7 @@ export default class MultiSelectList extends React.Component<Props, State> {
                 renderer = this.defaultOptionRenderer;
             }
 
-            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd));
+            const optionControls = options.map((o, i) => renderer(o, this.state.selected === i, this.props.onAdd, this.onMouseMove(i)));
 
             const selectedOption = options[this.state.selected];
             const ariaLabel = this.props.ariaLabelRenderer(selectedOption);
