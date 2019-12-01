@@ -65,13 +65,32 @@ jobs:
   test:
     executor:
       name: default
-    parallelism: 8
+    parallelism: 4
     steps:
       - checkout
       - *restore_cache
       - run: |
           TESTFILES=$(circleci tests glob "**/*.test.{js,jsx,ts,tsx}" | circleci tests split --split-by=timings)
           npm run test-ci $TESTFILES
+      - store_test_results:
+          path: build/
+
+  e2e-test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          cd ../
+          GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --depth=1 git@github.com:mattermost/mattermost-server.git
+          cd mattermost-server
+          git checkout $CIRCLE_BRANCH || git checkout master
+          make run
+          curl localhost:8065
+
+          cd ../mattermost-webapp/e2e
+          npm run test:ci
       - store_test_results:
           path: build/
 
