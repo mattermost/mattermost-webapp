@@ -16,7 +16,7 @@ describe('Messaging', () => {
         cy.visit('/ad-1/channels/suscipit-4');
     });
 
-    it('M18711-Input box on main thread can expand with RHS closed', () => {
+    it('M18709-Input box on main thread can expand with RHS open', () => {
         // # Wait until site is loaded
         cy.wait(TIMEOUTS.SMALL);
 
