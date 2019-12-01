@@ -189,9 +189,15 @@ workflows:
       - type-check:
           requires:
             - install
-      - build:
+      - test:
           requires:
             - install
+      - build:
+          requires:
+            - lint
+            - i18n-check
+            - type-check
+            - test
       - upload-s3:
           context: mattermost-ci-s3
           requires:
@@ -211,8 +217,3 @@ workflows:
           context: mattermost-s3-storybook-alpha
           requires:
             - build-storybook
-      - test:
-          requires:
-            - type-check
-            - i18n-check
-            - lint
