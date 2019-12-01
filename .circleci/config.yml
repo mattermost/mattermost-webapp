@@ -211,12 +211,15 @@ workflows:
       - test:
           requires:
             - install
-      - build:
+      - e2e-test:
           requires:
             - lint
             - i18n-check
             - type-check
             - test
+      - build:
+          requires:
+            - e2e-test
       - upload-s3:
           context: mattermost-ci-s3
           requires:
