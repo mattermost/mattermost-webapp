@@ -7,13 +7,18 @@ const defaultRule = (aName, bName) => {
 
 const thumbsDownRule = (other) =>
     (other === 'thumbsup' || other === '+1' ? 1 : 0);
-const thumbsUpRule = (other) => (other === 'thumbsdown' || other === '-1' ? -1 : 0);
+const thumbsUpRule = (other) => (other === 'thumbsdown' || other === '-1' || other === 'thumbsup-custom' ? -1 : 0);
+const customThumbsUpRule = (other) => (other === 'thumbsdown-custom' ? -1 : 0);
+const customThumbsDownRule = (other) =>
+    (other === 'thumbsup-custom' ? 1 : 0);
 
 const customRules = {
     thumbsdown: thumbsDownRule,
     '-1': thumbsDownRule,
     thumbsup: thumbsUpRule,
-    '+1': thumbsUpRule
+    '+1': thumbsUpRule,
+    'thumbsup-custom': customThumbsUpRule,
+    'thumbsdown-custom': customThumbsDownRule,
 };
 
 export function compareEmojis(emojiA, emojiB, searchedName) {

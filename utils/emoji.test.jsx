@@ -118,5 +118,24 @@ describe('Emoji', () => {
 
             expect(emojiArray).toEqual([thumbsUpEmoji, thumbsDownEmoji, smileEmoji]);
         });
+
+        test('special case for thumbsup emoji should sort custom emojis after system', () => {
+            const thumbsUpEmoji = {
+                name: 'thumbsup',
+            };
+
+            const thumbsDownEmoji = {
+                name: 'thumbsdown',
+            };
+
+            const thumbsUpCustomEmoji = {
+                name: 'thumbsup-custom',
+            };
+
+            const emojiArray = [thumbsUpCustomEmoji, thumbsDownEmoji, thumbsUpEmoji];
+            emojiArray.sort((a, b) => compareEmojis(a, b, 'thumb'));
+
+            expect(emojiArray).toEqual([thumbsUpEmoji, thumbsDownEmoji, thumbsUpCustomEmoji]);
+        });
     });
 });
