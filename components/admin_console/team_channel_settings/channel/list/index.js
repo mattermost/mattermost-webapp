@@ -9,7 +9,7 @@ import {getAllChannelsWithCount as getData, searchAllChannels} from 'mattermost-
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 
 import {t} from 'utils/i18n';
-
+import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants';
 
 import List from './channel_list.jsx';
@@ -23,12 +23,13 @@ const getSortedListOfChannels = createSelector(
         sort(compareByDisplayName)
 );
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     return {
         data: getSortedListOfChannels(state),
         total: state.entities.channels.totalCount,
         emptyListTextId: t('admin.channel_settings.channel_list.no_channels_found'),
         emptyListTextDefaultMessage: 'No channels found',
+        manageMembers: canManageMembers(ownProps.channel, state),
     };
 }
 

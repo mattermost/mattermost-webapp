@@ -16,7 +16,6 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {getChannelURL} from 'utils/utils';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -34,6 +33,7 @@ export default class LoggedIn extends React.PureComponent {
             autoUpdateTimezone: PropTypes.func.isRequired,
         }).isRequired,
         showTermsOfService: PropTypes.bool.isRequired,
+        getChannelURL: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -212,7 +212,7 @@ export default class LoggedIn extends React.PureComponent {
             window.focus();
 
             // navigate to the appropriate channel
-            browserHistory.push(getChannelURL(channel, teamId));
+            browserHistory.push(this.props.getChannelURL(channel, teamId));
             break;
         }
         }

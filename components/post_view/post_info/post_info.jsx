@@ -21,7 +21,6 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
-
         /*
          * The post to render the info for
          */
@@ -104,6 +103,8 @@ export default class PostInfo extends React.PureComponent {
              */
             removePost: PropTypes.func.isRequired,
         }).isRequired,
+
+        shouldShowDotMenu: PropTypes.bool.isRequired,
     };
 
     constructor(props) {
@@ -147,7 +148,7 @@ export default class PostInfo extends React.PureComponent {
     };
 
     buildOptions = (post, isSystemMessage, fromAutoResponder) => {
-        if (!PostUtils.shouldShowDotMenu(post)) {
+        if (!this.props.shouldShowDotMenu) {
             return null;
         }
 

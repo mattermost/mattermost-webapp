@@ -5,8 +5,18 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {doPostActionWithCookie} from 'mattermost-redux/actions/posts';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+
+import {handleFormattedTextClick} from "utils/utils";
 
 import MessageAttachment from './message_attachment';
+
+function mapStateToProps(state) {
+    return {
+        handleFormattedTextClick: (e) =>
+            handleFormattedTextClick(e, getCurrentRelativeTeamUrl(state))
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -16,4 +26,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(MessageAttachment);
+export default connect(mapStateToProps, mapDispatchToProps)(MessageAttachment);

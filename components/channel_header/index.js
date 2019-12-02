@@ -19,7 +19,7 @@ import {
     isCurrentChannelReadOnly,
     getCurrentChannelStats,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
     getCurrentUser,
     getUser,
@@ -39,6 +39,7 @@ import {
 import {getIsRhsOpen, getRhsState} from 'selectors/rhs';
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
+import {getDisplayNameByUserId, handleFormattedTextClick} from 'utils/utils.jsx';
 
 import ChannelHeader from './channel_header';
 
@@ -73,6 +74,8 @@ function makeMapStateToProps() {
             isMuted: isCurrentChannelMuted(state),
             isQuickSwitcherOpen: isModalOpen(state, ModalIdentifiers.QUICK_SWITCH),
             hasGuests: stats.guest_count > 0,
+            getDisplayNameByUserId: (userId) => getDisplayNameByUserId(userId, state),
+            handleFormattedTextClick: (e) => handleFormattedTextClick(e, getCurrentRelativeTeamUrl(state))
         };
     };
 }

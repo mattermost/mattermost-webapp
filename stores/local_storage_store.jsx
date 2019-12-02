@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {getRedirectChannelNameForTeam} from 'utils/channel_utils.jsx';
+import {getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+
 import store from 'stores/redux_store.jsx';
 import {getBasePath} from 'selectors/general';
 
@@ -39,7 +40,9 @@ class LocalStorageStoreClass {
     }
 
     getPreviousChannelName(userId, teamId) {
-        return this.getItem(getPreviousChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(teamId);
+        const state = store.getState();
+
+        return this.getItem(getPreviousChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(state, teamId);
     }
 
     setPreviousChannelName(userId, teamId, channelName) {

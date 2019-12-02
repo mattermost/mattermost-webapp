@@ -354,9 +354,8 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 
-export function renderSystemMessage(post, channel) {
+export function renderSystemMessage(post, channel, isUserCanManageMembers) {
     if (post.props && post.props.add_channel_member) {
-        const isUserCanManageMembers = canManageMembers(channel);
         const isEphemeral = Utils.isPostEphemeral(post);
 
         if ((channel.type === General.PRIVATE_CHANNEL || channel.type === General.OPEN_CHANNEL) &&

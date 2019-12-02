@@ -47,7 +47,7 @@ export function emitChannelClickEvent(channel) {
     async function userVisitedFakeChannel(chan, success, fail) {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
-        const otherUserId = Utils.getUserIdFromChannelName(chan);
+        const otherUserId = Utils.getUserIdFromChannelName(chan, currentUserId);
         const {data: receivedChannel} = await createDirectChannel(currentUserId, otherUserId)(dispatch, getState);
         if (receivedChannel) {
             success(receivedChannel);

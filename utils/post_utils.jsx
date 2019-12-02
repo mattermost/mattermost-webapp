@@ -4,7 +4,6 @@
 import {createSelector} from 'reselect';
 
 import {Client4} from 'mattermost-redux/client';
-import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {makeGetReactionsForPost} from 'mattermost-redux/selectors/entities/posts';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
@@ -15,8 +14,6 @@ import * as PostListUtils from 'mattermost-redux/utils/post_list';
 import {canEditPost as canEditPostRedux} from 'mattermost-redux/utils/post_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
-
-import store from 'stores/redux_store.jsx';
 
 import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
@@ -40,8 +37,8 @@ export function isFromWebhook(post) {
     return post.props && post.props.from_webhook === 'true';
 }
 
-export function isPostOwner(post) {
-    return getCurrentUserId(store.getState()) === post.user_id;
+export function isPostOwner(state, post) {
+    return getCurrentUserId(state) === post.user_id;
 }
 
 export function isComment(post) {
@@ -69,32 +66,26 @@ export function getImageSrc(src, hasImageProxy) {
     return src;
 }
 
-export function canDeletePost(post) {
+export function canDeletePost(state, post, channel) {
     if (post.type === Constants.PostTypes.FAKE_PARENT_DELETED) {
         return false;
     }
-    const channel = getChannel(store.getState(), post.channel_id);
 
     if (channel && channel.delete_at !== 0) {
         return false;
     }
 
-    if (isPostOwner(post)) {
-        return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
+    if (isPostOwner(state, post)) {
+        return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_POST});
     }
-    return haveIChannelPermission(store.getState(), {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
+    return haveIChannelPermission(state, {channel: post.channel_id, team: channel && channel.team_id, permission: Permissions.DELETE_OTHERS_POSTS});
 }
 
-export function canEditPost(post) {
-    const state = store.getState();
-    const license = getLicense(state);
-    const config = getConfig(state);
-    const channel = getChannel(state, post.channel_id);
-    const userId = getCurrentUserId(state);
+export function canEditPost(state, post, license, config, channel, userId) {
     return canEditPostRedux(state, config, license, channel && channel.team_id, channel && channel.id, userId, post);
 }
 
-export function shouldShowDotMenu(post) {
+export function shouldShowDotMenu(state, post, channel) {
     if (post && post.state === Posts.POST_DELETED) {
         return false;
     }
@@ -107,11 +98,11 @@ export function shouldShowDotMenu(post) {
         return true;
     }
 
-    if (canDeletePost(post)) {
+    if (canDeletePost(state, post, channel)) {
         return true;
     }
 
-    if (canEditPost(post)) {
+    if (canEditPost(state, post)) {
         return true;
     }
 
@@ -333,10 +324,10 @@ export function makeCreateAriaLabelForPost() {
     );
 }
 
-export function createAriaLabelForPost(post, author, isFlagged, reactions, intl) {
+export function createAriaLabelForPost(state, post, author, isFlagged, reactions, intl) {
     const {formatMessage, formatTime, formatDate} = intl;
 
-    const emojiMap = getEmojiMap(store.getState());
+    const emojiMap = getEmojiMap(state);
     let message = post.message;
     let match;
 

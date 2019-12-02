@@ -10,6 +10,7 @@ import {getCurrentUserId, getUserStatuses, makeGetProfilesInChannel} from 'matte
 import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {loadProfilesAndStatusesInChannel} from 'actions/user_actions.jsx';
 import {openModal} from 'actions/views/modals';
+import {canManageMembers} from 'utils/channel_utils.jsx';
 
 import PopoverListMembers from './popover_list_members.jsx';
 
@@ -26,6 +27,7 @@ function makeMapStateToProps() {
             users,
             statuses: getUserStatuses(state),
             teamUrl: getCurrentRelativeTeamUrl(state),
+            manageMembers: canManageMembers(ownProps.channel, state),
         };
     };
 }

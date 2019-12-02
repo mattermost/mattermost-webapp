@@ -10,6 +10,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {Preferences} from 'utils/constants';
+import * as PostUtils from 'utils/post_utils.jsx';
 import {getSelectedPostCard} from 'selectors/rhs.jsx';
 
 import PostInfo from './post_info.jsx';
@@ -29,6 +30,7 @@ function mapStateToProps(state, ownProps) {
         isCardOpen: selectedCard && selectedCard.id === ownProps.post.id,
         enableEmojiPicker,
         isReadOnly: isCurrentChannelReadOnly(state) || channelIsArchived,
+        shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, ownProps.post, channel),
     };
 }
 

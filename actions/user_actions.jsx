@@ -138,9 +138,9 @@ export function loadChannelMembersForProfilesList(profiles, channelId) {
     };
 }
 
-export async function loadNewDMIfNeeded(channelId) {
+export async function loadNewDMIfNeeded(channelId, currentUserId) {
     function checkPreference(channel) {
-        const userId = Utils.getUserIdFromChannelName(channel);
+        const userId = Utils.getUserIdFromChannelName(currentUserId, channel.name);
 
         if (!userId) {
             return;
@@ -169,11 +169,10 @@ export async function loadNewDMIfNeeded(channelId) {
     }
 }
 
-export async function loadNewGMIfNeeded(channelId) {
+export async function loadNewGMIfNeeded(channelId, currentUserId) {
     function checkPreference() {
         const pref = getBool(getState(), Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
         if (pref === false) {
-            const currentUserId = Selectors.getCurrentUserId(getState());
             savePreferencesRedux(currentUserId, [{user_id: currentUserId, category: Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: channelId, value: 'true'}])(dispatch, getState);
             loadProfilesForGM();
         }

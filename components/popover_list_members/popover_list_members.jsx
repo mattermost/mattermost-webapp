@@ -7,7 +7,6 @@ import {Overlay, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import {canManageMembers} from 'utils/channel_utils.jsx';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
@@ -26,6 +25,7 @@ export default class PopoverListMembers extends React.Component {
         memberCount: PropTypes.number,
         currentUserId: PropTypes.string.isRequired,
         teamUrl: PropTypes.string,
+        manageMembers: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequired,
             loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
@@ -134,15 +134,14 @@ export default class PopoverListMembers extends React.Component {
         if (this.props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
             let membersName = (
                 <FormattedMessage
-                    id='members_popover.manageMembers'
+                    id='members_popover.manage   Members'
                     defaultMessage='Manage Members'
                 />
             );
 
-            const manageMembers = canManageMembers(this.props.channel);
             const isDefaultChannel = this.props.channel.name === Constants.DEFAULT_CHANNEL;
 
-            if (isDefaultChannel || !manageMembers) {
+            if (isDefaultChannel || !this.props.manageMembers) {
                 membersName = (
                     <FormattedMessage
                         id='members_popover.viewMembers'

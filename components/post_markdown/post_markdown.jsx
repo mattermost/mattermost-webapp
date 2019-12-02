@@ -40,6 +40,8 @@ export default class PostMarkdown extends React.PureComponent {
          * Whether or not to place the LinkTooltip component inside links
          */
         hasPluginTooltips: PropTypes.bool,
+
+        isUserCanManageMembers: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -49,7 +51,7 @@ export default class PostMarkdown extends React.PureComponent {
 
     render() {
         if (this.props.post) {
-            const renderedSystemMessage = renderSystemMessage(this.props.post, this.props.channel);
+            const renderedSystemMessage = renderSystemMessage(this.props.post, this.props.channel, this.props.isUserCanManageMembers);
             if (renderedSystemMessage) {
                 return <div>{renderedSystemMessage}</div>;
             }

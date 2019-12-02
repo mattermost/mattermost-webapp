@@ -83,6 +83,10 @@ export default class DotMenu extends React.PureComponent {
              */
             markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
+
+
+        canEdit: PropTypes.bool.isRequired,
+        canDelete: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
@@ -93,6 +97,8 @@ export default class DotMenu extends React.PureComponent {
         pluginMenuItems: [],
         location: Locations.CENTER,
         enableEmojiPicker: false,
+        canEdit: false,
+        canDelete: false,
     }
 
     constructor(props) {
@@ -109,8 +115,7 @@ export default class DotMenu extends React.PureComponent {
     }
 
     disableCanEditPostByTime() {
-        const {post, isLicensed, postEditTimeLimit} = this.props;
-        const canEdit = PostUtils.canEditPost(post);
+        const {canEdit, post, isLicensed, postEditTimeLimit} = this.props;
 
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
@@ -129,8 +134,8 @@ export default class DotMenu extends React.PureComponent {
 
     static getDerivedStateFromProps(props) {
         return {
-            canDelete: PostUtils.canDeletePost(props.post) && !props.isReadOnly,
-            canEdit: PostUtils.canEditPost(props.post) && !props.isReadOnly,
+            canEdit: props.canEdit && !props.isReadOnly,
+            canDelete: props.canDelete && !props.isReadOnly,
         };
     }
 

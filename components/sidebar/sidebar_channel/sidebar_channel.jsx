@@ -257,6 +257,8 @@ export default class SidebarChannel extends React.PureComponent {
                     offTopicDisplayName={this.props.offTopicDisplayName}
                 />
             );
+            // FIXME most likely cause for a warning:
+            // Cannot update during an existing state transition (such as within `render`)
             this.props.actions.openLhs();
         }
 

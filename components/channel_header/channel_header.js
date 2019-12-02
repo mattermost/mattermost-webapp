@@ -76,6 +76,8 @@ export default class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
+        getDisplayNameByUserId: PropTypes.func.isRequired,
+        handleFormattedTextClick: PropTypes.func.isRequired,
     };
 
     static contextTypes = {
@@ -319,12 +321,12 @@ export default class ChannelHeader extends React.PureComponent {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: Utils.getDisplayNameByUserId(teammateId),
+                            displayname: this.props.getDisplayNameByUserId(teammateId),
                         }}
                     />
                 );
             } else {
-                channelTitle = Utils.getDisplayNameByUserId(teammateId) + ' ';
+                channelTitle = this.props.getDisplayNameByUserId(teammateId) + ' ';
             }
             channelTitle = (
                 <React.Fragment>
@@ -341,7 +343,7 @@ export default class ChannelHeader extends React.PureComponent {
                 if (user.id === currentUser.id) {
                     continue;
                 }
-                const userDisplayName = Utils.getDisplayNameByUserId(user.id);
+                const userDisplayName = this.props.getDisplayNameByUserId(user.id);
 
                 if (!membersMap[userDisplayName]) {
                     membersMap[userDisplayName] = []; //Create an array for cases with same display name
@@ -445,7 +447,7 @@ export default class ChannelHeader extends React.PureComponent {
                         {hasGuestsText}
                         <span
                             className='header-description__text'
-                            onClick={Utils.handleFormattedTextClick}
+                            onClick={this.props.handleFormattedTextClick}
                         >
                             <Markdown
                                 message={headerText}

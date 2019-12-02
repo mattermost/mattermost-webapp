@@ -8,8 +8,7 @@ import store from 'stores/redux_store.jsx';
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 15; // 15 days
 
-export function isLicenseExpiring() {
-    const license = getLicense(store.getState());
+export function isLicenseExpiring(license) {
     if (license.IsLicensed !== 'true') {
         return false;
     }
@@ -18,8 +17,7 @@ export function isLicenseExpiring() {
     return timeDiff <= LICENSE_EXPIRY_NOTIFICATION;
 }
 
-export function isLicenseExpired() {
-    const license = getLicense(store.getState());
+export function isLicenseExpired(license) {
     if (license.IsLicensed !== 'true') {
         return false;
     }
@@ -28,8 +26,7 @@ export function isLicenseExpired() {
     return timeDiff < 0;
 }
 
-export function isLicensePastGracePeriod() {
-    const license = getLicense(store.getState());
+export function isLicensePastGracePeriod(license) {
     if (license.IsLicensed !== 'true') {
         return false;
     }

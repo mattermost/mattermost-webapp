@@ -4,9 +4,10 @@
 import {connect} from 'react-redux';
 import {Preferences} from 'mattermost-redux/constants';
 import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
-
+import {handleFormattedTextClick} from 'utils/utils.jsx';
 import PostMessageView from './post_message_view.jsx';
 
 function mapStateToProps(state) {
@@ -16,6 +17,7 @@ function mapStateToProps(state) {
         isRHSOpen: getIsRhsOpen(state),
         pluginPostTypes: state.plugins.postTypes,
         theme: getTheme(state),
+        handleFormattedTextClick: (e) => handleFormattedTextClick(e, getCurrentRelativeTeamUrl(state))
     };
 }
 

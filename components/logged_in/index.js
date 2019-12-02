@@ -9,6 +9,7 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
 import {checkIfMFARequired} from 'utils/route';
+import {getChannelURL} from 'utils/utils';
 
 import LoggedIn from './logged_in.jsx';
 
@@ -23,6 +24,7 @@ function mapStateToProps(state, ownProps) {
         mfaRequired: checkIfMFARequired(getCurrentUser(state), license, config, ownProps.match.url),
         enableTimezone: config.ExperimentalTimezone === 'true',
         showTermsOfService,
+        getChannelURL: (channel, teamId) => getChannelURL(channel, teamId, state)
     };
 }
 

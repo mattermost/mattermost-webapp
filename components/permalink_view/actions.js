@@ -24,6 +24,7 @@ export function focusPost(postId, returnTo = '') {
         const channelId = data.posts[data.order[0]].channel_id;
         let channel = state.entities.channels.channels[channelId];
         const teamId = getCurrentTeamId(state);
+        const currentUserId = getCurrentUserId(state)
 
         if (!channel) {
             const {data: channelData} = await dispatch(getChannel(channelId));
@@ -45,7 +46,7 @@ export function focusPost(postId, returnTo = '') {
                 return;
             }
 
-            await dispatch(joinChannel(getCurrentUserId(getState()), null, channelId));
+            await dispatch(joinChannel(currentUserId, null, channelId));
         }
 
         if (channel.team_id && channel.team_id !== teamId) {
@@ -54,9 +55,9 @@ export function focusPost(postId, returnTo = '') {
         }
 
         if (channel && channel.type === Constants.DM_CHANNEL) {
-            loadNewDMIfNeeded(channel.id);
+            loadNewDMIfNeeded(channel.id, currentUserId);
         } else if (channel && channel.type === Constants.GM_CHANNEL) {
-            loadNewGMIfNeeded(channel.id);
+            loadNewGMIfNeeded(channel.id, currentUserId);
         }
 
         dispatch(selectChannel(channelId));

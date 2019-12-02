@@ -12,6 +12,7 @@ import {dismissError} from 'mattermost-redux/actions/errors';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {dismissNotice} from 'actions/views/notice';
+import {getEmojiMap} from 'selectors/emojis';
 
 import AnnouncementBarController from './announcement_bar_controller.jsx';
 
@@ -34,6 +35,7 @@ function mapStateToProps(state) {
         canViewSystemErrors,
         latestError,
         totalUsers,
+        emojiMap: getEmojiMap(state)
     };
 }
 

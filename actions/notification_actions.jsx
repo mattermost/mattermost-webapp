@@ -139,7 +139,7 @@ export function sendDesktopNotification(post, msgProps) {
         const notify = (activeChannel && activeChannel.id !== channelId) || !state.views.browser.focused;
 
         if (notify) {
-            Utils.notifyMe(title, body, channel, teamId, !sound);
+            Utils.notifyMe(title, body, channel, teamId, !sound, state);
 
             //Don't add extra sounds on native desktop clients
             if (sound && !isWindowsApp() && !isMacApp() && !isMobileApp()) {

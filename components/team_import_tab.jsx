@@ -43,7 +43,7 @@ class TeamImportTab extends React.Component {
 
     doImportSlack = (file) => {
         this.setState({status: 'in-progress', link: ''});
-        utils.importSlack(file, this.onImportSuccess, this.onImportFailure);
+        utils.importSlack(this.props.team.id, file, this.onImportSuccess, this.onImportFailure);
     }
 
     render() {
@@ -249,6 +249,7 @@ TeamImportTab.propTypes = {
     intl: intlShape.isRequired,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
+    team: PropTypes.object.isRequired,
 };
 
 export default injectIntl(TeamImportTab);

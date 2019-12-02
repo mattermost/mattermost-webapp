@@ -226,6 +226,8 @@ export class AuditTable extends React.PureComponent {
         actions: PropTypes.shape({
             getMissingProfilesByIds: PropTypes.func.isRequired,
         }).isRequired,
+
+        getDirectTeammate: PropTypes.func.isRequired,
     }
 
     componentDidMount() {
@@ -370,7 +372,7 @@ export class AuditTable extends React.PureComponent {
                 auditDesc = formatMessage(holders.channelCreated, {channelName});
                 break;
             case '/channels/create_direct':
-                auditDesc = formatMessage(holders.establishedDM, {username: getDirectTeammate(channelObj.id).username});
+                auditDesc = formatMessage(holders.establishedDM, {username: this.props.getDirectTeammate(channelObj.id).username});
                 break;
             case '/channels/update':
                 auditDesc = formatMessage(holders.nameUpdated, {channelName});

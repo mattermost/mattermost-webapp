@@ -5,8 +5,6 @@ import XRegExp from 'xregexp';
 import emojiRegex from 'emoji-regex';
 
 import {formatWithRenderer} from 'utils/markdown';
-import {getEmojiMap} from 'selectors/emojis';
-import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
@@ -42,7 +40,7 @@ const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-
 // - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
 // - renderer - a custom renderer object to use in the formatWithRenderer function. Defaults to empty.
 // - minimumHashtagLength - Minimum number of characters in a hashtag. Defaults to 3.
-export function formatText(text, inputOptions) {
+export function formatText(text, inputOptions, emojiMap) {
     if (!text || typeof text !== 'string') {
         return '';
     }
@@ -61,7 +59,7 @@ export function formatText(text, inputOptions) {
 
     if (options.renderer) {
         output = formatWithRenderer(output, options.renderer);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
         output = Markdown.format(output, options);
@@ -77,7 +75,7 @@ export function formatText(text, inputOptions) {
         }
     } else {
         output = sanitizeHtml(output);
-        output = doFormatText(output, options);
+        output = doFormatText(output, options, emojiMap);
     }
 
     // replace newlines with spaces if necessary
@@ -93,7 +91,7 @@ export function formatText(text, inputOptions) {
 }
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
-export function doFormatText(text, options) {
+export function doFormatText(text, options, emojiMap) {
     let output = text;
 
     const tokens = new Map();
@@ -123,7 +121,6 @@ export function doFormatText(text, options) {
     }
 
     if (!('emoticons' in options) || options.emoticon) {
-        const emojiMap = getEmojiMap(store.getState());
         output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
 

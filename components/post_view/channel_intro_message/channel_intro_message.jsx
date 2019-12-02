@@ -35,12 +35,14 @@ export default class ChannelIntroMessage extends React.PureComponent {
         enableUserCreation: PropTypes.bool,
         isReadOnly: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool,
+        creatorName: PropTypes.string.isRequired,
     };
 
     render() {
         const {
             currentUserId,
             channel,
+            creatorName,
             fullWidth,
             locale,
             enableUserCreation,
@@ -63,7 +65,7 @@ export default class ChannelIntroMessage extends React.PureComponent {
         } else if (channel.name === Constants.OFFTOPIC_CHANNEL) {
             return createOffTopicIntroMessage(channel, centeredIntro);
         } else if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
-            return createStandardIntroMessage(channel, centeredIntro, locale);
+            return createStandardIntroMessage(channel, centeredIntro, locale, creatorName);
         }
         return null;
     }
@@ -122,8 +124,7 @@ function createGMIntroMessage(channel, centeredIntro, profiles, currentUserId) {
     );
 }
 
-function createDMIntroMessage(channel, centeredIntro) {
-    var teammate = Utils.getDirectTeammate(channel.id);
+function createDMIntroMessage(channel, centeredIntro, teammate) {
     const channelIntroId = 'channelIntro';
 
     if (teammate) {
@@ -358,9 +359,8 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
     );
 }
 
-function createStandardIntroMessage(channel, centeredIntro, locale) {
+function createStandardIntroMessage(channel, centeredIntro, locale, creatorName) {
     var uiName = channel.display_name;
-    var creatorName = Utils.getDisplayNameByUserId(channel.creator_id);
     var memberMessage;
     const channelIsArchived = channel.delete_at !== 0;
 

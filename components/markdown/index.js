@@ -11,6 +11,7 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
+import {getEmojiMap} from 'selectors/emojis';
 import {getSiteURL} from 'utils/url';
 
 import Markdown from './markdown';
@@ -44,6 +45,7 @@ function makeMapStateToProps() {
             team: getCurrentTeam(state),
             hasImageProxy: config.HasImageProxy === 'true',
             minimumHashtagLength: parseInt(config.MinimumHashtagLength, 10),
+            emojiMap: getEmojiMap(state)
         };
     };
 }

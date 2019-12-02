@@ -7,8 +7,10 @@ import {
     getUser,
     getCurrentUser,
     getUserStatuses,
+    getCurrentUserId,
 } from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {
     getCurrentChannel,
     isCurrentChannelDefault,
@@ -30,12 +32,13 @@ import Mobile from './mobile_channel_header_dropdown';
 
 const getTeammateId = createSelector(
     getCurrentChannel,
-    (channel) => {
+    getCurrentUserId,
+    (channel, currentUserId) => {
         if (channel.type !== Constants.DM_CHANNEL) {
             return null;
         }
 
-        return Utils.getUserIdFromChannelName(channel);
+        return getUserIdFromChannelName(currentUserId, channel.name);
     },
 );
 
@@ -68,9 +71,11 @@ const mobileMapStateToProps = (state) => {
     const teammateId = getTeammateId(state);
 
     let teammateIsBot = false;
+    let displayName = '';
     if (teammateId) {
         const teammate = getUser(state, teammateId);
         teammateIsBot = teammate && teammate.is_bot;
+        displayName = Utils.getDisplayNameByUser(teammate, state);
     }
 
     return {
@@ -79,6 +84,7 @@ const mobileMapStateToProps = (state) => {
         teammateId,
         teammateIsBot,
         teammateStatus: getTeammateStatus(state),
+        displayName,
     };
 };
 

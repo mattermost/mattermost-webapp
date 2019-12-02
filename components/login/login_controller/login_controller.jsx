@@ -360,7 +360,7 @@ class LoginController extends React.Component {
     createCustomLogin = () => {
         if (this.props.enableCustomBrand) {
             const text = this.props.customBrandText || '';
-            const formattedText = TextFormatting.formatText(text);
+            const formattedText = TextFormatting.formatText(text, {}, this.props.emojiMap);
             const brandImageUrl = Client4.getBrandImageUrl(0);
             const brandImageStyle = this.state.brandImageError ? {display: 'none'} : {};
 
