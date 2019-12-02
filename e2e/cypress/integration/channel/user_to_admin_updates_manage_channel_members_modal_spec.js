@@ -10,12 +10,10 @@
 import users from '../../fixtures/users.json';
 
 const demoteToMember = (user) => {
-    const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
 
 const promoteToSysAdmin = (user) => {
-    const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
 };
 
