@@ -7,16 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
-describe('Channels', () => {
-    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
-        verifyMoreChannelsModalWithArchivedSelection(false);
-
-        verifyMoreChannelsModalWithArchivedSelection(true);
-    });
-});
 
 let channel;
 
@@ -36,6 +27,12 @@ describe('Channels', () => {
                 channel = res.body;
             });
         });
+    });
+
+    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
+        verifyMoreChannelsModalWithArchivedSelection(false);
+
+        verifyMoreChannelsModalWithArchivedSelection(true);
     });
 
     it('MM-19337 Enable users to view archived channels', () => {

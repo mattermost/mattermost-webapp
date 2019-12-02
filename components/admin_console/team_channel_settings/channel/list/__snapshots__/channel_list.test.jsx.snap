@@ -60,26 +60,30 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           />
         </div>
         <div
-          className="group-description"
+          className="group-content"
         >
-          <FormattedMessage
-            defaultMessage="Team"
-            id="admin.channel_settings.channel_list.teamHeader"
-            values={Object {}}
+          <div
+            className="group-description"
+          >
+            <FormattedMessage
+              defaultMessage="Team"
+              id="admin.channel_settings.channel_list.teamHeader"
+              values={Object {}}
+            />
+          </div>
+          <div
+            className="group-description adjusted"
+          >
+            <FormattedMessage
+              defaultMessage="Management"
+              id="admin.channel_settings.channel_list.managementHeader"
+              values={Object {}}
+            />
+          </div>
+          <div
+            className="group-actions"
           />
         </div>
-        <div
-          className="group-description adjusted"
-        >
-          <FormattedMessage
-            defaultMessage="Management"
-            id="admin.channel_settings.channel_list.managementHeader"
-            values={Object {}}
-          />
-        </div>
-        <div
-          className="group-actions"
-        />
       </div>
     </React.Fragment>
   }
@@ -267,26 +271,30 @@ exports[`admin_console/team_channel_settings/channel/ChannelList should match sn
           />
         </div>
         <div
-          className="group-description"
+          className="group-content"
         >
-          <FormattedMessage
-            defaultMessage="Team"
-            id="admin.channel_settings.channel_list.teamHeader"
-            values={Object {}}
+          <div
+            className="group-description"
+          >
+            <FormattedMessage
+              defaultMessage="Team"
+              id="admin.channel_settings.channel_list.teamHeader"
+              values={Object {}}
+            />
+          </div>
+          <div
+            className="group-description adjusted"
+          >
+            <FormattedMessage
+              defaultMessage="Management"
+              id="admin.channel_settings.channel_list.managementHeader"
+              values={Object {}}
+            />
+          </div>
+          <div
+            className="group-actions"
           />
         </div>
-        <div
-          className="group-description adjusted"
-        >
-          <FormattedMessage
-            defaultMessage="Management"
-            id="admin.channel_settings.channel_list.managementHeader"
-            values={Object {}}
-          />
-        </div>
-        <div
-          className="group-actions"
-        />
       </div>
     </React.Fragment>
   }
