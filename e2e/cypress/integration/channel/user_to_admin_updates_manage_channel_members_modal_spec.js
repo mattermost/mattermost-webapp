@@ -12,29 +12,38 @@ import users from '../../fixtures/users.json';
 const demoteToMember = (user) => {
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
-}
+};
 
-const promoteToSysAdmin = (user) =>  {
+const promoteToSysAdmin = (user) => {
     const baseUrl = Cypress.config('baseUrl');
     cy.externalRequest({user: users.sysadmin, method: 'put', baseUrl, path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
-}
+};
 
-describe("View Members modal" , () => {
-    it("MM-20164 - Going from a Member to an Admin should update the modal", () => {
+describe('View Members modal', () => {
+    it('MM-20164 - Going from a Member to an Admin should update the modal', () => {
         cy.apiLogin('user-1');
-        cy.apiGetMe().then((res) => {  
-            demoteToMember(res.body)
-            cy.visit('/')
+        cy.apiGetMe().then((res) => {
+            // # Make user a regular member
+            demoteToMember(res.body);
+
+            // # Visit Town square and go to view members modal
+            cy.visit('/');
             cy.get('#sidebarItem_town-square').click({force: true});
-            cy.get("#member_popover").click();
-            cy.findByTestId("membersModal").click();
-            cy.findAllByTestId("userListItemActions").then(el => {
-                expect(el[0].childElementCount).equal(0)
-            })
+            cy.get('#member_popover').click();
+            cy.findByTestId('membersModal').click();
+
+            // * Check to see if no drop down menu exists
+            cy.findAllByTestId('userListItemActions').then((el) => {
+                expect(el[0].childElementCount).equal(0);
+            });
+            
+            // Promote user to a system admin
             promoteToSysAdmin(res.body);
-            cy.findAllByTestId("userListItemActions").then(el => {
-                expect(el[0].childElementCount).equal(1)
-            })
+
+            // * Check to see if a drop now exists now
+            cy.findAllByTestId('userListItemActions').then((el) => {
+                expect(el[0].childElementCount).equal(1);
+            });
         });
     });
 });
