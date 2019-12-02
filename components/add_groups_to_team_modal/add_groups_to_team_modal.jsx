@@ -176,7 +176,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
-                onMouseMove={onMouseMove}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <img
                     className='more-modal__image'

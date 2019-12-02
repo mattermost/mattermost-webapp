@@ -835,7 +835,7 @@
             cursor: pointer;
         }
 
-        &:hover {
+        &:hover:not(.clickable)  {
             background: v(center-channel-color-05);
 
             .more-modal__actions--round {
@@ -935,9 +935,6 @@
         border: 0px;
         &:nth-child(odd) {
             background: rgba(0, 0, 0, .03);
-        }
-        &:hover {
-            background: rgba(0, 0, 0, .05);
         }
         .team-name {
             padding-left: 5px;

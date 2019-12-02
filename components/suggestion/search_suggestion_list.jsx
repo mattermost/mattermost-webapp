@@ -125,7 +125,7 @@ export default class SearchSuggestionList extends SuggestionList {
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
                     onMouseMove={this.props.onItemHover}
-                />
+                />,
             );
         }
 
