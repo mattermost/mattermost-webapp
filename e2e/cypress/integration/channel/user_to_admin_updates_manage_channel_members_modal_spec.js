@@ -36,7 +36,7 @@ describe('View Members modal', () => {
             cy.findAllByTestId('userListItemActions').then((el) => {
                 expect(el[0].childElementCount).equal(0);
             });
-            
+
             // Promote user to a system admin
             promoteToSysAdmin(res.body);
 
