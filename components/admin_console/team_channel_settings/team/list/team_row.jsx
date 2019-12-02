@@ -70,18 +70,19 @@ export default class TeamRow extends React.Component {
                         </div>
 
                     </div>
-
-                    <span className='group-description adjusted row-content'>
-                        {this.renderManagementMethodText()}
-                    </span>
-                    <span className='group-actions'>
-                        <Link to={`/admin_console/user_management/teams/${team.id}`}>
-                            <FormattedMessage
-                                id='admin.team_settings.team_row.configure'
-                                defaultMessage='Edit'
-                            />
-                        </Link>
-                    </span>
+                    <div className='group-content'>
+                        <span className='group-description adjusted row-content'>
+                            {this.renderManagementMethodText()}
+                        </span>
+                        <span className='group-actions'>
+                            <Link to={`/admin_console/user_management/teams/${team.id}`}>
+                                <FormattedMessage
+                                    id='admin.team_settings.team_row.configure'
+                                    defaultMessage='Edit'
+                                />
+                            </Link>
+                        </span>
+                    </div>
                 </div>
             </div>
         );
