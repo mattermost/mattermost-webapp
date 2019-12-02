@@ -33,7 +33,7 @@ describe('View Members modal', () => {
             // * Check to see if no drop down menu exists
             cy.findAllByTestId('userListItemActions').then((el) => {
                 expect(el[0].childElementCount).equal(0);
-                cy.wrap(el[0]).should('not.be.visible')
+                cy.wrap(el[0]).should('not.be.visible');
             });
 
             // Promote user to a system admin
@@ -42,9 +42,9 @@ describe('View Members modal', () => {
             // * Check to see if a drop now exists now
             cy.findAllByTestId('userListItemActions').then((el) => {
                 expect(el[0].childElementCount).equal(1);
-                cy.wrap(el[0]).should((el) => {
-                    expect(el).contain('Channel Member')    
-                });          
+                cy.wrap(el[0]).should((children) => {
+                    expect(children).contain('Channel Member');
+                });
             });
         });
     });
