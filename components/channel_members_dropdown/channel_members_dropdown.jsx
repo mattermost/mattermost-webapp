@@ -30,7 +30,6 @@ export default class ChannelMembersDropdown extends React.Component {
             updateChannelMemberSchemeRoles: PropTypes.func.isRequired,
             removeChannelMember: PropTypes.func.isRequired,
             getChannelMember: PropTypes.func.isRequired,
-            getRolesByNames: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -41,12 +40,6 @@ export default class ChannelMembersDropdown extends React.Component {
             serverError: null,
             removing: false,
         };
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps.user.roles !== this.props.user.roles) {
-            this.props.actions.getRolesByNames(this.props.user.roles.split(' '));
-        }
     }
 
     handleRemoveFromChannel = () => {
