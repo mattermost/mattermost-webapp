@@ -769,6 +769,7 @@ export const Constants = {
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
+    PREVIEWER_HEIGHT: 170,
     WEB_VIDEO_WIDTH: 640,
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
@@ -802,6 +803,7 @@ export const Constants = {
     POST_DELETED: 'deleted',
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
+    SUGGESTION_LIST_MAXHEIGHT: 292,
     AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
