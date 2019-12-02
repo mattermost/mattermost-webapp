@@ -45,13 +45,15 @@ export default class TeamList extends React.PureComponent {
                             defaultMessage='Name'
                         />
                     </div>
-                    <div className='group-description adjusted'>
-                        <FormattedMessage
-                            id='admin.team_settings.team_list.mappingHeader'
-                            defaultMessage='Management'
-                        />
+                    <div className='group-content'>
+                        <div className='group-description adjusted'>
+                            <FormattedMessage
+                                id='admin.team_settings.team_list.mappingHeader'
+                                defaultMessage='Management'
+                            />
+                        </div>
+                        <div className='group-actions'/>
                     </div>
-                    <div className='group-actions'/>
                 </div>
             </>
         );
