@@ -6,6 +6,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
     Object {
       "getData": [MockFunction],
       "removeGroup": [MockFunction],
+      "searchTeams": [MockFunction],
     }
   }
   data={
@@ -18,8 +19,67 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
   }
   emptyListTextDefaultMessage="test"
   emptyListTextId="test"
-  header={<Header />}
-  onPageChangedCallback={[MockFunction]}
+  header={
+    <React.Fragment>
+      <div
+        className="groups-list--global-actions"
+      >
+        <div
+          className="group-list-search"
+        >
+          <input
+            data-testid="search-input"
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            placeholder="Search"
+            type="text"
+            value=""
+          />
+          <SearchIcon
+            aria-hidden="true"
+            className="search__icon"
+            id="searchIcon"
+          />
+          <i
+            className="fa fa-times-circle group-filter-action hidden"
+            data-testid="clear-search"
+            onClick={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="groups-list--header"
+      >
+        <div
+          className="group-name adjusted"
+        >
+          <FormattedMessage
+            defaultMessage="Name"
+            id="admin.team_settings.team_list.nameHeader"
+            values={Object {}}
+          />
+        </div>
+        <div
+          className="group-content"
+        >
+          <div
+            className="group-description adjusted"
+          >
+            <FormattedMessage
+              defaultMessage="Management"
+              id="admin.team_settings.team_list.mappingHeader"
+              values={Object {}}
+            />
+          </div>
+          <div
+            className="group-actions"
+          />
+        </div>
+      </div>
+    </React.Fragment>
+  }
+  key="0"
+  onPageChangedCallback={[Function]}
   removeGroup={[MockFunction]}
   renderRow={[Function]}
   total={1}
@@ -32,6 +92,7 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
     Object {
       "getData": [MockFunction],
       "removeGroup": [MockFunction],
+      "searchTeams": [MockFunction],
     }
   }
   data={
@@ -160,8 +221,67 @@ exports[`admin_console/team_channel_settings/team/TeamList should match snapshot
   }
   emptyListTextDefaultMessage="test"
   emptyListTextId="test"
-  header={<Header />}
-  onPageChangedCallback={[MockFunction]}
+  header={
+    <React.Fragment>
+      <div
+        className="groups-list--global-actions"
+      >
+        <div
+          className="group-list-search"
+        >
+          <input
+            data-testid="search-input"
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            placeholder="Search"
+            type="text"
+            value=""
+          />
+          <SearchIcon
+            aria-hidden="true"
+            className="search__icon"
+            id="searchIcon"
+          />
+          <i
+            className="fa fa-times-circle group-filter-action hidden"
+            data-testid="clear-search"
+            onClick={[Function]}
+          />
+        </div>
+      </div>
+      <div
+        className="groups-list--header"
+      >
+        <div
+          className="group-name adjusted"
+        >
+          <FormattedMessage
+            defaultMessage="Name"
+            id="admin.team_settings.team_list.nameHeader"
+            values={Object {}}
+          />
+        </div>
+        <div
+          className="group-content"
+        >
+          <div
+            className="group-description adjusted"
+          >
+            <FormattedMessage
+              defaultMessage="Management"
+              id="admin.team_settings.team_list.mappingHeader"
+              values={Object {}}
+            />
+          </div>
+          <div
+            className="group-actions"
+          />
+        </div>
+      </div>
+    </React.Fragment>
+  }
+  key="0"
+  onPageChangedCallback={[Function]}
   removeGroup={[MockFunction]}
   renderRow={[Function]}
   total={30}

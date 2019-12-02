@@ -116,7 +116,7 @@
                 }
 
                 .modal-image__content {
-                    max-height: 93vh;
+                    max-height: calc(100vh - 100px);
                 }
 
                 .modal-button-bar {
