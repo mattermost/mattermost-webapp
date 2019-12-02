@@ -107,11 +107,11 @@ export function emitChannelClickEvent(channel) {
     }
 }
 
-export function updateLastViewedChannel(channelId) {
+export function updateLastViewedChannel(channelId, last_viewed_at = Date.now()) {
     return {
         type: ActionTypes.UPDATE_CHANNEL_LAST_VIEWED_AT,
         channel_id: channelId,
-        last_viewed_at: Date.now(),
+        last_viewed_at,
     };
 }
 
