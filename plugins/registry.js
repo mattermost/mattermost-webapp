@@ -274,7 +274,7 @@ export default class PluginRegistry {
             });
             return function registerSubMenuItem(t, a, f) {
                 if (parentMenuId) {
-                    throw new Error('Submenus are currently limited to a single level.'); // eslint-disable-line no-console
+                    throw new Error('Submenus are currently limited to a single level.');
                 }
 
                 return registerMenuItem(pluginId, generateId(), id, t, a, f);
