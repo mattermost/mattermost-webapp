@@ -759,6 +759,23 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
 // https://api.mattermost.com/#tag/system
 // *****************************************************************************
 
+Cypress.Commands.add('apiUpdateConfigBasic', (newSettings = {}) => {
+    // # Get current settings
+    cy.request('/api/v4/config').then((response) => {
+        const oldSettings = response.body;
+
+        const settings = merge(oldSettings, newSettings);
+
+        // # Set the modified settings
+        cy.request({
+            url: '/api/v4/config',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            method: 'PUT',
+            body: settings,
+        });
+    });
+});
+
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     cy.apiLogin('sysadmin');
 
