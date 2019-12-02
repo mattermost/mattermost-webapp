@@ -231,30 +231,29 @@ export default class SearchableChannelList extends React.Component {
 
         if (this.props.canShowArchivedChannels) {
             channelDropdown = (
-                <MenuWrapper
-                    id='channelsMoreDropdown'
-                    className='more-modal__dropdown'
-                >
-                    <a>
-                        <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
-                        <span className='caret'/>
-                    </a>
-                    <Menu
-                        openLeft={false}
-                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
-                    >
-                        <Menu.ItemAction
-                            id='channelsMoreDropdownPublic'
-                            onClick={this.toggleArchivedChannelsOff}
-                            text={localizeMessage('suggestion.search.public', 'Public Channels')}
-                        />
-                        <Menu.ItemAction
-                            id='channelsMoreDropdownArchived'
-                            onClick={this.toggleArchivedChannelsOn}
-                            text={localizeMessage('suggestion.archive', 'Archived Channels')}
-                        />
-                    </Menu>
-                </MenuWrapper>
+                <div className='more-modal__dropdown'>
+                    <MenuWrapper id='channelsMoreDropdown'>
+                        <a>
+                            <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
+                            <span className='caret'/>
+                        </a>
+                        <Menu
+                            openLeft={false}
+                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                        >
+                            <Menu.ItemAction
+                                id='channelsMoreDropdownPublic'
+                                onClick={this.toggleArchivedChannelsOff}
+                                text={localizeMessage('suggestion.search.public', 'Public Channels')}
+                            />
+                            <Menu.ItemAction
+                                id='channelsMoreDropdownArchived'
+                                onClick={this.toggleArchivedChannelsOn}
+                                text={localizeMessage('suggestion.archive', 'Archived Channels')}
+                            />
+                        </Menu>
+                    </MenuWrapper>
+                </div>
             );
         }
 
