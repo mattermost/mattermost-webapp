@@ -38,23 +38,4 @@ describe('components/Toast', () => {
         toast.handleDismiss();
         expect(defaultProps.onDismiss).toHaveBeenCalledTimes(1);
     });
-
-    test('should hide', () => {
-        defaultProps.showOnlyOnce = true;
-
-        const wrapper = mountWithIntl(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
-        const toast = wrapper.find(Toast).instance();
-        expect(toast.state.hide).toEqual(false);
-        toast.handleDismiss();
-        expect(toast.state.hide).toEqual(true);
-    });
-
-    test('should never show', () => {
-        defaultProps.showOnlyOnce = true;
-        defaultProps.show = false;
-
-        const wrapper = mountWithIntl(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
-        const toast = wrapper.find(Toast).instance();
-        expect(toast.state.hide).toEqual(true);
-    });
 });

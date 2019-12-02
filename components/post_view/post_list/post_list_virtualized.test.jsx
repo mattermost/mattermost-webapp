@@ -12,7 +12,6 @@ import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
 import NewMessagesBelow from 'components/post_view/new_messages_below';
 import Toast from 'components/toast/toast';
-import UnreadToast from 'components/toast/unreadToast';
 import PostListRow from 'components/post_view/post_list_row';
 
 import PostList from './post_list_virtualized';
@@ -24,6 +23,7 @@ describe('PostList', () => {
         loadNewerPosts: jest.fn(),
         canLoadMorePosts: jest.fn(),
         changeUnreadChunkTimeStamp: jest.fn(),
+        updateLastViewedChannel: jest.fn(),
     };
 
     const baseProps = {
@@ -103,18 +103,6 @@ describe('PostList', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
 
             expect(wrapper.find(Toast).exists()).toBe(true);
-            expect(wrapper.find(UnreadToast).exists()).toBe(true);
-        });
-
-        test('should mount the history one when in permalink view', () => {
-            const props = {
-                ...baseProps,
-                focusedPostId: '1234',
-            };
-
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
-            expect(wrapper.find(Toast).exists()).toBe(true);
-            expect(wrapper.find(Toast).props().extraClasses).toBe('toast__history');
         });
     });
 
@@ -499,7 +487,7 @@ describe('PostList', () => {
             const wrapper = shallowWithIntl(<PostList {...props}/>);
             const instance = wrapper.instance();
             const initScrollToIndex = instance.initScrollToIndex();
-            expect(initScrollToIndex).toEqual({index: 6, position: 'start'});
+            expect(initScrollToIndex).toEqual({index: 6, position: 'start', offset: -30});
         });
     });
 
@@ -521,6 +509,6 @@ describe('PostList', () => {
         const wrapper = shallowWithIntl(<PostList {...props}/>);
         const instance = wrapper.instance();
         const initScrollToIndex = instance.initScrollToIndex();
-        expect(initScrollToIndex).toEqual({index: 5, position: 'start'});
+        expect(initScrollToIndex).toEqual({index: 5, position: 'start', offset: -30});
     });
 });

@@ -2112,31 +2112,25 @@
 }
 
 .toast {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
     position: absolute;
-    margin-left: 50%;
-    margin-top: 20px;
-    width: 97%;
+    margin: 10px 15px 0px;
+    width: calc(100% - 30px);
     font-size: 13px;
     line-height: 18px;
-    text-align: center;
     @include border-radius(4px);
     cursor: default;
-    transform: translateX(-50%);
     opacity: 0;
     visibility: hidden;
     background-color: var(--button-bg);
     color: var(--button-color);
     height: 32px;
+    padding: 0px 10px;
+    line-height: 32px;
+    font-weight: bold;
 
     svg {
         fill: var(--button-color);
-        transform: translateY(10%);
-        stroke-width: 2px;
+        vertical-align: middle;
     }
 
     body.enable-animations & {
@@ -2147,25 +2141,30 @@
     }
 
     .toast__jump {
-        margin-left: 15px;
         cursor: pointer;
-        width: 200px;
         text-align: start;
+        display: inline-block;
+        float: left;
         svg {
-            transform: translateY(22%);
+            margin-right: 5px;
+            vertical-align: middle;
         }
-
     }
+
+    .path_stroke {
+        stroke: var(--button-color);
+    }
+
     .toast__dismiss {
-        margin-right: 15px;
-        width: 200px;
         cursor: pointer;
-        text-align: end;
+        position: absolute;
+        right: 10px;
     }
     .toast__message {
-        display: inline-block;
-        margin: 0 auto;
-        width: 40%;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
     }
 }
 .toast__visible {
@@ -2188,4 +2187,10 @@
 }
 .toast__red {
     background-color: $red;
+}
+@media screen and (max-width: 768px) {
+    .toast .toast__message {
+        text-align: left;
+        display: inline-block;
+    }
 }

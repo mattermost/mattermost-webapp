@@ -15,78 +15,32 @@ const MIN_TOAST_HEIGHT = 1000;
 
 export default class Toast extends React.PureComponent {
     static propTypes = {
-        onClick: PropTypes.func.isRequired,
+        onClick: PropTypes.func,
         onClickMessage: PropTypes.string,
         onDismiss: PropTypes.func,
-        order: PropTypes.number,
         children: PropTypes.element,
         show: PropTypes.bool.isRequired,
-        extraClasses: PropTypes.string,
-        showOnlyOnce: PropTypes.bool.isRequired,
-    }
-
-    static defaultProps = {
-        onDismiss: null,
-        onClickMessage: 'Jump',
-        order: 0,
-        jumpFadeOutDelay: 0,
-        showOnlyOnce: false,
-    };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-
-            //once hide is set to true, only mounting again from the caller will show it again. This way, once we have used one button the toast doesn't show up again.
-            // if it should only be shown once, we set it to the value of show.
-            hide: this.props.showOnlyOnce ? !this.props.show : false,
-            showJump: true,
-        };
-    }
-
-    static getDerivedStateFromProps(newProps, oldState) {
-        if (newProps.show && !oldState.show) {
-            return {showJump: true};
-        }
-        return {};
-    }
-
-    shouldNeverShowAgain = () => {
-        // if it should never be seen again, hide it
-        if (this.props.showOnlyOnce) {
-            this.setState({hide: true});
-        }
+        showActions: PropTypes.bool, //used for showing jump actions
     }
 
     handleClick = () => {
         this.props.onClick();
-        this.shouldNeverShowAgain();
-        this.setState({showJump: false});
-
-        // TODO: telemetry
     }
 
     handleDismiss = () => {
         if (typeof this.props.onDismiss == 'function') {
             this.props.onDismiss();
         }
-        this.shouldNeverShowAgain();
-
-        // TODO: add telemetry
     }
 
     render() {
-        const classList = ['toast'];
-        if (this.props.extraClasses) {
-            classList.push(this.props.extraClasses);
+        let toastClass = 'toast';
+        if (this.props.show) {
+            toastClass += ' toast__visible';
         }
-        if (this.props.show && !this.state.hide) {
-            classList.push('toast__visible');
-        }
-        const classes = classList.join(' ');
 
         const jumpSection = () => {
-            if (this.state.showJump) {
+            if (this.props.showActions) {
                 return (
                     <div
                         className='toast__jump'
@@ -94,26 +48,25 @@ export default class Toast extends React.PureComponent {
                     >
                         <UnreadBelowIcon/>
                         {this.props.onClickMessage}
-                    </div>);
+                    </div>
+                );
             }
-            return (
-                <div className='toast__jump'/>
-            );
+            return null;
         };
 
         const closeTooltip = (
             <Tooltip id='toast-close__tooltip'>
                 <FormattedMessage
-                    id='toast.close'
-                    defaultMessage='Close'
+                    id='postlist.toast.markAsRead'
+                    defaultMessage='Mark as read'
                 />
             </Tooltip>
         );
 
         return (
             <div
-                className={classes}
-                style={{zIndex: this.props.order + MIN_TOAST_HEIGHT}}
+                className={toastClass}
+                style={{zIndex: MIN_TOAST_HEIGHT}}
             >
                 {jumpSection()}
                 <div className='toast__message'>

@@ -2,20 +2,13 @@
 
 exports[`components/Toast should match snapshot 1`] = `
 <div
-  className="toast undefined toast__visible"
+  className="toast toast__visible"
   style={
     Object {
       "zIndex": 1000,
     }
   }
 >
-  <div
-    className="toast__jump"
-    onClick={[Function]}
-  >
-    <UnreadBelowIcon />
-    Jump
-  </div>
   <div
     className="toast__message"
   >
@@ -27,10 +20,35 @@ exports[`components/Toast should match snapshot 1`] = `
     className="toast__dismiss"
     onClick={[Function]}
   >
-    <CloseIcon
-      className="close-x"
-      id="dismissToast"
-    />
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="toast-close__tooltip"
+          placement="right"
+        >
+          <FormattedMessage
+            defaultMessage="Mark as read"
+            id="postlist.toast.markAsRead"
+            values={Object {}}
+          />
+        </Tooltip>
+      }
+      placement="top"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <CloseIcon
+        className="close-x"
+        id="dismissToast"
+      />
+    </OverlayTrigger>
   </div>
 </div>
 `;

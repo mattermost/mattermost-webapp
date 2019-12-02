@@ -2889,6 +2889,7 @@
   "postlist.toast.newMessages": "{count, number} new {count, plural, one {message} other {messages}}",
   "postlist.toast.scrollToBottom": "Jump to recents",
   "postlist.toast.scrollToLatest": "Jump to new messages",
+  "postlist.toast.markAsRead": "Mark as read",
   "posts_view.loadMore": "Load more messages",
   "posts_view.newMsg": "New Messages",
   "posts_view.newMsgBelow": "New {count, plural, one {message} other {messages}}",
