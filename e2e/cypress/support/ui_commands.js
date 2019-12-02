@@ -11,8 +11,8 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username, password) => {
-    cy.apiLogin('user-1', password);
+Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
+    cy.apiLogin(username, password);
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -30,6 +30,14 @@ Cypress.Commands.add('getSubpath', () => {
             return url.replace(origin, '').substring(0, url.length - origin.length - 1);
         });
     });
+});
+
+Cypress.Commands.add('getCurrentUserId', () => {
+    return cy.wrap(new Promise((resolve) => {
+        cy.getCookie('MMUSERID').then((cookie) => {
+            resolve(cookie.value);
+        });
+    }));
 });
 
 // ***********************************************************
@@ -199,11 +207,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
+        cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
         cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
             cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
         });
     }
@@ -255,6 +263,23 @@ Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
+/**
+ * Click comment icon by post ID or to most recent post (if post ID is not provided)
+ * This open up the RHS
+ * @param {String} postId - Post ID
+ * @param {String} menuItem - e.g. "Pin to channel"
+ * @param {String} location - as 'CENTER', 'SEARCH'
+ */
+Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
+    cy.clickPostDotMenu(postId, location).then(() => {
+        cy.get(`#post_${postId}`).should('be.visible').within(() => {
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                return cy.findByText(menuItem).should('be.visible');
+            });
+        });
+    });
+});
+
 // Close RHS by clicking close button
 Cypress.Commands.add('closeRHS', () => {
     cy.get('#rhsCloseButton').should('be.visible').click();
@@ -286,7 +311,7 @@ Cypress.Commands.add('leaveTeam', () => {
     cy.get('#leaveTeamYes').click();
 
     // * Check that the "leave team modal" closed
-    cy.get('#leaveTeamModal').should('not.be.visible');
+    cy.get('#leaveTeamModal').should('not.exist');
 });
 
 // ***********************************************************

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Popover, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
@@ -20,6 +20,7 @@ import FlagIcon from 'components/widgets/icons/flag_icon';
 import MentionsIcon from 'components/widgets/icons/mentions_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import Popover from 'components/widgets/popover';
 
 const {KeyCodes} = Constants;
 
@@ -269,6 +270,7 @@ export default class SearchBar extends React.Component {
                             className='search-bar a11y__region'
                             data-a11y-sort-order='8'
                             aria-describedby='searchbar-help-popup'
+                            aria-label={Utils.localizeMessage('search_bar.search', 'Search')}
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}

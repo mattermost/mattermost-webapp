@@ -42,6 +42,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}
@@ -176,6 +177,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}
@@ -227,10 +229,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         value=""
       />
       <Popover
-        bsClass="popover"
         className="search-help-popover"
         id="searchbar-help-popup"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <SearchHint
           withTitle={true}
@@ -283,6 +286,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}
@@ -334,10 +338,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         value=""
       />
       <Popover
-        bsClass="popover"
         className="search-help-popover visible"
         id="searchbar-help-popup"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <SearchHint
           withTitle={true}
@@ -390,6 +395,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}

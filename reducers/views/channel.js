@@ -51,6 +51,12 @@ function lastChannelViewTime(state = {}, action) {
         nextState[action.channel_id] = action.last_viewed_at;
         return nextState;
     }
+
+    case ActionTypes.POST_UNREAD_SUCCESS: {
+        const data = action.data;
+        return {...state, [data.channelId]: data.lastViewedAt};
+    }
+
     default:
         return state;
     }

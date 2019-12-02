@@ -59,6 +59,8 @@ export default class SystemUsersList extends React.Component {
         this.state = {
             page: 0,
 
+            filter: props.filter,
+            teamId: props.teamId,
             showManageTeamsModal: false,
             showManageRolesModal: false,
             showManageTokensModal: false,
@@ -68,10 +70,15 @@ export default class SystemUsersList extends React.Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.teamId !== this.props.teamId || nextProps.filter !== this.props.filter) {
-            this.setState({page: 0});
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.teamId !== nextProps.teamId || prevState.filter !== nextProps.filter) {
+            return {
+                page: 0,
+                teamId: nextProps.teamId,
+                filter: nextProps.filter,
+            };
         }
+        return null;
     }
 
     nextPage = () => {
