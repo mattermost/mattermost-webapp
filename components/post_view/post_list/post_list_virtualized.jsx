@@ -653,7 +653,6 @@ class PostList extends React.PureComponent {
                                         initRangeToRender={this.initRangeToRender}
                                         loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
                                         correctScrollToBottom={this.props.atLatestPost}
-                                        initialScrollOffset={-20}
                                     >
                                         {this.renderRow}
                                     </DynamicSizeList>
