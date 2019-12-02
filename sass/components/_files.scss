@@ -190,7 +190,7 @@
             bottom: 0;
             min-height: 40px;
             min-width: 40px;
-            max-height: 350px;
+            max-height: 175px;
             max-width: 100%;
 
             .file-preview__button {
@@ -202,7 +202,7 @@
                 @include single-transition(all, .1s, linear);
                 align-self: center;
                 cursor: pointer;
-                max-height: 350px;
+                max-height: 175px;
                 overflow: hidden;
                 position: relative;
                 z-index: 2;
