@@ -222,7 +222,7 @@ export default class SystemUsers extends React.Component {
         }
 
         this.setState({loading: false});
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS, true);
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
 
     getUserById = async (id) => {
         if (this.props.users[id]) {
