@@ -666,9 +666,14 @@ function handleDeleteTeamEvent(msg) {
 }
 
 function handleUpdateMemberRoleEvent(msg) {
+    const memberData = JSON.parse(msg.data.member);
+    const newRoles = memberData.roles.split(' ');
+
+    dispatch(loadRolesIfNeeded(newRoles));
+
     dispatch({
         type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-        data: JSON.parse(msg.data.member),
+        data: memberData,
     });
 }
 
