@@ -83,7 +83,7 @@ export default class TeamRow extends React.Component {
                                 name={team.display_name}
                             />
                         </div>
-                        <div className='col-sm-auto'>
+                        <div className='col-md-auto'>
                             <b>{team.display_name}</b>
                             {team.description && (
                                 <div className='overflow--ellipsis text-nowrap TeamRow__team-description'>

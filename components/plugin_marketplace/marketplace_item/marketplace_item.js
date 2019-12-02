@@ -15,7 +15,6 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper.tsx';
 import PluginIcon from 'components/widgets/icons/plugin_icon.jsx';
 
-import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {localizeMessage} from 'utils/utils';
 import {Constants} from 'utils/constants';
 
@@ -221,6 +220,8 @@ export default class MarketplaceItem extends React.Component {
         installedVersion: PropTypes.string.isRequired,
         installing: PropTypes.bool.isRequired,
         error: PropTypes.string,
+        isDefaultMarketplace: PropTypes.bool.isRequired,
+        trackEvent: PropTypes.func.isRequired,
         actions: PropTypes.shape({
             installPlugin: PropTypes.func.isRequired,
             closeMarketplaceModal: PropTypes.func.isRequired,
@@ -235,8 +236,20 @@ export default class MarketplaceItem extends React.Component {
         };
     }
 
+    trackEvent = (eventName, allowDetail = true) => {
+        if (this.props.isDefaultMarketplace && allowDetail) {
+            this.props.trackEvent('plugins', eventName, {
+                plugin_id: this.props.id,
+                version: this.props.version,
+                installed_version: this.props.installedVersion,
+            });
+        } else {
+            this.props.trackEvent('plugins', eventName);
+        }
+    }
+
     onInstall = () => {
-        trackEvent('plugins', 'ui_marketplace_download');
+        this.trackEvent('ui_marketplace_download');
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
@@ -249,13 +262,15 @@ export default class MarketplaceItem extends React.Component {
     }
 
     onUpdate = () => {
-        trackEvent('plugins', 'ui_marketplace_download_update');
+        this.trackEvent('ui_marketplace_download_update');
+
         this.hideUpdateConfirmationModal();
         this.props.actions.installPlugin(this.props.id, this.props.version);
     }
 
     onConfigure = () => {
-        trackEvent('plugins', 'ui_marketplace_configure');
+        this.trackEvent('ui_marketplace_configure', false);
+
         this.props.actions.closeMarketplaceModal();
     }
 

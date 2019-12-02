@@ -199,9 +199,16 @@
     }
 
     .group-name {
-        display: inline-block;
-        min-width: 300px;
-        flex-grow: 3;
+        display: flex;
+        flex-grow: 1;
+        flex: 1.8;
+        align-items: center;
+    }
+
+    .group-content {
+        padding-left: 20px;
+        display: flex;
+        flex: 1;
     }
 
     .group-description {
@@ -270,12 +277,9 @@
 
         .group-row {
             .group-name {
-                min-width: 276px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
-                max-width: 539px;
-                margin-right: 20px;
             }
         }
     }
