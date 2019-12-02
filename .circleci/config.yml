@@ -121,11 +121,11 @@ jobs:
           at: .
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
-          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
+          to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           arguments: --cache-control no-cache
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
-          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
+          to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
   prepare-docker-build:
@@ -136,7 +136,7 @@ jobs:
           at: .
       - run:
           command: |
-            curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform-pr/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-platform/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
 
             tar xf server.tar.gz
             rm -rf mattermost/client
@@ -147,7 +147,7 @@ jobs:
           path: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
       - aws-s3/copy:
           from: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
-          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
+          to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
   build-docker:
@@ -167,7 +167,7 @@ jobs:
             git clone git@github.com:mattermost/mattermost-server.git
 
             cd mattermost-server
-            export MM_PACKAGE=https://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
+            export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
             docker build --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} build
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
             docker push mattermost/mattermost-enterprise-edition:${TAG}
@@ -190,11 +190,11 @@ workflows:
           requires:
             - install
       - upload-s3:
-          context: mattermost-ci-s3
+          context: mattermost-ci-pr-builds-s3
           requires:
             - build
       - prepare-docker-build:
-          context: mattermost-ci-s3
+          context: mattermost-ci-pr-builds-s3
           requires:
             - upload-s3
       - build-docker:
