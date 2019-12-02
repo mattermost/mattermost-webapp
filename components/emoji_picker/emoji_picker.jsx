@@ -419,7 +419,9 @@ export default class EmojiPicker extends React.PureComponent {
             }
             break;
         case 'ArrowUp':
-            if (this.state.cursor[1] < EMOJI_PER_ROW) {
+            if (e.shiftKey) {
+                e.target.selectionStart = 0;
+            } else if (this.state.cursor[1] < EMOJI_PER_ROW) {
                 this.setState({
                     cursor: [-1, -1],
                 });
@@ -432,7 +434,9 @@ export default class EmojiPicker extends React.PureComponent {
             }
             break;
         case 'ArrowDown':
-            if (e.target.selectionStart === 0) {
+            if (e.shiftKey) {
+                e.target.selectionEnd = this.state.filter.length;
+            } else if (e.target.selectionStart === 0) {
                 e.target.selectionStart = this.state.filter.length;
                 e.target.selectionEnd = this.state.filter.length;
             } else {
