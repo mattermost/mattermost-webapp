@@ -82,7 +82,7 @@ describe('Customization', () => {
             expect(response.body.SupportSettings.HelpLink).to.equal(stringToSave);
         });
     });
-  
+
     it('SC20341 Can change About Link setting', () => {
         const newAboutLink = 'https://about.mattermost.com/new-about-page/';
 
