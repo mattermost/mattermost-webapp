@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getRandomInt} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // ***************************************************************
@@ -10,26 +9,32 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+const allChannels = [];
 let testChannel;
-const channelDisplayName = `Channel Switcher ${getRandomInt(9999).toString()}`;
+let channelDisplayName;
 
 describe('Account Settings > Sidebar > Channel Switcher', () => {
     before(() => {
         cy.apiLogin('user-1');
         cy.visit('/');
+
         cy.getCurrentTeamId().then((teamId) => {
-            cy.apiCreateChannel(teamId, 'channel-switcher', channelDisplayName).then((response) => {
-                testChannel = response.body;
-            });
+            for (let i = 0; i < 15; i++) {
+                channelDisplayName = `Channel Switcher ${i.toString()}`;
+                cy.apiCreateChannel(teamId, 'channel-switcher', channelDisplayName).then((response) => {
+                    allChannels.push(response.body);
+                });
+            }
+        }).then(() => {
+            testChannel = allChannels[allChannels.length - 1];
         });
 
         // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal(null, true);
     });
-
     after(() => {
-        cy.getCurrentChannelId().then((channelId) => {
-            cy.apiDeleteChannel(channelId);
+        allChannels.forEach((channel) => {
+            cy.apiDeleteChannel(channel.id);
         });
     });
 
@@ -171,6 +176,9 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // * Verify that it redirected into "channel-switcher" as selected channel
         cy.url().should('include', '/ad-1/channels/' + testChannel.name);
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayName);
+
+        // * Channel name should be visible in LHS
+        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
     });
 
     it('AS13216 Using CTRL/CMD+K if Channel Switcher is hidden in the LHS', () => {
@@ -199,5 +207,8 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // * Verify that it redirected into "channel-switcher" as selected channel
         cy.url().should('include', '/ad-1/channels/' + testChannel.name);
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', channelDisplayName);
+
+        // * Channel name should be visible in LHS
+        cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
     });
 });
