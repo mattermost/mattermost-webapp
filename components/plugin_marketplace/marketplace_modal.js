@@ -142,7 +142,6 @@ export class MarketplaceModal extends React.Component {
 
         this.fetchPlugins();
 
-        // Do not autofocus on mobile
         if (this.refs.filter) {
             this.refs.filter.focus();
         }
