@@ -88,7 +88,7 @@ describe('Customization', () => {
             expect(config.NativeAppSettings.AppDownloadLink).to.eq(siteName);
         });
     });
-    
+
     it('SC20341 Can change About Link setting', () => {
         const newAboutLink = 'https://about.mattermost.com/new-about-page/';
 
