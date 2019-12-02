@@ -555,6 +555,8 @@
   "admin.experimental.experimentalTimezone.title": "Timezone:",
   "admin.experimental.experimentalTownSquareIsReadOnly.desc": "When true, only System Admins can post in Town Square. Other members are not able to post, reply, upload files, emoji react or pin messages to Town Square, nor are they able to change the channel name, header or purpose. When false, anyone can post in Town Square.",
   "admin.experimental.experimentalTownSquareIsReadOnly.title": "Town Square is Read-Only:",
+  "admin.experimental.experimentalUseNewSAMLLibrary.desc": "Enable a more efficient SAML Library. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://about.mattermost.com/support/](!https://about.mattermost.com/support/)",
+  "admin.experimental.experimentalUseNewSAMLLibrary.title": "Use Improved SAML Library (Beta):",
   "admin.experimental.ldapSettingsLoginButtonBorderColor.desc": "Specify the color of the AD/LDAP login button border for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.",
   "admin.experimental.ldapSettingsLoginButtonBorderColor.title": "AD/LDAP Login Button Border Color:",
   "admin.experimental.ldapSettingsLoginButtonColor.desc": "Specify the color of the AD/LDAP login button for white labeling purposes. Use a hex code with a #-sign before the code. This setting only applies to the mobile apps.",

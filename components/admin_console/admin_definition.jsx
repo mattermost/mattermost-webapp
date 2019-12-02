@@ -4302,6 +4302,15 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "teamname"',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.UseNewSAMLLibrary',
+                        label: t('admin.experimental.experimentalUseNewSAMLLibrary.title'),
+                        label_default: 'Use Improved SAML Library (Beta):',
+                        help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
+                        help_text_default: 'Enable a more efficient SAML Library. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://about.mattermost.com/support/](!https://about.mattermost.com/supporter/)',
+                        help_text_markdown: true,
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.LoginButtonColor',
                         label: t('admin.experimental.samlSettingsLoginButtonColor.title'),
