@@ -7,8 +7,14 @@ import safeOpenProtocol from 'custom-protocol-detection';
 
 import MattermostLogoSvg from 'images/logo.svg';
 
-export default class GoNativeApp extends PureComponent {
-    constructor(props) {
+type Props = {}
+type State = {
+    protocolUnsupported: boolean;
+    browserUnsupported: boolean;
+}
+
+export default class LinkingLandingPage extends PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
         this.state = {
             protocolUnsupported: false,
@@ -19,8 +25,8 @@ export default class GoNativeApp extends PureComponent {
     render() {
         const {protocolUnsupported, browserUnsupported} = this.state;
 
-        let nativeLocation = window.location.href.replace('/vault#', '');
-        nativeLocation = nativeLocation.replace(/^(https|http)/, 'mattermost');
+        let location = window.location.href.replace('/vault#', '');
+        let nativeLocation = location.replace(/^(https|http)/, 'mattermost');
 
         safeOpenProtocol(nativeLocation,
             () => this.setState({protocolUnsupported: true}),
@@ -30,7 +36,7 @@ export default class GoNativeApp extends PureComponent {
 
         let goNativeAppMessage = (
             <a
-                href='/downloads'
+                href={nativeLocation}
                 className='btn btn-primary btn-lg get-app__download'
             >
                 <FormattedMessage
@@ -86,7 +92,7 @@ export default class GoNativeApp extends PureComponent {
                     </div>
                     <div className='get-app__status'>
                         <a
-                            href='/'
+                            href={location}
                             className='btn btn-default btn-lg get-app__continue'
                         >
                             <FormattedMessage

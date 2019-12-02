@@ -3,10 +3,10 @@
 
 import {connect} from 'react-redux';
 
-import GoToNativeApp from './go_to_native_app.jsx';
+import LinkingLandingPage from './linking_landing_page';
 
 function mapStateToProps() {
     return {};
 }
 
-export default connect(mapStateToProps)(GoToNativeApp);
+export default connect(mapStateToProps)(LinkingLandingPage);

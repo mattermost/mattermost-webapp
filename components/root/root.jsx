@@ -40,9 +40,7 @@ const LazyShouldVerifyEmail = React.lazy(() => import('components/should_verify_
 const LazyDoVerifyEmail = React.lazy(() => import('components/do_verify_email'));
 const LazyClaimController = React.lazy(() => import('components/claim'));
 const LazyHelpController = React.lazy(() => import('components/help/help_controller'));
-const LazyGetIosApp = React.lazy(() => import('components/get_ios_app'));
-const LazyGetAndroidApp = React.lazy(() => import('components/get_android_app'));
-const LazyGoToNativeApp = React.lazy(() => import('components/go_to_native_app'));
+const LazyLinkingLandingPage = React.lazy(() => import('components/linking_landing_page'));
 const LazySelectTeam = React.lazy(() => import('components/select_team'));
 const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
@@ -61,16 +59,14 @@ const LoginController = makeAsyncComponent(LazyLoginController);
 const AdminConsole = makeAsyncComponent(LazyAdminConsole);
 const LoggedIn = makeAsyncComponent(LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
+const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm); 
 const SignupController = makeAsyncComponent(LazySignupController);
 const SignupEmail = makeAsyncComponent(LazySignupEmail);
 const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
 const DoVerifyEmail = makeAsyncComponent(LazyDoVerifyEmail);
 const ClaimController = makeAsyncComponent(LazyClaimController);
 const HelpController = makeAsyncComponent(LazyHelpController);
-const GetIosApp = makeAsyncComponent(LazyGetIosApp);
-const GetAndroidApp = makeAsyncComponent(LazyGetAndroidApp);
-const GoToNativeApp = makeAsyncComponent(LazyGoToNativeApp);
+const LinkingLandingPage = makeAsyncComponent(LazyLinkingLandingPage);
 const SelectTeam = makeAsyncComponent(LazySelectTeam);
 const Authorize = makeAsyncComponent(LazyAuthorize);
 const Mfa = makeAsyncComponent(LazyMfa);
@@ -202,7 +198,7 @@ export default class Root extends React.Component {
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
         }
-
+ 
         initializePlugins().then(() => {
             this.setState({configLoaded: true});
         });
@@ -215,11 +211,8 @@ export default class Root extends React.Component {
         const toResetPasswordScreen = this.props.location.pathname === '/reset_password_complete';
 
         // redirect to the mobile landing page if the user hasn't seen it before
-        if (iosDownloadLink && UserAgent.isIosWeb() && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
-            this.props.history.push('/get_ios_app?redirect_to=' + encodeURIComponent(this.props.location.pathname) + encodeURIComponent(this.props.location.search));
-            BrowserStore.setLandingPageSeen(true);
-        } else if (androidDownloadLink && UserAgent.isAndroidWeb() && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
-            this.props.history.push('/get_android_app?redirect_to=' + encodeURIComponent(this.props.location.pathname) + encodeURIComponent(this.props.location.search));
+        if ((iosDownloadLink && UserAgent.isIosWeb() || androidDownloadLink && UserAgent.isAndroidWeb()) && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
+            this.props.history.push('/vault#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
     }
@@ -305,16 +298,8 @@ export default class Root extends React.Component {
                         component={TermsOfService}
                     />
                     <Route
-                        path={'/get_ios_app'}
-                        component={GetIosApp}
-                    />
-                    <Route
-                        path={'/get_android_app'}
-                        component={GetAndroidApp}
-                    />
-                    <Route
                         path={'/vault'}
-                        component={GoToNativeApp}
+                        component={LinkingLandingPage}
                     />
                     <LoggedInRoute
                         path={'/admin_console'}
