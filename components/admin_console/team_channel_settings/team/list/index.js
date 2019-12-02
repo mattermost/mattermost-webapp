@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 
-import {getTeams as fetchTeams} from 'mattermost-redux/actions/teams';
+import {getTeams as fetchTeams, searchTeams} from 'mattermost-redux/actions/teams';
 import {getTeams} from 'mattermost-redux/selectors/entities/teams';
 
 import {t} from 'utils/i18n';
@@ -30,6 +30,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             getData: (page, pageSize) => fetchTeams(page, pageSize, true),
+            searchTeams,
         }, dispatch),
     };
 }
