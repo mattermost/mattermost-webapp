@@ -7,7 +7,7 @@
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-describe('Mobile view Post menu options button in RHS', () => {
+describe('Messaging', () => {
     beforeEach(() => {
         // # resize window to mobile view
         cy.viewport('iphone-6');
@@ -28,33 +28,29 @@ describe('Mobile view Post menu options button in RHS', () => {
         cy.postMessageReplyInRHS(replyValid);
     });
 
-    it('should always be visible in the RHS for last posts and should open options modal.', () => {
+    it('M18679 - Mobile view: Post options menu (3-dots) is present on a reply post in RHS', () => {
         // # Get the last entered RHS post
         cy.getLastPostId().then((lastPostId) => {
             const dotMenuButtonID = `#RHS_COMMENT_button_${lastPostId}`;
 
-            // * Check to see if button is visible
-            cy.get(dotMenuButtonID).should('be.visible');
-
-            // # Click on the options menu
-            cy.get(dotMenuButtonID).click();
+            // * Check to see if button is visible and click it
+            cy.get(dotMenuButtonID).should('be.visible').click();
 
             const dropDownMenuOfPostOptionsID = `#RHS_COMMENT_dropdown_${lastPostId}`;
 
             // * Check if modal for post options have opened
-            cy.get(dropDownMenuOfPostOptionsID).should('be.visible');
-
-            cy.get(dropDownMenuOfPostOptionsID).within(() => {
+            cy.get(dropDownMenuOfPostOptionsID).should('be.visible').within(() => {
                 // * Check if atleast 1 item is present
                 cy.get('li').should('have.length.greaterThan', 0);
 
                 // * Check if one of the options are as follows
-                cy.get('li').should('contain.text', 'Add Reaction');
-                cy.get('li').should('contain.text', 'Mark as Unread');
-                cy.get('li').should('contain.text', 'Permalink');
-                cy.get('li').should('contain.text', 'Flag');
-                cy.get('li').should('contain.text', 'Edit');
-                cy.get('li').should('contain.text', 'Delete');
+                cy.findByText('Add Reaction').should('be.visible');
+                cy.findByText('Mark as Unread').should('be.visible');
+                cy.findByText('Permalink').should('be.visible');
+                cy.findByText('Flag').should('be.visible');
+                cy.findByText('Pin to channel').should('be.visible');
+                cy.findByText('Edit').should('be.visible');
+                cy.findByText('Delete').should('be.visible');
             });
         });
     });
