@@ -34,12 +34,12 @@ const Setting: React.FC<Props> = ({
             >
                 {label}
             </label>
-            <div
-                data-testid={inputId + 'help-text'}
-                className={inputClassName}
-            >
+            <div className={inputClassName}>
                 {children}
-                <div className='help-text'>
+                <div
+                    data-testid={inputId + 'help-text'}
+                    className='help-text'
+                >
                     {helpText}
                 </div>
                 {footer}
