@@ -207,11 +207,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
+        cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
         cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
             cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
         });
     }
@@ -261,6 +261,23 @@ Cypress.Commands.add('clickPostReactionIcon', (postId, location = 'CENTER') => {
  */
 Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
+});
+
+/**
+ * Click comment icon by post ID or to most recent post (if post ID is not provided)
+ * This open up the RHS
+ * @param {String} postId - Post ID
+ * @param {String} menuItem - e.g. "Pin to channel"
+ * @param {String} location - as 'CENTER', 'SEARCH'
+ */
+Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
+    cy.clickPostDotMenu(postId, location).then(() => {
+        cy.get(`#post_${postId}`).should('be.visible').within(() => {
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                return cy.findByText(menuItem).should('be.visible');
+            });
+        });
+    });
 });
 
 // Close RHS by clicking close button
