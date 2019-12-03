@@ -178,6 +178,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         this.props.updateSection(section);
     }
 
+    // This function changes ctrl to cmd when OS is mac
     getCtrlSendText = () => {
         const description = {
             default: {
