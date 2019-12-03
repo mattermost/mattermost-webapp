@@ -3,7 +3,7 @@
 exports[`components/SizeAwareImage should match snapshot when handleSmallImageContainer prop is passed 1`] = `
 <Fragment>
   <div
-    className="image-loading__container undefined"
+    className="image-loading__container class"
     style={
       Object {
         "maxWidth": 300,
@@ -18,7 +18,6 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
         }
       }
       viewBox="0 0 300 200"
-      width="inherit"
       xmlns="http://www.w3.org/2000/svg"
     />
   </div>
@@ -37,11 +36,11 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
   >
     <img
       aria-label="file thumbnail"
+      className="class"
       onError={[Function]}
       onKeyDown={[Function]}
       onLoad={[Function]}
       src="https://example.com/image.png"
-      style={Object {}}
       tabIndex="0"
     />
   </div>
@@ -51,7 +50,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
 exports[`components/SizeAwareImage should render a placeholder and has loader when showLoader is true 1`] = `
 <Fragment>
   <div
-    className="image-loading__container undefined"
+    className="image-loading__container class"
     style={
       Object {
         "maxWidth": 300,
@@ -98,11 +97,11 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
   >
     <img
       aria-label="file thumbnail"
+      className="class"
       onError={[Function]}
       onKeyDown={[Function]}
       onLoad={[Function]}
       src="https://example.com/image.png"
-      style={Object {}}
       tabIndex="0"
     />
   </div>

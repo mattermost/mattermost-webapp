@@ -221,6 +221,15 @@
                     max-height: inherit;
                     max-width: 50px;
                 }
+
+                &.small-image--inside-container {
+                    box-shadow: none;
+                    border-width: 0;
+                    border-radius: 0;
+                    width: unset;
+                    margin: 0;
+                    max-height: inherit;
+                }
             }
 
             &.svg {

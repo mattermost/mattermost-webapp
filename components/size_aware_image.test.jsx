@@ -20,6 +20,7 @@ describe('components/SizeAwareImage', () => {
         onImageLoaded: jest.fn(),
         onImageLoadFail: jest.fn(),
         src: 'https://example.com/image.png',
+        className: 'class'
     };
 
     loadImage.mockReturnValue(() => ({}));
@@ -147,12 +148,6 @@ describe('components/SizeAwareImage', () => {
 
         wrapper.instance().setState({isSmallImage: true, imageWidth: 24});
 
-        const style = wrapper.find('img').prop('style');
-        expect(style).toHaveProperty('boxShadow', 'none');
-        expect(style).toHaveProperty('borderWidth', 0);
-        expect(style).toHaveProperty('borderRadius', 0);
-        expect(style).toHaveProperty('width', 'unset');
-        expect(style).toHaveProperty('margin', 0);
-        expect(style).toHaveProperty('maxHeight', 'inherit');
+        expect(wrapper.find('img').prop('className')).toBe(`${props.className} small-image--inside-container`);
     });
 });

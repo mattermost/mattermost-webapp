@@ -154,18 +154,13 @@ export default class SizeAwareImage extends React.PureComponent {
                 aria-label={ariaLabelImage}
                 tabIndex='0'
                 onKeyDown={this.onEnterKeyDown}
-                className={this.props.className}
+                className={
+                    this.props.className +
+                    (this.props.handleSmallImageContainer &&
+                        this.state.isSmallImage ? ' small-image--inside-container' : '')}
                 src={src}
                 onError={this.handleError}
                 onLoad={this.handleLoad}
-                style={this.props.handleSmallImageContainer && this.state.isSmallImage ? {
-                    boxShadow: 'none',
-                    borderWidth: 0,
-                    borderRadius: 0,
-                    width: 'unset',
-                    margin: 0,
-                    maxHeight: 'inherit',
-                } : {}}
             />
         );
 

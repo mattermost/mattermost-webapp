@@ -34,7 +34,7 @@ describe('Markdown', () => {
         // * Verify that HTML Content is correct.
         // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
-            cy.get(`#postMessageText_${postId}`).find('div.markdown-inline-img-container').
+            cy.get(`#postMessageText_${postId}`).find('div.markdown-inline-img__container').
                 should('have.text', 'Mattermost/platform build status:  ');
 
             cy.get(`#postMessageText_${postId}`).find('img').
@@ -43,8 +43,8 @@ describe('Markdown', () => {
                 and('have.class', 'markdown-inline-img--no-border').
                 and('have.attr', 'alt', 'Build Status').
                 and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Ftravis-ci.org%2Fmattermost%2Fplatform.svg%3Fbranch%3Dmaster`).
-                and(($img) => {
-                    expect($img.height()).to.be.closeTo(20, 0.9);
+                and((inlineImg) => {
+                    expect(inlineImg.height()).to.be.closeTo(20, 0.9);
                 }).
                 and('have.css', 'width', '97px');
         });
@@ -59,7 +59,7 @@ describe('Markdown', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).find('div').
                 should('have.text', 'GitHub favicon:  ').
-                and('have.class', 'markdown-inline-img-container');
+                and('have.class', 'markdown-inline-img__container');
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
@@ -85,7 +85,7 @@ describe('Markdown', () => {
                 cy.get('.markdown-inline-img').should('be.visible').
                     and((inlineImg) => {
                         expect(inlineImg.height()).to.be.closeTo(143, 2);
-                        expect(inlineImg.width()).to.be.closeTo(894, 2);
+                        expect(inlineImg.width()).to.be.closeTo(893, 2);
                     }).
                     click();
             });
@@ -106,10 +106,12 @@ describe('Markdown', () => {
 
         cy.getLastPostId().then((postId) => {
             // # Get the image and simulate a click.
-            cy.get(`#postMessageText_${postId}`).find('img.markdown-inline-img').
-                should('have.css', 'height', '33px').
-                and('have.css', 'width', '33px').
-                click();
+            cy.get(`#postMessageText_${postId}`).should('be.visible').within(() => {
+                cy.get('.markdown-inline-img').should('be.visible').
+                    should('have.css', 'height', '33px').
+                    and('have.css', 'width', '33px').
+                    click();
+            });
 
             // * Verify that the preview modal opens
             cy.get('div.file-details__container').should('be.visible');

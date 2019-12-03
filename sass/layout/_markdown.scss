@@ -77,13 +77,12 @@ h6 {
         }
     }
 
-    .markdown-inline-img-container {
+    .markdown-inline-img__container {
         display: inline-block;
         width: 100%;
     }
 
     .markdown-inline-img--loading {
-        width: 100%;
         visibility: hidden;
     }
     
