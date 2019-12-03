@@ -116,6 +116,7 @@ export default class SingleImageView extends React.PureComponent {
 
         const toggle = (
             <button
+                id={`single_file_upload__toggle_${this.props.postId}`}
                 key='toggle'
                 className='style--none post__embed-visibility color--link'
                 data-expanded={this.props.isEmbedVisible}
@@ -130,7 +131,10 @@ export default class SingleImageView extends React.PureComponent {
                 className='image-name'
             >
                 {toggle}
-                <div onClick={this.handleImageClick}>
+                <div
+                    onClick={this.handleImageClick}
+                    id={`single_file_upload__name_${this.props.postId}`}
+                >
                     {fileInfo.name}
                 </div>
             </div>
