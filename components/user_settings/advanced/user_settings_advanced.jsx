@@ -178,6 +178,39 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
         this.props.updateSection(section);
     }
 
+    getCtrlSendText = () => {
+        const description = {
+            default: {
+                id: t('user.settings.advance.sendDesc'),
+                defaultMessage: 'When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.',
+            },
+            mac: {
+                id: t('user.settings.advance.sendDesc.mac'),
+                defaultMessage: 'When enabled, CMD + ENTER will send the message and ENTER inserts a new line.',
+            },
+        };
+        const title = {
+            default: {
+                id: t('user.settings.advance.sendTitle'),
+                defaultMessage: 'Send messages on CTRL+ENTER',
+            },
+            mac: {
+                id: t('user.settings.advance.sendTitle.mac'),
+                defaultMessage: 'Send messages on CMD+ENTER',
+            },
+        };
+        if (Utils.isMac()) {
+            return {
+                ctrlSendTitle: title.mac,
+                ctrlSendDesc: description.mac,
+            };
+        }
+        return {
+            ctrlSendTitle: title.default,
+            ctrlSendDesc: description.default,
+        };
+    }
+
     renderOnOffLabel(enabled) {
         if (enabled === 'false') {
             return (
@@ -321,16 +354,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
     render() {
         const serverError = this.state.serverError || null;
         let ctrlSendSection;
-        let fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc');
-        let fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle');
-        let defaultMessageSendDesc = 'When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.';
-        let defaultMessageSendTitle = 'Send messages on CTRL+ENTER';
-        if (Utils.isMac()) {
-            fmIdForUserSettingsAdvSendDesc = t('user.settings.advance.sendDesc.mac');
-            fmIdForUserSettingsAdvSendTitle = t('user.settings.advance.sendTitle.mac');
-            defaultMessageSendDesc = 'When enabled, CMD + ENTER will send the message and ENTER inserts a new line.';
-            defaultMessageSendTitle = 'Send messages on CMD+ENTER';
-        }
+        const {ctrlSendTitle, ctrlSendDesc} = this.getCtrlSendText();
 
         if (this.props.activeSection === 'advancedCtrlSend') {
             const ctrlSendActive = [
@@ -342,10 +366,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             const inputs = [
                 <fieldset key='ctrlSendSetting'>
                     <legend className='form-legend hidden-label'>
-                        <FormattedMessage
-                            id={fmIdForUserSettingsAdvSendTitle}
-                            defaultMessage={defaultMessageSendTitle}
-                        />
+                        <FormattedMessage {...ctrlSendTitle}/>
                     </legend>
                     <div className='radio'>
                         <label>
@@ -406,20 +427,14 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
                     </div>
                     <div>
                         <br/>
-                        <FormattedMessage
-                            id={fmIdForUserSettingsAdvSendDesc}
-                            defaultMessage={defaultMessageSendDesc}
-                        />
+                        <FormattedMessage {...ctrlSendDesc}/>
                     </div>
                 </fieldset>,
             ];
             ctrlSendSection = (
                 <SettingItemMax
                     title={
-                        <FormattedMessage
-                            id={fmIdForUserSettingsAdvSendTitle}
-                            defaultMessage={defaultMessageSendTitle}
-                        />
+                        <FormattedMessage {...ctrlSendTitle}/>
                     }
                     inputs={inputs}
                     submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
@@ -432,10 +447,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent {
             ctrlSendSection = (
                 <SettingItemMin
                     title={
-                        <FormattedMessage
-                            id={fmIdForUserSettingsAdvSendTitle}
-                            defaultMessage={defaultMessageSendTitle}
-                        />
+                        <FormattedMessage {...ctrlSendTitle}/>
                     }
                     describe={this.renderCtrlEnterLabel()}
                     section={'advancedCtrlSend'}
