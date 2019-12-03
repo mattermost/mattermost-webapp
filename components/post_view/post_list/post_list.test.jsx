@@ -5,9 +5,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {PostRequestTypes} from 'utils/constants';
+import VirtPostList from 'components/post_view/post_list_virtualized';
 
 import PostList, {MAX_EXTRA_PAGES_LOADED} from './post_list.jsx';
-import VirtPostList from './post_list_virtualized.jsx';
 
 const actionsProp = {
     loadPostsAround: jest.fn().mockImplementation(() => Promise.resolve({atLatestMessage: true, atOldestmessage: true})),

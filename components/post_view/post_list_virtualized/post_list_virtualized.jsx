@@ -83,7 +83,11 @@ export default class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
-        countUnread: PropTypes.number,
+        unreadCountInChannel: PropTypes.number,
+
+        newRecentMessagesCount: PropTypes.number,
+
+        channelMarkedAsUnread: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -137,6 +141,7 @@ export default class PostList extends React.PureComponent {
                 willChange: 'transform',
             },
             showUnreadToast: true,
+            unreadCountInChannel: props.unreadCountInChannel,
         };
 
         this.listRef = React.createRef();
@@ -227,9 +232,11 @@ export default class PostList extends React.PureComponent {
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
-    static getDerivedStateFromProps(props) {
+    static getDerivedStateFromProps(props, prevState) {
         const postListIds = props.postListIds;
         let newPostListIds;
+        let unreadCount;
+        let {showUnreadToast} = prevState;
 
         if (props.atOldestPost) {
             newPostListIds = [...postListIds, PostListRowListIds.CHANNEL_INTRO_MESSAGE];
@@ -247,9 +254,22 @@ export default class PostList extends React.PureComponent {
             }
         }
 
+        if (props.atLatestPost) {
+            unreadCount = PostList.countNewMessages(postListIds);
+        } else if (props.channelMarkedAsUnread) {
+            unreadCount = prevState.unreadCountInChannel;
+        } else {
+            unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
+        }
+
+        if (props.channelMarkedAsUnread && !prevState.showUnreadToast) {
+            showUnreadToast = true;
+        }
+
         return {
             postListIds: newPostListIds,
-            unreadCount: PostList.countNewMessages(postListIds),
+            unreadCount,
+            showUnreadToast,
         };
     }
 
