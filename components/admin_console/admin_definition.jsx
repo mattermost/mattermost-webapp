@@ -2445,8 +2445,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.guestFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=guests)"',
-                        isDisabled: it.either(
-                            it.stateIsFalse('GuestAccountsSettings.Enable'),
+                        isDisabled: it.both(
                             it.stateIsFalse('LdapSettings.Enable'),
                             it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
@@ -3088,10 +3087,7 @@ const AdminDefinition = {
                         help_text: t('admin.saml.guestAttrDesc'),
                         help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this attribute is removed/changed from your guest user in SAML and the user is still active, they will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
                         help_text_markdown: true,
-                        isDisabled: it.either(
-                            it.stateIsFalse('GuestAccountsSettings.Enable'),
-                            it.stateIsFalse('SamlSettings.Enable'),
-                        ),
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
