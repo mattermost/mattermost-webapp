@@ -333,7 +333,6 @@ export default class Post extends React.PureComponent {
                 >
                     <div
                         role='application'
-                        id='postContent'
                         data-testid='postContent'
                         className={'post__content ' + centerClass}
                         aria-hidden={this.state.ariaHidden}
