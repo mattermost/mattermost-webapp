@@ -11,6 +11,7 @@ type Props = {}
 type State = {
     protocolUnsupported: boolean;
     browserUnsupported: boolean;
+    rememberChecked: boolean;
 }
 
 export default class LinkingLandingPage extends PureComponent<Props, State> {
@@ -19,7 +20,27 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         this.state = {
             protocolUnsupported: false,
             browserUnsupported: false,
+            rememberChecked: false,
         };
+    }
+
+    componentDidMount() {
+        this.tryOpen();
+    }
+
+    handleChecked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        this.setState({rememberChecked: e.target.checked});
+    }
+
+    tryOpen = () => {
+        let location = window.location.href.replace('/vault#', '');
+        let nativeLocation = location.replace(/^(https|http)/, 'mattermost');
+
+        // safeOpenProtocol(nativeLocation,
+        //     () => this.setState({protocolUnsupported: true}),
+        //     () => protocolDetected(),
+        //     () => this.setState({browserUnsupported: true})
+        // );
     }
 
     render() {
@@ -27,12 +48,6 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
         let location = window.location.href.replace('/vault#', '');
         let nativeLocation = location.replace(/^(https|http)/, 'mattermost');
-
-        safeOpenProtocol(nativeLocation,
-            () => this.setState({protocolUnsupported: true}),
-            () => protocolDetected(),
-            () => this.setState({browserUnsupported: true})
-        );
 
         let goNativeAppMessage = (
             <a
@@ -69,37 +84,59 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
         // prompt user to download in case they don't have the native app.
         return (
-            <div className='get-app get-app--android'>
-                <img
-                    src={MattermostLogoSvg}
-                    className='get-app__logo'
-                />
-                <div className='get-app__launching'>
-                    <FormattedMessage
-                        id='get_app.launching'
-                        defaultMessage='Where would you like to view this?'
+            <div className='get-app'>
+                <div className='get-app__header'>
+                    <img
+                        src={MattermostLogoSvg}
+                        className='get-app__logo'
                     />
-                    <div className='get-app__alternative'>
-                        <FormattedMessage
-                            id='get_app.ifNothingPrompts'
-                            defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
-                        />
-                    </div>
                 </div>
-                <div>
-                    <div className='get-app__status'>
-                        {goNativeAppMessage}
+                <div className='get-app__dialog'>
+                    <div className='get-app__graphic'>
+
                     </div>
-                    <div className='get-app__status'>
-                        <a
-                            href={location}
-                            className='btn btn-default btn-lg get-app__continue'
-                        >
+                    <div className='get-app__dialog-body'>
+                        <div className='get-app__launching'>
                             <FormattedMessage
-                                id='get_app.continueToBrowser'
-                                defaultMessage='View In Browser'
+                                id='get_app.launching'
+                                defaultMessage='Where would you like to view this?'
                             />
-                        </a>
+                            <div className='get-app__alternative'>
+                                <FormattedMessage
+                                    id='get_app.ifNothingPrompts'
+                                    defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
+                                />
+                            </div>
+                        </div>
+                        <div className='get-app__buttons'>
+                            <div className='get-app__status'>
+                                {goNativeAppMessage}
+                            </div>
+                            <div className='get-app__status'>
+                                <a
+                                    href={location}
+                                    className='btn btn-default btn-lg get-app__continue'
+                                >
+                                    <FormattedMessage
+                                        id='get_app.continueToBrowser'
+                                        defaultMessage='View In Browser'
+                                    />
+                                </a>
+                            </div>
+                        </div>
+                        <div className='get-app__preference checkbox'>
+                            <label>
+                                <input
+                                    type='checkbox'
+                                    checked={this.state.rememberChecked}
+                                    onChange={this.handleChecked}
+                                />
+                                <FormattedMessage
+                                    id='get_app.rememberMyPreference'
+                                    defaultMessage='Remember my preference'
+                                />
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
