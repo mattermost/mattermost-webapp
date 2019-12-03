@@ -118,6 +118,12 @@
     &.modal-image {
         overflow: hidden;
 
+        .modal-code {
+            .modal-image__content {
+                background: transparent;
+            }
+        }
+
         .modal-backdrop {
             &.in {
                 @include opacity(.7);
@@ -348,7 +354,12 @@
             }
 
             .post-code {
-                background: $white;
+                background: transparent;
+
+                code {
+                    margin: 0;
+                    padding: 5px 0;
+                }
             }
 
             audio,
@@ -702,6 +713,26 @@
         height: 39px;
         width: 100%;
     }
+}
+
+.more-modal__dropdown {
+    padding: 0 16px;
+    font-weight: 600;
+    display: inline-flex;
+
+    span {
+        font-size: .9em;
+        color: var(--center-channel-color);
+    }
+
+    a:hover {
+        color: var(--center-channel-color);
+        text-decoration: none;
+    }
+}
+
+.more-modal__icon-container {
+    margin-right: 6px;
 }
 
 .more-modal__list {

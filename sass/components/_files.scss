@@ -358,7 +358,6 @@
 }
 
 .post-image__details {
-    position: relative;
     align-items: center;
     border-left: 1px solid $light-gray;
     color: alpha-color($black, .8);
@@ -366,6 +365,9 @@
     font-size: 13px;
     height: 100%;
     flex: 1;
+    overflow: hidden;
+    text-align: left;
+    position: relative;
 
     .post-image__detail_wrapper {
         padding: 0 45px 0 15px;
@@ -440,7 +442,6 @@
         position: absolute;
         bottom: 0px;
         width: 100%;
-        margin-left: -15px;
         border-radius: 0px;
     }
 

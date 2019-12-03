@@ -16,7 +16,7 @@ exports[`admin_console/system_user_detail/team_list/TeamList should match snapsh
           "results": Array [
             Object {
               "type": "return",
-              "value": undefined,
+              "value": Promise {},
             },
           ],
         },
@@ -82,7 +82,7 @@ exports[`admin_console/system_user_detail/team_list/TeamList should match snapsh
           "results": Array [
             Object {
               "type": "return",
-              "value": undefined,
+              "value": Promise {},
             },
           ],
         },

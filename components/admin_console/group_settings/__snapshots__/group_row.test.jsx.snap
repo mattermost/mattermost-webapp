@@ -9,35 +9,41 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     className="group-row"
   >
     <div
-      className="group-check checked"
-    >
-      <CheckboxCheckedIcon />
-    </div>
-    <span
       className="group-name"
     >
-      name
-    </span>
-    <span
-      className="group-description"
-    >
-      <a
-        href="#"
-        onClick={[Function]}
+      <div
+        className="group-check checked"
       >
-        <i
-          className="icon fa fa-unlink"
-        />
-        <FormattedMessage
-          defaultMessage="Not Linked"
-          id="admin.group_settings.group_row.not_linked"
-          values={Object {}}
-        />
-      </a>
-    </span>
-    <span
-      className="group-actions"
-    />
+        <CheckboxCheckedIcon />
+      </div>
+      <span>
+        name
+      </span>
+    </div>
+    <div
+      className="group-content"
+    >
+      <span
+        className="group-description"
+      >
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-unlink"
+          />
+          <FormattedMessage
+            defaultMessage="Not Linked"
+            id="admin.group_settings.group_row.not_linked"
+            values={Object {}}
+          />
+        </a>
+      </span>
+      <span
+        className="group-actions"
+      />
+    </div>
   </div>
 </div>
 `;
@@ -51,44 +57,50 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     className="group-row"
   >
     <div
-      className="group-check "
-    />
-    <span
       className="group-name"
     >
-      name
-    </span>
-    <span
-      className="group-description"
+      <div
+        className="group-check "
+      />
+      <span>
+        name
+      </span>
+    </div>
+    <div
+      className="group-content"
     >
-      <a
-        className="warning"
-        href="#"
-        onClick={[Function]}
+      <span
+        className="group-description"
       >
-        <i
-          className="icon fa fa-exclamation-triangle"
-        />
-        <FormattedMessage
-          defaultMessage="Unlink failed"
-          id="admin.group_settings.group_row.unlink_failed"
-          values={Object {}}
-        />
-      </a>
-    </span>
-    <span
-      className="group-actions"
-    >
-      <Link
-        to="/admin_console/user_management/groups/group-id"
+        <a
+          className="warning"
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-exclamation-triangle"
+          />
+          <FormattedMessage
+            defaultMessage="Unlink failed"
+            id="admin.group_settings.group_row.unlink_failed"
+            values={Object {}}
+          />
+        </a>
+      </span>
+      <span
+        className="group-actions"
       >
-        <FormattedMessage
-          defaultMessage="Configure"
-          id="admin.group_settings.group_row.configure"
-          values={Object {}}
-        />
-      </Link>
-    </span>
+        <Link
+          to="/admin_console/user_management/groups/group-id"
+        >
+          <FormattedMessage
+            defaultMessage="Configure"
+            id="admin.group_settings.group_row.configure"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
   </div>
 </div>
 `;
@@ -102,34 +114,40 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     className="group-row"
   >
     <div
-      className="group-check "
-    />
-    <span
       className="group-name"
     >
-      name
-    </span>
-    <span
-      className="group-description"
+      <div
+        className="group-check "
+      />
+      <span>
+        name
+      </span>
+    </div>
+    <div
+      className="group-content"
     >
-      <a
-        className="warning"
-        href="#"
-        onClick={[Function]}
+      <span
+        className="group-description"
       >
-        <i
-          className="icon fa fa-exclamation-triangle"
-        />
-        <FormattedMessage
-          defaultMessage="Link failed"
-          id="admin.group_settings.group_row.link_failed"
-          values={Object {}}
-        />
-      </a>
-    </span>
-    <span
-      className="group-actions"
-    />
+        <a
+          className="warning"
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-exclamation-triangle"
+          />
+          <FormattedMessage
+            defaultMessage="Link failed"
+            id="admin.group_settings.group_row.link_failed"
+            values={Object {}}
+          />
+        </a>
+      </span>
+      <span
+        className="group-actions"
+      />
+    </div>
   </div>
 </div>
 `;
@@ -143,43 +161,49 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     className="group-row"
   >
     <div
-      className="group-check "
-    />
-    <span
       className="group-name"
     >
-      name
-    </span>
-    <span
-      className="group-description"
+      <div
+        className="group-check "
+      />
+      <span>
+        name
+      </span>
+    </div>
+    <div
+      className="group-content"
     >
-      <a
-        href="#"
-        onClick={[Function]}
+      <span
+        className="group-description"
       >
-        <i
-          className="icon fa fa-link"
-        />
-        <FormattedMessage
-          defaultMessage="Linked"
-          id="admin.group_settings.group_row.linked"
-          values={Object {}}
-        />
-      </a>
-    </span>
-    <span
-      className="group-actions"
-    >
-      <Link
-        to="/admin_console/user_management/groups/group-id"
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-link"
+          />
+          <FormattedMessage
+            defaultMessage="Linked"
+            id="admin.group_settings.group_row.linked"
+            values={Object {}}
+          />
+        </a>
+      </span>
+      <span
+        className="group-actions"
       >
-        <FormattedMessage
-          defaultMessage="Edit"
-          id="admin.group_settings.group_row.edit"
-          values={Object {}}
-        />
-      </Link>
-    </span>
+        <Link
+          to="/admin_console/user_management/groups/group-id"
+        >
+          <FormattedMessage
+            defaultMessage="Edit"
+            id="admin.group_settings.group_row.edit"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
   </div>
 </div>
 `;
@@ -193,43 +217,49 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     className="group-row"
   >
     <div
-      className="group-check "
-    />
-    <span
       className="group-name"
     >
-      name
-    </span>
-    <span
-      className="group-description"
+      <div
+        className="group-check "
+      />
+      <span>
+        name
+      </span>
+    </div>
+    <div
+      className="group-content"
     >
-      <a
-        href="#"
-        onClick={[Function]}
+      <span
+        className="group-description"
       >
-        <i
-          className="icon fa fa-link"
-        />
-        <FormattedMessage
-          defaultMessage="Linked"
-          id="admin.group_settings.group_row.linked"
-          values={Object {}}
-        />
-      </a>
-    </span>
-    <span
-      className="group-actions"
-    >
-      <Link
-        to="/admin_console/user_management/groups/group-id"
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-link"
+          />
+          <FormattedMessage
+            defaultMessage="Linked"
+            id="admin.group_settings.group_row.linked"
+            values={Object {}}
+          />
+        </a>
+      </span>
+      <span
+        className="group-actions"
       >
-        <FormattedMessage
-          defaultMessage="Configure"
-          id="admin.group_settings.group_row.configure"
-          values={Object {}}
-        />
-      </Link>
-    </span>
+        <Link
+          to="/admin_console/user_management/groups/group-id"
+        >
+          <FormattedMessage
+            defaultMessage="Configure"
+            id="admin.group_settings.group_row.configure"
+            values={Object {}}
+          />
+        </Link>
+      </span>
+    </div>
   </div>
 </div>
 `;
@@ -243,33 +273,39 @@ exports[`components/admin_console/group_settings/GroupRow should match snapshot,
     className="group-row"
   >
     <div
-      className="group-check "
-    />
-    <span
       className="group-name"
     >
-      name
-    </span>
-    <span
-      className="group-description"
+      <div
+        className="group-check "
+      />
+      <span>
+        name
+      </span>
+    </div>
+    <div
+      className="group-content"
     >
-      <a
-        href="#"
-        onClick={[Function]}
+      <span
+        className="group-description"
       >
-        <i
-          className="icon fa fa-unlink"
-        />
-        <FormattedMessage
-          defaultMessage="Not Linked"
-          id="admin.group_settings.group_row.not_linked"
-          values={Object {}}
-        />
-      </a>
-    </span>
-    <span
-      className="group-actions"
-    />
+        <a
+          href="#"
+          onClick={[Function]}
+        >
+          <i
+            className="icon fa fa-unlink"
+          />
+          <FormattedMessage
+            defaultMessage="Not Linked"
+            id="admin.group_settings.group_row.not_linked"
+            values={Object {}}
+          />
+        </a>
+      </span>
+      <span
+        className="group-actions"
+      />
+    </div>
   </div>
 </div>
 `;

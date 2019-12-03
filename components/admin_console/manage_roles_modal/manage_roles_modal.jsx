@@ -19,6 +19,7 @@ function getStateFromProps(props) {
     const roles = props.user && props.user.roles ? props.user.roles : '';
 
     return {
+        user: props.user,
         error: null,
         hasPostAllRole: UserUtils.hasPostAllRole(roles),
         hasPostAllPublicRole: UserUtils.hasPostAllPublicRole(roles),
@@ -64,12 +65,14 @@ export default class ManageRolesModal extends React.PureComponent {
         this.state = getStateFromProps(props);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        const user = this.props.user || {};
-        const nextUser = nextProps.user || {};
-        if (user.id !== nextUser.id) {
-            this.setState(getStateFromProps(nextProps));
+    static getDerivedStateFromProps(nextProps, prevState) {
+        const prevUser = prevState.user || {};
+        const user = nextProps.user || {};
+
+        if (prevUser.id !== user.id) {
+            return getStateFromProps(nextProps);
         }
+        return null;
     }
 
     handleError = (error) => {

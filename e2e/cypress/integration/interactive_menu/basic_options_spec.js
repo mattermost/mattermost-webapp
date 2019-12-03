@@ -40,6 +40,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiSaveMessageDisplayPreference('clean');
 
         // # Visit '/' and create incoming webhook
         cy.visit('/ad-1/channels/town-square');
@@ -147,7 +148,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyMessageId}`).within(() => {
                     cy.get('.post__link').should('not.be.visible');
-                    cy.get(`#postMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
+                    cy.get(`#rhsPostMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
             });
         });
@@ -206,11 +207,11 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
         // * Verify exact height, width and padding of suggestion container and its input
         cy.get('.select-suggestion-container').
             should('be.visible').
-            and('have.css', 'height', '30px').
+            and('have.css', 'height', '32px').
             and('have.css', 'width', '220px');
 
         cy.get('.select-suggestion-container > input').
-            and('have.css', 'height', '30px').
+            and('have.css', 'height', '32px').
             and('have.css', 'width', '220px').
             and('have.css', 'padding-right', '30px');
 
