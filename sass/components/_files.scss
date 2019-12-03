@@ -190,7 +190,7 @@
             bottom: 0;
             min-height: 40px;
             min-width: 40px;
-            max-height: 175px;
+            max-height: 350px;
             max-width: 100%;
 
             .file-preview__button {
@@ -202,10 +202,14 @@
                 @include single-transition(all, .1s, linear);
                 align-self: center;
                 cursor: pointer;
-                max-height: 175px;
+                max-height: 350px;
                 overflow: hidden;
                 position: relative;
                 z-index: 2;
+
+                &.compact-display {
+                    max-height: 175px;
+                }
 
                 &:hover {
                     @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 10px 0 rgba($black, 0.1));

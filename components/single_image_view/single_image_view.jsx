@@ -21,6 +21,7 @@ export default class SingleImageView extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         fileInfo: PropTypes.object.isRequired,
         isRhsOpen: PropTypes.bool.isRequired,
+        compactDisplay: PropTypes.bool,
         isEmbedVisible: PropTypes.bool,
         actions: PropTypes.shape({
             toggleEmbedVisibility: PropTypes.func.isRequired,
@@ -29,6 +30,7 @@ export default class SingleImageView extends React.PureComponent {
 
     static defaultProps = {
         fileInfo: {},
+        compactDisplay: false
     };
 
     constructor(props) {
@@ -83,7 +85,7 @@ export default class SingleImageView extends React.PureComponent {
     }
 
     render() {
-        const {fileInfo} = this.props;
+        const {fileInfo, compactDisplay} = this.props;
         const {
             loaded,
         } = this.state;
@@ -105,6 +107,11 @@ export default class SingleImageView extends React.PureComponent {
             if (previewHeight > previewWidth) {
                 minPreviewClass += 'min-preview--portrait ';
             }
+        }
+
+        // Add compact display class to image class if in compact mode
+        if (compactDisplay) {
+            minPreviewClass += 'compact-display';
         }
 
         const toggle = (
