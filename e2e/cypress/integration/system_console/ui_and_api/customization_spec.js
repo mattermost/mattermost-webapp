@@ -22,6 +22,9 @@ describe('Customization', () => {
                 TeamSettings: {
                     SiteName: config.TeamSettings.SiteName,
                 },
+                NativeAppSettings: {
+                    AppDownloadLink: config.NativeAppSettings.AppDownloadLink
+                },
             };
         });
 
@@ -57,6 +60,55 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20333 - Can change Mattermost Apps Download Page Link setting', () => {
+        // * Verify Mattermost Apps Download Page Link's setting name is visible and matches the text
+        cy.findByTestId('NativeAppSettings.AppDownloadLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Mattermost Apps Download Page Link:');
+
+        // * Verify the Mattermost Apps Download Page Link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.AppDownloadLink);
+
+        // * Verify the site name's help text is visible and matches the text
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.');
+
+        // # Generate and enter a random site name
+        const siteName = 'New site name';
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(siteName);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            const config = response.body;
+
+            // * Verify the site name is saved, directly via REST API
+            expect(config.NativeAppSettings.AppDownloadLink).to.eq(siteName);
+        });
+    });
+
+    it('SC20330 - Can change Help Link setting', () => {
+        // * Verify that setting is visible and matches text content
+        const contents = ['The URL for the Help link on the Mattermost login page, sign-up pages, and Main Menu. If this field is empty, the Help link is hidden from users.'];
+        cy.findByTestId('SupportSettings.HelpLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Help Link:');
+
+        // * Verify that help setting is visible and matches text content
+        cy.findByTestId('SupportSettings.HelpLinkhelp-text').scrollIntoView().find('span').should('be.visible').and('have.text', contents[0]);
+
+        // * Verify the input box visible and has default value
+        cy.findByTestId('SupportSettings.HelpLinkinput').scrollIntoView().should('have.value', origConfig.SupportSettings.HelpLink).and('be.visible');
+
+        // # Fill input field with value
+        const stringToSave = 'https://some.com';
+        cy.findByTestId('SupportSettings.HelpLinkinput').clear().type(stringToSave);
+
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.SupportSettings.HelpLink).to.equal(stringToSave);
         });
     });
 
