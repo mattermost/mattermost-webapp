@@ -119,17 +119,20 @@ describe('Emoji', () => {
             expect(emojiArray).toEqual([thumbsUpEmoji, thumbsDownEmoji, smileEmoji]);
         });
 
-        test('special case for thumbsup emoji should sort custom emojis after system', () => {
+        test('special case for thumbsup emoji should sort custom "thumb" emojis after system', () => {
             const thumbsUpEmoji = {
-                name: 'thumbsup',
+                aliases: ['+1', 'thumbsup'],
+                category: 'default'
             };
 
             const thumbsDownEmoji = {
                 name: 'thumbsdown',
+                category: 'default'
             };
 
             const thumbsUpCustomEmoji = {
                 name: 'thumbsup-custom',
+                category: 'custom'
             };
 
             const emojiArray = [thumbsUpCustomEmoji, thumbsDownEmoji, thumbsUpEmoji];
