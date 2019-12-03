@@ -71,6 +71,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
         />
         <div
           className="post-right-comments-container"
+          id="rhsPostList"
         />
       </div>
       <div

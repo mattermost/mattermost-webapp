@@ -47,17 +47,6 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
              (50%)
           </span>
         </span>
-        <ProgressBar
-          active={false}
-          bsClass="progress-bar"
-          className="post-image__progressBar"
-          isChild={false}
-          max={100}
-          min={0}
-          now={50}
-          srOnly={false}
-          striped={false}
-        />
       </div>
     </div>
     <div>
@@ -68,6 +57,17 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
         <RemoveIcon />
       </a>
     </div>
+    <ProgressBar
+      active={false}
+      bsClass="progress-bar"
+      className="post-image__progressBar"
+      isChild={false}
+      max={100}
+      min={0}
+      now={50}
+      srOnly={false}
+      striped={false}
+    />
   </div>
 </div>
 `;
