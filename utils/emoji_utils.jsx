@@ -29,10 +29,10 @@ export function compareEmojis(emojiA, emojiB, searchedName) {
     // ... and how they compare to the relevant system ones.
     // So we need to search for a matching alias in the whole array.
     // E.g. thumbsup-custom vs [+1, thumbsup]
-    
+
     const getMatchingName = (emoji) =>
-        emoji.name || emoji.aliases.find(alias => alias.startsWith(searchedName)) || emoji.aliases[0];
-    const aName = getMatchingName(emojiA)
+        emoji.name || emoji.aliases.find((alias) => alias.startsWith(searchedName)) || emoji.aliases[0];
+    const aName = getMatchingName(emojiA);
     const bName = getMatchingName(emojiB);
 
     // Have the emojis that contain the search appear first
