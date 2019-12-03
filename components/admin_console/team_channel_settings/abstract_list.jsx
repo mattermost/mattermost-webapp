@@ -144,4 +144,3 @@ export default class AbstractList extends React.PureComponent {
         );
     }
 }
-

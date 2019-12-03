@@ -417,7 +417,7 @@ export function parseSearchTerms(searchTerm) {
         }
 
         // check for a search flag (and don't add it to terms)
-        captured = (/^(?:in|from|channel): ?\S+/).exec(termString);
+        captured = (/^-?(?:in|from|channel|on|before|after): ?\S+/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
             continue;
@@ -433,7 +433,7 @@ export function parseSearchTerms(searchTerm) {
         }
 
         // capture any plain text up until the next quote or search flag
-        captured = (/^.+?(?=\bin:|\bfrom:|\bchannel:|"|$)/).exec(termString);
+        captured = (/^.+?(?=(?:\b|\B-)(?:in:|from:|channel:|on:|before:|after:)|"|$)/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 

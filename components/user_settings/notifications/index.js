@@ -11,12 +11,10 @@ import UserSettingsNotifications from './user_settings_notifications.jsx';
 function mapStateToProps(state) {
     const config = getConfig(state);
 
-    const siteName = config.SiteName;
     const sendPushNotifications = config.SendPushNotifications === 'true';
     const enableAutoResponder = config.ExperimentalEnableAutomaticReplies === 'true';
 
     return {
-        siteName,
         sendPushNotifications,
         enableAutoResponder,
     };

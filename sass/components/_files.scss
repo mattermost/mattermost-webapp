@@ -376,6 +376,7 @@
     flex: 1;
     overflow: hidden;
     text-align: left;
+    position: relative;
 
     .post-image__detail_wrapper {
         padding: 0 45px 0 15px;
@@ -450,7 +451,6 @@
         position: absolute;
         bottom: 0px;
         width: 100%;
-        margin-left: -15px;
         border-radius: 0px;
     }
 
