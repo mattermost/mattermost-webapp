@@ -29,6 +29,7 @@ describe('Customization', () => {
     });
 
     after(() => {
+        origConfig.TeamSettings.EnableCustomBrand = false;
         cy.apiUpdateConfig(origConfig);
     });
 
@@ -68,7 +69,7 @@ describe('Customization', () => {
             cy.get('.help-text').should('be.visible').and('have.text', content);
 
             // # Set Enable Custom Branding to true
-            cy.get('[id="TeamSettings.EnableCustomBrandtrue"]').check();
+            cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
         });
 
         // # Click Save button
@@ -77,6 +78,17 @@ describe('Customization', () => {
         // * Verify that the value is save, directly via REST API
         cy.apiGetConfig().then((response) => {
             expect(response.body.TeamSettings.EnableCustomBrand).to.equal(true);
+        });
+
+        // # Set Enable Custom Branding to false
+        cy.findByTestId('TeamSettings.EnableCustomBrandfalse').check();
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
 });
