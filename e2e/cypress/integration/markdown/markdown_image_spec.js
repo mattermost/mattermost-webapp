@@ -35,7 +35,7 @@ describe('Markdown', () => {
         // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).find('div.markdown-inline-img__container').
-                should('have.text', 'Mattermost/platform build status:  ');
+                should('contain', 'Mattermost/platform build status:  ');
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
