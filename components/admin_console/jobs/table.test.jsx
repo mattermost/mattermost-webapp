@@ -76,14 +76,6 @@ describe('components/admin_console/jobs/table', () => {
         }],
     };
 
-    test('should match snapshot, init', () => {
-        const wrapper = shallowWithIntl(
-            <JobTable {...baseProps}/>
-        ).dive();
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
     test('should call create job func', () => {
         const wrapper = shallowWithIntl(
             <JobTable {...baseProps}/>

@@ -123,6 +123,7 @@ describe('components/admin_console/system_users', () => {
 
         await wrapper.instance().doSearch('searchterm', '', '');
 
+        jest.runAllTimers();
         expect(searchProfiles).toHaveBeenCalled();
         expect(searchProfiles).toHaveBeenCalledWith('searchterm', {allow_inactive: true});
     });
@@ -138,6 +139,7 @@ describe('components/admin_console/system_users', () => {
 
         await wrapper.instance().doSearch('searchterm', '', 'system_admin');
 
+        jest.runAllTimers();
         expect(searchProfiles).toHaveBeenCalled();
         expect(searchProfiles).toHaveBeenCalledWith('searchterm', {allow_inactive: true, role: 'system_admin'});
     });
