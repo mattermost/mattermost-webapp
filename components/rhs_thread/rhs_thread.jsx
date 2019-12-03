@@ -28,12 +28,8 @@ export function renderView(props) {
         />);
 }
 
-export function renderThumbHorizontal(props) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--horizontal'
-        />);
+export function renderThumbHorizontal() {
+    return (<div/>);
 }
 
 export function renderThumbVertical(props) {
