@@ -18,7 +18,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {addReaction} from 'actions/post_actions.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {getSortedUsers} from 'utils/utils.jsx';
 
 import Reaction from './reaction.jsx';
 
@@ -64,7 +64,7 @@ function makeMapStateToProps() {
             canAddReaction,
             canRemoveReaction,
             emojiImageUrl,
-            displayName: getDisplayNameByUser(state, currentUserId),
+            sortedUsers: getSortedUsers(state, ownProps.reactions, currentUserId, profiles),
         };
     };
 }

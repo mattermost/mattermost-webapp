@@ -15,7 +15,7 @@ import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
 import TeamMembersModal from 'components/team_members_modal';
 
-import PopoverListMembersItem from './popover_list_members_item';
+import PopoverListMembersItem from 'components/popover_list_members/popover_list_members_item';
 
 export default class PopoverListMembers extends React.Component {
     static propTypes = {

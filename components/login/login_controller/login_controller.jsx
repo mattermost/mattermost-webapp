@@ -13,7 +13,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
-itimport messageHtmlToComponent from 'utils/message_html_to_component';
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import {intlShape} from 'utils/react_intl';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';

@@ -106,13 +106,15 @@ export default class DotMenu extends React.PureComponent {
         this.state = {
             openUp: false,
             width: 0,
+            canEdit: props.canEdit && !props.isReadOnly,
         };
 
         this.buttonRef = React.createRef();
     }
 
     disableCanEditPostByTime() {
-        const {canEdit, post, isLicensed, postEditTimeLimit} = this.props;
+        const {post, isLicensed, postEditTimeLimit} = this.props;
+        const {canEdit} = this.state;
 
         if (canEdit && isLicensed) {
             if (String(postEditTimeLimit) !== String(Constants.UNSET_POST_EDIT_TIME_LIMIT)) {
@@ -279,7 +281,7 @@ export default class DotMenu extends React.PureComponent {
                 );
             });
 
-        if (!this.props.canDelete && !this.props.canEdit && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.props.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -357,10 +359,10 @@ export default class DotMenu extends React.PureComponent {
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    {!isSystemMessage && (this.props.canEdit || this.props.canDelete) && this.renderDivider('edit')}
+                    {!isSystemMessage && (this.state.canEdit || this.props.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`edit_post_${this.props.post.id}`}
-                        show={this.props.canEdit}
+                        show={this.state.canEdit}
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         onClick={this.handleEditMenuItemActivated}
                     />

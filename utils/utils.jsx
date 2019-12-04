@@ -4,7 +4,6 @@
 import $ from 'jquery';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import semver from 'semver';
 
 import {Client4} from 'mattermost-redux/client';
 import {Posts} from 'mattermost-redux/constants';
@@ -18,17 +17,16 @@ import {
 } from 'mattermost-redux/utils/theme_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getCurrentTeamId, getCurrentRelativeTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {logError} from 'mattermost-redux/actions/errors';
 import cssVars from 'css-vars-ponyfill';
 
 import {browserHistory} from 'utils/browser_history';
 import {searchForTerm} from 'actions/post_actions';
 import Constants, {FileTypes, UserStatuses} from 'utils/constants.jsx';
 import * as UserAgent from 'utils/user_agent';
+import * as Utils from 'utils/utils';
 import bing from 'images/bing.mp3';
 import {t} from 'utils/i18n';
 import store from 'stores/redux_store.jsx';
-import {showNotification} from 'utils/notifications';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 
 export function isMac() {
@@ -157,39 +155,6 @@ export function getChannelURL(channel, teamId, state) {
         notificationURL = getCurrentRelativeTeamUrl(state) + `/channels/${redirectChannel}`;
     }
     return notificationURL;
-}
-
-export function notifyMe(title, body, channel, teamId, silent, state) {
-    // handle notifications in desktop app >= 4.3.0
-    if (UserAgent.isDesktopApp() && window.desktop && semver.gte(window.desktop.version, '4.3.0')) {
-        // get the desktop app to trigger the notification
-        window.postMessage(
-            {
-                type: 'dispatch-notification',
-                message: {
-                    title,
-                    body,
-                    channel,
-                    teamId,
-                    silent,
-                },
-            },
-            window.location.origin
-        );
-    } else {
-        showNotification({
-            title,
-            body,
-            requireInteraction: false,
-            silent,
-            onClick: () => {
-                window.focus();
-                browserHistory.push(getChannelURL(channel, teamId, state));
-            },
-        }).catch((error) => {
-            store.dispatch(logError(error));
-        });
-    }
 }
 
 var canDing = true;
@@ -1297,13 +1262,13 @@ export function getLongDisplayNameParts(user) {
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
 export function getDisplayNameByUserId(state, userId) {
-    return getDisplayNameByUser(getUser(state, userId), state);
+    return getDisplayNameByUser(state, getUser(state, userId));
 }
 
 /**
  * Gets the display name of the specified user, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUser(user, state) {
+export function getDisplayNameByUser(state, user) {
     const teammateNameDisplay = getTeammateNameDisplaySetting(state);
     if (user) {
         return displayUsername(user, teammateNameDisplay);
@@ -1333,8 +1298,8 @@ export function sortUsersByStatusAndDisplayName(state, users, statusesByUserId) 
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
         }
 
-        const aName = getDisplayNameByUser(a, state);
-        const bName = getDisplayNameByUser(b, state);
+        const aName = getDisplayNameByUser(state, a);
+        const bName = getDisplayNameByUser(state, b);
 
         return aName.localeCompare(bName);
     }
@@ -1755,4 +1720,27 @@ export function enableDevModeFeatures() {
             throw new Error('Map.length is not supported. Use Map.size instead.');
         },
     });
+}
+
+export function getSortedUsers(state, reactions, currentUserId, profiles, getDisplayNameFn = getDisplayName) {
+    // Sort users by who reacted first with "you" being first if the current user reacted
+    let currentUserReacted = false;
+    const sortedReactions = reactions.sort((a, b) => a.create_at - b.create_at);
+    const users = sortedReactions.reduce((accumulator, current) => {
+        if (current.user_id === currentUserId) {
+            currentUserReacted = true;
+        } else {
+            const user = profiles.find((u) => u.id === current.user_id);
+            if (user) {
+                accumulator.push(getDisplayNameFn(state, user));
+            }
+        }
+        return accumulator;
+    }, []);
+
+    if (currentUserReacted) {
+        users.unshift(Utils.localizeMessage('reaction.you', 'You'));
+    }
+
+    return {currentUserReacted, users};
 }

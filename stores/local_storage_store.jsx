@@ -50,7 +50,11 @@ class LocalStorageStoreClass {
     }
 
     getPenultimateChannelName(userId, teamId) {
-        return this.getItem(getPenultimateChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(teamId);
+        // Lets open a separate issue to refactor local storage and state interactions.
+        // This whole store can be connected to redux
+        const state = store.getState();
+
+        return this.getItem(getPenultimateChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(state, teamId);
     }
 
     setPenultimateChannelName(userId, teamId, channelName) {

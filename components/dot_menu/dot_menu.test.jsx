@@ -34,8 +34,8 @@ describe('components/dot_menu/DotMenu', () => {
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
         },
-        canEditPost: true,
-        canDeletePost: true,
+        canEdit: false,
+        canDelete: false,
     };
 
     test('should match snapshot, on Center', () => {
@@ -61,9 +61,15 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should have divider when able to edit or delete post', () => {
+        const props = {
+            ...baseProps,
+            canEdit: true,
+            canDelete: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
+
         expect(wrapper.state('canEdit')).toBe(true);
         expect(wrapper.state('canDelete')).toBe(true);
         expect(wrapper.find('#divider_post_post_id_1_edit').exists()).toBe(true);

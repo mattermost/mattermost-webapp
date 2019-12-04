@@ -34,7 +34,7 @@ function mapStateToProps() {
         const {post} = ownProps;
         const user = getUser(state, post.user_id);
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
-        const directTeammate = getDirectTeammate(channel.id);
+        const directTeammate = getDirectTeammate(state, channel.id);
 
         return {
             createAriaLabel: createAriaLabelForPost(state, post),

@@ -322,12 +322,12 @@ export default class ChannelHeader extends React.PureComponent {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: displayUsername(teammateId, this.props.teammateNameDisplaySetting),
+                            displayname: displayUsername(dmUser, this.props.teammateNameDisplaySetting),
                         }}
                     />
                 );
             } else {
-                channelTitle = displayUsername(teammateId, this.props.teammateNameDisplaySetting) + ' ';
+                channelTitle = displayUsername(dmUser, this.props.teammateNameDisplaySetting) + ' ';
             }
             channelTitle = (
                 <React.Fragment>

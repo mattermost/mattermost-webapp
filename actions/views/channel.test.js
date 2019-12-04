@@ -51,7 +51,7 @@ describe('channel view actions', () => {
         entities: {
             users: {
                 currentUserId: 'userid1',
-                profiles: {userid1: {id: 'userid1', username: 'username1', roles: 'system_user'}, userid2: {id: 'userid2', username: 'username2', roles: 'system_user'}},
+                profiles: {userid1: {id: 'userid1', username: 'username1', roles: 'system_user', locale: ''}, userid2: {id: 'userid2', username: 'username2', roles: 'system_user', locale: ''}},
                 profilesInChannel: {},
             },
             teams: {

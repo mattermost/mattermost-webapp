@@ -39,7 +39,7 @@ function makeMapStateToProps() {
             socketConnectionStatus: socketStatus.connected,
             previewCollapsed,
             previewEnabled: getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.LINK_PREVIEW_DISPLAY, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
-            directTeammate: getDirectTeammate(channel.id),
+            directTeammate: getDirectTeammate(state, channel.id),
         };
     };
 }

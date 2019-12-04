@@ -10,7 +10,7 @@ import DotMenu from 'components/dot_menu/dot_menu.jsx';
 jest.mock('utils/utils', () => {
     return {
         isMobile: jest.fn(() => false),
-        localizeMessage: jest.fn(),
+        localizeMessage: jest.fn().mockReturnValue(''),
     };
 });
 
@@ -39,6 +39,8 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
             },
+            canEdit: false,
+            canDelete: false,
         };
 
         const wrapper = shallowWithIntl(
