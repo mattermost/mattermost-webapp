@@ -2450,7 +2450,8 @@ const AdminDefinition = {
                             it.both(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
-                            )                        ),
+                            )
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
