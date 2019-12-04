@@ -7,6 +7,7 @@ import truncate from 'lodash/truncate';
 
 import {isUrlSafe} from 'utils/url';
 import {Constants} from 'utils/constants';
+import {handleFormattedTextClick} from 'utils/utils';
 
 import ExternalImage from 'components/external_image';
 import Markdown from 'components/markdown';
@@ -44,7 +45,7 @@ export default class MessageAttachment extends React.PureComponent {
             doPostActionWithCookie: PropTypes.func.isRequired,
         }).isRequired,
 
-        handleFormattedTextClick: PropTypes.func.isRequired,
+        currentRelativeTeamUrl: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -448,7 +449,7 @@ export default class MessageAttachment extends React.PureComponent {
                         <div>
                             <div
                                 className={thumb ? 'attachment__body' : 'attachment__body attachment__body--no_thumb'}
-                                onClick={this.props.handleFormattedTextClick}
+                                onClick={(e) => handleFormattedTextClick(e, this.props.currentRelativeTeamUrl)}
                             >
                                 {attachmentText}
                                 {image}

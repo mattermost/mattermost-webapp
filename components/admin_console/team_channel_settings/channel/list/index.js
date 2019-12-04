@@ -29,7 +29,7 @@ function mapStateToProps(state, ownProps) {
         total: state.entities.channels.totalCount,
         emptyListTextId: t('admin.channel_settings.channel_list.no_channels_found'),
         emptyListTextDefaultMessage: 'No channels found',
-        manageMembers: canManageMembers(ownProps.channel, state),
+        manageMembers: canManageMembers(state, ownProps.channel),
     };
 }
 

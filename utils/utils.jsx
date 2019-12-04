@@ -11,7 +11,7 @@ import {Posts} from 'mattermost-redux/constants';
 import {getChannel, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId, getUser, getUserByUsername as getUserByUsernameRedux} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     blendColors,
     changeOpacity,
@@ -1170,7 +1170,7 @@ export function isMobile() {
     return window.innerWidth <= Constants.MOBILE_SCREEN_WIDTH;
 }
 
-export function getDirectTeammate(channelId, state) {
+export function getDirectTeammate(state, channelId) {
     let teammate = {};
 
     const channel = getChannel(state, channelId);
@@ -1324,7 +1324,7 @@ const UserStatusesWeight = {
 /**
  * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
  */
-export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
+export function sortUsersByStatusAndDisplayName(state, users, statusesByUserId) {
     function compareUsers(a, b) {
         const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
         const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
@@ -1333,8 +1333,8 @@ export function sortUsersByStatusAndDisplayName(users, statusesByUserId) {
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
         }
 
-        const aName = getDisplayNameByUser(a);
-        const bName = getDisplayNameByUser(b);
+        const aName = getDisplayNameByUser(a, state);
+        const bName = getDisplayNameByUser(b, state);
 
         return aName.localeCompare(bName);
     }

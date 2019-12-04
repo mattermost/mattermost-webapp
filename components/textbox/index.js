@@ -8,8 +8,13 @@ import {getCurrentUserId, makeGetProfilesInChannel, makeGetProfilesNotInChannel}
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {autocompleteChannels} from 'actions/channel_actions';
+import Constants from 'utils/constants';
+import {isFeatureEnabled} from 'utils/utils';
 
 import Textbox from './textbox.jsx';
+import PureTextboxLinks from './textbox_links.jsx';
+
+const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
 const makeMapStateToProps = () => {
     const getProfilesInChannel = makeGetProfilesInChannel();
@@ -29,4 +34,9 @@ const mapDispatchToProps = (dispatch) => ({
     }, dispatch),
 });
 
+const textboxLinksMapStateToProps = (state) => ({
+    isMarkdownPreviewEnabled: isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW, state),
+});
+
 export default connect(makeMapStateToProps, mapDispatchToProps, null, {withRef: true})(Textbox);
+export const TextboxLinks = connect(textboxLinksMapStateToProps)(PureTextboxLinks);

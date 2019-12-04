@@ -60,7 +60,7 @@ export default class PostMessageView extends React.PureComponent {
          * Post type components from plugins
          */
         pluginPostTypes: PropTypes.object,
-        handleFormattedTextClick: PropTypes.func.isRequired,
+        currentRelativeTeamUrl: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
@@ -175,7 +175,7 @@ export default class PostMessageView extends React.PureComponent {
                     tabIndex='0'
                     id={id}
                     className='post-message__text'
-                    onClick={this.props.handleFormattedTextClick}
+                    onClick={(e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl)}
                 >
                     <PostMarkdown
                         message={message}

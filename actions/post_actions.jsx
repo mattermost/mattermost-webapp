@@ -29,7 +29,7 @@ import {completePostReceive} from './post_utils';
 export function handleNewPost(post, msg) {
     return async (dispatch, getState) => {
         let websocketMessageProps = {};
-        const state = getState()
+        const state = getState();
         if (msg) {
             websocketMessageProps = msg.data;
         }
@@ -42,12 +42,11 @@ export function handleNewPost(post, msg) {
         dispatch(completePostReceive(post, websocketMessageProps));
 
         if (msg && msg.data) {
-            const state = getState();
-            const currentUserId = getCurrentUserId(state)
+            const currentUserId = getCurrentUserId(state);
             if (msg.data.channel_type === Constants.DM_CHANNEL) {
                 loadNewDMIfNeeded(post.channel_id, currentUserId);
             } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
-                loadNewGMIfNeeded(post.channel_id, currentUserId);
+                loadNewGMIfNeeded(post.channel_id);
             }
         }
     };

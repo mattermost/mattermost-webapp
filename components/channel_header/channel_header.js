@@ -7,6 +7,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import 'bootstrap';
 
@@ -76,8 +77,8 @@ export default class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
-        getDisplayNameByUserId: PropTypes.func.isRequired,
-        handleFormattedTextClick: PropTypes.func.isRequired,
+        teammateNameDisplaySetting: PropTypes.string.isRequired,
+        currentRelativeTeamUrl: PropTypes.string.isRequired,
     };
 
     static contextTypes = {
@@ -321,12 +322,12 @@ export default class ChannelHeader extends React.PureComponent {
                         id='channel_header.directchannel.you'
                         defaultMessage='{displayname} (you) '
                         values={{
-                            displayname: this.props.getDisplayNameByUserId(teammateId),
+                            displayname: displayUsername(teammateId, this.props.teammateNameDisplaySetting),
                         }}
                     />
                 );
             } else {
-                channelTitle = this.props.getDisplayNameByUserId(teammateId) + ' ';
+                channelTitle = displayUsername(teammateId, this.props.teammateNameDisplaySetting) + ' ';
             }
             channelTitle = (
                 <React.Fragment>
@@ -343,7 +344,7 @@ export default class ChannelHeader extends React.PureComponent {
                 if (user.id === currentUser.id) {
                     continue;
                 }
-                const userDisplayName = this.props.getDisplayNameByUserId(user.id);
+                const userDisplayName = displayUsername(user.id, this.props.teammateNameDisplaySetting);
 
                 if (!membersMap[userDisplayName]) {
                     membersMap[userDisplayName] = []; //Create an array for cases with same display name
@@ -447,7 +448,7 @@ export default class ChannelHeader extends React.PureComponent {
                         {hasGuestsText}
                         <span
                             className='header-description__text'
-                            onClick={this.props.handleFormattedTextClick}
+                            onClick={(e) => Utils.handleFormattedTextClick(e, this.props.currentRelativeTeamUrl)}
                         >
                             <Markdown
                                 message={headerText}

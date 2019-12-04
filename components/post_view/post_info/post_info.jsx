@@ -21,6 +21,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 export default class PostInfo extends React.PureComponent {
     static propTypes = {
+
         /*
          * The post to render the info for
          */

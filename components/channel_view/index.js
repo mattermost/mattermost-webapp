@@ -21,7 +21,7 @@ import ChannelView from './channel_view.jsx';
 const getDeactivatedChannel = createSelector(
     (state) => state.entities.users.profiles,
     (state, channelId) => {
-        return getDirectTeammate(channelId, state);
+        return getDirectTeammate(state, channelId);
     },
     (users, channelId, teammate) => {
         return Boolean(teammate && teammate.delete_at);

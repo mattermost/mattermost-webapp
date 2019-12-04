@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import Markdown from 'components/markdown';
 
 import AnnouncementBar from './announcement_bar.jsx';
 
@@ -59,8 +59,13 @@ export default class TextDismissableBar extends React.PureComponent {
                 showCloseButton={allowDismissal}
                 handleClose={this.handleDismiss}
                 message={
-                    <span
-                        dangerouslySetInnerHTML={{__html: TextFormatting.formatText(text, {singleline: true, mentionHighlight: false}, this.props.emojiMap)}}
+                    <Markdown
+                        message={text}
+                        options={
+                            {singleline: true,
+                                mentionHighlight: false}
+                        }
+                        emojiMap={this.props.emojiMap}
                     />
                 }
             />

@@ -10,10 +10,10 @@ import {getProfilesInCurrentChannel, getCurrentUserId} from 'mattermost-redux/se
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Preferences} from 'utils/constants';
+import {getDirectTeammate, getDisplayNameByUserId} from 'utils/utils.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import ChannelIntroMessage from './channel_intro_message.jsx';
-import {getDirectTeammate, getDisplayNameByUserId} from 'utils/utils.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -21,7 +21,7 @@ function mapStateToProps(state) {
     const isReadOnly = isCurrentChannelReadOnly(state);
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state);
-    const teammate = getDirectTeammate(channel.id, state);
+    const teammate = getDirectTeammate(state, channel.id);
 
     return {
         currentUserId: getCurrentUserId(state),

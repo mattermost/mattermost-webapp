@@ -19,6 +19,7 @@ import {
 } from 'actions/views/rhs';
 
 import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
+import {getDirectTeammate} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';
 
@@ -45,6 +46,7 @@ function mapStateToProps() {
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,
+            directTeammate: getDirectTeammate(channel.id)
         };
     };
 }

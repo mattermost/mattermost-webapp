@@ -84,7 +84,6 @@ export default class DotMenu extends React.PureComponent {
             markPostAsUnread: PropTypes.func.isRequired,
         }).isRequired,
 
-
         canEdit: PropTypes.bool.isRequired,
         canDelete: PropTypes.bool.isRequired,
     }

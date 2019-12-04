@@ -8,6 +8,7 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
+import {browserHistory} from 'utils/browser_history';
 import {checkIfMFARequired} from 'utils/route';
 import {getChannelURL} from 'utils/utils';
 
@@ -24,14 +25,17 @@ function mapStateToProps(state, ownProps) {
         mfaRequired: checkIfMFARequired(getCurrentUser(state), license, config, ownProps.match.url),
         enableTimezone: config.ExperimentalTimezone === 'true',
         showTermsOfService,
-        getChannelURL: (channel, teamId) => getChannelURL(channel, teamId, state)
     };
 }
+
+// NOTE: suggestions where to keep this welcomed
+const getChannelURLAction = (channel, teamId) => (dispatch, getState) => browserHistory.push(getChannelURL(channel, teamId, getState()));
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             autoUpdateTimezone,
+            getChannelURLAction,
         }, dispatch),
     };
 }

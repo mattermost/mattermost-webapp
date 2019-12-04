@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 import {GeneralTypes} from 'mattermost-redux/action_types';
 
-import * as Utils from 'utils/utils.jsx';
 import store from 'stores/redux_store.jsx';
+
+import * as Utils from 'utils/utils.jsx';
 
 describe('Utils.getDisplayNameByUser', () => {
     afterEach(() => {
@@ -33,7 +34,7 @@ describe('Utils.getDisplayNameByUser', () => {
         });
 
         [userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ].forEach((user) => {
-            expect(Utils.getDisplayNameByUser(user)).toEqual(user.username);
+            expect(Utils.getDisplayNameByUser(user, store.getState())).toEqual(user.username);
         });
     });
 
@@ -57,7 +58,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.nickname},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user, store.getState())).toEqual(data.result);
         }
     });
 
@@ -81,7 +82,7 @@ describe('Utils.getDisplayNameByUser', () => {
             {user: userI, result: userI.first_name},
             {user: userJ, result: userJ.first_name},
         ]) {
-            expect(Utils.getDisplayNameByUser(data.user)).toEqual(data.result);
+            expect(Utils.getDisplayNameByUser(data.user, store.getState())).toEqual(data.result);
         }
     });
 });
@@ -145,7 +146,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userE, userF, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, store.getState());
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -174,7 +175,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userJ, userF, userE, userD, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, store.getState());
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -203,7 +204,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userF, userE, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, store.getState());
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }

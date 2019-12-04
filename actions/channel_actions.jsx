@@ -76,13 +76,12 @@ export function loadChannelsForCurrentUser() {
         const unreads = getUnreadChannelIds(state);
 
         await dispatch(ChannelActions.fetchMyChannelsAndMembers(getCurrentTeamId(state)));
-        const currentUserId = getCurrentUserId(state)
         for (const id of unreads) {
             const channel = getChannel(state, id);
             if (channel && channel.type === Constants.DM_CHANNEL) {
-                loadNewDMIfNeeded(channel.id, currentUserId);
+                loadNewDMIfNeeded(channel.id);
             } else if (channel && channel.type === Constants.GM_CHANNEL) {
-                loadNewGMIfNeeded(channel.id, currentUserId);
+                loadNewGMIfNeeded(channel.id);
             }
         }
 

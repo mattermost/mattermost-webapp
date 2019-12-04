@@ -3,16 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {connect} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
-
-const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
-
-class TextboxLinks extends React.Component {
+export default class TextboxLinks extends React.Component {
     static propTypes = {
         showPreview: PropTypes.bool,
         characterLimit: PropTypes.number.isRequired,
@@ -146,9 +140,3 @@ class TextboxLinks extends React.Component {
         );
     }
 }
-
-const mapStateToProps = (state) => ({
-       isMarkDownPreviewEnabled: Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW, state),
-})
-
-export default connect(mapStateToProps)(TextboxLinks)

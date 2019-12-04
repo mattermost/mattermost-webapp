@@ -11,6 +11,7 @@ import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
 import {loadProfilesAndStatusesInChannel} from 'actions/user_actions.jsx';
 import {openModal} from 'actions/views/modals';
 import {canManageMembers} from 'utils/channel_utils.jsx';
+import {sortUsersByStatusAndDisplayName} from 'utils/utils.jsx';
 
 import PopoverListMembers from './popover_list_members.jsx';
 
@@ -20,14 +21,16 @@ function makeMapStateToProps() {
     return function mapStateToProps(state, ownProps) {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};
         const users = doGetProfilesInChannel(state, ownProps.channel.id, true);
+        const statuses = getUserStatuses(state);
 
         return {
             currentUserId: getCurrentUserId(state),
             memberCount: stats.member_count,
             users,
-            statuses: getUserStatuses(state),
+            statuses,
             teamUrl: getCurrentRelativeTeamUrl(state),
-            manageMembers: canManageMembers(ownProps.channel, state),
+            manageMembers: canManageMembers(state, ownProps.channel),
+            sortedUsers: sortUsersByStatusAndDisplayName(state, users, statuses),
         };
     };
 }

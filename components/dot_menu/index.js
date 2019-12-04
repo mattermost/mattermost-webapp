@@ -23,7 +23,7 @@ import * as PostUtils from 'utils/post_utils.jsx';
 import DotMenu from './dot_menu.jsx';
 
 function mapStateToProps(state, ownProps) {
-    const { post } = ownProps
+    const {post} = ownProps;
 
     const license = getLicense(state);
     const config = getConfig(state);
@@ -37,8 +37,8 @@ function mapStateToProps(state, ownProps) {
         teamId: getCurrentTeamId(state),
         pluginMenuItems: state.plugins.components.PostDropdownMenu,
         shouldShowDotMenu: PostUtils.shouldShowDotMenu(state, post, channel),
-        canEdit:  PostUtils.canEditPost(state, post, license, config, channel, userId),
-        canDelete: PostUtils.canDeletePost(state, post, channel) ,
+        canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
+        canDelete: PostUtils.canDeletePost(state, post, channel),
     };
 }
 

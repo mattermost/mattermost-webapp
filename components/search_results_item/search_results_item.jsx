@@ -46,7 +46,6 @@ class SearchResultsItem extends React.PureComponent {
         */
         matches: PropTypes.array,
 
-        channelId: PropTypes.string,
         channelName: PropTypes.string,
         channelType: PropTypes.string,
         channelIsArchived: PropTypes.bool,
@@ -107,6 +106,7 @@ class SearchResultsItem extends React.PureComponent {
          * react-intl helper object
          */
         intl: intlShape.isRequired,
+        directTeammate: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
@@ -186,7 +186,7 @@ class SearchResultsItem extends React.PureComponent {
     }
 
     getChannelName = () => {
-        const {channelId, channelType} = this.props;
+        const {channelType} = this.props;
         let {channelName} = this.props;
 
         if (channelType === Constants.DM_CHANNEL) {
@@ -194,7 +194,7 @@ class SearchResultsItem extends React.PureComponent {
                 id: 'search_item.direct',
                 defaultMessage: 'Direct Message (with {username})',
             }, {
-                username: Utils.getDisplayNameByUser(Utils.getDirectTeammate(channelId)),
+                username: Utils.getDisplayNameByUser(this.props.directTeammate),
             });
         }
 

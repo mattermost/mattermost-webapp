@@ -31,6 +31,7 @@ export default class PopoverListMembers extends React.Component {
             loadProfilesAndStatusesInChannel: PropTypes.func.isRequired,
             openDirectChannelToUserId: PropTypes.func.isRequired,
         }).isRequired,
+        sortedUsers: PropTypes.array,
     };
 
     constructor(props) {
@@ -44,7 +45,6 @@ export default class PopoverListMembers extends React.Component {
             showChannelInviteModal: false,
             users: props.users,
             statuses: props.statuses,
-            sortedUsers: this.sortUsers(props.users, props.statuses),
         };
     }
 
@@ -53,15 +53,10 @@ export default class PopoverListMembers extends React.Component {
             return {
                 users: nextProps.users,
                 statuses: nextProps.statuses,
-                sortedUsers: Utils.sortUsersByStatusAndDisplayName(nextProps.users, nextProps.statuses),
             };
         }
         return null;
     }
-
-    sortUsers = (users, statuses) => {
-        return Utils.sortUsersByStatusAndDisplayName(users, statuses);
-    };
 
     handleShowDirectChannel = (user) => {
         const {actions} = this.props;
@@ -119,7 +114,7 @@ export default class PopoverListMembers extends React.Component {
     render() {
         const isDirectChannel = this.props.channel.type === Constants.DM_CHANNEL;
 
-        const items = this.state.sortedUsers.map((user) => (
+        const items = this.props.sortedUsers.map((user) => (
             <PopoverListMembersItem
                 key={user.id}
                 onItemClick={this.handleShowDirectChannel}
@@ -134,7 +129,7 @@ export default class PopoverListMembers extends React.Component {
         if (this.props.channel.type !== Constants.GM_CHANNEL && !channelIsArchived) {
             let membersName = (
                 <FormattedMessage
-                    id='members_popover.manage   Members'
+                    id='members_popover.manageMembers'
                     defaultMessage='Manage Members'
                 />
             );
