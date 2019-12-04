@@ -26,6 +26,7 @@ describe('Customization', () => {
                 NativeAppSettings: {
                     AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
                     AndroidAppDownloadLink: config.NativeAppSettings.AndroidAppDownloadLink,
+                    IosAppDownloadLink: config.NativeAppSettings.IosAppDownloadLink,
                 },
             };
         });
@@ -117,6 +118,33 @@ describe('Customization', () => {
         // * Verify that the config is correctly saved in the server
         cy.apiGetConfig().then((response) => {
             expect(response.body.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
+        });
+    });
+
+    it('SC20340 Can change iOS App Download Link setting', () => {
+        // # Scroll iOS App Download Link section into view and verify that it's visible
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLink').scrollIntoView().should('be.visible');
+
+        // * Verify that iOS App Download Link label is visible and matches text content
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinklabel').should('be.visible').and('have.text', 'iOS App Download Link:');
+
+        // * Verify the iOS App Download Link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.IosAppDownloadLink);
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to download the iOS app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.');
+
+        const newIosAppDownloadLink = 'https://example.com/iOS-app/';
+
+        // * Verify that set value is visible and matches text
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinkinput').clear().type(newIosAppDownloadLink).should('have.value', newIosAppDownloadLink);
+
+        // # Update Support Email
+        cy.get('#saveSetting').click();
+
+        // * Verify that the config is correctly saved in the server
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.NativeAppSettings.IosAppDownloadLink).to.equal(newIosAppDownloadLink);
         });
     });
 
