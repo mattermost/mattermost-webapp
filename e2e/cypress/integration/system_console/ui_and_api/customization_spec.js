@@ -16,11 +16,15 @@ describe('Customization', () => {
             const config = response.body;
             origConfig = {
                 SupportSettings: {
-                    AboutLink: config.SupportSettings.AboutLink,
+                    SupportEmail: config.SupportSettings.SupportEmail,
                     HelpLink: config.SupportSettings.HelpLink,
+                    AboutLink: config.SupportSettings.AboutLink,
                 },
                 TeamSettings: {
                     SiteName: config.TeamSettings.SiteName,
+                },
+                NativeAppSettings: {
+                    AppDownloadLink: config.NativeAppSettings.AppDownloadLink
                 },
             };
         });
@@ -28,6 +32,7 @@ describe('Customization', () => {
         // # Login as sysadmin and visit customization system console page
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/site_config/customization');
+        cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
 
     after(() => {
@@ -57,6 +62,59 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20337 Can change Support Email setting', () => {
+        // # Scroll Support Email section into view and verify that it's visible
+        cy.findByTestId('SupportSettings.SupportEmail').scrollIntoView().should('be.visible');
+
+        // * Verify that setting label is visible and matches text content
+        cy.findByTestId('SupportSettings.SupportEmaillabel').should('be.visible').and('have.text', 'Support Email:');
+
+        // * Verify the Support Email input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('SupportSettings.SupportEmailinput').should('have.value', origConfig.SupportSettings.SupportEmail);
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('SupportSettings.SupportEmailhelp-text').find('span').should('be.visible').and('have.text', 'Email address displayed on email notifications and during tutorial for end users to ask support questions.');
+
+        const newEmail = 'support@example.com';
+
+        // * Verify that set value is visible and matches text
+        cy.findByTestId('SupportSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
+
+        // # Update Support Email
+        cy.get('#saveSetting').click();
+
+        // * Verify that the config is correctly saved in the server
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.SupportSettings.SupportEmail).to.equal(newEmail);
+        });
+    });
+
+    it('SC20333 - Can change Mattermost Apps Download Page Link setting', () => {
+        // * Verify Mattermost Apps Download Page Link's setting name is visible and matches the text
+        cy.findByTestId('NativeAppSettings.AppDownloadLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Mattermost Apps Download Page Link:');
+
+        // * Verify the Mattermost Apps Download Page Link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.AppDownloadLink);
+
+        // * Verify the site name's help text is visible and matches the text
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.');
+
+        // # Generate and enter a random site name
+        const siteName = 'New site name';
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(siteName);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            const config = response.body;
+
+            // * Verify the site name is saved, directly via REST API
+            expect(config.NativeAppSettings.AppDownloadLink).to.eq(siteName);
         });
     });
 
@@ -90,12 +148,10 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.AboutLinklabel').scrollIntoView().should('be.visible').and('have.text', 'About Link:');
 
         // * Verify that the help text is visible and matches text content
-        cy.findByTestId('SupportSettings.AboutLinkhelp-text').
-            should('be.visible').and('have.text', 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.');
+        cy.findByTestId('SupportSettings.AboutLinkhelp-text').should('be.visible').and('have.text', 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.');
 
         // * Verify that the existing is visible and has default value
-        cy.findByTestId('SupportSettings.AboutLinkinput').should('be.visible').
-            and('have.value', origConfig.SupportSettings.AboutLink);
+        cy.findByTestId('SupportSettings.AboutLinkinput').should('be.visible').and('have.value', origConfig.SupportSettings.AboutLink);
 
         // # Clear existing about link and type the new about link
         cy.findByTestId('SupportSettings.AboutLinkinput').clear().type(newAboutLink);
