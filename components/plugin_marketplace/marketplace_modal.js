@@ -141,6 +141,10 @@ export class MarketplaceModal extends React.Component {
         trackEvent('plugins', 'ui_marketplace_opened');
 
         this.fetchPlugins();
+
+        if (this.refs.filter) {
+            this.refs.filter.focus();
+        }
     }
 
     componentDidUpdate(prevProps) {
