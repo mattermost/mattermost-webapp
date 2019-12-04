@@ -120,7 +120,7 @@ export default class SidebarRight extends React.PureComponent {
 
         var searchForm = null;
         if (currentUserId) {
-            searchForm = <SearchBar isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}/>;
+            searchForm = <SearchBar isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts} isRHS={true} />;
         }
 
         let channelDisplayName = '';
