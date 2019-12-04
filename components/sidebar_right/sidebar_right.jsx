@@ -121,7 +121,7 @@ export default class SidebarRight extends React.PureComponent {
         var searchForm = null;
         if (currentUserId) {
             searchForm = (
-                <SearchBar 
+                <SearchBar
                     isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
                     isRHS={true}
                 />
