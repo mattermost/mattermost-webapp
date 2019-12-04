@@ -43,7 +43,7 @@ describe('Messaging', () => {
 
                 // * The element must be delete
                 expect(items[0].id).to.equal(`delete_post_${lastPostId}`);
-            })
+            });
 
             // # Log-in as a different user
             cy.apiLogin('user-1');
