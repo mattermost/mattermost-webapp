@@ -15,7 +15,10 @@ describe('Customization', () => {
         cy.apiGetConfig().then((response) => {
             const config = response.body;
             origConfig = {
-                SupportSettings: {HelpLink: config.SupportSettings.HelpLink, TermsOfServiceLink: config.SupportSettings.TermsOfServiceLink},
+                SupportSettings: {
+                    HelpLink: config.SupportSettings.HelpLink,
+                    TermsOfServiceLink: config.SupportSettings.TermsOfServiceLink
+                },
                 TeamSettings: {SiteName: config.TeamSettings.SiteName},
             };
         });
@@ -70,9 +73,9 @@ describe('Customization', () => {
             'provide, your new terms must include a link to the default terms so end users are aware of the Mattermost ' +
             'Conditions of Use (End User) for Mattermost software.');
 
-        // # Generate and enter a random help link
+        // # Enter a new help link
         const newValue = 'https://test.com';
-        cy.findByTestId('TeamSettings.SiteNameinput').clear().type(newValue);
+        cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').clear().type(newValue);
 
         // # Click Save button
         cy.get('#saveSetting').click();
