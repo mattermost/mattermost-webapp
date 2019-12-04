@@ -20,10 +20,13 @@ describe('Customization', () => {
                     HelpLink: config.SupportSettings.HelpLink,
                     AboutLink: config.SupportSettings.AboutLink,
                 },
-                NativeAppSettings: {
-                    AndroidAppDownloadLink: config.NativeAppSettings.AndroidAppDownloadLink
+                TeamSettings: {
+                    SiteName: config.TeamSettings.SiteName,
                 },
-                TeamSettings: {SiteName: config.TeamSettings.SiteName},
+                NativeAppSettings: {
+                    AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
+                    AndroidAppDownloadLink: config.NativeAppSettings.AndroidAppDownloadLink,
+                },
             };
         });
 
@@ -114,6 +117,32 @@ describe('Customization', () => {
         // * Verify that the config is correctly saved in the server
         cy.apiGetConfig().then((response) => {
             expect(response.body.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
+        });
+    });
+
+    it('SC20333 - Can change Mattermost Apps Download Page Link setting', () => {
+        // * Verify Mattermost Apps Download Page Link's setting name is visible and matches the text
+        cy.findByTestId('NativeAppSettings.AppDownloadLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Mattermost Apps Download Page Link:');
+
+        // * Verify the Mattermost Apps Download Page Link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.AppDownloadLink);
+
+        // * Verify the site name's help text is visible and matches the text
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to a download page for the Mattermost apps. When a link is present, an option to "Download Mattermost Apps" will be added in the Main Menu so users can find the download page. Leave this field blank to hide the option from the Main Menu.');
+
+        // # Generate and enter a random site name
+        const siteName = 'New site name';
+        cy.findByTestId('NativeAppSettings.AppDownloadLinkinput').clear().type(siteName);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            const config = response.body;
+
+            // * Verify the site name is saved, directly via REST API
+            expect(config.NativeAppSettings.AppDownloadLink).to.eq(siteName);
         });
     });
 
