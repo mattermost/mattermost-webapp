@@ -1296,7 +1296,7 @@ export function getLongDisplayNameParts(user) {
 /**
  * Gets the display name of the user with the specified id, respecting the TeammateNameDisplay configuration setting
  */
-export function getDisplayNameByUserId(userId, state) {
+export function getDisplayNameByUserId(state, userId) {
     return getDisplayNameByUser(getUser(state, userId), state);
 }
 

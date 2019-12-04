@@ -18,6 +18,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {addReaction} from 'actions/post_actions.jsx';
 
 import * as Emoji from 'utils/emoji.jsx';
+import {getDisplayNameByUser} from 'utils/utils.jsx';
 
 import Reaction from './reaction.jsx';
 
@@ -45,6 +46,7 @@ function makeMapStateToProps() {
         const channel = getChannel(state, ownProps.post.channel_id) || {};
         const channelIsArchived = channel.delete_at !== 0;
         const teamId = channel.team_id;
+        const currentUserId = getCurrentUserId(state);
 
         let canAddReaction = false;
         let canRemoveReaction = false;
@@ -57,11 +59,12 @@ function makeMapStateToProps() {
         return {
             profiles,
             otherUsersCount: ownProps.reactions.length - profiles.length,
-            currentUserId: getCurrentUserId(state),
+            currentUserId,
             reactionCount: ownProps.reactions.length,
             canAddReaction,
             canRemoveReaction,
             emojiImageUrl,
+            displayName: getDisplayNameByUser(state, currentUserId),
         };
     };
 }

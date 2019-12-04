@@ -32,6 +32,8 @@ describe('components/ChannelHeader', () => {
         currentUser: {},
         lastViewedChannelName: '',
         penultimateViewedChannelName: '',
+        teammateNameDisplaySetting: '',
+        currentRelativeTeamUrl: '',
     };
 
     const populatedProps = {

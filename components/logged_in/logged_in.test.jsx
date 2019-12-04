@@ -23,6 +23,7 @@ describe('components/logged_in/LoggedIn', () => {
         location: {
             pathname: '/',
         },
+        getChannelURLAction: jest.fn(),
     };
 
     it('should render loading state without user', () => {

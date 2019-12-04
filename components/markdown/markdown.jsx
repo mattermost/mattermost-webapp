@@ -95,7 +95,7 @@ export default class Markdown extends React.PureComponent {
          * Post id prop passed down to markdown image
          */
         postType: PropTypes.string,
-        emojiMap: PropTypes.object.isRequired,
+        emojiMap: PropTypes.object,
     };
 
     static defaultProps = {

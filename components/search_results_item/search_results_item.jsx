@@ -107,6 +107,7 @@ class SearchResultsItem extends React.PureComponent {
          */
         intl: intlShape.isRequired,
         directTeammate: PropTypes.string.isRequired,
+        displayName: PropTypes.string.isRequired,
     };
 
     static defaultProps = {
@@ -194,7 +195,7 @@ class SearchResultsItem extends React.PureComponent {
                 id: 'search_item.direct',
                 defaultMessage: 'Direct Message (with {username})',
             }, {
-                username: Utils.getDisplayNameByUser(this.props.directTeammate),
+                username: this.props.displayName,
             });
         }
 

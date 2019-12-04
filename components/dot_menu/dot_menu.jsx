@@ -96,8 +96,6 @@ export default class DotMenu extends React.PureComponent {
         pluginMenuItems: [],
         location: Locations.CENTER,
         enableEmojiPicker: false,
-        canEdit: false,
-        canDelete: false,
     }
 
     constructor(props) {
@@ -281,7 +279,7 @@ export default class DotMenu extends React.PureComponent {
                 );
             });
 
-        if (!this.state.canDelete && !this.state.canEdit && pluginItems.length === 0 && isSystemMessage) {
+        if (!this.props.canDelete && !this.props.canEdit && pluginItems.length === 0 && isSystemMessage) {
             return null;
         }
 
@@ -359,16 +357,16 @@ export default class DotMenu extends React.PureComponent {
                         text={Utils.localizeMessage('post_info.pin', 'Pin')}
                         onClick={this.handlePinMenuItemActivated}
                     />
-                    {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
+                    {!isSystemMessage && (this.props.canEdit || this.props.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`edit_post_${this.props.post.id}`}
-                        show={this.state.canEdit}
+                        show={this.props.canEdit}
                         text={Utils.localizeMessage('post_info.edit', 'Edit')}
                         onClick={this.handleEditMenuItemActivated}
                     />
                     <Menu.ItemAction
                         id={`delete_post_${this.props.post.id}`}
-                        show={this.state.canDelete}
+                        show={this.props.canDelete}
                         text={Utils.localizeMessage('post_info.del', 'Delete')}
                         onClick={this.handleDeleteMenuItemActivated}
                         isDangerous={true}

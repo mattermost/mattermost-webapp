@@ -16,15 +16,6 @@ jest.mock('utils/utils', () => {
     };
 });
 
-jest.mock('utils/post_utils', () => {
-    const original = require.requireActual('utils/post_utils');
-    return {
-        ...original,
-        canEditPost: jest.fn(() => true),
-        canDeletePost: jest.fn(() => false),
-    };
-});
-
 describe('components/dot_menu/DotMenu', () => {
     const baseProps = {
         post: {id: 'post_id_1', is_pinned: false, type: ''},
@@ -43,6 +34,8 @@ describe('components/dot_menu/DotMenu', () => {
             openModal: jest.fn(),
             markPostAsUnread: jest.fn(),
         },
+        canEditPost: true,
+        canDeletePost: true,
     };
 
     test('should match snapshot, on Center', () => {
@@ -60,9 +53,6 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should match snapshot, canDelete', () => {
-        const utils = require('utils/post_utils'); //eslint-disable-line global-require
-        utils.canDeletePost.mockReturnValue(true);
-
         const wrapper = shallow(
             <DotMenu {...baseProps}/>
         );

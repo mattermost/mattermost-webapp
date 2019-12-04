@@ -32,7 +32,7 @@ function mapStateToProps(state) {
         isReadOnly,
         fullWidth: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_FULL_SCREEN,
         teamIsGroupConstrained: Boolean(team.group_constrained),
-        creatorName: getDisplayNameByUserId(channel.creator_id, state),
+        creatorName: getDisplayNameByUserId(state, channel.creator_id),
         teammate,
     };
 }

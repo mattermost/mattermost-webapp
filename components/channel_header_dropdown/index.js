@@ -75,7 +75,7 @@ const mobileMapStateToProps = (state) => {
     if (teammateId) {
         const teammate = getUser(state, teammateId);
         teammateIsBot = teammate && teammate.is_bot;
-        displayName = Utils.getDisplayNameByUser(teammate, state);
+        displayName = Utils.getDisplayNameByUser(state, teammateId);
     }
 
     return {

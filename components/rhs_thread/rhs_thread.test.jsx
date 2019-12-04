@@ -49,6 +49,7 @@ describe('components/RhsThread', () => {
             previewEnabled: true,
             socketConnectionStatus: true,
             actions,
+            directTeammate: 'dummy_teammate'
         };
     });
 

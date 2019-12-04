@@ -19,7 +19,7 @@ import {
 } from 'actions/views/rhs';
 
 import {makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
-import {getDirectTeammate} from 'utils/utils.jsx';
+import {getDirectTeammate, getDisplayNameByUser} from 'utils/utils.jsx';
 
 import SearchResultsItem from './search_results_item.jsx';
 
@@ -34,6 +34,7 @@ function mapStateToProps() {
         const {post} = ownProps;
         const user = getUser(state, post.user_id);
         const channel = getChannel(state, post.channel_id) || {delete_at: 0};
+        const directTeammate = getDirectTeammate(channel.id);
 
         return {
             createAriaLabel: createAriaLabelForPost(state, post),
@@ -46,7 +47,8 @@ function mapStateToProps() {
             enablePostUsernameOverride,
             isFlagged: isPostFlagged(post.id, preferences),
             isBot: user ? user.is_bot : false,
-            directTeammate: getDirectTeammate(channel.id)
+            directTeammate,
+            displayName: getDisplayNameByUser(state, directTeammate)
         };
     };
 }
