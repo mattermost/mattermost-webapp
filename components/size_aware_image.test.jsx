@@ -20,6 +20,7 @@ describe('components/SizeAwareImage', () => {
         onImageLoaded: jest.fn(),
         onImageLoadFail: jest.fn(),
         src: 'https://example.com/image.png',
+        className: 'class'
     };
 
     loadImage.mockReturnValue(() => ({}));
@@ -91,5 +92,62 @@ describe('components/SizeAwareImage', () => {
         expect(wrapper.state('error')).toBe(true);
         expect(wrapper.find('svg').exists()).toEqual(true);
         expect(wrapper.find(LoadingImagePreview).exists()).toEqual(false);
+    });
+
+    test('should match snapshot when handleSmallImageContainer prop is passed', () => {
+        const props = {
+            ...baseProps,
+            handleSmallImageContainer: true,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should surround the image with container div if the image is small', () => {
+        const props = {
+            ...baseProps,
+            handleSmallImageContainer: true,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+
+        wrapper.instance().setState({isSmallImage: true});
+
+        expect(wrapper.find('div.small-image__container').exists()).toEqual(true);
+        expect(wrapper.find('div.small-image__container').prop('className')).
+            toEqual('small-image__container cursor--pointer a11y--active');
+    });
+
+    test('should properly set container div width', () => {
+        const props = {
+            ...baseProps,
+            handleSmallImageContainer: true,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+
+        wrapper.instance().setState({isSmallImage: true, imageWidth: 220});
+        expect(wrapper.find('div.small-image__container').prop('style')).
+            toHaveProperty('width', 222);
+
+        wrapper.instance().setState({isSmallImage: true, imageWidth: 24});
+        expect(wrapper.find('div.small-image__container').prop('style')).
+            toEqual({});
+        expect(wrapper.find('div.small-image__container').hasClass('small-image__container--min-width')).
+            toEqual(true);
+    });
+
+    test('should properly set img style when it is small', () => {
+        const props = {
+            ...baseProps,
+            handleSmallImageContainer: true,
+        };
+
+        const wrapper = shallow(<SizeAwareImage {...props}/>);
+
+        wrapper.instance().setState({isSmallImage: true, imageWidth: 24});
+
+        expect(wrapper.find('img').prop('className')).toBe(`${props.className} small-image--inside-container`);
     });
 });

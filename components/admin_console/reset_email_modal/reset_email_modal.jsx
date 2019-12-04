@@ -134,7 +134,6 @@ export default class ResetEmailModal extends React.Component {
                                         className='form-control'
                                         maxLength='128'
                                         autoFocus={true}
-                                        tabIndex='1'
                                     />
                                 </div>
                                 {errorMsg}
@@ -156,7 +155,6 @@ export default class ResetEmailModal extends React.Component {
                             onClick={this.doSubmit}
                             type='submit'
                             className='btn btn-primary'
-                            tabIndex='2'
                             data-testid='resetEmailButton'
                         >
                             <FormattedMessage
