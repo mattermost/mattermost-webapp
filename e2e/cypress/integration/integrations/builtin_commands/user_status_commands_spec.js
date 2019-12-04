@@ -14,13 +14,11 @@ const testCases = [
     {command: '/online', ariaLabel: 'Online Icon', message: 'You are now online'},
 ];
 
-describe('I18456 Built-in slash commands: user status via post', () => {
+describe('Integrations', () => {
     before(() => {
         // # Login as user-1, go to "/" and set user status to online
         cy.apiLogin('user-1');
         cy.apiUpdateUserStatus('online');
-        cy.apiSaveMessageDisplayPreference('compact');
-        cy.visit('/');
     });
 
     after(() => {
@@ -28,37 +26,25 @@ describe('I18456 Built-in slash commands: user status via post', () => {
         cy.apiUpdateUserStatus('online');
     });
 
-    testCases.forEach((testCase) => {
-        it(testCase.command, () => {
-            // # Post slash command
+    it('I18456 Built-in slash commands: change user status via post', () => {
+        cy.apiSaveMessageDisplayPreference('compact');
+        cy.visit('/');
+
+        testCases.forEach((testCase) => {
             cy.postMessage(testCase.command + ' ');
 
             verifyUserStatus(testCase, true);
         });
     });
-});
 
-describe('I18456 Built-in slash commands: user status via suggestion list', () => {
-    before(() => {
-        // # Login as user-1, go to "/" and set user status to online
-        cy.apiLogin('user-1');
-        cy.apiUpdateUserStatus('online');
+    it('I18456 Built-in slash commands: change user status via suggestion list', () => {
         cy.apiSaveMessageDisplayPreference('clean');
         cy.visit('/');
-    });
 
-    beforeEach(() => {
-        // # Type "/" on textbox
-        cy.get('#post_textbox').clear().type('/');
-    });
+        testCases.forEach((testCase) => {
+            // # Type "/" on textbox
+            cy.get('#post_textbox').clear().type('/');
 
-    after(() => {
-        // # Set user status to online
-        cy.apiUpdateUserStatus('online');
-    });
-
-    testCases.forEach((testCase) => {
-        it(testCase.command, () => {
             // # Verify that the suggestion list is visible
             cy.get('#suggestionList').should('be.visible').then((container) => {
                 // # Find command and click

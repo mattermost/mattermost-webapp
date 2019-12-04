@@ -78,7 +78,6 @@ exports[`components/tutorial/tutorial_intro_screens/TutorialIntroScreens should 
           className="btn btn-primary"
           id="tutorialNextButton"
           onClick={[Function]}
-          tabIndex="1"
         >
           <FormattedMessage
             defaultMessage="Next"
