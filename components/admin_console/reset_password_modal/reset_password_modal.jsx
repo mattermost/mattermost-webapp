@@ -147,7 +147,6 @@ export default class ResetPasswordModal extends React.Component {
                             ref='currentPassword'
                             className='form-control'
                             autoFocus={true}
-                            tabIndex='1'
                         />
                     </div>
                 </div>
@@ -194,7 +193,6 @@ export default class ResetPasswordModal extends React.Component {
                                         ref='password'
                                         className='form-control'
                                         autoFocus={newPasswordFocus}
-                                        tabIndex='1'
                                     />
                                 </div>
                                 {serverErrorNewPass}
@@ -217,7 +215,6 @@ export default class ResetPasswordModal extends React.Component {
                             onClick={this.doSubmit}
                             type='submit'
                             className='btn btn-primary'
-                            tabIndex='2'
                         >
                             <FormattedMessage
                                 id='admin.reset_password.reset'

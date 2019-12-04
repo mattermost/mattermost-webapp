@@ -81,7 +81,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Is Trusted: **{isTrusted}**"
@@ -137,7 +137,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot 1`] = `
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <FormattedMessage
           defaultMessage="Callback URLs: {urls}"
@@ -259,7 +259,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Is Trusted: **{isTrusted}**"
@@ -315,7 +315,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, on err
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <FormattedMessage
           defaultMessage="Callback URLs: {urls}"
@@ -433,7 +433,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Is Trusted: **{isTrusted}**"
@@ -489,7 +489,7 @@ exports[`components/integrations/InstalledOAuthApp should match snapshot, when o
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <FormattedMessage
           defaultMessage="Callback URLs: {urls}"
