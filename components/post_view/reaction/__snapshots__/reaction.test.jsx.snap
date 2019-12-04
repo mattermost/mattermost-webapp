@@ -8,7 +8,7 @@ exports[`components/post_view/Reaction should disable add reaction when you do n
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayShow={1000}
+    delayShow={500}
     onEnter={[Function]}
     overlay={
       <Tooltip
@@ -83,7 +83,7 @@ exports[`components/post_view/Reaction should disable remove reaction when you d
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayShow={1000}
+    delayShow={500}
     onEnter={[Function]}
     overlay={
       <Tooltip
@@ -159,7 +159,7 @@ exports[`components/post_view/Reaction should match snapshot 1`] = `
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayShow={1000}
+    delayShow={500}
     onEnter={[Function]}
     overlay={
       <Tooltip
@@ -240,7 +240,7 @@ exports[`components/post_view/Reaction should match snapshot when a current user
 >
   <OverlayTrigger
     defaultOverlayShown={false}
-    delayShow={1000}
+    delayShow={500}
     onEnter={[Function]}
     overlay={
       <Tooltip

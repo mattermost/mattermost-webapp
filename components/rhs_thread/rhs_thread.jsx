@@ -28,12 +28,8 @@ export function renderView(props) {
         />);
 }
 
-export function renderThumbHorizontal(props) {
-    return (
-        <div
-            {...props}
-            className='scrollbar--horizontal'
-        />);
+export function renderThumbHorizontal() {
+    return (<div/>);
 }
 
 export function renderThumbVertical(props) {
@@ -396,6 +392,7 @@ export default class RhsThread extends React.Component {
                             <div
                                 ref='rhspostlist'
                                 className='post-right-comments-container'
+                                id='rhsPostList'
                             >
                                 {commentsLists}
                             </div>

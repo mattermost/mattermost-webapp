@@ -7,16 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
-describe('Channels', () => {
-    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
-        verifyMoreChannelsModalWithArchivedSelection(false);
-
-        verifyMoreChannelsModalWithArchivedSelection(true);
-    });
-});
 
 let channel;
 
@@ -36,6 +27,12 @@ describe('Channels', () => {
                 channel = res.body;
             });
         });
+    });
+
+    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
+        verifyMoreChannelsModalWithArchivedSelection(false);
+
+        verifyMoreChannelsModalWithArchivedSelection(true);
     });
 
     it('MM-19337 Enable users to view archived channels', () => {
@@ -153,7 +150,7 @@ function verifyMoreChannelsModal(isEnabled) {
     cy.visit('/');
 
     // # Select "More..." on the left hand side menu
-    cy.get("button[data-testid='sidebarChannelsMore']").should('be.visible').click();
+    cy.get('#sidebarPublicChannelsMore').should('be.visible').click({force: true});
 
     // * Verify that the more channels modal is open and with or without option to view archived channels
     cy.get('#moreChannelsModal').should('be.visible').within(() => {

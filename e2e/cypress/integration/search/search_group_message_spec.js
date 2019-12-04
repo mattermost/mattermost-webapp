@@ -33,13 +33,17 @@ describe('Search', () => {
         cy.get('#searchBox').type('in:');
 
         //# Search group members in the menu
-        cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
+        cy.get('#search-autocomplete__popover').should('be.visible').within(() => {
+            cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
+        });
 
         //# Press enter to select
         cy.get('#searchBox').type('{enter}');
 
         //# Search for the message
-        cy.get('#searchBox').clear().type(`${message}{enter}`);
+        cy.get('#searchbarContainer').should('be.visible').within(() => {
+            cy.get('#searchBox').clear().type(`${message}{enter}`);
+        });
 
         // * Should return exactly one result from the group channel and matches the message
         cy.queryAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {
