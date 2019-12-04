@@ -158,6 +158,7 @@ export default class PopoverListMembers extends React.Component {
                 >
                     <button
                         className='btn btn-link'
+                        data-testid='membersModal'
                         onClick={this.showMembersModal}
                     >
                         {membersName}

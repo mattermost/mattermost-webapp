@@ -716,14 +716,17 @@
 }
 
 .more-modal__dropdown {
-    padding: 16px 16px 0px;
+    padding: 0 16px;
     font-weight: 600;
+    display: inline-flex;
+
     span {
         font-size: .9em;
-        color:#3d3c40;
+        color: var(--center-channel-color);
     }
+
     a:hover {
-        color: #3d3c40;
+        color: var(--center-channel-color);
         text-decoration: none;
     }
 }
