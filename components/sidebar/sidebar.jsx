@@ -219,6 +219,11 @@ export default class Sidebar extends React.PureComponent {
             this.refs.scrollbar.scrollToTop();
         }
 
+        // Scroll to selected channel so it's in view
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.updateScrollbarOnChannelChange(this.props.currentChannel.id);
+        }
+
         // close the LHS on mobile when you change channels
         if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
             if (this.closedDirectChannel) {
@@ -395,9 +400,11 @@ export default class Sidebar extends React.PureComponent {
     }
 
     updateScrollbarOnChannelChange = (channelId) => {
-        const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
-        if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
-            this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
+        if (this.refs[channelId]) {
+            const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
+            if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
+                this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
+            }
         }
     }
 

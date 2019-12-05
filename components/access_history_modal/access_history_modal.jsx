@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {isMobile} from 'utils/utils.jsx';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen';
 
@@ -47,9 +45,6 @@ export default class AccessHistoryModal extends React.PureComponent {
 
     onShow = () => {
         this.props.actions.getUserAudits(this.props.currentUserId, 0, 200);
-        if (!isMobile()) {
-            $('.modal-body').perfectScrollbar();
-        }
     }
 
     onHide = () => {
