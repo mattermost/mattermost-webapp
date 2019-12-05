@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {cloneDeep} from 'lodash';
 
 import {Groups} from 'mattermost-redux/constants';
 
@@ -143,6 +144,16 @@ export default class ChannelDetails extends React.Component {
         this.processGroupsChange(groups);
     }
 
+    setNewGroupRole = (gid) => {
+        const groups = cloneDeep(this.state.groups).map((g) =>  {
+            if (g.id === gid) {
+                g.scheme_admin = !g.scheme_admin;
+            }
+            return g;
+        })
+        this.processGroupsChange(groups)
+    }
+
     handleGroupChange = (groupIDs) => {
         const groups = [...this.state.groups, ...groupIDs.map((gid) => this.props.allGroups[gid])];
         this.setState({totalGroups: this.state.totalGroups + groupIDs.length});
@@ -230,7 +241,11 @@ export default class ChannelDetails extends React.Component {
             }
 
             const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
-            const link = groups.filter((g) => !origGroups.includes(g)).map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
+            const link = groups
+            .filter((g) => !origGroups.includes(g))
+            .map((g) => {
+                actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin})
+            });
             const result = await Promise.all([...promises, ...unlink, ...link]);
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
@@ -311,6 +326,7 @@ export default class ChannelDetails extends React.Component {
                             removedGroups={removedGroups}
                             onAddCallback={this.handleGroupChange}
                             onGroupRemoved={this.handleGroupRemoved}
+                            setNewGroupRole={this.setNewGroupRole}
                         />
                     </div>
                 </div>

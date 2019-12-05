@@ -5,14 +5,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
+import {localizeMessage} from 'utils/utils.jsx';
+
+
 export default class GroupRow extends React.Component {
     static propTypes = {
         group: PropTypes.object.isRequired,
         removeGroup: PropTypes.func.isRequired,
+        setNewGroupRole: PropTypes.func.isRequired,
     };
 
     removeGroup = () => {
         this.props.removeGroup(this.props.group.id);
+    }
+
+    setNewGroupRole = () => {
+        this.props.setNewGroupRole(this.props.group.id);
+    }
+
+    displayCurrentRole = () => {
+        const { group: { scheme_admin } } = this.props;
+        const channelAdmin = (
+            <FormattedMessage
+                id='admin.team_channel_settings.group_row.channelAdmin'
+                defaultMessage='Channel Admin'
+            />
+        );
+        const channelMember = (
+            <FormattedMessage
+                id='admin.team_channel_settings.group_row.channelMember'
+                defaultMessage='Member'
+            />
+        );
+        return scheme_admin ? channelAdmin : channelMember;
     }
 
     render = () => {
@@ -32,6 +59,30 @@ export default class GroupRow extends React.Component {
                             values={{memberCount: group.member_count}}
                         />
                     </span>
+                    <div className='group-description row-content roles'>
+                        <MenuWrapper>
+                            <div>
+                                <a>
+                                    <span>{this.displayCurrentRole()} </span>
+                                    <span className='caret'/>
+                                </a>
+                            </div>
+                            <Menu
+                                openLeft={true}
+                                openUp={false}
+                                ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
+                            >
+                                <Menu.ItemAction
+                                    show
+                                    onClick={this.setNewGroupRole}
+                                    text={!group.scheme_admin ? 
+                                        localizeMessage('admin.team_channel_settings.group_row.channelAdmin', 'Channel Admin'):
+                                        localizeMessage('admin.team_channel_settings.group_row.channelMember', 'Member')
+                                    }
+                                />
+                            </Menu>
+                        </MenuWrapper>
+                    </div>
                     <span className='group-actions'>
                         <a
                             href='#'

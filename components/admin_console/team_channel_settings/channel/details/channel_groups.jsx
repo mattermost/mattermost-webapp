@@ -12,7 +12,7 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import GroupList from '../../group';
 
-export const ChannelGroups = ({onGroupRemoved, onAddCallback, totalGroups, groups, removedGroups, channel, synced}) => (
+export const ChannelGroups = ({onGroupRemoved, onAddCallback, totalGroups, groups, removedGroups, channel, synced, setNewGroupRole}) => (
     <AdminPanel
         id='channel_groups'
         titleId={synced ? t('admin.channel_settings.channel_detail.syncedGroupsTitle') : t('admin.channel_settings.channel_detail.groupsTitle')}
@@ -43,6 +43,7 @@ export const ChannelGroups = ({onGroupRemoved, onAddCallback, totalGroups, group
                 groups={groups}
                 totalGroups={totalGroups}
                 onGroupRemoved={onGroupRemoved}
+                setNewGroupRole={setNewGroupRole}
                 isModeSync={synced}
             />
         )}
@@ -57,4 +58,5 @@ ChannelGroups.propTypes = {
     groups: PropTypes.arrayOf(PropTypes.object).isRequired,
     removedGroups: PropTypes.arrayOf(PropTypes.object).isRequired,
     onGroupRemoved: PropTypes.func.isRequired,
+    setNewGroupRole: PropTypes.func.isRequired,
 };

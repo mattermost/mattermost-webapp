@@ -26,6 +26,12 @@ const Header = () => {
                         defaultMessage='Member Count'
                     />
                 </div>
+                <div className='group-description group-description-adjusted'>
+                    <FormattedMessage
+                        id='admin.team_channel_settings.group_list.rolesHeader'
+                        defaultMessage='Roles'
+                    />
+                </div>
                 <div className='group-actions'/>
             </div>
         </div>
@@ -43,6 +49,7 @@ export default class GroupList extends React.PureComponent {
                 key={item.id}
                 group={item}
                 removeGroup={this.props.removeGroup}
+                setNewGroupRole={this.props.setNewGroupRole}
             />
         );
     }
