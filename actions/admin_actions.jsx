@@ -371,7 +371,7 @@ export async function getSamlMetadataFromIdp(success, error, samlMetadataURL) {
     }
 }
 
-export async function setSamlIdpCertificateFromMetadata(certData, success, error) {
+export async function setSamlIdpCertificateFromMetadata(success, error, certData) {
     const {data, error: err} = await AdminActions.setSamlIdpCertificateFromMetadata(certData)(dispatch, getState);
     if (data && success) {
         success('saml-idp.crt');

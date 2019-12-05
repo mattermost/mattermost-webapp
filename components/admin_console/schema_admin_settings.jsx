@@ -365,7 +365,7 @@ export default class SchemaAdminSettings extends React.Component {
                             this.setState({[tsetting.key]: inputData, [`${tsetting.key}Error`]: null});
                         } else if (tsetting.type === Constants.SettingsTypes.TYPE_FILE_UPLOAD) {
                             if (this.buildSettingFunctions[tsetting.type] && this.buildSettingFunctions[tsetting.type](tsetting).props.onSetData) {
-                                this.buildSettingFunctions[tsetting.type](tsetting).props.onSetData(tsetting.key, inputData, null);
+                                this.buildSettingFunctions[tsetting.type](tsetting).props.onSetData(tsetting.key, inputData);
                             }
                         }
                     }
@@ -690,20 +690,15 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     buildFileUploadSetting = (setting) => {
-        const setData = (id, data, callback) => {
+        const setData = (id, data) => {
             const successCallback = (filename) => {
                 this.handleChange(id, filename);
                 this.setState({[setting.key]: filename, [`${setting.key}Error`]: null});
-                if (callback && typeof callback === 'function') {
-                    callback();
-                }
             };
             const errorCallback = (error) => {
-                if (callback && typeof callback === 'function') {
-                    callback(error.message);
-                }
+                this.setState({[setting.key]: null, [`${setting.key}Error`]: error.message});
             };
-            setting.set_action(data, successCallback, errorCallback);
+            setting.set_action(successCallback, errorCallback, data);
         };
 
         if (this.state[setting.key]) {

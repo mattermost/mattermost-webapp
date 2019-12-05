@@ -56,7 +56,7 @@ export const SettingsTypes = {
     TYPE_BUTTON: 'button',
     TYPE_LANGUAGE: 'language',
     TYPE_JOBSTABLE: 'jobstable',
-    TYPE_FILE_UPLOAD: 'file_upload',
+    TYPE_FILE_UPLOAD: 'fileupload',
     TYPE_CUSTOM: 'custom',
 };
 
