@@ -30,9 +30,9 @@ export default class LoggedIn extends React.PureComponent {
         enableTimezone: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             autoUpdateTimezone: PropTypes.func.isRequired,
+            getChannelURLAction: PropTypes.func.isRequired,
         }).isRequired,
         showTermsOfService: PropTypes.bool.isRequired,
-        getChannelURLAction: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -211,7 +211,7 @@ export default class LoggedIn extends React.PureComponent {
             window.focus();
 
             // navigate to the appropriate channel
-            this.props.getChannelURLAction(channel, teamId);
+            this.props.actions.getChannelURLAction(channel, teamId);
             break;
         }
         }

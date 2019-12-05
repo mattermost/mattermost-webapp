@@ -24,9 +24,11 @@ const getPathScopedKey = (path, key) => {
 // Note that this excludes keys managed by redux-persist. The latter cannot currently be used for
 // key/value storage that persists beyond logout. Ideally, we could purge all but certain parts
 // of the Redux store so as to allow them to be used on re-login.
+
+// Lets open a separate issue to refactor local storage and state interactions.
+// This whole store can be connected to redux
 class LocalStorageStoreClass {
-    getItem(key) {
-        const state = store.getState();
+    getItem(key, state = store.getState()) {
         const basePath = getBasePath(state);
 
         return localStorage.getItem(getPathScopedKey(basePath, key));
@@ -39,30 +41,24 @@ class LocalStorageStoreClass {
         localStorage.setItem(getPathScopedKey(basePath, key), value);
     }
 
-    getPreviousChannelName(userId, teamId) {
-        const state = store.getState();
-
-        return this.getItem(getPreviousChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(state, teamId);
+    getPreviousChannelName(userId, teamId, state = store.getState()) {
+        return this.getItem(getPreviousChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
     }
 
     setPreviousChannelName(userId, teamId, channelName) {
         this.setItem(getPreviousChannelNameKey(userId, teamId), channelName);
     }
 
-    getPenultimateChannelName(userId, teamId) {
-        // Lets open a separate issue to refactor local storage and state interactions.
-        // This whole store can be connected to redux
-        const state = store.getState();
-
-        return this.getItem(getPenultimateChannelNameKey(userId, teamId)) || getRedirectChannelNameForTeam(state, teamId);
+    getPenultimateChannelName(userId, teamId, state = store.getState()) {
+        return this.getItem(getPenultimateChannelNameKey(userId, teamId), state) || getRedirectChannelNameForTeam(state, teamId);
     }
 
     setPenultimateChannelName(userId, teamId, channelName) {
         this.setItem(getPenultimateChannelNameKey(userId, teamId), channelName);
     }
 
-    removePreviousChannelName(userId, teamId) {
-        localStorage.setItem(getPreviousChannelNameKey(userId, teamId), this.getPenultimateChannelName(userId, teamId));
+    removePreviousChannelName(userId, teamId, state = store.getState()) {
+        localStorage.setItem(getPreviousChannelNameKey(userId, teamId), this.getPenultimateChannelName(userId, teamId, state));
         localStorage.removeItem(getPenultimateChannelNameKey(userId, teamId));
     }
 

@@ -317,8 +317,8 @@ export function makeCreateAriaLabelForPost() {
         (state, post) => getDisplayName(state, post.user_id),
         (state, post) => getReactionsForPost(state, post.id),
         (state, post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
-        (post, author, reactions, isFlagged) => {
-            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl);
+        (state, post, author, reactions, isFlagged) => {
+            return (intl) => createAriaLabelForPost(state, post, author, isFlagged, reactions, intl);
         }
     );
 }

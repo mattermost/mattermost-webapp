@@ -39,8 +39,12 @@ describe('components/dot_menu/DotMenu', () => {
     };
 
     test('should match snapshot, on Center', () => {
+        const props = {
+            ...baseProps,
+            canEdit: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -53,8 +57,13 @@ describe('components/dot_menu/DotMenu', () => {
     });
 
     test('should match snapshot, canDelete', () => {
+        const props = {
+            ...baseProps,
+            canEdit: true,
+            canDelete: true,
+        };
         const wrapper = shallow(
-            <DotMenu {...baseProps}/>
+            <DotMenu {...props}/>
         );
 
         expect(wrapper).toMatchSnapshot();

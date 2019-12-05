@@ -51,7 +51,7 @@ describe('channel view actions', () => {
         entities: {
             users: {
                 currentUserId: 'userid1',
-                profiles: {userid1: {id: 'userid1', username: 'username1', roles: 'system_user', locale: ''}, userid2: {id: 'userid2', username: 'username2', roles: 'system_user', locale: ''}},
+                profiles: {userid1: {id: 'userid1', username: 'username1', roles: 'system_user'}, userid2: {id: 'userid2', username: 'username2', roles: 'system_user'}},
                 profilesInChannel: {},
             },
             teams: {
@@ -129,13 +129,14 @@ describe('channel view actions', () => {
                 entities: {
                     ...initialState.entities,
                     channels: {
-                        ...initialState.channels,
+                        ...initialState.entities.channels,
                         myMembers: {
                             channelid1: {channel_id: 'channelid1', user_id: 'userid1'},
                         },
                     },
                 },
             });
+
             await store.dispatch(Actions.leaveChannel('channelid1'));
             expect(browserHistory.push).toHaveBeenCalledWith('/');
             expect(leaveChannel).toHaveBeenCalledWith('channelid1');
