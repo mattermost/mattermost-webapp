@@ -262,7 +262,7 @@ export default class CreateComment extends React.PureComponent {
             this.focusTextbox();
         }
 
-        // Focus on textbox when back from preview mode
+        // Focus on textbox when returned from preview mode
         if (prevState.showPreview && !this.state.showPreview) {
             this.focusTextbox();
         }
