@@ -46,6 +46,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 28px;
+            height: 28px;
 
             &.MenuItem__help {
                 height: auto;
@@ -53,12 +54,12 @@
             }
 
             .MenuItem__icon {
-                width: 18px;
-                height: 18px;
+                width: 20px;
+                height: 20px;
                 display: inline-flex;
                 align-items: center;
                 margin-right: 8px;
-                top: 5px;
+                top: 4px;
                 position: relative;
             }
 
