@@ -29,7 +29,6 @@ describe('Customization', () => {
     });
 
     after(() => {
-        origConfig.TeamSettings.EnableCustomBrand = false;
         cy.apiUpdateConfig(origConfig);
     });
 
@@ -60,6 +59,10 @@ describe('Customization', () => {
     });
 
     it('SC20339 - Can change Enable Custom Branding setting', () => {
+        // # Make sure necessary field is false
+        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.reload();
+
         cy.findByTestId('TeamSettings.EnableCustomBrand').should('be.visible').within(() => {
             // * Verify that setting is visible and matches text content
             cy.get('label:first').should('be.visible').and('have.text', 'Enable Custom Branding: ');
