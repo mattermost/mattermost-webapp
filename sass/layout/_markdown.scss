@@ -60,7 +60,7 @@ h6 {
         max-height: 500px;
         @include border-radius(4px);
     }
-    
+
     div.markdown-inline-img {
         min-width: 50px;
         display: inline-block;
@@ -85,11 +85,11 @@ h6 {
     .markdown-inline-img--loading {
         visibility: hidden;
     }
-    
+
     .markdown-inline-img--hover {
         max-width: calc(100% - 5px);
         border: 1px solid transparent;
-        
+
         &:hover {
             @include single-transition(all, .1s, linear);
             @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
@@ -137,7 +137,7 @@ h6 {
         max-height: 18px;
         @include border-radius(2px);
     }
-        
+
     .markdown-inline-img--loading {
         height: 18px;
         visibility: hidden;
@@ -145,7 +145,7 @@ h6 {
 
     .markdown-inline-img--hover {
         border: 1px solid transparent;
-        
+
         &:hover {
             @include single-transition(all, .1s, linear);
             @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
@@ -307,6 +307,10 @@ h6 {
     td {
         border: 1px solid #ddd;
         padding: 6px 13px;
+    }
+
+    th {
+        white-space: nowrap;
     }
 
     tbody tr {
