@@ -24,16 +24,17 @@ describe('Channel users interactions', () => {
     });
 
     it('M17454 Scroll to bottom when sending a message', () => {
-        // # Go to test Channel A on sidebar
-        cy.get('#sidebarItem_town-square').click({force: true});
-
+        // # Go to test channel A on sidebar
         cy.visit('/ad-1/channels/off-topic');
+
+        // # post message in channel B by another user
         const message = 'I\'m messaging!\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2\n2';
         cy.postMessageAs({sender, message, channelId: townsquareChannelId});
 
-        //return back channel where is post
+        // # return back channel where is a post
         cy.get('#sidebarItem_town-square').click({force: true});
 
+        // * check that separator with message visible
         cy.get('.NotificationSeparator').
             find('span').
             should('be.visible').
