@@ -81,7 +81,10 @@ describe('Teams Suite', () => {
 
         // # Click hamburger menu > Invite People
         cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#invitePeople').should('be.visible').and('have.text', 'Invite People').click();
+        cy.get('#invitePeople').should('be.visible').and('contain', 'Invite People').
+            find('.extra-text').should('have.text', 'Add or invite people to the team');
+
+        cy.get('#invitePeople').click();
 
         // * Check that the Invitation Modal opened up
         cy.findByTestId('invitationModal', {timeout: TIMEOUTS.TINY}).should('be.visible');
