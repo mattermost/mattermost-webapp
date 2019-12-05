@@ -11,14 +11,15 @@ const groupMembers = ['aaron.peterson', 'aaron.ward', 'samuel.tucker'];
 
 describe('Search', () => {
     before(() => {
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.loginAsNewUser().then(() => {
+            cy.apiSaveTeammateNameDisplayPreference('username');
 
-        cy.apiGetUsers(groupMembers).then((res) => {
-            const userIds = res.body.map((user) => user.id);
+            cy.apiGetUsers(groupMembers).then((res) => {
+                const userIds = res.body.map((user) => user.id);
 
-            cy.apiCreateGroupChannel(userIds).then((resp) => {
-                cy.visit(`/ad-1/messages/${resp.body.name}`);
+                cy.apiCreateGroupChannel(userIds).then((resp) => {
+                    cy.visit(`/ad-1/messages/${resp.body.name}`);
+                });
             });
         });
     });
@@ -33,13 +34,17 @@ describe('Search', () => {
         cy.get('#searchBox').type('in:');
 
         //# Search group members in the menu
-        cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
+        cy.get('#search-autocomplete__popover').should('be.visible').within(() => {
+            cy.findAllByTestId('listItem').contains(groupMembers.join(',')).click();
+        });
 
         //# Press enter to select
         cy.get('#searchBox').type('{enter}');
 
         //# Search for the message
-        cy.get('#searchBox').clear().type(`${message}{enter}`);
+        cy.get('#searchbarContainer').should('be.visible').within(() => {
+            cy.get('#searchBox').clear().type(`${message}{enter}`);
+        });
 
         // * Should return exactly one result from the group channel and matches the message
         cy.queryAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {

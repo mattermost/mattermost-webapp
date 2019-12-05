@@ -111,10 +111,6 @@ class UserSettingsModal extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!Utils.isMobile()) {
-            $('.settings-content .minimize-settings').perfectScrollbar('update');
-        }
-
         if (this.state.active_tab !== prevState.active_tab) {
             $(ReactDOM.findDOMNode(this.modalBodyRef.current)).scrollTop(0);
         }
