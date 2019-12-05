@@ -37,6 +37,7 @@
             clear: both;
             color: inherit;
             cursor: pointer;
+            display: flex;
             font-weight: normal;
             padding: 0 32px 0 24px;
             text-align: left;
@@ -48,9 +49,15 @@
 
             &.MenuItem__help {
                 height: auto;
-                padding: 4px 24px;
+                padding: 3px 24px 9px;
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .MenuItem__icon {
+                &:first-child {
+                    margin-right: 8px;
+                }
             }
 
             &:hover {
@@ -72,7 +79,8 @@
         span.extra-text {
             @include opacity(.7);
             display: block;
-            font-size: 10px;
+            font-size: 12px;
+            line-height: 12px;
         }
     }
 }

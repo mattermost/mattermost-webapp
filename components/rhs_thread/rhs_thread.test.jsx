@@ -67,7 +67,7 @@ describe('components/RhsThread', () => {
         wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
 
-        expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
+        expect(actions.getPostThread).toHaveBeenCalledWith(post.id, true);
     });
 
     test('should update openTime state when selected prop updated', async () => {
