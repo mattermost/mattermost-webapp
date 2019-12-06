@@ -58,7 +58,7 @@ const LoginController = makeAsyncComponent(LazyLoginController);
 const AdminConsole = makeAsyncComponent(LazyAdminConsole);
 const LoggedIn = makeAsyncComponent(LazyLoggedIn);
 const PasswordResetSendLink = makeAsyncComponent(LazyPasswordResetSendLink);
-const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm); 
+const PasswordResetForm = makeAsyncComponent(LazyPasswordResetForm);
 const SignupController = makeAsyncComponent(LazySignupController);
 const SignupEmail = makeAsyncComponent(LazySignupEmail);
 const ShouldVerifyEmail = makeAsyncComponent(LazyShouldVerifyEmail);
@@ -197,7 +197,7 @@ export default class Root extends React.Component {
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
         }
- 
+
         initializePlugins().then(() => {
             this.setState({configLoaded: true});
         });
@@ -210,7 +210,14 @@ export default class Root extends React.Component {
         const toResetPasswordScreen = this.props.location.pathname === '/reset_password_complete';
 
         // redirect to the mobile landing page if the user hasn't seen it before
-        if ((iosDownloadLink && UserAgent.isIosWeb() || androidDownloadLink && UserAgent.isAndroidWeb()) && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
+        let mobileLanding;
+        if (UserAgent.isAndroidWeb()) {
+            mobileLanding = androidDownloadLink;
+        } else if (UserAgent.isIosWeb()) {
+            mobileLanding = iosDownloadLink;
+        }
+
+        if (mobileLanding && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
             this.props.history.push('/vault#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }

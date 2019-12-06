@@ -5,9 +5,17 @@ import React, {PureComponent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import safeOpenProtocol from 'custom-protocol-detection';
 
+import desktopImg from 'images/deep-linking/deeplinking-desktop-img.png';
+import mobileImg from 'images/deep-linking/deeplinking-mobile-img.png';
 import MattermostLogoSvg from 'images/logo.svg';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 
-type Props = {}
+import * as UserAgent from 'utils/user_agent';
+
+type Props = {
+    backgroundColor: string;
+}
+
 type State = {
     protocolUnsupported: boolean;
     browserUnsupported: boolean;
@@ -28,26 +36,27 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         this.tryOpen();
     }
 
-    handleChecked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        this.setState({rememberChecked: e.target.checked});
+    handleChecked = () => {
+        this.setState({rememberChecked: !this.state.rememberChecked});
     }
 
     tryOpen = () => {
-        let location = window.location.href.replace('/vault#', '');
-        let nativeLocation = location.replace(/^(https|http)/, 'mattermost');
+        const location = window.location.href.replace('/vault#', '');
+        const nativeLocation = location.replace(/^(https|http)/, 'mattermost');
 
-        // safeOpenProtocol(nativeLocation,
-        //     () => this.setState({protocolUnsupported: true}),
-        //     () => protocolDetected(),
-        //     () => this.setState({browserUnsupported: true})
-        // );
+        safeOpenProtocol(nativeLocation,
+            () => this.setState({protocolUnsupported: true}),
+            () => protocolDetected(),
+            () => this.setState({browserUnsupported: true})
+        );
     }
 
     render() {
         const {protocolUnsupported, browserUnsupported} = this.state;
+        const isMobile = UserAgent.isMobile();
 
-        let location = window.location.href.replace('/vault#', '');
-        let nativeLocation = location.replace(/^(https|http)/, 'mattermost');
+        const location = window.location.href.replace('/vault#', '');
+        const nativeLocation = location.replace(/^(https|http)/, 'mattermost');
 
         let goNativeAppMessage = (
             <a
@@ -82,6 +91,24 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             );
         }
 
+        let checkboxIcon;
+        if (this.state.rememberChecked) {
+            checkboxIcon = (
+                <CheckboxCheckedIcon/>
+            );
+        }
+
+        let graphic;
+        if (isMobile) {
+            graphic = (
+                <img src={mobileImg}/>
+            );
+        } else {
+            graphic = (
+                <img src={desktopImg}/>
+            );
+        }
+
         // prompt user to download in case they don't have the native app.
         return (
             <div className='get-app'>
@@ -92,8 +119,11 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     />
                 </div>
                 <div className='get-app__dialog'>
-                    <div className='get-app__graphic'>
-
+                    <div
+                        className={`get-app__graphic ${isMobile ? 'mobile' : ''}`}
+                        style={{backgroundColor: this.props.backgroundColor}}
+                    >
+                        {graphic}
                     </div>
                     <div className='get-app__dialog-body'>
                         <div className='get-app__launching'>
@@ -124,18 +154,30 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                                 </a>
                             </div>
                         </div>
-                        <div className='get-app__preference checkbox'>
-                            <label>
-                                <input
-                                    type='checkbox'
-                                    checked={this.state.rememberChecked}
-                                    onChange={this.handleChecked}
-                                />
+                        <div className='get-app__preference'>
+                            <button
+                                className={`get-app__checkbox ${this.state.rememberChecked ? 'checked' : ''}`}
+                                onClick={this.handleChecked}
+                            >
+                                {checkboxIcon}
+                            </button>
+                            <FormattedMessage
+                                id='get_app.rememberMyPreference'
+                                defaultMessage='Remember my preference'
+                            />
+                        </div>
+                        <div className='get-app__download-link'>
+                            <FormattedMessage
+                                id='get_app.dontHaveTheDesktopApp'
+                                defaultMessage={`Don't have the Desktop App?`}
+                            />
+                            &nbsp;
+                            <a href={location}>
                                 <FormattedMessage
-                                    id='get_app.rememberMyPreference'
-                                    defaultMessage='Remember my preference'
+                                    id='get_app.downloadTheAppNow'
+                                    defaultMessage='Download the app now.'
                                 />
-                            </label>
+                            </a>
                         </div>
                     </div>
                 </div>
