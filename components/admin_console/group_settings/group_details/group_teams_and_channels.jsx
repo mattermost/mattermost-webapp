@@ -126,14 +126,6 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                         id='admin.group_settings.group_profile.group_teams_and_channels.name'
                         defaultMessage='Name'
                     />
-                    <FormattedMessage
-                        id='admin.group_settings.group_profile.group_teams_and_channels.type'
-                        defaultMessage='Type'
-                    />
-                    <FormattedMessage
-                        id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
-                        defaultMessage='Assigned Roles'
-                    />
                 </div>
                 <div className='group-teams-and-channels--body'>
                     {entries.map((entry) => (
