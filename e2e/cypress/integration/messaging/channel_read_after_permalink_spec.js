@@ -22,7 +22,6 @@ describe('Messaging', () => {
 
     it('M18713-Channel is removed from Unreads section if user navigates out of it via permalink', () => {
         const message = 'Hello' + Date.now();
-        const channelName = 'test-message-channel-1';
 
         // # Create new DM channel with user's email
         cy.apiGetUsers(['user-1', 'sysadmin']).then((userResponse) => {
@@ -68,6 +67,8 @@ describe('Messaging', () => {
 
         // # get current team id
         cy.getCurrentTeamId().then((teamId) => {
+            const channelName = 'test-message-channel-1';
+
             // # create public channel to post permalink
             cy.apiCreateChannel(teamId, channelName, channelName, 'O', 'Test channel').then((response) => {
                 const testChannel = response.body;
@@ -84,6 +85,7 @@ describe('Messaging', () => {
                 // # Check Message is in Unread List
                 cy.get('#unreadsChannelList').should('be.visible').within(() => {
                     cy.get('#sidebarItem_' + testChannel.name).
+                        scrollIntoView().
                         should('be.visible').
                         and('have.attr', 'aria-label', `${channelName} public channel 1 mention`);
                 });
@@ -98,7 +100,8 @@ describe('Messaging', () => {
 
                 // # Channel should still be visible
                 cy.get('#publicChannelList', {force: true}).scrollIntoView().should('be.visible').within(() => {
-                    cy.get('#sidebarItem_' + testChannel.name).scrollIntoView().
+                    cy.get('#sidebarItem_' + testChannel.name).
+                        scrollIntoView().
                         should('be.visible').
                         and('have.attr', 'aria-label', `${channelName} public channel`);
                 });
