@@ -1564,6 +1564,10 @@ export function getRootId(post) {
     return post.root_id === '' ? post.id : post.root_id;
 }
 
+export function getRootPost(postList) {
+    return postList.find((post) => post.root_id === '');
+}
+
 export function localizeMessage(id, defaultMessage) {
     const state = store.getState();
 
