@@ -41,10 +41,8 @@ describe('Channels', () => {
         cy.visit('/');
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-            cy.get('#publicChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-            });
+        cy.get('#publicChannelList').should('be.visible').within(() => {
+            cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
@@ -88,10 +86,8 @@ describe('Channels', () => {
         });
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-            cy.get('#publicChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-            });
+        cy.get('#publicChannelList').should('be.visible').within(() => {
+            cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
@@ -125,7 +121,7 @@ describe('Channels', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // * Assert that archived channel doesn't show up in LHS list
-        cy.get('#sidebarChannelContainer').should('be.visible').should('not.contain', channel.display_name);
+        cy.get('#publicChannelList').should('not.contain', channel.display_name);
     });
 });
 
@@ -150,7 +146,9 @@ function verifyMoreChannelsModal(isEnabled) {
     cy.visit('/');
 
     // # Select "More..." on the left hand side menu
-    cy.get('#sidebarPublicChannelsMore').should('be.visible').click({force: true});
+    cy.get('#publicChannelList').should('be.visible').within(() => {
+        cy.findByText('More...').scrollIntoView().should('be.visible').click({force: true});
+    });
 
     // * Verify that the more channels modal is open and with or without option to view archived channels
     cy.get('#moreChannelsModal').should('be.visible').within(() => {
