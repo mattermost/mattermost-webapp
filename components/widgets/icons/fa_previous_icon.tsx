@@ -3,28 +3,23 @@
 
 import React from 'react';
 
-import {intlShape} from 'utils/react_intl';
+import LocalizedIcon from 'components/localized_icon';
 
 type Props = {
     additionalClassName: string | null;
 }
 
 export default class PreviousIcon extends React.PureComponent<Props> {
-    public static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
     public static defaultProps: Props = {
         additionalClassName: null,
     };
 
     public render(): JSX.Element {
-        const {formatMessage} = this.context.intl;
         const className = 'fa fa-1x fa-angle-left' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
-            <i
+            <LocalizedIcon
                 className={className}
-                title={formatMessage({id: 'generic_icons.previous', defaultMessage: 'Previous Icon'})}
+                title={{id: 'generic_icons.previous', defaultMessage: 'Previous Icon'}}
             />
         );
     }

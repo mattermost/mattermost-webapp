@@ -18,6 +18,7 @@ import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
+import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
@@ -343,9 +344,9 @@ class ProfilePopover extends React.PureComponent {
                         href='#'
                         onClick={this.handleEditAccountSettings}
                     >
-                        <i
+                        <LocalizedIcon
                             className='fa fa-pencil-square-o'
-                            title={formatMessage({id: 'generic_icons.edit', defaultMessage: 'Edit Icon'})}
+                            title={{id: 'generic_icons.edit', defaultMessage: 'Edit Icon'}}
                         />
                         <FormattedMessage
                             id='user_profile.account.editSettings'
@@ -368,9 +369,9 @@ class ProfilePopover extends React.PureComponent {
                         className='text-nowrap user-popover__email'
                         onClick={this.handleShowDirectChannel}
                     >
-                        <i
+                        <LocalizedIcon
                             className='fa fa-paper-plane'
-                            title={formatMessage({id: 'user_profile.send.dm.icon', defaultMessage: 'Send Message Icon'})}
+                            title={{id: 'user_profile.send.dm.icon', defaultMessage: 'Send Message Icon'}}
                         />
                         <FormattedMessage
                             id='user_profile.send.dm'
@@ -401,9 +402,9 @@ class ProfilePopover extends React.PureComponent {
                                 dialogProps={{user: this.props.user}}
                                 onClick={this.props.hide}
                             >
-                                <i
+                                <LocalizedIcon
                                     className='fa fa-user-plus'
-                                    title={formatMessage({id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'})}
+                                    title={{id: 'user_profile.add_user_to_channel.icon', defaultMessage: 'Add User to Channel Icon'}}
                                 />
                                 {addToChannelMessage}
                             </ToggleModalButtonRedux>

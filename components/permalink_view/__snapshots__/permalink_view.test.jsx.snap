@@ -30,10 +30,13 @@ exports[`components/PermalinkView should match snapshot 1`] = `
         id="center_panel.recent"
         values={Object {}}
       />
-      <i
-        className="fa fa-arrow-down"
-        title="Jump to recent messages Icon"
-      />
+      <FormattedMessage
+        defaultMessage="Jump to recent messages Icon"
+        id="center_panel.recent.icon"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
     </Link>
   </div>
 </div>
@@ -73,10 +76,13 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
         id="center_panel.recent"
         values={Object {}}
       />
-      <i
-        className="fa fa-arrow-down"
-        title="Jump to recent messages Icon"
-      />
+      <FormattedMessage
+        defaultMessage="Jump to recent messages Icon"
+        id="center_panel.recent.icon"
+        values={Object {}}
+      >
+        <Component />
+      </FormattedMessage>
     </Link>
   </div>
 </div>

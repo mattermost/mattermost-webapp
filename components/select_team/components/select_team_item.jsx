@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
+import LocalizedIcon from 'components/localized_icon';
 import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
-import {intlShape} from 'utils/react_intl';
+
 import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
@@ -16,10 +17,6 @@ export default class SelectTeamItem extends React.PureComponent {
         loading: PropTypes.bool.isRequired,
         canJoinPublicTeams: PropTypes.bool.isRequired,
         canJoinPrivateTeams: PropTypes.bool.isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     handleTeamClick = (e) => {
@@ -54,21 +51,22 @@ export default class SelectTeamItem extends React.PureComponent {
     }
 
     render() {
-        const {formatMessage} = this.context.intl;
         const {canJoinPublicTeams, canJoinPrivateTeams, loading, team} = this.props;
         let icon;
         if (loading) {
             icon = (
-                <span
+                <LocalizedIcon
                     className='fa fa-refresh fa-spin right signup-team__icon'
-                    title={formatMessage({id: 'generic_icons.loading', defaultMessage: 'Loading Icon'})}
+                    component='span'
+                    title={{id: 'generic_icons.loading', defaultMessage: 'Loading Icon'}}
                 />
             );
         } else {
             icon = (
-                <span
+                <LocalizedIcon
                     className='fa fa-angle-right right signup-team__icon'
-                    title={formatMessage({id: 'select_team.join.icon', defaultMessage: 'Join Team Icon'})}
+                    component='span'
+                    title={{id: 'select_team.join.icon', defaultMessage: 'Join Team Icon'}}
                 />
             );
         }
@@ -86,9 +84,9 @@ export default class SelectTeamItem extends React.PureComponent {
                 >
                     <span className='signup-team-dir__name'>{team.display_name}</span>
                     {!team.allow_open_invite &&
-                        <span
+                        <LocalizedIcon
                             className='fa fa-lock light'
-                            title={formatMessage({id: 'select_team.private.icon', defaultMessage: 'Private team'})}
+                            title={{id: 'select_team.private.icon', defaultMessage: 'Private team'}}
                         />}
                     {canJoin && icon}
                 </a>
