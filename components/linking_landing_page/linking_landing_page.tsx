@@ -10,7 +10,7 @@ import mobileImg from 'images/deep-linking/deeplinking-mobile-img.png';
 import MattermostLogoSvg from 'images/logo.svg';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import BrowserStore from 'stores/browser_store';
-import {VaultPreferenceTypes} from 'utils/constants';;
+import {VaultPreferenceTypes} from 'utils/constants';
 
 import * as UserAgent from 'utils/user_agent';
 
@@ -48,14 +48,14 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         const vaultPreference = BrowserStore.getVaultPreference();
         if (vaultPreference) {
             switch (vaultPreference) {
-                case VaultPreferenceTypes.MATTERMOSTAPP:
-                    this.openMattermostApp();
-                    break;
-                case VaultPreferenceTypes.BROWSER:
-                    this.openInBrowser();
-                    break;
-                default:
-                    break;
+            case VaultPreferenceTypes.MATTERMOSTAPP:
+                this.openMattermostApp();
+                break;
+            case VaultPreferenceTypes.BROWSER:
+                this.openInBrowser();
+                break;
+            default:
+                break;
             }
         }
     }
@@ -67,14 +67,14 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     setPreference = (pref: string) => {
         if (this.state.rememberChecked) {
             switch (pref) {
-                case VaultPreferenceTypes.MATTERMOSTAPP:
-                    BrowserStore.setVaultPreferenceToMattermostApp();
-                    break;
-                case VaultPreferenceTypes.BROWSER:
-                    BrowserStore.setVaultPreferenceToBrowser();
-                    break;
-                default:
-                    break;
+            case VaultPreferenceTypes.MATTERMOSTAPP:
+                BrowserStore.setVaultPreferenceToMattermostApp();
+                break;
+            case VaultPreferenceTypes.BROWSER:
+                BrowserStore.setVaultPreferenceToBrowser();
+                break;
+            default:
+                break;
             }
         }
     }
@@ -102,23 +102,44 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         const {protocolUnsupported, browserUnsupported} = this.state;
         const isMobile = UserAgent.isMobile();
 
+        let systemDialogMessage;
+        if (isMobile) {
+            systemDialogMessage = (
+                <FormattedMessage
+                    id='get_app.systemDialogMessageMobile'
+                    defaultMessage='View in App'
+                />
+            );
+        } else {
+            systemDialogMessage = (
+                <FormattedMessage
+                    id='get_app.systemDialogMessage'
+                    defaultMessage='View in Desktop App'
+                />
+            );
+        }
+
         let goNativeAppMessage = (
             <a
                 href='#'
                 onClick={this.openMattermostApp}
                 className='btn btn-primary btn-lg get-app__download'
             >
-                <FormattedMessage
-                    id='get_app.systemDialogMessage'
-                    defaultMessage='View in Desktop App'
-                />
+                {systemDialogMessage}
             </a>
         );
 
-        if (protocolUnsupported && this.props.desktopAppLink) {
+        let downloadLinkLink = this.props.desktopAppLink;
+        if (UserAgent.isIosWeb()) {
+            downloadLinkLink = this.props.iosAppLink;
+        } else if (UserAgent.isAndroidWeb()) {
+            downloadLinkLink = this.props.androidAppLink;
+        }
+
+        if (protocolUnsupported && downloadLinkLink) {
             goNativeAppMessage = (
                 <a
-                    href={this.props.desktopAppLink}
+                    href={downloadLinkLink}
                     className='btn btn-primary btn-lg get-app__download'
                 >
                     <FormattedMessage
@@ -156,6 +177,23 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             );
         }
 
+        let downloadLinkText;
+        if (isMobile) {
+            downloadLinkText = (
+                <FormattedMessage
+                    id='get_app.dontHaveTheMobileApp'
+                    defaultMessage={'Don\'t have the Mobile App?'}
+                />
+            );
+        } else {
+            downloadLinkText = (
+                <FormattedMessage
+                    id='get_app.dontHaveTheDesktopApp'
+                    defaultMessage={'Don\'t have the Desktop App?'}
+                />
+            );
+        }
+
         let downloadLink;
         if (this.state.redirectPage) {
             downloadLink = (
@@ -164,7 +202,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                         id='get_app.or'
                         defaultMessage={'Or,'}
                     />
-                    &nbsp;
+                    {'\u00A0'}
                     <a href={this.props.location}>
                         <FormattedMessage
                             id='get_app.openLinkInBrowser'
@@ -173,15 +211,13 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     </a>
                 </div>
             );
-        } else if (!protocolUnsupported && this.props.desktopAppLink) {
+        } else if (!protocolUnsupported && downloadLinkLink) {
             downloadLink = (
                 <div className='get-app__download-link'>
-                    <FormattedMessage
-                        id='get_app.dontHaveTheDesktopApp'
-                        defaultMessage={`Don't have the Desktop App?`}
-                    />
-                    &nbsp;
-                    <a href={this.props.desktopAppLink}>
+                    {downloadLinkText}
+                    {'\u00A0'}
+                    <br/>
+                    <a href={downloadLinkLink}>
                         <FormattedMessage
                             id='get_app.downloadTheAppNow'
                             defaultMessage='Download the app now.'
@@ -205,13 +241,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                             defaultMessage='You will be redirected in a few moments.'
                         />
                         <br/>
-                        <FormattedMessage
-                            id='get_app.dontHaveTheDesktopApp'
-                            defaultMessage={`Don't have the Desktop App?`}
-                        />
-                        &nbsp;
+                        {downloadLinkText}
+                        {'\u00A0'}
                         <br className='mobile-only'/>
-                        <a href={this.props.desktopAppLink}>
+                        <a href={downloadLinkLink}>
                             <FormattedMessage
                                 id='get_app.downloadTheAppNow'
                                 defaultMessage='Download the app now.'
@@ -220,8 +253,22 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     </div>
                 </div>
             );
-
         } else {
+            let viewApp = (
+                <FormattedMessage
+                    id='get_app.ifNothingPrompts'
+                    defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
+                />
+            );
+            if (isMobile) {
+                viewApp = (
+                    <FormattedMessage
+                        id='get_app.ifNothingPromptsMobile'
+                        defaultMessage='You can view it in Mattermost mobile app or continue in the web browser.'
+                    />
+                );
+            }
+
             dialogHeader = (
                 <div className='get-app__launching'>
                     <FormattedMessage
@@ -229,10 +276,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                         defaultMessage='Where would you like to view this?'
                     />
                     <div className='get-app__alternative'>
-                        <FormattedMessage
-                            id='get_app.ifNothingPrompts'
-                            defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
-                        />
+                        {viewApp}
                     </div>
                 </div>
             );

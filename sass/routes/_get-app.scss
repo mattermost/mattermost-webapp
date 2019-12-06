@@ -179,6 +179,10 @@
         text-decoration: none;
         color: #145DBF;
     }
+
+    > br {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 1280px) {
@@ -312,6 +316,8 @@
     .get-app__download-link {
         padding: 0 24px;
 
-        
+        > br {
+            display: block;
+        }
     }
 }

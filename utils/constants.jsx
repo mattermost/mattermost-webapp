@@ -441,7 +441,7 @@ export const StoragePrefixes = {
 export const VaultPreferenceTypes = {
     MATTERMOSTAPP: 'mattermostapp',
     BROWSER: 'browser',
-}
+};
 
 export const ErrorPageTypes = {
     LOCAL_STORAGE: 'local_storage',
