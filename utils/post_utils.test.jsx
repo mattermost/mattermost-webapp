@@ -276,7 +276,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -304,7 +307,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -384,7 +390,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -468,6 +477,14 @@ describe('PostUtils.postMessageOnKeyPress', () => {
         name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with inline opening backticks',
         input: {event: {keyCode: 13, ctrlKey: true}, message: '``` message', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: false},
         expected: {allowSending: true},
+    }, {
+        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, no ctrlKey|metaKey, with cursor between backticks',
+        input: {event: {keyCode: 13, ctrlKey: false}, message: '``` message ```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: true, cursorPosition: 5},
+        expected: {allowSending: false},
+    }, {
+        name: 'sendCodeBlockOnCtrlEnter: Test for overriding sending of code block on CTRL+ENTER, with ctrlKey, with cursor between backticks',
+        input: {event: {keyCode: 13, ctrlKey: true}, message: '``` message ```', sendMessageOnCtrlEnter: true, sendCodeBlockOnCtrlEnter: true, cursorPosition: 5},
+        expected: {allowSending: true},
     }];
 
     for (const testCase of sendCodeBlockOnCtrlEnterCases) {
@@ -476,7 +493,10 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.event,
                 testCase.input.message,
                 testCase.input.sendMessageOnCtrlEnter,
-                testCase.input.sendCodeBlockOnCtrlEnter
+                testCase.input.sendCodeBlockOnCtrlEnter,
+                0,
+                0,
+                testCase.input.cursorPosition ? testCase.input.cursorPosition : testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
@@ -522,7 +542,8 @@ describe('PostUtils.postMessageOnKeyPress', () => {
                 testCase.input.sendMessageOnCtrlEnter,
                 testCase.input.sendCodeBlockOnCtrlEnter,
                 testCase.input.now,
-                testCase.input.lastChannelSwitch
+                testCase.input.lastChannelSwitch,
+                testCase.input.message.length,
             );
 
             expect(output).toEqual(testCase.expected);
