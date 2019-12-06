@@ -146,13 +146,8 @@ export default class MultiSelectList extends React.Component<Props, State> {
     }
 
     private onMouseMove = (option: Value) => {
-        let i;
-        for (i = 0; i < this.props.options.length; i++) {
-            if (option === this.props.options[i]) {
-                break;
-            }
-        }
-        if (i < this.props.options.length) {
+        const i = this.props.options.indexOf(option);
+        if (i !== -1) {
             if (this.state.selected !== i) {
                 this.setSelected(i);
             }
