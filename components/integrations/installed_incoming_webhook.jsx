@@ -141,7 +141,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
                     </div>
                     {description}
                     <div className='item-details__row'>
-                        <span className='item-details__url'>
+                        <span className='item-details__url word-break--all'>
                             <FormattedMessage
                                 id='installed_integrations.url'
                                 defaultMessage='URL: {url}'
