@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import Constants from 'utils/constants.jsx';
+
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting';
 
@@ -46,13 +48,19 @@ That was some latex!`;
         const options = {markdown: true};
         const html = TextFormatting.formatText('![Mattermost](/images/icon.png)', options);
 
-        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'})).toMatchSnapshot();
+        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+            postId: 'post_id',
+            postType: Constants.PostTypes.HEADER_CHANGE,
+        })).toMatchSnapshot();
     });
 
     test('Inline markdown image where image is link', () => {
         const options = {markdown: true};
         const html = TextFormatting.formatText('[![Mattermost](images/icon.png)](images/icon.png)', options);
 
-        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'})).toMatchSnapshot();
+        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false,
+            postId: 'post_id',
+            postType: Constants.PostTypes.HEADER_CHANGE,
+        })).toMatchSnapshot();
     });
 });
