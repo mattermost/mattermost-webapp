@@ -11,7 +11,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Messaging', () => {
     before(() => {
-        // # Login and go to sint channel
+        // # Login and go to "sint" channel (from sample data)
         cy.apiLogin('user-1');
         cy.visit('/ad-1/channels/suscipit-4');
     });
@@ -49,7 +49,7 @@ describe('Messaging', () => {
             cy.get('#post_textbox').then((post) => {
                 const height = parseInt(post[0].clientHeight, 10);
 
-                // * Previous height should be lower than the current heigh
+                // * Previous height should be lower than the current height
                 cy.get('@previousHeight').should('be.lessThan', height);
 
                 // # Store the current height as the previous height for the next loop
@@ -76,7 +76,7 @@ describe('Messaging', () => {
             cy.get(`#postMessageText_${postId}`).scrollIntoView();
         });
 
-        // # Write again all the long message
+        // #  Again, write lines until the textbox reaches the maximum height
         for (let i = 0; i < 14; i++) {
             cy.get('#post_textbox').type('{shift}{enter}');
         }
