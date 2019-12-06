@@ -157,7 +157,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
 
         const urls = (
             <div className='item-details__row'>
-                <span className='item-details__url'>
+                <span className='item-details__url word-break--all'>
                     <FormattedMessage
                         id='installed_integrations.callback_urls'
                         defaultMessage='Callback URLs: {urls}'

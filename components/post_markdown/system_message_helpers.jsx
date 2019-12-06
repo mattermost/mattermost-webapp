@@ -23,11 +23,13 @@ function renderUsername(value) {
     return renderFormattedText(username, options);
 }
 
-function renderFormattedText(value, options) {
+function renderFormattedText(value, options, post) {
     return (
         <Markdown
             message={value}
             options={options}
+            postId={post && post.id}
+            postType={post && post.type}
         />
     );
 }
@@ -179,8 +181,8 @@ function renderHeaderChangeMessage(post) {
     };
 
     const username = renderUsername(post.props.username);
-    const oldHeader = post.props.old_header ? renderFormattedText(post.props.old_header, headerOptions) : null;
-    const newHeader = post.props.new_header ? renderFormattedText(post.props.new_header, headerOptions) : null;
+    const oldHeader = post.props.old_header ? renderFormattedText(post.props.old_header, headerOptions, post) : null;
+    const newHeader = post.props.new_header ? renderFormattedText(post.props.new_header, headerOptions, post) : null;
 
     if (post.props.new_header) {
         if (post.props.old_header) {

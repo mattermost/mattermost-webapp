@@ -227,7 +227,6 @@ export default class ChangeURLModal extends React.PureComponent {
                                         onChange={this.onURLChanged}
                                         value={this.state.currentURL}
                                         autoFocus={true}
-                                        tabIndex='1'
                                     />
                                 </div>
                                 {error}
@@ -249,7 +248,6 @@ export default class ChangeURLModal extends React.PureComponent {
                             onClick={this.onSubmit}
                             type='submit'
                             className='btn btn-primary'
-                            tabIndex='2'
                         >
                             {this.props.submitButtonText}
                         </button>
