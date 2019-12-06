@@ -51,12 +51,29 @@
 .get-app__alternative {
     margin-top: 8px;
     
-    > span {
+    span {
         opacity: 0.8;	
-        color: #000000;	
         font-family: "Open Sans";	
         font-size: 20px;	
         line-height: 27px;
+    }
+
+    > a {
+        text-decoration: none;
+        color: #145DBF;
+    }
+
+    > span {
+        color: #000000;
+    }
+
+    &.redirect-page {
+        margin-top: 24px;
+        margin-bottom: 32px;
+
+        > br.mobile-only {
+            display: none;
+        }
     }
 }
 
@@ -242,14 +259,13 @@
     }
     
     .get-app__dialog-body {
-        width: 300px;
         margin-left: 0;
     }
 
     .get-app__launching {
         text-align: center;
-        max-width: 213px;
         margin: 0 auto;
+        padding: 0 24px;
 
         > span {
             font-size: 20px;	
@@ -260,6 +276,19 @@
 
     .get-app__alternative {
         display: none;
+
+        span {
+            font-size: 16px;
+            line-height: 22px;
+        }
+
+        &.redirect-page {
+            display: block;
+
+            > br.mobile-only {
+                display: block;
+            }
+        }
     }
 
     .get-app__buttons {
@@ -278,5 +307,11 @@
         > a {
             width: 219px;
         }
+    }
+
+    .get-app__download-link {
+        padding: 0 24px;
+
+        
     }
 }
