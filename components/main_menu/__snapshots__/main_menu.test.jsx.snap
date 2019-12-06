@@ -12,14 +12,26 @@ exports[`components/Menu should match snapshot with id 1`] = `
       id="recentMentions"
       onClick={[Function]}
       show={false}
-      text="Recent Mentions"
+      text={
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="sidebar_right_menu.recentMentions"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemAction
       icon={false}
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text={
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="sidebar_right_menu.flagged"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -29,7 +41,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text={
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -47,7 +65,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={false}
-        text="Add Groups to Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Add Groups to Team"
+            id="navbar_dropdown.addGroupsToTeam"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -61,12 +85,24 @@ exports[`components/Menu should match snapshot with id 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
+        extraText={
+          <FormattedMessage
+            defaultMessage="Add or invite people to the team"
+            id="navbar_dropdown.invitePeopleExtraText"
+            values={Object {}}
+          />
+        }
         icon={false}
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text={
+          <FormattedMessage
+            defaultMessage="Invite People"
+            id="navbar_dropdown.invitePeople"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -85,7 +121,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
         id="teamSettings"
         modalId="team_settings"
         show={true}
-        text="Team Settings"
+        text={
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -107,7 +149,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
         id="manageGroups"
         modalId="manage_team_groups"
         show={false}
-        text="Manage Groups"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Groups"
+            id="navbar_dropdown.manageGroups"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -125,7 +173,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
         id="manageMembers"
         modalId="team_members"
         show={true}
-        text="Manage Members"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -144,7 +198,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
         id="viewMembers"
         modalId="team_members"
         show={true}
-        text="View Members"
+        text={
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -160,7 +220,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        }
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -168,7 +234,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
       icon={false}
       id="joinTeam"
       show={false}
-      text="Join Another Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      }
       to="/select_team"
     />
     <MenuItemToggleModalRedux
@@ -177,7 +249,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
       id="leaveTeam"
       modalId="leave_team"
       show={true}
-      text="Leave Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup />
@@ -196,7 +274,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
       <MenuItemLink
         id="integrations"
         show={false}
-        text="Integrations"
+        text={
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        }
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
@@ -213,13 +297,25 @@ exports[`components/Menu should match snapshot with id 1`] = `
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={false}
-        text="Plugin Marketplace"
+        text={
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="navbar_dropdown.marketplace"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
-      text="Custom Emoji"
+      text={
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      }
       to="/team_name/emoji"
     />
   </MenuGroup>
@@ -235,7 +331,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
         icon={false}
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -245,27 +347,51 @@ exports[`components/Menu should match snapshot with id 1`] = `
       icon={false}
       id="helpLink"
       show={false}
-      text="Help"
+      text={
+        <FormattedMessage
+          defaultMessage="Help"
+          id="navbar_dropdown.help"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
-      text="Keyboard Shortcuts"
+      text={
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemExternalLink
       icon={false}
       id="reportLink"
       show={false}
-      text="Report a Problem"
+      text={
+        <FormattedMessage
+          defaultMessage="Report a Problem"
+          id="navbar_dropdown.report"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemExternalLink
       icon={false}
       id="nativeAppLink"
       show={null}
-      text="Download Apps"
+      text={
+        <FormattedMessage
+          defaultMessage="Download Apps"
+          id="navbar_dropdown.nativeApps"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemToggleModalRedux
@@ -274,7 +400,17 @@ exports[`components/Menu should match snapshot with id 1`] = `
       id="about"
       modalId="about"
       show={true}
-      text="About Mattermost"
+      text={
+        <FormattedMessage
+          defaultMessage="About {appTitle}"
+          id="navbar_dropdown.about"
+          values={
+            Object {
+              "appTitle": "Mattermost",
+            }
+          }
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -283,7 +419,13 @@ exports[`components/Menu should match snapshot with id 1`] = `
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text={
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
 </Menu>
@@ -300,14 +442,26 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       id="recentMentions"
       onClick={[Function]}
       show={false}
-      text="Recent Mentions"
+      text={
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="sidebar_right_menu.recentMentions"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemAction
       icon={false}
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text={
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="sidebar_right_menu.flagged"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -317,7 +471,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text={
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -335,7 +495,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={false}
-        text="Add Groups to Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Add Groups to Team"
+            id="navbar_dropdown.addGroupsToTeam"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -349,12 +515,24 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
+        extraText={
+          <FormattedMessage
+            defaultMessage="Add or invite people to the team"
+            id="navbar_dropdown.invitePeopleExtraText"
+            values={Object {}}
+          />
+        }
         icon={false}
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text={
+          <FormattedMessage
+            defaultMessage="Invite People"
+            id="navbar_dropdown.invitePeople"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -373,7 +551,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         id="teamSettings"
         modalId="team_settings"
         show={true}
-        text="Team Settings"
+        text={
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -395,7 +579,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         id="manageGroups"
         modalId="manage_team_groups"
         show={false}
-        text="Manage Groups"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Groups"
+            id="navbar_dropdown.manageGroups"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -413,7 +603,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         id="manageMembers"
         modalId="team_members"
         show={true}
-        text="Manage Members"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -432,7 +628,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         id="viewMembers"
         modalId="team_members"
         show={true}
-        text="View Members"
+        text={
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -448,7 +650,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        }
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -456,7 +664,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       icon={false}
       id="joinTeam"
       show={false}
-      text="Join Another Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      }
       to="/select_team"
     />
     <MenuItemToggleModalRedux
@@ -465,7 +679,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       id="leaveTeam"
       modalId="leave_team"
       show={true}
-      text="Leave Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup />
@@ -484,7 +704,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       <MenuItemLink
         id="integrations"
         show={false}
-        text="Integrations"
+        text={
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        }
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
@@ -501,13 +727,25 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={false}
-        text="Plugin Marketplace"
+        text={
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="navbar_dropdown.marketplace"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
-      text="Custom Emoji"
+      text={
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      }
       to="/team_name/emoji"
     />
   </MenuGroup>
@@ -523,7 +761,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         icon={false}
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -533,27 +777,51 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       icon={false}
       id="helpLink"
       show={false}
-      text="Help"
+      text={
+        <FormattedMessage
+          defaultMessage="Help"
+          id="navbar_dropdown.help"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
-      text="Keyboard Shortcuts"
+      text={
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemExternalLink
       icon={false}
       id="reportLink"
       show={false}
-      text="Report a Problem"
+      text={
+        <FormattedMessage
+          defaultMessage="Report a Problem"
+          id="navbar_dropdown.report"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemExternalLink
       icon={false}
       id="nativeAppLink"
       show={null}
-      text="Download Apps"
+      text={
+        <FormattedMessage
+          defaultMessage="Download Apps"
+          id="navbar_dropdown.nativeApps"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemToggleModalRedux
@@ -562,7 +830,17 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       id="about"
       modalId="about"
       show={true}
-      text="About Mattermost"
+      text={
+        <FormattedMessage
+          defaultMessage="About {appTitle}"
+          id="navbar_dropdown.about"
+          values={
+            Object {
+              "appTitle": "Mattermost",
+            }
+          }
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -571,7 +849,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text={
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
 </Menu>
@@ -594,7 +878,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="recentMentions"
       onClick={[Function]}
       show={true}
-      text="Recent Mentions"
+      text={
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="sidebar_right_menu.recentMentions"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemAction
       icon={
@@ -605,7 +895,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="flaggedPosts"
       onClick={[Function]}
       show={true}
-      text="Flagged Posts"
+      text={
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="sidebar_right_menu.flagged"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -619,7 +915,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text={
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -641,7 +943,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={false}
-        text="Add Groups to Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Add Groups to Team"
+            id="navbar_dropdown.addGroupsToTeam"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -655,7 +963,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
+        extraText={
+          <FormattedMessage
+            defaultMessage="Add or invite people to the team"
+            id="navbar_dropdown.invitePeopleExtraText"
+            values={Object {}}
+          />
+        }
         icon={
           <i
             className="fa fa-user-plus"
@@ -664,7 +978,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text={
+          <FormattedMessage
+            defaultMessage="Invite People"
+            id="navbar_dropdown.invitePeople"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -687,7 +1007,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="teamSettings"
         modalId="team_settings"
         show={true}
-        text="Team Settings"
+        text={
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -713,7 +1039,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="manageGroups"
         modalId="manage_team_groups"
         show={false}
-        text="Manage Groups"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Groups"
+            id="navbar_dropdown.manageGroups"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -735,7 +1067,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="manageMembers"
         modalId="team_members"
         show={true}
-        text="Manage Members"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -758,7 +1096,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="viewMembers"
         modalId="team_members"
         show={true}
-        text="View Members"
+        text={
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -778,7 +1122,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         }
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        }
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -790,7 +1140,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       }
       id="joinTeam"
       show={false}
-      text="Join Another Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      }
       to="/select_team"
     />
     <MenuItemToggleModalRedux
@@ -799,7 +1155,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="leaveTeam"
       modalId="leave_team"
       show={true}
-      text="Leave Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup />
@@ -818,7 +1180,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       <MenuItemLink
         id="integrations"
         show={false}
-        text="Integrations"
+        text={
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        }
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
@@ -835,13 +1203,25 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={false}
-        text="Plugin Marketplace"
+        text={
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="navbar_dropdown.marketplace"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
-      text="Custom Emoji"
+      text={
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      }
       to="/team_name/emoji"
     />
   </MenuGroup>
@@ -861,7 +1241,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         }
         id="systemConsole"
         show={false}
-        text="System Console"
+        text={
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -875,14 +1261,26 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       }
       id="helpLink"
       show={false}
-      text="Help"
+      text={
+        <FormattedMessage
+          defaultMessage="Help"
+          id="navbar_dropdown.help"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
-      text="Keyboard Shortcuts"
+      text={
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemExternalLink
       icon={
@@ -892,7 +1290,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       }
       id="reportLink"
       show={false}
-      text="Report a Problem"
+      text={
+        <FormattedMessage
+          defaultMessage="Report a Problem"
+          id="navbar_dropdown.report"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemExternalLink
@@ -903,7 +1307,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       }
       id="nativeAppLink"
       show={null}
-      text="Download Apps"
+      text={
+        <FormattedMessage
+          defaultMessage="Download Apps"
+          id="navbar_dropdown.nativeApps"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemToggleModalRedux
@@ -916,7 +1326,17 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="about"
       modalId="about"
       show={true}
-      text="About Mattermost"
+      text={
+        <FormattedMessage
+          defaultMessage="About {appTitle}"
+          id="navbar_dropdown.about"
+          values={
+            Object {
+              "appTitle": "Mattermost",
+            }
+          }
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -929,7 +1349,13 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text={
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
 </Menu>
@@ -946,14 +1372,26 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       id="recentMentions"
       onClick={[Function]}
       show={false}
-      text="Recent Mentions"
+      text={
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="sidebar_right_menu.recentMentions"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemAction
       icon={false}
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text={
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="sidebar_right_menu.flagged"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -963,7 +1401,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text={
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -981,7 +1425,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={false}
-        text="Add Groups to Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Add Groups to Team"
+            id="navbar_dropdown.addGroupsToTeam"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -995,12 +1445,24 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
+        extraText={
+          <FormattedMessage
+            defaultMessage="Add or invite people to the team"
+            id="navbar_dropdown.invitePeopleExtraText"
+            values={Object {}}
+          />
+        }
         icon={false}
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text={
+          <FormattedMessage
+            defaultMessage="Invite People"
+            id="navbar_dropdown.invitePeople"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1019,7 +1481,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         id="teamSettings"
         modalId="team_settings"
         show={true}
-        text="Team Settings"
+        text={
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1041,7 +1509,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         id="manageGroups"
         modalId="manage_team_groups"
         show={false}
-        text="Manage Groups"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Groups"
+            id="navbar_dropdown.manageGroups"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1059,7 +1533,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         id="manageMembers"
         modalId="team_members"
         show={true}
-        text="Manage Members"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1078,7 +1558,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         id="viewMembers"
         modalId="team_members"
         show={true}
-        text="View Members"
+        text={
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1094,7 +1580,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        }
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -1102,7 +1594,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       icon={false}
       id="joinTeam"
       show={false}
-      text="Join Another Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      }
       to="/select_team"
     />
     <MenuItemToggleModalRedux
@@ -1111,7 +1609,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       id="leaveTeam"
       modalId="leave_team"
       show={true}
-      text="Leave Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup />
@@ -1130,7 +1634,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       <MenuItemLink
         id="integrations"
         show={true}
-        text="Integrations"
+        text={
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        }
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
@@ -1147,13 +1657,25 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={true}
-        text="Plugin Marketplace"
+        text={
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="navbar_dropdown.marketplace"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={true}
-      text="Custom Emoji"
+      text={
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      }
       to="/team_name/emoji"
     />
   </MenuGroup>
@@ -1169,7 +1691,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         icon={false}
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -1179,27 +1707,51 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       icon={false}
       id="helpLink"
       show={true}
-      text="Help"
+      text={
+        <FormattedMessage
+          defaultMessage="Help"
+          id="navbar_dropdown.help"
+          values={Object {}}
+        />
+      }
       url="test-link-help"
     />
     <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
-      text="Keyboard Shortcuts"
+      text={
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemExternalLink
       icon={false}
       id="reportLink"
       show={true}
-      text="Report a Problem"
+      text={
+        <FormattedMessage
+          defaultMessage="Report a Problem"
+          id="navbar_dropdown.report"
+          values={Object {}}
+        />
+      }
       url="test-report-link"
     />
     <MenuItemExternalLink
       icon={false}
       id="nativeAppLink"
       show={true}
-      text="Download Apps"
+      text={
+        <FormattedMessage
+          defaultMessage="Download Apps"
+          id="navbar_dropdown.nativeApps"
+          values={Object {}}
+        />
+      }
       url="test"
     />
     <MenuItemToggleModalRedux
@@ -1208,7 +1760,17 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       id="about"
       modalId="about"
       show={true}
-      text="About Mattermost"
+      text={
+        <FormattedMessage
+          defaultMessage="About {appTitle}"
+          id="navbar_dropdown.about"
+          values={
+            Object {
+              "appTitle": "Mattermost",
+            }
+          }
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1217,7 +1779,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text={
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
 </Menu>
@@ -1240,7 +1808,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="recentMentions"
       onClick={[Function]}
       show={true}
-      text="Recent Mentions"
+      text={
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="sidebar_right_menu.recentMentions"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemAction
       icon={
@@ -1251,7 +1825,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="flaggedPosts"
       onClick={[Function]}
       show={true}
-      text="Flagged Posts"
+      text={
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="sidebar_right_menu.flagged"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1265,7 +1845,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text={
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1287,7 +1873,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={false}
-        text="Add Groups to Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Add Groups to Team"
+            id="navbar_dropdown.addGroupsToTeam"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1301,7 +1893,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
+        extraText={
+          <FormattedMessage
+            defaultMessage="Add or invite people to the team"
+            id="navbar_dropdown.invitePeopleExtraText"
+            values={Object {}}
+          />
+        }
         icon={
           <i
             className="fa fa-user-plus"
@@ -1310,7 +1908,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text={
+          <FormattedMessage
+            defaultMessage="Invite People"
+            id="navbar_dropdown.invitePeople"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1333,7 +1937,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="teamSettings"
         modalId="team_settings"
         show={true}
-        text="Team Settings"
+        text={
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1359,7 +1969,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="manageGroups"
         modalId="manage_team_groups"
         show={false}
-        text="Manage Groups"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Groups"
+            id="navbar_dropdown.manageGroups"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1381,7 +1997,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="manageMembers"
         modalId="team_members"
         show={true}
-        text="Manage Members"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1404,7 +2026,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="viewMembers"
         modalId="team_members"
         show={true}
-        text="View Members"
+        text={
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1424,7 +2052,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         }
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        }
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -1436,7 +2070,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       }
       id="joinTeam"
       show={false}
-      text="Join Another Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      }
       to="/select_team"
     />
     <MenuItemToggleModalRedux
@@ -1445,7 +2085,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="leaveTeam"
       modalId="leave_team"
       show={true}
-      text="Leave Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup />
@@ -1464,7 +2110,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       <MenuItemLink
         id="integrations"
         show={false}
-        text="Integrations"
+        text={
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        }
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
@@ -1481,13 +2133,25 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={false}
-        text="Plugin Marketplace"
+        text={
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="navbar_dropdown.marketplace"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
-      text="Custom Emoji"
+      text={
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      }
       to="/team_name/emoji"
     />
   </MenuGroup>
@@ -1507,7 +2171,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         }
         id="systemConsole"
         show={false}
-        text="System Console"
+        text={
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -1521,14 +2191,26 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       }
       id="helpLink"
       show={true}
-      text="Help"
+      text={
+        <FormattedMessage
+          defaultMessage="Help"
+          id="navbar_dropdown.help"
+          values={Object {}}
+        />
+      }
       url="test-link-help"
     />
     <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
-      text="Keyboard Shortcuts"
+      text={
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemExternalLink
       icon={
@@ -1538,7 +2220,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       }
       id="reportLink"
       show={true}
-      text="Report a Problem"
+      text={
+        <FormattedMessage
+          defaultMessage="Report a Problem"
+          id="navbar_dropdown.report"
+          values={Object {}}
+        />
+      }
       url="test-report-link"
     />
     <MenuItemExternalLink
@@ -1549,7 +2237,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       }
       id="nativeAppLink"
       show={true}
-      text="Download Apps"
+      text={
+        <FormattedMessage
+          defaultMessage="Download Apps"
+          id="navbar_dropdown.nativeApps"
+          values={Object {}}
+        />
+      }
       url="test"
     />
     <MenuItemToggleModalRedux
@@ -1562,7 +2256,17 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="about"
       modalId="about"
       show={true}
-      text="About Mattermost"
+      text={
+        <FormattedMessage
+          defaultMessage="About {appTitle}"
+          id="navbar_dropdown.about"
+          values={
+            Object {
+              "appTitle": "Mattermost",
+            }
+          }
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1575,7 +2279,13 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text={
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
 </Menu>
@@ -1592,14 +2302,26 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       id="recentMentions"
       onClick={[Function]}
       show={false}
-      text="Recent Mentions"
+      text={
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="sidebar_right_menu.recentMentions"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemAction
       icon={false}
       id="flaggedPosts"
       onClick={[Function]}
       show={false}
-      text="Flagged Posts"
+      text={
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="sidebar_right_menu.flagged"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1609,7 +2331,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text={
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1627,7 +2355,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={false}
-        text="Add Groups to Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Add Groups to Team"
+            id="navbar_dropdown.addGroupsToTeam"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1641,12 +2375,24 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
+        extraText={
+          <FormattedMessage
+            defaultMessage="Add or invite people to the team"
+            id="navbar_dropdown.invitePeopleExtraText"
+            values={Object {}}
+          />
+        }
         icon={false}
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text={
+          <FormattedMessage
+            defaultMessage="Invite People"
+            id="navbar_dropdown.invitePeople"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1665,7 +2411,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         id="teamSettings"
         modalId="team_settings"
         show={true}
-        text="Team Settings"
+        text={
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1687,7 +2439,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         id="manageGroups"
         modalId="manage_team_groups"
         show={false}
-        text="Manage Groups"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Groups"
+            id="navbar_dropdown.manageGroups"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1705,7 +2463,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         id="manageMembers"
         modalId="team_members"
         show={true}
-        text="Manage Members"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1724,7 +2488,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         id="viewMembers"
         modalId="team_members"
         show={true}
-        text="View Members"
+        text={
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1740,7 +2510,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         icon={false}
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        }
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -1748,7 +2524,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       icon={false}
       id="joinTeam"
       show={false}
-      text="Join Another Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      }
       to="/select_team"
     />
     <MenuItemToggleModalRedux
@@ -1757,7 +2539,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       id="leaveTeam"
       modalId="leave_team"
       show={true}
-      text="Leave Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1793,7 +2581,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       <MenuItemLink
         id="integrations"
         show={false}
-        text="Integrations"
+        text={
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        }
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
@@ -1810,13 +2604,25 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={false}
-        text="Plugin Marketplace"
+        text={
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="navbar_dropdown.marketplace"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
-      text="Custom Emoji"
+      text={
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      }
       to="/team_name/emoji"
     />
   </MenuGroup>
@@ -1832,7 +2638,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         icon={false}
         id="systemConsole"
         show={true}
-        text="System Console"
+        text={
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -1842,27 +2654,51 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       icon={false}
       id="helpLink"
       show={false}
-      text="Help"
+      text={
+        <FormattedMessage
+          defaultMessage="Help"
+          id="navbar_dropdown.help"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={true}
-      text="Keyboard Shortcuts"
+      text={
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemExternalLink
       icon={false}
       id="reportLink"
       show={false}
-      text="Report a Problem"
+      text={
+        <FormattedMessage
+          defaultMessage="Report a Problem"
+          id="navbar_dropdown.report"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemExternalLink
       icon={false}
       id="nativeAppLink"
       show={null}
-      text="Download Apps"
+      text={
+        <FormattedMessage
+          defaultMessage="Download Apps"
+          id="navbar_dropdown.nativeApps"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemToggleModalRedux
@@ -1871,7 +2707,17 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       id="about"
       modalId="about"
       show={true}
-      text="About Mattermost"
+      text={
+        <FormattedMessage
+          defaultMessage="About {appTitle}"
+          id="navbar_dropdown.about"
+          values={
+            Object {
+              "appTitle": "Mattermost",
+            }
+          }
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1880,7 +2726,13 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text={
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
 </Menu>
@@ -1903,7 +2755,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="recentMentions"
       onClick={[Function]}
       show={true}
-      text="Recent Mentions"
+      text={
+        <FormattedMessage
+          defaultMessage="Recent Mentions"
+          id="sidebar_right_menu.recentMentions"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemAction
       icon={
@@ -1914,7 +2772,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="flaggedPosts"
       onClick={[Function]}
       show={true}
-      text="Flagged Posts"
+      text={
+        <FormattedMessage
+          defaultMessage="Flagged Posts"
+          id="sidebar_right_menu.flagged"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1928,7 +2792,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Account Settings"
+      text={
+        <FormattedMessage
+          defaultMessage="Account Settings"
+          id="navbar_dropdown.accountSettings"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -1950,7 +2820,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="addGroupsToTeam"
         modalId="add_groups_to_team"
         show={false}
-        text="Add Groups to Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Add Groups to Team"
+            id="navbar_dropdown.addGroupsToTeam"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -1964,7 +2840,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
-        extraText="Add or invite people to the team"
+        extraText={
+          <FormattedMessage
+            defaultMessage="Add or invite people to the team"
+            id="navbar_dropdown.invitePeopleExtraText"
+            values={Object {}}
+          />
+        }
         icon={
           <i
             className="fa fa-user-plus"
@@ -1973,7 +2855,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="invitePeople"
         modalId="invitation"
         show={true}
-        text="Invite People"
+        text={
+          <FormattedMessage
+            defaultMessage="Invite People"
+            id="navbar_dropdown.invitePeople"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -1996,7 +2884,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="teamSettings"
         modalId="team_settings"
         show={true}
-        text="Team Settings"
+        text={
+          <FormattedMessage
+            defaultMessage="Team Settings"
+            id="navbar_dropdown.teamSettings"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -2022,7 +2916,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="manageGroups"
         modalId="manage_team_groups"
         show={false}
-        text="Manage Groups"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Groups"
+            id="navbar_dropdown.manageGroups"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -2044,7 +2944,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="manageMembers"
         modalId="team_members"
         show={true}
-        text="Manage Members"
+        text={
+          <FormattedMessage
+            defaultMessage="Manage Members"
+            id="navbar_dropdown.manageMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <Connect(TeamPermissionGate)
@@ -2067,7 +2973,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="viewMembers"
         modalId="team_members"
         show={true}
-        text="View Members"
+        text={
+          <FormattedMessage
+            defaultMessage="View Members"
+            id="navbar_dropdown.viewMembers"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
   </MenuGroup>
@@ -2087,7 +2999,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         }
         id="createTeam"
         show={true}
-        text="Create a New Team"
+        text={
+          <FormattedMessage
+            defaultMessage="Create a New Team"
+            id="navbar_dropdown.create"
+            values={Object {}}
+          />
+        }
         to="/create_team"
       />
     </Connect(SystemPermissionGate)>
@@ -2099,7 +3017,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       }
       id="joinTeam"
       show={false}
-      text="Join Another Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Join Another Team"
+          id="navbar_dropdown.join"
+          values={Object {}}
+        />
+      }
       to="/select_team"
     />
     <MenuItemToggleModalRedux
@@ -2108,7 +3032,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="leaveTeam"
       modalId="leave_team"
       show={true}
-      text="Leave Team"
+      text={
+        <FormattedMessage
+          defaultMessage="Leave Team"
+          id="navbar_dropdown.leave"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -2144,7 +3074,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       <MenuItemLink
         id="integrations"
         show={false}
-        text="Integrations"
+        text={
+          <FormattedMessage
+            defaultMessage="Integrations"
+            id="navbar_dropdown.integrations"
+            values={Object {}}
+          />
+        }
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
@@ -2161,13 +3097,25 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         id="marketplaceModal"
         modalId="plugin_marketplace"
         show={false}
-        text="Plugin Marketplace"
+        text={
+          <FormattedMessage
+            defaultMessage="Plugin Marketplace"
+            id="navbar_dropdown.marketplace"
+            values={Object {}}
+          />
+        }
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
-      text="Custom Emoji"
+      text={
+        <FormattedMessage
+          defaultMessage="Custom Emoji"
+          id="navbar_dropdown.emoji"
+          values={Object {}}
+        />
+      }
       to="/team_name/emoji"
     />
   </MenuGroup>
@@ -2187,7 +3135,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         }
         id="systemConsole"
         show={false}
-        text="System Console"
+        text={
+          <FormattedMessage
+            defaultMessage="System Console"
+            id="navbar_dropdown.console"
+            values={Object {}}
+          />
+        }
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
@@ -2201,14 +3155,26 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       }
       id="helpLink"
       show={false}
-      text="Help"
+      text={
+        <FormattedMessage
+          defaultMessage="Help"
+          id="navbar_dropdown.help"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemAction
       id="keyboardShortcuts"
       onClick={[Function]}
       show={false}
-      text="Keyboard Shortcuts"
+      text={
+        <FormattedMessage
+          defaultMessage="Keyboard Shortcuts"
+          id="navbar_dropdown.keyboardShortcuts"
+          values={Object {}}
+        />
+      }
     />
     <MenuItemExternalLink
       icon={
@@ -2218,7 +3184,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       }
       id="reportLink"
       show={false}
-      text="Report a Problem"
+      text={
+        <FormattedMessage
+          defaultMessage="Report a Problem"
+          id="navbar_dropdown.report"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemExternalLink
@@ -2229,7 +3201,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       }
       id="nativeAppLink"
       show={null}
-      text="Download Apps"
+      text={
+        <FormattedMessage
+          defaultMessage="Download Apps"
+          id="navbar_dropdown.nativeApps"
+          values={Object {}}
+        />
+      }
       url={null}
     />
     <MenuItemToggleModalRedux
@@ -2242,7 +3220,17 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="about"
       modalId="about"
       show={true}
-      text="About Mattermost"
+      text={
+        <FormattedMessage
+          defaultMessage="About {appTitle}"
+          id="navbar_dropdown.about"
+          values={
+            Object {
+              "appTitle": "Mattermost",
+            }
+          }
+        />
+      }
     />
   </MenuGroup>
   <MenuGroup>
@@ -2255,7 +3243,13 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="logout"
       onClick={[Function]}
       show={true}
-      text="Logout"
+      text={
+        <FormattedMessage
+          defaultMessage="Logout"
+          id="navbar_dropdown.logout"
+          values={Object {}}
+        />
+      }
     />
   </MenuGroup>
 </Menu>
