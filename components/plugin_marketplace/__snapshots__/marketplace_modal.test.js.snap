@@ -241,6 +241,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
           title="Installed (0)"
         >
           <InstalledPlugins
+            changeTab={[Function]}
             installedPlugins={Array []}
           />
         </Tab>
@@ -319,6 +320,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
           title="Installed (0)"
         >
           <InstalledPlugins
+            changeTab={[Function]}
             installedPlugins={Array []}
           />
         </Tab>
@@ -397,6 +399,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
           title="Installed (1)"
         >
           <InstalledPlugins
+            changeTab={[Function]}
             installedPlugins={
               Array [
                 Object {
