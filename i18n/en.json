@@ -2112,7 +2112,7 @@
   "delete_channel.question": "This will archive the channel from the team and make its contents inaccessible for all users. \n \nAre you sure you wish to archive the **{display_name}** channel?",
   "undelete_channel.question": "This will unarchive the channel from the team and make its contents accessible for all users. \n \nAre you sure you wish to unarchive the **{display_name}** channel?",
   "delete_channel.viewArchived.question": "This will archive the channel from the team. Channel contents will still be accessible by channel members.\n \nAre you sure you wish to archive the **{display_name}** channel?",
-  "undelete_channel.viewArchived.question": "This will unarchive the channel from the team. \nAre you sure you wish to unarchive the **{display_name}** channel?",
+  "undelete_channel.viewArchived.question": "This will unarchive the channel from the team.\n \nAre you sure you wish to unarchive the **{display_name}** channel?",
   "delete_post.cancel": "Cancel",
   "delete_post.comment": "Comment",
   "delete_post.confirm": "Confirm {term} Delete",

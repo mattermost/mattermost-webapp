@@ -99,7 +99,7 @@ export default class UndeleteChannelModal extends React.PureComponent {
                         {canViewArchivedChannels &&
                             <FormattedMarkdownMessage
                                 id='undelete_channel.viewArchived.question'
-                                defaultMessage={'This will unarchive the channel from the team. \nAre you sure you wish to unarchive the **{display_name}** channel?'}
+                                defaultMessage={'This will unarchive the channel from the team. \n \nAre you sure you wish to unarchive the **{display_name}** channel?'}
                                 values={{
                                     display_name: this.props.channel.display_name,
                                 }}
