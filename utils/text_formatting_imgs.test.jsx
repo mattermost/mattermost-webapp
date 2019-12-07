@@ -60,7 +60,7 @@ describe('Text-formatted inline markdown images', () => {
 
         assert.equal(
             output,
-            '<div className="style--none"><img src="/images/icon.png" alt="Mattermost" class="markdown-inline-img"></div>'
+            '<div className="markdown-inline-img__container"><img src="/images/icon.png" alt="Mattermost" class="markdown-inline-img"></div>'
         );
 
         done();

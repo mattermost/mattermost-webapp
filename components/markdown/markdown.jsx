@@ -90,6 +90,11 @@ export default class Markdown extends React.PureComponent {
          * Post id prop passed down to markdown image
          */
         postId: PropTypes.string,
+
+        /**
+         * Post id prop passed down to markdown image
+         */
+        postType: PropTypes.string,
     };
 
     static defaultProps = {
@@ -97,6 +102,7 @@ export default class Markdown extends React.PureComponent {
         isRHS: false,
         proxyImages: true,
         imagesMetadata: {},
+        postId: '', // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
     render() {
@@ -121,6 +127,7 @@ export default class Markdown extends React.PureComponent {
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
+            postType: this.props.postType,
         });
     }
 }

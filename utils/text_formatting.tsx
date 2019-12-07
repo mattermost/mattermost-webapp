@@ -206,8 +206,8 @@ export function formatText(
             ** remove p tag to allow other divs to be nested,
             ** which allows markdown images to open preview window
             */
-            const replacer = (match: string) => {
-                return match === '<p>' ? '<div className="style--none">' : '</div>';
+            const replacer = (match) => {
+                return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
             };
             output = output.replace(/<p>|<\/p>/g, replacer);
         }
@@ -626,7 +626,7 @@ export function parseSearchTerms(searchTerm: string) {
         }
 
         // check for a search flag (and don't add it to terms)
-        captured = (/^(?:in|from|channel): ?\S+/).exec(termString);
+        captured = (/^-?(?:in|from|channel|on|before|after): ?\S+/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
             continue;
@@ -642,7 +642,7 @@ export function parseSearchTerms(searchTerm: string) {
         }
 
         // capture any plain text up until the next quote or search flag
-        captured = (/^.+?(?=\bin:|\bfrom:|\bchannel:|"|$)/).exec(termString);
+        captured = (/^.+?(?=(?:\b|\B-)(?:in:|from:|channel:|on:|before:|after:)|"|$)/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 
