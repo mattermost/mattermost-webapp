@@ -325,6 +325,10 @@ export function handleEvent(msg) {
         handleChannelDeletedEvent(msg);
         break;
 
+    case SocketEvents.CHANNEL_UNDELETED:
+        handleChannelUndeletedEvent(msg);
+        break;
+
     case SocketEvents.CHANNEL_CONVERTED:
         handleChannelConvertedEvent(msg);
         break;
@@ -843,6 +847,20 @@ function handleChannelDeletedEvent(msg) {
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
+}
+
+function handleChannelUndeletedEvent(msg) {
+    const state = getState();
+    const config = getConfig(state);
+    const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
+    if (getCurrentChannelId(state) === msg.data.channel_id && !viewArchivedChannels) {
+        const teamUrl = getCurrentRelativeTeamUrl(state);
+        const currentTeamId = getCurrentTeamId(state);
+        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
+        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
+    }
+
+    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_UNDELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels}});
 }
 
 function handlePreferenceChangedEvent(msg) {
