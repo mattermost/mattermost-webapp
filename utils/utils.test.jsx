@@ -715,30 +715,17 @@ describe('Utils.enableDevModeFeatures', () => {
 });
 
 describe('Utils.getSortedUsers', () => {
-    const getDisplayNameMock = (state, user) => {
-        switch (user.id) {
-        case 'user_id_1':
-            return 'username_1';
-        case 'user_id_2':
-            return 'username_2';
-        case 'user_id_3':
-            return 'username_3';
-        default:
-            return '';
-        }
-    };
-
     test('should sort users by who reacted first', () => {
         const baseDate = Date.now();
         const currentUserId = 'user_id_1';
-        const profiles = [{id: 'user_id_1'}, {id: 'user_id_2'}, {id: 'user_id_3'}];
+        const profiles = [{id: 'user_id_1', username: 'username_1'}, {id: 'user_id_2', username: 'username_2'}, {id: 'user_id_3', username: 'username_3'}];
         const reactions = [
             {user_id: 'user_id_2', create_at: baseDate}, // Will be sorted 2nd, after the logged-in user
             {user_id: 'user_id_1', create_at: baseDate + 5000}, // Logged-in user, will be sorted first although 2nd user reacted first
             {user_id: 'user_id_3', create_at: baseDate + 8000}, // Last to react, will be sorted last
         ];
 
-        const {currentUserReacted, users} = Utils.getSortedUsers({}, reactions, currentUserId, profiles, getDisplayNameMock);
+        const {currentUserReacted, users} = Utils.getSortedUsers(reactions, currentUserId, profiles, 'username');
 
         expect(currentUserReacted).toEqual(true);
         assert.deepEqual(

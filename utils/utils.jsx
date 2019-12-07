@@ -138,7 +138,7 @@ export function getTeamRelativeUrl(team) {
     return '/' + team.name;
 }
 
-export function getChannelURL(channel, teamId, state) {
+export function getChannelURL(state, channel, teamId) {
     let notificationURL;
     if (channel && (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)) {
         notificationURL = getCurrentRelativeTeamUrl(state) + '/channels/' + channel.name;
@@ -1297,9 +1297,11 @@ export function sortUsersByStatusAndDisplayName(state, users, statusesByUserId) 
         if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
         }
+        
+        const teammateNameDisplay = getTeammateNameDisplaySetting(state);
 
-        const aName = getDisplayNameByUser(state, a);
-        const bName = getDisplayNameByUser(state, b);
+        const aName = displayUsername(a, teammateNameDisplay);
+        const bName = displayUsername(b, teammateNameDisplay);
 
         return aName.localeCompare(bName);
     }
@@ -1348,8 +1350,6 @@ export function displayEntireNameForUser(user) {
 }
 
 export function imageURLForUser(userIdOrObject) {
-    // Refactored one case where a string was passed in here (in switch_channel_provider)
-    // Can keep in mind to pass an object here for consistency, until we migrate to Typescript
     return Client4.getUsersRoute() + '/' + userIdOrObject.id + '/image?_=' + (userIdOrObject.last_picture_update || 0);
 }
 
@@ -1359,8 +1359,6 @@ export function defaultImageURLForUser(userId) {
 
 // in contrast to Client4.getTeamIconUrl, for ui logic this function returns null if last_team_icon_update is unset
 export function imageURLForTeam(teamIdOrObject) {
-    // NOTE I don't see a string being passed into this function anywhere.
-    // Will be even more secure when we integrate with Typescript
     return teamIdOrObject.last_team_icon_update ? Client4.getTeamIconUrl(teamIdOrObject.id, teamIdOrObject.last_team_icon_update) : null;
 }
 
@@ -1504,7 +1502,6 @@ export function getRootPost(postList) {
     return postList.find((post) => post.root_id === '');
 }
 
-// NOTE this would be a sprawling refactor
 export function localizeMessage(id, defaultMessage) {
     const state = store.getState();
 
@@ -1722,8 +1719,9 @@ export function enableDevModeFeatures() {
     });
 }
 
-export function getSortedUsers(state, reactions, currentUserId, profiles, getDisplayNameFn = getDisplayName) {
+export function getSortedUsers(reactions, currentUserId, profiles, teammateNameDisplay) {
     // Sort users by who reacted first with "you" being first if the current user reacted
+    
     let currentUserReacted = false;
     const sortedReactions = reactions.sort((a, b) => a.create_at - b.create_at);
     const users = sortedReactions.reduce((accumulator, current) => {
@@ -1732,7 +1730,7 @@ export function getSortedUsers(state, reactions, currentUserId, profiles, getDis
         } else {
             const user = profiles.find((u) => u.id === current.user_id);
             if (user) {
-                accumulator.push(getDisplayNameFn(state, user));
+                accumulator.push(displayUsername(user, teammateNameDisplay));
             }
         }
         return accumulator;

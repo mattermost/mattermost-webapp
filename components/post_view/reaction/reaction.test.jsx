@@ -8,19 +8,6 @@ import Reaction from 'components/post_view/reaction/reaction.jsx';
 import {getSortedUsers} from 'utils/utils';
 
 describe('components/post_view/Reaction', () => {
-    const getDisplayNameMock = (state, user) => {
-        switch (user.id) {
-        case 'user_id_1':
-            return 'username_1';
-        case 'user_id_2':
-            return 'username_2';
-        case 'user_id_3':
-            return 'username_3';
-        default:
-            return '';
-        }
-    };
-
     const post = {id: 'post_id_1'};
     const profiles = [{id: 'user_id_2', username: 'username_2'}];
     const reactions = [{user_id: 'user_id_2'}, {user_id: 'user_id_3'}];
@@ -45,11 +32,10 @@ describe('components/post_view/Reaction', () => {
         emojiImageUrl: 'emoji_image_url',
         actions,
         sortedUsers: getSortedUsers(
-            {},
             reactions,
             currentUserId,
             profiles,
-            getDisplayNameMock
+            'username'
         ),
     };
 
@@ -67,11 +53,10 @@ describe('components/post_view/Reaction', () => {
             profiles: newProfiles,
             otherUsersCount: 1,
             sortedUsers: getSortedUsers(
-                {},
                 newReactions,
                 currentUserId,
                 newProfiles,
-                getDisplayNameMock
+                'username'
             ),
         };
         const wrapper = shallow(<Reaction {...props}/>);
@@ -97,11 +82,10 @@ describe('components/post_view/Reaction', () => {
             canRemoveReaction: false,
             currentUserId: newCurrentUserId,
             sortedUsers: getSortedUsers(
-                {},
                 reactions,
                 newCurrentUserId,
                 profiles,
-                getDisplayNameMock
+                'username'
             ),
         };
         const wrapper = shallow(<Reaction {...props}/>);

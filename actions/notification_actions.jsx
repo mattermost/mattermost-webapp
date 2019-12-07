@@ -178,7 +178,7 @@ const notifyMe = (title, body, channel, teamId, silent) => (dispatch, getState) 
             silent,
             onClick: () => {
                 window.focus();
-                browserHistory.push(Utils.getChannelURL(channel, teamId, getState()));
+                browserHistory.push(Utils.getChannelURL(getState(), channel, teamId));
             },
         }).catch((error) => {
             dispatch(logError(error));

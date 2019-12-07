@@ -29,7 +29,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 // NOTE: suggestions where to keep this welcomed
-const getChannelURLAction = (channel, teamId) => (dispatch, getState) => browserHistory.push(getChannelURL(channel, teamId, getState()));
+const getChannelURLAction = (channel, teamId) => (dispatch, getState) => browserHistory.push(getChannelURL(getState(), channel, teamId));
 
 function mapDispatchToProps(dispatch) {
     return {

@@ -138,9 +138,9 @@ export function loadChannelMembersForProfilesList(profiles, channelId) {
     };
 }
 
-export async function loadNewDMIfNeeded(channelId) {
+export function loadNewDMIfNeeded(channelId) {
     return async (doDispatch, doGetState) => {
-        const state = getState();
+        const state = doGetState();
         const currentUserId = Selectors.getCurrentUserId(state);
 
         function checkPreference(channel) {
@@ -161,11 +161,11 @@ export async function loadNewDMIfNeeded(channelId) {
             }
         }
 
-        const channel = getChannel(getState(), channelId);
+        const channel = getChannel(doGetState(), channelId);
         if (channel) {
             checkPreference(channel);
         } else {
-            const {data} = await getChannelAndMyMember(channelId)(dispatch, getState);
+            const {data} = await getChannelAndMyMember(channelId)(doDispatch, doGetState);
             if (data) {
                 checkPreference(data.channel);
             }
