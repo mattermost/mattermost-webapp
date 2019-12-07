@@ -144,7 +144,7 @@ export default class Renderer extends marked.Renderer {
         return `<h${level} class="markdown__heading">${text}</h${level}>`;
     }
 
-    public link(href: string, title: string, text: string, isUrl: boolean = false) {
+    public link(href: string, title: string, text: string, isUrl = false) {
         let outHref = href;
 
         if (!href.startsWith('/')) {
@@ -233,7 +233,7 @@ export default class Renderer extends marked.Renderer {
         return marked.Renderer.prototype.tablecell(content, flags).trim();
     }
 
-    public listitem(text: string, bullet: string = '') {
+    public listitem(text: string, bullet = '') {
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
 
