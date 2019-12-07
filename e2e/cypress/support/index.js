@@ -17,6 +17,8 @@ import 'cypress-file-upload';
 import 'cypress-wait-until';
 import addContext from 'mochawesome/addContext';
 
+require('cypress-plugin-tab');
+
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
     // the additional context of the screenshot.

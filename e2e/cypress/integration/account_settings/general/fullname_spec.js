@@ -54,7 +54,7 @@ describe('Account Settings > Sidebar > General', () => {
             and('have.text', '@user-1');
 
         // # click enter in chat input
-        cy.get('#post_textbox').type('{enter}');
+        cy.get('#post_textbox').tab();
 
         // # verify that after enter user`s username match
         cy.get('#post_textbox').should('have.value', '@user-1 ');
