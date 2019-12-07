@@ -123,7 +123,7 @@ export default class SidebarRight extends React.PureComponent {
             searchForm = (
                 <SearchBar
                     isFocus={searchVisible && !isFlaggedPosts && !isPinnedPosts}
-                    isRHS={true}
+                    isSideBarRight={true}
                 />
             );
         }
