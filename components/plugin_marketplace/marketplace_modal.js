@@ -109,7 +109,7 @@ export const InstalledPlugins = ({installedPlugins, changeTab}) => {
 
 InstalledPlugins.propTypes = {
     installedPlugins: PropTypes.array.isRequired,
-    changeTab: PropTypes.func.isRequired,
+    changeTab: PropTypes.func,
 };
 
 // MarketplaceModal is the plugin marketplace.
