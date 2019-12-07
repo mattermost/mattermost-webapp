@@ -85,12 +85,6 @@
         border: none;
     }
 
-    .date-separator {
-        hr {
-            border-top: 1px solid #eee;
-        }
-    }
-
     .post-create__container {
         width: 100%;
 
@@ -186,7 +180,7 @@
 .post-right__scroll {
     -webkit-overflow-scrolling: touch;
     @include flex(1 1 auto);
-    padding-top: 10px;
+    padding-top: 28px;
     position: relative;
 
     .file-preview__container {

@@ -28,28 +28,14 @@ export default class TeamSettingsModal extends React.Component {
         };
     }
 
-    componentDidMount() {
-        if (!Utils.isMobile()) {
-            $('.settings-modal .settings-content').perfectScrollbar();
-        }
-    }
-
     updateTab = (tab) => {
         this.setState({
             activeTab: tab,
             activeSection: '',
         });
-
-        if (!Utils.isMobile()) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
     }
 
     updateSection = (section) => {
-        if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
-
         this.setState({activeSection: section});
     }
 
