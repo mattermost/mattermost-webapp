@@ -206,7 +206,7 @@ export function formatText(
             ** remove p tag to allow other divs to be nested,
             ** which allows markdown images to open preview window
             */
-            const replacer = (match) => {
+            const replacer = (match: string) => {
                 return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
             };
             output = output.replace(/<p>|<\/p>/g, replacer);
