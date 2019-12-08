@@ -136,7 +136,7 @@ exports[`components/create_post Show tutorial 1`] = `
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -290,7 +290,7 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -409,7 +409,7 @@ exports[`components/create_post should match snapshot for read only channel 1`] 
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -563,7 +563,7 @@ exports[`components/create_post should match snapshot when file upload disabled 
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}
@@ -717,7 +717,7 @@ exports[`components/create_post should match snapshot, init 1`] = `
           channelId="owsyt8n43jfxjpzh9np93mx1wa"
           postId=""
         />
-        <TextboxLinks
+        <Connect(TextboxLinks)
           characterLimit={4000}
           message=""
           showPreview={false}

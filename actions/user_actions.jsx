@@ -175,7 +175,7 @@ export function loadNewDMIfNeeded(channelId) {
 
 export async function loadNewGMIfNeeded(channelId) {
     return async (doDispatch, doGetState) => {
-        const state = getState();
+        const state = doGetState();
         const currentUserId = Selectors.getCurrentUserId(state);
 
         function checkPreference() {

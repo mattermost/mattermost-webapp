@@ -23,7 +23,6 @@ export default class AnnouncementBarController extends React.PureComponent {
         actions: PropTypes.shape({
             dismissError: PropTypes.func.isRequired,
         }).isRequired,
-        emojiMap: PropTypes.object.isRequired,
     }
 
     render() {
@@ -35,7 +34,6 @@ export default class AnnouncementBarController extends React.PureComponent {
                     textColor={this.props.config.BannerTextColor}
                     allowDismissal={this.props.config.AllowBannerDismissal === 'true'}
                     text={this.props.config.BannerText}
-                    emojiMap={this.props.emojiMap}
                 />
             );
         }

@@ -9,8 +9,6 @@ import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entitie
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {RequestStatus} from 'mattermost-redux/constants';
 
-import {getEmojiMap} from 'selectors/emojis';
-
 import {addUserToTeamFromInvite} from 'actions/team_actions';
 
 import {login} from 'actions/views/login';
@@ -74,7 +72,6 @@ function mapStateToProps(state) {
         samlLoginButtonText,
         siteName,
         initializing,
-        emojiMap: getEmojiMap(state)
     };
 }
 

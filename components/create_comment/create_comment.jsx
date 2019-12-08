@@ -25,7 +25,7 @@ import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
-import TextboxLinks from 'components/textbox/textbox_links.jsx';
+import TextboxLinks from 'components/textbox/textbox_links';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
@@ -187,6 +187,7 @@ export default class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
     }
 
     static contextTypes = {
@@ -1010,6 +1011,7 @@ export default class CreateComment extends React.PureComponent {
                                     showPreview={this.state.showPreview}
                                     updatePreview={this.updatePreview}
                                     message={readOnlyChannel ? '' : this.state.message}
+                                    isMarkdownPreviewEnabled={this.props.isMarkdownPreviewEnabled}
                                 />
                             </div>
                         </div>

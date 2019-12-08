@@ -64,7 +64,6 @@ class LoginController extends React.Component {
             login: PropTypes.func.isRequired,
             addUserToTeamFromInvite: PropTypes.func.isRequired,
         }).isRequired,
-        emojiMap: PropTypes.object.isRequired,
     }
 
     constructor(props) {
@@ -380,7 +379,6 @@ class LoginController extends React.Component {
                                 {mentions: false,
                                     imagesMetadata: null}
                             }
-                            emojiMap={this.props.emojiMap}
                         />
                     </div>
                 </div>

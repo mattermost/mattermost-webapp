@@ -15,7 +15,6 @@ export default class TextDismissableBar extends React.PureComponent {
         allowDismissal: PropTypes.bool.isRequired,
         text: PropTypes.string.isRequired,
         onDismissal: PropTypes.func,
-        emojiMap: PropTypes.object.isRequired,
 
         // Any props that AnnouncementBar supports
     };
@@ -65,7 +64,6 @@ export default class TextDismissableBar extends React.PureComponent {
                             {singleline: true,
                                 mentionHighlight: false}
                         }
-                        emojiMap={this.props.emojiMap}
                     />
                 }
             />

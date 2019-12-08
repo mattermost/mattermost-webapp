@@ -65,7 +65,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
             message=""
             showPreview={false}
@@ -227,9 +227,8 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -365,9 +364,8 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -539,9 +537,8 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />
@@ -701,9 +698,8 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <div
           className="col col-auto"
         >
-          <TextboxLinks
+          <Connect(TextboxLinks)
             characterLimit={4000}
-            message=""
             showPreview={false}
             updatePreview={[Function]}
           />

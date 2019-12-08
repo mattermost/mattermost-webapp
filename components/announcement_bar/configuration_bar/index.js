@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import {AnnouncementBarMessages} from 'utils/constants';
 import {dismissNotice} from 'actions/views/notice';
 import {getSiteURL} from 'utils/url';
-import {getEmojiMap} from 'selectors/emojis';
 
 import ConfigurationBar from './configuration_bar.jsx';
 
@@ -15,7 +14,6 @@ function mapStateToProps(state) {
     return {
         siteURL: getSiteURL(state),
         dismissedExpiringLicense: Boolean(state.views.notice.hasBeenDismissed[AnnouncementBarMessages.LICENSE_EXPIRING]),
-        emojiMap: getEmojiMap(state),
     };
 }
 

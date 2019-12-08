@@ -13,7 +13,7 @@ export default class TextboxLinks extends React.Component {
         previewMessageLink: PropTypes.string,
         updatePreview: PropTypes.func,
         message: PropTypes.string.isRequired,
-        isMarkDownPreviewEnabled: PropTypes.bool,
+
     };
 
     static defaultProps = {
@@ -26,7 +26,7 @@ export default class TextboxLinks extends React.Component {
     }
 
     render() {
-        const {isMarkDownPreviewEnabled} = this.props;
+        const {isMarkdownPreviewEnabled} = this.props;
         const hasText = this.props.message && this.props.message.length > 0;
         let editHeader;
 
@@ -52,7 +52,7 @@ export default class TextboxLinks extends React.Component {
         }
 
         let previewLink = null;
-        if (isMarkDownPreviewEnabled) {
+        if (isMarkdownPreviewEnabled) {
             previewLink = (
                 <button
                     id='previewLink'

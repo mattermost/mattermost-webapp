@@ -313,20 +313,20 @@ export function makeCreateAriaLabelForPost() {
     const getDisplayName = makeGetDisplayName();
 
     return createSelector(
-        (state, post) => post,
+        (_state, post) => post,
         (state, post) => getDisplayName(state, post.user_id),
         (state, post) => getReactionsForPost(state, post.id),
         (state, post) => get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
-        (state, post, author, reactions, isFlagged) => {
-            return (intl) => createAriaLabelForPost(state, post, author, isFlagged, reactions, intl);
+        getEmojiMap,
+        (post, author, reactions, isFlagged, emojiMap) => {
+            return (intl) => createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap);
         }
     );
 }
 
-export function createAriaLabelForPost(state, post, author, isFlagged, reactions, intl) {
+export function createAriaLabelForPost(post, author, isFlagged, reactions, intl, emojiMap) {
     const {formatMessage, formatTime, formatDate} = intl;
 
-    const emojiMap = getEmojiMap(state);
     let message = post.message;
     let match;
 

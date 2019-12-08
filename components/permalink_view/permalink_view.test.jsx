@@ -74,6 +74,7 @@ describe('components/PermalinkView', () => {
         actions: {
             focusPost: jest.fn(),
         },
+        currentUserId: 'current_user',
     };
 
     test('should match snapshot', () => {
@@ -158,7 +159,7 @@ describe('components/PermalinkView', () => {
             test('should focus post in not loaded channel', async () => {
                 const testStore = await mockStore(initialState);
 
-                await testStore.dispatch(focusPost('postid2'));
+                await testStore.dispatch(focusPost('postid2', '', 'current_user_id'));
 
                 expect(getPostThread).toHaveBeenCalledWith('postid2', false);
                 expect(testStore.getActions()).toEqual([

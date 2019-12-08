@@ -50,6 +50,7 @@ export default class RhsRootPost extends React.PureComponent {
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
         }),
+        emojiMap: PropTypes.object.isRequired,
     };
 
     static contextTypes = {
@@ -157,8 +158,8 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+        const {post, author, reactions, isFlagged, emojiMap} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl, emojiMap)});
     }
 
     getDotMenuRef = () => {

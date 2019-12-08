@@ -147,7 +147,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userE, userF, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(store.getState(), data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'username');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -176,7 +176,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userJ, userF, userE, userD, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(store.getState(), data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'nickname_full_name');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }
@@ -205,7 +205,7 @@ describe('Utils.sortUsersByStatusAndDisplayName', () => {
                 result: [userD, userF, userE, userJ, userK, userL, userM],
             },
         ]) {
-            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(store.getState(), data.users, statusesByUserId);
+            const sortedUsers = Utils.sortUsersByStatusAndDisplayName(data.users, statusesByUserId, 'full_name');
             for (let i = 0; i < sortedUsers.length; i++) {
                 expect(sortedUsers[i]).toEqual(data.result[i]);
             }

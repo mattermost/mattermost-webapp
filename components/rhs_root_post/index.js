@@ -13,6 +13,7 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 
 import {markPostAsUnread} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+import {getEmojiMap} from 'selectors/emojis';
 import {Preferences} from 'utils/constants';
 
 import RhsRootPost from './rhs_root_post.jsx';
@@ -26,10 +27,12 @@ function mapStateToProps(state, ownProps) {
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
     const channel = getChannel(state, ownProps.post.channel_id) || {};
+    const emojiMap = getEmojiMap(state);
 
     return {
         author: getDisplayName(state, ownProps.post.user_id),
         reactions: getReactionsForPost(state, ownProps.post.id),
+        emojiMap,
         enableEmojiPicker,
         enablePostUsernameOverride,
         isEmbedVisible: isEmbedVisible(state, ownProps.post.id),

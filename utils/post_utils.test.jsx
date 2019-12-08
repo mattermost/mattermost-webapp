@@ -5,9 +5,9 @@ import assert from 'assert';
 
 import {IntlProvider} from 'react-intl';
 
-import store from 'stores/redux_store.jsx';
 import * as PostUtils from 'utils/post_utils.jsx';
 import {PostListRowListIds} from 'utils/constants';
+import EmojiMap from 'utils/emoji_map';
 
 const enMessages = require('../i18n/en');
 
@@ -629,6 +629,7 @@ describe('PostUtils.getLatestPostId', () => {
 });
 
 describe('PostUtils.createAriaLabelForPost', () => {
+    const emojiMap = new EmojiMap(new Map())
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
         const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
         const {intl} = intlProvider.getChildContext();
@@ -652,7 +653,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         };
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(store.getState(), testPost, author, isFlagged, reactions, intl);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
         assert.ok(ariaLabel.indexOf(author) === 0);
         assert.ok(ariaLabel.indexOf(testPost.message));
         assert.ok(ariaLabel.indexOf('3 attachments'));
@@ -672,7 +673,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(store.getState(), testPost, author, isFlagged, reactions, intl);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
         assert.ok(ariaLabel.indexOf('reply'));
     });
     test('Should translate emoji into {emoji-name} emoji', () => {
@@ -687,7 +688,7 @@ describe('PostUtils.createAriaLabelForPost', () => {
         const reactions = {};
         const isFlagged = true;
 
-        const ariaLabel = PostUtils.createAriaLabelForPost(store.getState(), testPost, author, isFlagged, reactions, intl);
+        const ariaLabel = PostUtils.createAriaLabelForPost(testPost, author, isFlagged, reactions, intl, emojiMap);
         assert.ok(ariaLabel.indexOf('smile emoji'));
         assert.ok(ariaLabel.indexOf('+1 emoji'));
         assert.ok(ariaLabel.indexOf('non-potable water emoji'));

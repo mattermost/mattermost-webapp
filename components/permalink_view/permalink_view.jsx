@@ -33,6 +33,7 @@ export default class PermalinkView extends React.PureComponent {
         actions: PropTypes.shape({
             focusPost: PropTypes.func.isRequired,
         }).isRequired,
+        currentUserId: PropTypes.string.isRequired,
     };
 
     static contextTypes = {

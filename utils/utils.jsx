@@ -1289,7 +1289,7 @@ const UserStatusesWeight = {
 /**
  * Sort users by status then by display name, respecting the TeammateNameDisplay configuration setting
  */
-export function sortUsersByStatusAndDisplayName(state, users, statusesByUserId) {
+export function sortUsersByStatusAndDisplayName(users, statusesByUserId, teammateNameDisplay) {
     function compareUsers(a, b) {
         const aStatus = a.is_bot ? 'bot' : statusesByUserId[a.id] || UserStatuses.OFFLINE;
         const bStatus = b.is_bot ? 'bot' : statusesByUserId[b.id] || UserStatuses.OFFLINE;
@@ -1297,8 +1297,6 @@ export function sortUsersByStatusAndDisplayName(state, users, statusesByUserId) 
         if (UserStatusesWeight[aStatus] !== UserStatusesWeight[bStatus]) {
             return UserStatusesWeight[aStatus] - UserStatusesWeight[bStatus];
         }
-        
-        const teammateNameDisplay = getTeammateNameDisplaySetting(state);
 
         const aName = displayUsername(a, teammateNameDisplay);
         const bName = displayUsername(b, teammateNameDisplay);
@@ -1721,7 +1719,7 @@ export function enableDevModeFeatures() {
 
 export function getSortedUsers(reactions, currentUserId, profiles, teammateNameDisplay) {
     // Sort users by who reacted first with "you" being first if the current user reacted
-    
+
     let currentUserReacted = false;
     const sortedReactions = reactions.sort((a, b) => a.create_at - b.create_at);
     const users = sortedReactions.reduce((accumulator, current) => {

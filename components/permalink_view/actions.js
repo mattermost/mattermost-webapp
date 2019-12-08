@@ -4,14 +4,13 @@
 import {getChannel, selectChannel, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import {getPostThread} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
 
-export function focusPost(postId, returnTo = '') {
+export function focusPost(postId, returnTo = '', currentUserId) {
     return async (dispatch, getState) => {
         const {data} = await dispatch(getPostThread(postId, false));
 
@@ -24,7 +23,6 @@ export function focusPost(postId, returnTo = '') {
         const channelId = data.posts[data.order[0]].channel_id;
         let channel = state.entities.channels.channels[channelId];
         const teamId = getCurrentTeamId(state);
-        const currentUserId = getCurrentUserId(state);
 
         if (!channel) {
             const {data: channelData} = await dispatch(getChannel(channelId));

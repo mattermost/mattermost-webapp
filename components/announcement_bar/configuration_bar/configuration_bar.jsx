@@ -31,7 +31,6 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
         actions: PropTypes.shape({
             dismissNotice: PropTypes.func.isRequired,
         }).isRequired,
-        emojiMap: PropTypes.object.isRequired,
     };
 
     static contextTypes = {
@@ -131,7 +130,6 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                     allowDismissal={true}
                     text={emailMessage}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
-                    emojiMap={this.props.emojiMap}
                 />
             );
         }
@@ -155,7 +153,6 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                     allowDismissal={true}
                     text={siteURLMessage}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
-                    emojiMap={this.props.emojiMap}
                 />
             );
         }
