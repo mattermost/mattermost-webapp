@@ -3,6 +3,8 @@
 import React from 'react';
 import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 
+import {isMobile} from 'utils/user_agent';
+
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -10,6 +12,10 @@ import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitClearSuggestions: jest.fn(),
+}));
+
+jest.mock('utils/user_agent', () => ({
+    isMobile: jest.fn().mockReturnValue(false),
 }));
 
 function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
@@ -386,10 +392,11 @@ describe('components/EditPostModal', () => {
     });
 
     describe('should handle edition on key press enter depending on the conditions', () => {
-        it('for Android, ctrlSend true', () => {
-            global.navigator = {userAgent: 'Android'};
+        it('for Mobile, ctrlSend true', () => {
+            isMobile.mockReturnValue(true);
             const wrapper = shallowWithIntl(createEditPost({ctrlSend: true}));
             const instance = wrapper.instance();
+            instance.setState({caretPosition: 3});
             instance.editbox = {blur: jest.fn()};
 
             const preventDefault = jest.fn();
@@ -400,13 +407,10 @@ describe('components/EditPostModal', () => {
             instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: false, preventDefault, shiftKey: false, altKey: false});
             expect(instance.handleEdit).not.toBeCalled();
             expect(preventDefault).not.toBeCalled();
-            instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
-            expect(instance.handleEdit).toBeCalled();
-            expect(preventDefault).toBeCalled();
         });
 
         it('for Chrome, ctrlSend false', () => {
-            global.navigator = {userAgent: 'Chrome'};
+            isMobile.mockReturnValue(false);
             const wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
             const instance = wrapper.instance();
             instance.editbox = {blur: jest.fn()};

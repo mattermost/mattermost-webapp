@@ -61,6 +61,8 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
               "singleline": true,
             }
           }
+          postId="post_id"
+          postType="system_header_change"
         />,
         "old": <Connect(Markdown)
           message="see ~test"
@@ -74,6 +76,8 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
               "singleline": true,
             }
           }
+          postId="post_id"
+          postType="system_header_change"
         />,
         "username": <Connect(Markdown)
           message="@user"

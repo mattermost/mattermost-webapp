@@ -25,7 +25,7 @@ const payload = getMessageMenusPayload({options});
 let channelId;
 let incomingWebhook;
 
-describe('MM-15887 Interactive menus - basic options', () => {
+describe('Interactive Menu', () => {
     before(() => {
         // Set required ServiceSettings
         const newSettings = {
@@ -90,7 +90,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         cy.get('body').click();
     });
 
-    it('displays selected option and posts ephemeral message', () => {
+    it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -117,7 +117,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         });
     });
 
-    it('displays reply in center channel with "commented on [user\'s] message: [text]"', () => {
+    it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
