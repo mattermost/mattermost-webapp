@@ -853,12 +853,6 @@ function handleChannelUndeletedEvent(msg) {
     const state = getState();
     const config = getConfig(state);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
-    if (getCurrentChannelId(state) === msg.data.channel_id && !viewArchivedChannels) {
-        const teamUrl = getCurrentRelativeTeamUrl(state);
-        const currentTeamId = getCurrentTeamId(state);
-        const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
-        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
-    }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_UNDELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels}});
 }
