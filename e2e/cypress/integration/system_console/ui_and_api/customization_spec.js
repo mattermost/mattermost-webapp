@@ -16,14 +16,18 @@ describe('Customization', () => {
             const config = response.body;
             origConfig = {
                 SupportSettings: {
-                    AboutLink: config.SupportSettings.AboutLink,
+                    SupportEmail: config.SupportSettings.SupportEmail,
                     HelpLink: config.SupportSettings.HelpLink,
+                    AboutLink: config.SupportSettings.AboutLink,
+                    PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink,
                 },
                 TeamSettings: {
                     SiteName: config.TeamSettings.SiteName,
                 },
                 NativeAppSettings: {
-                    AppDownloadLink: config.NativeAppSettings.AppDownloadLink
+                    AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
+                    AndroidAppDownloadLink: config.NativeAppSettings.AndroidAppDownloadLink,
+                    IosAppDownloadLink: config.NativeAppSettings.IosAppDownloadLink,
                 },
             };
         });
@@ -31,6 +35,7 @@ describe('Customization', () => {
         // # Login as sysadmin and visit customization system console page
         cy.apiLogin('sysadmin');
         cy.visit('/admin_console/site_config/customization');
+        cy.get('.admin-console__header').should('be.visible').and('have.text', 'Customization');
     });
 
     after(() => {
@@ -60,6 +65,110 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20330 - Can change Privacy Policy Link setting', () => {
+        // * Verify that setting is visible and matches text content
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Privacy Policy Link:');
+
+        // * Verify that help setting is visible and matches text content
+        const content = 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.';
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkhelp-text').scrollIntoView().find('span').should('be.visible').and('have.text', content);
+
+        // * Verify the input box visible and has default value
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').scrollIntoView().should('have.value', origConfig.SupportSettings.PrivacyPolicyLink).and('be.visible');
+
+        // # Fill input field with value
+        const stringToSave = 'https://some.com';
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear().type(stringToSave);
+
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
+        });
+    });
+
+    it('SC20337 Can change Support Email setting', () => {
+        // # Scroll Support Email section into view and verify that it's visible
+        cy.findByTestId('SupportSettings.SupportEmail').scrollIntoView().should('be.visible');
+
+        // * Verify that setting label is visible and matches text content
+        cy.findByTestId('SupportSettings.SupportEmaillabel').should('be.visible').and('have.text', 'Support Email:');
+
+        // * Verify the Support Email input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('SupportSettings.SupportEmailinput').should('have.value', origConfig.SupportSettings.SupportEmail);
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('SupportSettings.SupportEmailhelp-text').find('span').should('be.visible').and('have.text', 'Email address displayed on email notifications and during tutorial for end users to ask support questions.');
+
+        const newEmail = 'support@example.com';
+
+        // * Verify that set value is visible and matches text
+        cy.findByTestId('SupportSettings.SupportEmail').find('input').clear().type(newEmail).should('have.value', newEmail);
+
+        // # Update Support Email
+        cy.get('#saveSetting').click();
+
+        // * Verify that the config is correctly saved in the server
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.SupportSettings.SupportEmail).to.equal(newEmail);
+        });
+    });
+
+    it('SC20338 Can change Android App Download Link setting', () => {
+        // # Scroll Android App Download Link section into view and verify that it's visible
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLink').scrollIntoView().should('be.visible');
+
+        // * Verify that Android App Download Link label is visible and matches text content
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinklabel').should('be.visible').and('have.text', 'Android App Download Link:');
+
+        // * Verify the Android App Download Link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.AndroidAppDownloadLink);
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to download the Android app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.');
+
+        const newAndroidAppDownloadLink = 'https://example.com/android-app/';
+
+        // * Verify that set value is visible and matches text
+        cy.findByTestId('NativeAppSettings.AndroidAppDownloadLinkinput').clear().type(newAndroidAppDownloadLink).should('have.value', newAndroidAppDownloadLink);
+
+        // # Update Support Email
+        cy.get('#saveSetting').click();
+
+        // * Verify that the config is correctly saved in the server
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.NativeAppSettings.AndroidAppDownloadLink).to.equal(newAndroidAppDownloadLink);
+        });
+    });
+
+    it('SC20340 Can change iOS App Download Link setting', () => {
+        // # Scroll iOS App Download Link section into view and verify that it's visible
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLink').scrollIntoView().should('be.visible');
+
+        // * Verify that iOS App Download Link label is visible and matches text content
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinklabel').should('be.visible').and('have.text', 'iOS App Download Link:');
+
+        // * Verify the iOS App Download Link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinkinput').should('have.value', origConfig.NativeAppSettings.IosAppDownloadLink);
+
+        // * Verify that the help text is visible and matches text content
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinkhelp-text').find('span').should('be.visible').and('have.text', 'Add a link to download the iOS app. Users who access the site on a mobile web browser will be prompted with a page giving them the option to download the app. Leave this field blank to prevent the page from appearing.');
+
+        const newIosAppDownloadLink = 'https://example.com/iOS-app/';
+
+        // * Verify that set value is visible and matches text
+        cy.findByTestId('NativeAppSettings.IosAppDownloadLinkinput').clear().type(newIosAppDownloadLink).should('have.value', newIosAppDownloadLink);
+
+        // # Update Support Email
+        cy.get('#saveSetting').click();
+
+        // * Verify that the config is correctly saved in the server
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.NativeAppSettings.IosAppDownloadLink).to.equal(newIosAppDownloadLink);
         });
     });
 
@@ -119,12 +228,10 @@ describe('Customization', () => {
         cy.findByTestId('SupportSettings.AboutLinklabel').scrollIntoView().should('be.visible').and('have.text', 'About Link:');
 
         // * Verify that the help text is visible and matches text content
-        cy.findByTestId('SupportSettings.AboutLinkhelp-text').
-            should('be.visible').and('have.text', 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.');
+        cy.findByTestId('SupportSettings.AboutLinkhelp-text').should('be.visible').and('have.text', 'The URL for the About link on the Mattermost login and sign-up pages. If this field is empty, the About link is hidden from users.');
 
         // * Verify that the existing is visible and has default value
-        cy.findByTestId('SupportSettings.AboutLinkinput').should('be.visible').
-            and('have.value', origConfig.SupportSettings.AboutLink);
+        cy.findByTestId('SupportSettings.AboutLinkinput').should('be.visible').and('have.value', origConfig.SupportSettings.AboutLink);
 
         // # Clear existing about link and type the new about link
         cy.findByTestId('SupportSettings.AboutLinkinput').clear().type(newAboutLink);

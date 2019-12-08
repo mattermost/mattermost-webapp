@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-require('perfect-scrollbar/jquery')($);
 
 import PropTypes from 'prop-types';
 import React from 'react';

@@ -1,43 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {isMobile} from 'utils/utils.jsx';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen';
 
-export default class AccessHistoryModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    onHide: () => void;
+    actions: {
+        getUserAudits: (userId: string, page?: number, perPage?: number) => void;
+    };
+    userAudits: any[];
+    currentUserId: string;
+}
 
-        /**
-         * Function that's called when modal is closed
-         */
-        onHide: PropTypes.func.isRequired,
-        actions: PropTypes.shape({
+type State = {
+    show: boolean;
+}
 
-            /**
-             * Function to fetch the user's audits
-             */
-            getUserAudits: PropTypes.func.isRequired,
-        }).isRequired,
-
-        /**
-         * The current user's audits
-         */
-        userAudits: PropTypes.array.isRequired,
-
-        /**
-         * The current user id
-         */
-        currentUserId: PropTypes.string.isRequired,
-    }
-
-    constructor(props) {
+export default class AccessHistoryModal extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -45,22 +30,19 @@ export default class AccessHistoryModal extends React.PureComponent {
         };
     }
 
-    onShow = () => {
+    public onShow = () => { // public for testing
         this.props.actions.getUserAudits(this.props.currentUserId, 0, 200);
-        if (!isMobile()) {
-            $('.modal-body').perfectScrollbar();
-        }
     }
 
-    onHide = () => {
+    public onHide = () => { // public for testing
         this.setState({show: false});
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.onShow();
     }
 
-    render() {
+    public render() {
         let content;
         if (this.props.userAudits.length === 0) {
             content = (<LoadingScreen/>);
@@ -95,7 +77,7 @@ export default class AccessHistoryModal extends React.PureComponent {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body>
                     {content}
                 </Modal.Body>
                 <Modal.Footer className='modal-footer--invisible'>
