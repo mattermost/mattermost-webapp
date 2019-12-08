@@ -62,7 +62,6 @@ export default class RhsThread extends React.Component {
         if (state.selected && props.selected && state.selected.id !== props.selected.id) {
             updatedState = {...updatedState, openTime: (new Date()).getTime()};
         }
-
         return updatedState;
     }
 
@@ -85,6 +84,9 @@ export default class RhsThread extends React.Component {
     componentDidMount() {
         this.scrollToBottom();
         window.addEventListener('resize', this.handleResize);
+        if (this.props.posts.length < (Utils.getRootPost(this.props.posts).reply_count + 1)) {
+            this.props.actions.getPostThread(this.props.selected.id, true);
+        }
     }
 
     componentWillUnmount() {
@@ -96,7 +98,7 @@ export default class RhsThread extends React.Component {
         const curPostsArray = this.props.posts || [];
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
-            this.props.actions.getPostThread(this.props.selected.id, false);
+            this.props.actions.getPostThread(this.props.selected.id, true);
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {

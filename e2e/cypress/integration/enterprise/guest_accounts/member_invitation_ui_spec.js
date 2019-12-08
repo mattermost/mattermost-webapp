@@ -22,9 +22,6 @@ function invitePeople(typeText, resultsCount, verifyText) {
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#invitePeople').should('be.visible').click();
 
-    // #Click on the next icon to invite new member
-    cy.findByTestId('inviteMembersLink').find('.arrow').click();
-
     // # Search and add a member
     cy.findByTestId('inputPlaceholder').should('be.visible').within(($el) => {
         cy.wrap($el).get('input').type(typeText, {force: true});
@@ -78,8 +75,11 @@ function verifyInvitationSuccess(user, successText) {
 
 describe('Guest Account - Member Invitation Flow', () => {
     before(() => {
+        // # Login as "sysadmin" and go to /
+        cy.apiLogin('sysadmin');
+
         // # Enable Guest Account Settings
-        cy.apiUpdateConfig({
+        cy.apiUpdateConfigBasic({
             GuestAccountsSettings: {
                 Enable: true,
             },
@@ -87,9 +87,6 @@ describe('Guest Account - Member Invitation Flow', () => {
                 EnableEmailInvitations: true,
             },
         });
-
-        // # Login as "sysadmin" and go to /
-        cy.apiLogin('sysadmin');
 
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {

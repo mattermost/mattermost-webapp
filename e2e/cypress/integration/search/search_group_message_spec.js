@@ -11,14 +11,15 @@ const groupMembers = ['aaron.peterson', 'aaron.ward', 'samuel.tucker'];
 
 describe('Search', () => {
     before(() => {
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.loginAsNewUser().then(() => {
+            cy.apiSaveTeammateNameDisplayPreference('username');
 
-        cy.apiGetUsers(groupMembers).then((res) => {
-            const userIds = res.body.map((user) => user.id);
+            cy.apiGetUsers(groupMembers).then((res) => {
+                const userIds = res.body.map((user) => user.id);
 
-            cy.apiCreateGroupChannel(userIds).then((resp) => {
-                cy.visit(`/ad-1/messages/${resp.body.name}`);
+                cy.apiCreateGroupChannel(userIds).then((resp) => {
+                    cy.visit(`/ad-1/messages/${resp.body.name}`);
+                });
             });
         });
     });
