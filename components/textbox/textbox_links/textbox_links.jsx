@@ -13,7 +13,7 @@ export default class TextboxLinks extends React.Component {
         previewMessageLink: PropTypes.string,
         updatePreview: PropTypes.func,
         message: PropTypes.string.isRequired,
-
+        isMarkdownPreviewEnabled: PropTypes.bool.isRequired,
     };
 
     static defaultProps = {

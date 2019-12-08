@@ -28,7 +28,7 @@ const makeSortUsersByStatusAndDisplayName = (doGetProfilesInChannel) => {
 
 function makeMapStateToProps() {
     const doGetProfilesInChannel = makeGetProfilesInChannel();
-    const doSortUsersByStatusAndDisplayName = makeSortUsersByStatusAndDisplayName(doGetProfilesInChannel)
+    const doSortUsersByStatusAndDisplayName = makeSortUsersByStatusAndDisplayName(doGetProfilesInChannel);
 
     return function mapStateToProps(state, ownProps) {
         const stats = getAllChannelStats(state)[ownProps.channel.id] || {};

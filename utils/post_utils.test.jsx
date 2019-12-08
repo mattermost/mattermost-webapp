@@ -629,7 +629,7 @@ describe('PostUtils.getLatestPostId', () => {
 });
 
 describe('PostUtils.createAriaLabelForPost', () => {
-    const emojiMap = new EmojiMap(new Map())
+    const emojiMap = new EmojiMap(new Map());
     test('Should show username, timestamp, message, attachments, reactions, flagged and pinned', () => {
         const intlProvider = new IntlProvider({locale: 'en', messages: enMessages, defaultLocale: 'en'}, {});
         const {intl} = intlProvider.getChildContext();
