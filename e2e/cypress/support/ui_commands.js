@@ -421,3 +421,115 @@ Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png
         );
     });
 });
+/**
+ * Upload a file on target input in binary format - 
+ * @param {String} Subject - cypress/fixtures/matterMost.tar.gz 
+ * @param {String} filePath - cypress/fixtures/matterMost.tar.gz
+ * @Param {String} fileType - application/gzip
+ */
+Cypress.Commands.add('uploadFile2', { prevSubject: true }, (subject, fileName, fileType) => {
+    cy.log('Upload process started . FileName:'+fileName);
+    cy.readFile(fileName,'binary').then(content => {
+        return Cypress.Blob.binaryStringToBlob(content, fileType).then(blob => {
+        const el = subject[0];
+        const testFile = new File([blob], fileName, {type: fileType});
+        const dataTransfer = new DataTransfer();  
+        dataTransfer.items.add(testFile);
+        el.files = dataTransfer.files;
+        cy.wrap(subject).trigger('change', { force: true });
+        });
+    });
+  });
+  
+  
+  
+
+Cypress.Commands.add('inputFileUpload', (targetInput,fileName,mimeType) => {
+    cy.readFile(fileName,'binary').then((fileContent) => {
+        cy.get(targetInput).upload(
+            {fileContent, fileName, mimeType},
+            {subjectType: 'input', force: false},
+        );
+    });
+
+});
+
+/**
+ * Search for plugin management in filter container
+ */
+Cypress.Commands.add('searchForPluginManagementSysConsole', () => {
+    cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
+        wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
+});
+
+/**
+ * Navigate to system console from account settings
+ */
+Cypress.Commands.add('navigateToSystemConsoleFromAdminSettings',() => {
+    cy.get('#lhsHeader').should('be.visible').within(() => {
+        // # Click hamburger main menu 
+        cy.get('#sidebarHeaderDropdownButton').click();
+
+        // * Dropdown menu should be visible
+        cy.get('.dropdown-menu').should('be.visible').within(() => {
+            // * Plugin Marketplace button should be visible then click
+        cy.get('#systemConsole').should('be.visible').click();
+        });
+    });
+});
+
+/**
+ * Enable or disable Plugin in plugin management RHS
+ */
+Cypress.Commands.add('enableDisablePluginabsPath', (enableDisable) => {
+    const locatorName = "enable"+enableDisable;
+    cy.get('input[data-testid=${locatorName}]').should('be.visible').click();
+});
+
+/**
+ * Check if Draw plugin is available
+ */
+Cypress.Commands.add('drawPluginExist',() => {
+    cy.get('a[data-plugin-id="com.mattermost.draw-plugin"]').its('length').should('be.gte', 0);
+});
+
+/**
+ * Get Enable or Disable Draw Plugin control
+ */
+Cypress.Commands.add('getDisableEnableDrawPluginControl',() => {
+    cy.wait(TIMEOUTS.TINY).get('.padding-top > a[data-plugin-id="com.mattermost.draw-plugin"]');
+});
+
+/**
+ * Method to enable/Disable/Remove draw plugin 
+ */
+Cypress.Commands.add('enableDisableDrawPlugin',(status,fileName,fileType) => {
+    
+    //cy.drawPluginExist();
+    //const drawPluginRemoveOption = cy.get('a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Remove');
+    //if (drawPluginRemoveOption != null){
+        switch(status){
+            case 'Remove': 
+                cy.get('span > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Remove').click();
+                cy.get('#confirmModalButton').should('be.visible').click().wait(TIMEOUTS.TINY);
+                break;
+            case  'Enable':
+                cy.get('input[type=file]').uploadFile2(fileName,fileName,fileType).wait(TIMEOUTS.TINY);
+                cy.get('div.form-group > div.col-sm-8 > button.btn.btn-primary').should('be.visible').click().wait(TIMEOUTS.TINY);
+                cy.getDisableEnableDrawPluginControl().findByText('Enable').click();
+                break;
+            case 'Disable':
+                cy.getDisableEnableDrawPluginControl().findByText('Disable').click();
+                break;
+        }
+    //}
+}); 
+
+/**
+ * Method to Switch to Plugin Management - Upload/Disable/Enable Elements
+ */
+Cypress.Commands.add('switchToPluginManagementEnableDisableDraw',(status,fileName,fileType) => {
+    cy.navigateToSystemConsoleFromAdminSettings();  
+    cy.searchForPluginManagementSysConsole();
+    cy.enableDisableDrawPlugin(status,fileName,fileType);
+});
