@@ -6,7 +6,6 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -23,13 +22,7 @@ export default class UndeleteChannelModal extends React.PureComponent {
          */
         channel: PropTypes.object.isRequired,
 
-        /**
-         * currentTeamDetails used for redirection after deleting channel
-         */
-        currentTeamDetails: PropTypes.object.isRequired,
-
         canViewArchivedChannels: PropTypes.bool,
-        penultimateViewedChannelName: PropTypes.string.isRequired,
 
         actions: PropTypes.shape({
 
@@ -50,10 +43,6 @@ export default class UndeleteChannelModal extends React.PureComponent {
     handleUndelete = () => {
         if (this.props.channel.id.length !== Constants.CHANNEL_ID_LENGTH) {
             return;
-        }
-        if (!this.props.canViewArchivedChannels) {
-            const {penultimateViewedChannelName} = this.props;
-            browserHistory.push('/' + this.props.currentTeamDetails.name + '/channels/' + penultimateViewedChannelName);
         }
         this.props.actions.undeleteChannel(this.props.channel.id);
         this.onHide();

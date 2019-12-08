@@ -301,7 +301,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             dialogType={UndeleteChannelModal}
                             dialogProps={{
                                 channel,
-                                penultimateViewedChannelName,
                             }}
                             text={localizeMessage('channel_header.undelete', 'Unarchive Channel')}
                         />
