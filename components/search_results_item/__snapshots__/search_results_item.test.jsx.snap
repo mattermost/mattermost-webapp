@@ -173,7 +173,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               }
             >
               <Connect(PostMessageView)
-                isRHS="true"
+                isRHS={true}
                 options={
                   Object {
                     "mentionHighlight": false,
@@ -386,7 +386,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               }
             >
               <Connect(PostMessageView)
-                isRHS="true"
+                isRHS={true}
                 options={
                   Object {
                     "mentionHighlight": false,
@@ -587,7 +587,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               }
             >
               <Connect(PostMessageView)
-                isRHS="true"
+                isRHS={true}
                 options={
                   Object {
                     "mentionHighlight": false,

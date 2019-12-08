@@ -164,6 +164,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-tab-installed').should('be.visible');
         });
 
+        it('autofocus on search plugin input box', () => {
+            cy.focused().should('have.id', 'searchMarketplaceTextbox');
+        });
+
         it('render the list of all plugins by default', () => {
             // * all plugins tab should be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('be.visible');
@@ -172,7 +176,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-pane-installed').should('not.be.visible');
         });
 
-        // this test uses exit, not visible, due to issues with Cypress
+        // this test uses exist, not visible, due to issues with Cypress
         it('render the list of installed plugins on demand', () => {
             // # click on installed plugins tab
             cy.get('#marketplaceTabs-tab-installed').click();
