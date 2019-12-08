@@ -7,9 +7,8 @@ import {addOAuthApp} from 'mattermost-redux/actions/integrations';
 
 import AddOAuthApp from './add_oauth_app.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps() {
     return {
-        addOAuthAppRequest: state.requests.integrations.addOAuthApp,
     };
 }
 
