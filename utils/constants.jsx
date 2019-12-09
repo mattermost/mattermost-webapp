@@ -435,6 +435,12 @@ export const StoragePrefixes = {
     LOGIN: '__login__',
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
+    VAULT_PREFERENCE: '__vault-preference__',
+};
+
+export const VaultPreferenceTypes = {
+    MATTERMOSTAPP: 'mattermostapp',
+    BROWSER: 'browser',
 };
 
 export const ErrorPageTypes = {
