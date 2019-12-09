@@ -1144,7 +1144,7 @@
   "admin.plugins.settings.marketplaceUrlDesc": "Mağaza sunucusunun adresi.",
   "admin.plugins.settings.marketplaceUrlDesc.empty": " Mağaza adresi alanının doldurulması zorunludur.",
   "admin.plugins.settings.requirePluginSignature": "Uygulama Eki İmzası İstensin:",
-  "admin.plugins.settings.requirePluginSignatureDesc": "Bu seçenek etkinleştirildiğinde, uygulama ekleri dosya olarak yüklenemez ve yalnız Mağaza üzerinden kurulabilir. Mattermost sunucusu başlatılırken ve hazırlanırken her zaman uygulama ekleri doğrulanır. Ayrıntılı bilgi almak için [belgeler](https://about.mattermost.com/) bölümüne bakabilirsiniz.",
+  "admin.plugins.settings.requirePluginSignatureDesc": "Bu seçenek etkinleştirildiğinde, uygulama ekleri dosya olarak yüklenemez ve yalnız Mağaza üzerinden kurulabilir. Mattermost sunucusu başlatılırken ve hazırlanırken her zaman uygulama ekleri doğrulanır. Ayrıntılı bilgi almak için [belgeler](!https://mattermost.com/pl/default-plugin-signing) bölümüne bakabilirsiniz.",
   "admin.privacy.showEmailDescription": "Bu seçenek devre dışı bırakıldığında, e-posta adresi Sistem Yöneticileri dışındaki kullanıcılara görüntülenmez.",
   "admin.privacy.showEmailTitle": "E-posta Adresi Görüntülensin: ",
   "admin.privacy.showFullNameDescription": "Bu seçenek devre dışı bırakıldığında, tam ad Sistem Yöneticileri dışındaki kullanıcılara görüntülenmez. Tam ad yerine kullanıcı adı görüntülenir.",
