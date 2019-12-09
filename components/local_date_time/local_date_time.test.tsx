@@ -78,7 +78,12 @@ describe('components/LocalDateTime', () => {
         expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 07:15:13 GMT+1100 (Australia/Sydney)');
         expect(wrapper.find('span').text()).toBe('07:15 AM');
 
-        wrapper = mountWithIntl(<LocalDateTime {...baseProps} timeZone={'US/Hawaii'}/>);
+        wrapper = mountWithIntl(
+            <LocalDateTime
+                {...baseProps}
+                timeZone={'US/Hawaii'}
+            />
+        );
         expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 10:15:13 GMT-1000 (US/Hawaii)');
         expect(wrapper.find('span').text()).toBe('10:15 AM');
     });
@@ -96,7 +101,12 @@ describe('components/LocalDateTime', () => {
         expect(wrapper.find('time').prop('title')).toBe('Sat Jan 13 2018 15:15:13 GMT+1100 (Australia/Sydney)');
         expect(wrapper.find('span').text()).toBe('15:15');
 
-        wrapper = mountWithIntl(<LocalDateTime {...baseProps} timeZone={'US/Alaska'}/>);
+        wrapper = mountWithIntl(
+            <LocalDateTime
+                {...baseProps}
+                timeZone={'US/Alaska'}
+            />
+        );
         expect(wrapper.find('time').prop('title')).toBe('Fri Jan 12 2018 19:15:13 GMT-0900 (US/Alaska)');
         expect(wrapper.find('span').text()).toBe('19:15');
     });
