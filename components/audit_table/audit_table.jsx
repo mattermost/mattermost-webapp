@@ -3,10 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIntl} from 'react-intl';
 
-import {getDirectTeammate, isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import {intlShape} from 'utils/react_intl';
+import {getDirectTeammate, isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
 
 const holders = defineMessages({
     sessionRevoked: {
