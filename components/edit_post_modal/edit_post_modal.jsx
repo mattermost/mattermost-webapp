@@ -7,9 +7,8 @@ import {FormattedMessage, intlShape} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/post_utils.jsx';
 
-import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 import DeletePostModal from 'components/delete_post_modal';
@@ -24,6 +23,7 @@ export default class EditPostModal extends React.PureComponent {
     static propTypes = {
         canEditPost: PropTypes.bool,
         canDeletePost: PropTypes.bool,
+        codeBlockOnCtrlEnter: PropTypes.bool,
         ctrlSend: PropTypes.bool,
         config: PropTypes.object.isRequired,
         maxPostSize: PropTypes.number.isRequired,
@@ -216,11 +216,17 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEditKeyPress = (e) => {
-        if (!UserAgent.isMobile() && !this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
+        const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
+
+        const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(e, this.state.editText, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition);
+
+        if (ignoreKeyPress) {
             e.preventDefault();
-            this.editbox.blur();
-            this.handleEdit();
-        } else if (this.props.ctrlSend && e.ctrlKey && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            e.stopPropagation();
+            return;
+        }
+
+        if (allowSending) {
             e.preventDefault();
             this.editbox.blur();
             this.handleEdit();

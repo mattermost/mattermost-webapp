@@ -36,6 +36,8 @@ export default class TutorialTip extends React.Component {
         super(props);
 
         this.state = {currentScreen: 0, show: false};
+
+        this.targetRef = React.createRef();
     }
 
     show = () => {
@@ -113,7 +115,7 @@ export default class TutorialTip extends React.Component {
     }
 
     getTarget = () => {
-        return this.refs.target;
+        return this.targetRef.current;
     }
 
     render() {
@@ -166,7 +168,7 @@ export default class TutorialTip extends React.Component {
                     src={tutorialGifImage}
                     width='35'
                     onClick={this.show}
-                    ref='target'
+                    ref={this.targetRef}
                 />
 
                 <Overlay
