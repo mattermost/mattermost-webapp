@@ -36,21 +36,17 @@ export default class LocalDateTime extends React.PureComponent<Props> {
             useMilitaryTime,
         } = this.props;
 
-        const value = eventTime ? new Date(eventTime) : new Date();
-        const momentDate = moment(value);
+        const momentDate = eventTime ? moment(eventTime) : moment();
         const format = useMilitaryTime ? 'HH:mm' : 'hh:mm A';
 
+        let withTimezone;
         if (enableTimezone && timeZone) {
             momentDate.tz(timeZone);
-
-            return {
-                isoDate: momentDate.toString() + ' (' + momentDate.tz() + ')',
-                time: moment.tz(value, timeZone).format(format),
-            };
+            withTimezone = momentDate.toString() + ' (' + momentDate.tz() + ')';
         }
 
         return {
-            isoDate: momentDate.toString(),
+            isoDate: withTimezone || momentDate.toString(),
             time: momentDate.format(format),
         };
     };
