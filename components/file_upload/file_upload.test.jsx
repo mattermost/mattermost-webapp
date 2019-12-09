@@ -83,7 +83,7 @@ describe('components/FileUpload', () => {
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -91,7 +91,7 @@ describe('components/FileUpload', () => {
     test('should call onClick when fileInput is clicked', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         wrapper.find('input').simulate('click');
         expect(baseProps.onClick).toHaveBeenCalledTimes(1);
@@ -100,7 +100,7 @@ describe('components/FileUpload', () => {
     test('should call onClick on fileInput when button is touched', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.handleLocalFileUploaded = jest.fn();
         instance.fileInput = {
@@ -118,7 +118,7 @@ describe('components/FileUpload', () => {
                 {...baseProps}
                 fileCount={4}
             />
-        );
+        ).dive();
 
         const evt = {preventDefault: jest.fn()};
         wrapper.instance().handleMaxUploadReached = jest.fn();
@@ -148,7 +148,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         wrapper.instance().fileUploadSuccess(data, 'channel_id', 'root_id');
 
@@ -166,7 +166,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         wrapper.instance().fileUploadFail(params.err, params.clientId, params.channelId, params.rootId);
 
@@ -189,7 +189,7 @@ describe('components/FileUpload', () => {
             <FileUpload
                 {...baseProps}
             />
-        );
+        ).dive();
         jest.spyOn(wrapper.instance(), 'containsEventTarget').mockReturnValue(true);
         const spy = jest.spyOn(wrapper.instance(), 'checkPluginHooksAndUploadFiles');
 
@@ -207,7 +207,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         wrapper.instance().checkPluginHooksAndUploadFiles(files);
 
@@ -230,7 +230,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...props}/>
-        );
+        ).dive();
 
         wrapper.instance().checkPluginHooksAndUploadFiles(files);
 
@@ -249,7 +249,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...props}/>
-        );
+        ).dive();
 
         wrapper.instance().checkPluginHooksAndUploadFiles(files);
 
@@ -266,7 +266,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         wrapper.instance().checkPluginHooksAndUploadFiles(files);
 
@@ -281,7 +281,7 @@ describe('components/FileUpload', () => {
     test('should functions when handleChange is called', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         const e = {target: {files: [{name: 'file1.pdf'}]}};
         const instance = wrapper.instance();
@@ -301,7 +301,7 @@ describe('components/FileUpload', () => {
     test('should functions when handleDrop is called', () => {
         const wrapper = shallowWithIntl(
             <FileUpload {...baseProps}/>
-        );
+        ).dive();
 
         const e = {dataTransfer: {files: [{name: 'file1.pdf'}]}};
         const instance = wrapper.instance();
@@ -327,7 +327,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...props}/>
-        );
+        ).dive();
 
         wrapper.instance().checkPluginHooksAndUploadFiles(files);
 
@@ -348,7 +348,7 @@ describe('components/FileUpload', () => {
 
         const wrapper = shallowWithIntl(
             <FileUpload {...props}/>
-        );
+        ).dive();
 
         wrapper.instance().checkPluginHooksAndUploadFiles(files);
 
