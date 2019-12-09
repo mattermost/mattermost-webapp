@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedTime} from 'react-intl';
 import moment from 'moment-timezone';
 
 type Props = {
@@ -29,7 +28,7 @@ type Props = {
 }
 
 export default class LocalDateTime extends React.PureComponent<Props> {
-    public render() {
+    getFormattedTime = () => {
         const {
             enableTimezone,
             eventTime,
@@ -37,29 +36,36 @@ export default class LocalDateTime extends React.PureComponent<Props> {
             useMilitaryTime,
         } = this.props;
 
-        const date = eventTime ? new Date(eventTime) : new Date();
+        const value = eventTime ? new Date(eventTime) : new Date();
+        const momentDate = moment(value);
+        const format = useMilitaryTime ? 'HH:mm' : 'hh:mm A';
 
-        const titleMoment = moment(date);
-        let titleString = titleMoment.toString();
         if (enableTimezone && timeZone) {
-            titleMoment.tz(timeZone);
-            titleString = titleMoment.toString() + ' (' + titleMoment.tz() + ')';
+            momentDate.tz(timeZone);
+
+            return {
+                isoDate: momentDate.toString() + ' (' + momentDate.tz() + ')',
+                time: moment.tz(value, timeZone).format(format),
+            };
         }
 
-        const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
+        return {
+            isoDate: momentDate.toString(),
+            time: momentDate.format(format),
+        };
+    };
+
+    public render() {
+        const {isoDate, time} = this.getFormattedTime();
 
         return (
             <time
-                aria-label={date.toString()}
+                aria-label={isoDate}
                 className='post__time'
-                dateTime={date.toISOString()}
-                title={titleString}
+                dateTime={isoDate}
+                title={isoDate}
             >
-                <FormattedTime
-                    {...timezoneProps}
-                    hour12={!useMilitaryTime}
-                    value={date}
-                />
+                <span>{time}</span>
             </time>
         );
     }
