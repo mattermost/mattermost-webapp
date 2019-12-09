@@ -655,7 +655,7 @@ export default class CreatePost extends React.Component {
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
+        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition);
 
         if (ignoreKeyPress) {
             e.preventDefault();

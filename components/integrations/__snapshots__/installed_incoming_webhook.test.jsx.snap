@@ -47,7 +47,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
       className="item-details__row"
     >
       <span
-        className="item-details__url"
+        className="item-details__url word-break--all"
       >
         <FormattedMessage
           defaultMessage="URL: {url}"

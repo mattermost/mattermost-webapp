@@ -986,4 +986,25 @@ describe('components/CreateComment', () => {
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);
     });
+
+    test('should show preview and edit mode, and return focus on preview disable', () => {
+        const wrapper = shallowWithIntl(
+            <CreateComment {...baseProps}/>
+        );
+        const instance = wrapper.instance();
+        instance.focusTextbox = jest.fn();
+
+        expect(wrapper.state('showPreview')).toBe(false);
+        expect(instance.focusTextbox).not.toBeCalled();
+
+        instance.updatePreview(true);
+
+        expect(wrapper.state('showPreview')).toBe(true);
+        expect(instance.focusTextbox).not.toBeCalled();
+
+        instance.updatePreview(false);
+
+        expect(wrapper.state('showPreview')).toBe(false);
+        expect(instance.focusTextbox).toBeCalled();
+    });
 });

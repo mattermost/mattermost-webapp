@@ -257,6 +257,11 @@ export default class CreateComment extends React.PureComponent {
             this.focusTextbox();
         }
 
+        // Focus on textbox when returned from preview mode
+        if (prevState.showPreview && !this.state.showPreview) {
+            this.focusTextbox();
+        }
+
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
             this.focusTextbox();
         }
@@ -498,7 +503,7 @@ export default class CreateComment extends React.PureComponent {
             codeBlockOnCtrlEnter,
         } = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter);
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter, 0, 0, this.state.caretPosition);
 
         if (allowSending) {
             e.persist();
