@@ -4,9 +4,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {isNil} from 'lodash';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
-
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
+import {localizeMessage} from 'utils/utils.jsx';
 import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 
@@ -34,13 +37,75 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         this.setState({showConfirmationModal: false});
     }
 
+    changeRoles = () => {
+        this.props.onChangeRoles(this.props.id, this.props.type, !this.props.scheme_admin);
+    }
+
     toggleCollapse = () => {
         this.props.onToggleCollapse(this.props.id);
+    }
+
+    displayAssignedRolesDropdown = () => {
+        const { scheme_admin } = this.props;
+        const channelAdmin = (
+            <FormattedMessage
+                id='admin.group_teams_and_channels_row.channelAdmin'
+                defaultMessage='Channel Admin'
+            />
+        );
+        const teamAdmin = (
+            <FormattedMessage
+                id='admin.group_teams_and_channels_row.teamAdmin'
+                defaultMessage='Channel Admin'
+            />
+        );
+        const member = (
+            <FormattedMessage
+                id='admin.group_teams_and_channels_row.member'
+                defaultMessage='Member'
+            />
+        );
+        let dropDown = null;
+        if (!isNil(scheme_admin)) {
+            let currentRole = member;
+            let roleToBe = (this.props.type.includes('team')) ? teamAdmin : channelAdmin;
+            if (scheme_admin) {
+                currentRole = (this.props.type.includes('team')) ? teamAdmin : channelAdmin;
+                roleToBe = member;
+            }
+            dropDown = (
+                <div >
+                <MenuWrapper>
+                    <div>
+                        <a>
+                            <span>{currentRole} </span>
+                            <span className='caret'/>
+                        </a>
+                    </div>
+                    <Menu
+                        openLeft={true}
+                        openUp={true}
+                        ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
+                    >
+                        <Menu.ItemAction
+                            show
+                            onClick={this.changeRoles}
+                            text={roleToBe}
+                        />
+                    </Menu>
+                </MenuWrapper>
+            </div>
+            );
+        }
+
+
+        return dropDown;
     }
 
     render = () => {
         let extraClasses = '';
         let arrowIcon = null;
+        console.log(this.props)
         if (this.props.hasChildren) {
             arrowIcon = (
                 <i
@@ -57,12 +122,19 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
 
         let teamIcon = null;
         let channelIcon = null;
-        switch (this.props.type) {
+        let typeText = null;
+        switch (this.props) {
         case 'public-team':
             teamIcon = (
                 <div className='team-icon team-icon-public'>
                     <i className={'fa fa-circle-o-notch'}/>
                 </div>
+            );
+            typeText = (
+                <FormattedMessage
+                    id='admin.group_settings.group_details.group_teams_and_channels_row.publicTeam'
+                    defaultMessage='Team'
+                />
             );
             break;
         case 'private-team':
@@ -73,6 +145,12 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                         <i className={'fa fa-lock fa-stack-1x'}/>
                     </span>
                 </div>
+            );
+            typeText = (
+                <FormattedMessage
+                    id='admin.group_settings.group_details.group_teams_and_channels_row.privateTeam'
+                    defaultMessage='Team (Private)'
+                />
             );
             break;
         default:
@@ -86,12 +164,24 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     <GlobeIcon className='icon icon__globe'/>
                 </div>
             );
+            typeText = (
+                <FormattedMessage
+                    id='admin.group_settings.group_details.group_teams_and_channels_row.publicChannel'
+                    defaultMessage='Channel'
+                />
+            );
             break;
         case 'private-channel':
             channelIcon = (
                 <div className='channel-icon'>
                     <LockIcon className='icon icon__lock'/>
                 </div>
+            );
+            typeText = (
+                <FormattedMessage
+                    id='admin.group_settings.group_details.group_teams_and_channels_row.privateChannel'
+                    defaultMessage='Channel (Private)'
+                />
             );
             break;
         }
@@ -134,6 +224,8 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                 <div className='name'>
                     {this.props.name}
                 </div>
+                {typeText}
+                {this.displayAssignedRolesDropdown()}
                 <div className='remove'>
                     {!this.props.implicit &&
                         <button

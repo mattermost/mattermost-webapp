@@ -41,6 +41,17 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         }
     }
 
+    onChangeRoles = async (id, type, roleToBe) => {
+        console.log(roleToBe);
+        // if (type === 'public-team' || type === 'private-team') {
+        //     await this.props.link(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: roleToBecome});
+        //     await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_TEAM);
+        // } else {
+        //     await this.props.link(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: roleToBecome});
+        //     await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
+        // }
+    }
+
     teamsAndChannelsToEntries = (teams, channels) => {
         const entries = [];
 
@@ -55,6 +66,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 collapsed: this.state.collapsed[team.team_id],
                 id: team.team_id,
                 implicit: false,
+                scheme_admin: Math.random() > 0.5,
             });
         });
 
@@ -65,6 +77,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 type: channel.channel_type === 'O' ? 'public-channel' : 'private-channel',
                 name: channel.channel_display_name,
                 id: channel.channel_id,
+                scheme_admin: Math.random() > 0.5,
             });
 
             if (!existingTeams.has(channel.team_id)) {
@@ -122,16 +135,33 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         return (
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--header'>
+                    <div>
                     <FormattedMessage
                         id='admin.group_settings.group_profile.group_teams_and_channels.name'
                         defaultMessage='Name'
                     />
+                    </div>
+                    <div >
+                        <FormattedMessage
+                            id='admin.group_settings.group_profile.group_teams_and_channels.type'
+                            defaultMessage='Type'
+                        />
+                    </div>
+
+                    <div>
+                        <FormattedMessage
+                            id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
+                            defaultMessage='Assigned Roles'
+                        />
+                    </div>
+
                 </div>
                 <div className='group-teams-and-channels--body'>
                     {entries.map((entry) => (
                         <GroupTeamsAndChannelsRow
                             key={entry.id}
                             onRemoveItem={this.onRemoveItem}
+                            onChangeRoles={this.onChangeRoles}
                             onToggleCollapse={this.onToggleCollapse}
                             {...entry}
                         />
