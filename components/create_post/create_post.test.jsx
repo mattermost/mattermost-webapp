@@ -147,7 +147,7 @@ describe('components/create_post', () => {
     });
 
     it('should match snapshot for center textbox', () => {
-        const wrapper = shallowWithIntl(createPost({fullWidthTextBox: false}));
+        const wrapper = shallowWithIntl(createPost({fullWidthTextBox: false})).dive();
 
         expect(wrapper.find('#create_post').hasClass('center')).toBe(true);
         expect(wrapper).toMatchSnapshot();
