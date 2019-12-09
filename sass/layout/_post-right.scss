@@ -11,7 +11,45 @@
 
     .post-right-comments-container {
         position: relative;
+
+        .post {
+            padding: 8px .5em 8px 1.5em;
+
+            &.same--root {
+                &.same--user {
+                    padding-top: 0;
+                    padding-bottom: 0;
+                }
+            }
+
+            &:hover {
+                & + .Separator {
+                    .separator__hr {
+                        overflow: visible;
+
+                        &:before {
+                            content: '';
+                            background: v(center-channel-color-08);
+                            width: 100%;
+                            height: 16px;
+                            position: absolute;
+                            left: 0;
+                            top: -16px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .Separator {
+            padding-top: 15px;
+
+            & + .post {
+                padding-top: 20px;
+            }
+        }
     }
+
 
 
     .help_format_text {
