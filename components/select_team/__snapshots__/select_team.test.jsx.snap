@@ -43,6 +43,7 @@ exports[`components/select_team/SelectTeam should match snapshot 1`] = `
           itemsPerPage={30}
           loaderStyle={
             Object {
+              "height": "40px",
               "padding": "0px",
             }
           }
@@ -324,6 +325,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           itemsPerPage={30}
           loaderStyle={
             Object {
+              "height": "40px",
               "padding": "0px",
             }
           }
@@ -551,6 +553,7 @@ exports[`components/select_team/SelectTeam should match snapshot, on no joinable
           itemsPerPage={30}
           loaderStyle={
             Object {
+              "height": "40px",
               "padding": "0px",
             }
           }

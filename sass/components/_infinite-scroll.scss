@@ -1,5 +1,10 @@
 @charset 'UTF-8';
 
 .infinite-scroll {
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
+
+
+.infinite-scroll:hover {
+    overflow-y: scroll;
+  }

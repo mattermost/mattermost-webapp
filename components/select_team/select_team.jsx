@@ -256,7 +256,7 @@ export default class SelectTeam extends React.Component {
                         itemsPerPage={TEAMS_PER_PAGE}
                         bufferValue={200}
                         pageNumber={currentPage}
-                        loaderStyle={{padding: '0px'}}
+                        loaderStyle={{padding: '0px', height: '40px'}}
                     >
                         {joinableTeamContents}
                     </InfiniteScroll>
