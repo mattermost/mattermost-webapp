@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 type Props = {
+    className?: string;
     component?: string;
     title: {
         id: string;
@@ -13,12 +14,18 @@ type Props = {
     };
 }
 
-const LocalizedIcon = React.forwardRef((props: Props, ref?: React.Ref<HTMLIElement>) => {
+const LocalizedIcon = React.forwardRef((props: Props, ref?: React.Ref<HTMLElement>) => {
     const {
-        component: Component,
+        component,
         title,
         ...otherProps
     } = props;
+
+    if (component !== 'i' && component !== 'span') {
+        return null;
+    }
+
+    const Component = component!; // Use an uppercase name since React thinks anything lowercase is an HTML tag
 
     return (
         <FormattedMessage
