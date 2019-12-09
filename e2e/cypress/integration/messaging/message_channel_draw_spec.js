@@ -31,7 +31,7 @@ describe('Draw plugin : Post message', () => {
         cy.apiUpdateConfig(newSettings);
     });
 
-    beforeEach(() => {
+    beforeEach(function () {
         // Visit Default channel - Clear saved draft message - Click on upload option
         cy.visit('/ad-1/channels/town-square');
         getPostTextBox().clear().type('This check is for draw plugin');
@@ -76,7 +76,7 @@ const getPostTextBox = () => {
 
 function validatePostMessageOnUploadCancelOperations(buttonClassName) {
     cy.get(buttonClassName).should('be.visible').click();
-    cy.getPostTextBox().
+    getPostTextBox().
         should('be.visible').wait(TIMEOUTS.TINY).
         should('have.text', 'This check is for draw plugin');
 }
