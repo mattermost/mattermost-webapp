@@ -63,27 +63,24 @@ export default class UserProvider extends Provider {
         super();
         this.autocompleteUsers = searchUsersFunc;
     }
-    handlePretextChanged(pretext, resultsCallback) {
+    async handlePretextChanged(pretext, resultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
-        this.autocompleteUsers(
-            normalizedPretext,
-            (data) => {
-                if (this.shouldCancelDispatch(normalizedPretext)) {
-                    return;
-                }
+        const data = await this.autocompleteUsers(normalizedPretext);
 
-                const users = Object.assign([], data.users);
+        if (this.shouldCancelDispatch(normalizedPretext)) {
+            return false;
+        }
 
-                resultsCallback({
-                    matchedPretext: normalizedPretext,
-                    terms: users.map((user) => user.username),
-                    items: users,
-                    component: UserSuggestion,
-                });
-            }
-        );
+        const users = Object.assign([], data.users);
+
+        resultsCallback({
+            matchedPretext: normalizedPretext,
+            terms: users.map((user) => user.username),
+            items: users,
+            component: UserSuggestion,
+        });
 
         return true;
     }

@@ -299,22 +299,18 @@ export async function loadProfilesForDM() {
     }
 }
 
-export function autocompleteUsersInTeam(username, success) {
+export function autocompleteUsersInTeam(username) {
     return async (doDispatch, doGetState) => {
         const currentTeamId = getCurrentTeamId(doGetState());
         const {data} = await doDispatch(UserActions.autocompleteUsers(username, currentTeamId));
-        if (success) {
-            success(data);
-        }
+        return data;
     };
 }
 
-export function autocompleteUsers(username, success) {
+export function autocompleteUsers(username) {
     return async (doDispatch) => {
         const {data} = await doDispatch(UserActions.autocompleteUsers(username));
-        if (success) {
-            success(data);
-        }
+        return data;
     };
 }
 

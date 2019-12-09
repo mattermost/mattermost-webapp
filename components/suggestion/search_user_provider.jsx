@@ -67,31 +67,28 @@ export default class SearchUserProvider extends Provider {
         this.autocompleteUsersInTeam = userSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    async handlePretextChanged(pretext, resultsCallback) {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             const usernamePrefix = captured[1];
 
             this.startNewRequest(usernamePrefix);
 
-            this.autocompleteUsersInTeam(
-                usernamePrefix,
-                (data) => {
-                    if (this.shouldCancelDispatch(usernamePrefix)) {
-                        return;
-                    }
+            const data = await this.autocompleteUsersInTeam(usernamePrefix);
 
-                    const users = Object.assign([], data.users);
-                    const mentions = users.map((user) => user.username);
+            if (this.shouldCancelDispatch(usernamePrefix)) {
+                return false;
+            }
 
-                    resultsCallback({
-                        matchedPretext: usernamePrefix,
-                        terms: mentions,
-                        items: users,
-                        component: SearchUserSuggestion,
-                    });
-                }
-            );
+            const users = Object.assign([], data.users);
+            const mentions = users.map((user) => user.username);
+
+            resultsCallback({
+                matchedPretext: usernamePrefix,
+                terms: mentions,
+                items: users,
+                component: SearchUserSuggestion,
+            });
         }
 
         return Boolean(captured);
