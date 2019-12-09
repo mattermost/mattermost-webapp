@@ -10,8 +10,9 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 import Constants from 'utils/constants';
+import {isMac} from 'utils/utils';
 
-const MIN_TOAST_HEIGHT = 1000;
+const MIN_TOAST_ZINDEX = 1;
 
 export default class Toast extends React.PureComponent {
     static propTypes = {
@@ -21,10 +22,7 @@ export default class Toast extends React.PureComponent {
         children: PropTypes.element,
         show: PropTypes.bool.isRequired,
         showActions: PropTypes.bool, //used for showing jump actions
-    }
-
-    handleClick = () => {
-        this.props.onClick();
+        isMobile: PropTypes.bool,
     }
 
     handleDismiss = () => {
@@ -39,38 +37,74 @@ export default class Toast extends React.PureComponent {
             toastClass += ' toast__visible';
         }
 
+        let toastActionClass = 'toast__message';
+        if (this.props.showActions) {
+            toastActionClass += ' toast__pointer';
+        }
+
         const jumpSection = () => {
-            if (this.props.showActions) {
-                return (
-                    <div
-                        className='toast__jump'
-                        onClick={this.handleClick}
-                    >
-                        <UnreadBelowIcon/>
-                        {this.props.onClickMessage}
-                    </div>
-                );
-            }
-            return null;
+            return (
+                <div
+                    className='toast__jump'
+                >
+                    <UnreadBelowIcon/>
+                    {!this.props.isMobile && this.props.onClickMessage}
+                </div>
+            );
         };
 
         const closeTooltip = (
             <Tooltip id='toast-close__tooltip'>
                 <FormattedMessage
-                    id='postlist.toast.markAsRead'
-                    defaultMessage='Mark as read'
+                    id='general_button.close'
+                    defaultMessage='Close'
                 />
+                <div className='tooltip__shortcut--txt'>
+                    <FormattedMessage
+                        id='general_button.esc'
+                        defaultMessage='esc'
+                    />
+                </div>
+            </Tooltip>
+        );
+
+        let jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.windows;';
+        let jumpToShortcutDefault = 'CNTRL+J';
+        if (isMac()) {
+            jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.mac';
+            jumpToShortcutDefault = '⌘J';
+        }
+        const onClickMessageToolTip = (
+            <Tooltip id='dismissToast1'>
+                {this.props.onClickMessage}
+                <div className='tooltip__shortcut--txt'>
+                    <FormattedMessage
+                        id={jumpToShortcutId}
+                        defaultMessage={jumpToShortcutDefault}
+                    />
+                </div>
             </Tooltip>
         );
 
         return (
             <div
                 className={toastClass}
-                style={{zIndex: MIN_TOAST_HEIGHT}}
+                style={{zIndex: MIN_TOAST_ZINDEX}}
             >
-                {jumpSection()}
-                <div className='toast__message'>
-                    {this.props.children}
+                <div
+                    className={toastActionClass}
+                    onClick={this.props.showActions ? this.props.onClick : null}
+                >
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='bottom'
+                        overlay={onClickMessageToolTip}
+                    >
+                        <div>
+                            {this.props.showActions && jumpSection()}
+                            {this.props.children}
+                        </div>
+                    </OverlayTrigger>
                 </div>
                 <div
                     className='toast__dismiss'
@@ -78,11 +112,11 @@ export default class Toast extends React.PureComponent {
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement='bottom'
                         overlay={closeTooltip}
                     >
                         <CloseIcon
-                            className='close-x'
+                            className='close-btn'
                             id='dismissToast'
                         />
                     </OverlayTrigger>

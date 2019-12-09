@@ -5,16 +5,47 @@ exports[`components/Toast should match snapshot 1`] = `
   className="toast toast__visible"
   style={
     Object {
-      "zIndex": 1000,
+      "zIndex": 1,
     }
   }
 >
   <div
     className="toast__message"
   >
-    <span>
-      child
-    </span>
+    <OverlayTrigger
+      defaultOverlayShown={false}
+      delayShow={400}
+      overlay={
+        <Tooltip
+          bsClass="tooltip"
+          id="dismissToast1"
+          placement="right"
+        >
+          <div
+            className="tooltip__shortcut--txt"
+          >
+            <FormattedMessage
+              defaultMessage="CNTRL+J"
+              id="quick_switch_modal.jumpToShortcut.windows;"
+              values={Object {}}
+            />
+          </div>
+        </Tooltip>
+      }
+      placement="bottom"
+      trigger={
+        Array [
+          "hover",
+          "focus",
+        ]
+      }
+    >
+      <div>
+        <span>
+          child
+        </span>
+      </div>
+    </OverlayTrigger>
   </div>
   <div
     className="toast__dismiss"
@@ -30,13 +61,22 @@ exports[`components/Toast should match snapshot 1`] = `
           placement="right"
         >
           <FormattedMessage
-            defaultMessage="Mark as read"
-            id="postlist.toast.markAsRead"
+            defaultMessage="Close"
+            id="general_button.close"
             values={Object {}}
           />
+          <div
+            className="tooltip__shortcut--txt"
+          >
+            <FormattedMessage
+              defaultMessage="esc"
+              id="general_button.esc"
+              values={Object {}}
+            />
+          </div>
         </Tooltip>
       }
-      placement="top"
+      placement="bottom"
       trigger={
         Array [
           "hover",
@@ -45,7 +85,7 @@ exports[`components/Toast should match snapshot 1`] = `
       }
     >
       <CloseIcon
-        className="close-x"
+        className="close-btn"
         id="dismissToast"
       />
     </OverlayTrigger>

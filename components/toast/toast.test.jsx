@@ -21,14 +21,6 @@ describe('components/Toast', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should click', () => {
-        const wrapper = mountWithIntl(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
-        const toast = wrapper.find(Toast).instance();
-
-        toast.handleClick();
-        expect(defaultProps.onClick).toHaveBeenCalledTimes(1);
-    });
-
     test('should dismiss', () => {
         defaultProps.onDismiss = jest.fn();
 

@@ -10,7 +10,6 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
-import NewMessagesBelow from 'components/post_view/new_messages_below';
 import Toast from 'components/toast/toast';
 import PostListRow from 'components/post_view/post_list_row';
 
@@ -103,25 +102,6 @@ describe('PostList', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
 
             expect(wrapper.find(Toast).exists()).toBe(true);
-        });
-    });
-
-    describe('new messages below', () => {
-        test('should mount outside of permalink view on mobile', () => {
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-            wrapper.setState({isMobile: true});
-            expect(wrapper.find(NewMessagesBelow).exists()).toBe(true);
-        });
-
-        test('should not mount when in permalink view on mobile', () => {
-            const props = {
-                ...baseProps,
-                focusedPostId: '1234',
-            };
-
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
-            wrapper.setState({isMobile: true});
-            expect(wrapper.find(NewMessagesBelow).exists()).toBe(false);
         });
     });
 
