@@ -11,6 +11,7 @@ exports[`components/Toast should match snapshot 1`] = `
 >
   <div
     className="toast__message"
+    onClick={null}
   >
     <OverlayTrigger
       defaultOverlayShown={false}
