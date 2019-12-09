@@ -8,6 +8,7 @@ import safeOpenProtocol from 'custom-protocol-detection';
 import desktopImg from 'images/deep-linking/deeplinking-desktop-img.png';
 import mobileImg from 'images/deep-linking/deeplinking-mobile-img.png';
 import MattermostLogoSvg from 'images/logo.svg';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import BrowserStore from 'stores/browser_store';
 import {VaultPreferenceTypes} from 'utils/constants';
@@ -21,6 +22,7 @@ type Props = {
     desktopAppLink?: string;
     iosAppLink?: string;
     androidAppLink?: string;
+    siteUrl?: string;
 }
 
 type State = {
@@ -45,7 +47,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     checkVaultPreference = () => {
-        const vaultPreference = BrowserStore.getVaultPreference();
+        const vaultPreference = BrowserStore.getVaultPreference(this.props.siteUrl);
         if (vaultPreference) {
             switch (vaultPreference) {
             case VaultPreferenceTypes.MATTERMOSTAPP:
@@ -68,10 +70,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         if (this.state.rememberChecked) {
             switch (pref) {
             case VaultPreferenceTypes.MATTERMOSTAPP:
-                BrowserStore.setVaultPreferenceToMattermostApp();
+                BrowserStore.setVaultPreferenceToMattermostApp(this.props.siteUrl);
                 break;
             case VaultPreferenceTypes.BROWSER:
-                BrowserStore.setVaultPreferenceToBrowser();
+                BrowserStore.setVaultPreferenceToBrowser(this.props.siteUrl);
                 break;
             default:
                 break;
@@ -198,17 +200,13 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         if (this.state.redirectPage) {
             downloadLink = (
                 <div className='get-app__download-link'>
-                    <FormattedMessage
-                        id='get_app.or'
-                        defaultMessage={'Or,'}
+                    <FormattedMarkdownMessage
+                        id='get_app.openLinkInBrowser'
+                        defaultMessage='Or, [open this link in your browser.](!{link})'
+                        values={{
+                            link: this.props.location
+                        }}
                     />
-                    {'\u00A0'}
-                    <a href={this.props.location}>
-                        <FormattedMessage
-                            id='get_app.openLinkInBrowser'
-                            defaultMessage='open this link in your browser.'
-                        />
-                    </a>
                 </div>
             );
         } else if (!protocolUnsupported && downloadLinkLink) {

@@ -21,6 +21,7 @@ function mapStateToProps(state: GlobalState) {
         backgroundColor: defaultTheme.sidebarBg,
         location,
         nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
+        siteUrl: config.SiteURL,
     };
 }
 

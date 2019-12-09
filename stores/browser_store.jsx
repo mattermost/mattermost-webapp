@@ -110,16 +110,16 @@ class BrowserStoreClass {
         localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, landingPageSeen);
     }
 
-    getVaultPreference() {
-        return localStorage.getItem(StoragePrefixes.VAULT_PREFERENCE);
+    getVaultPreference(siteUrl) {
+        return localStorage.getItem(StoragePrefixes.VAULT_PREFERENCE + String(siteUrl));
     }
 
-    setVaultPreferenceToMattermostApp() {
-        localStorage.setItem(StoragePrefixes.VAULT_PREFERENCE, VaultPreferenceTypes.MATTERMOSTAPP);
+    setVaultPreferenceToMattermostApp(siteUrl) {
+        localStorage.setItem(StoragePrefixes.VAULT_PREFERENCE + String(siteUrl), VaultPreferenceTypes.MATTERMOSTAPP);
     }
 
-    setVaultPreferenceToBrowser() {
-        localStorage.setItem(StoragePrefixes.VAULT_PREFERENCE, VaultPreferenceTypes.BROWSER);
+    setVaultPreferenceToBrowser(siteUrl) {
+        localStorage.setItem(StoragePrefixes.VAULT_PREFERENCE + String(siteUrl), VaultPreferenceTypes.BROWSER);
     }
 }
 
