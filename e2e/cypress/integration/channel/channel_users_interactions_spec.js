@@ -44,10 +44,8 @@ describe('Channel users interactions', () => {
         cy.get('#post_textbox').clear().type('message123{enter}');
 
         // * verify that last posted message is visible
-        cy.get('[data-testid="postContent"]').
-            last().
-            find('p').
-            should('be.visible').
-            and('have.text', 'message123');
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).should('have.text', 'message123');
+        });
     });
 });
