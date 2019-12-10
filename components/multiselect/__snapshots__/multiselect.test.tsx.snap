@@ -97,11 +97,25 @@ exports[`components/multiselect/multiselect should match snapshot 1`] = `
       />
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={false}
         extraClasses=""
         id="saveItems"
         onClick={[Function]}
         saving={false}
+        savingMessage={
+          <FormattedMessage
+            defaultMessage="Saving"
+            id="save_button.saving"
+            values={Object {}}
+          />
+        }
       />
     </div>
     <div
@@ -274,11 +288,25 @@ exports[`components/multiselect/multiselect should match snapshot for page 2 1`]
       />
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={false}
         extraClasses=""
         id="saveItems"
         onClick={[Function]}
         saving={false}
+        savingMessage={
+          <FormattedMessage
+            defaultMessage="Saving"
+            id="save_button.saving"
+            values={Object {}}
+          />
+        }
       />
     </div>
     <div
