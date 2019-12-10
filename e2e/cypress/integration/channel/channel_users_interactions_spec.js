@@ -35,7 +35,7 @@ describe('Channel users interactions', () => {
         cy.get('#sidebarItem_town-square').click({force: true});
 
         // * check that separator with message visible
-        cy.get('.NotificationSeparator').
+        cy.findByTestId('NotificationSeparator').
             find('span').
             should('be.visible').
             and('have.text', 'New Messages');
@@ -44,7 +44,7 @@ describe('Channel users interactions', () => {
         cy.get('#post_textbox').clear().type('message123{enter}');
 
         // * verify that last posted message is visible
-        cy.get('.post-message').
+        cy.get('[data-testid="postContent"]').
             last().
             find('p').
             should('be.visible').
