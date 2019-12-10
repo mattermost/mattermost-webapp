@@ -218,7 +218,7 @@ export default class Root extends React.Component {
         }
 
         if (mobileLanding && !BrowserStore.hasSeenLandingPage() && !toResetPasswordScreen) {
-            this.props.history.push('/vault#' + this.props.location.pathname + this.props.location.search);
+            this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
     }
@@ -304,7 +304,7 @@ export default class Root extends React.Component {
                         component={TermsOfService}
                     />
                     <Route
-                        path={'/vault'}
+                        path={'/landing'}
                         component={LinkingLandingPage}
                     />
                     <LoggedInRoute

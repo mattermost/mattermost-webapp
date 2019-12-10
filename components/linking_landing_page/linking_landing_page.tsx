@@ -11,7 +11,7 @@ import MattermostLogoSvg from 'images/logo.svg';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import BrowserStore from 'stores/browser_store';
-import {VaultPreferenceTypes} from 'utils/constants';
+import {LandingPreferenceTypes} from 'utils/constants';
 
 import * as UserAgent from 'utils/user_agent';
 
@@ -36,7 +36,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
-        const location = window.location.href.replace('/vault#', '');
+        const location = window.location.href.replace('/landing#', '');
 
         this.state = {
             protocolUnsupported: false,
@@ -47,20 +47,20 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
         };
 
-        this.checkVaultPreference();
+        this.checkLandingPreference();
     }
 
-    checkVaultPreference = () => {
-        const vaultPreference = BrowserStore.getVaultPreference(this.props.siteUrl);
-        if (!vaultPreference) {
+    checkLandingPreference = () => {
+        const landingPreference = BrowserStore.getLandingPreference(this.props.siteUrl);
+        if (!landingPreference) {
             return;
         }
 
-        switch (vaultPreference) {
-        case VaultPreferenceTypes.MATTERMOSTAPP:
+        switch (landingPreference) {
+        case LandingPreferenceTypes.MATTERMOSTAPP:
             this.openMattermostApp();
             break;
-        case VaultPreferenceTypes.BROWSER:
+        case LandingPreferenceTypes.BROWSER:
             this.openInBrowser();
             break;
         default:
@@ -78,11 +78,11 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         }
 
         switch (pref) {
-        case VaultPreferenceTypes.MATTERMOSTAPP:
-            BrowserStore.setVaultPreferenceToMattermostApp(this.props.siteUrl);
+        case LandingPreferenceTypes.MATTERMOSTAPP:
+            BrowserStore.setLandingPreferenceToMattermostApp(this.props.siteUrl);
             break;
-        case VaultPreferenceTypes.BROWSER:
-            BrowserStore.setVaultPreferenceToBrowser(this.props.siteUrl);
+        case LandingPreferenceTypes.BROWSER:
+            BrowserStore.setLandingPreferenceToBrowser(this.props.siteUrl);
             break;
         default:
             break;
@@ -90,13 +90,13 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     openMattermostApp = () => {
-        this.setPreference(VaultPreferenceTypes.MATTERMOSTAPP);
+        this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP);
         this.setState({redirectPage: true});
         window.location.href = this.state.nativeLocation;
     }
 
     openInBrowser = () => {
-        this.setPreference(VaultPreferenceTypes.BROWSER);
+        this.setPreference(LandingPreferenceTypes.BROWSER);
         window.location.href = this.state.location;
     }
 

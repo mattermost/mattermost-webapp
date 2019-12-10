@@ -5,7 +5,7 @@ import {browserHistory} from 'utils/browser_history';
 import * as Selectors from 'selectors/storage';
 import * as Actions from 'actions/storage';
 import store from 'stores/redux_store.jsx';
-import {ErrorPageTypes, StoragePrefixes, VaultPreferenceTypes} from 'utils/constants';
+import {ErrorPageTypes, StoragePrefixes, LandingPreferenceTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 
 const dispatch = store.dispatch;
@@ -110,16 +110,16 @@ class BrowserStoreClass {
         localStorage.setItem(StoragePrefixes.LANDING_PAGE_SEEN, landingPageSeen);
     }
 
-    getVaultPreference(siteUrl) {
-        return localStorage.getItem(StoragePrefixes.VAULT_PREFERENCE + String(siteUrl));
+    getLandingPreference(siteUrl) {
+        return localStorage.getItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl));
     }
 
-    setVaultPreferenceToMattermostApp(siteUrl) {
-        localStorage.setItem(StoragePrefixes.VAULT_PREFERENCE + String(siteUrl), VaultPreferenceTypes.MATTERMOSTAPP);
+    setLandingPreferenceToMattermostApp(siteUrl) {
+        localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.MATTERMOSTAPP);
     }
 
-    setVaultPreferenceToBrowser(siteUrl) {
-        localStorage.setItem(StoragePrefixes.VAULT_PREFERENCE + String(siteUrl), VaultPreferenceTypes.BROWSER);
+    setLandingPreferenceToBrowser(siteUrl) {
+        localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.BROWSER);
     }
 }
 
