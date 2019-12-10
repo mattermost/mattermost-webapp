@@ -12,15 +12,12 @@ import LinkingLandingPage from './linking_landing_page';
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const defaultTheme = getTheme(state);
-    const location = window.location.href.replace('/vault#', '');
 
     return {
         desktopAppLink: config.AppDownloadLink,
         iosAppLink: config.IosAppDownloadLink,
         androidAppLink: config.AndroidAppDownloadLink,
         backgroundColor: defaultTheme.sidebarBg,
-        location,
-        nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
         siteUrl: config.SiteURL,
     };
 }

@@ -17,8 +17,6 @@ import * as UserAgent from 'utils/user_agent';
 
 type Props = {
     backgroundColor: string;
-    location: string;
-    nativeLocation: string;
     desktopAppLink?: string;
     iosAppLink?: string;
     androidAppLink?: string;
@@ -30,17 +28,23 @@ type State = {
     browserUnsupported: boolean;
     rememberChecked: boolean;
     redirectPage: boolean;
+    location: string;
+    nativeLocation: string;
 }
 
 export default class LinkingLandingPage extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        const location = window.location.href.replace('/vault#', '');
+
         this.state = {
             protocolUnsupported: false,
             browserUnsupported: false,
             rememberChecked: false,
             redirectPage: false,
+            location,
+            nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
         };
 
         this.checkVaultPreference();
@@ -48,17 +52,19 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
     checkVaultPreference = () => {
         const vaultPreference = BrowserStore.getVaultPreference(this.props.siteUrl);
-        if (vaultPreference) {
-            switch (vaultPreference) {
-            case VaultPreferenceTypes.MATTERMOSTAPP:
-                this.openMattermostApp();
-                break;
-            case VaultPreferenceTypes.BROWSER:
-                this.openInBrowser();
-                break;
-            default:
-                break;
-            }
+        if (!vaultPreference) {
+            return;
+        }
+
+        switch (vaultPreference) {
+        case VaultPreferenceTypes.MATTERMOSTAPP:
+            this.openMattermostApp();
+            break;
+        case VaultPreferenceTypes.BROWSER:
+            this.openInBrowser();
+            break;
+        default:
+            break;
         }
     }
 
@@ -67,81 +73,70 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     setPreference = (pref: string) => {
-        if (this.state.rememberChecked) {
-            switch (pref) {
-            case VaultPreferenceTypes.MATTERMOSTAPP:
-                BrowserStore.setVaultPreferenceToMattermostApp(this.props.siteUrl);
-                break;
-            case VaultPreferenceTypes.BROWSER:
-                BrowserStore.setVaultPreferenceToBrowser(this.props.siteUrl);
-                break;
-            default:
-                break;
-            }
+        if (!this.state.rememberChecked) {
+            return;
+        }
+
+        switch (pref) {
+        case VaultPreferenceTypes.MATTERMOSTAPP:
+            BrowserStore.setVaultPreferenceToMattermostApp(this.props.siteUrl);
+            break;
+        case VaultPreferenceTypes.BROWSER:
+            BrowserStore.setVaultPreferenceToBrowser(this.props.siteUrl);
+            break;
+        default:
+            break;
         }
     }
 
     openMattermostApp = () => {
         this.setPreference(VaultPreferenceTypes.MATTERMOSTAPP);
         this.setState({redirectPage: true});
-        window.location.href = this.props.nativeLocation;
+        window.location.href = this.state.nativeLocation;
     }
 
     openInBrowser = () => {
         this.setPreference(VaultPreferenceTypes.BROWSER);
-        window.location.href = this.props.location;
+        window.location.href = this.state.location;
     }
 
     tryOpen = () => {
-        safeOpenProtocol(this.props.nativeLocation,
+        safeOpenProtocol(this.state.nativeLocation,
             () => this.setState({protocolUnsupported: true}),
             () => protocolDetected(),
             () => this.setState({browserUnsupported: true})
         );
     }
 
-    render() {
-        const {protocolUnsupported, browserUnsupported} = this.state;
+    renderSystemDialogMessage = () => {
         const isMobile = UserAgent.isMobile();
 
-        let systemDialogMessage;
         if (isMobile) {
-            systemDialogMessage = (
+            return (
                 <FormattedMessage
                     id='get_app.systemDialogMessageMobile'
                     defaultMessage='View in App'
                 />
             );
-        } else {
-            systemDialogMessage = (
-                <FormattedMessage
-                    id='get_app.systemDialogMessage'
-                    defaultMessage='View in Desktop App'
-                />
-            );
         }
 
-        let goNativeAppMessage = (
-            <a
-                href='#'
-                onClick={this.openMattermostApp}
-                className='btn btn-primary btn-lg get-app__download'
-            >
-                {systemDialogMessage}
-            </a>
+        return (
+            <FormattedMessage
+                id='get_app.systemDialogMessage'
+                defaultMessage='View in Desktop App'
+            />
         );
+    }
 
-        let downloadLinkLink = this.props.desktopAppLink;
-        if (UserAgent.isIosWeb()) {
-            downloadLinkLink = this.props.iosAppLink;
-        } else if (UserAgent.isAndroidWeb()) {
-            downloadLinkLink = this.props.androidAppLink;
-        }
+    renderGoNativeAppMessage = () => {
+        const {browserUnsupported, protocolUnsupported} = this.state;
+        const downloadLink = this.getDownloadLink();
+        const isMobile = UserAgent.isMobile();
 
-        if (protocolUnsupported && downloadLinkLink) {
-            goNativeAppMessage = (
+        if (protocolUnsupported && downloadLink) {
+            return (
                 <a
-                    href={downloadLinkLink}
+                    href={downloadLink}
                     className='btn btn-primary btn-lg get-app__download'
                 >
                     <FormattedMessage
@@ -151,7 +146,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                 </a>
             );
         } else if (browserUnsupported) {
-            goNativeAppMessage = (
+            return (
                 <a className='btn btn-primary btn-lg get-app__download disabled'>
                     <FormattedMessage
                         id='get_app.browserUnsupported'
@@ -161,61 +156,94 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             );
         }
 
-        let checkboxIcon;
+        return (
+            <a
+                href='#'
+                onClick={this.openMattermostApp}
+                className='btn btn-primary btn-lg get-app__download'
+            >
+                {this.renderSystemDialogMessage()}
+            </a>
+        );
+    }
+
+    getDownloadLink = () => {
+        if (UserAgent.isIosWeb()) {
+            return this.props.iosAppLink;
+        } else if (UserAgent.isAndroidWeb()) {
+            return this.props.androidAppLink;
+        }
+
+        return this.props.desktopAppLink;
+    }
+
+    renderCheckboxIcon = () => {
         if (this.state.rememberChecked) {
-            checkboxIcon = (
+            return (
                 <CheckboxCheckedIcon/>
             );
         }
 
-        let graphic;
+        return null;
+    }
+
+    renderGraphic = () => {
+        const isMobile = UserAgent.isMobile();
+
         if (isMobile) {
-            graphic = (
+            return (
                 <img src={mobileImg}/>
-            );
-        } else {
-            graphic = (
-                <img src={desktopImg}/>
             );
         }
 
-        let downloadLinkText;
+        return (
+            <img src={desktopImg}/>
+        );
+    }
+
+    renderDownloadLinkText = () => {
+        const isMobile = UserAgent.isMobile();
+
         if (isMobile) {
-            downloadLinkText = (
+            return (
                 <FormattedMessage
                     id='get_app.dontHaveTheMobileApp'
                     defaultMessage={'Don\'t have the Mobile App?'}
                 />
             );
-        } else {
-            downloadLinkText = (
-                <FormattedMessage
-                    id='get_app.dontHaveTheDesktopApp'
-                    defaultMessage={'Don\'t have the Desktop App?'}
-                />
-            );
         }
 
-        let downloadLink;
+        return (
+            <FormattedMessage
+                id='get_app.dontHaveTheDesktopApp'
+                defaultMessage={'Don\'t have the Desktop App?'}
+            />
+        );
+    }
+
+    renderDownloadLinkSection = () => {
+        const {protocolUnsupported} = this.state;
+        const downloadLink = this.getDownloadLink();
+
         if (this.state.redirectPage) {
-            downloadLink = (
+            return (
                 <div className='get-app__download-link'>
                     <FormattedMarkdownMessage
                         id='get_app.openLinkInBrowser'
                         defaultMessage='Or, [open this link in your browser.](!{link})'
                         values={{
-                            link: this.props.location
+                            link: this.state.location,
                         }}
                     />
                 </div>
             );
-        } else if (!protocolUnsupported && downloadLinkLink) {
-            downloadLink = (
+        } else if (!protocolUnsupported && downloadLink) {
+            return (
                 <div className='get-app__download-link'>
-                    {downloadLinkText}
+                    {this.renderDownloadLinkText()}
                     {'\u00A0'}
                     <br/>
-                    <a href={downloadLinkLink}>
+                    <a href={downloadLink}>
                         <FormattedMessage
                             id='get_app.downloadTheAppNow'
                             defaultMessage='Download the app now.'
@@ -225,9 +253,15 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             );
         }
 
-        let dialogHeader;
+        return null;
+    }
+
+    renderDialogHeader = () => {
+        const downloadLink = this.getDownloadLink();
+        const isMobile = UserAgent.isMobile();
+
         if (this.state.redirectPage) {
-            dialogHeader = (
+            return (
                 <div className='get-app__launching'>
                     <FormattedMessage
                         id='get_app.openingLink'
@@ -239,10 +273,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                             defaultMessage='You will be redirected in a few moments.'
                         />
                         <br/>
-                        {downloadLinkText}
+                        {this.renderDownloadLinkText()}
                         {'\u00A0'}
                         <br className='mobile-only'/>
-                        <a href={downloadLinkLink}>
+                        <a href={downloadLink}>
                             <FormattedMessage
                                 id='get_app.downloadTheAppNow'
                                 defaultMessage='Download the app now.'
@@ -251,82 +285,86 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else {
-            let viewApp = (
+        }
+
+        let viewApp = (
+            <FormattedMessage
+                id='get_app.ifNothingPrompts'
+                defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
+            />
+        );
+        if (isMobile) {
+            viewApp = (
                 <FormattedMessage
-                    id='get_app.ifNothingPrompts'
-                    defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
+                    id='get_app.ifNothingPromptsMobile'
+                    defaultMessage='You can view it in Mattermost mobile app or continue in the web browser.'
                 />
             );
-            if (isMobile) {
-                viewApp = (
-                    <FormattedMessage
-                        id='get_app.ifNothingPromptsMobile'
-                        defaultMessage='You can view it in Mattermost mobile app or continue in the web browser.'
-                    />
-                );
-            }
-
-            dialogHeader = (
-                <div className='get-app__launching'>
-                    <FormattedMessage
-                        id='get_app.launching'
-                        defaultMessage='Where would you like to view this?'
-                    />
-                    <div className='get-app__alternative'>
-                        {viewApp}
-                    </div>
-                </div>
-            );
         }
 
-        let dialogBody;
+        return (
+            <div className='get-app__launching'>
+                <FormattedMessage
+                    id='get_app.launching'
+                    defaultMessage='Where would you like to view this?'
+                />
+                <div className='get-app__alternative'>
+                    {viewApp}
+                </div>
+            </div>
+        );
+    }
+
+    renderDialogBody = () => {
         if (this.state.redirectPage) {
-            dialogBody = (
+            return (
                 <div className='get-app__dialog-body'>
-                    {dialogHeader}
-                    {downloadLink}
-                </div>
-            );
-        } else {
-            dialogBody = (
-                <div className='get-app__dialog-body'>
-                    {dialogHeader}
-                    <div className='get-app__buttons'>
-                        <div className='get-app__status'>
-                            {goNativeAppMessage}
-                        </div>
-                        <div className='get-app__status'>
-                            <a
-                                href='#'
-                                onClick={this.openInBrowser}
-                                className='btn btn-default btn-lg get-app__continue'
-                            >
-                                <FormattedMessage
-                                    id='get_app.continueToBrowser'
-                                    defaultMessage='View In Browser'
-                                />
-                            </a>
-                        </div>
-                    </div>
-                    <div className='get-app__preference'>
-                        <button
-                            className={`get-app__checkbox ${this.state.rememberChecked ? 'checked' : ''}`}
-                            onClick={this.handleChecked}
-                        >
-                            {checkboxIcon}
-                        </button>
-                        <FormattedMessage
-                            id='get_app.rememberMyPreference'
-                            defaultMessage='Remember my preference'
-                        />
-                    </div>
-                    {downloadLink}
+                    {this.renderDialogHeader()}
+                    {this.renderDownloadLinkSection()}
                 </div>
             );
         }
 
-        // prompt user to download in case they don't have the native app.
+        return (
+            <div className='get-app__dialog-body'>
+                {this.renderDialogHeader()}
+                <div className='get-app__buttons'>
+                    <div className='get-app__status'>
+                        {this.renderGoNativeAppMessage()}
+                    </div>
+                    <div className='get-app__status'>
+                        <a
+                            href='#'
+                            onClick={this.openInBrowser}
+                            className='btn btn-default btn-lg get-app__continue'
+                        >
+                            <FormattedMessage
+                                id='get_app.continueToBrowser'
+                                defaultMessage='View In Browser'
+                            />
+                        </a>
+                    </div>
+                </div>
+                <div className='get-app__preference'>
+                    <button
+                        className={`get-app__checkbox ${this.state.rememberChecked ? 'checked' : ''}`}
+                        onClick={this.handleChecked}
+                    >
+                        {this.renderCheckboxIcon()}
+                    </button>
+                    <FormattedMessage
+                        id='get_app.rememberMyPreference'
+                        defaultMessage='Remember my preference'
+                    />
+                </div>
+                {this.renderDownloadLinkSection()}
+            </div>
+        );
+    }
+
+    render() {
+        const isMobile = UserAgent.isMobile();
+
         return (
             <div className='get-app'>
                 <div className='get-app__header'>
@@ -340,9 +378,9 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                         className={`get-app__graphic ${isMobile ? 'mobile' : ''}`}
                         style={{backgroundColor: this.props.backgroundColor}}
                     >
-                        {graphic}
+                        {this.renderGraphic()}
                     </div>
-                    {dialogBody}
+                    {this.renderDialogBody()}
                 </div>
             </div>
         );
