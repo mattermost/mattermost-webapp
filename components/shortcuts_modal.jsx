@@ -171,12 +171,12 @@ const allShortcuts = defineMessages({
     msgReaction: {
         default: {
             id: t('shortcuts.msgs.reaction'),
-            defaultMessage: 'React to last message: \tCtrl|Shift|\u29F5'
+            defaultMessage: 'React to last message: \tCtrl|Shift|\u29F5',
         },
         mac: {
-            id: t('shortcuts.msgs.reaction'),
-            defaultMessage: 'React to last message: \t⌘|Shift|\u29F5'
-        }
+            id: t('shortcuts.msgs.reaction.mac'),
+            defaultMessage: 'React to last message: \t⌘|Shift|\u29F5',
+        },
     },
     filesHeader: {
         id: t('shortcuts.files.header'),
