@@ -2,9 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {injectIntl, intlShape} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 import marked from 'marked';
+
+import {intlShape} from 'utils/react_intl';
 
 const TARGET_BLANK_URL_PREFIX = '!';
 

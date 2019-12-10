@@ -5,12 +5,13 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 
 import Popover from 'components/widgets/popover';
