@@ -39,10 +39,10 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}
@@ -65,6 +65,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -173,10 +174,10 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}
@@ -199,6 +200,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -227,10 +229,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         value=""
       />
       <Popover
-        bsClass="popover"
         className="search-help-popover"
         id="searchbar-help-popup"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <SearchHint
           withTitle={true}
@@ -280,10 +283,10 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}
@@ -306,6 +309,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -334,10 +338,11 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         value=""
       />
       <Popover
-        bsClass="popover"
         className="search-help-popover visible"
         id="searchbar-help-popup"
         placement="bottom"
+        popoverSize="sm"
+        popoverStyle="info"
       >
         <SearchHint
           withTitle={true}
@@ -387,10 +392,10 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       <SearchIcon
         aria-hidden="true"
         className="search__icon"
-        id="searchIcon"
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
         completeOnTab={true}
@@ -413,6 +418,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         providers={
           Array [
             SearchChannelProvider {
+              "autocompleteChannelsForSearch": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",

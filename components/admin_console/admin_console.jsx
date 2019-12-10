@@ -12,7 +12,7 @@ import SystemNotice from 'components/system_notice';
 import ModalController from 'components/modal_controller';
 
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
-import DiscardChangesModal from 'components/discard_changes_modal.jsx';
+import DiscardChangesModal from 'components/discard_changes_modal';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
@@ -23,6 +23,7 @@ export default class AdminConsole extends React.Component {
         adminDefinition: PropTypes.object.isRequired,
         environmentConfig: PropTypes.object,
         license: PropTypes.object.isRequired,
+        unauthorizedRoute: PropTypes.string.isRequired,
         buildEnterpriseReady: PropTypes.bool,
         roles: PropTypes.object.isRequired,
         match: PropTypes.shape({
@@ -39,6 +40,7 @@ export default class AdminConsole extends React.Component {
             cancelNavigation: PropTypes.func.isRequired,
             loadRolesIfNeeded: PropTypes.func.isRequired,
             editRole: PropTypes.func.isRequired,
+            updateConfig: PropTypes.func,
         }).isRequired,
     }
 
@@ -117,11 +119,11 @@ export default class AdminConsole extends React.Component {
             showNavigationPrompt,
             roles,
         } = this.props;
-        const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole} = this.props.actions;
+        const {setNavigationBlocked, cancelNavigation, confirmNavigation, editRole, updateConfig} = this.props.actions;
 
         if (!this.props.isCurrentUserSystemAdmin) {
             return (
-                <Redirect to='/'/>
+                <Redirect to={this.props.unauthorizedRoute}/>
             );
         }
 
@@ -157,6 +159,7 @@ export default class AdminConsole extends React.Component {
             setNavigationBlocked,
             roles,
             editRole,
+            updateConfig,
         };
         return (
             <div

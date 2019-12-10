@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {InviteTypes} from 'utils/constants.jsx';
+import {InviteTypes} from 'utils/constants';
 
 import InvitationModalConfirmStep from './invitation_modal_confirm_step.jsx';
 
@@ -13,7 +13,6 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
                 teamName='test'
-                goBack={jest.fn()}
                 onDone={jest.fn()}
                 invitesType={InviteTypes.INVITE_GUEST}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
@@ -27,7 +26,6 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
                 teamName='test'
-                goBack={jest.fn()}
                 onDone={jest.fn()}
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
@@ -41,7 +39,6 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
                 teamName='test'
-                goBack={jest.fn()}
                 onDone={jest.fn()}
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[]}
@@ -55,7 +52,6 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
                 teamName='test'
-                goBack={jest.fn()}
                 onDone={jest.fn()}
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[{email: 'invite1@email'}, {email: 'invite2@email'}]}
@@ -69,7 +65,6 @@ describe('components/invitation_modal/InvitationModalConfirmStep', () => {
         const wrapper = shallow(
             <InvitationModalConfirmStep
                 teamName='test'
-                goBack={jest.fn()}
                 onDone={jest.fn()}
                 invitesType={InviteTypes.INVITE_MEMBER}
                 invitesSent={[]}

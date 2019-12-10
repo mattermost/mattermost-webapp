@@ -6,7 +6,7 @@ import React from 'react';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
-import Constants, {FileTypes} from 'utils/constants.jsx';
+import Constants, {FileTypes} from 'utils/constants';
 import {
     getFileType,
     getIconClassName,

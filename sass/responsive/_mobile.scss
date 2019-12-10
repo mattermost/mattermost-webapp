@@ -1,8 +1,147 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    #navbar_wrapper {
+        .navbar-default {
+            .navbar-brand {
+                margin-left: 0;
+            }
+        }
+    }
+
+    .app__body {
+        .MenuWrapper {
+            .MenuItem__divider {
+                margin: 0;
+                border: none;
+            }
+        }
+    }
+
+    .post-right__container {
+        height: 100%;
+    }
+
+    .line-switch__toggle {
+        margin: 8px 0;
+    }
+
+
+    .backstage-list__item {
+        .item-actions,
+        .actions {
+            margin: 10px 0;
+        }
+    }
+
+
+    .integration__icon {
+        &.integration-list__icon {
+            position: relative;
+            top: 0;
+            margin: 0 20px 15px;
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    .emoji-picker {
+        // !important is used to overide inline styles
+        // used on larger screens
+        top: 0 !important;
+        left: 0 !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        z-index: 1070;
+
+        >ul {
+            margin-top: 66px;
+        }
+
+        &.bottom {
+            margin-top: 0;
+        }
+
+        .search-grid-container {
+            height: calc(100vh - 170px);
+        }
+    }
+
+    .emoji-picker__inner {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 100px);
+
+        .emoji-picker--single & {
+            height: calc(100vh - 55px);
+        }
+
+        >* {
+            flex-grow: 0;
+        }
+    }
+
+    .emoji-picker__header,
+    .modal-body .emoji-picker .emoji-picker__header {
+        display: block;
+    }
+
+    .emoji-picker__categories {
+        .emoji-picker__category {
+            width: 30px;
+            height: 30px;
+            padding-top: 4px;
+        }
+    }
+
+    .emoji-picker__items {
+        // !important is used to overide inline styles
+        // used on larger screens
+        height: auto !important;
+        flex-grow: 1;
+
+        .emoji-picker-items__container {
+
+            .emoji-picker__category-header {
+                font-size: 14px;
+                padding-top: 8px;
+            }
+
+            .emoji-picker__item {
+                margin: calc(100% / 45);
+                padding: 0;
+                padding-top: calc(100% / 15);
+                width: calc(100% / 15);
+                height: auto;
+
+                >div {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 30px;
+                    height: 30px;
+                    transform: translate(-50%, -50%);
+
+                    >img {
+                        top: -17px;
+                        left: -17px;
+                    }
+                }
+            }
+        }
+    }
+
+    .emoji-picker__preview {
+        width: 100%;
+        height: 60px;
+        padding: 10px 10px 0;
+    }
+
     .MenuWrapper {
-        .Menu {
+        .Menu__content {
             &.dropdown-menu {
                 max-height: 100%;
                 max-width: 100%;
@@ -29,7 +168,7 @@
     }
 
     .mobile-main-menu {
-        .Menu {
+        .Menu__content {
             &.dropdown-menu {
                 width: 100%;
                 position: relative;
@@ -53,6 +192,7 @@
                 .MenuItem {
                     > button,
                     > a {
+                        height: auto;
                         padding: 3px 16px;
                         font-size: 15px;
                         line-height: 32px;
@@ -73,6 +213,13 @@
     .post__header {
         .dropdown-menu {
             >li {
+                >div {
+                    border-top-color: var(--center-channel-color-10) !important;
+                    .SubMenu__icon {
+                        padding: 0 5px 0 8px !important;
+                    }
+                }
+                >div,
                 >button {
                     @include border-radius(0);
                     border-top: 1px solid;
@@ -81,6 +228,7 @@
                 }
 
                 &:first-child {
+                    div,
                     button {
                         border: none;
                     }
@@ -102,10 +250,20 @@
                 z-index: 9999;
                 display: flex;
                 margin: 0;
-                padding: 0 2em;
+                padding: 6em 2em 4em;
                 background: transparent;
-                flex-direction: column;
-                justify-content: center;
+                flex-wrap: wrap;
+                align-items: center;
+                overflow: auto;
+
+                .Menu__content {
+                    width: 100%;
+                    max-height: inherit;
+                    max-width: inherit;
+                    position: relative;
+                    top: 0;
+                    padding: 0;
+                }
 
                 &:after {
                     background: alpha-color($black, .3);
@@ -213,7 +371,13 @@
     }
 
     .post-create-footer {
-        padding: 0 10px;
+        padding: 0 16px;
+
+        .post-error {
+            position: relative;
+            top: 0;
+            margin: 8px 0;
+        }
 
         .help__text {
             display: none;
@@ -387,13 +551,6 @@
     .sidebar--left .team__header .Avatar,
     .sidebar--menu .team__header .Avatar {
         display: none;
-    }
-
-    .date-separator.hovered--before:after,
-    .date-separator.hovered--after:before,
-    .new-separator.hovered--after:before,
-    .new-separator.hovered--before:after {
-        background: none !important;
     }
 
     .channel-intro {
@@ -750,21 +907,6 @@
         }
     }
 
-    .date-separator,
-    .new-separator {
-        &.hovered--after {
-            &:before {
-                background: none;
-            }
-        }
-
-        &.hovered--before {
-            &:after {
-                background: none;
-            }
-        }
-    }
-
     .post-list__timestamp {
         display: block;
     }
@@ -1042,7 +1184,7 @@
         }
     }
 
-    #navbar {
+    #navbar_wrapper {
         .browser--ie & {
             .navbar-default {
                 .dropdown-menu {
@@ -1076,13 +1218,13 @@
                 }
             }
 
-            .dropdown-menu {
+            .Menu {
                 @include single-transition(all, .35s, ease);
                 background: alpha-color($black, .9);
                 display: block;
-                height: calc(100% - 26px);
+                height: 100%;
                 left: 0;
-                overflow: auto;
+                overflow: hidden;
                 padding: 2.5em 0 0;
                 position: fixed;
                 top: 48px;
@@ -1093,32 +1235,46 @@
                     height: calc(100% - 48px - #{$announcement-bar-height});
                     top: calc(48px + #{$announcement-bar-height});
                 }
+            }
 
+            .Menu__content {
+                background: transparent;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                max-width: 100%;
+                overflow: auto;
+                height: 100%;
+                max-height: 100%;
+                padding: 2rem 2rem 5rem;
+            }
+
+            .Menu__close {
+                @include border-radius(50%);
+                border: 1px solid $white;
+                color: $white;
+                display: block;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 23px;
+                font-weight: 200;
+                height: 30px;
+                line-height: 0;
+                margin-left: -15px;
+                opacity: 1;
+                padding-top: 13px;
+                position: fixed;
+                right: 20px;
+                text-align: center;
+                text-shadow: none;
+                top: 70px;
+                width: 30px;
+            }
+
+            .dropdown-menu {
                 .dropdown__divider {
                     &+.dropdown__divider {
                         display: none;
                     }
-                }
-
-                .close {
-                    @include border-radius(50%);
-                    border: 1px solid $white;
-                    color: $white;
-                    display: block;
-                    font-family: 'Open Sans', sans-serif;
-                    font-size: 23px;
-                    font-weight: 200;
-                    height: 30px;
-                    line-height: 0;
-                    margin-left: -15px;
-                    opacity: 1;
-                    padding-top: 13px;
-                    position: fixed;
-                    right: 20px;
-                    text-align: center;
-                    text-shadow: none;
-                    top: 20px;
-                    width: 30px;
                 }
 
                 >li {
@@ -1130,7 +1286,9 @@
                         line-height: 32px;
                         margin: 0 auto;
                         text-align: center;
-                        width: 70%;
+                        width: 100%;
+                        padding: 0.4rem 2rem;
+                        height: auto;
 
                         &:hover {
                             background: transparent;
@@ -1144,7 +1302,6 @@
                     hr {
                         border-bottom: 1px solid alpha-color($white, .3);
                         margin: 8px auto;
-                        width: 70%;
                     }
                 }
             }
@@ -1297,13 +1454,11 @@
         .team__header {
             @include clearfix;
             pointer-events: none;
+            padding: 15px;
 
+            .team__name,
             .user__name {
-                display: none;
-            }
-
-            .team__name {
-                margin: 10px 0;
+                max-width: 100%;
             }
 
             .sidebar-header-dropdown {
@@ -1396,6 +1551,10 @@
                 padding: .5em 1em;
             }
 
+            .post-create {
+                padding: 0;
+            }
+
             .emoji-rhs {
                 // bring back the emoji picker for mobile
                 // display: none;
@@ -1409,8 +1568,11 @@
             }
 
             .post-create-footer {
-                padding-right: 0;
-                padding-top: 10px;
+                padding: 6px 0 0;
+
+                .post-error {
+                    margin-bottom: 8px;
+                }
 
                 .control-label {
                     margin: .5em 0;
@@ -1587,7 +1749,7 @@
     .modal-body {
         .MenuWrapper {
             .Menu {
-                &.dropdown-menu {
+                .dropdown-menu {
                     max-height: none;
                     max-width: none;
                     right: 0;
@@ -1619,15 +1781,6 @@
         }
     }
 
-    .app__body {
-        .MenuWrapper {
-            .MenuItem__divider {
-                margin: 0;
-                border: none;
-            }
-        }
-    }
-
     .filtered-user-list {
         height: calc(100vh - 80px);
     }
@@ -1648,6 +1801,17 @@
         .modal {
             overflow: hidden;
             padding: 0;
+
+            .channel-switch__modal {
+                .modal-body {
+                    max-height: 100%;
+                }
+
+                .suggestion-list__content {
+                    height: calc(100vh - 110px);
+                    max-height: 100%;
+                }
+            }
 
             .modal-dialog {
                 height: 100%;
@@ -1834,6 +1998,16 @@
         left: 50px !important;
     }
 
+    .emoji-picker__items {
+        .emoji-picker-items__container {
+            .emoji-picker__item {
+                margin: 0;
+                padding-top: calc(100% / #{$emoji-per-row});
+                width: calc(100% / #{$emoji-per-row});
+            }
+        }
+    }
+
     .post {
         .attachment {
             .attachment-actions {
@@ -1884,16 +2058,6 @@
 
         .add-integrations-link {
             float: none;
-        }
-    }
-
-    .backstage-list__item {
-        display: block;
-
-        .item-actions,
-        .actions {
-            margin-top: 15px;
-            padding: 0;
         }
     }
 
@@ -1960,101 +2124,6 @@
         &.move--right {
             @include translate3d(0, 0, 0);
         }
-    }
-
-    .integration__icon {
-        display: none;
-    }
-
-    .emoji-picker {
-        // !important is used to overide inline styles
-        // used on larger screens
-        top: 0 !important;
-        left: 0 !important;
-        right: auto !important;
-        bottom: auto !important;
-        width: 100%;
-        height: 100%;
-        border-radius: 0;
-        z-index: 1070;
-
-        >ul {
-            margin-top: 66px;
-        }
-
-        &.bottom {
-            margin-top: 0;
-        }
-
-        .search-grid-container {
-            height: calc(100vh - 170px);
-        }
-    }
-
-    .emoji-picker__inner {
-        display: flex;
-        flex-direction: column;
-        height: calc(100vh - 100px);
-
-        >* {
-            flex-grow: 0;
-        }
-    }
-
-    .emoji-picker__header,
-    .modal-body .emoji-picker .emoji-picker__header {
-        display: block;
-    }
-
-    .emoji-picker__categories {
-        .emoji-picker__category {
-            width: 30px;
-            height: 30px;
-            padding-top: 4px;
-        }
-    }
-
-    .emoji-picker__items {
-        // !important is used to overide inline styles
-        // used on larger screens
-        height: auto !important;
-        flex-grow: 1;
-
-        .emoji-picker-items__container {
-
-            .emoji-picker__category-header {
-                font-size: 14px;
-                padding-top: 8px;
-            }
-
-            .emoji-picker__item {
-                margin: 0;
-                padding: 0;
-                padding-top: calc(100% / #{$emoji-per-row});
-                width: calc(100% / #{$emoji-per-row});
-                height: auto;
-
-                >div {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    width: 30px;
-                    height: 30px;
-                    transform: translate(-50%, -50%);
-
-                    >img {
-                        top: -17px;
-                        left: -17px;
-                    }
-                }
-            }
-        }
-    }
-
-    .emoji-picker__preview {
-        width: 100%;
-        height: 60px;
-        padding: 10px 10px 0;
     }
 
     // overides edit modal body element's css position
@@ -2227,7 +2296,7 @@
 }
 
 @media screen and (max-width: 380px) and (max-height: 580px) {
-    #navbar {
+    #navbar_wrapper {
         .navbar-default {
             .dropdown-menu {
                 padding-top: 1em;

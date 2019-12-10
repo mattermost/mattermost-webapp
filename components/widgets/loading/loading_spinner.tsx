@@ -2,14 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {intlShape} from 'react-intl';
+
+import {intlShape} from 'utils/react_intl';
 
 type Props = {
     text: React.ReactNode;
 }
 
 export default class LoadingSpinner extends React.PureComponent<Props> {
-    public static defaultProps = {
+    public static defaultProps: Props = {
         text: null,
     }
 

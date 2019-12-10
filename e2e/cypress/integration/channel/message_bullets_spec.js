@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -13,16 +13,16 @@ describe('Message', () => {
         cy.apiLogin('user-1');
         cy.visit('/');
 
-        // # Enter in text
-        const messageText = `
-This is a normal sentence.
-
-1. this is point 1
-    - this is a bullet under 1
-
-This is more normal text.`;
-
-        cy.postMessage(messageText);
+        // # Post a message
+        cy.get('#post_textbox').clear().
+            type('This is a normal sentence.').
+            type('{shift}{enter}{enter}').
+            type('1. this is point 1').
+            type('{shift}{enter}').
+            type(' - this is a bullet under 1').
+            type('{shift}{enter}{enter}').
+            type('This is more normal text.').
+            type('{enter}');
 
         // # Get last postId
         cy.getLastPostId().then((postId) => {

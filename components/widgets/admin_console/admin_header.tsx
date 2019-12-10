@@ -4,7 +4,7 @@
 import React from 'react';
 
 type Props = {
-    children: React.ReactNode;
+    children: JSX.Element[] | JSX.Element | string;
 };
 
 export default class AdminHeader extends React.Component<Props> {

@@ -2,17 +2,12 @@
 
 .channel-header {
     @include flex(0 0 63px);
+    max-height: 63px;
     border-bottom: 1px solid;
     font-size: 14px;
     position: relative;
     width: 100%;
     z-index: 9;
-
-    .move--left & {
-        .flex-parent {
-            padding-right: 0;
-        }
-    }
 
     .Badge {
         display: inline-block;
@@ -87,6 +82,7 @@
         }
 
         .markdown__paragraph-inline {
+            margin: 0 0 8px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
@@ -99,17 +95,11 @@
         max-width: 300px;
         padding: 0;
 
+        svg,
         .fa {
             text-align: center;
             width: 20px;
-            margin-left: -5px;
-        }
-
-        svg {
-            text-align: center;
-            width: 20px;
-            margin-left: -5px;
-            margin-right: 5px;
+            margin-right: 4px;
         }
 
         a {
@@ -129,7 +119,8 @@
 
     .channel-header__icon {
         @include border-radius(50%);
-        border: 1px solid;
+        color: v(center-channel-color-40);
+        border: 1px solid v(center-channel-color-15);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -150,7 +141,21 @@
             @include transition-timing-function(ease-in-out);
         }
 
+        .icon--stroke {
+            svg {
+                stroke: v(center-channel-color-40);
+            }
+
+            &.icon__search {
+                svg {
+                    stroke: v(center-channel-color-50);
+                }
+            }
+        }
+
         svg {
+            fill: v(center-channel-color-40);
+
             body.enable-animations & {
                 @include transition-property(fill);
                 @include transition-duration($transition-quick);
@@ -218,6 +223,9 @@
             top: 2px;
         }
 
+        .icon__pluginChannelHeader {
+            top: 3px;
+        }
         .icon__mentions {
             top: 1px;
         }
@@ -356,7 +364,8 @@
         overflow: hidden;
         position: relative;
         text-overflow: ellipsis;
-        height: 22px;
+        margin: 2px 0 0;
+        height: 27px;
         width: 100%;
         display: flex;
         align-items: flex-start;
@@ -370,10 +379,9 @@
 
         blockquote {
             font-size: 13px;
-            padding: 1px 0 0 19px;
+            padding: 0 0 0 20px;
             overflow: hidden;
             text-overflow: ellipsis;
-            display: inline;
 
             &:before {
                 font-size: 15px;
@@ -385,6 +393,12 @@
         .header-description__text {
             flex: 1 1 0;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+
+            li {
+                margin-bottom: 8px;
+            }
         }
 
         .status {
@@ -604,6 +618,7 @@
         .dropdown-menu {
             margin: 4px 0 0 10px;
             min-width: 220px;
+            overflow: auto;
         }
 
         .sidebar-header-dropdown,
@@ -721,7 +736,7 @@
     }
 }
 
-#navbar {
+#navbar_wrapper {
     .navbar-default {
         .navbar-toggle {
             &.menu-toggle {
@@ -744,7 +759,6 @@
 }
 
 .app__body {
-
     .channel-header__links {
         display: inline-block;
         font-family: 'Open Sans', sans-serif;

@@ -3,81 +3,50 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import SidebarChannelButtonOrLink from 'components/sidebar/sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 
 describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink', () => {
+    const baseProps = {
+        channelType: Constants.DM_CHANNEL,
+        channelId: 'test-channel-id',
+        channelName: 'test-channel-name',
+        channelStatus: 'test',
+        link: 'test-link',
+        rowClass: 'test-class',
+        displayName: 'test-channel-name',
+        handleClose: jest.fn(),
+        hasDraft: false,
+        membersCount: 3,
+        showUnreadForMsgs: true,
+        unreadMsgs: 2,
+        unreadMentions: 6,
+        teammateId: 'test-teammate-id',
+        teammateDeletedAt: 1,
+        channelIsArchived: false,
+    };
+
     test('should match snapshot, on desktop with mentions badge', () => {
+        const props = {...baseProps, badge: true};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.DM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelName={'test-channel-name'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                hasDraft={false}
-                badge={true}
-                membersCount={3}
-                showUnreadForMsgs={true}
-                unreadMsgs={2}
-                unreadMentions={6}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-                channelIsArchived={false}
-            />
+            <SidebarChannelButtonOrLink {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on desktop with draft', () => {
+        const props = {...baseProps, hasDraft: true, badge: false, unreadMentions: 0};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.DM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelName={'test-channel-name'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                hasDraft={true}
-                badge={false}
-                membersCount={3}
-                showUnreadForMsgs={true}
-                unreadMsgs={2}
-                unreadMentions={0}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-                channelIsArchived={false}
-            />
+            <SidebarChannelButtonOrLink {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on desktop without badge', () => {
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.DM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelName={'test-channel-name'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                hasDraft={false}
-                membersCount={3}
-                showUnreadForMsgs={true}
-                unreadMsgs={2}
-                unreadMentions={6}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-                channelIsArchived={false}
-            />
+            <SidebarChannelButtonOrLink {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -94,26 +63,9 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
         const userAgentMock = require.requireMock('utils/user_agent');
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
+        const props = {...baseProps, badge: true};
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.DM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelName={'test-channel-name'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                hasDraft={false}
-                badge={true}
-                membersCount={3}
-                showUnreadForMsgs={true}
-                unreadMsgs={2}
-                unreadMentions={6}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-                channelIsArchived={false}
-            />
+            <SidebarChannelButtonOrLink {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -123,24 +75,7 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
         userAgentMock.isDesktopApp.mockImplementation(() => false);
 
         const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.DM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelName={'test-channel-name'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                hasDraft={false}
-                membersCount={3}
-                showUnreadForMsgs={true}
-                unreadMsgs={2}
-                unreadMentions={6}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-                channelIsArchived={false}
-            />
+            <SidebarChannelButtonOrLink {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -156,27 +91,44 @@ describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonO
         expect(browserHistoryMock.browserHistory.push).not.toBeCalled();
     });
 
-    test('should match snapshot, on group channel with tooltip', () => {
-        const wrapper = shallow(
-            <SidebarChannelButtonOrLink
-                channelType={Constants.GM_CHANNEL}
-                channelId={'test-channel-id'}
-                channelName={'test-channel-name'}
-                channelStatus={'test'}
-                link={'test-link'}
-                rowClass={'test-class'}
-                displayName={'test-channel-name'}
-                handleClose={jest.fn()}
-                hasDraft={false}
-                membersCount={3}
-                showUnreadForMsgs={true}
-                unreadMsgs={2}
-                unreadMentions={6}
-                teammateId={'test-teammate-id'}
-                teammateDeletedAt={1}
-                channelIsArchived={false}
-            />
-        );
-        expect(wrapper).toMatchSnapshot();
+    describe('should properly handle state to show tooltip', () => {
+        for (const testCase of [
+            {
+                name: 'Direct Message',
+                channelType: Constants.DM_CHANNEL,
+            },
+            {
+                name: 'Group Message',
+                channelType: Constants.GM_CHANNEL,
+            },
+            {
+                name: 'Public Channel',
+                channelType: Constants.OPEN_CHANNEL,
+            },
+            {
+                name: 'Private Channel',
+                channelType: Constants.PRIVATE_CHANNEL,
+            },
+        ]) {
+            test(testCase.name, () => {
+                const props = {
+                    ...baseProps,
+                    channelType: testCase.channelType,
+                };
+
+                const wrapper = shallow(
+                    <SidebarChannelButtonOrLink {...props}/>
+                );
+
+                expect(wrapper.find(OverlayTrigger)).toHaveLength(0);
+
+                wrapper.instance().setState({showTooltip: true});
+
+                expect(wrapper.find(OverlayTrigger)).toHaveLength(1);
+                const overlayWrapper = wrapper.find(OverlayTrigger).first();
+                expect(overlayWrapper.prop('overlay').type).toEqual(Tooltip);
+                expect(overlayWrapper.prop('overlay').props.children).toEqual(baseProps.displayName);
+            });
+        }
     });
 });

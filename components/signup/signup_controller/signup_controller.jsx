@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
@@ -12,9 +12,11 @@ import * as GlobalActions from 'actions/global_actions.jsx';
 import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
-import FormError from 'components/form_error.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
-import {Constants} from 'utils/constants.jsx';
+import FormError from 'components/form_error';
+
+import LoadingScreen from 'components/loading_screen';
+import {Constants} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 
 export default class SignupController extends React.Component {
     static propTypes = {
@@ -129,6 +131,8 @@ export default class SignupController extends React.Component {
     handleInvalidInvite = (err) => {
         let serverError;
         if (err.server_error_id === 'store.sql_user.save.max_accounts.app_error') {
+            serverError = err.message;
+        } else if (err.server_error_id === 'api.team.add_user_to_team_from_invite.guest.app_error') {
             serverError = err.message;
         } else {
             serverError = (

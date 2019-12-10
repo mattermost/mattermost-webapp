@@ -4,14 +4,17 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, intlShape} from 'react-intl';
+import {OverlayTrigger} from 'react-bootstrap';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
 
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
+import * as UserAgent from 'utils/user_agent';
+
+import Popover from 'components/widgets/popover';
 
 import ColorChooser from './color_chooser.jsx';
 
@@ -269,13 +272,13 @@ export default class CustomThemeChooser extends React.Component {
                             value={codeTheme.id}
                         >
                             {codeTheme.uiName}
-                        </option>
+                        </option>,
                     );
                 });
 
                 var popoverContent = (
                     <Popover
-                        bsStyle='info'
+                        popoverStyle='info'
                         id='code-popover'
                         className='code-popover'
                     >
@@ -318,7 +321,7 @@ export default class CustomThemeChooser extends React.Component {
                                 </span>
                             </OverlayTrigger>
                         </div>
-                    </div>
+                    </div>,
                 );
             } else if (element.group === 'centerChannelElements') {
                 centerChannelElements.push(
@@ -332,7 +335,7 @@ export default class CustomThemeChooser extends React.Component {
                             color={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
-                    </div>
+                    </div>,
                 );
             } else if (element.group === 'sidebarElements') {
                 // Need to support old typo mentionBj element for mentionBg
@@ -352,7 +355,7 @@ export default class CustomThemeChooser extends React.Component {
                             color={color}
                             onChange={this.handleColorChange}
                         />
-                    </div>
+                    </div>,
                 );
             } else {
                 linkAndButtonElements.push(
@@ -366,7 +369,7 @@ export default class CustomThemeChooser extends React.Component {
                             color={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
-                    </div>
+                    </div>,
                 );
             }
         });
@@ -422,12 +425,10 @@ export default class CustomThemeChooser extends React.Component {
                         {sidebarElements}
                     </div>
                 </div>
-                <div
-                    id='centerChannelStyles'
-                    className='theme-elements row'
-                >
+                <div className='theme-elements row'>
                     <div
                         ref='centerChannelStylesHeader'
+                        id='centerChannelStyles'
                         className='theme-elements__header'
                         onClick={this.toggleCenterChannelStyles}
                     >

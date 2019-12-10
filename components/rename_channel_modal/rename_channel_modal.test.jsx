@@ -75,16 +75,6 @@ describe('components/RenameChannelModal', () => {
         expect(wrapper.state('displayName')).toBe('New Fake Channel');
     });
 
-    test('should call componentWillReceiveProps', () => {
-        const nextProps = {...baseProps, channel: {display_name: 'Changed Name', name: 'changed-name'}};
-        const wrapper = shallowWithIntl(
-            <RenameChannelModal {...baseProps}/>
-        ).dive({disableLifecycleMethods: true});
-
-        wrapper.setProps(nextProps);
-        expect(wrapper.state('displayName')).toBe('Changed Name');
-    });
-
     test('should call setError function', () => {
         const wrapper = shallowWithIntl(
             <RenameChannelModal {...baseProps}/>

@@ -1,15 +1,124 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/MarkdownImage should match snapsnot for SizeAwareImage dimensions 1`] = `
-<SizeAwareImage
-  dimensions={
+exports[`components/MarkdownImage should match snapshot 1`] = `
+<Connect(ExternalImage)
+  imageMetadata={
     Object {
-      "format": "jpg",
+      "format": "png",
       "frame_count": 0,
-      "height": 100,
-      "width": 100,
+      "height": 165,
+      "width": 1041,
     }
   }
-  src="safeSrc"
-/>
+  src="/images/logo.png"
+>
+  <Component />
+</Connect(ExternalImage)>
+`;
+
+exports[`components/MarkdownImage should match snapshot for SizeAwareImage dimensions 1`] = `
+<React.Fragment>
+  <SizeAwareImage
+    alt="test image"
+    className="markdown-inline-img markdown-inline-img--hover markdown-inline-img--no-border"
+    dimensions={
+      Object {
+        "format": "jpg",
+        "frame_count": 0,
+        "height": 100,
+        "width": 100,
+      }
+    }
+    onClick={[Function]}
+    onImageLoadFail={[Function]}
+    onImageLoaded={[Function]}
+    showLoader={false}
+    src="safeSrc"
+  />
+</React.Fragment>
+`;
+
+exports[`components/MarkdownImage should match snapshot for broken link 1`] = `
+<Connect(ExternalImage)
+  imageMetadata={Object {}}
+  src="brokenLink"
+>
+  <Component />
+</Connect(ExternalImage)>
+`;
+
+exports[`components/MarkdownImage should render a link if the source is unsafe 1`] = `
+<div
+  style={
+    Object {
+      "display": "inline-block",
+    }
+  }
+>
+  <img
+    alt="test image"
+    className="markdown-inline-img broken-image"
+    src={null}
+  />
+</div>
+`;
+
+exports[`components/MarkdownImage should render an image with no preview if the source is safe and the image is a link 1`] = `
+<div>
+  <SizeAwareImage
+    alt="test image"
+    className="markdown-inline-img markdown-inline-img--hover markdown-inline-img--no-border"
+    dimensions={
+      Object {
+        "format": "png",
+        "frame_count": 0,
+        "height": 165,
+        "width": 1041,
+      }
+    }
+    onClick={[Function]}
+    onImageLoadFail={[Function]}
+    onImageLoaded={[Function]}
+    showLoader={false}
+    src="https://example.com/image.png"
+  />
+</div>
+`;
+
+exports[`components/MarkdownImage should render an image with preview modal if the source is safe 1`] = `
+<div>
+  <SizeAwareImage
+    alt="test image"
+    className="markdown-inline-img markdown-inline-img--hover cursor--pointer a11y--active"
+    dimensions={
+      Object {
+        "format": "png",
+        "frame_count": 0,
+        "height": 165,
+        "width": 1041,
+      }
+    }
+    onClick={[Function]}
+    onImageLoadFail={[Function]}
+    onImageLoaded={[Function]}
+    showLoader={false}
+    src="https://example.com/image.png"
+  />
+  <Connect(ViewImageModal)
+    fileInfos={
+      Array [
+        Object {
+          "extension": "png",
+          "has_preview_image": false,
+          "link": "https://example.com/image.png",
+          "name": "test image",
+        },
+      ]
+    }
+    onModalDismissed={[Function]}
+    postId="post_id"
+    show={false}
+    startIndex={0}
+  />
+</div>
 `;

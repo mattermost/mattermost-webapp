@@ -4,24 +4,25 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
-import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand} from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste.jsx';
+import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
+import {getTable, formatMarkdownTableMessage} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
-import PostDeletedModal from 'components/post_deleted_modal.jsx';
+import PostDeletedModal from 'components/post_deleted_modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
@@ -192,6 +193,27 @@ export default class CreateComment extends React.PureComponent {
         intl: intlShape.isRequired,
     };
 
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {
+            createPostErrorId: props.createPostErrorId,
+            rootId: props.rootId,
+            messageInHistory: props.messageInHistory,
+            draft: state.draft || {...props.draft, caretPosition: props.draft.message.length, uploadsInProgress: []},
+        };
+
+        const rootChanged = props.rootId !== state.rootId;
+        const messageInHistoryChanged = props.messageInHistory !== state.messageInHistory;
+        if (rootChanged || messageInHistoryChanged) {
+            updatedState = {...updatedState, draft: {...props.draft, uploadsInProgress: rootChanged ? [] : props.draft.uploadsInProgress}};
+        }
+
+        if (props.createPostErrorId === 'api.post.create_post.root_id.app_error' && props.createPostErrorId !== state.createPostErrorId) {
+            updatedState = {...updatedState, showPostDeletedModal: true};
+        }
+
+        return updatedState;
+    }
+
     constructor(props) {
         super(props);
 
@@ -200,11 +222,6 @@ export default class CreateComment extends React.PureComponent {
             showConfirmModal: false,
             showEmojiPicker: false,
             showPreview: false,
-            draft: {
-                message: '',
-                uploadsInProgress: [],
-                fileInfos: [],
-            },
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -215,13 +232,9 @@ export default class CreateComment extends React.PureComponent {
         this.doInitialScrollToBottom = false;
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         this.props.clearCommentDraftUploads();
         this.props.onResetHistoryIndex();
-        this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
-    }
-
-    componentDidMount() {
         this.focusTextbox();
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
@@ -240,19 +253,6 @@ export default class CreateComment extends React.PureComponent {
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
     }
 
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
-        if (newProps.createPostErrorId === 'api.post.create_post.root_id.app_error' && newProps.createPostErrorId !== this.props.createPostErrorId) {
-            this.showPostDeletedModal();
-        }
-        if (newProps.rootId !== this.props.rootId) {
-            this.setState({draft: {...newProps.draft, uploadsInProgress: []}});
-        }
-
-        if (this.props.messageInHistory !== newProps.messageInHistory) {
-            this.setState({draft: newProps.draft});
-        }
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (prevState.draft.uploadsInProgress.length < this.state.draft.uploadsInProgress.length) {
             this.scrollToBottom();
@@ -260,6 +260,11 @@ export default class CreateComment extends React.PureComponent {
 
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
+            this.focusTextbox();
+        }
+
+        // Focus on textbox when returned from preview mode
+        if (prevState.showPreview && !this.state.showPreview) {
             this.focusTextbox();
         }
 
@@ -349,11 +354,22 @@ export default class CreateComment extends React.PureComponent {
         let newMessage = '';
         if (draft.message === '') {
             newMessage = `:${emojiAlias}: `;
-        } else if ((/\s+$/).test(draft.message)) {
-            // Check whether there is already a blank at the end of the current message
-            newMessage = `${draft.message}:${emojiAlias}: `;
         } else {
-            newMessage = `${draft.message} :${emojiAlias}: `;
+            const {draft: {message}} = this.state;
+            const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(this.state.caretPosition, message);
+
+            // check whether the first piece of the message is empty when cursor is placed at beginning of message and avoid adding an empty string at the beginning of the message
+            newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece} ` : `${firstPiece} :${emojiAlias}: ${lastPiece} `;
+
+            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
+
+            const textbox = this.refs.textbox.getWrappedInstance().getInputBox();
+
+            this.setState({
+                caretPosition: newCaretPosition,
+            }, () => {
+                Utils.setCaretPosition(textbox, newCaretPosition);
+            });
         }
 
         const modifiedDraft = {
@@ -405,6 +421,7 @@ export default class CreateComment extends React.PureComponent {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.updatePreview(false);
 
         const membersCount = this.props.channelMembersCount;
         const notificationsToChannel = this.props.enableConfirmNotificationsToChannel;
@@ -492,7 +509,7 @@ export default class CreateComment extends React.PureComponent {
             codeBlockOnCtrlEnter,
         } = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter);
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter, 0, 0, this.state.caretPosition);
 
         if (allowSending) {
             e.persist();
@@ -546,6 +563,13 @@ export default class CreateComment extends React.PureComponent {
             this.scrollToBottom();
         });
         this.draftsForPost[this.props.rootId] = updatedDraft;
+    }
+
+    handleMouseUpKeyUp = (e) => {
+        const caretPosition = Utils.getCaretPosition(e.target);
+        this.setState({
+            caretPosition,
+        });
     }
 
     handleKeyDown = (e) => {
@@ -663,7 +687,11 @@ export default class CreateComment extends React.PureComponent {
             serverError = new Error(err);
         }
 
-        this.setState({serverError});
+        this.setState({serverError}, () => {
+            if (serverError) {
+                this.scrollToBottom();
+            }
+        });
     }
 
     removePreview = (id) => {
@@ -837,7 +865,7 @@ export default class CreateComment extends React.PureComponent {
         let uploadsInProgressText = null;
         if (draft.uploadsInProgress.length > 0) {
             uploadsInProgressText = (
-                <span className='pull-right post-right-comments-upload-in-progress'>
+                <span className='post-right-comments-upload-in-progress'>
                     {draft.uploadsInProgress.length === 1 ? (
                         <FormattedMessage
                             id='create_comment.file'
@@ -853,7 +881,7 @@ export default class CreateComment extends React.PureComponent {
             );
         }
 
-        let addButtonClass = 'btn btn-primary comment-btn pull-right';
+        let addButtonClass = 'btn btn-primary comment-btn';
         if (!enableAddButton) {
             addButtonClass += ' disabled';
         }
@@ -935,6 +963,8 @@ export default class CreateComment extends React.PureComponent {
                                 onChange={this.handleChange}
                                 onKeyPress={this.commentMsgKeyPress}
                                 onKeyDown={this.handleKeyDown}
+                                onMouseUp={this.handleMouseUpKeyUp}
+                                onKeyUp={this.handleMouseUpKeyUp}
                                 onComposition={this.emitTypingEvent}
                                 onHeightChange={this.handleHeightChange}
                                 handlePostError={this.handlePostError}
@@ -967,27 +997,32 @@ export default class CreateComment extends React.PureComponent {
                         className='post-create-footer'
                     >
                         <div className='d-flex justify-content-between'>
-                            <MsgTyping
-                                channelId={this.props.channelId}
-                                postId={this.props.rootId}
-                            />
-                            <TextboxLinks
-                                characterLimit={this.props.maxPostSize}
-                                showPreview={this.state.showPreview}
-                                updatePreview={this.updatePreview}
-                                message={readOnlyChannel ? '' : this.state.message}
-                            />
+                            <div className='col'>
+                                <MsgTyping
+                                    channelId={this.props.channelId}
+                                    postId={this.props.rootId}
+                                />
+                                {postError}
+                            </div>
+                            <div className='col col-auto'>
+                                <TextboxLinks
+                                    characterLimit={this.props.maxPostSize}
+                                    showPreview={this.state.showPreview}
+                                    updatePreview={this.updatePreview}
+                                    message={readOnlyChannel ? '' : this.state.message}
+                                />
+                            </div>
                         </div>
-                        <div>
+                        <div className='text-right margin-top'>
+                            {uploadsInProgressText}
                             <input
                                 type='button'
                                 disabled={!enableAddButton}
+                                id='addCommentButton'
                                 className={addButtonClass}
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}
                             />
-                            {uploadsInProgressText}
-                            {postError}
                             {preview}
                             {serverError}
                         </div>

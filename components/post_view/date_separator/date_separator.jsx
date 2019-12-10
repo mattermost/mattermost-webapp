@@ -6,6 +6,8 @@ import React from 'react';
 
 import RecentDate from 'components/recent_date';
 
+import BasicSeparator from 'components/widgets/separator/basic-separator';
+
 export default class DateSeparator extends React.PureComponent {
     static propTypes = {
         date: PropTypes.oneOfType([
@@ -25,21 +27,16 @@ export default class DateSeparator extends React.PureComponent {
         const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
 
         return (
-            <div
-                className='date-separator'
-            >
-                <hr className='separator__hr'/>
-                <div className='separator__text'>
-                    <RecentDate
-                        {...timezoneProps}
-                        value={date}
-                        weekday='short'
-                        month='short'
-                        day='2-digit'
-                        year='numeric'
-                    />
-                </div>
-            </div>
+            <BasicSeparator>
+                <RecentDate
+                    {...timezoneProps}
+                    value={date}
+                    weekday='short'
+                    month='short'
+                    day='2-digit'
+                    year='numeric'
+                />
+            </BasicSeparator>
         );
     }
 }

@@ -6,10 +6,10 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {localizeMessage, compareChannels} from 'utils/utils.jsx';
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 

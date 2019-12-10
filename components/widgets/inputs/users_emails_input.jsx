@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AsyncSelect from 'react-select/lib/AsyncCreatable';
 import {components} from 'react-select';
-import {intlShape} from 'react-intl';
 import classNames from 'classnames';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
@@ -20,6 +19,7 @@ import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
 
 import {t} from 'utils/i18n.jsx';
+import {intlShape} from 'utils/react_intl';
 import {isGuest} from 'utils/utils';
 
 import './users_emails_input.scss';
@@ -27,6 +27,7 @@ import './users_emails_input.scss';
 export default class UsersEmailsInput extends React.Component {
     static propTypes = {
         placeholder: PropTypes.string,
+        ariaLabel: PropTypes.string.isRequired,
         usersLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.string])),
@@ -283,6 +284,7 @@ export default class UsersEmailsInput extends React.Component {
                 onFocus={this.onFocus}
                 tabSelectsValue={true}
                 value={values}
+                aria-label={this.props.ariaLabel}
             />
         );
     }

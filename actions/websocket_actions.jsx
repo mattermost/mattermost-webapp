@@ -17,11 +17,12 @@ import {
 import {WebsocketEvents, General, Permissions} from 'mattermost-redux/constants';
 import {
     getChannelAndMyMember,
+    getChannelMember,
     getChannelStats,
     viewChannel,
     markChannelAsRead,
-
 } from 'mattermost-redux/actions/channels';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {setServerVersion} from 'mattermost-redux/actions/general';
 import {
     getCustomEmojiForReaction,
@@ -40,12 +41,13 @@ import {
     getMe,
     getMissingProfilesByIds,
     getStatusesByIds,
+    getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getChannelsInTeam, getChannel, getCurrentChannel, getCurrentChannelId, getRedirectChannelNameForTeam, getMembersInCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 
@@ -58,16 +60,17 @@ import {syncPostsInChannel} from 'actions/views/channel';
 
 import {browserHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import * as GlobalActions from 'actions/global_actions.jsx';
+import {redirectUserToDefaultTeam} from 'actions/global_actions.jsx';
 import {handleNewPost} from 'actions/post_actions.jsx';
 import * as StatusActions from 'actions/status_actions.jsx';
 import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
-import {Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants.jsx';
+import {ActionTypes, Constants, AnnouncementBarMessages, SocketEvents, UserStatuses, ModalIdentifiers} from 'utils/constants';
 import {fromAutoResponder} from 'utils/post_utils';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
+import {isGuest} from 'utils/utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
 
@@ -170,7 +173,7 @@ export function reconnect(includeWebSocket = true) {
         const mostRecentPost = getPost(state, mostRecentId);
         dispatch(loadChannelsForCurrentUser());
         if (mostRecentPost) {
-            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
+            dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at, false));
         } else {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
@@ -264,6 +267,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.POST_DELETED:
         handlePostDeleteEvent(msg);
+        break;
+
+    case SocketEvents.POST_UNREAD:
+        handlePostUnreadEvent(msg);
         break;
 
     case SocketEvents.LEAVE_TEAM:
@@ -540,16 +547,30 @@ function handlePostDeleteEvent(msg) {
     dispatch(postDeleted(post));
 }
 
+export function handlePostUnreadEvent(msg) {
+    dispatch(
+        {
+            type: ActionTypes.POST_UNREAD_SUCCESS,
+            data: {
+                lastViewedAt: msg.data.last_viewed_at,
+                channelId: msg.broadcast.channel_id,
+                msgCount: msg.data.msg_count,
+                mentionCount: msg.data.mention_count,
+            },
+        }
+    );
+}
+
 async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getTeam(msg.data.team_id));
     await dispatch(TeamActions.getMyTeamMembers());
     await dispatch(TeamActions.getMyTeamUnreads());
 }
 
-function handleLeaveTeamEvent(msg) {
+export function handleLeaveTeamEvent(msg) {
     const state = getState();
 
-    dispatch(batchActions([
+    const actions = [
         {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
             data: {id: msg.data.team_id, user_id: msg.data.user_id},
@@ -558,7 +579,19 @@ function handleLeaveTeamEvent(msg) {
             type: TeamTypes.REMOVE_MEMBER_FROM_TEAM,
             data: {team_id: msg.data.team_id, user_id: msg.data.user_id},
         },
-    ]));
+    ];
+
+    const channelsPerTeam = getChannelsInTeam(state);
+    const channels = (channelsPerTeam && channelsPerTeam[msg.data.team_id]) || [];
+
+    for (const channel of channels) {
+        actions.push({
+            type: ChannelTypes.REMOVE_MEMBER_FROM_CHANNEL,
+            data: {id: channel, user_id: msg.data.user_id},
+        });
+    }
+
+    dispatch(batchActions(actions));
 
     if (getCurrentUserId(state) === msg.data.user_id) {
         dispatch({type: TeamTypes.LEAVE_TEAM, data: {id: msg.data.team_id}});
@@ -566,7 +599,7 @@ function handleLeaveTeamEvent(msg) {
         // if they are on the team being removed redirect them to default team
         if (getCurrentTeamId(state) === msg.data.team_id) {
             if (!global.location.pathname.startsWith('/admin_console')) {
-                GlobalActions.redirectUserToDefaultTeam();
+                redirectUserToDefaultTeam();
             }
         }
     }
@@ -633,9 +666,14 @@ function handleDeleteTeamEvent(msg) {
 }
 
 function handleUpdateMemberRoleEvent(msg) {
+    const memberData = JSON.parse(msg.data.member);
+    const newRoles = memberData.roles.split(' ');
+
+    dispatch(loadRolesIfNeeded(newRoles));
+
     dispatch({
         type: TeamTypes.RECEIVED_MY_TEAM_MEMBER,
-        data: JSON.parse(msg.data.member),
+        data: memberData,
     });
 }
 
@@ -677,16 +715,20 @@ export function handleUserRemovedEvent(msg) {
             if (msg.data.remover_id === msg.broadcast.user_id) {
                 browserHistory.push(getCurrentRelativeTeamUrl(state));
             } else {
-                const user = getUser(state, msg.data.remover_id) || {};
+                const user = getUser(state, msg.data.remover_id);
+                if (!user) {
+                    dispatch(loadUser(msg.data.remover_id));
+                }
 
                 dispatch(openModal({
                     modalId: ModalIdentifiers.REMOVED_FROM_CHANNEL,
                     dialogType: RemovedFromChannelModal,
                     dialogProps: {
                         channelName: currentChannel.display_name,
-                        remover: user.username,
+                        removerId: msg.data.remover_id,
                     },
                 }));
+                redirectUserToDefaultTeam();
             }
         }
 
@@ -719,9 +761,24 @@ export function handleUserRemovedEvent(msg) {
     }
 }
 
-function handleUserUpdatedEvent(msg) {
-    const currentUser = getCurrentUser(getState());
+export async function handleUserUpdatedEvent(msg) {
+    const state = getState();
+    const currentUser = getCurrentUser(state);
     const user = msg.data.user;
+
+    if (isGuest(user)) {
+        let members = getMembersInCurrentChannel(state);
+        const currentChannelId = getCurrentChannelId(state);
+        if (members && members[user.id]) {
+            dispatch(getChannelStats(currentChannelId));
+        } else {
+            await dispatch(getChannelMember(currentChannelId, user.id));
+            members = getMembersInCurrentChannel(getState());
+            if (members && members[user.id]) {
+                dispatch(getChannelStats(currentChannelId));
+            }
+        }
+    }
 
     if (currentUser.id === user.id) {
         if (user.update_at > currentUser.update_at) {
@@ -916,12 +973,14 @@ function handleUserRoleUpdated(msg) {
 
     if (user) {
         const roles = msg.data.roles;
+        const newRoles = roles.split(' ');
         const demoted = user.roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN) && !roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN);
 
         store.dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...user, roles}});
+        dispatch(loadRolesIfNeeded(newRoles));
 
         if (demoted && global.location.pathname.startsWith('/admin_console')) {
-            GlobalActions.redirectUserToDefaultTeam();
+            redirectUserToDefaultTeam();
         }
     }
 }

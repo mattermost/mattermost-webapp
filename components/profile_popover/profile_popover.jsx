@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, intlShape, injectIntl} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -12,13 +12,15 @@ import LocalDateTime from 'components/local_date_time';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import Avatar from 'components/widgets/users/avatar';
+import Popover from 'components/widgets/popover';
 
 /**
  * The profile popover, or hovercard, that appears with user information when clicking
@@ -220,7 +222,7 @@ class ProfilePopover extends React.PureComponent {
                 username={this.props.user.username}
                 url={this.props.src}
                 key='user-popover-image'
-            />
+            />,
         );
 
         const fullname = Utils.getFullName(this.props.user);
@@ -230,7 +232,7 @@ class ProfilePopover extends React.PureComponent {
                 <hr
                     key='user-popover-hr'
                     className='divider divider--expanded'
-                />
+                />,
             );
         }
 
@@ -247,7 +249,7 @@ class ProfilePopover extends React.PureComponent {
                     >
                         <strong>{fullname}</strong>
                     </div>
-                </OverlayTrigger>
+                </OverlayTrigger>,
             );
         }
 
@@ -258,7 +260,7 @@ class ProfilePopover extends React.PureComponent {
                     className='overflow--ellipsis text-nowrap'
                 >
                     {this.props.user.bot_description}
-                </div>
+                </div>,
             );
         }
 
@@ -276,7 +278,7 @@ class ProfilePopover extends React.PureComponent {
                     >
                         {position}
                     </div>
-                </OverlayTrigger>
+                </OverlayTrigger>,
             );
         }
 
@@ -286,7 +288,7 @@ class ProfilePopover extends React.PureComponent {
                 <hr
                     key='user-popover-hr2'
                     className='divider divider--expanded'
-                />
+                />,
             );
 
             dataContent.push(
@@ -301,7 +303,7 @@ class ProfilePopover extends React.PureComponent {
                     >
                         {email}
                     </a>
-                </div>
+                </div>,
             );
         }
 
@@ -312,7 +314,7 @@ class ProfilePopover extends React.PureComponent {
                 user={this.props.user}
                 hide={this.props.hide}
                 status={this.props.hideStatus ? null : this.props.status}
-            />
+            />,
         );
 
         if (this.props.enableTimezone && this.props.user.timezone) {
@@ -326,7 +328,7 @@ class ProfilePopover extends React.PureComponent {
                         defaultMessage='Local Time: '
                     />
                     <LocalDateTime userTimezone={this.props.user.timezone}/>
-                </div>
+                </div>,
             );
         }
 
@@ -350,7 +352,7 @@ class ProfilePopover extends React.PureComponent {
                             defaultMessage='Edit Account Settings'
                         />
                     </a>
-                </div>
+                </div>,
             );
         }
 
@@ -375,7 +377,7 @@ class ProfilePopover extends React.PureComponent {
                             defaultMessage='Send Message'
                         />
                     </a>
-                </div>
+                </div>,
             );
 
             if (this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) {
@@ -406,7 +408,7 @@ class ProfilePopover extends React.PureComponent {
                                 {addToChannelMessage}
                             </ToggleModalButtonRedux>
                         </a>
-                    </div>
+                    </div>,
                 );
             }
         }
@@ -418,7 +420,7 @@ class ProfilePopover extends React.PureComponent {
                 user={this.props.user}
                 hide={this.props.hide}
                 status={this.props.hideStatus ? null : this.props.status}
-            />
+            />,
         );
 
         let roleTitle;

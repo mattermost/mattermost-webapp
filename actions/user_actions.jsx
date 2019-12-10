@@ -20,7 +20,7 @@ import * as Selectors from 'mattermost-redux/selectors/entities/users';
 import {loadStatusesForProfilesList, loadStatusesForProfilesMap} from 'actions/status_actions.jsx';
 import store from 'stores/redux_store.jsx';
 import * as Utils from 'utils/utils.jsx';
-import {Constants, Preferences, UserStatuses} from 'utils/constants.jsx';
+import {Constants, Preferences, UserStatuses} from 'utils/constants';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -35,10 +35,10 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
     };
 }
 
-export function loadProfilesAndTeamMembers(page, perPage, teamId) {
+export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage));
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
@@ -90,9 +90,9 @@ export function loadTeamMembersForProfilesList(profiles, teamId) {
     };
 }
 
-export function loadProfilesWithoutTeam(page, perPage) {
+export function loadProfilesWithoutTeam(page, perPage, options) {
     return async (doDispatch) => {
-        const {data} = await doDispatch(UserActions.getProfilesWithoutTeam(page, perPage));
+        const {data} = await doDispatch(UserActions.getProfilesWithoutTeam(page, perPage, options));
 
         doDispatch(loadStatusesForProfilesMap(data));
 

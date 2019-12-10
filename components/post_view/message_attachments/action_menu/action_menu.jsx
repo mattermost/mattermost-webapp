@@ -8,13 +8,16 @@ import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 import AutocompleteSelector from 'components/autocomplete_selector';
+import PostContext from 'components/post_view/post_context';
 
 export default class ActionMenu extends React.PureComponent {
     static propTypes = {
         postId: PropTypes.string.isRequired,
         action: PropTypes.object.isRequired,
         selected: PropTypes.object,
+        disabled: PropTypes.bool,
         actions: PropTypes.shape({
+            autocompleteChannels: PropTypes.func.isRequired,
             selectAttachmentMenuAction: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -28,7 +31,7 @@ export default class ActionMenu extends React.PureComponent {
             if (action.data_source === 'users') {
                 this.providers = [new GenericUserProvider()];
             } else if (action.data_source === 'channels') {
-                this.providers = [new GenericChannelProvider()];
+                this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (action.options) {
                 this.providers = [new MenuActionProvider(action.options)];
             }
@@ -85,16 +88,22 @@ export default class ActionMenu extends React.PureComponent {
     }
 
     render() {
-        const {action} = this.props;
+        const {action, disabled} = this.props;
 
         return (
-            <AutocompleteSelector
-                providers={this.providers}
-                onSelected={this.handleSelected}
-                placeholder={action.name}
-                inputClassName='post-attachment-dropdown'
-                value={this.state.value}
-            />
+            <PostContext.Consumer>
+                {({handlePopupOpened}) => (
+                    <AutocompleteSelector
+                        providers={this.providers}
+                        onSelected={this.handleSelected}
+                        placeholder={action.name}
+                        inputClassName='post-attachment-dropdown'
+                        value={this.state.value}
+                        toggleFocus={handlePopupOpened}
+                        disabled={disabled}
+                    />
+                )}
+            </PostContext.Consumer>
         );
     }
 }

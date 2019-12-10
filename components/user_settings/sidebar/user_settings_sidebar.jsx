@@ -3,11 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
@@ -619,7 +620,13 @@ export default class UserSettingsSidebar extends React.Component {
                         />
                     }
                     inputs={[
-                        <div key='channelSwitcherSectionSetting'>
+                        <fieldset key='channelSwitcherSectionSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.sidebar.channelSwitcherSectionTitle'
+                                    defaultMessage='Channel Switcher'
+                                />
+                            </legend>
                             <div
                                 id='channelSwitcherRadioOn'
                                 className='radio'
@@ -662,7 +669,7 @@ export default class UserSettingsSidebar extends React.Component {
                                 <br/>
                                 {helpChannelSwitcherText}
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={'channel_switcher_section'}
                     submit={this.handleSubmit}

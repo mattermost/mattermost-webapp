@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {NotificationLevels} from 'utils/constants.jsx';
+import Constants, {NotificationLevels} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
@@ -107,14 +107,13 @@ function getNotificationsStateFromProps(props) {
     };
 }
 
-export default class NotificationsTab extends React.Component {
+export default class NotificationsTab extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object,
         updateSection: PropTypes.func,
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
-        siteName: PropTypes.string,
         sendPushNotifications: PropTypes.bool,
         enableAutoResponder: PropTypes.bool,
         actions: PropTypes.shape({
@@ -932,7 +931,6 @@ export default class NotificationsTab extends React.Component {
                         onChange={this.handleEmailRadio}
                         saving={this.state.isSaving}
                         serverError={this.state.serverError}
-                        siteName={this.props.siteName}
                     />
                     <div className='divider-light'/>
                     {pushNotificationSection}

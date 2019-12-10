@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
-import {intlShape} from 'react-intl';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
-import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
-import DelayedAction from 'utils/delayed_action.jsx';
+import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
+import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -157,7 +157,7 @@ export default class PostList extends React.PureComponent {
 
         window.addEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
+        EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
     getSnapshotBeforeUpdate(prevProps) {
@@ -199,7 +199,7 @@ export default class PostList extends React.PureComponent {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
 
-        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_CHANGE, this.scrollChange);
+        EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
     }
 
     static getDerivedStateFromProps(props) {
@@ -231,12 +231,6 @@ export default class PostList extends React.PureComponent {
         return postListIds.findIndex(
             (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
         );
-    }
-
-    scrollChange = (toBottom) => {
-        if (toBottom) {
-            this.scrollToLatestMessages();
-        }
     }
 
     handleWindowResize = () => {
@@ -473,7 +467,7 @@ export default class PostList extends React.PureComponent {
 
         return (
             <div
-                id='post-list'
+                role='list'
                 className='a11y__region'
                 data-a11y-sort-order='1'
                 data-a11y-focus-child={true}
@@ -518,7 +512,6 @@ export default class PostList extends React.PureComponent {
                             <AutoSizer>
                                 {({height, width}) => (
                                     <DynamicSizeList
-                                        role='listbox'
                                         ref={this.listRef}
                                         height={height}
                                         width={width}

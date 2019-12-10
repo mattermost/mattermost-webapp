@@ -11,8 +11,8 @@ Cypress.Commands.add('logout', () => {
     cy.get('#logout').click({force: true});
 });
 
-Cypress.Commands.add('toMainChannelView', (username, password) => {
-    cy.apiLogin('user-1', password);
+Cypress.Commands.add('toMainChannelView', (username = 'user-1', password) => {
+    cy.apiLogin(username, password);
     cy.visit('/');
 
     cy.get('#post_textbox').should('be.visible');
@@ -30,6 +30,14 @@ Cypress.Commands.add('getSubpath', () => {
             return url.replace(origin, '').substring(0, url.length - origin.length - 1);
         });
     });
+});
+
+Cypress.Commands.add('getCurrentUserId', () => {
+    return cy.wrap(new Promise((resolve) => {
+        cy.getCookie('MMUSERID').then((cookie) => {
+            resolve(cookie.value);
+        });
+    }));
 });
 
 // ***********************************************************
@@ -134,31 +142,35 @@ Cypress.Commands.add('postMessageReplyInRHS', (message) => {
 });
 
 function waitUntilPermanentPost() {
-    cy.waitUntil(() => cy.getAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
+    cy.get('#postListContent').should('be.visible');
+    cy.waitUntil(() => cy.findAllByTestId('postView').last().then((el) => !(el[0].id.includes(':'))));
 }
 
 Cypress.Commands.add('getLastPost', () => {
     waitUntilPermanentPost();
 
-    cy.getAllByTestId('postView').last();
+    cy.findAllByTestId('postView').last();
 });
 
 Cypress.Commands.add('getLastPostId', () => {
     waitUntilPermanentPost();
 
-    cy.getAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
+    cy.findAllByTestId('postView').last().should('have.attr', 'id').and('not.include', ':').
         invoke('replace', 'post_', '');
 });
 
 /**
-* Get post ID for nth newest post
-* .eq() is 0-based index, hence nthPost-2 to get the nth post
-@param {Integer} nthPost - nth newest post
+* Get post ID based on index of post list
+* @param {Integer} index
+* zero (0)         : oldest post
+* positive number  : from old to latest post
+* negative number  : from new to oldest post
 */
-Cypress.Commands.add('getNthPostId', (nthPost) => {
-    return cy.get('#postListContent [id^=post]:first').parent().parent().siblings().eq(nthPost - 2).find('[id^=post]:first').invoke('attr', 'id').then((nthPostId) => {
-        return nthPostId.replace('post_', '');
-    });
+Cypress.Commands.add('getNthPostId', (index = 0) => {
+    waitUntilPermanentPost();
+
+    cy.findAllByTestId('postView').eq(index).should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'post_', '');
 });
 
 /**
@@ -195,11 +207,11 @@ Cypress.Commands.add('compareLastPostHTMLContentFromFile', (file, timeout = TIME
 
 function clickPostHeaderItem(postId, location, item) {
     if (postId) {
-        cy.get(`#post_${postId}`).trigger('mouseover');
+        cy.get(`#post_${postId}`).trigger('mouseover', {force: true});
         cy.get(`#${location}_${item}_${postId}`).scrollIntoView().click({force: true});
     } else {
         cy.getLastPostId().then((lastPostId) => {
-            cy.get(`#post_${lastPostId}`).trigger('mouseover');
+            cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
             cy.get(`#${location}_${item}_${lastPostId}`).scrollIntoView().click({force: true});
         });
     }
@@ -251,6 +263,23 @@ Cypress.Commands.add('clickPostCommentIcon', (postId, location = 'CENTER') => {
     clickPostHeaderItem(postId, location, 'commentIcon');
 });
 
+/**
+ * Click comment icon by post ID or to most recent post (if post ID is not provided)
+ * This open up the RHS
+ * @param {String} postId - Post ID
+ * @param {String} menuItem - e.g. "Pin to channel"
+ * @param {String} location - as 'CENTER', 'SEARCH'
+ */
+Cypress.Commands.add('getPostMenu', (postId, menuItem, location = 'CENTER') => {
+    cy.clickPostDotMenu(postId, location).then(() => {
+        cy.get(`#post_${postId}`).should('be.visible').within(() => {
+            cy.get('.dropdown-menu').should('be.visible').within(() => {
+                return cy.findByText(menuItem).should('be.visible');
+            });
+        });
+    });
+});
+
 // Close RHS by clicking close button
 Cypress.Commands.add('closeRHS', () => {
     cy.get('#rhsCloseButton').should('be.visible').click();
@@ -282,7 +311,7 @@ Cypress.Commands.add('leaveTeam', () => {
     cy.get('#leaveTeamYes').click();
 
     // * Check that the "leave team modal" closed
-    cy.get('#leaveTeamModal').should('not.be.visible');
+    cy.get('#leaveTeamModal').should('not.exist');
 });
 
 // ***********************************************************
@@ -348,7 +377,7 @@ Cypress.Commands.add('userStatus', (statusInt) => {
 // ************************************************************
 
 Cypress.Commands.add('getCurrentChannelId', () => {
-    return cy.get('#channel-header').invoke('attr', 'data-channelid');
+    return cy.get('#channel-header', {timeout: TIMEOUTS.LARGE}).invoke('attr', 'data-channelid');
 });
 
 /**
@@ -359,7 +388,7 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
     cy.get('#channelHeaderDropdownIcon').
         should('be.visible').
         click();
-    cy.get('#channelHeaderDropdownMenu').
+    cy.get('.Menu__content').
         should('be.visible').
         find('#channelEditHeader').
         click();
@@ -368,6 +397,27 @@ Cypress.Commands.add('updateChannelHeader', (text) => {
         type(text).
         type('{enter}').
         wait(TIMEOUTS.TINY);
+});
+
+/**
+ * On default "ad-1" team, create and visit a new channel
+ */
+Cypress.Commands.add('createAndVisitNewChannel', () => {
+    cy.visit('/ad-1/channels/town-square');
+
+    cy.getCurrentTeamId().then((teamId) => {
+        cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test').then((res) => {
+            const channel = res.body;
+
+            // # Visit the new channel
+            cy.visit(`/ad-1/channels/${channel.name}`);
+
+            // * Verify channel's display name
+            cy.get('#channelHeaderTitle').should('contain', channel.display_name);
+
+            cy.wrap(channel);
+        });
+    });
 });
 
 // ***********************************************************

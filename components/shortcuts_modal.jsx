@@ -4,10 +4,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {defineMessages, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, injectIntl} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
 
 const allShortcuts = defineMessages({

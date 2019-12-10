@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {localizeMessage} from 'utils/utils';
+import {localizeMessage, isGuest} from 'utils/utils';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 
@@ -26,7 +26,7 @@ import ChannelGroupsManageModal from 'components/channel_groups_manage_modal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import Menu from 'components/widgets/menu/menu.jsx';
+import Menu from 'components/widgets/menu/menu';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
@@ -279,7 +279,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         id='channelLeaveChannel'
                         channel={channel}
                         isDefault={isDefault}
-                        isGuestUser={user.is_guest}
+                        isGuestUser={isGuest(user)}
                     />
                     <MenuItemDirectLevelChannel
                         id='channelDirectLevel'

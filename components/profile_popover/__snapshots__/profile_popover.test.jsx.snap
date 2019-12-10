@@ -2,10 +2,11 @@
 
 exports[`components/ProfilePopover should hide add-to-channel option if not on team 1`] = `
 <Popover
-  bsClass="popover"
   id="user-profile-popover"
   isInCurrentTeam={false}
   placement="right"
+  popoverSize="sm"
+  popoverStyle="info"
   title={
     <span
       data-testid="profilePopoverTitle_some_username"
@@ -74,10 +75,11 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
 
 exports[`components/ProfilePopover should match snapshot 1`] = `
 <Popover
-  bsClass="popover"
   id="user-profile-popover"
   isInCurrentTeam={true}
   placement="right"
+  popoverSize="sm"
+  popoverStyle="info"
   title={
     <span
       data-testid="profilePopoverTitle_some_username"

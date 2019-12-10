@@ -74,6 +74,7 @@ export default class ChannelMembersModal extends React.PureComponent {
                     onExited={this.handleExit}
                     role='dialog'
                     aria-labelledby='channelMembersModalLabel'
+                    id='channelMembersModal'
                 >
                     <Modal.Header closeButton={true}>
                         <Modal.Title

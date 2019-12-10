@@ -5,16 +5,16 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {elasticsearchPurgeIndexes, elasticsearchTest} from 'actions/admin_actions.jsx';
-import {JobStatuses, JobTypes} from 'utils/constants.jsx';
+import {JobStatuses, JobTypes} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
-import AdminSettings from './admin_settings.jsx';
-import BooleanSetting from './boolean_setting.jsx';
+import AdminSettings from './admin_settings';
+import BooleanSetting from './boolean_setting';
 import JobsTable from './jobs';
 import RequestButton from './request_button/request_button.jsx';
 import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 export default class ElasticsearchSettings extends AdminSettings {
     getConfigFromState = (config) => {

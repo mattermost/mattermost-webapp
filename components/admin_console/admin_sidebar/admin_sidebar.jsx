@@ -1,22 +1,45 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import Scrollbars from 'react-custom-scrollbars';
+import isEqual from 'lodash/isEqual';
 
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import {generateIndex} from 'utils/admin_console_index.jsx';
 import {browserHistory} from 'utils/browser_history';
+import {intlShape} from 'utils/react_intl';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar_category.jsx';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
 import AdminSidebarSection from 'components/admin_console/admin_sidebar_section.jsx';
-import Highlight from 'components/admin_console/highlight.jsx';
+import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon.jsx';
+
+const renderScrollView = (props) => (
+    <div
+        {...props}
+        className='scrollbar--view'
+    />
+);
+
+const renderScrollThumbHorizontal = (props) => (
+    <div
+        {...props}
+        className='scrollbar--horizontal'
+    />
+);
+
+const renderScrollThumbVertical = (props) => (
+    <div
+        {...props}
+        className='scrollbar--vertical'
+    />
+);
 
 export default class AdminSidebar extends React.Component {
     static get contextTypes() {
@@ -67,19 +90,13 @@ export default class AdminSidebar extends React.Component {
         }
 
         this.updateTitle();
-
-        if (!Utils.isMobile()) {
-            $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true,
-            });
-        }
     }
 
-    componentDidUpdate() {
-        if (!Utils.isMobile()) {
-            $('.admin-sidebar .nav-pills__container').perfectScrollbar({
-                suppressScrollX: true,
-            });
+    componentDidUpdate(prevProps) {
+        if (this.idx !== null &&
+            (!isEqual(this.props.plugins, prevProps.plugins) ||
+                !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
         }
     }
 
@@ -92,7 +109,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -196,18 +213,18 @@ export default class AdminSidebar extends React.Component {
                 ));
             });
 
-            // If no visible items, don't display this section
-            if (sidebarItems.length === 0) {
-                return null;
-            }
-
             // Special case for plugins entries
-            let moreSidebarItems;
+            let moreSidebarItems = [];
             if (section.id === 'plugins') {
                 moreSidebarItems = this.renderPluginsMenu();
             }
 
-            if (sidebarItems.length) {
+            // If no visible items, don't display this section
+            if (sidebarItems.length === 0 && moreSidebarItems.length === 0) {
+                return null;
+            }
+
+            if (sidebarItems.length || moreSidebarItems.length) {
                 sidebarSections.push((
                     <AdminSidebarCategory
                         key={sectionIndex}
@@ -255,6 +272,9 @@ export default class AdminSidebar extends React.Component {
                     }
                 }
 
+                if (this.state.sections !== null && this.state.sections.indexOf(`plugin_${p.id}`) === -1) {
+                    return;
+                }
                 customPlugins.push(
                     <AdminSidebarSection
                         key={'customplugin' + p.id}
@@ -284,46 +304,56 @@ export default class AdminSidebar extends React.Component {
         return (
             <div className='admin-sidebar'>
                 <AdminSidebarHeader/>
-                <div className='nav-pills__container'>
-                    <Highlight filter={this.state.filter}>
-                        <ul className='nav nav-pills nav-stacked'>
-                            <li className='filter-container'>
-                                <SearchIcon
-                                    id='searchIcon'
-                                    className='search__icon'
-                                    aria-hidden='true'
-                                />
-                                <input
-                                    className={'filter ' + (this.state.filter ? 'active' : '')}
-                                    type='text'
-                                    onChange={this.onFilterChange}
-                                    value={this.state.filter}
-                                    placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
-                                    ref={this.searchRef}
-                                />
-                                {this.state.filter &&
-                                    <div
-                                        className='sidebar__search-clear visible'
-                                        onClick={this.handleClearFilter}
-                                    >
-                                        <OverlayTrigger
-                                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                                            placement='bottom'
-                                            overlay={filterClearTooltip}
+                <Scrollbars
+                    ref='scrollbar'
+                    autoHide={true}
+                    autoHideTimeout={500}
+                    autoHideDuration={500}
+                    renderThumbHorizontal={renderScrollThumbHorizontal}
+                    renderThumbVertical={renderScrollThumbVertical}
+                    renderView={renderScrollView}
+                >
+                    <div className='nav-pills__container'>
+                        <Highlight filter={this.state.filter}>
+                            <ul className='nav nav-pills nav-stacked'>
+                                <li className='filter-container'>
+                                    <SearchIcon
+                                        className='search__icon'
+                                        aria-hidden='true'
+                                    />
+                                    <input
+                                        className={'filter ' + (this.state.filter ? 'active' : '')}
+                                        type='text'
+                                        onChange={this.onFilterChange}
+                                        value={this.state.filter}
+                                        placeholder={Utils.localizeMessage('admin.sidebar.filter', 'Find settings')}
+                                        ref={this.searchRef}
+                                        id='adminSidebarFilter'
+                                    />
+                                    {this.state.filter &&
+                                        <div
+                                            className='sidebar__search-clear visible'
+                                            onClick={this.handleClearFilter}
                                         >
-                                            <span
-                                                className='sidebar__search-clear-x'
-                                                aria-hidden='true'
+                                            <OverlayTrigger
+                                                delayShow={Constants.OVERLAY_TIME_DELAY}
+                                                placement='bottom'
+                                                overlay={filterClearTooltip}
                                             >
-                                                {'×'}
-                                            </span>
-                                        </OverlayTrigger>
-                                    </div>}
-                            </li>
-                            {this.renderRootMenu(this.props.adminDefinition)}
-                        </ul>
-                    </Highlight>
-                </div>
+                                                <span
+                                                    className='sidebar__search-clear-x'
+                                                    aria-hidden='true'
+                                                >
+                                                    {'×'}
+                                                </span>
+                                            </OverlayTrigger>
+                                        </div>}
+                                </li>
+                                {this.renderRootMenu(this.props.adminDefinition)}
+                            </ul>
+                        </Highlight>
+                    </div>
+                </Scrollbars>
             </div>
         );
     }

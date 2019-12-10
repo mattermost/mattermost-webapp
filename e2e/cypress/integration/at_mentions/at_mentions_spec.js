@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -11,7 +11,7 @@ import users from '../../fixtures/users.json';
 
 function setNotificationSettings(desiredSettings = {first: true, username: true, shouts: true, custom: true, customText: '@'}) {
     // Navigate to settings modal
-    cy.toAccountSettingsModal(null, true);
+    cy.toAccountSettingsModal('user-1');
 
     // Select "Notifications"
     cy.get('#notificationsButton').click();
@@ -87,11 +87,10 @@ describe('at-mention', () => {
     before(() => {
         // # Login as receiver and go to "/"
         cy.apiLogin(receiver.username);
-        cy.visit('/');
 
         // # Navigate to the channel we were mention to
         // clear the notification gem and get the channelId
-        cy.get('#sidebarItem_town-square').scrollIntoView().click({force: true});
+        cy.visit('/ad-1/channels/town-square');
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });

@@ -3,13 +3,19 @@
 import React from 'react';
 import ReactRouterEnzymeContext from 'react-router-enzyme-context';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {isMobile} from 'utils/user_agent';
+
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import EditPostModal from 'components/edit_post_modal/edit_post_modal.jsx';
 
 jest.mock('actions/global_actions.jsx', () => ({
     emitClearSuggestions: jest.fn(),
+}));
+
+jest.mock('utils/user_agent', () => ({
+    isMobile: jest.fn().mockReturnValue(false),
 }));
 
 function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, editingPost, actions} = {canEditPost: true, canDeletePost: true}) { //eslint-disable-line react/prop-types
@@ -175,6 +181,13 @@ describe('components/EditPostModal', () => {
     it('should add emoji to editText when an emoji is clicked', () => {
         const wrapper = shallowWithIntl(createEditPost());
         const instance = wrapper.instance();
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        instance.editbox = {getInputBox: jest.fn(mockImpl), focus: jest.fn()};
         wrapper.setState({editText: ''});
         instance.handleEmojiClick(null);
         instance.handleEmojiClick({});
@@ -185,13 +198,17 @@ describe('components/EditPostModal', () => {
         instance.handleEmojiClick({name: '+1', aliases: ['thumbsup']});
         expect(wrapper.state().editText).toBe(':+1: ');
 
-        wrapper.setState({editText: 'test'});
+        wrapper.setState(
+            {
+                editText: 'test',
+                caretPosition: 'test'.length,
+            });
         instance.handleEmojiClick({name: '-1', aliases: ['thumbsdown']});
         expect(wrapper.state().editText).toBe('test :-1: ');
 
         wrapper.setState({editText: 'test '});
         instance.handleEmojiClick({name: '-1', aliases: ['thumbsdown']});
-        expect(wrapper.state().editText).toBe('test :-1: ');
+        expect(wrapper.state().editText).toBe('test  :-1: ');
     });
 
     it('should set the focus and recalculate the size of the edit box after entering', () => {
@@ -319,13 +336,14 @@ describe('components/EditPostModal', () => {
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
         };
-        const wrapper = shallowWithIntl(createEditPost({actions}));
+        const editingPost = {show: false};
+        const wrapper = shallowWithIntl(createEditPost({actions, editingPost}));
         const instance = wrapper.instance();
 
         wrapper.setState({editText: 'test', postError: 'test', errorClass: 'test', preview: true, showEmojiPicker: true});
         instance.handleExited();
 
-        expect(wrapper.state()).toEqual({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false});
+        expect(wrapper.state()).toEqual({editText: '', caretPosition: 0, postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     });
 
     it('should focus element on exit based on refocusId', () => {
@@ -374,10 +392,11 @@ describe('components/EditPostModal', () => {
     });
 
     describe('should handle edition on key press enter depending on the conditions', () => {
-        it('for Android, ctrlSend true', () => {
-            global.navigator = {userAgent: 'Android'};
+        it('for Mobile, ctrlSend true', () => {
+            isMobile.mockReturnValue(true);
             const wrapper = shallowWithIntl(createEditPost({ctrlSend: true}));
             const instance = wrapper.instance();
+            instance.setState({caretPosition: 3});
             instance.editbox = {blur: jest.fn()};
 
             const preventDefault = jest.fn();
@@ -388,13 +407,10 @@ describe('components/EditPostModal', () => {
             instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: false, preventDefault, shiftKey: false, altKey: false});
             expect(instance.handleEdit).not.toBeCalled();
             expect(preventDefault).not.toBeCalled();
-            instance.handleEditKeyPress({key: Constants.KeyCodes.ENTER[0], which: Constants.KeyCodes.ENTER[1], ctrlKey: true, preventDefault, shiftKey: false, altKey: false});
-            expect(instance.handleEdit).toBeCalled();
-            expect(preventDefault).toBeCalled();
         });
 
         it('for Chrome, ctrlSend false', () => {
-            global.navigator = {userAgent: 'Chrome'};
+            isMobile.mockReturnValue(false);
             const wrapper = shallowWithIntl(createEditPost({ctrlSend: false}));
             const instance = wrapper.instance();
             instance.editbox = {blur: jest.fn()};

@@ -51,8 +51,45 @@ describe('components/channel_members_dropdown', () => {
             }),
             getChannelStats: jest.fn(),
             updateChannelMemberSchemeRoles: jest.fn(),
+            getChannelMember: jest.fn(),
         },
     };
+
+    test('should match snapshot for dropdown with guest user', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                ...baseProps.user,
+                roles: 'system_guest',
+            },
+            channelMember: {
+                roles: 'channel_guest',
+            },
+            canChangeMemberRoles: true,
+        };
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for not dropdown with guest user', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                ...baseProps.user,
+                roles: 'system_guest',
+            },
+            channelMember: {
+                roles: 'channel_guest',
+            },
+            canChangeMemberRoles: false,
+        };
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
 
     test('should match snapshot for channel_members_dropdown', () => {
         const wrapper = shallow(

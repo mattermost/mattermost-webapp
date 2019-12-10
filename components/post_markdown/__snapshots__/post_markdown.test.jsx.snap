@@ -32,6 +32,16 @@ exports[`components/PostMarkdown plugin hooks can overwrite other hooks messages
 />
 `;
 
+exports[`components/PostMarkdown should correctly pass postId down 1`] = `
+<Connect(Markdown)
+  imageProps={Object {}}
+  isRHS={false}
+  message="message"
+  postId="post_id"
+  proxyImages={true}
+/>
+`;
+
 exports[`components/PostMarkdown should render header change properly 1`] = `
 <div>
   <FormattedMessage
@@ -51,6 +61,8 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
               "singleline": true,
             }
           }
+          postId="post_id"
+          postType="system_header_change"
         />,
         "old": <Connect(Markdown)
           message="see ~test"
@@ -64,6 +76,8 @@ exports[`components/PostMarkdown should render header change properly 1`] = `
               "singleline": true,
             }
           }
+          postId="post_id"
+          postType="system_header_change"
         />,
         "username": <Connect(Markdown)
           message="@user"

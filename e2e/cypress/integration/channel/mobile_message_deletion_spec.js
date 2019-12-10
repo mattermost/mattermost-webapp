@@ -5,7 +5,7 @@ import {getRandomInt} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************

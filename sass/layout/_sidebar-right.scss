@@ -21,9 +21,9 @@
     .sidebar--right__bg {
         @include single-transition(background-color, .5s, ease);
         background-color: alpha-color($black, 0);
-        height: 100%;
+        height: 110%;
         position: absolute;
-        top: 0;
+        top: -70px;
         visibility: hidden;
         width: 300%;
     }
@@ -102,6 +102,14 @@
             padding: .5em 15px 0;
         }
 
+        .msg-typing {
+            margin: 0 0 8px;
+
+            &:empty {
+                display: none;
+            }
+        }
+
         .post-create-footer {
             .post-error {
                 @include opacity(.55);
@@ -109,8 +117,8 @@
                 font-size: .85em;
                 font-weight: normal;
                 margin-bottom: 0;
-                position: absolute;
-                top: 6px;
+                position: relative;
+                top: 0;
             }
         }
     }
@@ -171,6 +179,12 @@
 
         .info-card {
             padding: 5px 15px 60px 15px;
+        }
+
+        .scrollbar--view {
+            .emoji-picker--active & {
+                pointer-events: none;
+            }
         }
     }
 
@@ -292,7 +306,7 @@
 }
 
 .sidebar-right-container {
-    height: 100%;
+    height: calc(100% - 63px);
 }
 
 .sidebar-collapse__container {

@@ -177,7 +177,9 @@ var config = {
                     {
                         loader: 'sass-loader',
                         options: {
-                            includePaths: ['node_modules/compass-mixins/lib', 'sass'],
+                            sassOptions: {
+                                includePaths: ['node_modules/compass-mixins/lib', 'sass'],
+                            },
                         },
                     },
                 ],
@@ -266,6 +268,7 @@ var config = {
             {from: 'images/favicon', to: 'images/favicon'},
             {from: 'images/appIcons.png', to: 'images'},
             {from: 'images/warning.png', to: 'images'},
+            {from: 'images/logo-email.png', to: 'images'},
             {from: 'images/browser-icons', to: 'images/browser-icons'},
         ]),
 
@@ -388,6 +391,7 @@ if (targetIsDevServer) {
                 context: () => true,
                 bypass(req) {
                     if (req.url.indexOf('/api') === 0 ||
+                        req.url.indexOf('/plugins') === 0 ||
                         req.url.indexOf('/static/plugins/') === 0 ||
                         req.url.indexOf('/sockjs-node/') !== -1) {
                         return null; // send through proxy to the server

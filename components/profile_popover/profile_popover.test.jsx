@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ProfilePopover from 'components/profile_popover/profile_popover';
 import Pluggable from '../../plugins/pluggable';
 

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// [number] indicates a test step (e.g. 1. Go to a page)
+// [number] indicates a test step (e.g. # Go to a page)
 // [*] indicates an assertion (e.g. * Check the title)
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -19,14 +19,14 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
                 should('contain', 'current--user').
                 and('contain', 'other--root');
 
-            cy.get(`${target} > #postContent > .post__img`).should('be.visible');
+            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).should('be.visible');
         } else {
             cy.get(target).invoke('attr', 'class').
                 should('contain', 'current--user').
                 and('contain', 'same--user').
                 and('contain', 'same--root');
 
-            cy.get(`${target} > #postContent > .post__img`).
+            cy.get(`${target} > div[data-testid='postContent'] > .post__img`).
                 should('be.visible').
                 and('be.empty');
         }
@@ -34,7 +34,7 @@ function shouldHavePostProfileImageVisible(isVisible = true) {
 }
 
 describe('Message', () => {
-    beforeEach(() => {
+    before(() => {
         // # Login as "user-1" and go to /
         cy.apiLogin('user-1');
         cy.visit('/');

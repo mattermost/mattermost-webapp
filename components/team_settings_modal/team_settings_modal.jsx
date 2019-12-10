@@ -9,14 +9,12 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-import {AsyncComponent} from 'components/async_load';
-import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.jsx';
+const SettingsSidebar = React.lazy(() => import('components/settings_sidebar.tsx'));
 
 import TeamSettings from 'components/team_settings';
 
 export default class TeamSettingsModal extends React.Component {
     static propTypes = {
-        show: PropTypes.bool,
         onHide: PropTypes.func,
     };
 
@@ -26,13 +24,8 @@ export default class TeamSettingsModal extends React.Component {
         this.state = {
             activeTab: 'general',
             activeSection: '',
+            show: true,
         };
-    }
-
-    componentDidMount() {
-        if (!Utils.isMobile()) {
-            $('.settings-modal .settings-content').perfectScrollbar();
-        }
     }
 
     updateTab = (tab) => {
@@ -40,22 +33,10 @@ export default class TeamSettingsModal extends React.Component {
             activeTab: tab,
             activeSection: '',
         });
-
-        if (!Utils.isMobile()) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
     }
 
     updateSection = (section) => {
-        if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
-
         this.setState({activeSection: section});
-    }
-
-    closeModal = () => {
-        this.props.onHide();
     }
 
     collapseModal = () => {
@@ -68,7 +49,7 @@ export default class TeamSettingsModal extends React.Component {
     }
 
     handleHide = () => {
-        this.props.onHide();
+        this.setState({show: false});
     }
 
     // called after the dialog is fully hidden and faded out
@@ -77,6 +58,7 @@ export default class TeamSettingsModal extends React.Component {
             activeTab: 'general',
             activeSection: '',
         });
+        this.props.onHide();
     }
 
     render() {
@@ -87,7 +69,7 @@ export default class TeamSettingsModal extends React.Component {
         return (
             <Modal
                 dialogClassName='a11y__modal settings-modal settings-modal--action'
-                show={this.props.show}
+                show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
                 role='dialog'
@@ -107,19 +89,20 @@ export default class TeamSettingsModal extends React.Component {
                 <Modal.Body ref='modalBody'>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <AsyncComponent
-                                doLoad={loadSettingsSidebar}
-                                tabs={tabs}
-                                activeTab={this.state.activeTab}
-                                updateTab={this.updateTab}
-                            />
+                            <React.Suspense fallback={null}>
+                                <SettingsSidebar
+                                    tabs={tabs}
+                                    activeTab={this.state.activeTab}
+                                    updateTab={this.updateTab}
+                                />
+                            </React.Suspense>
                         </div>
                         <div className='settings-content minimize-settings'>
                             <TeamSettings
                                 activeTab={this.state.activeTab}
                                 activeSection={this.state.activeSection}
                                 updateSection={this.updateSection}
-                                closeModal={this.closeModal}
+                                closeModal={this.handleHide}
                                 collapseModal={this.collapseModal}
                             />
                         </div>

@@ -7,8 +7,8 @@ import React from 'react';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import QuickInput from 'components/quick_input.jsx';
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
 const KeyCodes = Constants.KeyCodes;
@@ -127,6 +127,11 @@ export default class SuggestionBox extends React.Component {
          * If true, listen for clicks on a mention and populate the input with said mention, defaults to false
          */
         listenForMentionKeyClick: PropTypes.bool,
+
+        /**
+         * Passes the wrapper reference for height calculation
+         */
+        wrapperHeight: PropTypes.number,
     }
 
     static defaultProps = {
@@ -188,6 +193,14 @@ export default class SuggestionBox extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
+        const {value} = this.props;
+
+        // Post was just submitted, update pretext property.
+        if (value === '' && this.pretext !== value) {
+            this.handlePretextChanged(value);
+            return;
+        }
+
         if (prevProps.contextId !== this.props.contextId) {
             const textbox = this.getTextbox();
             const pretext = textbox.value.substring(0, textbox.selectionEnd).toLowerCase();
@@ -654,7 +667,7 @@ export default class SuggestionBox extends React.Component {
                 <div
                     ref={this.suggestionReadOut}
                     aria-live='polite'
-                    role={UserAgent.isFirefox() ? '' : 'alert'}
+                    role='alert'
                     className='sr-only'
                 />
                 <QuickInput
@@ -684,6 +697,7 @@ export default class SuggestionBox extends React.Component {
                         terms={this.state.terms}
                         selection={this.state.selection}
                         components={this.state.components}
+                        wrapperHeight={this.props.wrapperHeight}
                     />
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&

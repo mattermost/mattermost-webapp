@@ -3,14 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
+
+import {intlShape} from 'utils/react_intl';
 
 export default class BackstageHeader extends React.Component {
-    static get propTypes() {
-        return {
-            children: PropTypes.node,
-        };
-    }
+    static propTypes = {
+        children: PropTypes.node,
+    };
+
     static contextTypes = {
         intl: intlShape.isRequired,
     };

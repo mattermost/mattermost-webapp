@@ -2,14 +2,13 @@
 // See LICENSE.txt for license information.
 
 import XRegExp from 'xregexp';
-import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 import emojiRegex from 'emoji-regex';
 
 import {formatWithRenderer} from 'utils/markdown';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
-import * as Emoticons from './emoticons.jsx';
+import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
@@ -49,13 +48,15 @@ export function formatText(text, inputOptions) {
     }
 
     let output = text;
-
     const options = Object.assign({}, inputOptions);
+    const hasPhrases = (/"([^"]*)"/).test(options.searchTerm);
 
-    if (options.searchMatches) {
+    if (options.searchMatches && !hasPhrases) {
         options.searchPatterns = options.searchMatches.map(convertSearchTermToRegex);
     } else {
-        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex);
+        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex).sort((a, b) => {
+            return b.term.length - a.term.length;
+        });
     }
 
     if (options.renderer) {
@@ -64,6 +65,16 @@ export function formatText(text, inputOptions) {
     } else if (!('markdown' in options) || options.markdown) {
         // the markdown renderer will call doFormatText as necessary
         output = Markdown.format(output, options);
+        if (output.includes('class="markdown-inline-img"')) {
+            /*
+            ** remove p tag to allow other divs to be nested,
+            ** which allows markdown images to open preview window
+            */
+            const replacer = (match) => {
+                return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
+            };
+            output = output.replace(/<p>|<\/p>/g, replacer);
+        }
     } else {
         output = sanitizeHtml(output);
         output = doFormatText(output, options);
@@ -151,7 +162,7 @@ function autolinkEmails(text, tokens) {
         const alias = `$MM_EMAIL${index}$`;
 
         tokens.set(alias, {
-            value: `<a class="theme" href="mailto:${email}">${email}</a>`,
+            value: `<a class="theme" href="mailto:${email}" rel="noreferrer" target="_blank">${email}</a>`,
             originalText: email,
         });
 
@@ -386,7 +397,7 @@ function autolinkHashtags(text, tokens, minimumHashtagLength = 3) {
 const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
 const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
 
-function parseSearchTerms(searchTerm) {
+export function parseSearchTerms(searchTerm) {
     let terms = [];
 
     let termString = searchTerm;
@@ -406,7 +417,7 @@ function parseSearchTerms(searchTerm) {
         }
 
         // check for a search flag (and don't add it to terms)
-        captured = (/^(?:in|from|channel): ?\S+/).exec(termString);
+        captured = (/^-?(?:in|from|channel|on|before|after): ?\S+/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
             continue;
@@ -422,7 +433,7 @@ function parseSearchTerms(searchTerm) {
         }
 
         // capture any plain text up until the next quote or search flag
-        captured = (/^.+?(?=\bin:|\bfrom:|\bchannel:|"|$)/).exec(termString);
+        captured = (/^.+?(?=(?:\b|\B-)(?:in:|from:|channel:|on:|before:|after:)|"|$)/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 
@@ -552,22 +563,23 @@ function replaceNewlines(text) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text, supportedEmoji, searchPattern) {
+export function handleUnicodeEmoji(text, emojiMap, searchPattern) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
-    output = output.replace(searchPattern, (emoji) => {
+    output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
-        const emojiCode = emoji.codePointAt(0).toString(16);
+        const emojiCode = emojiMatch.codePointAt(0).toString(16);
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
-        if (supportedEmoji.hasUnicode(emojiCode)) {
-            // build image tag to replace supported unicode emoji
-            return `<img class="emoticon" draggable="false" alt="${emoji}" src="${getEmojiImageUrl(supportedEmoji.getUnicode(emojiCode))}">`;
+        if (emojiMap.hasUnicode(emojiCode)) {
+            const emoji = emojiMap.getUnicode(emojiCode);
+
+            return Emoticons.renderEmoji(emoji.aliases[0], emojiMatch);
         }
 
         // wrap unsupported unicode emoji in span to style as needed
-        return `<span class="emoticon emoticon--unicode">${emoji}</span>`;
+        return `<span class="emoticon emoticon--unicode">${emojiMatch}</span>`;
     });
     return output;
 }
