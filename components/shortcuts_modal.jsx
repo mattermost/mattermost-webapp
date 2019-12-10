@@ -167,6 +167,16 @@ const allShortcuts = defineMessages({
         id: t('shortcuts.msgs.comp.emoji'),
         defaultMessage: 'Emoji:\t:|[a-z]|Tab',
     },
+    msgReaction: {
+        default: {
+            id: t('shortcuts.msgs.reaction'),
+            defaultMessage: 'React to last message: \tCtrl|Shift|\u29F5'
+        },
+        mac: {
+            id: t('shortcuts.msgs.reaction'),
+            defaultMessage: 'React to last message: \t⌘|Shift|\u29F5'
+        }
+    },
     filesHeader: {
         id: t('shortcuts.files.header'),
         defaultMessage: 'Files',
@@ -344,6 +354,7 @@ class ShortcutsModal extends React.PureComponent {
                                         <div className='subsection'>
                                             {renderShortcut(formatMessage(shortcuts.msgEdit))}
                                             {renderShortcut(formatMessage(shortcuts.msgReply))}
+                                            {renderShortcut(formatMessage(shortcuts.msgReaction))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintPrev))}
                                             {renderShortcut(formatMessage(shortcuts.msgReprintNext))}
                                         </div>
