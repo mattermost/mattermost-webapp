@@ -31,7 +31,7 @@ export default class EmailToLDAP extends React.Component {
 
         this.emailPasswordInput = React.createRef();
         this.ldapIdInput = React.createRef();
-        this.ldapPassword = React.createRef();
+        this.ldapPasswordInput = React.createRef();
     }
 
     preSubmit = (e) => {
@@ -58,7 +58,7 @@ export default class EmailToLDAP extends React.Component {
             return;
         }
 
-        const ldapPassword = this.ldapPassword.current.value;
+        const ldapPassword = this.ldapPasswordInput.current.value;
         if (!ldapPassword) {
             state.ldapPasswordError = Utils.localizeMessage('claim.email_to_ldap.ldapPasswordError', 'Please enter your AD/LDAP password.');
             this.setState(state);
