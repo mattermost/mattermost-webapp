@@ -22,6 +22,14 @@ export function fetchPlugins() {
 
             return {plugins};
         } catch (error) {
+            const localOnly = true;
+            const plugins = await Client4.getMarketplacePlugins(filter, localOnly);
+
+            dispatch({
+                type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
+                plugins,
+            });
+
             return {error};
         }
     };
