@@ -13,7 +13,6 @@
 
 import {getMessageMenusPayload} from '../../utils';
 
-let channelId;
 let incomingWebhook;
 
 describe('Interactive Menu', () => {
@@ -36,8 +35,6 @@ describe('Interactive Menu', () => {
         // # Visit '/' and create incoming webhook
         cy.visit('/ad-1/channels/town-square');
         cy.getCurrentChannelId().then((id) => {
-            channelId = id;
-
             const newIncomingHook = {
                 channel_id: id,
                 channel_locked: true,
