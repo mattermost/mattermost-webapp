@@ -4,11 +4,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
+import {intlShape} from 'utils/react_intl';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
