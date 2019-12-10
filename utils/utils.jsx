@@ -985,6 +985,7 @@ export function applyTheme(theme) {
             'center-channel-bg-10': changeOpacity(theme.centerChannelBg, 0.1),
             'center-channel-color-10': changeOpacity(theme.centerChannelColor, 0.1),
             'center-channel-bg-05': changeOpacity(theme.centerChannelBg, 0.05),
+            'center-channel-color-08': changeOpacity(theme.centerChannelColor, 0.08),
             'center-channel-color-05': changeOpacity(theme.centerChannelColor, 0.05),
             'new-message-separator': theme.newMessageSeparator,
             'link-color': theme.linkColor,
@@ -1562,6 +1563,10 @@ export function isPostEphemeral(post) {
 
 export function getRootId(post) {
     return post.root_id === '' ? post.id : post.root_id;
+}
+
+export function getRootPost(postList) {
+    return postList.find((post) => post.root_id === '');
 }
 
 export function localizeMessage(id, defaultMessage) {

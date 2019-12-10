@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -25,6 +25,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 class SearchResultsItem extends React.PureComponent {
@@ -335,7 +336,7 @@ class SearchResultsItem extends React.PureComponent {
                             searchMatches: this.props.matches,
                             mentionHighlight: this.props.isMentionSearch,
                         }}
-                        isRHS='true'
+                        isRHS={true}
                     />
                 </PostBodyAdditionalContent>
             );

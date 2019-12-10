@@ -5,7 +5,11 @@
         @include single-transition(all, .35s, ease);
         @include translateX(100%);
         z-index: 12;
-        top: 0px !important;
+        top: 0px;
+
+        .announcement-bar--fixed & {
+            top: 32px !important;
+        }
 
         &.move--left {
             -webkit-transform: translateX(0) !important;
@@ -235,6 +239,10 @@
     .sidebar--right {
         top: 63px;
 
+        .announcement-bar--fixed & {
+            top: 95px;
+        }
+
         &.move--left {
             @include translateX(0);
 
@@ -448,7 +456,7 @@
             .sidebar--right & .flag-icon__container, .sidebar--right & .card-icon__container {
                 left: auto;
                 position: relative;
-                top: 1px;
+                top: 2px;
             }
 
             &.same--root {

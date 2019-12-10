@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -15,6 +15,7 @@ import {
     isMobileApp,
 } from 'utils/user_agent';
 import {getTable} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
