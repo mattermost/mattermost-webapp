@@ -18,7 +18,7 @@ export default class BrandImageSetting extends React.PureComponent {
     static propTypes = {
 
         /*
-             * Set for testing purpose
+         * Set for testing purpose
          */
         id: PropTypes.string,
 
