@@ -26,9 +26,6 @@ export default class Authorize extends React.Component {
         super(props);
 
         this.state = {};
-    }
-
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
         if (!((/^[a-z0-9]+$/).test(clientId))) {
             return;

@@ -219,18 +219,17 @@ export default class Root extends React.Component {
         }
     }
 
-    redirectIfNecessary = (props) => {
-        if (props.location.pathname === '/') {
-            if (this.props.noAccounts) {
-                this.props.history.push('/signup_user_complete');
+    static getDerivedStateFromProps(props, state) {
+        if (state.prevProps && props.location.pathname === '/') {
+            if (state.prevProps.noAccounts) {
+                state.prevProps.history.push('/signup_user_complete');
             } else if (props.showTermsOfService) {
-                this.props.history.push('/terms_of_service');
+                state.prevProps.history.push('/terms_of_service');
             }
         }
-    }
-
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
-        this.redirectIfNecessary(newProps);
+        return {
+            prevProps: props
+        };
     }
 
     componentDidMount() {

@@ -81,6 +81,7 @@ export default class NeedsTeam extends React.Component {
         this.state = {
             team,
             finishedFetchingChannels: false,
+            prevProps: this.props
         };
 
         if (!team) {
@@ -88,15 +89,22 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.params.team !== nextProps.match.params.team) {
-            const team = this.updateCurrentTeam(nextProps);
-            this.setState({
-                team,
-            });
-            if (!team) {
-                this.joinTeam(nextProps);
-            }
+    static getDerivedStateFromProps(nextProps, state) {
+        if (state.prevProps.match.params.team !== nextProps.match.params.team) {
+            const team = state.prevProps.teamsList ?
+                state.prevProps.teamsList.find((teamObj) =>
+                    teamObj.name === nextProps.match.params.team) : null;
+            return {prevProps: nextProps, team: (team || null)};
+        }
+        return {prevProps: nextProps};
+    }
+
+    static getSnapshotBeforeUpdate() {
+        if (this.state.team) {
+            this.initTeam(this.state.team);
+        }
+        if (!this.state.team) {
+            this.joinTeam(this.props);
         }
     }
 

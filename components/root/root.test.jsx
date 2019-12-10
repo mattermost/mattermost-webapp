@@ -149,4 +149,23 @@ describe('components/Root', () => {
         expect(Utils.isDevMode).toHaveBeenCalledTimes(1);
         expect(Utils.enableDevModeFeatures).not.toHaveBeenCalled();
     });
+
+    test('should call history on props change', () => {
+        const props = {
+            ...baseProps,
+            noAccounts: true,
+
+            history: {
+                push: jest.fn(),
+            },
+        };
+        const wrapper = shallow(<Root {...props}/>);
+        expect(props.history.push).not.toHaveBeenCalled();
+        const props2 = {
+            noAccounts: false,
+        };
+        wrapper.setProps(props2);
+        expect(props.history.push).toHaveBeenLastCalledWith('/signup_user_complete');
+    });
+
 });
