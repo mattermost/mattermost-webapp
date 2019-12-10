@@ -151,6 +151,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                 <TextDismissableBar
                     allowDismissal={true}
                     text={siteURLMessage}
+                    siteURL={this.props.siteURL}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
                 />
             );
