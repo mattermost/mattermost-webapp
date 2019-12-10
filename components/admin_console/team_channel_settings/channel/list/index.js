@@ -19,7 +19,7 @@ const compareByDisplayName = (a, b) => a.display_name.localeCompare(b.display_na
 const getSortedListOfChannels = createSelector(
     getAllChannels,
     (teams) => Object.values(teams).
-        filter((c) => c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL).
+        filter((c) => (c.type === Constants.OPEN_CHANNEL || c.type === Constants.PRIVATE_CHANNEL) && c.delete_at === 0).
         sort(compareByDisplayName)
 );
 

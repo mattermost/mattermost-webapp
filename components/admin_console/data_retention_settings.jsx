@@ -12,7 +12,7 @@ import AdminSettings from './admin_settings';
 import DropdownSetting from './dropdown_setting.jsx';
 import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 
 export default class DataRetentionSettings extends AdminSettings {
     getConfigFromState = (config) => {

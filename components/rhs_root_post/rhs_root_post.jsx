@@ -3,13 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -24,9 +25,8 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-class RhsRootPost extends React.PureComponent {
+export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -50,6 +50,10 @@ class RhsRootPost extends React.PureComponent {
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
         }),
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -153,8 +157,8 @@ class RhsRootPost extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged, intl} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl)});
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
     }
 
     getDotMenuRef = () => {
@@ -402,5 +406,3 @@ class RhsRootPost extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(RhsRootPost);

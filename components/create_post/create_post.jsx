@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -18,6 +18,7 @@ import {
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
@@ -49,13 +50,8 @@ function trimRight(str) {
     return str.replace(/\s*$/, '');
 }
 
-class CreatePost extends React.Component {
+export default class CreatePost extends React.Component {
     static propTypes = {
-
-        /**
-         * react-intl API
-         */
-        intl: PropTypes.any,
 
         /**
          *  ref passed from channelView for EmojiPickerOverlay
@@ -255,6 +251,10 @@ class CreatePost extends React.Component {
             scrollPostListToBottom: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     static defaultProps = {
         latestReplyablePostId: '',
@@ -656,7 +656,7 @@ class CreatePost extends React.Component {
     postMsgKeyPress = (e) => {
         const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
 
-        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt);
+        const {allowSending, withClosedCodeBlock, ignoreKeyPress, message} = postMessageOnKeyPress(e, this.state.message, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition);
 
         if (ignoreKeyPress) {
             e.preventDefault();
@@ -1084,7 +1084,7 @@ class CreatePost extends React.Component {
             showTutorialTip,
             readOnlyChannel,
         } = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
@@ -1351,5 +1351,3 @@ class CreatePost extends React.Component {
         );
     }
 }
-
-export default injectIntl(CreatePost);

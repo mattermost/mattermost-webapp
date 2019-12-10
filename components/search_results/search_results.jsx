@@ -9,6 +9,7 @@ import {injectIntl} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import SearchResultsHeader from 'components/search_results_header';
@@ -109,7 +110,7 @@ class SearchResults extends React.Component {
         actions: PropTypes.shape({
             getMorePostsForSearch: PropTypes.func.isRequired,
         }),
-        intl: PropTypes.object.isRequired,
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {

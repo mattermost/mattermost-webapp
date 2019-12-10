@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -13,6 +13,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -29,9 +30,8 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-class RhsComment extends React.PureComponent {
+export default class RhsComment extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -55,6 +55,10 @@ class RhsComment extends React.PureComponent {
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
         }),
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -207,8 +211,8 @@ class RhsComment extends React.PureComponent {
     }
 
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged, intl} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl)});
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
     }
 
     render() {
@@ -506,5 +510,3 @@ class RhsComment extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(RhsComment);
