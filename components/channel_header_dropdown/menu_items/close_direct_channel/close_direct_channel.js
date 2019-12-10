@@ -49,8 +49,6 @@ export default class CloseDirectChannel extends React.PureComponent {
         }).isRequired,
     };
 
-    isLeaving = false;
-
     handleClose = (e) => {
         e.preventDefault();
 

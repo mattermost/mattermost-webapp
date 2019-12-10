@@ -204,13 +204,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         dialogProps={{channel}}
                         text={localizeMessage('channel_header.setHeader', 'Edit Channel Header')}
                     />
-                    <Menu.Group divider={divider}>
-                        <MenuItemDirectLevelChannel
-                            id='channelDirectLevel'
-                            channel={channel}
-                            currentUser={user}
-                        />
-                    </Menu.Group>
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}
@@ -287,6 +280,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         channel={channel}
                         isDefault={isDefault}
                         isGuestUser={user.is_guest}
+                    />
+                    <MenuItemDirectLevelChannel
+                        id='channelDirectLevel'
+                        channel={channel}
+                        currentUser={user}
                     />
                     <MenuItemCloseChannel
                         id='channelCloseChannel'
