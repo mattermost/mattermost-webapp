@@ -75,7 +75,7 @@ export default class PermalinkView extends React.PureComponent {
 
     doPermalinkEvent = async (props) => {
         const postId = props.match.params.postid;
-        await this.props.actions.focusPost(postId, this.props.returnTo);
+        await this.props.actions.focusPost(postId, this.props.returnTo, this.props.currentUserId);
         this.setState({valid: true});
     }
 
