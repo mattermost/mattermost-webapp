@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
-import $ from 'jquery';
-require('perfect-scrollbar/jquery')($);
+import {shallow, ShallowWrapper} from 'enzyme';
 
-import AccessHistoryModal from 'components/access_history_modal/access_history_modal.jsx';
+import AccessHistoryModal from 'components/access_history_modal/access_history_modal';
 import AuditTable from 'components/audit_table';
 import LoadingScreen from 'components/loading_screen';
 
@@ -45,7 +43,7 @@ describe('components/AccessHistoryModal', () => {
             getUserAudits: jest.fn(),
         };
         const props = {...baseProps, actions};
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, AccessHistoryModal> = shallow(
             <AccessHistoryModal {...props}/>
         );
 
@@ -54,7 +52,7 @@ describe('components/AccessHistoryModal', () => {
     });
 
     test('should match state when onHide is called', () => {
-        const wrapper = shallow(
+        const wrapper: ShallowWrapper<any, any, AccessHistoryModal> = shallow(
             <AccessHistoryModal {...baseProps}/>
         );
 

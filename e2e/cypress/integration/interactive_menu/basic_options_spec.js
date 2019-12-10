@@ -25,7 +25,7 @@ const payload = getMessageMenusPayload({options});
 let channelId;
 let incomingWebhook;
 
-describe('MM-15887 Interactive menus - basic options', () => {
+describe('Interactive Menu', () => {
     before(() => {
         // Set required ServiceSettings
         const newSettings = {
@@ -40,6 +40,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         // # Login as sysadmin and ensure that teammate name display setting is set to default 'username'
         cy.apiLogin('sysadmin');
         cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.apiSaveMessageDisplayPreference('clean');
 
         // # Visit '/' and create incoming webhook
         cy.visit('/ad-1/channels/town-square');
@@ -89,7 +90,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         cy.get('body').click();
     });
 
-    it('displays selected option and posts ephemeral message', () => {
+    it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -116,7 +117,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         });
     });
 
-    it('displays reply in center channel with "commented on [user\'s] message: [text]"', () => {
+    it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
@@ -206,11 +207,11 @@ function verifyMessageAttachmentList(postId, isRhs, text) {
         // * Verify exact height, width and padding of suggestion container and its input
         cy.get('.select-suggestion-container').
             should('be.visible').
-            and('have.css', 'height', '30px').
+            and('have.css', 'height', '32px').
             and('have.css', 'width', '220px');
 
         cy.get('.select-suggestion-container > input').
-            and('have.css', 'height', '30px').
+            and('have.css', 'height', '32px').
             and('have.css', 'width', '220px').
             and('have.css', 'padding-right', '30px');
 

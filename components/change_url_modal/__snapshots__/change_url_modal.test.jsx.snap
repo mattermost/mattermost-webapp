@@ -108,7 +108,6 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
               className="form-control"
               maxLength={64}
               onChange={[Function]}
-              tabIndex="1"
               type="text"
               value=""
             />
@@ -134,7 +133,6 @@ exports[`components/ChangeURLModal should match snapshot, modal not showing 1`] 
       <button
         className="btn btn-primary"
         onClick={[Function]}
-        tabIndex="2"
         type="submit"
       >
         Save
@@ -252,7 +250,6 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
               className="form-control"
               maxLength={64}
               onChange={[Function]}
-              tabIndex="1"
               type="text"
               value=""
             />
@@ -278,7 +275,6 @@ exports[`components/ChangeURLModal should match snapshot, modal showing 1`] = `
       <button
         className="btn btn-primary"
         onClick={[Function]}
-        tabIndex="2"
         type="submit"
       >
         Save
@@ -396,7 +392,6 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
               className="form-control"
               maxLength={64}
               onChange={[Function]}
-              tabIndex="1"
               type="text"
               value=""
             />
@@ -431,7 +426,6 @@ exports[`components/ChangeURLModal should match snapshot, on currentURL 1`] = `
       <button
         className="btn btn-primary"
         onClick={[Function]}
-        tabIndex="2"
         type="submit"
       >
         Save
@@ -549,7 +543,6 @@ exports[`components/ChangeURLModal should match snapshot, on urlError 1`] = `
               className="form-control"
               maxLength={64}
               onChange={[Function]}
-              tabIndex="1"
               type="text"
               value=""
             />
@@ -584,7 +577,6 @@ exports[`components/ChangeURLModal should match snapshot, on urlError 1`] = `
       <button
         className="btn btn-primary"
         onClick={[Function]}
-        tabIndex="2"
         type="submit"
       >
         Save
@@ -702,7 +694,6 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
               className="form-control"
               maxLength={64}
               onChange={[Function]}
-              tabIndex="1"
               type="text"
               value=""
             />
@@ -728,7 +719,6 @@ exports[`components/ChangeURLModal should match snapshot, with a input 1`] = `
       <button
         className="btn btn-primary"
         onClick={[Function]}
-        tabIndex="2"
         type="submit"
       >
         Save

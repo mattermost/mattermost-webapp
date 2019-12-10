@@ -20,7 +20,7 @@ const user1 = users['user-1'];
 
 function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
     // # Update Guest Account Settings
-    cy.apiUpdateConfig({
+    cy.apiUpdateConfigBasic({
         GuestAccountsSettings: {
             Enable: featureFlag,
             RestrictCreationToDomains: whitelistedDomains,
@@ -31,9 +31,7 @@ function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, 
     });
 }
 
-function invitePeople(typeText, resultsCount, verifyText) {
-    const channelName = 'Town Square';
-
+function invitePeople(typeText, resultsCount, verifyText, channelName = 'Town Square') {
     // # Open Invite People
     cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
     cy.get('#invitePeople').should('be.visible').click();
@@ -108,11 +106,11 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 
 describe('Guest Account - Guest User Invitation Flow', () => {
     before(() => {
+        // # Login as "sysadmin"
+        cy.apiLogin('sysadmin');
+
         // # Enable Guest Account Settings
         changeGuestFeatureSettings();
-
-        // # Login as "sysadmin" and go to /
-        cy.apiLogin('sysadmin');
 
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
@@ -139,7 +137,6 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
             cy.apiDeleteTeam(testTeam.id);
         }
     });
@@ -158,7 +155,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // * Verify the header has changed in the modal
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', 'Invite Guests');
+            cy.get('h1').should('have.text', 'Invite Guests to Test Team');
         });
 
         // *Verify Invite Guests button is disabled by default
@@ -168,7 +165,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         const email = `temp-${getRandomInt(9999)}@mattermost.com`;
         cy.findByTestId('addPeople').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Invite People');
-            cy.get('.help-text > span').should('have.text', 'Search and add guests or email invite new users.');
+            cy.get('.help-text > span').should('have.text', 'Add existing guests or send email invites to new guests.');
         });
         cy.findByTestId('emailPlaceholder').should('be.visible').within(() => {
             // * Verify the input placeholder text
@@ -253,10 +250,10 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.demoteUser(newUser.id);
 
         // # Search and add an existing guest by first name, who is part of the team but not channel
-        invitePeople(newUser.firstName, 1, newUser.username);
+        invitePeople(newUser.firstName, 1, newUser.username, 'Off-Topic');
 
         // * Verify the content and message in next screen
-        verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
+        verifyInvitationSuccess(newUser.username, 'This guest has been added to the team and channel.');
 
         // # Search and add an existing guest by last name, who is part of the team and channel
         invitePeople(newUser.lastName, 1, newUser.username);
@@ -283,11 +280,13 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18050 Verify when different feature settings are disabled', () => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // # Disable Guest Account Feature
         changeGuestFeatureSettings(false, true);
 
-        // # Login again after changing feature flag and reload current page
-        cy.apiLogin('sysadmin');
+        // # reload current page
         cy.visit(`/${testTeam.name}`);
 
         // # Open Invite People
@@ -295,12 +294,12 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.get('#invitePeople').should('be.visible').click();
 
         // * Verify if Invite Members modal is displayed when guest account feature is disabled
-        cy.findByTestId('invitationModal').find('h1').should('have.text', 'Invite Members');
+        cy.findByTestId('invitationModal').find('h1').should('have.text', 'Invite Members to Test Team');
 
         // * Verify Share Link Header and helper text
         cy.findByTestId('shareLink').should('be.visible').within(() => {
             cy.get('h2 > span').should('have.text', 'Share This Link');
-            cy.get('.help-text > span').should('have.text', 'Share this link to grant member access to this team.');
+            cy.get('.help-text > span').should('have.text', 'Share this link to invite people to this team.');
         });
 
         // # Close the Modal
@@ -309,9 +308,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Enable Guest Account Feature and disable Email Invitation
         changeGuestFeatureSettings(true, false);
 
-        // # Login again after changing feature flag and reload current page
-        cy.apiLogin('sysadmin');
-        cy.visit(`/${testTeam.name}`);
+        // # Reload the current page
+        cy.reload();
 
         const email = `temp-${getRandomInt(9999)}@mattermost.com`;
         invitePeople(email, 1, email);
@@ -321,11 +319,13 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18047 Verify Guest User whitelisted domains', () => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // #Configure a whitelisted domain
         changeGuestFeatureSettings(true, true, 'example.com');
 
-        // # Login as sysadmin and visit to newly created team
-        cy.apiLogin('sysadmin');
+        // # Visit to newly created team
         cy.visit(`/${testTeam.name}`);
 
         // # Invite a Guest by email
