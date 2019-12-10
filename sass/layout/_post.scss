@@ -2156,6 +2156,9 @@
         position: absolute;
         right: 0px;
         padding: 0px 12px;
+        &:hover {
+           background-color: rgba(0,0,0,0.2);
+        }
     }
 
     .toast__message {

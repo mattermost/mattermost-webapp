@@ -69,7 +69,7 @@ export default class Toast extends React.PureComponent {
         );
 
         let jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.windows;';
-        let jumpToShortcutDefault = 'CNTRL+J';
+        let jumpToShortcutDefault = 'CTRL+J';
         if (isMac()) {
             jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.mac';
             jumpToShortcutDefault = '⌘J';

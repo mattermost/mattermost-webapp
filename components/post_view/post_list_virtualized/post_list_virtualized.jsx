@@ -682,6 +682,7 @@ export default class PostList extends React.PureComponent {
                             isScrolling={this.state.isScrolling}
                             isMobile={true}
                             postId={this.state.topPostId}
+                            stylesOverride={this.state.showUnreadToast || this.state.showNewMessagesToast ? {top: '50px'} : null}
                         />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
