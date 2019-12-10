@@ -225,31 +225,28 @@ export default class SettingItemMax extends React.PureComponent {
         let title;
         if (this.props.title) {
             title = (
-                <li
+                <div
                     id='settingTitle'
                     className='col-sm-12 section-title'
                 >
                     {this.props.title}
-                </li>
+                </div>
             );
         }
 
         let listContent = (
-            <li
-                className='setting-list-item'
-                role='presentation'
-            >
+            <div className='setting-list-item'>
                 {inputs}
                 {extraInfo}
-            </li>
+            </div>
         );
 
         if (this.props.infoPosition === 'top') {
             listContent = (
-                <li role='presentation'>
+                <div>
                     {extraInfo}
                     {inputs}
-                </li>
+                </div>
             );
         }
 
@@ -266,19 +263,18 @@ export default class SettingItemMax extends React.PureComponent {
         }
 
         return (
-            <ul
+            <div
                 className={`section-max form-horizontal ${this.props.containerStyle}`}
             >
                 {title}
-                <li className={widthClass}>
-                    <ul
+                <div className={widthClass}>
+                    <div
                         tabIndex='-1'
                         ref={this.settingList}
-                        role='presentation'
                         className='setting-list'
                     >
                         {listContent}
-                        <li className='setting-list-item'>
+                        <div className='setting-list-item'>
                             <hr/>
                             {this.props.submitExtra}
                             {serverError}
@@ -291,10 +287,10 @@ export default class SettingItemMax extends React.PureComponent {
                             >
                                 {cancelButtonText}
                             </button>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
