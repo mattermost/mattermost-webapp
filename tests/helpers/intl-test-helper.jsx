@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {IntlProvider, intlShape} from 'react-intl';
+import {IntlProvider} from 'react-intl';
 import {mount, shallow} from 'enzyme';
+
+import {intlShape} from 'utils/react_intl';
 
 const intlProvider = new IntlProvider({locale: 'en', timeZone: 'Etc/UTC'}, {});
 const {intl} = intlProvider.getChildContext();
