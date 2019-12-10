@@ -5,6 +5,8 @@ import React from 'react';
 
 import LocalizedIcon from 'components/localized_icon';
 
+import {t} from 'utils/i18n';
+
 type Props = {
     additionalClassName: string | null;
 }
@@ -19,7 +21,7 @@ export default class NextIcon extends React.PureComponent<Props> {
         return (
             <LocalizedIcon
                 className={className}
-                title={{id: 'generic_icons.next', defaultMessage: 'Next Icon'}}
+                title={{id: t('generic_icons.next'), defaultMessage: 'Next Icon'}}
             />
         );
     }

@@ -8,6 +8,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import LocalizedIcon from 'components/localized_icon';
 import TeamInfoIcon from 'components/widgets/icons/team_info_icon';
 
+import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 
 export default class SelectTeamItem extends React.PureComponent {
@@ -58,7 +59,7 @@ export default class SelectTeamItem extends React.PureComponent {
                 <LocalizedIcon
                     className='fa fa-refresh fa-spin right signup-team__icon'
                     component='span'
-                    title={{id: 'generic_icons.loading', defaultMessage: 'Loading Icon'}}
+                    title={{id: t('generic_icons.loading'), defaultMessage: 'Loading Icon'}}
                 />
             );
         } else {
@@ -66,7 +67,7 @@ export default class SelectTeamItem extends React.PureComponent {
                 <LocalizedIcon
                     className='fa fa-angle-right right signup-team__icon'
                     component='span'
-                    title={{id: 'select_team.join.icon', defaultMessage: 'Join Team Icon'}}
+                    title={{id: t('select_team.join.icon'), defaultMessage: 'Join Team Icon'}}
                 />
             );
         }
@@ -86,7 +87,7 @@ export default class SelectTeamItem extends React.PureComponent {
                     {!team.allow_open_invite &&
                         <LocalizedIcon
                             className='fa fa-lock light'
-                            title={{id: 'select_team.private.icon', defaultMessage: 'Private team'}}
+                            title={{id: t('select_team.private.icon'), defaultMessage: 'Private team'}}
                         />}
                     {canJoin && icon}
                 </a>

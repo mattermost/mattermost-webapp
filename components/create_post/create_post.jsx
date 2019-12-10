@@ -10,6 +10,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+import {t} from 'utils/i18n';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -1304,7 +1305,7 @@ export default class CreatePost extends React.Component {
                                     <LocalizedIcon
                                         className='fa fa-paper-plane'
                                         title={{
-                                            id: 'create_post.icon',
+                                            id: t('create_post.icon'),
                                             defaultMessage: 'Send Post Icon',
                                         }}
                                     />

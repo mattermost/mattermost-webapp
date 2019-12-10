@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'utils/constants';
+import {t} from 'utils/i18n';
 import LocalizedIcon from 'components/localized_icon';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
@@ -103,7 +104,7 @@ export default class SystemNotice extends React.PureComponent {
                 <div className='system-notice__info'>
                     <LocalizedIcon
                         className='fa fa-eye'
-                        title={{id: 'system_notice.adminVisible.icon', defaultMessage: 'Only visible to System Admins Icon'}}
+                        title={{id: t('system_notice.adminVisible.icon'), defaultMessage: 'Only visible to System Admins Icon'}}
                     />
                     <FormattedMessage
                         id='system_notice.adminVisible'

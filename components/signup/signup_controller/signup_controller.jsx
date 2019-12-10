@@ -17,6 +17,7 @@ import LocalizedIcon from 'components/localized_icon';
 
 import LoadingScreen from 'components/loading_screen';
 import {Constants} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 export default class SignupController extends React.Component {
     static propTypes = {
@@ -160,7 +161,7 @@ export default class SignupController extends React.Component {
                         <LocalizedIcon
                             className='icon fa fa-envelope'
                             component='span'
-                            title={{id: 'signup.email.icon', defaultMessage: 'Email Icon'}}
+                            title={{id: t('signup.email.icon'), defaultMessage: 'Email Icon'}}
                         />
                         <FormattedMessage
                             id='signup.email'
@@ -255,7 +256,7 @@ export default class SignupController extends React.Component {
                         <LocalizedIcon
                             className='icon fa fa-folder-open fa--margin-top'
                             component='span'
-                            title={{id: 'signup.ldap.icon', defaultMessage: 'AD/LDAP Icon'}}
+                            title={{id: t('signup.ldap.icon'), defaultMessage: 'AD/LDAP Icon'}}
                         />
                         <span>
                             {LDAPText}
@@ -283,7 +284,7 @@ export default class SignupController extends React.Component {
                         <LocalizedIcon
                             className='icon fa fa-lock fa--margin-top'
                             component='span'
-                            title={{id: 'signup.saml.icon', defaultMessage: 'SAML Icon'}}
+                            title={{id: t('signup.saml.icon'), defaultMessage: 'SAML Icon'}}
                         />
                         <span>
                             {this.props.samlLoginButtonText}

@@ -5,6 +5,8 @@ import React from 'react';
 
 import LocalizedIcon from 'components/localized_icon';
 
+import {t} from 'utils/i18n';
+
 type Props = {
     text: React.ReactNode;
 }
@@ -23,7 +25,7 @@ export default class LoadingSpinner extends React.PureComponent<Props> {
                 <LocalizedIcon
                     className='fa fa-spinner fa-fw fa-pulse spinner'
                     component='span'
-                    title={{id: 'generic_icons.loading', defaultMessage: 'Loading Icon'}}
+                    title={{id: t('generic_icons.loading'), defaultMessage: 'Loading Icon'}}
                 />
                 {this.props.text}
             </span>

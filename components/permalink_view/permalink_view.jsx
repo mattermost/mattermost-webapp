@@ -12,6 +12,7 @@ import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants.jsx';
+import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils.jsx';
 
 export default class PermalinkView extends React.PureComponent {
@@ -135,7 +136,7 @@ export default class PermalinkView extends React.PureComponent {
                         />
                         <LocalizedIcon
                             className='fa fa-arrow-down'
-                            title={{id: 'center_panel.recent.icon', defaultMessage: 'Jump to recent messages Icon'}}
+                            title={{id: t('center_panel.recent.icon'), defaultMessage: 'Jump to recent messages Icon'}}
                         />
                     </Link>
                 </div>

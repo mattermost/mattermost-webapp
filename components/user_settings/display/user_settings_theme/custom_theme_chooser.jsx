@@ -411,11 +411,11 @@ export default class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <LocalizedIcon
                                 className='fa fa-plus'
-                                title={{id: 'generic_icons.expand', defaultMessage: 'Expand Icon'}}
+                                title={{id: t('generic_icons.expand'), defaultMessage: 'Expand Icon'}}
                             />
                             <LocalizedIcon
                                 className='fa fa-minus'
-                                title={{id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'}}
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
                             />
                         </div>
                     </div>
@@ -440,11 +440,11 @@ export default class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <LocalizedIcon
                                 className='fa fa-plus'
-                                title={{id: 'generic_icons.expand', defaultMessage: 'Expand Icon'}}
+                                title={{id: t('generic_icons.expand'), defaultMessage: 'Expand Icon'}}
                             />
                             <LocalizedIcon
                                 className='fa fa-minus'
-                                title={{id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'}}
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
                             />
                         </div>
                     </div>
@@ -470,11 +470,11 @@ export default class CustomThemeChooser extends React.Component {
                         <div className='header__icon'>
                             <LocalizedIcon
                                 className='fa fa-plus'
-                                title={{id: 'generic_icons.expand', defaultMessage: 'Expand Icon'}}
+                                title={{id: t('generic_icons.expand'), defaultMessage: 'Expand Icon'}}
                             />
                             <LocalizedIcon
                                 className='fa fa-minus'
-                                title={{id: 'generic_icons.collapse', defaultMessage: 'Collapse Icon'}}
+                                title={{id: t('generic_icons.collapse'), defaultMessage: 'Collapse Icon'}}
                             />
                         </div>
                     </div>
