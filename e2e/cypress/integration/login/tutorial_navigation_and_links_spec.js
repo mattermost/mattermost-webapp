@@ -16,7 +16,7 @@ describe('Test Tutorial Navigation', () => {
                 AppDownloadLink: appDownloadLink,
             },
         });
-        cy.loginAsNewUser({}, false);
+        cy.loginAsNewUser({}, [], false);
     });
 
     it('On13989 - Tutorial Navigation and Links', () => {
@@ -80,7 +80,7 @@ describe('Test Tutorial Navigation', () => {
         cy.apiLogout();
 
         // # Create another new user with the tutorial bypass flag set to false.
-        cy.loginAsNewUser({}, false);
+        cy.loginAsNewUser({}, [], false);
 
         // * Verify that the first step of the tutorial displays.
         checkStepOne();
