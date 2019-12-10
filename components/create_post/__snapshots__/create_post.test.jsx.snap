@@ -277,9 +277,15 @@ exports[`components/create_post should match snapshot for center textbox 1`] = `
             role="button"
             tabIndex="0"
           >
-            <i
+            <LocalizedIcon
               className="fa fa-paper-plane"
-              title="Send Post Icon"
+              component="i"
+              title={
+                Object {
+                  "defaultMessage": "Send Post Icon",
+                  "id": "create_post.icon",
+                }
+              }
             />
           </a>
         </span>
