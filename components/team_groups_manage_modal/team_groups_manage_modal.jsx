@@ -18,12 +18,18 @@ import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
 import groupsAvatar from 'images/groups-avatar.png';
 
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
+
+import * as Utils from 'utils/utils.jsx';
+
 export default class TeamGroupsManageModal extends React.PureComponent {
     static propTypes = {
         team: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroupsAssociatedToTeam: PropTypes.func.isRequired,
             unlinkGroupSyncable: PropTypes.func.isRequired,
+            patchGroupSyncable: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
@@ -40,7 +46,8 @@ export default class TeamGroupsManageModal extends React.PureComponent {
     };
 
     loadItems = async (pageNumber, searchTerm) => {
-        const {data} = await this.props.actions.getGroupsAssociatedToTeam(this.props.team.id, searchTerm, pageNumber, DEFAULT_NUM_PER_PAGE);
+        const {data} = await this.props.actions.getGroupsAssociatedToTeam(this.props.team.id, searchTerm, pageNumber, DEFAULT_NUM_PER_PAGE, true);
+
         return {
             items: data.groups,
             totalCount: data.totalGroupCount,
@@ -80,7 +87,30 @@ export default class TeamGroupsManageModal extends React.PureComponent {
         this.props.actions.openModal({modalId: ModalIdentifiers.ADD_GROUPS_TO_TEAM, dialogType: AddGroupsToTeamModal});
     };
 
+    makeTeamAdmin = async (item, listModal) => {
+        this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: true}).then(async () => {
+            listModal.setState({loading: true});
+            const {items} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+            listModal.setState({loading: false, items});
+        });
+    };
+
+    makeTeamMember = async (item, listModal) => {
+        this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: false}).then(async () => {
+            listModal.setState({loading: true});
+            const {items} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+            listModal.setState({loading: false, items});
+        });
+    };
+
     renderRow = (item, listModal) => {
+        let title;
+        if (item.scheme_admin) {
+            title = Utils.localizeMessage('admin.user_item.teamAdmin', 'Team Admin');
+        } else {
+            title = Utils.localizeMessage('admin.user_item.teamMember', 'Team Member');
+        }
+
         return (
             <div
                 key={item.id}
@@ -104,18 +134,32 @@ export default class TeamGroupsManageModal extends React.PureComponent {
                         /></span>
                     </div>
                 </div>
-                <div className='more-modal__actions'>
-                    <button
-                        id='removeMember'
-                        type='button'
-                        className='btn btn-danger btn-message'
-                        onClick={() => this.onClickRemoveGroup(item, listModal)}
-                    >
-                        <FormattedMessage
-                            id='group_list_modal.removeGroupButton'
-                            defaultMessage='Remove Group'
-                        />
-                    </button>
+                <div className='more-modal__dropdown'>
+                    <MenuWrapper>
+                        <a>
+                            <span>{title} </span>
+                            <span className='caret'/>
+                        </a>
+                        <Menu
+                            openLeft={true}
+                            ariaLabel={Utils.localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                        >
+                            <Menu.ItemAction
+                                show={!item.scheme_admin}
+                                onClick={() => this.makeTeamAdmin(item, listModal)}
+                                text={Utils.localizeMessage('admin.user_item.makeTeamAdmin', 'Make Team Admin')}
+                            />
+                            <Menu.ItemAction
+                                show={Boolean(item.scheme_admin)}
+                                onClick={() => this.makeTeamMember(item, listModal)}
+                                text={Utils.localizeMessage('admin.user_item.makeMember', 'Make Member')}
+                            />
+                            <Menu.ItemAction
+                                onClick={() => this.onClickRemoveGroup(item, listModal)}
+                                text={Utils.localizeMessage('group_list_modal.removeGroupButton', 'Remove Group')}
+                            />
+                        </Menu>
+                    </MenuWrapper>
                 </div>
             </div>
         );

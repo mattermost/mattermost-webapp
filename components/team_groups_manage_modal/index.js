@@ -3,7 +3,7 @@
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {getGroupsAssociatedToTeam, unlinkGroupSyncable} from 'mattermost-redux/actions/groups';
+import {getGroupsAssociatedToTeam, unlinkGroupSyncable, patchGroupSyncable} from 'mattermost-redux/actions/groups';
 
 import {closeModal, openModal} from 'actions/views/modals';
 
@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
         closeModal,
         openModal,
         unlinkGroupSyncable,
+        patchGroupSyncable,
     }, dispatch),
 });
 
