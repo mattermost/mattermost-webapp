@@ -35,7 +35,7 @@ export default class QuickInput extends React.PureComponent {
         clearable: PropTypes.bool,
 
         /**
-         * An optional function to handle clearing the input field when the X is clicked.
+         * Function to call when input is cleared when 'X' is clicked.
          */
         onClear: PropTypes.func,
     };

@@ -59,11 +59,15 @@ describe('components/QuickInput', () => {
         wrapper.instance().forceUpdate();
         wrapper.update();
 
+        expect(wrapper.instance().value).toEqual('mock');
+
         expect(wrapper).toMatchSnapshot();
 
         wrapper.find('.input-clear').simulate('click');
         wrapper.instance().forceUpdate();
         wrapper.update();
+
+        expect(wrapper.instance().value).toEqual('');
 
         expect(wrapper).toMatchSnapshot();
 
