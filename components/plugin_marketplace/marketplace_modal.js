@@ -94,6 +94,7 @@ export const InstalledPlugins = ({installedPlugins, changeTab}) => {
                 <button
                     className='margin-top x3 style--none color--link'
                     onClick={() => changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                    data-testid='Install-Plugins-button'
                 >
                     <FormattedMessage
                         id='marketplace_modal.install_plugins'

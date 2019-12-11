@@ -299,5 +299,22 @@ describe('Plugin Marketplace', () => {
             // * github plugin should still be visible
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
+
+        it('change tab on "install plugins" click', () => {
+            // * switch tab to installed plugin
+            cy.get('#marketplaceTabs-tab-installed').click();
+
+            // * Install Plugins button should be visible
+            cy.get('[data-testid="Install-Plugins-button"] > span').should('be.visible').and('have.text', 'Install Plugins');
+
+            // * click on Install Plugins should change current tab
+            cy.get('[data-testid="Install-Plugins-button"]').click();
+
+            // * all plugins tab should be active
+            cy.get('#marketplaceTabs-pane-allPlugins').should('be.visible');
+
+            // * installed plugins tab should not be active
+            cy.get('#marketplaceTabs-pane-installed').should('be.visible');
+        });
     });
 });
