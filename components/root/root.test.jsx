@@ -167,5 +167,4 @@ describe('components/Root', () => {
         wrapper.setProps(props2);
         expect(props.history.push).toHaveBeenLastCalledWith('/signup_user_complete');
     });
-
 });
