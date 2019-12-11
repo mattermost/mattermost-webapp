@@ -219,17 +219,14 @@ export default class Root extends React.Component {
         }
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (state.prevProps && props.location.pathname === '/') {
-            if (state.prevProps.noAccounts) {
-                state.prevProps.history.push('/signup_user_complete');
-            } else if (props.showTermsOfService) {
-                state.prevProps.history.push('/terms_of_service');
+    componentDidUpdate(prevProps) {
+        if (this.props.location.pathname === '/') {
+            if (prevProps.noAccounts) {
+                prevProps.history.push('/signup_user_complete');
+            } else if (this.props.showTermsOfService) {
+                prevProps.history.push('/terms_of_service');
             }
         }
-        return {
-            prevProps: props
-        };
     }
 
     componentDidMount() {
