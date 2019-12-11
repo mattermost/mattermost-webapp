@@ -12,6 +12,7 @@
 */
 
 import {getMessageMenusPayload} from '../../utils';
+import * as TIMEOUT from '../../fixtures/timeouts';
 
 let incomingWebhook;
 
@@ -60,27 +61,27 @@ describe('Interactive Menu', () => {
         // # Create a message attachment with menu
         cy.postIncomingWebhook({url: incomingWebhook.url, data: menuOptionsPayload});
 
+        // # Wait a little for webhook to arrive in chat
+        cy.wait(TIMEOUT.TINY);
+
         // # Get the last posted message id
         cy.getLastPostId().then((lastPostId) => {
-            // # Get the last messages attachment container and alias it to 'messageAttachmentList' for later use
-            cy.get(`#messageAttachmentList_${lastPostId}`).as('messageAttachmentList');
-        });
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // * Message attachment menu dropdown should be closed
+                cy.get('#suggestionList').should('not.be.visible');
 
-        // # Get the last message attachment menu container
-        cy.get('@messageAttachmentList').within(() => {
-            // * Message attachment menu dropdown should not closed
-            cy.get('#suggestionList').should('not.be.visible');
+                // # Open the message attachment menu dropdown
+                cy.get('#suggestion_box_container > input').click();
 
-            // # Open the message attachment menu dropdown
-            cy.get('.select-suggestion-container > input').click();
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('be.visible');
 
-            // * Message attachment menu dropdown should open
-            cy.get('#suggestionList').should('be.visible');
-
-            // Loop through options
-            cy.get('#suggestionList').children().each(($elem, index) => {
-                // * Each dropdown should contain the options text in same order
-                cy.wrap($elem).should('have.text', menuOptions[index].text);
+                // Loop through options
+                cy.get('#suggestionList').children().each(($elem, index) => {
+                // * Each dropdown should contain the options text in same order as webhook
+                    cy.wrap($elem).should('have.text', menuOptions[index].text);
+                });
             });
         });
 

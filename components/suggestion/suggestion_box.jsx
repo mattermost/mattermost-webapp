@@ -661,6 +661,7 @@ export default class SuggestionBox extends React.Component {
 
         return (
             <div
+                id='suggestion_box_container'
                 ref={this.setContainerRef}
                 className={this.props.containerClass}
             >
