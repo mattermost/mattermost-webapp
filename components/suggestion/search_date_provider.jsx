@@ -21,6 +21,9 @@ class SearchDateSuggestion extends Suggestion {
             <DayPicker
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}
+                ref={(node) => {
+                    this.node = node;
+                }}
             />
         );
     }
