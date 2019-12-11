@@ -312,7 +312,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-pane-allPlugins').should('be.visible');
 
             // * installed plugins tab should not be active
-            cy.get('#marketplaceTabs-pane-installed').should('be.visible');
+            cy.get('#marketplaceTabs-pane-installed').should('not.be.visible');
         });
     });
 });
