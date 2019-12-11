@@ -50,6 +50,9 @@ class SearchChannelSuggestion extends Suggestion {
             <div
                 onClick={this.handleClick}
                 className={className}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
