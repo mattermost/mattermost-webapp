@@ -61,6 +61,9 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
                 onClick={this.handleClick}
                 className={className}
                 onMouseMove={this.handleMouseMove}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 {...Suggestion.baseProps}
             >
                 {icon}

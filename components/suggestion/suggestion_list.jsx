@@ -43,6 +43,7 @@ export default class SuggestionList extends React.PureComponent {
         this.suggestionReadOut = React.createRef();
         this.currentLabel = '';
         this.currentItem = {};
+        this.contentRef = null;
     }
 
     componentDidUpdate(prevProps) {
@@ -93,9 +94,15 @@ export default class SuggestionList extends React.PureComponent {
         this.announceLabel();
     }
 
-    getContent = () => {
-        return $(ReactDOM.findDOMNode(this.refs.content));
+    setContentRef = (element) => {
+        this.contentRef = element;
     }
+    getContent = () => {
+        if (this.contentRef) {
+            return $(ReactDOM.findDOMNode(this.contentRef.current));
+        }
+        return null;
+    };
 
     scrollToItem = (term) => {
         const content = this.getContent();
@@ -148,6 +155,7 @@ export default class SuggestionList extends React.PureComponent {
             <div
                 key='list-no-results'
                 className='suggestion-list__no-results'
+                ref={this.setContentRef}
             >
                 <FormattedMarkdownMessage
                     id='suggestion_list.no_matches'
@@ -170,7 +178,6 @@ export default class SuggestionList extends React.PureComponent {
             if (!this.props.renderNoResults) {
                 return null;
             }
-
             items.push(this.renderNoResults());
         }
 
@@ -210,7 +217,6 @@ export default class SuggestionList extends React.PureComponent {
                 />
             );
         }
-
         const mainClass = 'suggestion-list suggestion-list--' + this.props.location;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.location;
         let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
@@ -227,7 +233,7 @@ export default class SuggestionList extends React.PureComponent {
             <div className={mainClass}>
                 <div
                     id='suggestionList'
-                    ref='content'
+                    ref={this.setContentRef}
                     style={{...contentStyle}}
                     className={contentClass}
                     onMouseDown={this.props.preventClose}

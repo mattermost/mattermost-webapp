@@ -3,7 +3,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import ChannelHeader from 'components/channel_header';
@@ -11,6 +11,7 @@ import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 export default class PermalinkView extends React.PureComponent {

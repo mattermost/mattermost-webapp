@@ -35,6 +35,9 @@ class SearchUserSuggestion extends Suggestion {
         return (
             <div
                 className={className}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
