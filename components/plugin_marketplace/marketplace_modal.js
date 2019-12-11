@@ -202,7 +202,7 @@ export class MarketplaceModal extends React.Component {
                         onInput={this.onInput}
                         value={this.state.filter}
                         clearable={true}
-                        handleClear={this.handleClearSearch}
+                        onClear={this.handleClearSearch}
                     />
                 </div>
             </div>

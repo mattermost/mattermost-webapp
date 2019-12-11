@@ -51,7 +51,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         data-a11y-sort-order="8"
         dateComponent={[Function]}
         delayInputUpdate={true}
-        handleClear={[Function]}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}
@@ -59,6 +58,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}
@@ -151,7 +151,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         data-a11y-sort-order="8"
         dateComponent={[Function]}
         delayInputUpdate={true}
-        handleClear={[Function]}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}
@@ -159,6 +158,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}
@@ -262,7 +262,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         data-a11y-sort-order="8"
         dateComponent={[Function]}
         delayInputUpdate={true}
-        handleClear={[Function]}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}
@@ -270,6 +269,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}
@@ -373,7 +373,6 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         data-a11y-sort-order="8"
         dateComponent={[Function]}
         delayInputUpdate={true}
-        handleClear={[Function]}
         id="searchBox"
         isRHS={false}
         listComponent={[Function]}
@@ -381,6 +380,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}

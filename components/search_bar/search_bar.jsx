@@ -92,7 +92,7 @@ export default class SearchBar extends React.Component {
         }, 200);
     }
 
-    handleClear = () => {
+    onClear = () => {
         this.props.actions.updateSearchTerms('');
     }
 
@@ -274,7 +274,7 @@ export default class SearchBar extends React.Component {
                             delayInputUpdate={true}
                             renderDividers={true}
                             clearable={true}
-                            handleClear={this.handleClear}
+                            onClear={this.onClear}
                         />
                         {this.props.isSearchingTerm && <LoadingSpinner/>}
                         {this.renderHintPopover()}

@@ -321,7 +321,7 @@ export default class AdminSidebar extends React.Component {
                                         ref={this.searchRef}
                                         id='adminSidebarFilter'
                                         clearable={true}
-                                        handleClear={this.handleClearFilter}
+                                        onClear={this.handleClearFilter}
                                     />
                                 </li>
                                 {this.renderRootMenu(this.props.adminDefinition)}

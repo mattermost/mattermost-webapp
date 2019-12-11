@@ -37,7 +37,7 @@ export default class QuickInput extends React.PureComponent {
         /**
          * An optional function to handle clearing the input field when the X is clicked.
          */
-        handleClear: PropTypes.func,
+        onClear: PropTypes.func,
     };
 
     static defaultProps = {
@@ -88,9 +88,9 @@ export default class QuickInput extends React.PureComponent {
         this.input = input;
     }
 
-    handleClear = () => {
-        if (this.props.handleClear) {
-            this.props.handleClear();
+    onClear = () => {
+        if (this.props.onClear) {
+            this.props.onClear();
         }
 
         this.value = '';
@@ -109,7 +109,7 @@ export default class QuickInput extends React.PureComponent {
         const {value, inputComponent, clearable, ...props} = this.props;
 
         Reflect.deleteProperty(props, 'delayInputUpdate');
-        Reflect.deleteProperty(props, 'handleClear');
+        Reflect.deleteProperty(props, 'onClear');
 
         const inputElement = React.createElement(
             inputComponent || 'input',
@@ -125,7 +125,7 @@ export default class QuickInput extends React.PureComponent {
             {clearable && this.input && this.value && this.value !== '' &&
                 <div
                     className='input-clear visible'
-                    onClick={this.handleClear}
+                    onClick={this.onClear}
                 >
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
