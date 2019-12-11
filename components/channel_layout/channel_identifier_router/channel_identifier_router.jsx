@@ -27,22 +27,20 @@ export default class ChannelIdentifierRouter extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.props.actions.onChannelByIdentifierEnter(props);
         this.state = {
             prevProps: props,
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.prevProps.match.params.team !== nextProps.match.params.team ||
-            prevState.prevProps.match.params.identifier !== nextProps.match.params.identifier) {
-            prevState.prevProps.actions.onChannelByIdentifierEnter(nextProps);
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.team !== prevProps.match.params.team ||
+            this.props.match.params.identifier !== prevProps.match.params.identifier) {
+            this.props.actions.onChannelByIdentifierEnter(this.props);
         }
-        return {
-            prevProps: nextProps,
-        };
     }
-
+    componentDidMount() {
+        this.props.actions.onChannelByIdentifierEnter(this.props);
+    }
     render() {
         return <ChannelView/>;
     }

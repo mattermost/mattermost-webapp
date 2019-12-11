@@ -23,7 +23,6 @@ describe('components/channel_layout/CenterChannel', () => {
     test('should call onChannelByIdentifierEnter on props change', () => {
         const wrapper = shallow(<ChannelIdentifierRouter {...props}/>);
 
-        // expect(props).toEqual(propsTest);
         expect(props.actions.onChannelByIdentifierEnter).toHaveBeenCalledTimes(1);
         expect(props.actions.onChannelByIdentifierEnter).toHaveBeenLastCalledWith(props);
 

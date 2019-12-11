@@ -26,6 +26,14 @@ export default class Authorize extends React.Component {
         super(props);
 
         this.state = {};
+    }
+
+    componentDidMount() {
+        // if we get to this point remove the antiClickjack blocker
+        const blocker = document.getElementById('antiClickjack');
+        if (blocker) {
+            blocker.parentNode.removeChild(blocker);
+        }
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
         if (!((/^[a-z0-9]+$/).test(clientId))) {
             return;
@@ -37,14 +45,6 @@ export default class Authorize extends React.Component {
                     this.setState({app: data});
                 }
             });
-    }
-
-    componentDidMount() {
-        // if we get to this point remove the antiClickjack blocker
-        const blocker = document.getElementById('antiClickjack');
-        if (blocker) {
-            blocker.parentNode.removeChild(blocker);
-        }
     }
 
     handleAllow = () => {
