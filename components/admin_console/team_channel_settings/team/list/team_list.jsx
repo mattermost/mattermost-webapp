@@ -4,6 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+import {cloneDeep} from 'lodash';
 
 import * as Utils from 'utils/utils.jsx';
 import {Constants} from 'utils/constants';
@@ -126,7 +127,7 @@ export default class TeamList extends React.PureComponent {
     }
 
     render() {
-        const absProps = {...this.props};
+        const absProps = cloneDeep(this.props);
         if (this.state.searchMode) {
             absProps.actions.getData = this.getDataBySearch;
         }

@@ -3,10 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {Constants, Preferences, ModalIdentifiers} from 'utils/constants.jsx';
+import {intlShape} from 'utils/react_intl';
 import {useSafeUrl} from 'utils/url';
 import AppIcons from 'images/appIcons.png';
 import ModalToggleButtonRedux from 'components/toggle_modal_button_redux';
@@ -334,7 +335,6 @@ export default class TutorialIntroScreens extends React.Component {
                             <button
                                 id='tutorialNextButton'
                                 className='btn btn-primary'
-                                tabIndex='1'
                                 onClick={this.handleNext}
                             >
                                 <FormattedMessage

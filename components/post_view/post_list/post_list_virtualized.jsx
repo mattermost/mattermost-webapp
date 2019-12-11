@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
-import {intlShape} from 'react-intl';
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
@@ -13,6 +12,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
