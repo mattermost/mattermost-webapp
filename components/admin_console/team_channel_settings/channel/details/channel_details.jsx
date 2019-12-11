@@ -68,7 +68,7 @@ export default class ChannelDetails extends React.Component {
 
     componentDidUpdate(prevProps) {
         const {channel, totalGroups} = this.props;
-        if (channel.id !== prevProps.channel.id) {
+        if (channel.id !== prevProps.channel.id || totalGroups !== prevProps.totalGroups) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
                 totalGroups,
@@ -150,7 +150,7 @@ export default class ChannelDetails extends React.Component {
                 g.scheme_admin = !g.scheme_admin;
             }
             return g;
-        })
+        });
         this.processGroupsChange(groups)
     }
 
@@ -243,9 +243,7 @@ export default class ChannelDetails extends React.Component {
             const unlink = origGroups.filter((g) => !groups.includes(g)).map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
             const link = groups
             .filter((g) => !origGroups.includes(g))
-            .map((g) => {
-                actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin})
-            });
+            .map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: g.scheme_admin}));
             const result = await Promise.all([...promises, ...unlink, ...link]);
             const resultWithError = result.find((r) => r.error);
             if (resultWithError) {
