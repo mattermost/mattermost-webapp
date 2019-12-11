@@ -58,24 +58,24 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                     style={{padding: '30px 0px'}}
                 >
                     <div className='group-name col-sm-8'>
-                            <div className='col-sm-2'>
-                                <Avatar
-                                    username={user.username}
-                                    url={Client4.getProfilePictureUrl(user.id, lastPictureUpdate)}
-                                    size='lg'
-                                />
+                        <div className='col-sm-2'>
+                            <Avatar
+                                username={user.username}
+                                url={Client4.getProfilePictureUrl(user.id, lastPictureUpdate)}
+                                size='lg'
+                            />
+                        </div>
+                        <div className='col-sm-10'>
+                            <div className='row'>
+                                <b>{'@' + user.username}&nbsp;</b>
+                                {'-'}&nbsp;
+                                {displayName}
                             </div>
-                            <div className='col-sm-10'>
-                                <div className='row'>
-                                    <b>{'@' + user.username}&nbsp;</b>
-                                    {'-'}&nbsp;
-                                    {displayName}
-                                </div>
-                                <div className='row email-group-row'>
-                                    {user.email}
-                                </div>
+                            <div className='row email-group-row'>
+                                {user.email}
+                            </div>
 
-                            </div>
+                        </div>
                     </div>
                     <span
                         className='col-sm-2 group-user-removal-column group-description'
