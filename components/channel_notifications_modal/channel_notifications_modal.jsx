@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
@@ -112,10 +111,6 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     }
 
     updateSection = (section = NotificationSections.NONE) => {
-        if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
-
         this.setState({activeSection: section});
 
         if (section === NotificationSections.NONE) {

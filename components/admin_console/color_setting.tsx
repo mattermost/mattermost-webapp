@@ -50,8 +50,11 @@ export default class ColorSetting extends React.PureComponent<Props, State> {
     }
 
     private closePicker = (e: MouseEvent) => {
-        if (e.target && (e.target as HTMLElement).closest('.' + this.getPickerClass())) {
-            this.setState({showPicker: false});
+        if (e.target) {
+            const closest = (e.target as HTMLElement).closest('.' + this.getPickerClass());
+            if (!closest || !closest.contains(e.target as HTMLElement)) {
+                this.setState({showPicker: false});
+            }
         }
     }
 

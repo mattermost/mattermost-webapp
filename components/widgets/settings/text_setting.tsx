@@ -58,6 +58,7 @@ export default class TextSetting extends React.Component<WidgetTextSettingProps>
 
             input = (
                 <textarea
+                    data-testid={this.props.id + 'input'}
                     id={this.props.id}
                     style={style}
                     className='form-control'
@@ -74,6 +75,7 @@ export default class TextSetting extends React.Component<WidgetTextSettingProps>
 
             input = (
                 <input
+                    data-testid={this.props.id + type}
                     id={this.props.id}
                     className='form-control'
                     type={type}

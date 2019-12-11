@@ -91,7 +91,7 @@ export default class Reaction extends React.PureComponent {
         this.props.actions.removeReaction(this.props.post.id, this.props.emojiName);
     }
 
-    loadMissingProfiles = () => {
+    loadMissingProfiles = async () => {
         const ids = this.props.reactions.map((reaction) => reaction.user_id);
         this.props.actions.getMissingProfilesByIds(ids);
     }
@@ -251,7 +251,7 @@ export default class Reaction extends React.PureComponent {
                 onClick={handleClick}
             >
                 <OverlayTrigger
-                    delayShow={1000}
+                    delayShow={500}
                     placement='top'
                     shouldUpdatePosition={true}
                     overlay={

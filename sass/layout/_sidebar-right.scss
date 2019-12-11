@@ -66,7 +66,7 @@
             }
 
             .post__pinned-badge {
-                margin: 0 0 0 5px;
+                margin: 0 8px 0 5px;
             }
         }
 
@@ -306,7 +306,7 @@
 }
 
 .sidebar-right-container {
-    height: 100%;
+    height: calc(100% - 63px);
 }
 
 .sidebar-collapse__container {

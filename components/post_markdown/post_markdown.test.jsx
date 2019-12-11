@@ -68,6 +68,7 @@ describe('components/PostMarkdown', () => {
         const props = {
             ...baseProps,
             post: {
+                id: 'post_id',
                 type: Posts.POST_TYPES.HEADER_CHANGE,
                 props: {
                     username: 'user',

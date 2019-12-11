@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
@@ -16,6 +16,7 @@ import FormError from 'components/form_error';
 
 import LoadingScreen from 'components/loading_screen';
 import {Constants} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 
 export default class SignupController extends React.Component {
     static propTypes = {

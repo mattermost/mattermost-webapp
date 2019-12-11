@@ -32,6 +32,7 @@ export default class SearchBar extends React.Component {
         isFlaggedPosts: PropTypes.bool,
         showMentionFlagBtns: PropTypes.bool,
         isFocus: PropTypes.bool,
+        isSideBarRight: PropTypes.bool,
         actions: PropTypes.shape({
             updateSearchTerms: PropTypes.func,
             showSearchResults: PropTypes.func,
@@ -164,7 +165,7 @@ export default class SearchBar extends React.Component {
 
         return (
             <Popover
-                id='searchbar-help-popup'
+                id={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
                 placement='bottom'
                 className={helpClass}
             >
@@ -193,7 +194,7 @@ export default class SearchBar extends React.Component {
                     }
                     ariaLabel={true}
                     buttonClass={'channel-header__icon style--none ' + mentionBtnClass}
-                    buttonId={'channelHeaderMentionButton'}
+                    buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderMentionButton' : 'channelHeaderMentionButton'}
                     onClick={this.searchMentions}
                     tooltipKey={'recentMentions'}
                 />
@@ -208,7 +209,7 @@ export default class SearchBar extends React.Component {
                     }
                     ariaLabel={true}
                     buttonClass={'channel-header__icon style--none ' + flagBtnClass}
-                    buttonId={'channelHeaderFlagButton'}
+                    buttonId={this.props.isSideBarRight ? 'sbrChannelHeaderFlagButton' : 'channelHeaderFlagButton'}
                     onClick={this.getFlagged}
                     tooltipKey={'flaggedPosts'}
                 />
@@ -235,7 +236,7 @@ export default class SearchBar extends React.Component {
             <div className='sidebar-right__table'>
                 <div className='sidebar-collapse__container'>
                     <div
-                        id='sidebarCollapse'
+                        id={this.props.isSideBarRight ? 'sbrSidebarCollapse' : 'sidebarCollapse'}
                         className='sidebar-collapse'
                         onClick={this.handleClose}
                     >
@@ -253,7 +254,7 @@ export default class SearchBar extends React.Component {
                     </div>
                 </div>
                 <div
-                    id='searchFormContainer'
+                    id={this.props.isSideBarRight ? 'sbrSearchFormContainer' : 'searchFormContainer'}
                     className='search-form__container'
                 >
                     <form
@@ -269,11 +270,12 @@ export default class SearchBar extends React.Component {
                         />
                         <SuggestionBox
                             ref={this.getSearch}
-                            id='searchBox'
+                            id={this.props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}
                             tabIndex='0'
                             className='search-bar a11y__region'
                             data-a11y-sort-order='8'
-                            aria-describedby='searchbar-help-popup'
+                            aria-describedby={this.props.isSideBarRight ? 'sbr-searchbar-help-popup' : 'searchbar-help-popup'}
+                            aria-label={Utils.localizeMessage('search_bar.search', 'Search')}
                             placeholder={Utils.localizeMessage('search_bar.search', 'Search')}
                             value={this.props.searchTerms}
                             onFocus={this.handleUserFocus}
@@ -290,7 +292,7 @@ export default class SearchBar extends React.Component {
                         />
                         {showClear &&
                             <div
-                                id='searchClearButton'
+                                id={this.props.isSideBarRight ? 'sbrSearchClearButton' : 'searchClearButton'}
                                 className='sidebar__search-clear visible'
                                 onClick={this.handleClear}
                             >

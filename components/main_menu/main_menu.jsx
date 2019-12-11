@@ -4,10 +4,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Permissions} from 'mattermost-redux/constants';
-import {intlShape} from 'react-intl';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {Constants, ModalIdentifiers} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {cmdOrCtrlPressed, isKeyPressed, localizeMessage} from 'utils/utils';
 import {useSafeUrl} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -193,6 +193,7 @@ export default class MainMenu extends React.PureComponent {
                             modalId={ModalIdentifiers.INVITATION}
                             dialogType={InvitationModal}
                             text={localizeMessage('navbar_dropdown.invitePeople', 'Invite People')}
+                            extraText={localizeMessage('navbar_dropdown.invitePeopleExtraText', 'Add or invite people to the team')}
                             icon={this.props.mobile && <i className='fa fa-user-plus'/>}
                         />
                     </TeamPermissionGate>

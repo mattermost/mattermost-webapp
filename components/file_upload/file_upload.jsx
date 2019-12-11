@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -15,12 +15,14 @@ import {
     isMobileApp,
 } from 'utils/user_agent';
 import {getTable} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
     isKeyPressed,
     generateId,
     isFileTransfer,
+    isUriDrop,
     localizeMessage,
 } from 'utils/utils.jsx';
 
@@ -354,7 +356,7 @@ export default class FileUpload extends PureComponent {
         const files = [];
         Array.from(droppedFiles).forEach((file, index) => {
             const item = items[index];
-            if (item && item.webkitGetAsEntry && item.webkitGetAsEntry().isDirectory) {
+            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || item.webkitGetAsEntry().isDirectory)) {
                 return;
             }
             files.push(file);
@@ -362,6 +364,10 @@ export default class FileUpload extends PureComponent {
 
         const types = e.dataTransfer.types;
         if (types) {
+            if (isUriDrop(e.dataTransfer)) {
+                return;
+            }
+
             // For non-IE browsers
             if (types.includes && !types.includes('Files')) {
                 return;
@@ -399,15 +405,14 @@ export default class FileUpload extends PureComponent {
             dragsterActions = {
                 enter(e) {
                     var files = e.detail.dataTransfer;
-
-                    if (isFileTransfer(files)) {
+                    if (!isUriDrop(files) && isFileTransfer(files)) {
                         overlay.classList.remove('hidden');
                     }
                 },
                 leave(e) {
                     var files = e.detail.dataTransfer;
 
-                    if (isFileTransfer(files)) {
+                    if (!isUriDrop(files) && isFileTransfer(files)) {
                         overlay.classList.add('hidden');
                     }
 
@@ -418,7 +423,6 @@ export default class FileUpload extends PureComponent {
                 },
                 drop(e) {
                     overlay.classList.add('hidden');
-
                     dragTimeout.cancel();
 
                     self.handleDrop(e.detail);

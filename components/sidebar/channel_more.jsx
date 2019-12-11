@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import {intlShape} from 'utils/react_intl';
 
 export default class ChannelMore extends React.PureComponent {
     static propTypes = {
@@ -51,7 +52,7 @@ export default class ChannelMore extends React.PureComponent {
                         data-testid='morePublicButton'
                     >
                         <button
-                            data-testid='sidebarChannelsMore'
+                            id='sidebarPublicChannelsMore'
                             aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                             className='nav-more cursor--pointer style--none btn--block'
                             onClick={this.moreChannelsPublic}
@@ -76,7 +77,7 @@ export default class ChannelMore extends React.PureComponent {
                             data-testid='morePublicButton'
                         >
                             <button
-                                data-testid='sidebarChannelsMore'
+                                id='sidebarPrivateChannelsMore'
                                 aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                                 className='nav-more cursor--pointer style--none btn--block'
                                 onClick={this.moreChannelsPrivate}
