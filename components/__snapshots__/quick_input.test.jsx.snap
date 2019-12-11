@@ -83,20 +83,6 @@ exports[`components/QuickInput should match snapshot when clearable and with val
 </QuickInput>
 `;
 
-exports[`components/QuickInput should match snapshot when empty 1`] = `
-<QuickInput
-  clearable={false}
-  delayInputUpdate={false}
-  value=""
->
-  <div>
-    <input
-      defaultValue=""
-    />
-  </div>
-</QuickInput>
-`;
-
 exports[`components/QuickInput should match snapshot when not clearable and empty 1`] = `
 <QuickInput
   clearable={false}
