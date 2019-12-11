@@ -51,14 +51,13 @@ export default class AdminGroupUsersRow extends React.PureComponent {
         const {user, lastPictureUpdate, displayName} = this.props;
         return (
             <div
-                className={'group '}
+                className='group'
             >
                 <div
                     className='group-row roc'
                     style={{padding: '30px 0px'}}
                 >
                     <div className='group-name col-sm-8'>
-                        <div className='row'>
                             <div className='col-sm-2'>
                                 <Avatar
                                     username={user.username}
@@ -77,15 +76,17 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                                 </div>
 
                             </div>
-                        </div>
-
                     </div>
                     <span
                         className='col-sm-2 group-user-removal-column group-description'
-                    >{this.renderRolesColumn(user)}</span>
+                    >
+                        {this.renderRolesColumn(user)}
+                    </span>
                     <span
                         className='col-sm-2 group-user-removal-column group-description group-description-link'
-                    >{this.renderGroupsColumn(user)}</span>
+                    >
+                        {this.renderGroupsColumn(user)}
+                    </span>
                 </div>
             </div>
         );
