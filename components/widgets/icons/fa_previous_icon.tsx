@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {intlShape} from 'react-intl';
+import {intlShape} from 'utils/react_intl';
 
 type Props = {
     additionalClassName: string | null;
