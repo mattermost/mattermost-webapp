@@ -126,6 +126,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
   </div>
   <button
     className="margin-top x3 style--none color--link"
+    data-testid="Install-Plugins-button"
     onClick={[Function]}
   >
     <FormattedMessage
