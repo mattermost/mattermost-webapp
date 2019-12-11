@@ -122,7 +122,7 @@ export default class QuickInput extends React.PureComponent {
 
         return (<div>
             {inputElement}
-            {clearable && this.input && this.value && this.value !== '' &&
+            {clearable && this.input && this.value && this.value.trim() !== '' &&
                 <div
                     className='input-clear visible'
                     onClick={this.onClear}
