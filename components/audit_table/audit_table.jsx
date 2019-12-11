@@ -7,7 +7,7 @@ import {defineMessages, FormattedDate, FormattedMessage, FormattedTime, injectIn
 
 import {t} from 'utils/i18n';
 import {intlShape} from 'utils/react_intl';
-import {getDirectTeammate, isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
+import {isSystemAdmin, toTitleCase} from 'utils/utils.jsx';
 
 const holders = defineMessages({
     sessionRevoked: {
