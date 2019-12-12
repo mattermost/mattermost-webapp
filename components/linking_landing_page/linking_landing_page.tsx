@@ -103,7 +103,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     tryOpen = () => {
         safeOpenProtocol(this.state.nativeLocation,
             () => this.setState({protocolUnsupported: true}),
-            () => protocolDetected(),
+            () => null,
             () => this.setState({browserUnsupported: true})
         );
     }
@@ -385,8 +385,4 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             </div>
         );
     }
-}
-
-function protocolDetected() {
-    // Code in case everything worked
 }
