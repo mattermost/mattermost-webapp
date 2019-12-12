@@ -31,12 +31,7 @@ export function sendMembersInvites(teamId, users, emails) {
             }
         }
         if (usersToAdd.length > 0) {
-            let response;
-            try {
-                response = await dispatch(addUsersToTeam(teamId, usersToAdd.map((u) => u.id)));
-            } catch (e) {
-                response = {error: localizeMessage('invite.members.unable-to-add-the-user-to-the-team', 'Unable to add the user to the team.')};
-            }
+            const response = await dispatch(addUsersToTeam(teamId, usersToAdd.map((u) => u.id)));
             const errors = response.data ? (response.data.errors || {}) : {};
             for (const user of usersToAdd) {
                 if (errors[user.id]) {
