@@ -22,8 +22,7 @@ export function fetchPlugins() {
 
             return {plugins};
         } catch (error) {
-            const localOnly = true;
-            const plugins = await Client4.getMarketplacePlugins(filter, localOnly);
+            const plugins = await Client4.getMarketplacePlugins(filter, true);
 
             dispatch({
                 type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
