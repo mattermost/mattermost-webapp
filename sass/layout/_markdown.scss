@@ -63,7 +63,7 @@ h6 {
         min-width: 50px;
         display: inline-block;
         width: 100%;
-        vertical-align: middle;
+        vertical-align: top;
     }
 
     .post {
@@ -76,9 +76,7 @@ h6 {
     }
 
     .markdown-inline-img--hover {
-        max-width: calc(100% - 5px);
         border: 1px solid transparent;
-
         &:hover {
             @include border-radius(4px);
             @include single-transition(all, .1s, linear);
