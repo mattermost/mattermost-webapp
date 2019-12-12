@@ -204,7 +204,7 @@ describe('actions/invite_actions', () => {
             ];
             const response = await sendMembersInvites('error', users, [])(store.dispatch, store.getState);
             expect(response).toEqual({
-                sent: [],
+                sent: [{user: {id: 'other-user', roles: 'system_user'}, reason: 'This member has been added to the team.'}],
                 notSent: [
                     {
                         reason: 'This person is already a team member.',
@@ -225,13 +225,6 @@ describe('actions/invite_actions', () => {
                         user: {
                             id: 'other-guest',
                             roles: 'system_guest',
-                        },
-                    },
-                    {
-                        reason: 'Unable to add the user to the team.',
-                        user: {
-                            id: 'other-user',
-                            roles: 'system_user',
                         },
                     },
                 ],

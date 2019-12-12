@@ -37,7 +37,7 @@ export function sendMembersInvites(teamId, users, emails) {
             } catch (e) {
                 response = {error: localizeMessage('invite.members.unable-to-add-the-user-to-the-team', 'Unable to add the user to the team.')};
             }
-            const errors = response.data.errors;
+            const errors = response.data ? (response.data.errors || {}) : {};
             for (const user of usersToAdd) {
                 if (errors[user.id]) {
                     notSent.push({user, reason: errors[user.id]});

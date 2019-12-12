@@ -11,7 +11,7 @@ import * as Actions from 'actions/team_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 
 jest.mock('mattermost-redux/actions/teams', () => ({
-    addUsersToTeam: jest.fn(() => {
+    addUsersToTeamGracefully: jest.fn(() => {
         return {
             type: 'ADD_USER',
         };
@@ -85,7 +85,7 @@ describe('Actions.Team', () => {
 
     test('addUsersToTeam', () => {
         testStore.dispatch(Actions.addUsersToTeam('teamId', ['123', '1234']));
-        expect(TeamActions.addUsersToTeam).toHaveBeenCalledWith('teamId', ['123', '1234']);
+        expect(TeamActions.addUsersToTeamGracefully).toHaveBeenCalledWith('teamId', ['123', '1234']);
     });
 
     test('removeUserFromTeamAndGetStats', async () => {
