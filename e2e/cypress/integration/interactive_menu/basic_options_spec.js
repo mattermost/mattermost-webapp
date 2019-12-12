@@ -219,7 +219,6 @@ describe('Interactive Menu', () => {
             // # Close message attachment menu dropdown
             cy.get('body').click();
         });
-
     });
 });
 
