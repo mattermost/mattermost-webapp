@@ -9,7 +9,6 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {localizeMessage} from 'utils/utils.jsx';
 
-
 export default class GroupRow extends React.Component {
     static propTypes = {
         group: PropTypes.object.isRequired,
@@ -26,7 +25,7 @@ export default class GroupRow extends React.Component {
     }
 
     displayCurrentRole = () => {
-        const { group: { scheme_admin } } = this.props;
+        const {group} = this.props;
         const channelAdmin = (
             <FormattedMessage
                 id='admin.team_channel_settings.group_row.channelAdmin'
@@ -39,7 +38,7 @@ export default class GroupRow extends React.Component {
                 defaultMessage='Member'
             />
         );
-        return scheme_admin ? channelAdmin : channelMember;
+        return group.scheme_admin ? channelAdmin : channelMember;
     }
 
     render = () => {
@@ -73,11 +72,10 @@ export default class GroupRow extends React.Component {
                                 ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
                             >
                                 <Menu.ItemAction
-                                    show
                                     onClick={this.setNewGroupRole}
-                                    text={!group.scheme_admin ? 
-                                        localizeMessage('admin.team_channel_settings.group_row.channelAdmin', 'Channel Admin'):
-                                        localizeMessage('admin.team_channel_settings.group_row.channelMember', 'Member')
+                                    text={group.scheme_admin ?
+                                        localizeMessage('admin.team_channel_settings.group_row.channelMember', 'Member') :
+                                        localizeMessage('admin.team_channel_settings.group_row.channelAdmin', 'Channel Admin')
                                     }
                                 />
                             </Menu>

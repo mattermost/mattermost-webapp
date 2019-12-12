@@ -41,6 +41,7 @@ const Header = () => {
 export default class GroupList extends React.PureComponent {
     static propTypes = {
         removeGroup: PropTypes.func,
+        setNewGroupRole: PropTypes.func,
     }
 
     renderRow = (item) => {
