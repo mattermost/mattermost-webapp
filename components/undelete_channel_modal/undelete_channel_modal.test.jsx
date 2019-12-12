@@ -69,7 +69,7 @@ describe('components/undelete_channel_modal', () => {
         );
 
         wrapper.setState({show: true});
-        wrapper.instance().handleDelete();
+        wrapper.instance().handleUndelete();
 
         expect(actions.undeleteChannel).toHaveBeenCalledTimes(1);
         expect(actions.undeleteChannel).toHaveBeenCalledWith(props.channel.id);
