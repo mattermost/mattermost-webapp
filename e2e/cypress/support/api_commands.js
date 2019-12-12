@@ -703,8 +703,8 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
  * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
-    return cy.createNewUser(user, [], bypassTutorial).then((newUser) => {
+Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
+    return cy.createNewUser(user, teamIds, bypassTutorial).then((newUser) => {
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             url: '/api/v4/users/login',
