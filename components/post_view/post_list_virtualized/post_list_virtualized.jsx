@@ -13,6 +13,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId, isIdNotPost} from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';

@@ -71,7 +71,7 @@ export function formatText(text, inputOptions) {
             ** which allows markdown images to open preview window
             */
             const replacer = (match) => {
-                return match === '<p>' ? '<div className="style--none">' : '</div>';
+                return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
             };
             output = output.replace(/<p>|<\/p>/g, replacer);
         }

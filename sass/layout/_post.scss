@@ -2099,13 +2099,6 @@
 }
 
 .post-list__dynamic {
-    .date-separator, .new-separator {
-        z-index: 1;
-        height: 1px;
-        margin-bottom: 1em;
-        margin-top: -1em;
-    }
-
     .emoji-picker--active & {
         pointer-events: none;
     }
