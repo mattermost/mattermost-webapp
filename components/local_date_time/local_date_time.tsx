@@ -27,8 +27,13 @@ type Props = {
     enableTimezone?: boolean;
 }
 
+type FormattedTimeResult = {
+    isoDate: string;
+    time: string;
+};
+
 export default class LocalDateTime extends React.PureComponent<Props> {
-    private getFormattedTime = (): {isoDate: string; time: string;} => {
+    private getFormattedTime: () => FormattedTimeResult = () => {
         const {
             enableTimezone,
             eventTime,
