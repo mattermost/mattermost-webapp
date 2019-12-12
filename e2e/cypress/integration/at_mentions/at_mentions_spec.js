@@ -226,12 +226,10 @@ describe('at-mention', () => {
             cy.get('@postMessageText').
                 find(`[data-mention=${receiver.username}]`).
                 should('not.exist');
-
-            cy.get('#sidebarItem_saepe-5').click({force: true});
         });
     });
 
-    it('M17445 does not trigger notifications with "channel-wide mentions" unchecked', () => {
+    it('M17445 - Words that trigger mentions support Chinese', () => {
         var customText = '番茄';
 
         // # Set Notification settings
