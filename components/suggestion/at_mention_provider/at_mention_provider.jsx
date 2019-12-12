@@ -62,8 +62,8 @@ export default class AtMentionProvider extends Provider {
             const suggestions = getSuggestionsSplitBy(property.toLowerCase(), ' ');
             profileSuggestions.push(...suggestions);
         });
-
         profileSuggestions.push(profile.first_name + ' ' + profile.last_name);
+        
         return profileSuggestions;
     }
 
