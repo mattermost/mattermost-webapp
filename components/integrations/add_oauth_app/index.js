@@ -7,11 +7,6 @@ import {addOAuthApp} from 'mattermost-redux/actions/integrations';
 
 import AddOAuthApp from './add_oauth_app.jsx';
 
-function mapStateToProps() {
-    return {
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -20,4 +15,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddOAuthApp);
+export default connect(null, mapDispatchToProps)(AddOAuthApp);
