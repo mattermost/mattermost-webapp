@@ -98,6 +98,10 @@ describe('Plugin Marketplace', () => {
 
             // # Login as sysadmin
             cy.apiLogin('sysadmin');
+        });
+
+        beforeEach(() => {
+            // # Go to main channel
             cy.visit('/');
 
             cy.get('#lhsHeader').should('be.visible').within(() => {
