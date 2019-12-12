@@ -25,6 +25,40 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
         }
       />
     </span>
+    <div
+      className="group-description row-content roles"
+    >
+      <MenuWrapper
+        animationComponent={[Function]}
+        className=""
+      >
+        <div>
+          <a>
+            <span>
+              <FormattedMessage
+                defaultMessage="Member"
+                id="admin.team_channel_settings.group_row.channelMember"
+                values={Object {}}
+              />
+            </span>
+            <span
+              className="caret"
+            />
+          </a>
+        </div>
+        <Menu
+          ariaLabel="Member Role"
+          openLeft={true}
+          openUp={false}
+        >
+          <MenuItemAction
+            onClick={[Function]}
+            show={true}
+            text="Channel Admin"
+          />
+        </Menu>
+      </MenuWrapper>
+    </div>
     <span
       className="group-actions"
     >

@@ -17,6 +17,7 @@ describe('admin_console/team_channel_settings/group/GroupRow', () => {
             <GroupRow
                 group={testGroup}
                 removeGroup={() => {}}
+                setNewGroupRole={() => {}}
             />
         );
         expect(wrapper).toMatchSnapshot();

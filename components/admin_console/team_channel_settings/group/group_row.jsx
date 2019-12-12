@@ -62,7 +62,7 @@ export default class GroupRow extends React.Component {
                         <MenuWrapper>
                             <div>
                                 <a>
-                                    <span>{this.displayCurrentRole()} </span>
+                                    <span>{this.displayCurrentRole()}</span>
                                     <span className='caret'/>
                                 </a>
                             </div>
