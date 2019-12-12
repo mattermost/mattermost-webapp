@@ -13,6 +13,7 @@ import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import Pluggable from 'plugins/pluggable';
 
@@ -109,7 +110,7 @@ class ProfilePopover extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
 
         ...Popover.propTypes,
     }

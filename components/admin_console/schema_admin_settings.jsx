@@ -14,7 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
 import LoadingScreen from 'components/loading_screen';
 import BooleanSetting from 'components/admin_console/boolean_setting';
-import TextSetting from 'components/admin_console/text_setting.jsx';
+import TextSetting from 'components/admin_console/text_setting';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
 import MultiSelectSetting from 'components/admin_console/multiselect_settings.jsx';
 import RadioSetting from 'components/admin_console/radio_setting';
@@ -842,14 +842,14 @@ export default class SchemaAdminSettings extends React.Component {
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        try {
-            await this.props.updateConfig(config);
-            this.setState(getStateFromConfig(config));
-        } catch (err) {
+        const {error} = await this.props.updateConfig(config);
+        if (error) {
             this.setState({
-                serverError: err.message,
-                serverErrorId: err.id,
+                serverError: error.message,
+                serverErrorId: error.id,
             });
+        } else {
+            this.setState(getStateFromConfig(config));
         }
 
         if (callback) {

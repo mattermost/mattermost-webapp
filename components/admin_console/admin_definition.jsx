@@ -1708,7 +1708,7 @@ const AdminDefinition = {
                         label: t('admin.viewArchivedChannelsTitle'),
                         label_default: 'Allow users to view archived channels: ',
                         help_text: t('admin.viewArchivedChannelsHelpText'),
-                        help_text_default: '(Experimental) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
+                        help_text_default: '(Beta) When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -1851,8 +1851,36 @@ const AdminDefinition = {
                         label: t('admin.environment.notifications.pushContents.label'),
                         label_default: 'Push Notification Contents:',
                         help_text: t('admin.environment.notifications.pushContents.help'),
-                        help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** -  Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.\n**Full message content fetched from the server on receipt** - The notification payload relayed through APNS or FCM contains no message content, instead it contains a unique message ID used to fetch message content from the server when a push notification is received by a device. If the server cannot be reached, a generic notification will be displayed.',
+                        help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** - Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.',
                         help_text_markdown: true,
+                        isHidden: it.licensedForFeature('IDLoadedPushNotifications'),
+                        options: [
+                            {
+                                value: 'generic_no_channel',
+                                display_name: t('admin.environment.notifications.pushContents.genericNoChannel'),
+                                display_name_default: 'Generic description with only sender name',
+                            },
+                            {
+                                value: 'generic',
+                                display_name: t('admin.environment.notifications.pushContents.generic'),
+                                display_name_default: 'Generic description with sender and channel names',
+                            },
+                            {
+                                value: 'full',
+                                display_name: t('admin.environment.notifications.pushContents.full'),
+                                display_name_default: 'Full message content sent in the notification payload',
+                            }
+                        ],
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'EmailSettings.PushNotificationContents',
+                        label: t('admin.environment.notifications.pushContents.label'),
+                        label_default: 'Push Notification Contents:',
+                        help_text: t('admin.environment.notifications.pushContents.withIdLoaded.help'),
+                        help_text_default: '**Generic description with only sender name** - Includes only the name of the person who sent the message in push notifications, with no information about channel name or message contents.\n **Generic description with sender and channel names** - Includes the name of the person who sent the message and the channel it was sent in, but not the message contents.\n **Full message content sent in the notification payload** - Includes the message contents in the push notification payload that is relayed through Apple\'s Push Notification Service (APNS) or Google\'s Firebase Cloud Messaging (FCM). It is **highly recommended** this option only be used with an "https" protocol to encrypt the connection and protect confidential information sent in messages.\n **Full message content fetched from the server on receipt** - The notification payload relayed through APNS or FCM contains no message content, instead it contains a unique message ID used to fetch message content from the server when a push notification is received by a device. If the server cannot be reached, a generic notification will be displayed.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('IDLoadedPushNotifications')),
                         options: [
                             {
                                 value: 'generic_no_channel',
@@ -1871,7 +1899,7 @@ const AdminDefinition = {
                             },
                             {
                                 value: 'id_loaded',
-                                display_name: t('admin.environment.notifications.pushContents.id_loaded'),
+                                display_name: t('admin.environment.notifications.pushContents.idLoaded'),
                                 display_name_default: 'Full message content fetched from the server on receipt',
                             },
                         ],
@@ -2413,13 +2441,16 @@ const AdminDefinition = {
                         label: t('admin.ldap.guestFilterTitle'),
                         label_default: 'Guest Filter:',
                         help_text: t('admin.ldap.guestFilterFilterDesc'),
-                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this filter is removed/changed, active guests will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_default: '(Optional) Requires Guest Access to be enabled before being applied. Enter an AD/LDAP filter to use when searching for guest objects. Only the users selected by the query will be able to access Mattermost as Guests. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this filter is removed/changed, active guests will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.guestFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=guests)"',
-                        isDisabled: it.both(
-                            it.stateIsFalse('LdapSettings.Enable'),
-                            it.stateIsFalse('LdapSettings.EnableSync'),
+                        isDisabled: it.either(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.both(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            )
                         ),
                     },
                     {
@@ -3057,9 +3088,12 @@ const AdminDefinition = {
                         placeholder: t('admin.saml.guestAttrEx'),
                         placeholder_default: 'E.g.: "usertype=Guest" or "isGuest=true"',
                         help_text: t('admin.saml.guestAttrDesc'),
-                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this attribute is removed/changed from your guest user in SAML and the user is still active, they will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_default: '(Optional) Requires Guest Access to be enabled before being applied. The attribute in the SAML Assertion that will be used to apply a guest role to users in Mattermost. Guests are prevented from accessing teams or channels upon logging in until they are assigned a team and at least one channel.\n \nNote: If this attribute is removed/changed from your guest user in SAML and the user is still active, they will not be promoted to a member and will retain their Guest role. Guests can be promoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a guest will be demoted from a member to a guest when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to guests in **System Console > User Management ** to ensure access is restricted immediately.',
                         help_text_markdown: true,
-                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        isDisabled: it.either(
+                            it.configIsFalse('GuestAccountsSettings', 'Enable'),
+                            it.stateIsFalse('SamlSettings.Enable'),
+                        ),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

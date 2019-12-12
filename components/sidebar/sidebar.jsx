@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import classNames from 'classnames';
 
@@ -15,6 +15,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon from 'images/favicon/favicon-16x16.png';
@@ -57,7 +58,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-class Sidebar extends React.PureComponent {
+export default class Sidebar extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -143,12 +144,14 @@ class Sidebar extends React.PureComponent {
             switchToChannelById: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
-
-        intl: PropTypes.object.isRequired,
     };
 
     static defaultProps = {
         currentChannel: {},
+    }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -215,6 +218,11 @@ class Sidebar extends React.PureComponent {
         // reset the scrollbar upon switching teams
         if (this.props.currentTeam !== prevProps.currentTeam) {
             this.refs.scrollbar.scrollToTop();
+        }
+
+        // Scroll to selected channel so it's in view
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            this.updateScrollbarOnChannelChange(this.props.currentChannel.id);
         }
 
         // close the LHS on mobile when you change channels
@@ -299,8 +307,8 @@ class Sidebar extends React.PureComponent {
             currentTeam,
             currentTeammate,
             unreads,
-            intl: {formatMessage},
         } = this.props;
+        const {formatMessage} = this.context.intl;
 
         const currentSiteName = config.SiteName || '';
 
@@ -393,9 +401,11 @@ class Sidebar extends React.PureComponent {
     }
 
     updateScrollbarOnChannelChange = (channelId) => {
-        const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
-        if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
-            this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
+        if (this.refs[channelId]) {
+            const curChannel = this.refs[channelId].getWrappedInstance().refs.channel.getBoundingClientRect();
+            if ((curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT < 0) || (curChannel.top + curChannel.height > this.refs.scrollbar.view.getBoundingClientRect().height)) {
+                this.refs.scrollbar.scrollTop(this.refs.scrollbar.view.scrollTop + (curChannel.top - Constants.CHANNEL_SCROLL_ADJUSTMENT));
+            }
         }
     }
 
@@ -792,5 +802,3 @@ class Sidebar extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(Sidebar);

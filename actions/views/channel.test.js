@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import {General, Posts} from 'mattermost-redux/constants';
-import {leaveChannel} from 'mattermost-redux/actions/channels';
+import {leaveChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {browserHistory} from 'utils/browser_history';
@@ -26,15 +26,13 @@ jest.mock('utils/channel_utils.jsx', () => ({
 }));
 
 jest.mock('actions/channel_actions.jsx', () => ({
-    openDirectChannelToUserId: jest.fn(() => {
-        return {type: ''};
-    }),
+    openDirectChannelToUserId: jest.fn(() => ({type: ''})),
 }));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
-    leaveChannel: jest.fn(() => {
-        return {type: ''};
-    }),
+    ...jest.requireActual('mattermost-redux/actions/channels'),
+    markChannelAsRead: jest.fn(() => ({type: ''})),
+    leaveChannel: jest.fn(() => ({type: ''})),
 }));
 
 jest.mock('mattermost-redux/actions/posts');
@@ -64,6 +62,7 @@ describe('channel view actions', () => {
             channels: {
                 currentChannelId: 'channelid1',
                 channels: {channelid1: channel1, channelid2: townsquare, gmchannelid: gmChannel},
+                manuallyUnread: {},
                 myMembers: {
                     gmchannelid: {channel_id: 'gmchannelid', user_id: 'userid1'},
                     channelid1: {channel_id: 'channelid1', user_id: 'userid1'},
@@ -488,6 +487,35 @@ describe('channel view actions', () => {
 
             await store.dispatch(Actions.syncPostsInChannel(channelId, 12355, false));
             expect(PostActions.getPostsSince).toHaveBeenCalledWith(channelId, 12343, false);
+        });
+    });
+
+    describe('markChannelAsReadOnFocus', () => {
+        test('should mark channel as read when channel is not manually unread', async () => {
+            test = mockStore(initialState);
+
+            await store.dispatch(Actions.markChannelAsReadOnFocus(channel1.id));
+
+            expect(markChannelAsRead).toHaveBeenCalledWith(channel1.id);
+        });
+
+        test('should not mark channel as read when channel is manually unread', async () => {
+            store = mockStore({
+                ...initialState,
+                entities: {
+                    ...initialState.entities,
+                    channels: {
+                        ...initialState.entities.channels,
+                        manuallyUnread: {
+                            [channel1.id]: true,
+                        },
+                    },
+                },
+            });
+
+            await store.dispatch(Actions.markChannelAsReadOnFocus(channel1.id));
+
+            expect(markChannelAsRead).not.toHaveBeenCalled();
         });
     });
 });

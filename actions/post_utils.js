@@ -10,7 +10,7 @@ import {
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {WebsocketEvents} from 'mattermost-redux/constants';
 import * as PostSelectors from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {
     isFromWebhook,
@@ -85,19 +85,21 @@ export function setChannelReadAndView(post, websocketMessageProps) {
 
         let markAsRead = false;
         let markAsReadOnServer = false;
-        if (
-            post.user_id === getCurrentUserId(state) &&
-            !isSystemMessage(post) &&
-            !isFromWebhook(post)
-        ) {
-            markAsRead = true;
-            markAsReadOnServer = false;
-        } else if (
-            post.channel_id === getCurrentChannelId(state) &&
-            window.isActive
-        ) {
-            markAsRead = true;
-            markAsReadOnServer = true;
+        if (!isManuallyUnread(getState(), post.channel_id)) {
+            if (
+                post.user_id === getCurrentUserId(state) &&
+                !isSystemMessage(post) &&
+                !isFromWebhook(post)
+            ) {
+                markAsRead = true;
+                markAsReadOnServer = false;
+            } else if (
+                post.channel_id === getCurrentChannelId(state) &&
+                window.isActive
+            ) {
+                markAsRead = true;
+                markAsReadOnServer = true;
+            }
         }
 
         if (markAsRead) {

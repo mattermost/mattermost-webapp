@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {isChannelReadOnlyById, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -10,8 +11,9 @@ import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {Preferences} from 'utils/constants';
+import {markPostAsUnread} from 'actions/post_actions.jsx';
 import {isEmbedVisible} from 'selectors/posts';
+import {Preferences} from 'utils/constants';
 
 import RhsRootPost from './rhs_root_post.jsx';
 
@@ -42,4 +44,12 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(RhsRootPost);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({
+            markPostAsUnread,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RhsRootPost);

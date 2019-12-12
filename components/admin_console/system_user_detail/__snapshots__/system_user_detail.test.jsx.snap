@@ -153,8 +153,10 @@ exports[`components/admin_console/system_user_detail should match default snapsh
   <div
     className="admin-console-save"
   >
-    <injectIntl(SaveButton)
+    <SaveButton
+      btnClass="btn-primary"
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -406,8 +408,10 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
   <div
     className="admin-console-save"
   >
-    <injectIntl(SaveButton)
+    <SaveButton
+      btnClass="btn-primary"
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -653,8 +657,10 @@ exports[`components/admin_console/system_user_detail should match snapshot if no
   <div
     className="admin-console-save"
   >
-    <injectIntl(SaveButton)
+    <SaveButton
+      btnClass="btn-primary"
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."
@@ -900,8 +906,10 @@ exports[`components/admin_console/system_user_detail should match snapshot if us
   <div
     className="admin-console-save"
   >
-    <injectIntl(SaveButton)
+    <SaveButton
+      btnClass="btn-primary"
       disabled={true}
+      extraClasses=""
       onClick={[Function]}
       saving={false}
       savingMessage="Saving Config..."

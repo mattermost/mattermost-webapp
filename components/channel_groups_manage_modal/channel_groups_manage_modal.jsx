@@ -3,21 +3,21 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
 import groupsAvatar from 'images/groups-avatar.png';
 
-class ChannelGroupsManageModal extends React.PureComponent {
+export default class ChannelGroupsManageModal extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         channel: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroupsAssociatedToChannel: PropTypes.func.isRequired,
@@ -25,6 +25,10 @@ class ChannelGroupsManageModal extends React.PureComponent {
             closeModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     loadItems = async (pageNumber, searchTerm) => {
@@ -92,7 +96,7 @@ class ChannelGroupsManageModal extends React.PureComponent {
     };
 
     render() {
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         return (
             <ListModal
                 titleText={formatMessage({id: 'groups', defaultMessage: '{channel} Groups'}, {channel: this.props.channel.display_name})}
@@ -106,5 +110,3 @@ class ChannelGroupsManageModal extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(ChannelGroupsManageModal);
