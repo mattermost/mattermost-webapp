@@ -1144,7 +1144,7 @@
   "admin.plugins.settings.marketplaceUrlDesc": "URL del server marketplace.",
   "admin.plugins.settings.marketplaceUrlDesc.empty": " L'URL del marketplace è un campo richiesto.",
   "admin.plugins.settings.requirePluginSignature": "Richiedi Firma Plugin:",
-  "admin.plugins.settings.requirePluginSignatureDesc": "Se vero, il caricamento dei plugin è disattivato e l'installazione sarà possibile solo tramite il Marketplace. I plugin sono sempre verificati durante l'avvio del server Mattermost. Vedere la [documentazione](https://about.mattermost.com/) per ulteriori informzioni.",
+  "admin.plugins.settings.requirePluginSignatureDesc": "Se vero, il caricamento dei plugin è disattivato e l'installazione sarà possibile solo tramite il Marketplace. I plugin sono sempre verificati durante l'avvio del server Mattermost. Vedere la [documentazione](!https://mattermost.com/pl/default-plugin-signing) per ulteriori informazioni.",
   "admin.privacy.showEmailDescription": "Se falso, nasconde gli indirizzi email dei membri a tutti gli utenti esclusi gli Amministratori di Sistema.",
   "admin.privacy.showEmailTitle": "Mostra Indirizzo Email: ",
   "admin.privacy.showFullNameDescription": "Se falso, nascone i nomi completi dei membri a tutti gli utenti esclusi gli Amministratori di Sistema. Al posto del nome completo verrà visualizzato il nome utente.",
