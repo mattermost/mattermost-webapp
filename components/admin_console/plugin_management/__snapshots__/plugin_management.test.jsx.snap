@@ -198,7 +198,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -232,7 +232,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -511,7 +511,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -545,7 +545,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -1137,7 +1137,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -1171,7 +1171,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -1489,7 +1489,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -1523,7 +1523,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -1836,7 +1836,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -1870,7 +1870,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -1898,7 +1898,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             disabled={true}
             helpText={
               <div>
-                <injectIntl(FormattedMarkdownMessage)
+                <InjectIntl(FormattedMarkdownMessage)
                   defaultMessage="URL of the marketplace server."
                   id="admin.plugins.settings.marketplaceUrlDesc"
                 />
@@ -2156,7 +2156,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -2190,7 +2190,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -2503,7 +2503,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -2537,7 +2537,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -2850,7 +2850,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -2884,7 +2884,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -3260,7 +3260,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -3294,7 +3294,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -3638,7 +3638,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -3672,7 +3672,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -4016,7 +4016,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -4050,7 +4050,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
@@ -4394,7 +4394,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
                 id="admin.plugins.settings.enableRemoteMarketplaceDesc"
               />
@@ -4428,7 +4428,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               />
             }
             helpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <InjectIntl(FormattedMarkdownMessage)
                 defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
                 id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
               />
