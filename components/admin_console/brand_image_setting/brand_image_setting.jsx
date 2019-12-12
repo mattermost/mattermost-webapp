@@ -18,6 +18,11 @@ export default class BrandImageSetting extends React.PureComponent {
     static propTypes = {
 
         /*
+         * Set for testing purpose
+         */
+        id: PropTypes.string,
+
+        /*
          * Set to disable the setting
          */
         disabled: PropTypes.bool.isRequired,
@@ -205,7 +210,10 @@ export default class BrandImageSetting extends React.PureComponent {
         }
 
         return (
-            <div className='form-group'>
+            <div
+                data-testid={this.props.id}
+                className='form-group'
+            >
                 <label className='control-label col-sm-4'>
                     <FormattedMessage
                         id='admin.team.brandImageTitle'
