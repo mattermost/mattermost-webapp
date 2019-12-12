@@ -2465,6 +2465,9 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: (config, state, license) => {
+                            return license.LDAPGroups !== 'true';
+                        },
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2476,6 +2479,9 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: (config, state, license) => {
+                            return license.LDAPGroups !== 'true';
+                        },
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2488,6 +2494,9 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupIdAttributeEx'),
                         placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: (config, state, license) => {
+                            return license.LDAPGroups !== 'true';
+                        },
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
