@@ -848,6 +848,74 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             value={true}
           />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, marketplace fetches latest plugins from the configured Marketplace URL."
+                id="admin.plugins.settings.enableRemoteMarketplaceDesc"
+              />
+            }
+            id="enableRemoteMarketplace"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Remote Marketplace:"
+                id="admin.plugins.settings.enableRemoteMarketplace"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
+          <BooleanSetting
+            disabled={false}
+            falseText={
+              <FormattedMessage
+                defaultMessage="false"
+                id="admin.false"
+                values={Object {}}
+              />
+            }
+            helpText={
+              <InjectIntl(FormattedMarkdownMessage)
+                defaultMessage="When true, automatically installs any prepackaged plugin found to be enabled in the server configuration."
+                id="admin.plugins.settings.automaticPrepackagedPluginsDesc"
+              />
+            }
+            id="automaticPrepackagedPlugins"
+            label={
+              <FormattedMessage
+                defaultMessage="Enable Automatic Prepackaged Plugins:"
+                id="admin.plugins.settings.automaticPrepackagedPlugins"
+                values={Object {}}
+              />
+            }
+            onChange={[Function]}
+            setByEnv={false}
+            trueText={
+              <FormattedMessage
+                defaultMessage="true"
+                id="admin.true"
+                values={Object {}}
+              />
+            }
+            value={true}
+          />
           <AdminTextSetting
             disabled={false}
             helpText={
