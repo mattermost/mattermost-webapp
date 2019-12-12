@@ -73,8 +73,6 @@ describe('components/undelete_channel_modal', () => {
 
         expect(actions.undeleteChannel).toHaveBeenCalledTimes(1);
         expect(actions.undeleteChannel).toHaveBeenCalledWith(props.channel.id);
-        expect(browserHistory.push).toHaveBeenCalledWith('/mattermostDev/channels/my-prev-channel');
-        expect(wrapper.state('show')).toEqual(false);
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
