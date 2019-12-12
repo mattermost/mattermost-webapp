@@ -10,7 +10,6 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
-import Toast from 'components/toast/toast';
 import PostListRow from 'components/post_view/post_list_row';
 
 import PostList from './post_list_virtualized';
@@ -94,14 +93,6 @@ describe('PostList', () => {
                 itemId: 'b',
             }));
             expect(row.find(PostListRow).prop('shouldHighlight')).toEqual(true);
-        });
-    });
-
-    describe('new messages toast below', () => {
-        test('should mount outside of permalink view', () => {
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-
-            expect(wrapper.find(Toast).exists()).toBe(true);
         });
     });
 

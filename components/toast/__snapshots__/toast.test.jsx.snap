@@ -26,8 +26,8 @@ exports[`components/Toast should match snapshot 1`] = `
             className="tooltip__shortcut--txt"
           >
             <FormattedMessage
-              defaultMessage="CNTRL+J"
-              id="quick_switch_modal.jumpToShortcut.windows"
+              defaultMessage="CTRL+J"
+              id="quick_switch_modal.jumpToShortcut.windows;"
               values={Object {}}
             />
           </div>

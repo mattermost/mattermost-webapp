@@ -22,7 +22,7 @@ export default class Toast extends React.PureComponent {
         children: PropTypes.element,
         show: PropTypes.bool.isRequired,
         showActions: PropTypes.bool, //used for showing jump actions
-        isMobile: PropTypes.bool,
+        width: PropTypes.number,
     }
 
     handleDismiss = () => {
@@ -48,43 +48,48 @@ export default class Toast extends React.PureComponent {
                     className='toast__jump'
                 >
                     <UnreadBelowIcon/>
-                    {!this.props.isMobile && this.props.onClickMessage}
+                    {this.props.width > Constants.MOBILE_SCREEN_WIDTH && this.props.onClickMessage}
                 </div>
             );
         };
 
-        const closeTooltip = (
-            <Tooltip id='toast-close__tooltip'>
-                <FormattedMessage
-                    id='general_button.close'
-                    defaultMessage='Close'
-                />
-                <div className='tooltip__shortcut--txt'>
-                    <FormattedMessage
-                        id='general_button.esc'
-                        defaultMessage='esc'
-                    />
-                </div>
-            </Tooltip>
-        );
+        let onClickMessageToolTip = (<div/>);
+        let closeTooltip = (<div/>);
+        if (this.props.show) {
+            let jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.windows';
+            let jumpToShortcutDefault = 'CTRL+J';
+            if (isMac()) {
+                jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.mac';
+                jumpToShortcutDefault = '⌘J';
+            }
 
-        let jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.windows;';
-        let jumpToShortcutDefault = 'CTRL+J';
-        if (isMac()) {
-            jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.mac';
-            jumpToShortcutDefault = '⌘J';
-        }
-        const onClickMessageToolTip = (
-            <Tooltip id='dismissToast1'>
-                {this.props.onClickMessage}
-                <div className='tooltip__shortcut--txt'>
+            closeTooltip = (
+                <Tooltip id='toast-close__tooltip'>
                     <FormattedMessage
-                        id={jumpToShortcutId}
-                        defaultMessage={jumpToShortcutDefault}
+                        id='general_button.close'
+                        defaultMessage='Close'
                     />
-                </div>
-            </Tooltip>
-        );
+                    <div className='tooltip__shortcut--txt'>
+                        <FormattedMessage
+                            id='general_button.esc'
+                            defaultMessage='esc'
+                        />
+                    </div>
+                </Tooltip>
+            );
+
+            onClickMessageToolTip = (
+                <Tooltip id='dismissToast1'>
+                    {this.props.onClickMessage}
+                    <div className='tooltip__shortcut--txt'>
+                        <FormattedMessage
+                            id={jumpToShortcutId}
+                            defaultMessage={jumpToShortcutDefault}
+                        />
+                    </div>
+                </Tooltip>
+            );
+        }
 
         return (
             <div

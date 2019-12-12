@@ -40,8 +40,8 @@ const virtListStyles = {
     maxHeight: '100%',
 };
 
-const TOAST_FADEOUT_TIME_UNREAD = 5000;
-const TOAST_FADEOUT_TIME = 1000;
+const TOAST_FADEOUT_TIME_UNREAD = 4000;
+const TOAST_FADEOUT_TIME = 500;
 const OFFSET_TO_SHOW_TOAST = -30;
 
 export default class PostList extends React.PureComponent {
@@ -62,6 +62,11 @@ export default class PostList extends React.PureComponent {
          * The current channel id
          */
         channelId: PropTypes.string.isRequired,
+
+        /**
+         * TODO
+         */
+        previousChannelId: PropTypes.string,
 
         /**
          * Used for disabling auto retry of posts and enabling manual link for loading posts
@@ -205,10 +210,11 @@ export default class PostList extends React.PureComponent {
         const prevPostsCount = prevProps.postListIds.length;
         const presentPostsCount = this.props.postListIds.length;
         const postsAddedAtBottom = presentPostsCount !== prevPostsCount && this.props.postListIds[presentPostsCount - 1] === prevProps.postListIds[prevPostsCount - 1];
+        const notBottomWithLatestPosts = !this.state.atBottom && this.props.atLatestPost && presentPostsCount > 0;
 
         //Marking exiting messages as read based on last time user reached to the bottom
         //This moves the new message indicator to the latest posts and keeping in sync with the toast count
-        if (postsAddedAtBottom && !this.state.atBottom && !this.state.showUnreadToast && presentPostsCount > 0) {
+        if (postsAddedAtBottom && notBottomWithLatestPosts && !this.state.showUnreadToast) {
             this.props.actions.updateLastViewedChannel(this.props.channelId, this.state.lastViewedBottom);
         }
 
@@ -263,7 +269,7 @@ export default class PostList extends React.PureComponent {
             unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
         }
 
-        if (typeof showUnreadToast === 'undefined') {
+        if (typeof showUnreadToast === 'undefined' && props.previousChannelId !== props.channelId) {
             showUnreadToast = unreadCount > 0;
         }
 
@@ -271,7 +277,7 @@ export default class PostList extends React.PureComponent {
             showUnreadToast = true;
         }
 
-        if (!showUnreadToast && !prevState.atBottom && (prevState.lastViewedBottom < props.latestPostTimeStamp)) {
+        if (!showUnreadToast && !prevState.atBottom && unreadCount > 0 && (prevState.lastViewedBottom < props.latestPostTimeStamp)) {
             showNewMessagesToast = true;
         }
 
@@ -441,7 +447,10 @@ export default class PostList extends React.PureComponent {
     hideNewMessagesToast = (dismiss = true) => {
         if (this.state.showNewMessagesToast) {
             if (dismiss) {
-                this.setState({showNewMessagesToast: false});
+                this.setState({
+                    showNewMessagesToast: false,
+                    lastViewedBottom: Date.now()
+                });
                 return;
             }
             setTimeout(() => {
@@ -575,7 +584,7 @@ export default class PostList extends React.PureComponent {
     }
 
     scrollToUnread = () => {
-        this.listRef.current.scrollToItem(PostList.getNewMessageIndex(this.state.postListIds), 'start');
+        this.listRef.current.scrollToItem(PostList.getNewMessageIndex(this.state.postListIds), 'start', OFFSET_TO_SHOW_TOAST);
         this.hideNewMessagesToast();
     }
 
@@ -622,11 +631,11 @@ export default class PostList extends React.PureComponent {
         this.props.actions.updateLastViewedChannel(this.props.channelId);
     }
 
-    renderToasts = () => {
+    renderToasts = (width) => {
         let toastProps = {
             countUnread: this.state.unreadCount,
             show: false,
-            isMobile: this.state.isMobile,
+            width,
         };
 
         if (this.state.showUnreadToast && this.state.unreadCount > 0) {
@@ -636,7 +645,7 @@ export default class PostList extends React.PureComponent {
                 onClick: this.scrollToLatestMessages,
                 onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
                 show: true,
-                showActions: !this.props.atLatestPost || !this.state.atBottom,
+                showActions: !this.props.atLatestPost || (this.props.atLatestPost && !this.state.atBottom),
             };
         } else if (this.state.showNewMessagesToast) {
             toastProps = {
@@ -645,16 +654,14 @@ export default class PostList extends React.PureComponent {
                 onClick: this.scrollToUnread,
                 onClickMessage: Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages'),
                 show: true,
-                showActions: !this.props.atLatestPost || !this.state.atBottom,
+                showActions: !this.props.atLatestPost || (this.props.atLatestPost && !this.state.atBottom),
             };
         }
 
         return (
-            <React.Fragment>
-                <UnreadToast {...toastProps}>
-                    {this.newMessagesToastText(this.state.unreadCount, this.state.lastViewedBottom)}
-                </UnreadToast>
-            </React.Fragment>
+            <UnreadToast {...toastProps}>
+                {this.newMessagesToastText(this.state.unreadCount, this.state.lastViewedBottom)}
+            </UnreadToast>
         );
     }
 
@@ -691,7 +698,6 @@ export default class PostList extends React.PureComponent {
                         />
                     </React.Fragment>
                 )}
-                {this.renderToasts()}
                 <div
                     role='presentation'
                     className='post-list-holder-by-time'
@@ -713,31 +719,34 @@ export default class PostList extends React.PureComponent {
                             </span>
                             <AutoSizer>
                                 {({height, width}) => (
-                                    <DynamicSizeList
-                                        ref={this.listRef}
-                                        height={height}
-                                        width={width}
-                                        className='post-list__dynamic'
-                                        itemCount={this.state.postListIds.length}
-                                        itemData={this.state.postListIds}
-                                        itemKey={this.itemKey}
-                                        overscanCountForward={OVERSCAN_COUNT_FORWARD}
-                                        overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
-                                        onScroll={this.onScroll}
-                                        initScrollToIndex={this.initScrollToIndex}
-                                        canLoadMorePosts={this.props.actions.canLoadMorePosts}
-                                        skipResizeClass='col__reply'
-                                        innerRef={this.postListRef}
-                                        style={{...virtListStyles, ...dynamicListStyle}}
-                                        innerListStyle={postListStyle}
-                                        initRangeToRender={this.initRangeToRender}
-                                        loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
-                                        correctScrollToBottom={this.props.atLatestPost}
-                                        onItemsRendered={this.onItemsRendered}
-                                        scrollTofailed={this.scrollTofailed}
-                                    >
-                                        {this.renderRow}
-                                    </DynamicSizeList>
+                                    <React.Fragment>
+                                        <div>{this.renderToasts(width)}</div>
+                                        <DynamicSizeList
+                                            ref={this.listRef}
+                                            height={height}
+                                            width={width}
+                                            className='post-list__dynamic'
+                                            itemCount={this.state.postListIds.length}
+                                            itemData={this.state.postListIds}
+                                            itemKey={this.itemKey}
+                                            overscanCountForward={OVERSCAN_COUNT_FORWARD}
+                                            overscanCountBackward={OVERSCAN_COUNT_BACKWARD}
+                                            onScroll={this.onScroll}
+                                            initScrollToIndex={this.initScrollToIndex}
+                                            canLoadMorePosts={this.props.actions.canLoadMorePosts}
+                                            skipResizeClass='col__reply'
+                                            innerRef={this.postListRef}
+                                            style={{...virtListStyles, ...dynamicListStyle}}
+                                            innerListStyle={postListStyle}
+                                            initRangeToRender={this.initRangeToRender}
+                                            loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
+                                            correctScrollToBottom={this.props.atLatestPost}
+                                            onItemsRendered={this.onItemsRendered}
+                                            scrollTofailed={this.scrollTofailed}
+                                        >
+                                            {this.renderRow}
+                                        </DynamicSizeList>
+                                    </React.Fragment>
                                 )}
                             </AutoSizer>
                         </div>

@@ -47,7 +47,10 @@ export default class FloatingTimestamp extends React.PureComponent {
         }
 
         return (
-            <div className={className} style={this.props.stylesOverride}>
+            <div
+                className={className}
+                style={this.props.stylesOverride}
+            >
                 <div>
                     <span>{dateString}</span>
                 </div>
