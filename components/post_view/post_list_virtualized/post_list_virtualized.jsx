@@ -64,11 +64,6 @@ export default class PostList extends React.PureComponent {
         channelId: PropTypes.string.isRequired,
 
         /**
-         * TODO
-         */
-        previousChannelId: PropTypes.string,
-
-        /**
          * Used for disabling auto retry of posts and enabling manual link for loading posts
          */
         autoRetryEnable: PropTypes.bool,
@@ -269,7 +264,7 @@ export default class PostList extends React.PureComponent {
             unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
         }
 
-        if (typeof showUnreadToast === 'undefined' && props.previousChannelId !== props.channelId) {
+        if (typeof showUnreadToast === 'undefined') {
             showUnreadToast = unreadCount > 0;
         }
 

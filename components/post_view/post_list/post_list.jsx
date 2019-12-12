@@ -134,14 +134,12 @@ export default class PostList extends React.PureComponent {
         this.mounted = true;
         if (this.props.channelId) {
             this.postsOnLoad(this.props.channelId);
-            this.previousChannelId = this.props.channelId;
         }
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.channelId !== prevProps.channelId) {
             this.postsOnLoad(this.props.channelId);
-            this.previousChannelId = prevProps.channelId;
         }
     }
 
@@ -305,7 +303,6 @@ export default class PostList extends React.PureComponent {
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             latestAriaLabelFunc={this.props.latestAriaLabelFunc}
                             countUnread={this.props.countUnread}
-                            previousChannelId={this.previousChannelId}
                         />
                     </div>
                 </div>
