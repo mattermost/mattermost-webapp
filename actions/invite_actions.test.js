@@ -6,12 +6,9 @@ import configureStore from 'redux-mock-store';
 import {sendMembersInvites, sendGuestsInvites} from 'actions/invite_actions.jsx';
 
 jest.mock('actions/team_actions', () => ({
-    addUsersToTeam: (teamId) => {
-        if (teamId === 'correct') {
-            return ({type: 'MOCK_RECEIVED_ME'});
-        }
-        throw new Error('ERROR');
-    },
+    addUsersToTeam: () => ({ // since we are using addUsersToTeamGracefully, this call will always succeed
+        type: 'MOCK_RECEIVED_ME'
+    }),
 }));
 
 jest.mock('mattermost-redux/actions/channels', () => ({
@@ -375,8 +372,36 @@ describe('actions/invite_actions', () => {
                 {id: 'other-guest', roles: 'system_guest'},
             ];
             const response = await sendGuestsInvites('error', ['correct'], users, [], 'message')(store.dispatch, store.getState);
+
             expect(response).toEqual({
-                sent: [],
+                sent: [
+                    {
+                        user: {
+                            id: 'guest1',
+                            roles: 'system_guest'
+                        },
+                        reason: {
+                            id: 'invite.guests.new-member',
+                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                            values: {
+                                count: 1
+                            }
+                        }
+                    },
+                    {
+                        user: {
+                            id: 'other-guest',
+                            roles: 'system_guest'
+                        },
+                        reason: {
+                            id: 'invite.guests.new-member',
+                            message: 'This guest has been added to the team and {count, plural, one {channel} other {channels}}.',
+                            values: {
+                                count: 1
+                            }
+                        }
+                    }
+                ],
                 notSent: [
                     {
                         reason: 'This person is already a member.',
@@ -386,24 +411,10 @@ describe('actions/invite_actions', () => {
                         },
                     },
                     {
-                        reason: 'Unable to add the guest to the channels.',
-                        user: {
-                            id: 'guest1',
-                            roles: 'system_guest',
-                        },
-                    },
-                    {
                         reason: 'This person is already a member.',
                         user: {
                             id: 'other-user',
                             roles: 'system_user',
-                        },
-                    },
-                    {
-                        reason: 'Unable to add the guest to the channels.',
-                        user: {
-                            id: 'other-guest',
-                            roles: 'system_guest',
                         },
                     },
                 ],
