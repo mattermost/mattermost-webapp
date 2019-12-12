@@ -12,6 +12,9 @@ import {
     getStatusesByIds,
     getUser,
 } from 'mattermost-redux/actions/users';
+import {
+    getChannelStats,
+} from 'mattermost-redux/actions/channels';
 import {General, WebsocketEvents} from 'mattermost-redux/constants';
 
 import {handleNewPost} from 'actions/post_actions';
@@ -33,8 +36,10 @@ import {
     handlePluginEnabled,
     handlePluginDisabled,
     handlePostEditEvent,
+    handlePostUnreadEvent,
     handleUserRemovedEvent,
     handleUserTypingEvent,
+    handleUserUpdatedEvent,
     handleLeaveTeamEvent,
     reconnect,
 } from './websocket_actions';
@@ -49,6 +54,10 @@ jest.mock('mattermost-redux/actions/users', () => ({
     getMissingProfilesByIds: jest.fn(() => ({type: 'GET_MISSING_PROFILES_BY_IDS'})),
     getStatusesByIds: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
     getUser: jest.fn(() => ({type: 'GET_STATUSES_BY_IDS'})),
+}));
+
+jest.mock('mattermost-redux/actions/channels', () => ({
+    getChannelStats: jest.fn(() => ({type: 'GET_CHANNEL_STATS'})),
 }));
 
 jest.mock('actions/post_actions', () => ({
@@ -106,6 +115,9 @@ const mockState = {
             },
             channelsInTeam: {
                 team: ['channel1', 'channel2'],
+            },
+            membersInChannel: {
+                otherChannel: {}
             },
         },
         preferences: {
@@ -182,6 +194,74 @@ describe('handlePostEditEvent', () => {
 
         handlePostEditEvent(msg);
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+});
+
+describe('handlePostUnreadEvent', () => {
+    test('post marked as unred', async () => {
+        const msgData = {last_viewed_at: 123, msg_count: 40, mention_count: 1};
+        const expectedData = {lastViewedAt: 123, msgCount: 40, mentionCount: 1, channelId: 'channel1'};
+        const expectedAction = {type: 'POST_UNREAD_SUCCESS', data: expectedData};
+        const msg = {
+            data: msgData,
+            broadcast: {
+                channel_id: 'channel1',
+            },
+        };
+
+        handlePostUnreadEvent(msg);
+        expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+});
+
+describe('handleUserUpdatedEvent', () => {
+    test('should not get channel stats if user is not guest', async () => {
+        const msg = {
+            data: {
+                user: {
+                    id: 'userid',
+                    roles: 'system_user',
+                },
+            },
+        };
+
+        await handleUserUpdatedEvent(msg);
+        expect(getChannelStats).not.toHaveBeenCalled();
+    });
+
+    test('should not get channel stats if user is not in current channel', async () => {
+        const msg = {
+            data: {
+                user: {
+                    id: 'userid',
+                    roles: 'system_user',
+                },
+            },
+        };
+
+        await handleUserUpdatedEvent(msg);
+        expect(getChannelStats).not.toHaveBeenCalled();
+    });
+
+    test('should get channel stats if user is guest and in current channel', async () => {
+        const msg = {
+            data: {
+                user: {
+                    id: 'guestid',
+                    roles: 'system_guest',
+                },
+            },
+        };
+
+        mockState.entities.channels.membersInChannel.otherChannel = {
+            guestid: {
+                id: 'guestid',
+            },
+        };
+
+        await handleUserUpdatedEvent(msg);
+        mockState.entities.channels.membersInChannel.otherChannel = {};
+        expect(getChannelStats).toHaveBeenCalled();
     });
 });
 

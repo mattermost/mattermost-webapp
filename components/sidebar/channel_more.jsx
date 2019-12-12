@@ -2,21 +2,25 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import {intlShape} from 'utils/react_intl';
 
-class ChannelMore extends React.PureComponent {
+export default class ChannelMore extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         currentTeamId: PropTypes.string.isRequired,
         sectionType: PropTypes.string.isRequired,
         moreChannels: PropTypes.func.isRequired,
         moreDirectMessages: PropTypes.func.isRequired,
         browsePublicDirectChannels: PropTypes.func.isRequired,
         viewArchivedChannels: PropTypes.bool,
+    };
+
+    static contextTypes = {
+        intl: intlShape,
     };
 
     moreChannelsPublic = () => {
@@ -34,7 +38,7 @@ class ChannelMore extends React.PureComponent {
             viewArchivedChannels,
         } = this.props;
 
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         switch (sectionType) {
         case 'public':
@@ -45,10 +49,10 @@ class ChannelMore extends React.PureComponent {
                 >
                     <li
                         key='public-channel-more'
-                        id='morePublicButton'
+                        data-testid='morePublicButton'
                     >
                         <button
-                            id='sidebarChannelsMore'
+                            id='sidebarPublicChannelsMore'
                             aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                             className='nav-more cursor--pointer style--none btn--block'
                             onClick={this.moreChannelsPublic}
@@ -70,10 +74,10 @@ class ChannelMore extends React.PureComponent {
                     >
                         <li
                             key='public-channel-more'
-                            id='morePublicButton'
+                            data-testid='morePublicButton'
                         >
                             <button
-                                id='sidebarChannelsMore'
+                                id='sidebarPrivateChannelsMore'
                                 aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                                 className='nav-more cursor--pointer style--none btn--block'
                                 onClick={this.moreChannelsPrivate}
@@ -132,5 +136,3 @@ class ChannelMore extends React.PureComponent {
         return null;
     }
 }
-
-export default injectIntl(ChannelMore);

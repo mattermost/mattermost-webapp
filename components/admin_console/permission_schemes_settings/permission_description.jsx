@@ -7,11 +7,12 @@ import {FormattedMessage, FormattedHTMLMessage, injectIntl} from 'react-intl';
 import {Overlay, Tooltip} from 'react-bootstrap';
 
 import {generateId} from 'utils/utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import Constants from 'utils/constants';
 
 export class PermissionDescription extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
         id: PropTypes.string.isRequired,
         rowType: PropTypes.string.isRequired,
         inherited: PropTypes.object,

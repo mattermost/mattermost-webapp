@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import * as utils from 'utils/utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -245,7 +246,7 @@ class TeamImportTab extends React.Component {
 }
 
 TeamImportTab.propTypes = {
-    intl: PropTypes.any,
+    intl: intlShape.isRequired,
     closeModal: PropTypes.func.isRequired,
     collapseModal: PropTypes.func.isRequired,
 };

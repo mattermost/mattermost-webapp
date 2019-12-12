@@ -3,25 +3,20 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {isMac} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-class UserSettingsSidebar extends React.Component {
+export default class UserSettingsSidebar extends React.Component {
     static propTypes = {
-
-        /**
-         * react-intl API
-         */
-        intl: PropTypes.any,
-
         actions: PropTypes.shape({
 
             /*
@@ -86,6 +81,10 @@ class UserSettingsSidebar extends React.Component {
         activeSection: PropTypes.string,
         closeModal: PropTypes.func.isRequired,
         collapseModal: PropTypes.func.isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -621,7 +620,13 @@ class UserSettingsSidebar extends React.Component {
                         />
                     }
                     inputs={[
-                        <div key='channelSwitcherSectionSetting'>
+                        <fieldset key='channelSwitcherSectionSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.sidebar.channelSwitcherSectionTitle'
+                                    defaultMessage='Channel Switcher'
+                                />
+                            </legend>
                             <div
                                 id='channelSwitcherRadioOn'
                                 className='radio'
@@ -664,7 +669,7 @@ class UserSettingsSidebar extends React.Component {
                                 <br/>
                                 {helpChannelSwitcherText}
                             </div>
-                        </div>,
+                        </fieldset>,
                     ]}
                     setting={'channel_switcher_section'}
                     submit={this.handleSubmit}
@@ -692,7 +697,7 @@ class UserSettingsSidebar extends React.Component {
 
     render() {
         const {showUnusedOption, showChannelOrganization} = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         const channelOrganizationSection = showChannelOrganization ? this.renderChannelOrganizationSection() : null;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
@@ -748,5 +753,3 @@ class UserSettingsSidebar extends React.Component {
         );
     }
 }
-
-export default injectIntl(UserSettingsSidebar);

@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
@@ -33,6 +33,7 @@ import {
     NotificationLevels,
     RHSStates,
 } from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
@@ -44,9 +45,8 @@ const popoverMarkdownOptions = {singleline: false, mentionHighlight: false, atMe
 
 const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
-class ChannelHeader extends React.PureComponent {
+export default class ChannelHeader extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         channel: PropTypes.object,
@@ -76,6 +76,10 @@ class ChannelHeader extends React.PureComponent {
             openModal: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
         }).isRequired,
+    };
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -269,7 +273,7 @@ class ChannelHeader extends React.PureComponent {
             rhsState,
             hasGuests,
         } = this.props;
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
         const ariaLabelChannelHeader = Utils.localizeMessage('accessibility.sections.channelHeader', 'channel header region');
 
         let hasGuestsText = '';
@@ -687,10 +691,13 @@ class ChannelHeader extends React.PureComponent {
                         tooltipKey={'pinnedPosts'}
                     />
                     {this.state.showSearchBar ? (
-                        <div className='flex-child search-bar__container'>
+                        <div
+                            id='searchbarContainer'
+                            className='flex-child search-bar__container'
+                        >
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile()}
+                                isFocus={Utils.isMobile() || this.props.rhsOpen}
                             />
                         </div>
                     ) : (
@@ -733,5 +740,3 @@ class ChannelHeader extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(ChannelHeader);

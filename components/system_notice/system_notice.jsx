@@ -3,14 +3,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
-class SystemNotice extends React.PureComponent {
+export default class SystemNotice extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         currentUserId: PropTypes.string.isRequired,
         notices: PropTypes.arrayOf(PropTypes.object).isRequired,
         preferences: PropTypes.object.isRequired,
@@ -26,6 +26,10 @@ class SystemNotice extends React.PureComponent {
             getStandardAnalytics: PropTypes.func.isRequired,
         }).isRequired,
     }
+
+    static contextTypes = {
+        intl: intlShape.isRequired,
+    };
 
     componentDidMount() {
         if (this.props.isSystemAdmin) {
@@ -92,7 +96,7 @@ class SystemNotice extends React.PureComponent {
 
     render() {
         const notice = this.getCurrentNotice();
-        const {formatMessage} = this.props.intl;
+        const {formatMessage} = this.context.intl;
 
         if (notice == null) {
             return null;
@@ -157,5 +161,3 @@ class SystemNotice extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(SystemNotice);

@@ -14,7 +14,7 @@ import BooleanSetting from './boolean_setting';
 import DropdownSetting from './dropdown_setting.jsx';
 import JobsTable from './jobs';
 import SettingsGroup from './settings_group.jsx';
-import TextSetting from './text_setting.jsx';
+import TextSetting from './text_setting';
 import RadioSetting from './radio_setting';
 
 const exportFormats = {

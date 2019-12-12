@@ -9,6 +9,7 @@ import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
@@ -63,7 +64,7 @@ class UserSettingsModal extends React.Component {
     static propTypes = {
         currentUser: PropTypes.object.isRequired,
         onHide: PropTypes.func.isRequired,
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             sendVerificationEmail: PropTypes.func.isRequred,
         }).isRequired,
@@ -111,10 +112,6 @@ class UserSettingsModal extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!Utils.isMobile()) {
-            $('.settings-content .minimize-settings').perfectScrollbar('update');
-        }
-
         if (this.state.active_tab !== prevState.active_tab) {
             $(ReactDOM.findDOMNode(this.modalBodyRef.current)).scrollTop(0);
         }

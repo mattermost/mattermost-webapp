@@ -17,7 +17,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import AdminSettings from '../admin_settings';
 import BooleanSetting from '../boolean_setting';
 import SettingsGroup from '../settings_group.jsx';
-import TextSetting from '../text_setting.jsx';
+import TextSetting from '../text_setting';
 
 const PluginItemState = ({state}) => {
     switch (state) {
@@ -807,6 +807,9 @@ export default class PluginManagement extends AdminSettings {
         let serverError = '';
         let lastMessage = '';
 
+        // Using props values to make sure these are set on the server and not just locally
+        const enableUploadButton = enableUploads && enable && !this.props.config.PluginSettings.RequirePluginSignature;
+
         if (this.state.serverError) {
             serverError = <div className='col-sm-12'><div className='form-group has-error half'><label className='control-label'>{this.state.serverError}</label></div></div>;
         }
@@ -972,7 +975,7 @@ export default class PluginManagement extends AdminSettings {
                             helpText={
                                 <FormattedMarkdownMessage
                                     id='admin.plugins.settings.requirePluginSignatureDesc'
-                                    defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more.'
+                                    defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more.'
                                 />
                             }
                             value={this.state.requirePluginSignature}
@@ -994,7 +997,7 @@ export default class PluginManagement extends AdminSettings {
                                 <div className='file__upload'>
                                     <button
                                         className={classNames(['btn', {'btn-primary': enableUploads}])}
-                                        disabled={!enableUploads || !this.state.enable || this.state.requirePluginSignature}
+                                        disabled={!enableUploadButton}
                                     >
                                         <FormattedMessage
                                             id='admin.plugin.choose'
@@ -1006,7 +1009,7 @@ export default class PluginManagement extends AdminSettings {
                                         type='file'
                                         accept='.gz'
                                         onChange={this.handleUpload}
-                                        disabled={!enableUploads || !this.state.enable || this.state.requirePluginSignature}
+                                        disabled={!enableUploadButton}
                                     />
                                 </div>
                                 <button
