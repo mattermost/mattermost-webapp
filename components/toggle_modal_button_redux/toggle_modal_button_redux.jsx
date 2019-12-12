@@ -3,7 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
+
+import {intlShape} from 'utils/react_intl';
 
 export default class ModalToggleButtonRedux extends React.Component {
     static propTypes = {
