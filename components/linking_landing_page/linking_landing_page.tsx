@@ -12,11 +12,12 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import BrowserStore from 'stores/browser_store';
 import {LandingPreferenceTypes} from 'utils/constants';
+import * as Utils from 'utils/utils';
 
 import * as UserAgent from 'utils/user_agent';
 
 type Props = {
-    backgroundColor: string;
+    defaultTheme: any;
     desktopAppLink?: string;
     iosAppLink?: string;
     androidAppLink?: string;
@@ -48,6 +49,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         };
 
         this.checkLandingPreference();
+    }
+
+    componentDidMount() {
+        Utils.applyTheme(this.props.defaultTheme);
     }
 
     checkLandingPreference = () => {
@@ -376,7 +381,6 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                 <div className='get-app__dialog'>
                     <div
                         className={`get-app__graphic ${isMobile ? 'mobile' : ''}`}
-                        style={{backgroundColor: this.props.backgroundColor}}
                     >
                         {this.renderGraphic()}
                     </div>

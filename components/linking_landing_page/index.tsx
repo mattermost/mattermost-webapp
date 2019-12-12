@@ -11,13 +11,12 @@ import LinkingLandingPage from './linking_landing_page';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
-    const defaultTheme = getTheme(state);
 
     return {
         desktopAppLink: config.AppDownloadLink,
         iosAppLink: config.IosAppDownloadLink,
         androidAppLink: config.AndroidAppDownloadLink,
-        backgroundColor: defaultTheme.sidebarBg,
+        defaultTheme: getTheme(state),
         siteUrl: config.SiteURL,
     };
 }
