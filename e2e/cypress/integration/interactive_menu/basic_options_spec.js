@@ -154,6 +154,24 @@ describe('Interactive Menu', () => {
         });
     });
 
+    it('IM21042 - "No items match" feedback', () => {
+        const missingUser = Date.now();
+        const userOptions = getMessageMenusPayload({dataSource: 'users'});
+
+        // # Post an incoming webhook for interactive menu with user options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+        });
+
+        cy.get('@messageAttachmentList').within(() => {
+            cy.get('.select-suggestion-container > input').click().clear().type(`${missingUser}`);
+            cy.get('.suggestion-list__no-results').should('be.visible').should('have.text', `No items match ${missingUser}`);
+        });
+    });
+
     it('should truncate properly the selected long basic option', () => {
         const withLongBasicOption = [
             {text: 'Option 0 - This is with very long option', value: 'option0'},

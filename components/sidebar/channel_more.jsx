@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {PropTypes} from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import {intlShape} from 'utils/react_intl';
 
 export default class ChannelMore extends React.PureComponent {
     static propTypes = {

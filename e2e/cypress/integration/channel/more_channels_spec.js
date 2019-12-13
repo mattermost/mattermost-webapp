@@ -20,7 +20,7 @@ describe('Channels', () => {
         });
 
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.getCurrentTeamId().then((teamId) => {
             // # Create new test channel
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test' + Date.now()).then((res) => {
@@ -36,9 +36,11 @@ describe('Channels', () => {
     });
 
     it('MM-19337 Enable users to view archived channels', () => {
-        // # Login as new use and go to "/"
-        cy.loginAsNewUser();
-        cy.visit('/');
+        // # Login as new user and go to "/"
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.loginAsNewUser({}, [teamId]);
+            cy.visit('/ad-1/channels/town-square');
+        });
 
         // # Go to LHS and click "More..." under Public Channels group
         cy.get('#publicChannelList').should('be.visible').within(() => {
