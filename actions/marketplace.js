@@ -7,13 +7,13 @@ import {getFilter, getPlugin} from 'selectors/views/marketplace';
 import {ActionTypes} from 'utils/constants';
 
 // fetchPlugins fetches the latest marketplace plugins, subject to any existing search filter.
-export function fetchPlugins() {
+export function fetchPlugins(localOnly = false) {
     return async (dispatch, getState) => {
         const state = getState();
         const filter = getFilter(state);
 
         try {
-            const plugins = await Client4.getMarketplacePlugins(filter);
+            const plugins = await Client4.getMarketplacePlugins(filter, localOnly);
 
             dispatch({
                 type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
@@ -22,35 +22,13 @@ export function fetchPlugins() {
 
             return {plugins};
         } catch (error) {
-            var resultError = error;
-
             // If the marketplace server is unreachable, try to get the local plugins only.
-            if (error.server_error_id === 'app.plugin.marketplace_plugins.app_error') {
-                tryfetchLocalPlugins(dispatch, filter).then((result) => {
-                    if (result) {
-                        resultError = result;
-                    }
-                });
+            if (error.server_error_id === 'app.plugin.marketplace_server.app_error' && !localOnly) {
+                await dispatch(fetchPlugins(true));
             }
-            return {error: resultError};
+            return {error};
         }
     };
-}
-
-// tryfetchLocalPlugins fetches the server local plugins for the marketplace.
-async function tryfetchLocalPlugins(dispatch, filter) {
-    try {
-        const plugins = await Client4.getMarketplacePlugins(filter, true);
-
-        dispatch({
-            type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
-            plugins,
-        });
-
-        return null;
-    } catch (error) {
-        return error;
-    }
 }
 
 // installPlugin installs the latest version of the given plugin from the marketplace.
