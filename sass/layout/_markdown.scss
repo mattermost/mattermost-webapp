@@ -75,6 +75,11 @@ h6 {
         }
     }
 
+    .markdown-inline-img__container {
+        display: inline-block;
+        width: calc(100% - 5px);
+    }
+
     .markdown-inline-img--hover {
         border: 1px solid transparent;
         &:hover {
