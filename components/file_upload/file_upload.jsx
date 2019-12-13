@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -15,6 +15,7 @@ import {
     isMobileApp,
 } from 'utils/user_agent';
 import {getTable} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
@@ -571,9 +572,10 @@ export default class FileUpload extends PureComponent {
     }
 
     render() {
+        const isMobile = isMobileApp();
         const {formatMessage} = this.context.intl;
         let multiple = true;
-        if (isMobileApp()) {
+        if (isMobile) {
             // iOS WebViews don't upload videos properly in multiple mode
             multiple = false;
         }
@@ -597,8 +599,8 @@ export default class FileUpload extends PureComponent {
                         id='fileUploadButton'
                         aria-label={ariaLabel}
                         className='style--none post-action icon icon--attachment'
-                        onClick={this.simulateInputClick}
-                        onTouchEnd={this.simulateInputClick}
+                        onClick={!isMobile && this.simulateInputClick}
+                        onTouchEnd={isMobile && this.simulateInputClick}
                     >
                         <AttachmentIcon/>
                     </button>
@@ -669,8 +671,8 @@ export default class FileUpload extends PureComponent {
                             <li>
                                 <a
                                     href='#'
-                                    onClick={this.simulateInputClick}
-                                    onTouchEnd={this.simulateInputClick}
+                                    onClick={!isMobile && this.simulateInputClick}
+                                    onTouchEnd={isMobile && this.simulateInputClick}
                                 >
                                     <span className='margin-right'><i className='fa fa-laptop'/></span>
                                     <FormattedMessage
