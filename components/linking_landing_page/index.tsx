@@ -18,6 +18,7 @@ function mapStateToProps(state: GlobalState) {
         androidAppLink: config.AndroidAppDownloadLink,
         defaultTheme: getTheme(state),
         siteUrl: config.SiteURL,
+        siteName: config.SiteName,
     };
 }
 

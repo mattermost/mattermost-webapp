@@ -15,7 +15,6 @@ import {LandingPreferenceTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import * as UserAgent from 'utils/user_agent';
-import { Redirect } from 'react-router-dom';
 
 type Props = {
     defaultTheme: any;
@@ -23,6 +22,7 @@ type Props = {
     iosAppLink?: string;
     androidAppLink?: string;
     siteUrl?: string;
+    siteName?: string;
 }
 
 type State = {
@@ -59,12 +59,12 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
     checkLandingPreferenceBrowser = () => {
         const landingPreference = BrowserStore.getLandingPreference(this.props.siteUrl);
-        return landingPreference && landingPreference == LandingPreferenceTypes.BROWSER;
+        return landingPreference && landingPreference === LandingPreferenceTypes.BROWSER;
     }
 
     checkLandingPreferenceApp = () => {
         const landingPreference = BrowserStore.getLandingPreference(this.props.siteUrl);
-        return landingPreference && landingPreference == LandingPreferenceTypes.MATTERMOSTAPP;
+        return landingPreference && landingPreference === LandingPreferenceTypes.MATTERMOSTAPP;
     }
 
     handleChecked = () => {
@@ -264,7 +264,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                 <div className='get-app__launching'>
                     <FormattedMessage
                         id='get_app.openingLink'
-                        defaultMessage='Opening link in Mattermost...'
+                        defaultMessage='Opening link in {siteName}...'
+                        values={{
+                            siteName: this.props.siteName,
+                        }}
                     />
                     <div className={`get-app__alternative${this.state.redirectPage ? ' redirect-page' : ''}`}>
                         <FormattedMessage
@@ -289,14 +292,20 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         let viewApp = (
             <FormattedMessage
                 id='get_app.ifNothingPrompts'
-                defaultMessage='You can view it in Mattermost desktop app or continue in the web browser.'
+                defaultMessage='You can view it in {siteName} desktop app or continue in the web browser.'
+                values={{
+                    siteName: this.props.siteName,
+                }}
             />
         );
         if (isMobile) {
             viewApp = (
                 <FormattedMessage
                     id='get_app.ifNothingPromptsMobile'
-                    defaultMessage='You can view it in Mattermost mobile app or continue in the web browser.'
+                    defaultMessage='You can view it in {siteName} mobile app or continue in the web browser.'
+                    values={{
+                        siteName: this.props.siteName,
+                    }}
                 />
             );
         }
