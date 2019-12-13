@@ -22,16 +22,33 @@ export function fetchPlugins() {
 
             return {plugins};
         } catch (error) {
-            const plugins = await Client4.getMarketplacePlugins(filter, true);
+            var resultError = error;
 
-            dispatch({
-                type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
-                plugins,
-            });
-
-            return {error};
+            if (error.server_error_id === 'app.plugin.marketplace_plugins.app_error') {
+                tryfetchLocalPlugins(dispatch, filter).then((result) => {
+                    if (result) {
+                        resultError = result;
+                    }
+                });
+            }
+            return {error: resultError};
         }
     };
+}
+
+async function tryfetchLocalPlugins(dispatch, filter) {
+    try {
+        const plugins = await Client4.getMarketplacePlugins(filter, true);
+
+        dispatch({
+            type: ActionTypes.RECEIVED_MARKETPLACE_PLUGINS,
+            plugins,
+        });
+
+        return null;
+    } catch (error) {
+        return error;
+    }
 }
 
 // installPlugin installs the latest version of the given plugin from the marketplace.
