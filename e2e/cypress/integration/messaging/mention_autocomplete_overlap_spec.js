@@ -35,8 +35,9 @@ describe('Messaging', () => {
             cy.get('#channel-header').then((header) => {
                 // # Wait for suggestions to be fully loaded
                 cy.wait(TIMEOUTS.TINY).then(() => {
-                    // * Check overlap
-                    expect(list[0].getBoundingClientRect().top).to.be.at.least(header[0].getBoundingClientRect().bottom);
+                    // * Suggestion list should visibly render just within the channel header
+                    expect(list[0].getBoundingClientRect().top).to.be.greaterThan(header[0].getBoundingClientRect().top);
+                    expect(list[0].getBoundingClientRect().top).to.be.lessThan(header[0].getBoundingClientRect().bottom);
                 });
             });
         });
