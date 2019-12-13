@@ -26,6 +26,8 @@ export default class TeamSettingsModal extends React.Component {
             activeSection: '',
             show: true,
         };
+
+        this.modalBodyRef = React.createRef();
     }
 
     updateTab = (tab) => {
@@ -40,7 +42,7 @@ export default class TeamSettingsModal extends React.Component {
     }
 
     collapseModal = () => {
-        $(ReactDOM.findDOMNode(this.refs.modalBody)).closest('.modal-dialog').removeClass('display--content');
+        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content');
 
         this.setState({
             active_tab: '',
@@ -86,7 +88,7 @@ export default class TeamSettingsModal extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
                         <div className='settings-links'>
                             <React.Suspense fallback={null}>
