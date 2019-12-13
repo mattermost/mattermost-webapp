@@ -55,7 +55,7 @@ export default class Toast extends React.PureComponent {
 
         let onClickMessageToolTip = (<div/>);
         let closeTooltip = (<div/>);
-        if (this.props.show) {
+        if (this.props.showActions && this.props.show) {
             let jumpToShortcutId = 'quick_switch_modal.jumpToShortcut.windows';
             let jumpToShortcutDefault = 'CTRL+J';
             if (isMac()) {
