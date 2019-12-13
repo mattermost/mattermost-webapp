@@ -470,6 +470,7 @@ export default class PostList extends React.PureComponent {
     }
 
     updateAtBottom = (atBottom) => {
+        const atBottomWithLatestPosts = atBottom && this.props.atLatestPost;
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
             let lastViewedBottom = Date.now();
@@ -482,11 +483,10 @@ export default class PostList extends React.PureComponent {
                 atBottom,
                 lastViewedBottom,
             });
-
-            if (atBottom && this.props.atLatestPost) {
-                this.hideUnreadToast(false);
-                this.hideNewMessagesToast(false);
-            }
+        }
+        if (atBottomWithLatestPosts) {
+            this.hideUnreadToast(false);
+            this.hideNewMessagesToast(false);
         }
     }
 

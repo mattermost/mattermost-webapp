@@ -13,7 +13,7 @@ describe('components/Toast', () => {
     const defaultProps = {
         onClick: jest.fn(),
         show: true,
-        showOnlyOnce: false,
+        showActions: true,
     };
 
     test('should match snapshot', () => {

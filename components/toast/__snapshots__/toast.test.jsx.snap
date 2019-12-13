@@ -10,8 +10,8 @@ exports[`components/Toast should match snapshot 1`] = `
   }
 >
   <div
-    className="toast__message"
-    onClick={null}
+    className="toast__message toast__pointer"
+    onClick={[MockFunction]}
   >
     <OverlayTrigger
       defaultOverlayShown={false}
@@ -42,6 +42,11 @@ exports[`components/Toast should match snapshot 1`] = `
       }
     >
       <div>
+        <div
+          className="toast__jump"
+        >
+          <UnreadBelowIcon />
+        </div>
         <span>
           child
         </span>
