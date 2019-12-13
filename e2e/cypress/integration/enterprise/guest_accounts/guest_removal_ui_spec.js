@@ -19,6 +19,10 @@ let team2;
 function removeUserFromAllChannels(verifyAlert) {
     // # Remove the Guest user from all channels of a team as a sysadmin
     const channels = ['Town Square', 'Off-Topic'];
+
+    // # Always click on the Town Square channel first
+    cy.get('#sidebarItem_town-square').click({force: true});
+
     channels.forEach((channel) => {
         // # Remove the Guest User from channel
         cy.getCurrentChannelId().then((channelId) => {
@@ -76,6 +80,9 @@ describe('Guest Account - Guest User Removal Experience', () => {
         // * Verify if user is automatically redirected to the other team
         cy.url().should('include', team1.name);
 
+        // # Remove User from all the channels of the team as a sysadmin
+        removeUserFromAllChannels(true);
+
         // * Verify team Sidebar is not present
         cy.get('#teamSidebarWrapper').should('not.exist');
 
@@ -88,7 +95,7 @@ describe('Guest Account - Guest User Removal Experience', () => {
 
         // # Login as sysadmin and navigate to channel
         cy.apiLogin('sysadmin');
-        cy.visit(`/${team2.name}/channels/town-square`);
+        cy.reload().visit(`/${team2.name}/channels/town-square`);
 
         // * Verify if status is displayed indicating guest user is removed from the channel
         cy.getLastPost().
