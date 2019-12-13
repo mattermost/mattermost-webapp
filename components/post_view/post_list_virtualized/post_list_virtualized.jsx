@@ -134,7 +134,7 @@ export default class PostList extends React.PureComponent {
         this.state = {
             isScrolling: false,
             isMobile,
-            atBottom: false,
+            atBottom: true,
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
@@ -426,7 +426,9 @@ export default class PostList extends React.PureComponent {
             }
         }
 
-        this.checkBottom(scrollOffset, scrollHeight, clientHeight);
+        if (scrollHeight > 0) {
+            this.checkBottom(scrollOffset, scrollHeight, clientHeight);
+        }
     }
 
     checkBottom = (scrollOffset, scrollHeight, clientHeight) => {
@@ -558,7 +560,6 @@ export default class PostList extends React.PureComponent {
             };
         }
 
-        this.setState({atBottom: true});
         return {
             index: 0,
             position: 'end',
