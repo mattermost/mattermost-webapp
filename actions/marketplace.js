@@ -23,7 +23,7 @@ export function fetchPlugins(localOnly = false) {
             return {plugins};
         } catch (error) {
             // If the marketplace server is unreachable, try to get the local plugins only.
-            if (error.server_error_id === 'app.plugin.marketplace_server.app_error' && !localOnly) {
+            if (error.server_error_id === 'app.plugin.marketplace_client.failed_to_fetch' && !localOnly) {
                 await dispatch(fetchPlugins(true));
             }
             return {error};
