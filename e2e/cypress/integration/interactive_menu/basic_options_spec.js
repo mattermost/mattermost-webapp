@@ -207,6 +207,38 @@ describe('Interactive Menu', () => {
             });
         });
     });
+
+    it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
+        // # Create a message attachment with menu
+        const basicOptionPayload = getMessageMenusPayload({options});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // * Message attachment menu dropdown should be closed
+                cy.get('#suggestionList').should('not.exist');
+
+                // // # Open the message attachment menu dropdown
+                cy.findByPlaceholderText('Select an option...').click();
+
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('exist').children().should('have.length', options.length);
+
+                // # Checking values inside the attachment menu dropdown
+                cy.get('#suggestionList').within(() => {
+                    // * Each dropdown should contain the options text
+                    cy.findByText(options[0].text).should('exist');
+                    cy.findByText(options[1].text).should('exist');
+                    cy.findByText(options[2].text).should('exist');
+                });
+            });
+
+            // # Close message attachment menu dropdown
+            cy.get('body').click();
+        });
+    });
 });
 
 function verifyMessageAttachmentList(postId, isRhs, text) {

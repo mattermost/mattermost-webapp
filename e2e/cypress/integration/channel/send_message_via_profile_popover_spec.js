@@ -46,7 +46,7 @@ describe('Profile popover', () => {
         cy.get('@lastPostId').then((lastPostId) => {
             // # On default viewport width of 1300
             // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-            verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
+            verifyDMChannelViaSendMessage(lastPostId, '.status-wrapper', newUser);
 
             // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
@@ -55,7 +55,7 @@ describe('Profile popover', () => {
             cy.viewport('iphone-6');
 
             // # Click profile icon to open profile popover. Click "Send Message" and verify redirects to DM channel
-            verifyDMChannelViaSendMessage(lastPostId, '.profile-icon', newUser);
+            verifyDMChannelViaSendMessage(lastPostId, '.status-wrapper', newUser);
 
             // # Click username to open profile popover. Click "Send Message" and verify redirects to DM channel
             verifyDMChannelViaSendMessage(lastPostId, '.user-popover', newUser);
