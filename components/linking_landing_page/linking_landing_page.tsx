@@ -15,6 +15,7 @@ import {LandingPreferenceTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import * as UserAgent from 'utils/user_agent';
+import { Redirect } from 'react-router-dom';
 
 type Props = {
     defaultTheme: any;
@@ -47,30 +48,23 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             location,
             nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
         };
-
-        this.checkLandingPreference();
     }
 
     componentDidMount() {
         Utils.applyTheme(this.props.defaultTheme);
+        if (this.checkLandingPreferenceApp()) {
+            this.openMattermostApp();
+        }
     }
 
-    checkLandingPreference = () => {
+    checkLandingPreferenceBrowser = () => {
         const landingPreference = BrowserStore.getLandingPreference(this.props.siteUrl);
-        if (!landingPreference) {
-            return;
-        }
+        return landingPreference && landingPreference == LandingPreferenceTypes.BROWSER;
+    }
 
-        switch (landingPreference) {
-        case LandingPreferenceTypes.MATTERMOSTAPP:
-            this.openMattermostApp();
-            break;
-        case LandingPreferenceTypes.BROWSER:
-            this.openInBrowser();
-            break;
-        default:
-            break;
-        }
+    checkLandingPreferenceApp = () => {
+        const landingPreference = BrowserStore.getLandingPreference(this.props.siteUrl);
+        return landingPreference && landingPreference == LandingPreferenceTypes.MATTERMOSTAPP;
     }
 
     handleChecked = () => {
@@ -369,6 +363,11 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
     render() {
         const isMobile = UserAgent.isMobile();
+
+        if (this.checkLandingPreferenceBrowser()) {
+            this.openInBrowser();
+            return null;
+        }
 
         return (
             <div className='get-app'>
