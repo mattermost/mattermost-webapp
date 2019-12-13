@@ -24,6 +24,7 @@ export function fetchPlugins() {
         } catch (error) {
             var resultError = error;
 
+            // If the marketplace server is unreachable, try to get the local plugins only.
             if (error.server_error_id === 'app.plugin.marketplace_plugins.app_error') {
                 tryfetchLocalPlugins(dispatch, filter).then((result) => {
                     if (result) {
@@ -36,6 +37,7 @@ export function fetchPlugins() {
     };
 }
 
+// tryfetchLocalPlugins fetches the server local plugins for the marketplace.
 async function tryfetchLocalPlugins(dispatch, filter) {
     try {
         const plugins = await Client4.getMarketplacePlugins(filter, true);
