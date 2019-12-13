@@ -356,10 +356,10 @@ describe('Plugin Marketplace', () => {
 
         it('not display any plugins and no error bar', () => {
             // * no plugins should be visible
-            cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 0);
+            cy.get('#marketplaceTabs-pane-allPlugins').findByText('There are no plugins available at this time.');
 
             // * no error bar should be visible
-            cy.get('#error_bar').should('not.be.visible');
+            cy.get('#error_bar').should('not.exist');
         });
 
         it('display installed plugins', () => {
@@ -370,7 +370,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
 
             // * no error bar should be visible
-            cy.get('#error_bar').should('not.be.visible');
+            cy.get('#error_bar').should('not.exist');
         });
     });
 });
