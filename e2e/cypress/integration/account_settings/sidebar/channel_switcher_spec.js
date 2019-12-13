@@ -211,4 +211,46 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // * Channel name should be visible in LHS
         cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
     });
+
+    it('while on the channel switcher, focusing on the input box via shortcut closes it', () => {
+        // # Go to a known team and channel
+        cy.visit('/ad-1/channels/town-square');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+
+        // # Type CTRL/CMD+K
+        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+
+        // * Channel switcher hint should be visible
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+
+        // # Type CTRL/CMD+shift+L
+        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}m');
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('not.be.visible');
+
+        // * focus should be on the input box
+        cy.get('#searchBox').should('be.focused');
+    });
+
+    it('while on the channel switcher, focusing on mentions via shortcut closes it', () => {
+        // # Go to a known team and channel
+        cy.visit('/ad-1/channels/town-square');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+
+        // # Type CTRL/CMD+K
+        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+
+        // * Channel switcher hint should be visible
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+
+        // # Type CTRL/CMD+shift+m
+        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}m');
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('not.be.visible');
+
+        // * focus should be on the input box
+        cy.get('#post_textbox').should('be.focused');
+    });
 });
