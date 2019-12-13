@@ -1049,25 +1049,6 @@ export default class PluginManagement extends AdminSettings {
                             setByEnv={this.isSetByEnv('PluginSettings.EnableMarketplace')}
                         />
                         <BooleanSetting
-                            id='enableRemoteMarketplace'
-                            label={
-                                <FormattedMessage
-                                    id='admin.plugins.settings.enableRemoteMarketplace'
-                                    defaultMessage='Enable Remote Marketplace:'
-                                />
-                            }
-                            helpText={
-                                <FormattedMarkdownMessage
-                                    id='admin.plugins.settings.enableRemoteMarketplaceDesc'
-                                    defaultMessage='When true, marketplace fetches latest plugins from the configured Marketplace URL.'
-                                />
-                            }
-                            value={this.state.enableRemoteMarketplace}
-                            disabled={!this.state.enable}
-                            onChange={this.handleChange}
-                            setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
-                        />
-                        <BooleanSetting
                             id='automaticPrepackagedPlugins'
                             label={
                                 <FormattedMessage
@@ -1086,7 +1067,25 @@ export default class PluginManagement extends AdminSettings {
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.AutomaticPrepackagedPlugins')}
                         />
-
+                        <BooleanSetting
+                            id='enableRemoteMarketplace'
+                            label={
+                                <FormattedMessage
+                                    id='admin.plugins.settings.enableRemoteMarketplace'
+                                    defaultMessage='Enable Remote Marketplace:'
+                                />
+                            }
+                            helpText={
+                                <FormattedMarkdownMessage
+                                    id='admin.plugins.settings.enableRemoteMarketplaceDesc'
+                                    defaultMessage='When true, marketplace fetches latest plugins from the configured Marketplace URL.'
+                                />
+                            }
+                            value={this.state.enableRemoteMarketplace}
+                            disabled={!this.state.enable}
+                            onChange={this.handleChange}
+                            setByEnv={this.isSetByEnv('PluginSettings.EnableRemoteMarketplace')}
+                        />
                         <TextSetting
                             id={'marketplaceUrl'}
                             type={'input'}
@@ -1098,7 +1097,7 @@ export default class PluginManagement extends AdminSettings {
                             }
                             helpText={this.getMarketplaceUrlHelpText(this.state.marketplaceUrl)}
                             value={this.state.marketplaceUrl}
-                            disabled={!this.state.enable || !this.state.enableMarketplace}
+                            disabled={!this.state.enable || !this.state.enableMarketplace || !this.state.enableRemoteMarketplace}
                             onChange={this.handleChange}
                             setByEnv={this.isSetByEnv('PluginSettings.MarketplaceUrl')}
                         />
