@@ -192,7 +192,8 @@ describe('Interactive Menu', () => {
 
     it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
         // # Create a message attachment with menu
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
+        const basicOptionPayload = getMessageMenusPayload({options});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
 
         // # Get the last posted message id
         cy.getLastPostId().then((lastPostId) => {
