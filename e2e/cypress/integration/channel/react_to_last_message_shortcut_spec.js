@@ -7,20 +7,32 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+/**
+* Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
+*/
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
+import * as MESSAGES from '../../fixtures/messages';
+import users from '../../fixtures/users.json';
+
+let channelId;
 
 describe('Messaging shortcuts', () => {
     before(() => {
-        cy.apiLogin('user-1');
+        cy.apiLogin(users['user-1'].username);
         cy.visit('/');
+
+        cy.getCurrentChannelId().then((id) => {
+            channelId = id;
+        });
     });
 
     beforeEach(() => {
     // # Making sure there is at least a message without reaction
-        cy.postMessage(`Testing keyboard shortcut : ${Date.now()}`);
+        cy.postMessage(MESSAGES.TINY);
     });
 
-    it('Should open the emoji picker in the channel view when the focus is not on the center text box', () => {
+    xit('Should open the emoji picker in the channel view when the focus is not on the center text box', () => {
         // # Click anywhere to take focus away from center textbox
         cy.get('#lhsList').within(() => {
             cy.findByText('Town Square').click();
@@ -45,7 +57,7 @@ describe('Messaging shortcuts', () => {
         });
     });
 
-    it('Should open the emoji picker in the channel view when the focus on the center text box', () => {
+    xit('Should open the emoji picker in the channel view when the focus on the center text box', () => {
         // # Emulate react to last message shortcut when focus is on the center textbox
         cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).focus().type('{ctrl}{shift}\\');
 
@@ -64,7 +76,7 @@ describe('Messaging shortcuts', () => {
         });
     });
 
-    it('Should not close the emoji picker even shortcut is repeated multiple times', () => {
+    xit('Should not close the emoji picker even shortcut is repeated multiple times', () => {
         // # Click anywhere to take focus away from center textbox
         cy.get('#lhsList').within(() => {
             cy.findByText('Town Square').click();
@@ -107,6 +119,48 @@ describe('Messaging shortcuts', () => {
             cy.get(`#${lastPostId}_message`).within(() => {
                 cy.findByLabelText('reactions').should('exist');
                 cy.findByLabelText('remove reaction smile').should('exist');
+            });
+        });
+    });
+
+    it('Should add reaction to same post on which emoji picker was opened by shortcut,not on any new messages', () => {
+        // # Click anywhere to take focus away from center textbox
+        cy.get('#lhsList').within(() => {
+            cy.findByText('Town Square').click();
+        });
+        cy.wait(TIMEOUTS.TINY);
+
+        // # Let the post id which user initially intented to add reactions to, for later use
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#${lastPostId}_message`).as('postIdForAddingReaction');
+        });
+
+        // # Emulate react to last message shortcut
+        cy.get('body').type('{ctrl}{shift}\\');
+
+        // * Check that emoji picker is opened
+        cy.get('#emojiPicker').should('exist');
+
+        // # In meanwhile new messages pops up
+        cy.postMessageAs({sender: users['user-2'], message: MESSAGES.TINY, channelId});
+
+        // * Check if emoji picker is opened and add a reaction
+        cy.get('#emojiPicker').should('exist').within(() => {
+            // # Search for an emoji and add it to message
+            cy.findByPlaceholderText('Search Emoji').type('smile{enter}');
+        });
+
+        // * Check if the emoji picker has the entered reaction to the message we intented
+        cy.get('@postIdForAddingReaction').within(() => {
+            cy.findByLabelText('reactions').should('exist');
+            cy.findByLabelText('remove reaction smile').should('exist');
+        });
+
+        // * Also Check if last message shouldnt have the reaction since we didnt intent to add there
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#${lastPostId}_message`).within(() => {
+                cy.findByLabelText('reactions').should('not.exist');
+                cy.findByLabelText('remove reaction smile').should('not.exist');
             });
         });
     });
