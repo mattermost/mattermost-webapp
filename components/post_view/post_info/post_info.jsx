@@ -97,12 +97,27 @@ export default class PostInfo extends React.PureComponent {
          */
         isReadOnly: PropTypes.bool,
 
+        /**
+        * Was the shortcut for opening emoji picker for last message pressed
+        */
+        shouldOpenEmojiPickerForLastPost: PropTypes.bool,
+
+        /**
+         * The last post id of the current viewing channel
+         */
+        lastPostId: PropTypes.string,
+
         actions: PropTypes.shape({
 
-            /*
+            /**
              * Function to remove the post
              */
             removePost: PropTypes.func.isRequired,
+
+            /**
+             * Function to set the value of emoji for last message to false, so we can open next time
+             */
+            hideEmojiPickerForLastMessage: PropTypes.func,
         }).isRequired,
     };
 
@@ -212,6 +227,29 @@ export default class PostInfo extends React.PureComponent {
             </div>
         );
     };
+
+    componentDidUpdate(prevProps) {
+        const {shouldOpenEmojiPickerForLastPost, lastPostId, actions: {hideEmojiPickerForLastMessage}} = this.props;
+        const shouldReopenEmojiPickerForLastPost = ((prevProps.shouldOpenEmojiPickerForLastPost !== shouldOpenEmojiPickerForLastPost) && shouldOpenEmojiPickerForLastPost === true);
+        const isEmojiPickerClosed = this.state.showEmojiPicker === false;
+        const isLastPost = lastPostId === this.props.post.id;
+
+        if (shouldReopenEmojiPickerForLastPost && isEmojiPickerClosed && isLastPost) {
+            this.toggleEmojiPicker();
+
+            // Change the state of last post emoji to false, for next time to open it
+            hideEmojiPickerForLastMessage();
+
+            // eslint-disable-next-line no-console
+            console.log('>> Picker opened');
+        } else if (!prevProps.shouldOpenEmojiPickerForLastPost && shouldOpenEmojiPickerForLastPost && !isEmojiPickerClosed) {
+            // Check if user pressed the shortcut key to post reaction to last message while the emoji is open
+            hideEmojiPickerForLastMessage();
+
+            // eslint-disable-next-line no-console
+            console.log('>> Picker already open');
+        }
+    }
 
     render() {
         const post = this.props.post;

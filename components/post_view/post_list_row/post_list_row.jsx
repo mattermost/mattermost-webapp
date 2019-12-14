@@ -23,6 +23,12 @@ export default class PostListRow extends React.PureComponent {
         loadOlderPosts: PropTypes.func,
         loadNewerPosts: PropTypes.func,
         togglePostMenu: PropTypes.func,
+
+        /**
+         * The last post id of the current viewing channel
+         */
+        lastPostId: PropTypes.string,
+
     }
 
     render() {
@@ -97,6 +103,7 @@ export default class PostListRow extends React.PureComponent {
         return (
             <Post
                 postId={listId}
+                lastPostId={this.props.lastPostId}
                 {...postProps}
             />
         );

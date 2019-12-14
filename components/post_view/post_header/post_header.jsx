@@ -74,6 +74,12 @@ export default class PostHeader extends React.PureComponent {
          * If the user that made the post is a guest.
          */
         isGuest: PropTypes.bool.isRequired,
+
+        /**
+         * The last post id of the current viewing channel
+         */
+        lastPostId: PropTypes.string,
+
     }
 
     render() {
@@ -171,6 +177,7 @@ export default class PostHeader extends React.PureComponent {
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}
+                        lastPostId={this.props.lastPostId}
                     />
                 </div>
             </div>

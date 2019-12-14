@@ -17,6 +17,18 @@ function emojiPickerCustomPage(state = 0, action) {
     }
 }
 
+function emojiPickerForLastMessage(state = false, action) {
+    switch (action.type) {
+    case ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST:
+        return true;
+    case ActionTypes.HIDE_LAST_MESSAGES_EMOJI_LIST:
+        return false;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     emojiPickerCustomPage,
+    emojiPickerForLastMessage
 });

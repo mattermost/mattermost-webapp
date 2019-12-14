@@ -282,3 +282,15 @@ export function toggleEmbedVisibility(postId) {
 export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }
+
+export function showEmojiPickerForLastMessage() {
+    return {
+        type: ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST,
+    };
+}
+
+export function hideEmojiPickerForLastMessage() {
+    return {
+        type: ActionTypes.HIDE_LAST_MESSAGES_EMOJI_LIST,
+    };
+}

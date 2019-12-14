@@ -28,14 +28,14 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost, showEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
-import {getEmojiMap} from 'selectors/emojis';
+import {getEmojiMap, getOpenStateOfEmojiPickerForLastPost} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
@@ -64,7 +64,7 @@ function makeMapStateToProps() {
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-
+        const isEmojiPickerForLastPostOpen = getOpenStateOfEmojiPickerForLastPost(state);
         return {
             currentTeamId: getCurrentTeamId(state),
             currentChannel,
@@ -83,6 +83,7 @@ function makeMapStateToProps() {
             readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL),
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
+            isEmojiPickerForLastPostOpen,
             enableGifPicker,
             enableConfirmNotificationsToChannel,
             maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
@@ -114,6 +115,7 @@ function mapDispatchToProps(dispatch) {
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
+            showEmojiPickerForLastMessage,
             openModal,
             executeCommand,
             getChannelTimezones,

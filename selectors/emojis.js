@@ -19,6 +19,8 @@ export const getEmojiMap = createSelector(
     }
 );
 
+export const getOpenStateOfEmojiPickerForLastPost = (state) => state.views.emoji.emojiPickerForLastMessage;
+
 export const getRecentEmojis = createSelector(
     (state) => state.storage,
     getCurrentUserId,

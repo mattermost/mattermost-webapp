@@ -174,6 +174,11 @@ export default class CreatePost extends React.Component {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
+
+        /**
+         * To check if the state of emoji for last message is open
+         */
+        isEmojiPickerForLastPostOpen: PropTypes.bool,
         actions: PropTypes.shape({
 
             /**
@@ -248,6 +253,11 @@ export default class CreatePost extends React.Component {
              */
             getChannelTimezones: PropTypes.func.isRequired,
 
+            /**
+             * Function to set the state of to show emoji picker for last message to false
+             */
+            showEmojiPickerForLastMessage: PropTypes.func,
+
             scrollPostListToBottom: PropTypes.func.isRequired,
         }).isRequired,
     }
@@ -298,7 +308,7 @@ export default class CreatePost extends React.Component {
 
     componentDidMount() {
         this.onOrientationChange();
-        this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
+        this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (_key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
             }
@@ -764,7 +774,7 @@ export default class CreatePost extends React.Component {
                 const index = draft.uploadsInProgress.indexOf(clientIds[i]);
 
                 if (index !== -1) {
-                    draft.uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+                    draft.uploadsInProgress = draft.uploadsInProgress.filter((_item, itemIndex) => index !== itemIndex);
                 }
             }
         }
@@ -789,7 +799,7 @@ export default class CreatePost extends React.Component {
             const index = draft.uploadsInProgress.indexOf(clientId);
 
             if (index !== -1) {
-                const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+                const uploadsInProgress = draft.uploadsInProgress.filter((_item, itemIndex) => index !== itemIndex);
                 const modifiedDraft = {
                     ...draft,
                     uploadsInProgress,
@@ -816,7 +826,7 @@ export default class CreatePost extends React.Component {
             index = draft.uploadsInProgress.indexOf(id);
 
             if (index !== -1) {
-                const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
+                const uploadsInProgress = draft.uploadsInProgress.filter((_item, itemIndex) => index !== itemIndex);
 
                 modifiedDraft = {
                     ...draft,
@@ -828,7 +838,7 @@ export default class CreatePost extends React.Component {
                 }
             }
         } else {
-            const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
+            const fileInfos = draft.fileInfos.filter((_item, itemIndex) => index !== itemIndex);
 
             modifiedDraft = {
                 ...draft,
@@ -841,6 +851,13 @@ export default class CreatePost extends React.Component {
 
         this.handleFileUploadChange();
     }
+
+    reactToLastMessage = () => {
+        this.props.actions.showEmojiPickerForLastMessage();
+
+        // eslint-disable-next-line no-console
+        console.log('React to last message combo entered');
+    };
 
     focusTextboxIfNecessary = (e) => {
         // Focus should go to the RHS when it is expanded
@@ -861,10 +878,21 @@ export default class CreatePost extends React.Component {
     }
 
     documentKeyHandler = (e) => {
-        if ((e.ctrlKey || e.metaKey) && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH)) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
+        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+
+        const {isEmojiPickerForLastPostOpen} = this.props;
+
+        if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
+            return;
+        } else if (lastMessageEmojiKeyCombo && !isEmojiPickerForLastPostOpen) {
+            e.preventDefault();
+
+            this.reactToLastMessage();
             return;
         }
 

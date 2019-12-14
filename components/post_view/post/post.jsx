@@ -77,6 +77,11 @@ export default class Post extends React.PureComponent {
          */
         replyCount: PropTypes.number,
 
+        /**
+         * The last post id of the current viewing channel
+         */
+        lastPostId: PropTypes.string,
+
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
             selectPostCard: PropTypes.func.isRequired,
@@ -351,6 +356,7 @@ export default class Post extends React.PureComponent {
                                 replyCount={this.props.replyCount}
                                 showTimeWithoutHover={!hideProfilePicture}
                                 hover={this.state.hover || this.state.a11yActive}
+                                lastPostId={this.props.lastPostId}
                             />
                             <PostBody
                                 post={post}

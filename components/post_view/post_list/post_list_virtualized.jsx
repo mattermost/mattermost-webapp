@@ -297,6 +297,7 @@ export default class PostList extends React.PureComponent {
                     loadOlderPosts={this.props.actions.loadOlderPosts}
                     loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
+                    lastPostId={this.props.postListIds[0]} // First index because user sees latest/last message first
                 />
             </div>
         );
