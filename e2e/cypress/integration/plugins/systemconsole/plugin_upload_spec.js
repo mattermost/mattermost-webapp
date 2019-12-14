@@ -1,25 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import 'cypress-file-upload';
+
+/**
+ * Note : This test requires draw plugin tar file under fixtures folder.
+ * Download from : https://integrations.mattermost.com/draw-plugin/
+ * Copy to : <MatterMostWebAppsLocation>e2e/cypress/fixtures/
+ */
 
 describe('Draw Plugin - Upload', () => {
-    after(() => {
-        // # Restore default configuration
-        const newSettings = {
-            PluginSettings: {
-                Enable: true,
-                EnableMarketplace: true,
-                MarketplaceUrl: 'https://api.integrations.mattermost.com',
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
-    });
-
     /**
      * Draw Plugin configuration test - For Admin Access
     */
-    it('should upload draw plugin', () => {
-        //cy.apiUpdateConfig(newSettings);
+    it('M11759-Draw plugin Configuration - should upload draw plugin', () => {
         // # Login as sysadmin
         cy.apiLogin('sysadmin');
         cy.visit('/');
@@ -28,11 +20,7 @@ describe('Draw Plugin - Upload', () => {
         cy.searchForPluginManagementSysConsole();
 
         //Check whether plugin content exists on RHS after searching for a plugin management in LHS
-        cy.get('form.form-horizontal').should('be.visible').within(() => {
-            cy.get('div.wrapper--fixed').find('div.admin-console__header').should('be.visible').within(() => {
-                cy.get('span > mark').findByText('Plugin').should('be.visible');
-            });
-        });
+        cy.get('#adminPluginManagementHeader').should('have.text', 'Plugin Management').should('be.visible');
 
         //Check enable plugin option is enabled
         cy.enableDisablePluginabsPath(true);
@@ -41,11 +29,21 @@ describe('Draw Plugin - Upload', () => {
         cy.enableDisableDrawPlugin('Enable', fileName, fileType);
         cy.enableDisableDrawPlugin('Disable', fileName, fileType);
         cy.enableDisableDrawPlugin('Remove', fileName, fileType);
+
+        //Logout from the user
+        cy.apiLogout();
+    });
+
+    /**
+     * Enable or disable Plugin in plugin management RHS
+    */
+    Cypress.Commands.add('enableDisablePluginabsPath', (enableDisable) => {
+        cy.get(`#enable${enableDisable}`).should('be.visible').click();
     });
 
     /**
     * Section holds constants which are required for this spec
     */
-    const fileName = 'cypress/fixtures/matterMost.tar.gz';
+    const fileName = 'drawPlugin-binary.tar.gz';
     const fileType = 'application/gzip';
 });

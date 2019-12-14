@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -14,6 +15,7 @@ describe('components/widgets/admin_console/AdminHeader', () => {
         expect(wrapper).toMatchInlineSnapshot(`
 <div
   className="admin-console__header"
+  id="adminPluginManagementHeader"
 >
   Test
 </div>

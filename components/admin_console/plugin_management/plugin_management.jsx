@@ -368,7 +368,10 @@ const PluginItem = ({
                 {')'}
             </div>
             {description}
-            <div className='padding-top'>
+            <div
+                className='padding-top'
+                id='pluginConfigSettings'
+            >
                 {activateButton}
                 {removeButton}
                 {settingsButton}
@@ -1010,6 +1013,7 @@ export default class PluginManagement extends AdminSettings {
                                 </div>
                                 <button
                                     className={btnClass}
+                                    id='uploadPlugin'
                                     disabled={!this.state.fileSelected}
                                     onClick={this.handleSubmitUpload}
                                 >

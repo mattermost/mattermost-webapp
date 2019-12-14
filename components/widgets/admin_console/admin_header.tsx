@@ -10,7 +10,10 @@ type Props = {
 export default class AdminHeader extends React.Component<Props> {
     public render() {
         return (
-            <div className={'admin-console__header'}>
+            <div
+                className={'admin-console__header'}
+                id={'adminPluginManagementHeader'}
+            >
                 {this.props.children}
             </div>
         );

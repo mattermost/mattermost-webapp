@@ -628,7 +628,12 @@ export default class FileUpload extends PureComponent {
                         }}
                     >
                         <a href='#'>
-                            <span className='margin-right'>{item.icon}</span>
+                            <span
+                                className='margin-right'
+                                id='drawPaintBrush'
+                            >
+                                {item.icon}
+                            </span>
                             {item.text}
                         </a>
                     </li>
@@ -672,7 +677,12 @@ export default class FileUpload extends PureComponent {
                                     onClick={this.simulateInputClick}
                                     onTouchEnd={this.simulateInputClick}
                                 >
-                                    <span className='margin-right'><i className='fa fa-laptop'/></span>
+                                    <span className='margin-right'>
+                                        <i
+                                            className='fa fa-laptop'
+                                            id='yourComputer'
+                                        />
+                                    </span>
                                     <FormattedMessage
                                         id='yourcomputer'
                                         defaultMessage='Your computer'

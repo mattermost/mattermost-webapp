@@ -8,6 +8,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -133,6 +134,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -287,6 +289,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -378,6 +381,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -532,6 +536,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -657,6 +662,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -811,6 +817,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -936,6 +943,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -1095,6 +1103,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -1220,6 +1229,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -1374,6 +1384,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -1499,6 +1510,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -1626,6 +1638,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -1751,6 +1764,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -1905,6 +1919,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -2030,6 +2045,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -2184,6 +2200,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -2309,6 +2326,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -2526,6 +2544,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -2651,6 +2670,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -2836,6 +2856,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -2961,6 +2982,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -3146,6 +3168,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -3271,6 +3294,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
@@ -3456,6 +3480,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -3581,6 +3606,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage

@@ -8,6 +8,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -66,6 +67,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -124,6 +126,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
@@ -182,6 +185,7 @@ exports[`components/admin_console/CustomTermsOfServiceSettings should match snap
 >
   <div
     className="wrapper--fixed"
+    id="pluginManagementRHS"
   >
     <AdminHeader>
       <FormattedMessage
