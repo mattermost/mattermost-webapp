@@ -76,10 +76,10 @@ describe('Messaging shortcuts', () => {
 
         // # Open picker by keyboard shortcut
         cy.get('body').type('{ctrl}{shift}\\');
-        
+
         // * Check if emoji picker opened
         cy.get('#emojiPicker').should('exist');
-        
+
         // # Emulate react to last message shortcut multiple times
         cy.get('body').type('{ctrl}{shift}\\');
         cy.get('body').type('{ctrl}{shift}\\');
@@ -93,9 +93,9 @@ describe('Messaging shortcuts', () => {
         // * Picker should be closed
         cy.get('#emojiPicker').should('not.exist');
 
-        // * Open with last emoji picker once again, 
+        // * Open with last emoji picker once again,
         cy.get('body').type('{ctrl}{shift}\\');
-        
+
         // * Check if it can open again
         cy.get('#emojiPicker').should('exist').within(() => {
             // # Search for an emoji and add it to message
