@@ -44,7 +44,6 @@ export default class SelectTeamItem extends React.PureComponent {
                 delayShow={1000}
                 placement='top'
                 overlay={descriptionTooltip}
-                ref='descriptionOverlay'
                 rootClose={true}
                 container={this}
             >
