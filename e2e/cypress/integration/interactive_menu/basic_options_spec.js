@@ -154,6 +154,37 @@ describe('Interactive Menu', () => {
         });
     });
 
+    it('IM21039 - Searching within the list of options', () => {
+        const searchOptions = [
+            {text: 'SearchOption1', value: 'searchoption1'},
+            {text: 'SearchOption2', value: 'searchoption2'},
+            ...options,
+        ];
+        const searchOptionsPayload = getMessageMenusPayload({options: searchOptions});
+        
+        // # Post an incoming webhook for interactive menu with search options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data:searchOptionsPayload});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+        });
+
+        cy.get('@messageAttachmentList').within(() => {
+            cy.get('.select-suggestion-container > input').click().clear().type('sea');
+
+            // * Message attachment menu dropdown should now be open
+            cy.get('#suggestionList').should('exist').children().should('have.length', 2);
+
+            // # Checking values inside the attachment menu dropdown
+            cy.get('#suggestionList').within(() => {
+                // * Each dropdown should contain the searchOptions text
+                cy.findByText(searchOptions[0].text).should('exist');
+                cy.findByText(searchOptions[1].text).should('exist');
+            });
+        });
+    });
+
     it('IM21042 - "No items match" feedback', () => {
         const missingUser = Date.now();
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
