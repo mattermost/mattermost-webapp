@@ -34,6 +34,8 @@ export default class SidebarRight extends React.PureComponent {
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
+            openRHSSearch: PropTypes.func.isRequired,
+            closeRightHandSide: PropTypes.func.isRequired,
         }),
     };
 
@@ -46,13 +48,26 @@ export default class SidebarRight extends React.PureComponent {
         };
     }
 
+    handleShortcut = (e) => {
+        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+            e.preventDefault();
+            if (this.props.isOpen) {
+                this.props.actions.closeRightHandSide();
+            } else {
+                this.props.actions.openRHSSearch();
+            }
+        }
+    }
+
     componentDidMount() {
         window.addEventListener('resize', this.determineTransition);
+        document.addEventListener('keydown', this.handleShortcut);
         this.determineTransition();
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.determineTransition);
+        document.removeEventListener('keydown', this.handleShortcut);
         if (this.sidebarRight.current) {
             this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
         }
