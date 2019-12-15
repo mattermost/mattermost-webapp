@@ -205,6 +205,16 @@ describe('stripMarkdown | RemoveMarkdown', () => {
             outputText: 'This is multiline text. Here is the next line.',
         },
         {
+            description: 'text: multiline with blockquote',
+            inputText: 'This is multiline text.\n> With quote',
+            outputText: 'This is multiline text. With quote',
+        },
+        {
+            description: 'text: multiline with list items',
+            inputText: 'This is multiline text.\n * List item ',
+            outputText: 'This is multiline text. List item',
+        },
+        {
             description: 'text: &amp; entity',
             inputText: 'you & me',
             outputText: 'you & me',
