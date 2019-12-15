@@ -206,7 +206,6 @@ export default class ImportThemeModal extends React.Component {
                                 onClick={this.handleSubmit}
                                 type='submit'
                                 className='btn btn-primary'
-                                tabIndex='3'
                             >
                                 <FormattedMessage
                                     id='user.settings.import_theme.submit'
