@@ -297,7 +297,7 @@ describe('Customization', () => {
 
         // # Click Save button
         cy.get('#saveSetting').click();
-        
+
         // Get config again
         cy.apiGetConfig().then((response) => {
             const config = response.body;
