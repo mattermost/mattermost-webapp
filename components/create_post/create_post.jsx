@@ -1314,6 +1314,7 @@ export default class CreatePost extends React.Component {
                     </div>
                     <div
                         id='postCreateFooter'
+                        role='contentinfo'
                         className={postFooterClassName}
                     >
                         <div className='d-flex justify-content-between'>

@@ -139,6 +139,7 @@ export default class TeamSidebar extends React.PureComponent {
                 <div
                     className='team-wrapper'
                     id='teamSidebarWrapper'
+                    role='navigation'
                 >
                     <Scrollbars
                         autoHide={true}

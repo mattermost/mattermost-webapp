@@ -5,6 +5,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -273,6 +274,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -541,6 +543,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -809,6 +812,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -1081,6 +1085,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -1353,6 +1358,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -1621,6 +1627,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -1893,6 +1900,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -2161,6 +2169,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
@@ -2429,6 +2438,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
+  role="main"
 >
   <Connect(NewChannelFlow)
     canCreatePrivateChannel={true}
