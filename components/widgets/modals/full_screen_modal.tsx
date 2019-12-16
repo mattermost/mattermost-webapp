@@ -18,7 +18,8 @@ type Props = {
     onClose: () => void;
     onGoBack?: () => void;
     children: React.ReactNode;
-    ariaLabel: string;
+    ariaLabel?: string;
+    ariaLabelledBy?: string;
 };
 
 export default class FullScreenModal extends React.Component<Props> {
@@ -83,6 +84,7 @@ export default class FullScreenModal extends React.Component<Props> {
                         tabIndex={-1}
                         aria-modal={true}
                         aria-label={this.props.ariaLabel}
+                        aria-labelledby={this.props.ariaLabelledBy}
                         role='dialog'
                     >
                         {this.props.onGoBack &&

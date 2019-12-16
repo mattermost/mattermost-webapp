@@ -8,7 +8,6 @@ import {FormattedMessage} from 'react-intl';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import RootPortal from 'components/root_portal';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 import {InviteTypes} from 'utils/constants';
 
@@ -200,44 +199,6 @@ export default class InvitationModal extends React.Component {
         this.setState({step: STEPS_INVITE_CONFIRM, prevStep: this.state.step, lastInviteChannels: channels, lastInviteMessage: message, invitesSent: invites.sent, invitesNotSent: invites.notSent, invitesType: InviteTypes.INVITE_GUEST, hasChanges: false});
     }
 
-    getPageTitle = () => {
-        if (this.state.step === STEPS_INITIAL) {
-            return (
-                <FormattedMarkdownMessage
-                    id='invitation_modal.title'
-                    defaultMessage='Invite people to **{teamName}**'
-                    values={{teamName: this.props.currentTeam.display_name}}
-                />
-            );
-        }
-
-        if (this.state.step === STEPS_INVITE_MEMBERS) {
-            return (
-                <FormattedMarkdownMessage
-                    id='invitation_modal.members.title'
-                    defaultMessage='Invite **Members**'
-                />
-            );
-        }
-
-        if (this.state.step === STEPS_INVITE_GUESTS) {
-            return (
-                <FormattedMarkdownMessage
-                    id='invitation_modal.guests.title'
-                    defaultMessage='Invite **Guests**'
-                />
-            );
-        }
-
-        return (
-            <FormattedMarkdownMessage
-                id='invitation_modal.confirm.title'
-                defaultMessage='**People** Invited to **{teamName}**'
-                values={{teamName: this.props.currentTeam.display_name}}
-            />
-        );
-    }
-
     render() {
         return (
             <RootPortal>
@@ -246,7 +207,7 @@ export default class InvitationModal extends React.Component {
                     onClose={this.close}
                     onGoBack={this.getBackFunction()}
                     ref={this.modal}
-                    ariaLabel={this.getPageTitle().toString()}
+                    ariaLabelledBy='invitation_modal_title'
                 >
                     <div
                         data-testid='invitationModal'
