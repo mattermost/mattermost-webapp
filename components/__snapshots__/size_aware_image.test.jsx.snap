@@ -15,6 +15,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
         Object {
           "maxHeight": 200,
           "maxWidth": 300,
+          "verticalAlign": "middle",
         }
       }
       viewBox="0 0 300 200"
@@ -76,6 +77,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
         Object {
           "maxHeight": 200,
           "maxWidth": 300,
+          "verticalAlign": "middle",
         }
       }
       viewBox="0 0 300 200"
