@@ -128,7 +128,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -140,7 +140,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -152,7 +152,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
