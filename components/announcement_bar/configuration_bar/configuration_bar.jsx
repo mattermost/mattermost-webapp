@@ -4,10 +4,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 
 import {t} from 'utils/i18n';
 
@@ -151,6 +152,7 @@ export default class ConfigurationAnnouncementBar extends React.PureComponent {
                 <TextDismissableBar
                     allowDismissal={true}
                     text={siteURLMessage}
+                    siteURL={this.props.siteURL}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
                 />
             );
