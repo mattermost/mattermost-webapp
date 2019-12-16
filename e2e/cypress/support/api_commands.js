@@ -210,7 +210,7 @@ Cypress.Commands.add('apiGetChannelByName', (teamName, channelName) => {
         url: `/api/v4/teams/name/${teamName}/channels/name/${channelName}`,
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap(response);
+        return cy.wrap(response.body);
     });
 });
 

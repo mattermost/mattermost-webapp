@@ -20,6 +20,7 @@ process.title = process.argv[2];
 
 server.get('/', (req, res) => res.send('I\'m alive!\n'));
 server.post('/message_menus', postMessageMenus);
+server.post('/message_buttons', postMessageButtons);
 server.post('/dialog_request', onDialogRequest);
 server.post('/simple_dialog_request', onSimpleDialogRequest);
 server.post('/dialog_submit', onDialogSubmit);
@@ -32,6 +33,26 @@ function postMessageMenus(req, res) {
     if (body && body.context.action === 'do_something') {
         responseData = {
             ephemeral_text: `Ephemeral | ${body.type} ${body.data_source} option: ${body.context.selected_option}`,
+        };
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    return res.json(responseData);
+}
+
+function postMessageButtons(req, res) {
+    let responseData = {};
+    const {body} = req;
+
+    const context = Object.entries(body).map(([k, v]) => (`- ${k}: ${JSON.stringify(v)}`));
+
+    if (body && body.context.action === 'do_something_ephemeral') {
+        responseData = {
+            ephemeral_text: `Ephemeral | context: \n${context.join('\n')}`,
+        };
+    } else if (body && body.context.action === 'do_something_update') {
+        responseData = {
+            ephemeral_text: `Update | context: \n${context.join('\n')}`,
         };
     }
 
