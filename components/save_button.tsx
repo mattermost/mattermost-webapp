@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {intlShape} from 'react-intl';
 
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
+import {intlShape} from 'utils/react_intl';
 
 type Props = {
     saving: boolean;

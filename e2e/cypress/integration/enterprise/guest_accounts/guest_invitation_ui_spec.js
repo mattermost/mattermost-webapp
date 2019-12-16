@@ -20,7 +20,7 @@ const user1 = users['user-1'];
 
 function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
     // # Update Guest Account Settings
-    cy.apiUpdateConfig({
+    cy.apiUpdateConfigBasic({
         GuestAccountsSettings: {
             Enable: featureFlag,
             RestrictCreationToDomains: whitelistedDomains,
@@ -106,11 +106,11 @@ function verifyInvitationSuccess(user, successText, verifyGuestBadge = false) {
 
 describe('Guest Account - Guest User Invitation Flow', () => {
     before(() => {
+        // # Login as "sysadmin"
+        cy.apiLogin('sysadmin');
+
         // # Enable Guest Account Settings
         changeGuestFeatureSettings();
-
-        // # Login as "sysadmin" and go to /
-        cy.apiLogin('sysadmin');
 
         // # Create new team and visit its URL
         cy.apiCreateTeam('test-team', 'Test Team').then((response) => {
@@ -137,7 +137,6 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // # Delete the new team as sysadmin
         if (testTeam && testTeam.id) {
-            cy.apiLogin('sysadmin');
             cy.apiDeleteTeam(testTeam.id);
         }
     });
@@ -254,7 +253,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         invitePeople(newUser.firstName, 1, newUser.username, 'Off-Topic');
 
         // * Verify the content and message in next screen
-        verifyInvitationError(newUser.username, 'This person is already a member of all the channels.', true);
+        verifyInvitationSuccess(newUser.username, 'This guest has been added to the team and channel.');
 
         // # Search and add an existing guest by last name, who is part of the team and channel
         invitePeople(newUser.lastName, 1, newUser.username);
@@ -281,11 +280,13 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18050 Verify when different feature settings are disabled', () => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // # Disable Guest Account Feature
         changeGuestFeatureSettings(false, true);
 
-        // # Login again after changing feature flag and reload current page
-        cy.apiLogin('sysadmin');
+        // # reload current page
         cy.visit(`/${testTeam.name}`);
 
         // # Open Invite People
@@ -307,9 +308,8 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Enable Guest Account Feature and disable Email Invitation
         changeGuestFeatureSettings(true, false);
 
-        // # Login again after changing feature flag and reload current page
-        cy.apiLogin('sysadmin');
-        cy.visit(`/${testTeam.name}`);
+        // # Reload the current page
+        cy.reload();
 
         const email = `temp-${getRandomInt(9999)}@mattermost.com`;
         invitePeople(email, 1, email);
@@ -319,11 +319,14 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-18047 Verify Guest User whitelisted domains', () => {
+        // # Login as sysadmin
+        cy.apiLogin('sysadmin');
+
         // #Configure a whitelisted domain
         changeGuestFeatureSettings(true, true, 'example.com');
 
-        // # Login as sysadmin and visit to newly created team
-        cy.apiLogin('sysadmin');
+        // # Visit to newly created team
+        cy.reload();
         cy.visit(`/${testTeam.name}`);
 
         // # Invite a Guest by email
