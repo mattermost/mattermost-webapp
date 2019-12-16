@@ -11,12 +11,6 @@ describe('Account Settings > Sidebar > General', () => {
     before(() => {
         cy.apiLogin('user-1');
 
-        cy.visit('/');
-        cy.get('#channel_view').should('be.visible');
-        cy.get('#sidebarHeaderDropdownButton').should('be.visible').click();
-        cy.get('#accountSettings').should('be.visible').click();
-        cy.get('#accountSettingsModal').should('be.visible');
-
         // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal('user-1');
 

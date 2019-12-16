@@ -15,9 +15,8 @@ import './storybook_commands';
 import '@testing-library/cypress/add-commands';
 import 'cypress-file-upload';
 import 'cypress-wait-until';
+import 'cypress-plugin-tab';
 import addContext from 'mochawesome/addContext';
-
-require('cypress-plugin-tab');
 
 Cypress.on('test:after:run', (test, runnable) => {
     // Only if the test is failed do we want to add
