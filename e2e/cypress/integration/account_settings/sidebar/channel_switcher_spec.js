@@ -212,7 +212,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
     });
 
-    it('while on the channel switcher, focusing on the input box via shortcut closes it', () => {
+    it('Cmd/Ctrl+Shift+L closes Channel Switch modal and sets focus to post textbox', () => {
         // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
@@ -224,16 +224,17 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+L
-        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}m');
+        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('not.be.visible');
 
         // * focus should be on the input box
-        cy.get('#searchBox').should('be.focused');
+        cy.get('#post_textbox').should('be.focused');
+        cy.get('#post_textbox').should('be.empty');
     });
 
-    it('while on the channel switcher, focusing on mentions via shortcut closes it', () => {
+    it('Cmd/Ctrl+Shift+M closes Channel Switch modal and sets focus to mentions', () => {
         // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
@@ -245,12 +246,13 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
 
         // # Type CTRL/CMD+shift+m
-        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}m');
+        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}M');
 
         // * Suggestion list should be visible
         cy.get('#suggestionList').should('not.be.visible');
 
-        // * focus should be on the input box
-        cy.get('#post_textbox').should('be.focused');
+        // * searchbox should appear
+        cy.get('#searchBox').should('have.attr', 'value', '@ @user-1 ');
+        cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
     });
 });
