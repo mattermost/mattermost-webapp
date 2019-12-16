@@ -56,6 +56,7 @@ class MainMenu extends React.PureComponent {
         pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isMentionSearch: PropTypes.bool,
         teamIsGroupConstrained: PropTypes.bool.isRequired,
+        isLicensedForLDAPGroups: PropTypes.bool,
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             openModal: PropTypes.func.isRequred,
@@ -113,7 +114,7 @@ class MainMenu extends React.PureComponent {
     }
 
     render() {
-        const {currentUser, teamIsGroupConstrained} = this.props;
+        const {currentUser, teamIsGroupConstrained, isLicensedForLDAPGroups} = this.props;
 
         if (!currentUser) {
             return null;
@@ -175,7 +176,7 @@ class MainMenu extends React.PureComponent {
                     >
                         <Menu.ItemToggleModalRedux
                             id='addGroupsToTeam'
-                            show={teamIsGroupConstrained}
+                            show={teamIsGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
                             dialogType={AddGroupsToTeamModal}
                             text={formatMessage({id: 'navbar_dropdown.addGroupsToTeam', defaultMessage: 'Add Groups to Team'})}
@@ -215,7 +216,7 @@ class MainMenu extends React.PureComponent {
                     >
                         <Menu.ItemToggleModalRedux
                             id='manageGroups'
-                            show={teamIsGroupConstrained}
+                            show={teamIsGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.MANAGE_TEAM_GROUPS}
                             dialogProps={{
                                 teamID: this.props.teamId,
