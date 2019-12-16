@@ -9,8 +9,6 @@
 
 describe('Account Settings > Sidebar > General', () => {
     before(() => {
-        cy.apiLogin('user-1');
-
         // # Go to Account Settings with "user-1"
         cy.toAccountSettingsModal('user-1');
 
