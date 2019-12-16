@@ -22,8 +22,8 @@ describe('System Console - Enterprise', () => {
 
     const testCases = [
         {
-            header: 'Groups',
-            sidebar: 'Groups',
+            header: 'Groups (Beta)',
+            sidebar: 'Groups (Beta)',
             url: 'admin_console/user_management/groups',
             otherUrl: 'admin_console/about/license',
         },

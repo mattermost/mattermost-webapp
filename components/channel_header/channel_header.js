@@ -589,6 +589,16 @@ export default class ChannelHeader extends React.PureComponent {
             pinnedIconClass += ' active';
         }
 
+        let mentionsIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.MENTION) {
+            mentionsIconClass += ' active';
+        }
+
+        let flaggedIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.FLAG) {
+            flaggedIconClass += ' active';
+        }
+
         let title = (
             <React.Fragment>
                 {toggleFavorite}
@@ -725,6 +735,7 @@ export default class ChannelHeader extends React.PureComponent {
                             />
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + mentionsIconClass}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -734,6 +745,7 @@ export default class ChannelHeader extends React.PureComponent {
                             <FlagIcon className='icon icon__flag'/>
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + flaggedIconClass}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}
