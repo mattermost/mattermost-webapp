@@ -336,8 +336,8 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 <Connect(SettingItemMin)
   describe={
     <FormattedMessage
-      defaultMessage="Never"
-      id="user.settings.notifications.email.never"
+      defaultMessage="Immediately"
+      id="user.settings.notifications.email.immediately"
       values={Object {}}
     />
   }
