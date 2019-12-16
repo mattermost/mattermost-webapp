@@ -570,9 +570,10 @@ class FileUpload extends PureComponent {
     }
 
     render() {
+        const isMobile = isMobileApp();
         const {formatMessage} = this.props.intl;
         let multiple = true;
-        if (isMobileApp()) {
+        if (isMobile) {
             // iOS WebViews don't upload videos properly in multiple mode
             multiple = false;
         }
@@ -596,8 +597,8 @@ class FileUpload extends PureComponent {
                         id='fileUploadButton'
                         aria-label={ariaLabel}
                         className='style--none post-action icon icon--attachment'
-                        onClick={this.simulateInputClick}
-                        onTouchEnd={this.simulateInputClick}
+                        onClick={!isMobile && this.simulateInputClick}
+                        onTouchEnd={isMobile && this.simulateInputClick}
                     >
                         <AttachmentIcon/>
                     </button>
@@ -668,8 +669,8 @@ class FileUpload extends PureComponent {
                             <li>
                                 <a
                                     href='#'
-                                    onClick={this.simulateInputClick}
-                                    onTouchEnd={this.simulateInputClick}
+                                    onClick={!isMobile && this.simulateInputClick}
+                                    onTouchEnd={isMobile && this.simulateInputClick}
                                 >
                                     <span className='margin-right'><i className='fa fa-laptop'/></span>
                                     <FormattedMessage
