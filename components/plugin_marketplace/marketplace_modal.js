@@ -79,7 +79,7 @@ AllPlugins.propTypes = {
 };
 
 // InstalledPlugins renders the contents of the installed plugins tab.
-export const InstalledPlugins = ({installedPlugins}) => {
+export const InstalledPlugins = ({installedPlugins, changeTab}) => {
     if (installedPlugins.length === 0) {
         return (
             <div className='no_plugins_div'>
@@ -93,7 +93,8 @@ export const InstalledPlugins = ({installedPlugins}) => {
                 </div>
                 <button
                     className='margin-top x3 style--none color--link'
-                    onClick={() => this.changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                    onClick={() => changeTab(MarketplaceTabs.ALL_PLUGINS)}
+                    data-testid='Install-Plugins-button'
                 >
                     <FormattedMessage
                         id='marketplace_modal.install_plugins'
@@ -109,6 +110,7 @@ export const InstalledPlugins = ({installedPlugins}) => {
 
 InstalledPlugins.propTypes = {
     installedPlugins: PropTypes.array.isRequired,
+    changeTab: PropTypes.func,
 };
 
 // MarketplaceModal is the plugin marketplace.
@@ -290,7 +292,10 @@ export class MarketplaceModal extends React.Component {
                                 eventKey={MarketplaceTabs.INSTALLED_PLUGINS}
                                 title={localizeMessage('marketplace_modal.tabs.installed_plugins', 'Installed') + ` (${this.props.installedPlugins.length})`}
                             >
-                                <InstalledPlugins installedPlugins={this.props.installedPlugins}/>
+                                <InstalledPlugins
+                                    installedPlugins={this.props.installedPlugins}
+                                    changeTab={this.changeTab}
+                                />
                             </Tab>
                         </Tabs>
                     </div>

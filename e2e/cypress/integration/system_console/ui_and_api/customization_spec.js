@@ -19,6 +19,8 @@ describe('Customization', () => {
                     SupportEmail: config.SupportSettings.SupportEmail,
                     HelpLink: config.SupportSettings.HelpLink,
                     AboutLink: config.SupportSettings.AboutLink,
+                    PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink,
+                    TermsOfServiceLink: config.SupportSettings.TermsOfServiceLink,
                 },
                 TeamSettings: {
                     SiteName: config.TeamSettings.SiteName,
@@ -39,6 +41,36 @@ describe('Customization', () => {
 
     after(() => {
         cy.apiUpdateConfig(origConfig);
+    });
+
+    it('SC20336 - Can change Custom Brand Image setting', () => {
+        // # Make sure necessary field is false
+        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.reload();
+
+        // # Set Enable Custom Branding to true to be able to upload custom brand image
+        cy.get('[id="TeamSettings.EnableCustomBrandtrue"]').check();
+
+        cy.findByTestId('CustomBrandImage').should('be.visible').within(() => {
+            // * Verify that setting is visible and matches text content
+            cy.get('label').should('be.visible').and('have.text', 'Custom Brand Image:');
+
+            // * Verify that help setting is visible and matches text content
+            const contents = 'Customize your user experience by adding a custom image to your login screen. Recommended maximum image size is less than 2 MB.';
+            cy.get('.help-text').should('be.visible').and('have.text', contents);
+
+            // # upload the image
+            cy.fileUpload('input');
+        });
+
+        // # save image
+        cy.get('#saveSetting').click();
+
+        // # Verify that after page reload image exist
+        cy.reload();
+        cy.findByTestId('CustomBrandImage').should('be.visible').within(() => {
+            cy.get('img').should('have.attr', 'src').and('include', '/api/v4/brand/image?t=');
+        });
     });
 
     it('SC20335 - Can change Site Name setting', () => {
@@ -64,6 +96,29 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20330 - Can change Privacy Policy Link setting', () => {
+        // * Verify that setting is visible and matches text content
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Privacy Policy Link:');
+
+        // * Verify that help setting is visible and matches text content
+        const content = 'The URL for the Privacy link on the login and sign-up pages. If this field is empty, the Privacy link is hidden from users.';
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkhelp-text').scrollIntoView().find('span').should('be.visible').and('have.text', content);
+
+        // * Verify the input box visible and has default value
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').scrollIntoView().should('have.value', origConfig.SupportSettings.PrivacyPolicyLink).and('be.visible');
+
+        // # Fill input field with value
+        const stringToSave = 'https://some.com';
+        cy.findByTestId('SupportSettings.PrivacyPolicyLinkinput').clear().type(stringToSave);
+
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.SupportSettings.PrivacyPolicyLink).to.equal(stringToSave);
         });
     });
 
@@ -217,6 +272,37 @@ describe('Customization', () => {
 
         cy.apiGetConfig().then((response) => {
             expect(response.body.SupportSettings.AboutLink).to.equal(newAboutLink);
+        });
+    });
+
+    it('SC20329 - Can change Terms of Service Link setting', () => {
+        // * Verify site name's setting name for is visible and matches the text
+        cy.findByTestId('SupportSettings.TermsOfServiceLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Terms of Service Link:');
+
+        // * Verify the site name input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').should('have.value', origConfig.SupportSettings.TermsOfServiceLink);
+
+        // * Verify the site name's help text is visible and matches the text
+        cy.findByTestId('SupportSettings.TermsOfServiceLinkhelp-text').find('span').should('be.visible').and('have.text',
+            'Link to the terms under which users may use your online service. By default, this includes the ' +
+            '"Mattermost Conditions of Use (End Users)" explaining the terms under which Mattermost software is ' +
+            'provided to end users. If you change the default link to add your own terms for using the service you ' +
+            'provide, your new terms must include a link to the default terms so end users are aware of the Mattermost ' +
+            'Conditions of Use (End User) for Mattermost software.');
+
+        // # Enter a new help link
+        const newValue = 'https://test.com';
+        cy.findByTestId('SupportSettings.TermsOfServiceLinkinput').clear().type(newValue);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            const config = response.body;
+
+            // * Verify the site name is saved, directly via REST API
+            expect(config.SupportSettings.TermsOfServiceLink).to.eq(newValue);
         });
     });
 });
