@@ -253,6 +253,16 @@ export default class RhsThread extends React.Component {
 
         const postsArray = this.filterPosts(this.props.posts, this.props.selected, this.state.openTime);
         const {selected, currentUserId} = this.props;
+        const postsLength = postsArray.length;
+
+        let isRhsRootLastPost = false;
+        let lastRhsCommentPost = '';
+
+        if (postsLength === 0) {
+            isRhsRootLastPost = true;
+        } else {
+            lastRhsCommentPost = postsArray[postsLength - 1];
+        }
 
         let createAt = selected.create_at;
         if (!createAt && this.props.posts.length > 0) {
@@ -262,7 +272,6 @@ export default class RhsThread extends React.Component {
         let previousPostDay = rootPostDay;
 
         const commentsLists = [];
-        const postsLength = postsArray.length;
         let a11yIndex = 1;
         for (let i = 0; i < postsLength; i++) {
             const comPost = postsArray[i];
@@ -294,6 +303,7 @@ export default class RhsThread extends React.Component {
                     previewEnabled={this.props.previewEnabled}
                     handleCardClick={this.handleCardClickPost}
                     a11yIndex={a11yIndex++}
+                    isLastPost={comPost.id === lastRhsCommentPost.id}
                 />
             );
         }
@@ -387,6 +397,7 @@ export default class RhsThread extends React.Component {
                                 previewEnabled={this.props.previewEnabled}
                                 isBusy={this.state.isBusy}
                                 handleCardClick={this.handleCardClick}
+                                isLastPost={isRhsRootLastPost}
                             />
                             {isFakeDeletedPost && rootPostDay && <DateSeparator date={rootPostDay}/>}
                             <div

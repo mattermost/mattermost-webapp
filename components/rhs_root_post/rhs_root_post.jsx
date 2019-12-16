@@ -47,8 +47,14 @@ export default class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+        isLastPost: PropTypes.bool,
+        emojiPickerForLastMessage: PropTypes.shape({
+            shouldOpen: PropTypes.bool,
+            emittedFrom: PropTypes.string
+        }),
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
+            toggleEmojiPickerForLastMessage: PropTypes.func
         }),
     };
 
@@ -80,6 +86,18 @@ export default class RhsRootPost extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleAlt);
         document.removeEventListener('keyup', this.handleAlt);
+    }
+
+    componentDidUpdate(prevProps) {
+        const {emojiPickerForLastMessage, isLastPost, actions: {toggleEmojiPickerForLastMessage}} = this.props;
+        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage.shouldOpen;
+        const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage.emittedFrom === Locations.RHS_ROOT;
+        const isEmojiPickerClosed = this.state.showEmojiPicker === false;
+
+        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS && isEmojiPickerClosed && isLastPost) {
+            this.toggleEmojiPicker();
+            toggleEmojiPickerForLastMessage({shouldOpen: false});
+        }
     }
 
     renderPostTime = (isEphemeral) => {

@@ -10,7 +10,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 
-import Constants from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -28,6 +28,8 @@ import Textbox from 'components/textbox';
 import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
+
+const KeyCodes = Constants.KeyCodes;
 
 export default class CreateComment extends React.PureComponent {
     static propTypes = {
@@ -187,6 +189,7 @@ export default class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+        toggleEmojiPickerForLastMessage: PropTypes.func
     }
 
     static contextTypes = {
@@ -573,20 +576,17 @@ export default class CreateComment extends React.PureComponent {
     }
 
     handleKeyDown = (e) => {
-        if (
-            (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
-            Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
-            (e.ctrlKey || e.metaKey)
-        ) {
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const messageIsEmpty = this.state.message === 0;
+        const ctrlEnterKeyCombo = (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
+        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
+
+        if (ctrlEnterKeyCombo) {
             this.updatePreview(false);
             this.commentMsgKeyPress(e);
-            return;
-        }
-
-        const {draft} = this.state;
-        const {message} = draft;
-
-        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
+        } else if (upKeyOnly && messageIsEmpty) {
             e.preventDefault();
             if (this.refs.textbox) {
                 this.refs.textbox.getWrappedInstance().blur();
@@ -596,16 +596,17 @@ export default class CreateComment extends React.PureComponent {
             if (!canEditNow) {
                 this.focusTextbox(true);
             }
-        }
-
-        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
-                e.preventDefault();
-                this.props.onMoveHistoryIndexBack();
-            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
-                e.preventDefault();
-                this.props.onMoveHistoryIndexForward();
-            }
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+            e.preventDefault();
+            this.props.onMoveHistoryIndexBack();
+        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+            e.preventDefault();
+            this.props.onMoveHistoryIndexForward();
+        } else if (lastMessageEmojiKeyCombo) {
+            e.preventDefault();
+            // eslint-disable-next-line no-console
+            console.log('RHS pressed for emoji on last message');
+            this.props.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
         }
     }
 

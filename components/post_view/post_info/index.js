@@ -12,7 +12,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {hideEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 import {Preferences} from 'utils/constants';
 import {getSelectedPostCard} from 'selectors/rhs.jsx';
-import {getOpenStateOfEmojiPickerForLastPost} from 'selectors/emojis';
+import {getStateOfEmojiPickerForLastPost} from 'selectors/emojis';
 
 import PostInfo from './post_info.jsx';
 
@@ -23,7 +23,7 @@ function mapStateToProps(state, ownProps) {
     const channelIsArchived = channel ? channel.delete_at !== 0 : null;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
     const teamId = getCurrentTeamId(state);
-    const shouldOpenEmojiPickerForLastPost = getOpenStateOfEmojiPickerForLastPost(state);
+    const shouldOpenEmojiPickerForLastPost = getStateOfEmojiPickerForLastPost(state);
 
     return {
         teamId,

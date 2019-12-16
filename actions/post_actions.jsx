@@ -283,13 +283,13 @@ export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }
 
-export function showEmojiPickerForLastMessage() {
-    return {
-        type: ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST,
-    };
-}
-
-export function hideEmojiPickerForLastMessage() {
+export function toggleEmojiPickerForLastMessage({shouldOpen = false, emittedFrom = ''}) {
+    if (shouldOpen) {
+        return {
+            type: ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST,
+            payload: {emittedFrom}
+        };
+    }
     return {
         type: ActionTypes.HIDE_LAST_MESSAGES_EMOJI_LIST,
     };

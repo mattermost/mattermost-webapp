@@ -4,7 +4,12 @@
 import {combineReducers} from 'redux';
 import {UserTypes} from 'mattermost-redux/action_types';
 
-import {ActionTypes} from 'utils/constants';
+import {ActionTypes, Locations} from 'utils/constants';
+
+const INITIAL_STATE_EMOJI_FOR_LAST_MESSAGE = {
+    shouldOpen: false,
+    emittedFrom: ''
+};
 
 function emojiPickerCustomPage(state = 0, action) {
     switch (action.type) {
@@ -17,12 +22,26 @@ function emojiPickerCustomPage(state = 0, action) {
     }
 }
 
-function emojiPickerForLastMessage(state = false, action) {
+function emojiPickerForLastMessage(state = INITIAL_STATE_EMOJI_FOR_LAST_MESSAGE, action) {
     switch (action.type) {
     case ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST:
-        return true;
+        if (action.payload.emittedFrom === Locations.CENTER) {
+            return {
+                shouldOpen: true,
+                emittedFrom: Locations.CENTER
+            };
+        } else if (action.payload.emittedFrom === Locations.RHS_ROOT) {
+            return {
+                shouldOpen: true,
+                emittedFrom: Locations.RHS_ROOT
+            };
+        }
+        return state;
     case ActionTypes.HIDE_LAST_MESSAGES_EMOJI_LIST:
-        return false;
+        return {
+            shouldOpen: false,
+            emittedFrom: ''
+        };
     default:
         return state;
     }

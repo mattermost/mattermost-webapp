@@ -52,8 +52,14 @@ export default class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
+        isLastPost: PropTypes.bool,
+        emojiPickerForLastMessage: PropTypes.shape({
+            shouldOpen: PropTypes.bool,
+            emittedFrom: PropTypes.string
+        }),
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
+            toggleEmojiPickerForLastMessage: PropTypes.func
         }),
     };
 
@@ -95,9 +101,19 @@ export default class RhsComment extends React.PureComponent {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
+
+        const {emojiPickerForLastMessage, isLastPost, actions: {toggleEmojiPickerForLastMessage}} = this.props;
+        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage.shouldOpen;
+        const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage.emittedFrom === Locations.RHS_ROOT;
+        const isEmojiPickerClosed = this.state.showEmojiPicker === false;
+
+        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS && isEmojiPickerClosed && isLastPost) {
+            this.toggleEmojiPicker();
+            toggleEmojiPickerForLastMessage({shouldOpen: false});
         }
     }
 

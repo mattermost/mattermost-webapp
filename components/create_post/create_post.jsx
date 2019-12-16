@@ -852,11 +852,11 @@ export default class CreatePost extends React.Component {
         this.handleFileUploadChange();
     }
 
-    reactToLastMessage = () => {
-        this.props.actions.showEmojiPickerForLastMessage();
-
+    reactToLastMessage = (e) => {
         // eslint-disable-next-line no-console
         console.log('React to last message combo entered');
+        e.preventDefault();
+        this.props.actions.showEmojiPickerForLastMessage();
     };
 
     focusTextboxIfNecessary = (e) => {
@@ -880,19 +880,11 @@ export default class CreatePost extends React.Component {
     documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
-        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
-
-        const {isEmojiPickerForLastPostOpen} = this.props;
 
         if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
-            return;
-        } else if (lastMessageEmojiKeyCombo && !isEmojiPickerForLastPostOpen) {
-            e.preventDefault();
-
-            this.reactToLastMessage();
             return;
         }
 
@@ -940,6 +932,7 @@ export default class CreatePost extends React.Component {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
@@ -951,6 +944,8 @@ export default class CreatePost extends React.Component {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
+        } else if (lastMessageEmojiKeyCombo) {
+            this.reactToLastMessage(e);
         }
     }
 
