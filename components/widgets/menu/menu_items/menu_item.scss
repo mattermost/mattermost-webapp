@@ -13,6 +13,28 @@
             margin-right: 8px;
         }
 
+        span.icon {
+            width: 30px;
+            padding-right: 15px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        span.MenuItem__primary-text {
+            display: block;
+            white-space: normal;
+            line-height: 28px;
+        }
+
+        span.MenuItem__help-text {
+            @include opacity(.7);
+            display: block;
+            margin-top: 2px;
+            font-size: 12px;
+            line-height: 17px;
+            white-space: normal;
+        }
+
         > a {
             text-decoration: none;
 
@@ -46,11 +68,13 @@
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 28px;
-            height: 28px;
 
-            &.MenuItem__help {
+            &.MenuItem__with-help {
                 height: auto;
-                padding: 3px 24px 9px;
+                padding: 4px 24px 7px;
+                .MenuItem__primary-text {
+                    line-height: 22px;
+                }
             }
 
             .MenuItem__icon {
@@ -70,22 +94,6 @@
 
         &.MenuItem__dangerous {
             color: $red;
-        }
-
-        span.icon {
-            width: 30px;
-            padding-right: 15px;
-            display: inline-block;
-            text-align: center;
-        }
-
-        span.extra-text {
-            @include opacity(.7);
-            display: block;
-            font-size: 12px;
-            line-height: 12px;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
     }
 }
