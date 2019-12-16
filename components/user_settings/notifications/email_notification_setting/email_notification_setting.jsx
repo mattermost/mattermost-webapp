@@ -48,6 +48,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
         this.state = {
             activeSection,
             emailInterval,
+            enableEmail,
             enableEmailBatching,
             sendEmailNotifications,
             newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -68,6 +69,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
             return {
                 activeSection,
                 emailInterval,
+                enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
                 newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -82,6 +84,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
             return {
                 activeSection,
                 emailInterval,
+                enableEmail,
                 enableEmailBatching,
                 sendEmailNotifications,
                 newInterval: getEmailInterval(enableEmail && sendEmailNotifications, enableEmailBatching, emailInterval),
@@ -104,7 +107,7 @@ export default class EmailNotificationSetting extends React.PureComponent {
 
     handleSubmit = async () => {
         const {newInterval} = this.state;
-        if (this.props.emailInterval === newInterval) {
+        if (this.props.emailInterval === newInterval && this.props.enableEmail === this.state.enableEmail) {
             this.props.updateSection('');
         } else {
             // until the rest of the notification settings are moved to preferences, we have to do this separately

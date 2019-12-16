@@ -188,6 +188,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         nextProps.emailInterval = Preferences.INTERVAL_FIFTEEN_MINUTES;
         wrapper.setProps(nextProps);
         expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
+        expect(wrapper.state('enableEmail')).toBe(nextProps.enableEmail);
         expect(wrapper.state('enableEmailBatching')).toBe(nextProps.enableEmailBatching);
         expect(wrapper.state('sendEmailNotifications')).toBe(nextProps.sendEmailNotifications);
         expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_FIFTEEN_MINUTES);
