@@ -8,6 +8,7 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import LinkingLandingPage from './linking_landing_page';
+import {Client4} from 'mattermost-redux/client';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -19,6 +20,8 @@ function mapStateToProps(state: GlobalState) {
         defaultTheme: getTheme(state),
         siteUrl: config.SiteURL,
         siteName: config.SiteName,
+        brandImageUrl: Client4.getBrandImageUrl('0'),
+        enableCustomBrand: config.EnableCustomBrand === 'true',
     };
 }
 

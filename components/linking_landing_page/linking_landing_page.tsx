@@ -23,6 +23,8 @@ type Props = {
     androidAppLink?: string;
     siteUrl?: string;
     siteName?: string;
+    brandImage?: string;
+    enableCustomBrand: boolean;
 }
 
 type State = {
@@ -259,16 +261,25 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         const downloadLink = this.getDownloadLink();
         const isMobile = UserAgent.isMobile();
 
+        let openingLink = (
+            <FormattedMessage
+                id='get_app.openingLink'
+                defaultMessage='Opening link in Mattermost...'
+            />
+        );
+        if (this.props.enableCustomBrand) {
+            openingLink = (
+                <FormattedMessage
+                    id='get_app.openingLinkWhiteLabel'
+                    defaultMessage='Opening link in the Desktop App...'
+                />
+            );
+        }
+
         if (this.state.redirectPage) {
             return (
                 <div className='get-app__launching'>
-                    <FormattedMessage
-                        id='get_app.openingLink'
-                        defaultMessage='Opening link in {siteName}...'
-                        values={{
-                            siteName: this.props.siteName,
-                        }}
-                    />
+                    {openingLink}
                     <div className={`get-app__alternative${this.state.redirectPage ? ' redirect-page' : ''}`}>
                         <FormattedMessage
                             id='get_app.redirectedInMoments'
@@ -292,9 +303,9 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         let viewApp = (
             <FormattedMessage
                 id='get_app.ifNothingPrompts'
-                defaultMessage='You can view it in {siteName} desktop app or continue in the web browser.'
+                defaultMessage='You can view it in the{siteName} desktop app or continue in the web browser.'
                 values={{
-                    siteName: this.props.siteName,
+                    siteName: this.props.enableCustomBrand ? '' : ' Mattermost',
                 }}
             />
         );
@@ -302,9 +313,9 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             viewApp = (
                 <FormattedMessage
                     id='get_app.ifNothingPromptsMobile'
-                    defaultMessage='You can view it in {siteName} mobile app or continue in the web browser.'
+                    defaultMessage='You can view it in the{siteName} mobile app or continue in the web browser.'
                     values={{
-                        siteName: this.props.siteName,
+                        siteName: this.props.enableCustomBrand ? '' : ' Mattermost',
                     }}
                 />
             );
@@ -348,7 +359,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                         >
                             <FormattedMessage
                                 id='get_app.continueToBrowser'
-                                defaultMessage='View In Browser'
+                                defaultMessage='View in Browser'
                             />
                         </a>
                     </div>
@@ -370,6 +381,29 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         );
     }
 
+    renderHeader = () => {
+        let header = (
+            <div className='get-app__header'>
+                <img
+                    src={MattermostLogoSvg}
+                    className='get-app__logo'
+                />
+            </div>
+        );
+        if (this.props.enableCustomBrand && this.props.brandImage) {
+            header = (
+                <div className='get-app__header'>
+                    <img
+                        src={this.props.brandImage}
+                        className='get-app__logo'
+                    />
+                </div>
+            );
+        }
+        
+        return header;
+    }
+
     render() {
         const isMobile = UserAgent.isMobile();
 
@@ -377,15 +411,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             this.openInBrowser();
             return null;
         }
-
+        
         return (
             <div className='get-app'>
-                <div className='get-app__header'>
-                    <img
-                        src={MattermostLogoSvg}
-                        className='get-app__logo'
-                    />
-                </div>
+                {this.renderHeader()}
                 <div className='get-app__dialog'>
                     <div
                         className={`get-app__graphic ${isMobile ? 'mobile' : ''}`}
