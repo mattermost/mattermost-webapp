@@ -13,10 +13,6 @@ const demoteToMember = (user) => {
     cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
 
-const promoteToSysAdmin = (user) => {
-    cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
-};
-
 const demoteToChannelMember = (user, channelId) => {
     cy.externalRequest({
         user: users.sysadmin,
@@ -79,27 +75,6 @@ describe('Change Roles', () => {
 
         // Promote user to a channel admin
         promoteToChannelAdmin(userInfo, townsquareChannelId);
-
-        // * Check to see if a drop now exists now
-        cy.findAllByTestId('userListItemActions').then((el) => {
-            cy.wrap(el[0]).should((children) => {
-                expect(children).contain('Channel Member');
-            });
-        });
-    });
-
-    it('MM-20164 - Going from a Member to an Admin should update the modal', () => {
-        // # Go to member modal
-        cy.get('#member_popover').click();
-        cy.findByTestId('membersModal').click();
-
-        // * Check to see if no drop down menu exists
-        cy.findAllByTestId('userListItemActions').then((el) => {
-            cy.wrap(el[0]).should('not.be.visible');
-        });
-
-        // Promote user to a channel admin
-        promoteToSysAdmin(userInfo);
 
         // * Check to see if a drop now exists now
         cy.findAllByTestId('userListItemActions').then((el) => {
