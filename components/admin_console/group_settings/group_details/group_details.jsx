@@ -96,6 +96,20 @@ export default class GroupDetails extends React.PureComponent {
         return Promise.all(promises).finally(() => this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL));
     }
 
+    onChangeRoles = async (id, type, roleToBe) => {
+        this.setState({loadingTeamsAndChannels: true});
+        if (type === 'public-team' || type === 'private-team') {
+            await this.props.actions.unlink(this.props.groupID, id, Groups.SYNCABLE_TYPE_TEAM);
+            await this.props.actions.link(this.props.groupID, id, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true, scheme_admin: roleToBe});
+            await this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM);
+        } else {
+            await this.props.actions.unlink(this.props.groupID, id, Groups.SYNCABLE_TYPE_CHANNEL);
+            await this.props.actions.link(this.props.groupID, id, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: roleToBe});
+            await this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL);
+        }
+        this.setState({loadingTeamsAndChannels: false});
+    }
+
     render = () => {
         const {group, members, groupTeams, groupChannels, memberCount} = this.props;
         return (
@@ -173,6 +187,7 @@ export default class GroupDetails extends React.PureComponent {
                                 loading={this.state.loadingTeamsAndChannels}
                                 getGroupSyncables={this.props.actions.getGroupSyncables}
                                 unlink={this.props.actions.unlink}
+                                onChangeRoles={this.onChangeRoles}
                             />
                         </AdminPanel>
                         {this.state.addTeamOpen &&

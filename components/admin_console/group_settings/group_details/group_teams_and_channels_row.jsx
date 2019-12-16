@@ -123,7 +123,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         let teamIcon = null;
         let channelIcon = null;
         let typeText = null;
-        switch (this.props) {
+        switch (this.props.type) {
         case 'public-team':
             teamIcon = (
                 <div className='team-icon team-icon-public'>
