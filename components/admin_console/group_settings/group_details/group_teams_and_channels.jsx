@@ -16,6 +16,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         loading: PropTypes.bool.isRequired,
         getGroupSyncables: PropTypes.func.isRequired,
         unlink: PropTypes.func.isRequired,
+        onChangeRoles: PropTypes.func.isRequired,
     }
 
     constructor(props) {
@@ -42,7 +43,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
     }
 
     onChangeRoles = async (id, type, roleToBe) => {
-        this.props.onChangeRoles(id,type,roleToBe);
+        this.props.onChangeRoles(id, type, roleToBe);
     }
 
     teamsAndChannelsToEntries = (teams, channels) => {
@@ -59,7 +60,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 collapsed: this.state.collapsed[team.team_id],
                 id: team.team_id,
                 implicit: false,
-                scheme_admin: team.scheme_admin,
+                schemeAdmin: team.scheme_admin,
             });
         });
 
@@ -70,7 +71,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 type: channel.channel_type === 'O' ? 'public-channel' : 'private-channel',
                 name: channel.channel_display_name,
                 id: channel.channel_id,
-                scheme_admin: channel.scheme_admin,
+                schemeAdmin: channel.scheme_admin,
             });
 
             if (!existingTeams.has(channel.team_id)) {
@@ -129,10 +130,10 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--header'>
                     <div>
-                    <FormattedMessage
-                        id='admin.group_settings.group_profile.group_teams_and_channels.name'
-                        defaultMessage='Name'
-                    />
+                        <FormattedMessage
+                            id='admin.group_settings.group_profile.group_teams_and_channels.name'
+                            defaultMessage='Name'
+                        />
                     </div>
                     <div >
                         <FormattedMessage

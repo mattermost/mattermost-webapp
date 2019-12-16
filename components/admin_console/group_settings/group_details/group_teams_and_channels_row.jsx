@@ -23,6 +23,8 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         collapsed: PropTypes.bool,
         onRemoveItem: PropTypes.func.isRequired,
         onToggleCollapse: PropTypes.func.isRequired,
+        onChangeRoles: PropTypes.func.isRequired,
+        schemeAdmin: PropTypes.bool,
     }
 
     constructor(props) {
@@ -38,7 +40,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     }
 
     changeRoles = () => {
-        this.props.onChangeRoles(this.props.id, this.props.type, !this.props.scheme_admin);
+        this.props.onChangeRoles(this.props.id, this.props.type, !this.props.schemeAdmin);
     }
 
     toggleCollapse = () => {
@@ -46,7 +48,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     }
 
     displayAssignedRolesDropdown = () => {
-        const { scheme_admin } = this.props;
+        const {schemeAdmin} = this.props;
         const channelAdmin = (
             <FormattedMessage
                 id='admin.group_teams_and_channels_row.channelAdmin'
@@ -66,38 +68,36 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             />
         );
         let dropDown = null;
-        if (!isNil(scheme_admin)) {
+        if (!isNil(schemeAdmin)) {
             let currentRole = member;
             let roleToBe = (this.props.type.includes('team')) ? teamAdmin : channelAdmin;
-            if (scheme_admin) {
+            if (schemeAdmin) {
                 currentRole = (this.props.type.includes('team')) ? teamAdmin : channelAdmin;
                 roleToBe = member;
             }
             dropDown = (
                 <div >
-                <MenuWrapper>
-                    <div>
-                        <a>
-                            <span>{currentRole} </span>
-                            <span className='caret'/>
-                        </a>
-                    </div>
-                    <Menu
-                        openLeft={true}
-                        openUp={true}
-                        ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
-                    >
-                        <Menu.ItemAction
-                            show
-                            onClick={this.changeRoles}
-                            text={roleToBe}
-                        />
-                    </Menu>
-                </MenuWrapper>
-            </div>
+                    <MenuWrapper>
+                        <div>
+                            <a>
+                                <span>{currentRole} </span>
+                                <span className='caret'/>
+                            </a>
+                        </div>
+                        <Menu
+                            openLeft={true}
+                            openUp={true}
+                            ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
+                        >
+                            <Menu.ItemAction
+                                onClick={this.changeRoles}
+                                text={roleToBe}
+                            />
+                        </Menu>
+                    </MenuWrapper>
+                </div>
             );
         }
-
 
         return dropDown;
     }
@@ -105,7 +105,6 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     render = () => {
         let extraClasses = '';
         let arrowIcon = null;
-        console.log(this.props)
         if (this.props.hasChildren) {
             arrowIcon = (
                 <i
