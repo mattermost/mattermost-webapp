@@ -60,6 +60,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     Test private-channel
   </div>
+  <FormattedMessage
+    defaultMessage="Channel (Private)"
+    id="admin.group_settings.group_details.group_teams_and_channels_row.privateChannel"
+    values={Object {}}
+  />
   <div
     className="remove"
   >
@@ -141,6 +146,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     Test private-team
   </div>
+  <FormattedMessage
+    defaultMessage="Team (Private)"
+    id="admin.group_settings.group_details.group_teams_and_channels_row.privateTeam"
+    values={Object {}}
+  />
   <div
     className="remove"
   >
@@ -218,6 +228,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     Test public-channel
   </div>
+  <FormattedMessage
+    defaultMessage="Channel"
+    id="admin.group_settings.group_details.group_teams_and_channels_row.publicChannel"
+    values={Object {}}
+  />
   <div
     className="remove"
   >
@@ -292,6 +307,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     Test public-team
   </div>
+  <FormattedMessage
+    defaultMessage="Team"
+    id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
+    values={Object {}}
+  />
   <div
     className="remove"
   >
@@ -371,6 +391,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     Test team with children
   </div>
+  <FormattedMessage
+    defaultMessage="Team"
+    id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
+    values={Object {}}
+  />
   <div
     className="remove"
   >
@@ -450,6 +475,11 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
   >
     Test team with children
   </div>
+  <FormattedMessage
+    defaultMessage="Team"
+    id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
+    values={Object {}}
+  />
   <div
     className="remove"
   >

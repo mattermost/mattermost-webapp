@@ -112,6 +112,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -284,6 +285,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -455,6 +457,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={true}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
@@ -615,6 +618,7 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
           getGroupSyncables={[MockFunction]}
           id="xxxxxxxxxxxxxxxxxxxxxxxxxx"
           loading={false}
+          onChangeRoles={[Function]}
           teams={
             Array [
               Object {
