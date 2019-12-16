@@ -244,6 +244,7 @@ export default class PostInfo extends React.PureComponent {
             console.log('>> Picker opened');
         } else if (!prevProps.shouldOpenEmojiPickerForLastPost && shouldOpenEmojiPickerForLastPost && !isEmojiPickerClosed) {
             // Check if user pressed the shortcut key to post reaction to last message while the emoji is open
+            // This is to prevent change of state of last picker
             hideEmojiPickerForLastMessage();
 
             // eslint-disable-next-line no-console
