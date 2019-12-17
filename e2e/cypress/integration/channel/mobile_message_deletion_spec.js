@@ -42,7 +42,7 @@ describe('Delete Parent Message', () => {
                 cy.get('#deletePostModal').should('not.be.visible');
 
                 // #Close RHS view, open delete confirmation modal for the parent message from the center screen
-                cy.get('#sidebarCollapse').click();
+                cy.get('#sbrSidebarCollapse').click();
                 cy.clickPostDotMenu(postId);
                 cy.get(`#delete_post_${postId}`).click();
 
