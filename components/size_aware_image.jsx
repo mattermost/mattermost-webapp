@@ -192,7 +192,6 @@ export default class SizeAwareImage extends React.PureComponent {
         } = this.props;
 
         let placeHolder;
-        let imageStyleChangesOnLoad = {};
 
         if (this.dimensionsAvailable(dimensions) && !this.state.loaded) {
             placeHolder = (
@@ -204,24 +203,20 @@ export default class SizeAwareImage extends React.PureComponent {
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                        style={{maxHeight: dimensions.height, maxWidth: dimensions.width}}
+                        style={{maxHeight: dimensions.height, maxWidth: dimensions.width, verticalAlign: 'middle'}}
                     />
                 </div>
             );
         }
 
-        //The css hack here for loading images in the background can be removed after IE11 is dropped in 5.16v
-        //We can go back to https://github.com/mattermost/mattermost-webapp/pull/2924/files
-        if (!this.state.loaded && this.dimensionsAvailable(dimensions)) {
-            imageStyleChangesOnLoad = {position: 'absolute', top: 0, height: 1, width: 1, visibility: 'hidden', overflow: 'hidden'};
-        }
+        const shouldShowImg = !this.dimensionsAvailable(dimensions) || this.state.loaded;
 
         return (
             <React.Fragment>
                 {placeHolder}
                 <div
                     className='file-preview__button'
-                    style={imageStyleChangesOnLoad}
+                    style={{display: shouldShowImg ? 'initial' : 'none'}}
                 >
                     {this.renderImageWithContainerIfNeeded()}
                 </div>

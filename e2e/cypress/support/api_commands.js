@@ -650,8 +650,15 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
 
+    const createUserOption = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: '/api/v4/users',
+        body: {email, username, first_name: firstName, last_name: lastName, password, nickname},
+    };
+
     // # Create a new user
-    return cy.request({method: 'POST', url: '/api/v4/users', body: {email, username, first_name: firstName, last_name: lastName, password, nickname}}).then((userResponse) => {
+    return cy.request(createUserOption).then((userResponse) => {
         // Safety assertions to make sure we have a valid response
         expect(userResponse).to.have.property('body').to.have.property('id');
 
@@ -703,14 +710,16 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
  * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
-    return cy.createNewUser(user, [], bypassTutorial).then((newUser) => {
+Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
+    return cy.createNewUser(user, teamIds, bypassTutorial).then((newUser) => {
+        cy.apiLogout();
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             url: '/api/v4/users/login',
             method: 'POST',
             body: {login_id: newUser.username, password: newUser.password},
-        }).then(() => {
+        }).then((response) => {
+            expect(response.status).to.equal(200);
             cy.visit('/');
 
             return cy.wrap(newUser);

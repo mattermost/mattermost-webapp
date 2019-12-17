@@ -57,6 +57,17 @@
                 }
             }
 
+            .TeamIcon__content {
+                @include opacity(.5);
+                &:hover {
+                    @include opacity(.8);
+
+                    &.no-hover {
+                        @include opacity(.5);
+                    }
+                }
+            }
+
             button {
                 border: none;
                 padding: 0;
