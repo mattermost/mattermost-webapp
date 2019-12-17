@@ -96,10 +96,10 @@ export default class Menu extends React.PureComponent<Props> {
         return null;
     }
 
-    handleClick = (e) => {
-        if (e.target == this.node.current) {
+    handleMenuClick = (e: React.MouseEvent) => {
+        if (e.target === this.node.current) {
             e.preventDefault();
-            e.stopPropagation()
+            e.stopPropagation();
         }
     }
 
@@ -130,7 +130,7 @@ export default class Menu extends React.PureComponent<Props> {
                     ref={this.node}
                     style={styles}
                     className='Menu__content dropdown-menu'
-                    onClick={this.handleClick}
+                    onClick={this.handleMenuClick}
                 >
                     {children}
                 </ul>
