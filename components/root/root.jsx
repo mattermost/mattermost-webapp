@@ -221,7 +221,7 @@ export default class Root extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.location.pathname === '/') {
-            if (prevProps.noAccounts) {
+            if (this.props.noAccounts) {
                 prevProps.history.push('/signup_user_complete');
             } else if (this.props.showTermsOfService) {
                 prevProps.history.push('/terms_of_service');

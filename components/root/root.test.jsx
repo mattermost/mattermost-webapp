@@ -153,7 +153,7 @@ describe('components/Root', () => {
     test('should call history on props change', () => {
         const props = {
             ...baseProps,
-            noAccounts: true,
+            noAccounts: false,
 
             history: {
                 push: jest.fn(),
@@ -162,7 +162,7 @@ describe('components/Root', () => {
         const wrapper = shallow(<Root {...props}/>);
         expect(props.history.push).not.toHaveBeenCalled();
         const props2 = {
-            noAccounts: false,
+            noAccounts: true,
         };
         wrapper.setProps(props2);
         expect(props.history.push).toHaveBeenLastCalledWith('/signup_user_complete');
