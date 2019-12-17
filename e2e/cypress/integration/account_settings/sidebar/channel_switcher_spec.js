@@ -235,6 +235,9 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
     });
 
     it('Cmd/Ctrl+Shift+M closes Channel Switch modal and sets focus to mentions', () => {
+        // # patch user info
+        cy.apiPatchMe({notify_props: {first_name: 'false', mention_keys: 'user-1'}});
+
         // # Go to a known team and channel
         cy.visit('/ad-1/channels/town-square');
         cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
@@ -252,7 +255,7 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         cy.get('#suggestionList').should('not.be.visible');
 
         // * searchbox should appear
-        cy.get('#searchBox').should('have.attr', 'value', '@ @user-1 ');
+        cy.get('#searchBox').should('have.attr', 'value', 'user-1 @user-1 ');
         cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
     });
 });
