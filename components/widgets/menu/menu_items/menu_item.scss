@@ -23,16 +23,17 @@
         span.MenuItem__primary-text {
             display: block;
             white-space: normal;
-            line-height: 28px;
+            line-height: 22px;
+            padding: 6px 0;
         }
 
         span.MenuItem__help-text {
             @include opacity(.7);
             display: block;
-            margin-top: 2px;
             font-size: 12px;
             line-height: 17px;
             white-space: normal;
+            padding-bottom: 6px;
         }
 
         > a {
@@ -71,9 +72,9 @@
 
             &.MenuItem__with-help {
                 height: auto;
-                padding: 4px 24px 7px;
+                padding: 2px 24px 5px;
                 .MenuItem__primary-text {
-                    line-height: 22px;
+                    padding-bottom: 4px;
                 }
             }
 

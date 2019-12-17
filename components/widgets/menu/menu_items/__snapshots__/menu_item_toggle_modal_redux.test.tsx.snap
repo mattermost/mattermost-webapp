@@ -3,7 +3,7 @@
 exports[`components/MenuItemToggleModalRedux should match snapshot with extra text 1`] = `
 <Connect(ModalToggleButtonRedux)
   accessibilityLabel="Whatever"
-  className="MenuItem__help"
+  className="MenuItem__with-help"
   dialogProps={
     Object {
       "test": "test",
