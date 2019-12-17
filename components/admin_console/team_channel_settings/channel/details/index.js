@@ -12,6 +12,7 @@ import {
     getGroupsAssociatedToChannel as fetchAssociatedGroups,
     linkGroupSyncable,
     unlinkGroupSyncable,
+    patchGroupSyncable,
 } from 'mattermost-redux/actions/groups';
 
 import {connect} from 'react-redux';
@@ -51,6 +52,7 @@ function mapDispatchToProps(dispatch) {
             patchChannel,
             setNavigationBlocked,
             updateChannelPrivacy,
+            patchGroupSyncable,
         }, dispatch),
     };
 }

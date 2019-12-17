@@ -42,6 +42,7 @@ export default class GroupList extends React.PureComponent {
     static propTypes = {
         removeGroup: PropTypes.func,
         setNewGroupRole: PropTypes.func,
+        type: PropTypes.string,
     }
 
     renderRow = (item) => {
@@ -51,6 +52,7 @@ export default class GroupList extends React.PureComponent {
                 group={item}
                 removeGroup={this.props.removeGroup}
                 setNewGroupRole={this.props.setNewGroupRole}
+                type={this.props.type}
             />
         );
     }

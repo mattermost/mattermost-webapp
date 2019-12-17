@@ -45,6 +45,7 @@ export const ChannelGroups = ({onGroupRemoved, onAddCallback, totalGroups, group
                 onGroupRemoved={onGroupRemoved}
                 setNewGroupRole={setNewGroupRole}
                 isModeSync={synced}
+                type='channel'
             />
         )}
 

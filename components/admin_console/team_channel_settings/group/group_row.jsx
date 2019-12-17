@@ -25,27 +25,43 @@ export default class GroupRow extends React.Component {
     }
 
     displayCurrentRole = () => {
-        const {group} = this.props;
+        const {group, type} = this.props;
         const channelAdmin = (
             <FormattedMessage
                 id='admin.team_channel_settings.group_row.channelAdmin'
                 defaultMessage='Channel Admin'
             />
         );
-        const channelMember = (
+        const teamAdmin = (
             <FormattedMessage
-                id='admin.team_channel_settings.group_row.channelMember'
+                id='admin.team_channel_settings.group_row.teamAdmin'
+                defaultMessage='Team Admin'
+            />
+        );
+        const member = (
+            <FormattedMessage
+                id='admin.team_channel_settings.group_row.member'
                 defaultMessage='Member'
             />
         );
-        return group.scheme_admin ? channelAdmin : channelMember;
+
+        if (group.scheme_admin && type === 'channel') return channelAdmin;
+        else if (group.scheme_admin && type === 'team') return teamAdmin;
+        return member;
+    }
+
+    displayRoleToBe = () => {
+        const {group, type} = this.props;
+        if (!group.scheme_admin && type === 'channel') return localizeMessage('admin.team_channel_settings.group_row.channelAdmin', 'Channel Admin');
+        else if (!group.scheme_admin && type === 'team') return localizeMessage('admin.team_channel_settings.group_row.teamAdmin', 'Team Admin');
+        return localizeMessage('admin.team_channel_settings.group_row.member', 'Member');
     }
 
     render = () => {
         const {group} = this.props;
         return (
             <div
-                className={'group'}
+                className='group'
             >
                 <div className='group-row'>
                     <span className='group-name row-content'>
@@ -73,10 +89,7 @@ export default class GroupRow extends React.Component {
                             >
                                 <Menu.ItemAction
                                     onClick={this.setNewGroupRole}
-                                    text={group.scheme_admin ?
-                                        localizeMessage('admin.team_channel_settings.group_row.channelMember', 'Member') :
-                                        localizeMessage('admin.team_channel_settings.group_row.channelAdmin', 'Channel Admin')
-                                    }
+                                    text={this.displayRoleToBe()}
                                 />
                             </Menu>
                         </MenuWrapper>
