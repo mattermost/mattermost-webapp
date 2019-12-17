@@ -9,8 +9,9 @@
 
 describe('Account Settings > Sidebar > General', () => {
     before(() => {
-        // # Go to Account Settings with "user-1"
-        cy.toAccountSettingsModal('user-1');
+        // # Go to Account Settings as new user
+        cy.loginAsNewUser('user-1');
+        cy.toAccountSettingsModal(null, true);
 
         // # Click General button
         cy.get('#generalButton').click();
