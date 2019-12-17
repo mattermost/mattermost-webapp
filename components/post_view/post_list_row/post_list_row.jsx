@@ -25,9 +25,9 @@ export default class PostListRow extends React.PureComponent {
         togglePostMenu: PropTypes.func,
 
         /**
-         * The last post id of the current viewing channel
+         * To Check if the current post is last in the list
          */
-        lastPostId: PropTypes.string,
+        isLastPost: PropTypes.bool,
 
     }
 
@@ -89,6 +89,7 @@ export default class PostListRow extends React.PureComponent {
             previousPostId: previousListId,
             shouldHighlight: this.props.shouldHighlight,
             togglePostMenu: this.props.togglePostMenu,
+            isLastPost: this.props.isLastPost
         };
 
         if (PostListUtils.isCombinedUserActivityPost(listId)) {
@@ -103,7 +104,6 @@ export default class PostListRow extends React.PureComponent {
         return (
             <Post
                 postId={listId}
-                lastPostId={this.props.lastPostId}
                 {...postProps}
             />
         );

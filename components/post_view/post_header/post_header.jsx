@@ -76,9 +76,9 @@ export default class PostHeader extends React.PureComponent {
         isGuest: PropTypes.bool.isRequired,
 
         /**
-         * The last post id of the current viewing channel
+         * To Check if the current post is last in the list
          */
-        lastPostId: PropTypes.string,
+        isLastPost: PropTypes.string,
 
     }
 
@@ -177,7 +177,7 @@ export default class PostHeader extends React.PureComponent {
                         isFirstReply={this.props.isFirstReply}
                         showTimeWithoutHover={this.props.showTimeWithoutHover}
                         hover={this.props.hover}
-                        lastPostId={this.props.lastPostId}
+                        isLastPost={this.props.isLastPost}
                     />
                 </div>
             </div>

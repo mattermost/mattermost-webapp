@@ -189,6 +189,10 @@ export default class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+
+        /**
+         * Functiont to set or unset emoji picker for last message
+         */
         toggleEmojiPickerForLastMessage: PropTypes.func
     }
 
@@ -604,8 +608,6 @@ export default class CreateComment extends React.PureComponent {
             this.props.onMoveHistoryIndexForward();
         } else if (lastMessageEmojiKeyCombo) {
             e.preventDefault();
-            // eslint-disable-next-line no-console
-            console.log('RHS pressed for emoji on last message');
             this.props.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
         }
     }

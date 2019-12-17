@@ -78,9 +78,9 @@ export default class Post extends React.PureComponent {
         replyCount: PropTypes.number,
 
         /**
-         * The last post id of the current viewing channel
+         * To Check if the current post is last in the list
          */
-        lastPostId: PropTypes.string,
+        isLastPost: PropTypes.bool,
 
         actions: PropTypes.shape({
             selectPost: PropTypes.func.isRequired,
@@ -356,7 +356,7 @@ export default class Post extends React.PureComponent {
                                 replyCount={this.props.replyCount}
                                 showTimeWithoutHover={!hideProfilePicture}
                                 hover={this.state.hover || this.state.a11yActive}
-                                lastPostId={this.props.lastPostId}
+                                isLastPost={this.props.isLastPost}
                             />
                             <PostBody
                                 post={post}

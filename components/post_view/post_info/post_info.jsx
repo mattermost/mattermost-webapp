@@ -11,7 +11,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
-import Constants from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 import CommentIcon from 'components/common/comment_icon.jsx';
 import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
@@ -98,14 +98,17 @@ export default class PostInfo extends React.PureComponent {
         isReadOnly: PropTypes.bool,
 
         /**
-        * Was the shortcut for opening emoji picker for last message pressed
-        */
-        shouldOpenEmojiPickerForLastPost: PropTypes.bool,
+         * To check if the state of emoji for last message and from where it was emitted
+         */
+        emojiPickerForLastMessage: PropTypes.shape({
+            shouldOpen: PropTypes.bool,
+            emittedFrom: PropTypes.string
+        }),
 
         /**
-         * The last post id of the current viewing channel
+         * To Check if the current post is last in the list
          */
-        lastPostId: PropTypes.string,
+        isLastPost: PropTypes.bool,
 
         actions: PropTypes.shape({
 
@@ -115,9 +118,9 @@ export default class PostInfo extends React.PureComponent {
             removePost: PropTypes.func.isRequired,
 
             /**
-             * Function to set the value of emoji for last message to false, so we can open next time
+             * Functiont to set or unset emoji picker for last message
              */
-            hideEmojiPickerForLastMessage: PropTypes.func,
+            toggleEmojiPickerForLastMessage: PropTypes.func
         }).isRequired,
     };
 
@@ -229,26 +232,14 @@ export default class PostInfo extends React.PureComponent {
     };
 
     componentDidUpdate(prevProps) {
-        const {shouldOpenEmojiPickerForLastPost, lastPostId, actions: {hideEmojiPickerForLastMessage}} = this.props;
-        const shouldReopenEmojiPickerForLastPost = ((prevProps.shouldOpenEmojiPickerForLastPost !== shouldOpenEmojiPickerForLastPost) && shouldOpenEmojiPickerForLastPost === true);
+        const {emojiPickerForLastMessage, isLastPost} = this.props;
+        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage.shouldOpen;
+        const didEmojiPickerForLastMessageEmittedForCenter = emojiPickerForLastMessage.emittedFrom === Locations.CENTER;
         const isEmojiPickerClosed = this.state.showEmojiPicker === false;
-        const isLastPost = lastPostId === this.props.post.id;
 
-        if (shouldReopenEmojiPickerForLastPost && isEmojiPickerClosed && isLastPost) {
+        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForCenter &&
+            isEmojiPickerClosed && isLastPost) {
             this.toggleEmojiPicker();
-
-            // Change the state of last post emoji to false, for next time to open it
-            hideEmojiPickerForLastMessage();
-
-            // eslint-disable-next-line no-console
-            console.log('>> Picker opened');
-        } else if (!prevProps.shouldOpenEmojiPickerForLastPost && shouldOpenEmojiPickerForLastPost && (!isEmojiPickerClosed || typeof lastPostId === 'undefined')) {
-            // Check if user pressed the shortcut key to post reaction to last message while the emoji is open
-            // This is to prevent change of state of last picker
-            hideEmojiPickerForLastMessage();
-
-            // eslint-disable-next-line no-console
-            console.log('>> Picker already open');
         }
     }
 

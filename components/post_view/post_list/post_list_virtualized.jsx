@@ -78,6 +78,10 @@ export default class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
+        /**
+         * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
+         */
+        latestPostId: PropTypes.string,
         actions: PropTypes.shape({
 
             /**
@@ -285,6 +289,8 @@ export default class PostList extends React.PureComponent {
             }
         }
 
+        const isLastPost = itemId === this.props.latestPostId;
+
         return (
             <div
                 style={style}
@@ -297,7 +303,7 @@ export default class PostList extends React.PureComponent {
                     loadOlderPosts={this.props.actions.loadOlderPosts}
                     loadNewerPosts={this.props.actions.loadNewerPosts}
                     togglePostMenu={this.togglePostMenu}
-                    lastPostId={this.props.postListIds[0]} // First index because user sees latest/last message first
+                    isLastPost={isLastPost}
                 />
             </div>
         );

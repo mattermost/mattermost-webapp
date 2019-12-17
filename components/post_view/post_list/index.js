@@ -41,6 +41,7 @@ function makeMapStateToProps() {
         let atOldestPost = false;
         let formattedPostIds;
         let latestAriaLabelFunc;
+        let latestPostId = '';
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
 
         if (ownProps.match.params.postid) {
@@ -60,7 +61,7 @@ function makeMapStateToProps() {
         if (postIds) {
             formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId: ownProps.channelId});
             if (postIds.length) {
-                const latestPostId = memoizedGetLatestPostId(postIds);
+                latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
                 latestPostTimeStamp = latestPost.create_at;
                 latestAriaLabelFunc = createAriaLabelForPost(state, latestPost);
@@ -77,6 +78,7 @@ function makeMapStateToProps() {
             latestPostTimeStamp,
             postListIds: postIds,
             latestAriaLabelFunc,
+            latestPostId,
         };
     };
 }

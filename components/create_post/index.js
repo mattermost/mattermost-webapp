@@ -28,7 +28,7 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost, showEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost, toggleEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
@@ -64,7 +64,7 @@ function makeMapStateToProps() {
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-        const isEmojiPickerForLastPostOpen = getStateOfEmojiPickerForLastPost(state);
+        const emojiPickerForLastMessage = getStateOfEmojiPickerForLastPost(state);
         return {
             currentTeamId: getCurrentTeamId(state),
             currentChannel,
@@ -83,7 +83,7 @@ function makeMapStateToProps() {
             readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL),
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
-            isEmojiPickerForLastPostOpen,
+            emojiPickerForLastMessage,
             enableGifPicker,
             enableConfirmNotificationsToChannel,
             maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
@@ -115,7 +115,7 @@ function mapDispatchToProps(dispatch) {
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
-            showEmojiPickerForLastMessage,
+            toggleEmojiPickerForLastMessage,
             openModal,
             executeCommand,
             getChannelTimezones,

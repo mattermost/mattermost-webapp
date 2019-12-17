@@ -54,7 +54,6 @@ export default class RhsRootPost extends React.PureComponent {
         }),
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
-            toggleEmojiPickerForLastMessage: PropTypes.func
         }),
     };
 
@@ -89,14 +88,13 @@ export default class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost, actions: {toggleEmojiPickerForLastMessage}} = this.props;
+        const {emojiPickerForLastMessage, isLastPost} = this.props;
         const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage.shouldOpen;
         const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage.emittedFrom === Locations.RHS_ROOT;
         const isEmojiPickerClosed = this.state.showEmojiPicker === false;
 
         if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS && isEmojiPickerClosed && isLastPost) {
             this.toggleEmojiPicker();
-            toggleEmojiPickerForLastMessage({shouldOpen: false});
         }
     }
 

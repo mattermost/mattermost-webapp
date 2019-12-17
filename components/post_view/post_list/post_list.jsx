@@ -61,6 +61,11 @@ export default class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
+        /**
+         * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
+         */
+        latestPostId: PropTypes.string,
+
         /*
          * Used for passing down to virt list so it can change the chunk of posts selected
          */
@@ -297,6 +302,7 @@ export default class PostList extends React.PureComponent {
                             postListIds={this.props.formattedPostIds}
                             latestPostTimeStamp={this.props.latestPostTimeStamp}
                             latestAriaLabelFunc={this.props.latestAriaLabelFunc}
+                            latestPostId={this.props.latestPostId}
                         />
                     </div>
                 </div>
