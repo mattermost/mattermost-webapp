@@ -295,7 +295,7 @@ const AdminDefinition = {
         groups: {
             url: 'user_management/groups',
             title: t('admin.sidebar.groups'),
-            title_default: 'Groups',
+            title_default: 'Groups (Beta)',
             isHidden: it.either(
                 it.isnt(it.licensedForFeature('LDAPGroups')),
             ),
@@ -2465,6 +2465,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2476,6 +2477,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2488,6 +2490,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupIdAttributeEx'),
                         placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,

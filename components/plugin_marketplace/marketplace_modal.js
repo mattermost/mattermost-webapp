@@ -259,6 +259,7 @@ export class MarketplaceModal extends React.Component {
                 <FullScreenModal
                     show={this.props.show}
                     onClose={this.close}
+                    ariaLabel={localizeMessage('marketplace_modal.title', 'Plugin Marketplace')}
                 >
                     {errorBanner}
                     <div
