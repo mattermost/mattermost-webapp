@@ -2692,7 +2692,7 @@ exports[`components/AdminSidebar should match snapshot, with license (with all f
               subsection={false}
               title={
                 <FormattedMessage
-                  defaultMessage="Groups"
+                  defaultMessage="Groups (Beta)"
                   id="admin.sidebar.groups"
                   values={Object {}}
                 />
