@@ -48,7 +48,7 @@ export default class ModalToggleButtonRedux extends React.Component {
     render() {
         const {children, onClick, ...props} = this.props;
         const {formatMessage} = this.context.intl;
-        const ariaLabel = `${props.accessibilityLabel} ${formatMessage({id: 'accessibility.button.dialog', defaultMessage: 'Dialog'})}`;
+        const ariaLabel = formatMessage({id: 'accessibility.button.dialog', defaultMessage: '{dialogName} dialog'}, {dialogName: props.accessibilityLabel});
 
         // removing these three props since they are not valid props on buttons
         delete props.modalId;
