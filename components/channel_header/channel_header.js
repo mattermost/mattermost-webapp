@@ -200,7 +200,12 @@ export default class ChannelHeader extends React.PureComponent {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
                 this.searchMentions(e);
+            }
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
+                // just close the modal if it's open, but let someone else handle the shortcut
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
             }
         }
     };
