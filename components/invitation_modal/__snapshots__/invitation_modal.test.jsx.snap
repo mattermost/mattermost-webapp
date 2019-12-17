@@ -3,7 +3,7 @@
 exports[`components/invitation_modal/InvitationModal should match the snapshot 1`] = `
 <RootPortal>
   <FullScreenModal
-    ariaLabel="[object Object]"
+    ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
     show={true}
@@ -53,7 +53,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot 1
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to add users 1`] = `
 <RootPortal>
   <FullScreenModal
-    ariaLabel="[object Object]"
+    ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
     show={true}
@@ -109,7 +109,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
 exports[`components/invitation_modal/InvitationModal should match the snapshot when I have no permission to invite guests 1`] = `
 <RootPortal>
   <FullScreenModal
-    ariaLabel="[object Object]"
+    ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
     show={true}
@@ -161,7 +161,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
 exports[`components/invitation_modal/InvitationModal should match the snapshot when not show 1`] = `
 <RootPortal>
   <FullScreenModal
-    ariaLabel="[object Object]"
+    ariaLabelledBy="invitation_modal_title"
     onClose={[Function]}
     onGoBack={null}
     show={false}
