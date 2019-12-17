@@ -447,7 +447,7 @@ describe('PostList', () => {
             const wrapper = shallowWithIntl(<PostList {...props}/>);
             const instance = wrapper.instance();
             const initScrollToIndex = instance.initScrollToIndex();
-            expect(initScrollToIndex).toEqual({index: 6, position: 'start', offset: -30});
+            expect(initScrollToIndex).toEqual({index: 6, position: 'start', offset: -50});
         });
     });
 
@@ -469,6 +469,6 @@ describe('PostList', () => {
         const wrapper = shallowWithIntl(<PostList {...props}/>);
         const instance = wrapper.instance();
         const initScrollToIndex = instance.initScrollToIndex();
-        expect(initScrollToIndex).toEqual({index: 5, position: 'start', offset: -30});
+        expect(initScrollToIndex).toEqual({index: 5, position: 'start', offset: -50});
     });
 });

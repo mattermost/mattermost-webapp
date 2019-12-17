@@ -13,45 +13,14 @@ exports[`components/Toast should match snapshot 1`] = `
     className="toast__message toast__pointer"
     onClick={[MockFunction]}
   >
-    <OverlayTrigger
-      defaultOverlayShown={false}
-      delayShow={400}
-      overlay={
-        <Tooltip
-          bsClass="tooltip"
-          id="dismissToast1"
-          placement="right"
-        >
-          <div
-            className="tooltip__shortcut--txt"
-          >
-            <FormattedMessage
-              defaultMessage="CTRL+J"
-              id="quick_switch_modal.jumpToShortcut.windows"
-              values={Object {}}
-            />
-          </div>
-        </Tooltip>
-      }
-      placement="bottom"
-      trigger={
-        Array [
-          "hover",
-          "focus",
-        ]
-      }
+    <div
+      className="toast__jump"
     >
-      <div>
-        <div
-          className="toast__jump"
-        >
-          <UnreadBelowIcon />
-        </div>
-        <span>
-          child
-        </span>
-      </div>
-    </OverlayTrigger>
+      <UnreadBelowIcon />
+    </div>
+    <span>
+      child
+    </span>
   </div>
   <div
     className="toast__dismiss"

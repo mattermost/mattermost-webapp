@@ -2247,7 +2247,7 @@
   "full_screen_modal.back": "Back",
   "full_screen_modal.close": "Close",
   "general_button.close": "Close",
-  "general_button.esc": "esc",
+  "general_button.esc": "Esc",
   "general_tab.allowedDomains": "Allow only users with a specific email domain to join this team",
   "general_tab.allowedDomains.ariaLabel": "Allowed Domains",
   "general_tab.allowedDomainsEdit": "Click 'Edit' to add an email domain whitelist.",

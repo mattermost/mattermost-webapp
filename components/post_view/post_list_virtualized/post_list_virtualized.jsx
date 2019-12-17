@@ -42,8 +42,8 @@ const virtListStyles = {
 };
 
 const TOAST_FADEOUT_TIME_UNREAD = 4000;
-const TOAST_FADEOUT_TIME = 500;
-const OFFSET_TO_SHOW_TOAST = -30;
+const TOAST_FADEOUT_TIME = 750;
+const OFFSET_TO_SHOW_TOAST = -50;
 
 export default class PostList extends React.PureComponent {
     static propTypes = {
@@ -205,7 +205,7 @@ export default class PostList extends React.PureComponent {
         }
         const prevPostsCount = prevProps.postListIds.length;
         const presentPostsCount = this.props.postListIds.length;
-        const postsAddedAtBottom = presentPostsCount !== prevPostsCount && this.props.postListIds[presentPostsCount - 1] === prevProps.postListIds[prevPostsCount - 1];
+        const postsAddedAtBottom = presentPostsCount !== prevPostsCount && this.props.postListIds[0] !== prevProps.postListIds[0];
         const notBottomWithLatestPosts = !this.state.atBottom && this.props.atLatestPost && presentPostsCount > 0;
 
         //Marking exiting messages as read based on last time user reached to the bottom
@@ -293,14 +293,6 @@ export default class PostList extends React.PureComponent {
     }
 
     handleShortcut = (e) => {
-        if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.J)) {
-            if (this.state.showUnreadToast) {
-                this.scrollToLatestMessages();
-            } else if (this.state.showNewMessagesToast) {
-                this.scrollToUnread();
-            }
-        }
-
         if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
             if (this.state.showUnreadToast) {
                 this.hideUnreadToast();
