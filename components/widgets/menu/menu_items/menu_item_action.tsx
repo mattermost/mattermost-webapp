@@ -18,11 +18,11 @@ export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, but
     <button
         id={id}
         aria-label={ariaLabel}
-        className={'style--none' + (extraText ? ' MenuItem__with-help' : '') + (buttonClass ? ' ' + buttonClass : '') + (isDangerous ? ' MenuItem__dangerous' : '')}
+        className={'style--none' + (extraText ? ' MenuItem__help' : '') + (buttonClass ? ' ' + buttonClass : '') + (isDangerous ? ' MenuItem__dangerous' : '')}
         onClick={onClick}
     >
-        {text && <span className='MenuItem__primary-text'>{text}</span>}
-        {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
+        {text}
+        {extraText && <span className='extra-text'>{extraText}</span>}
     </button>
 );
 
