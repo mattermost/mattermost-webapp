@@ -11,14 +11,16 @@ type Props = {
 }
 
 export default class MenuGroup extends React.PureComponent<Props> {
-    handleDividerClick = (e) => {
+    handleDividerClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
     }
+
     public render() {
         const {children} = this.props;
 
-        const divider = this.props.divider || <li className='MenuGroup menu-divider' onClick={this.handleDividerClick}/>;
+        const divider = this.props.divider || <li className='MenuGroup menu-divider'
+                                                  onClick={this.handleDividerClick}/>;
 
         return (
             <React.Fragment>
