@@ -6,6 +6,8 @@ import {shallow} from 'enzyme';
 
 import RhsThread from './rhs_thread.jsx';
 
+const realDateNow = Date.now;
+
 describe('components/RhsThread', () => {
     let post;
     let defaultProps;
@@ -53,10 +55,12 @@ describe('components/RhsThread', () => {
     });
 
     test('should match snapshot', () => {
+        Date.now = () => new Date(0).getMilliseconds();
         const wrapper = shallow(
             <RhsThread {...defaultProps}/>
         );
         expect(wrapper).toMatchSnapshot();
+        Date.now = realDateNow;
     });
 
     test('should make api call to get thread posts on socket reconnect', () => {

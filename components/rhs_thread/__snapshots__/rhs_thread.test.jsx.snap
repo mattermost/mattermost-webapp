@@ -26,10 +26,26 @@ exports[`components/RhsThread should match snapshot 1`] = `
     renderTrackHorizontal={[Function]}
     renderTrackVertical={[Function]}
     renderView={[Function]}
+    style={
+      Object {
+        "MozTransform": "rotate(0deg)",
+        "MsTransform": "rotate(0deg)",
+        "OTransform": "rotate(0deg)",
+        "WebkitTransform": "rotate(0deg)",
+        "transform": "rotate(0deg)",
+      }
+    }
     tagName="div"
     thumbMinSize={30}
     universal={false}
   >
+    <Connect(NewMessagesBelow)
+      atBottom={true}
+      isRHS={true}
+      lastViewedBottom={0}
+      onClick={[Function]}
+      postArray={Array []}
+    />
     <div
       className="post-right__scroll"
     >
