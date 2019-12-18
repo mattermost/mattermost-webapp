@@ -20,7 +20,7 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
             "checkAndSetMobileView": [MockFunction],
             "loadNewerPosts": [Function],
             "loadOlderPosts": [Function],
-            "updateLastViewedChannel": [MockFunction],
+            "updateNewMessagesAtInChannel": [MockFunction],
           }
         }
         atLatestPost={false}
@@ -55,7 +55,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
             "checkAndSetMobileView": [MockFunction],
             "loadNewerPosts": [Function],
             "loadOlderPosts": [Function],
-            "updateLastViewedChannel": [MockFunction],
+            "updateNewMessagesAtInChannel": [MockFunction],
           }
         }
         atLatestPost={false}

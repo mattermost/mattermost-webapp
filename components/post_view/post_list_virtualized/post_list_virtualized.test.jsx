@@ -21,7 +21,7 @@ describe('PostList', () => {
         loadNewerPosts: jest.fn(),
         canLoadMorePosts: jest.fn(),
         changeUnreadChunkTimeStamp: jest.fn(),
-        updateLastViewedChannel: jest.fn(),
+        updateNewMessagesAtInChannel: jest.fn(),
     };
 
     const baseProps = {

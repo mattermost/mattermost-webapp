@@ -18,7 +18,7 @@ const actionsProp = {
     checkAndSetMobileView: jest.fn(),
     markChannelAsViewed: jest.fn(),
     markChannelAsRead: jest.fn(),
-    updateLastViewedChannel: jest.fn(),
+    updateNewMessagesAtInChannel: jest.fn(),
 };
 
 const lastViewedAt = 1532345226632;

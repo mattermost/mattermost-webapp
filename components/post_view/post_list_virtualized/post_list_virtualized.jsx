@@ -118,7 +118,7 @@ export default class PostList extends React.PureComponent {
              */
             changeUnreadChunkTimeStamp: PropTypes.func.isRequired,
 
-            updateLastViewedChannel: PropTypes.func.isRequired,
+            updateNewMessagesAtInChannel: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -211,7 +211,7 @@ export default class PostList extends React.PureComponent {
         //Marking exiting messages as read based on last time user reached to the bottom
         //This moves the new message indicator to the latest posts and keeping in sync with the toast count
         if (postsAddedAtBottom && notBottomWithLatestPosts && !this.state.showUnreadToast) {
-            this.props.actions.updateLastViewedChannel(this.props.channelId, this.state.lastViewedBottom);
+            this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, this.state.lastViewedBottom);
         }
 
         if (snapshot) {
@@ -563,7 +563,7 @@ export default class PostList extends React.PureComponent {
             this.scrollToBottom();
             this.hideUnreadToast(false);
         } else {
-            this.props.actions.updateLastViewedChannel(this.props.channelId);
+            this.props.actions.updateNewMessagesAtInChannel(this.props.channelId);
             this.props.actions.changeUnreadChunkTimeStamp('');
         }
     }
@@ -616,8 +616,8 @@ export default class PostList extends React.PureComponent {
         );
     }
 
-    updateLastViewedChannel = () => {
-        this.props.actions.updateLastViewedChannel(this.props.channelId);
+    updateNewMessagesAtInChannel = () => {
+        this.props.actions.updateNewMessagesAtInChannel(this.props.channelId);
     }
 
     renderToasts = (width) => {
