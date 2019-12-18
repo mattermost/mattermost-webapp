@@ -128,26 +128,26 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         return (
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--header'>
-                    <div>
+                    <div className='group-name'>
                         <FormattedMessage
                             id='admin.group_settings.group_profile.group_teams_and_channels.name'
                             defaultMessage='Name'
                         />
                     </div>
-                    <div >
-                        <FormattedMessage
-                            id='admin.group_settings.group_profile.group_teams_and_channels.type'
-                            defaultMessage='Type'
-                        />
-                    </div>
+                    <div className='group-content'>
+                            <FormattedMessage
+                                id='admin.group_settings.group_profile.group_teams_and_channels.type'
+                                defaultMessage='Type'
+                            />
 
-                    <div>
+                    </div>
+                    <div className='group-content'>
                         <FormattedMessage
                             id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
                             defaultMessage='Assigned Roles'
                         />
                     </div>
-
+                    <div class="group-actions"></div>
                 </div>
                 <div className='group-teams-and-channels--body'>
                     {entries.map((entry) => (
