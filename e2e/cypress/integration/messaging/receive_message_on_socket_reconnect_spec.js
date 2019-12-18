@@ -14,6 +14,9 @@ const websockets = [];
 
 describe('Messaging', () => {
     before(() => {
+        // # Wrap websocket to be able to connect and close connections on demand
+        cy.mockWebsockets(websockets);
+
         // # Login and go to /
         cy.apiLogin('sysadmin');
         cy.visit('/');
@@ -22,9 +25,6 @@ describe('Messaging', () => {
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
         });
-
-        // # Wrap websocket to be able to connect and close connections on demand
-        cy.mockWebsockets(websockets);
     });
 
     it('M18682-RHS fetches messages on socket reconnect when a different channel is in center', () => {
