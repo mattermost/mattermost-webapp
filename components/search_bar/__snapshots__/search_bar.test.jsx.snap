@@ -72,6 +72,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -207,6 +208,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -316,6 +318,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -425,6 +428,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
