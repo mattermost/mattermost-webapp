@@ -55,6 +55,12 @@ function trimRight(str) {
     return str.replace(/\s*$/, '');
 }
 
+function clearTimeouts(arrayOfTimeoutIds) {
+    arrayOfTimeoutIds.forEach((timeoutId) => {
+        clearTimeout(timeoutId);
+    });
+}
+
 export default class CreatePost extends React.Component {
     static propTypes = {
 
@@ -341,9 +347,7 @@ export default class CreatePost extends React.Component {
 
         // Clear timeout ids of shortcut to add emoji to last post when they staack up to 5, so we dont re clear everytime.
         if (delayIdsClosingEmojiForLatMessage.size > 5) {
-            delayIdsClosingEmojiForLatMessage.forEach((timeoutId) => {
-                clearTimeout(timeoutId);
-            });
+            clearTimeouts(delayIdsClosingEmojiForLatMessage);
             delayIdsClosingEmojiForLatMessage.clear();
         }
     }
@@ -352,6 +356,10 @@ export default class CreatePost extends React.Component {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
+
+        if (delayIdsClosingEmojiForLatMessage.size !== 0) {
+            clearTimeout(delayIdsClosingEmojiForLatMessage)
+        }
     }
 
     updatePreview = (newState) => {
