@@ -171,7 +171,9 @@ export default class RhsThread extends React.Component {
     }
 
     onBusy = (isBusy) => {
-        this.setState({isBusy});
+        this.setState({
+            isBusy
+        });
     }
 
     filterPosts = (posts, selected, openTime) => {
@@ -194,7 +196,9 @@ export default class RhsThread extends React.Component {
     scrollToBottom = () => {
         if ($('.post-right__scroll')[0]) {
             $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
-            this.state.atBottom = true;
+            this.setState({
+                atBottom: true
+            });
         }
     }
 
@@ -242,7 +246,8 @@ export default class RhsThread extends React.Component {
         this.setState({
             isScrolling: false,
         });
-        this.updateAtBottom(this.scroll.getScrollTop()- this.scroll.getScrollHeight() + this.scroll.getClientHeight() === 0);
+        const offset = this.scroll.getClientHeight() - this.scroll.getScrollHeight();
+        this.updateAtBottom(this.scroll.getScrollTop() + offset === 0);
     }
 
     updateAtBottom = (atBottom) => {
@@ -250,7 +255,7 @@ export default class RhsThread extends React.Component {
             // Update lastViewedBottom when the list reaches or leaves the bottom
             let lastViewedBottom = Date.now();
             if (this.props.posts && this.props.posts.length > 0) {
-                const latestPostTimeStamp = this.props.posts[this.props.posts.length-1].create_at;
+                const latestPostTimeStamp = this.props.posts[this.props.posts.length - 1].create_at;
                 if (latestPostTimeStamp > lastViewedBottom) {
                     lastViewedBottom = latestPostTimeStamp;
                 }
