@@ -112,7 +112,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomDescriptionTexthelp-text').find('span').should('be.visible').and('have.text', 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.');
 
         // # Generate and enter a random site description
-        const siteDescription = "New site description";
+        const siteDescription = 'New site description';
         cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
 
         // # Click Save button
