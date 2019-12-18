@@ -20,13 +20,25 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       <div
         className="header__icon"
       >
-        <i
+        <LocalizedIcon
           className="fa fa-plus"
-          title="Expand Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Expand Icon",
+              "id": "generic_icons.expand",
+            }
+          }
         />
-        <i
+        <LocalizedIcon
           className="fa fa-minus"
-          title="Collapse Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
         />
       </div>
     </div>
@@ -194,13 +206,25 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       <div
         className="header__icon"
       >
-        <i
+        <LocalizedIcon
           className="fa fa-plus"
-          title="Expand Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Expand Icon",
+              "id": "generic_icons.expand",
+            }
+          }
         />
-        <i
+        <LocalizedIcon
           className="fa fa-minus"
-          title="Collapse Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
         />
       </div>
     </div>
@@ -372,13 +396,25 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
       <div
         className="header__icon"
       >
-        <i
+        <LocalizedIcon
           className="fa fa-plus"
-          title="Expand Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Expand Icon",
+              "id": "generic_icons.expand",
+            }
+          }
         />
-        <i
+        <LocalizedIcon
           className="fa fa-minus"
-          title="Collapse Icon"
+          component="i"
+          title={
+            Object {
+              "defaultMessage": "Collapse Icon",
+              "id": "generic_icons.collapse",
+            }
+          }
         />
       </div>
     </div>
