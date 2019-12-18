@@ -40,6 +40,57 @@ UpdateVersion.propTypes = {
     releaseNotesUrl: PropTypes.string,
 };
 
+// Label renders a tag showing a name and a description in a tooltip.
+// If an URL is provided, clicking on the tag will open the URL in a new tab.
+export const Label = ({name, description, url}) => {
+    const tag = (
+        <span className='tag'>
+            {name}
+        </span>
+    );
+
+    let label;
+    if (description) {
+        label = (
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip id={'plugin-marketplace_label_' + name.toLowerCase() + '-tooltop'}>
+                        {description}
+                    </Tooltip>
+                }
+            >
+                {tag}
+            </OverlayTrigger>
+        );
+    } else {
+        label = tag;
+    }
+
+    if (url) {
+        return (
+            <a
+                aria-label={name.toLowerCase()}
+                className='style--none more-modal__row--link'
+                target='_blank'
+                rel='noopener noreferrer'
+                href={url}
+            >
+                {label}
+            </a>
+        );
+    }
+
+    return label;
+};
+
+Label.propTypes = {
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    url: PropTypes.string,
+};
+
 // UpdateDetails renders an inline update prompt for plugins, when available.
 export const UpdateDetails = ({version, releaseNotesUrl, installedVersion, isInstalling, onUpdate}) => {
     if (!installedVersion || isInstalling) {
@@ -216,6 +267,7 @@ export default class MarketplaceItem extends React.Component {
         downloadUrl: PropTypes.string,
         homepageUrl: PropTypes.string,
         releaseNotesUrl: PropTypes.string,
+        labels: PropTypes.array,
         iconData: PropTypes.string,
         installedVersion: PropTypes.string.isRequired,
         installing: PropTypes.bool.isRequired,
@@ -372,19 +424,22 @@ export default class MarketplaceItem extends React.Component {
             );
         }
 
-        const pluginDetailsInner = (
-            <>
-                {this.props.name} <span className='light subtitle'>{versionLabel}</span>
-                {localTag}
-                <p className={classNames('more-modal__description', {error_text: this.props.error})}>
-                    {this.props.error ? this.props.error : this.props.description}
-                </p>
-            </>
-        );
+        let labelsTags;
+        if (this.props.labels && this.props.labels.length !== 0) {
+            labelsTags = this.props.labels.map((label) => (
+                <Label
+                    key={label.name}
+                    name={label.name}
+                    description={label.description}
+                    url={label.url}
+                />
+            )
+            );
+        }
 
-        let pluginDetails;
+        let pluginName;
         if (this.props.homepageUrl) {
-            pluginDetails = (
+            pluginName = (
                 <a
                     aria-label={ariaLabel}
                     className='style--none more-modal__row--link'
@@ -392,19 +447,31 @@ export default class MarketplaceItem extends React.Component {
                     rel='noopener noreferrer'
                     href={this.props.homepageUrl}
                 >
-                    {pluginDetailsInner}
+                    {this.props.name}
                 </a>
             );
         } else {
-            pluginDetails = (
+            pluginName = (
                 <span
                     aria-label={ariaLabel}
                     className='style--none'
                 >
-                    {pluginDetailsInner}
+                    {this.props.name}
                 </span>
             );
         }
+
+        const pluginDetails = (
+            <>
+                {pluginName}
+                <span className='light subtitle'>{versionLabel}</span>
+                {localTag}
+                {labelsTags}
+                <p className={classNames('more-modal__description', {error_text: this.props.error})}>
+                    {this.props.error ? this.props.error : this.props.description}
+                </p>
+            </>
+        );
 
         return (
             <>
