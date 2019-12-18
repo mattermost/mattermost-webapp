@@ -225,12 +225,12 @@ export default class SettingItemMax extends React.PureComponent {
         let title;
         if (this.props.title) {
             title = (
-                <div
+                <h4
                     id='settingTitle'
                     className='col-sm-12 section-title'
                 >
                     {this.props.title}
-                </div>
+                </h4>
             );
         }
 
@@ -263,7 +263,7 @@ export default class SettingItemMax extends React.PureComponent {
         }
 
         return (
-            <div
+            <section
                 className={`section-max form-horizontal ${this.props.containerStyle}`}
             >
                 {title}
@@ -290,7 +290,7 @@ export default class SettingItemMax extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }
