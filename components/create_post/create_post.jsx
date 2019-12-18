@@ -358,7 +358,7 @@ export default class CreatePost extends React.Component {
         this.removeOrientationListeners();
 
         if (delayIdsClosingEmojiForLatMessage.size !== 0) {
-            clearTimeout(delayIdsClosingEmojiForLatMessage)
+            clearTimeout(delayIdsClosingEmojiForLatMessage);
         }
     }
 
