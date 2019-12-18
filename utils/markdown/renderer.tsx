@@ -209,15 +209,15 @@ export default class Renderer extends marked.Renderer {
 
     public paragraph(text: string) {
         if (this.formattingOptions.singleline) {
-            let result = `<p class="markdown__paragraph-inline">${text}</p>`;
-            if (result.includes('class="markdown-inline-img"')) {
+            let result;
+            if (text.includes('class="markdown-inline-img"')) {
                 /*
-                ** remove p tag to allow other divs to be nested,
+                ** use a div tag instead of a p tag to allow other divs to be nested,
                 ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
                 */
-                result = result.replace('<p class="markdown__paragraph-inline">',
-                    '<div className="markdown__paragraph-inline">');
-                result = result.replace('</p>', '</div>');
+                result = `<div class="markdown__paragraph-inline">${text}</div>`;
+            } else {
+                result = `<p class="markdown__paragraph-inline">${text}</p>`;
             }
             return result;
         }
