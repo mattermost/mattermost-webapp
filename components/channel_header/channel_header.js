@@ -201,7 +201,12 @@ export default class ChannelHeader extends React.PureComponent {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
                 this.searchMentions(e);
+            }
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
+                // just close the modal if it's open, but let someone else handle the shortcut
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
             }
         }
     };
@@ -586,6 +591,16 @@ export default class ChannelHeader extends React.PureComponent {
             pinnedIconClass += ' active';
         }
 
+        let mentionsIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.MENTION) {
+            mentionsIconClass += ' active';
+        }
+
+        let flaggedIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.FLAG) {
+            flaggedIconClass += ' active';
+        }
+
         let title = (
             <React.Fragment>
                 {toggleFavorite}
@@ -722,6 +737,7 @@ export default class ChannelHeader extends React.PureComponent {
                             />
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + mentionsIconClass}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -731,6 +747,7 @@ export default class ChannelHeader extends React.PureComponent {
                             <FlagIcon className='icon icon__flag'/>
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + flaggedIconClass}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}

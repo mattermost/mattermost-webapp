@@ -122,6 +122,11 @@ Cypress.Commands.add('typeCmdOrCtrl', () => {
     cy.get('#post_textbox').type(cmdOrCtrl, {release: false});
 });
 
+Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, (subject, text) => {
+    const cmdOrCtrl = isMac() ? '{cmd}' : '{ctrl}';
+    return cy.get(subject).type(`${cmdOrCtrl}${text}`);
+});
+
 function isMac() {
     return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 }

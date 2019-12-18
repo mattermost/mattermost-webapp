@@ -154,7 +154,7 @@ export default class ChannelInfoModal extends React.PureComponent {
                         <strong>{channelIcon}{channel.display_name}</strong>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body>
                     {channelPurposeElement}
                     {channelHeader}
                     <div className='form-group'>
