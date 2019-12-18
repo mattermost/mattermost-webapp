@@ -45,7 +45,7 @@ UpdateVersion.propTypes = {
 export const Label = ({name, description, url}) => {
     const tag = (
         <span className='tag'>
-            {name}
+            {name.toUpperCase()}
         </span>
     );
 
