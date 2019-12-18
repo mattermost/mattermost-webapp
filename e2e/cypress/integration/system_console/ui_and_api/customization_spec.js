@@ -24,6 +24,7 @@ describe('Customization', () => {
                 },
                 TeamSettings: {
                     SiteName: config.TeamSettings.SiteName,
+                    CustomDescriptionText: config.TeamSettings.CustomDescriptionText,
                     EnableCustomBrand: config.TeamSettings.EnableCustomBrand,
                 },
                 NativeAppSettings: {
@@ -97,6 +98,30 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20332 - Can change Site Description setting', () => {
+        // * Verify site description label is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomDescriptionTextlabel').should('be.visible').and('have.text', 'Site Description: ');
+
+        // * Verify the site description input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').should('have.value', origConfig.TeamSettings.CustomDescriptionText);
+
+        // * Verify the site description help text is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomDescriptionTexthelp-text').find('span').should('be.visible').and('have.text', 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.');
+
+        // # Generate and enter a random site description
+        const siteDescription = "New site description";
+        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the site description is saved, directly via REST API
+            expect(response.body.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
         });
     });
 
