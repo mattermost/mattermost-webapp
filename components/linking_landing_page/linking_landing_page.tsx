@@ -23,7 +23,7 @@ type Props = {
     androidAppLink?: string;
     siteUrl?: string;
     siteName?: string;
-    brandImage?: string;
+    brandImageUrl?: string;
     enableCustomBrand: boolean;
 }
 
@@ -34,6 +34,7 @@ type State = {
     redirectPage: boolean;
     location: string;
     nativeLocation: string;
+    brandImageError: boolean;
 }
 
 export default class LinkingLandingPage extends PureComponent<Props, State> {
@@ -49,6 +50,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             redirectPage: false,
             location,
             nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
+            brandImageError: false,
         };
     }
 
@@ -175,6 +177,10 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         }
 
         return this.props.desktopAppLink;
+    }
+
+    handleBrandImageError = () => {
+        this.setState({brandImageError: true});
     }
 
     renderCheckboxIcon = () => {
@@ -389,13 +395,24 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                 />
             </div>
         );
-        if (this.props.enableCustomBrand && this.props.brandImage) {
+        if (this.props.enableCustomBrand && this.props.brandImageUrl) {
+            let customLogo;
+            if (this.props.brandImageUrl && !this.state.brandImageError) {
+                customLogo = (
+                    <img
+                        src={this.props.brandImageUrl}
+                        onError={this.handleBrandImageError}
+                        className='get-app__custom-logo'
+                    />
+                );
+            }
+
             header = (
                 <div className='get-app__header'>
-                    <img
-                        src={this.props.brandImage}
-                        className='get-app__logo'
-                    />
+                    {customLogo}
+                    <div className='get-app__custom-site-name'>
+                        <span>{this.props.siteName}</span>
+                    </div>
                 </div>
             );
         }

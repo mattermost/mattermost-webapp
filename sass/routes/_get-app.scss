@@ -7,12 +7,35 @@
     height: 102px;
     width: 100%;
     box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+    display: flex;
 
     .get-app__logo {
         width: 255px;
         height: auto;
         margin: 30px 40px;
     }
+
+    .get-app__custom-logo {
+        align-self: center;
+        max-width: 240px;
+        max-height: 40px;
+        margin-left: 40px;
+    }
+
+    .get-app__custom-site-name {
+        align-self: center;
+        margin-left: 40px;
+
+        > span {
+            opacity: 0.8;	
+            color: #000;	
+            font-family: "Open Sans";	
+            font-size: 40px;
+            font-weight: bold;	
+            line-height: 40px;
+        }
+    }
+    
 }
 
 .get-app__dialog {
@@ -34,6 +57,8 @@
         max-width: 100%;
     }
 }
+
+
 
 .get-app__dialog-body {
     margin-left: 60px;
@@ -244,13 +269,27 @@
     .get-app__header {
         height: 52px;
         box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
+        justify-content: center;
 
         .get-app__logo {
             width: 170px;
             height: auto;
             margin: 0 auto;
             display: block;
-            padding-top: 12px;
+        }
+
+        .get-app__custom-logo {
+            margin-left: 0;
+        }
+
+        .get-app__custom-site-name {
+            margin-left: 20px;
+
+            > span {
+                font-size: 24px;	
+                line-height: 24px;
+                font-weight: bold;
+            }
         }
     }
 
