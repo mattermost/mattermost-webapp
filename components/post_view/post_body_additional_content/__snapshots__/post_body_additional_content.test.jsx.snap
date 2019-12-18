@@ -29,6 +29,7 @@ exports[`PostBodyAdditionalContent with a YouTube video should render correctly 
   </span>
   <Connect(YoutubeVideo)
     link="https://www.youtube.com/watch?v=d-YO3v-wJts"
+    postId="post_id_1"
     show={true}
   />
 </div>
@@ -48,6 +49,7 @@ exports[`PostBodyAdditionalContent with a YouTube video should render the toggle
   />
   <Connect(YoutubeVideo)
     link="https://www.youtube.com/watch?v=d-YO3v-wJts"
+    postId="post_id_1"
     show={true}
   />
 </div>
@@ -224,6 +226,7 @@ exports[`PostBodyAdditionalContent with an opengraph preview should render corre
         "root_id": "root_id",
       }
     }
+    postId="post_id_1"
     toggleEmbedVisibility={[Function]}
   />
 </div>
@@ -254,6 +257,7 @@ exports[`PostBodyAdditionalContent with an opengraph preview should render the t
         "root_id": "root_id",
       }
     }
+    postId="post_id_1"
     toggleEmbedVisibility={[Function]}
   />
 </div>

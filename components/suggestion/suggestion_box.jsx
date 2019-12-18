@@ -487,6 +487,7 @@ export default class SuggestionBox extends React.Component {
             terms: [],
             items: [],
             components: [],
+            selection: '',
         });
     }
 
