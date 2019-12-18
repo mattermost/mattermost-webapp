@@ -576,16 +576,22 @@ export default class CreateComment extends React.PureComponent {
 
     handleKeyDown = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
-        const messageIsEmpty = this.state.message === 0;
-        const ctrlEnterKeyCombo = (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) && Utils.isKeyPressed(e, KeyCodes.ENTER) && ctrlOrMetaKeyPressed;
-        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
-        const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
         const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
-        if (ctrlEnterKeyCombo) {
+        if (
+            (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
+            Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+            (e.ctrlKey || e.metaKey)
+        ) {
             this.updatePreview(false);
             this.commentMsgKeyPress(e);
-        } else if (upKeyOnly && messageIsEmpty) {
+            return;
+        }
+
+        const {draft} = this.state;
+        const {message} = draft;
+
+        if (!e.ctrlKey && !e.metaKey && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.UP) && message === '') {
             e.preventDefault();
             if (this.refs.textbox) {
                 this.refs.textbox.getWrappedInstance().blur();
@@ -595,13 +601,19 @@ export default class CreateComment extends React.PureComponent {
             if (!canEditNow) {
                 this.focusTextbox(true);
             }
-        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
-            e.preventDefault();
-            this.props.onMoveHistoryIndexBack();
-        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
-            e.preventDefault();
-            this.props.onMoveHistoryIndexForward();
-        } else if (lastMessageEmojiKeyCombo) {
+        }
+
+        if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+                e.preventDefault();
+                this.props.onMoveHistoryIndexBack();
+            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+                e.preventDefault();
+                this.props.onMoveHistoryIndexForward();
+            }
+        }
+
+        if (lastMessageEmojiKeyCombo) {
             e.preventDefault();
             this.props.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
         }

@@ -49,6 +49,7 @@ exports[`components/RhsThread should match snapshot 1`] = `
           commentCount={0}
           currentUserId="user_id"
           handleCardClick={[Function]}
+          isLastPost={true}
           post={
             Object {
               "channel_id": "channel_id",
