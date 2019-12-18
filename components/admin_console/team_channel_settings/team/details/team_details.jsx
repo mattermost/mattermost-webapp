@@ -36,6 +36,7 @@ export default class TeamDetails extends React.Component {
             membersMinusGroupMembers: PropTypes.func.isRequired,
             getGroups: PropTypes.func.isRequired,
             patchTeam: PropTypes.func.isRequired,
+            patchGroupSyncable: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -115,17 +116,17 @@ export default class TeamDetails extends React.Component {
             });
             const patchTeamSyncable = groups.
                 filter((g) => {
-                    return origGroups.some(group => group.id === g.id && group.scheme_admin !== g.scheme_admin)
+                    return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
                 }).
                 map((g) => actions.patchGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: g.scheme_admin}));
             const unlink = origGroups.
                 filter((g) => {
-                    return !groups.some(group => group.id === g.id)
+                    return !groups.some((group) => group.id === g.id);
                 }).
                 map((g) => actions.unlinkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM));
             const link = groups.
                 filter((g) => {
-                    return !origGroups.some(group => group.id === g.id)
+                    return !origGroups.some((group) => group.id === g.id);
                 }).
                 map((g) => actions.linkGroupSyncable(g.id, teamID, Groups.SYNCABLE_TYPE_TEAM, {auto_add: true}));
             const result = await Promise.all([patchTeamPromise, ...patchTeamSyncable, ...unlink, ...link]);

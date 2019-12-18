@@ -65,6 +65,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelGroups should match 
     onGroupRemoved={[MockFunction]}
     setNewGroupRole={[MockFunction]}
     totalGroups={1}
+    type="channel"
   />
 </AdminPanel>
 `;

@@ -40,6 +40,7 @@ export default class ChannelDetails extends React.Component {
             getTeam: PropTypes.func.isRequired,
             patchChannel: PropTypes.func.isRequired,
             updateChannelPrivacy: PropTypes.func.isRequired,
+            patchGroupSyncable: PropTypes.func.isRequired,
         }).isRequired,
     };
 
@@ -242,17 +243,17 @@ export default class ChannelDetails extends React.Component {
 
             const patchChannelSyncable = groups.
                 filter((g) => {
-                    return origGroups.some(group => group.id === g.id && group.scheme_admin !== g.scheme_admin)
+                    return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
                 }).
                 map((g) => actions.patchGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: g.scheme_admin}));
             const unlink = origGroups.
                 filter((g) => {
-                    return !groups.some(group => group.id === g.id)
+                    return !groups.some((group) => group.id === g.id);
                 }).
                 map((g) => actions.unlinkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL));
             const link = groups.
                 filter((g) => {
-                    return !origGroups.some(group => group.id === g.id)
+                    return !origGroups.some((group) => group.id === g.id);
                 }).
                 map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
             const result = await Promise.all([...promises, ...patchChannelSyncable, ...unlink, ...link]);

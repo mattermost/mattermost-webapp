@@ -14,6 +14,7 @@ export default class GroupRow extends React.Component {
         group: PropTypes.object.isRequired,
         removeGroup: PropTypes.func.isRequired,
         setNewGroupRole: PropTypes.func.isRequired,
+        type: PropTypes.string.isRequired,
     };
 
     removeGroup = () => {
@@ -45,15 +46,21 @@ export default class GroupRow extends React.Component {
             />
         );
 
-        if (group.scheme_admin && type === 'channel') return channelAdmin;
-        else if (group.scheme_admin && type === 'team') return teamAdmin;
+        if (group.scheme_admin && type === 'channel') {
+            return channelAdmin;
+        } else if (group.scheme_admin && type === 'team') {
+            return teamAdmin;
+        }
         return member;
     }
 
     displayRoleToBe = () => {
         const {group, type} = this.props;
-        if (!group.scheme_admin && type === 'channel') return localizeMessage('admin.team_channel_settings.group_row.channelAdmin', 'Channel Admin');
-        else if (!group.scheme_admin && type === 'team') return localizeMessage('admin.team_channel_settings.group_row.teamAdmin', 'Team Admin');
+        if (!group.scheme_admin && type === 'channel') {
+            return localizeMessage('admin.team_channel_settings.group_row.channelAdmin', 'Channel Admin');
+        } else if (!group.scheme_admin && type === 'team') {
+            return localizeMessage('admin.team_channel_settings.group_row.teamAdmin', 'Team Admin');
+        }
         return localizeMessage('admin.team_channel_settings.group_row.member', 'Member');
     }
 
