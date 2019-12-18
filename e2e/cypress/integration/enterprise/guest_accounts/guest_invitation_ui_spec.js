@@ -326,6 +326,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         changeGuestFeatureSettings(true, true, 'example.com');
 
         // # Visit to newly created team
+        cy.reload();
         cy.visit(`/${testTeam.name}`);
 
         // # Invite a Guest by email

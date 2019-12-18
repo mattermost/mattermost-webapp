@@ -151,10 +151,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <WarningIcon
               additionalClassName={null}
             >
-              <i
+              <LocalizedIcon
                 className="fa fa-warning"
-                title="Warning Icon"
-              />
+                component="i"
+                title={
+                  Object {
+                    "defaultMessage": "Warning Icon",
+                    "id": "generic_icons.warning",
+                  }
+                }
+              >
+                <FormattedMessage
+                  defaultMessage="Warning Icon"
+                  id="generic_icons.warning"
+                  values={Object {}}
+                >
+                  <i
+                    className="fa fa-warning"
+                    title="Warning Icon"
+                  />
+                </FormattedMessage>
+              </LocalizedIcon>
             </WarningIcon>
             <FormattedMessage
               defaultMessage="Error Message: {error}"
@@ -310,10 +327,27 @@ exports[`components/admin_console/request_button/request_button.jsx should match
             <WarningIcon
               additionalClassName={null}
             >
-              <i
+              <LocalizedIcon
                 className="fa fa-warning"
-                title="Warning Icon"
-              />
+                component="i"
+                title={
+                  Object {
+                    "defaultMessage": "Warning Icon",
+                    "id": "generic_icons.warning",
+                  }
+                }
+              >
+                <FormattedMessage
+                  defaultMessage="Warning Icon"
+                  id="generic_icons.warning"
+                  values={Object {}}
+                >
+                  <i
+                    className="fa fa-warning"
+                    title="Warning Icon"
+                  />
+                </FormattedMessage>
+              </LocalizedIcon>
             </WarningIcon>
             <FormattedMessage
               defaultMessage="Error Message: {error}"
