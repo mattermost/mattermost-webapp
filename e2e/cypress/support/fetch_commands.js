@@ -57,4 +57,4 @@ const mockWebsockets = (win, socketList) => {
         socketList.push(mockWebSocket);
         return mockWebSocket;
     });
-}
+};

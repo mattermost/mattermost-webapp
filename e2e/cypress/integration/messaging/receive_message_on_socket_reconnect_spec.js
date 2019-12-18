@@ -61,29 +61,26 @@ describe('Messaging', () => {
                 // # Wait a short time to check whether the message appears or not
                 cy.wait(TIMEOUTS.SMALL);
 
-                // # Get last post Id
-                cy.getLastPostIdRHS().then((beforeWebSocketLastPostId) => {
-                    // * Verify that only "def" is posted and not "ghi"
-                    cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
-                    cy.get('#rhsPostList').within(() => {
-                        cy.findByText('def').should('be.visible');
-                        cy.queryByText('ghi').should('not.exist');
-                    });
+                // * Verify that only "def" is posted and not "ghi"
+                cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
+                cy.get('#rhsPostList').within(() => {
+                    cy.findByText('def').should('be.visible');
+                    cy.queryByText('ghi').should('not.exist');
+                });
 
-                    // * Connect all sockets one more time
-                    websockets.forEach((value) => {
-                        value.connect();
-                    });
+                // * Connect all sockets one more time
+                websockets.forEach((value) => {
+                    value.connect();
+                });
 
-                    // # Wait for sockets to be connected
-                    cy.wait(TIMEOUTS.MEDIUM);
+                // # Wait for sockets to be connected
+                cy.wait(TIMEOUTS.MEDIUM);
 
-                    // * Verify that both "def" and "ghi" are posted on websocket reconnect
-                    cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);
-                    cy.get('#rhsPostList').within(() => {
-                        cy.findByText('def').should('be.visible');
-                        cy.findByText('ghi').should('be.visible');
-                    });
+                // * Verify that both "def" and "ghi" are posted on websocket reconnect
+                cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);
+                cy.get('#rhsPostList').within(() => {
+                    cy.findByText('def').should('be.visible');
+                    cy.findByText('ghi').should('be.visible');
                 });
             });
         });
