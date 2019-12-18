@@ -211,4 +211,51 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
         // * Channel name should be visible in LHS
         cy.get(`#sidebarItem_${testChannel.name}`).should('be.visible');
     });
+
+    it('Cmd/Ctrl+Shift+L closes Channel Switch modal and sets focus to post textbox', () => {
+        // # Go to a known team and channel
+        cy.visit('/ad-1/channels/town-square');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+
+        // # Type CTRL/CMD+K
+        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+
+        // * Channel switcher hint should be visible
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+
+        // # Type CTRL/CMD+shift+L
+        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}L');
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('not.be.visible');
+
+        // * focus should be on the input box
+        cy.get('#post_textbox').should('be.focused');
+        cy.get('#post_textbox').should('be.empty');
+    });
+
+    it('Cmd/Ctrl+Shift+M closes Channel Switch modal and sets focus to mentions', () => {
+        // # patch user info
+        cy.apiPatchMe({notify_props: {first_name: 'false', mention_keys: 'user-1'}});
+
+        // # Go to a known team and channel
+        cy.visit('/ad-1/channels/town-square');
+        cy.get('#channelHeaderTitle').should('be.visible').should('contain', 'Town Square');
+
+        // # Type CTRL/CMD+K
+        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+
+        // * Channel switcher hint should be visible
+        cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use ↑↓ to browse, ↵ to select, ESC to dismiss.');
+
+        // # Type CTRL/CMD+shift+m
+        cy.get('#quickSwitchInput').cmdOrCtrlShortcut('{shift}M');
+
+        // * Suggestion list should be visible
+        cy.get('#suggestionList').should('not.be.visible');
+
+        // * searchbox should appear
+        cy.get('#searchBox').should('have.attr', 'value', 'user-1 @user-1 ');
+        cy.get('.sidebar--right__title').should('contain', 'Recent Mentions');
+    });
 });
