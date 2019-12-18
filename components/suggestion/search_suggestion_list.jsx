@@ -19,8 +19,10 @@ export default class SearchSuggestionList extends SuggestionList {
 
     constructor(props) {
         super(props);
-        this.suggestionReadOut = React.createRef();
+
+        this.itemRefs = new Map();
         this.popoverRef = React.createRef();
+        this.suggestionReadOut = React.createRef();
     }
 
     generateLabel(item) {
@@ -47,12 +49,7 @@ export default class SearchSuggestionList extends SuggestionList {
     }
 
     getContent = () => {
-        if (this.popoverRef) {
-            return $(ReactDOM.findDOMNode(this.popoverRef.current)).find('.popover-content');
-        } else if (this.contentRef) {
-            return $(ReactDOM.findDOMNode(this.contentRef.current));
-        }
-        return null;
+        return $(ReactDOM.findDOMNode(this.popoverRef.current)).find('.popover-content');
     }
 
     renderChannelDivider(type) {
@@ -124,7 +121,7 @@ export default class SearchSuggestionList extends SuggestionList {
             items.push(
                 <Component
                     key={term}
-                    ref={term}
+                    ref={(ref) => this.itemRefs.set(term, ref)}
                     item={item}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
