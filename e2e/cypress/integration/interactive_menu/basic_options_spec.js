@@ -203,6 +203,41 @@ describe('Interactive Menu', () => {
         });
     });
 
+    it('IM21043 - Using up/down arrow keys to make selection', () => {
+        const basicOptions = getMessageMenusPayload({options: options});
+
+        // # Post an incoming webhook for interactive menu with basic options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+        });
+
+        cy.get('@messageAttachmentList').within(() => {
+            cy.get('.select-suggestion-container > input').click();
+            cy.get('#suggestionList').should('be.visible');
+
+            // # Hit the down arrow two times
+            cy.get('.select-suggestion-container > input').type('{downarrow}');
+            cy.get('.select-suggestion-container > input').type('{downarrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[2].text);
+            });
+
+            // # Hit the up arrow two times
+            cy.get('.select-suggestion-container > input').type('{uparrow}');
+            cy.get('.select-suggestion-container > input').type('{uparrow}');
+
+            // # Verify the correct option has been selected
+            cy.get('#suggestionList').within(() => {
+                cy.get('.suggestion--selected').should('have.text', options[0].text);
+            });
+        });
+    });
+
     it('should truncate properly the selected long basic option', () => {
         const withLongBasicOption = [
             {text: 'Option 0 - This is with very long option', value: 'option0'},
