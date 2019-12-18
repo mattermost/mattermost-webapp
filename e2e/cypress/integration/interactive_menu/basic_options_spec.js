@@ -204,7 +204,7 @@ describe('Interactive Menu', () => {
     });
 
     it('IM21043 - Using up/down arrow keys to make selection', () => {
-        const basicOptions = getMessageMenusPayload({options: options});
+        const basicOptions = getMessageMenusPayload({options});
 
         // # Post an incoming webhook for interactive menu with basic options
         cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptions});
