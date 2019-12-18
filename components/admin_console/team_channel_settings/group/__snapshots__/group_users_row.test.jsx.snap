@@ -2,7 +2,7 @@
 
 exports[`admin_console/team_channel_settings/group/GroupUsersRow should match snapshot 1`] = `
 <div
-  className="group "
+  className="group"
 >
   <div
     className="group-row roc"
@@ -16,36 +16,32 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
       className="group-name col-sm-8"
     >
       <div
-        className="row"
+        className="col-sm-2"
+      >
+        <Avatar
+          size="lg"
+          url="/api/v4/users/123/image"
+          username="test"
+        />
+      </div>
+      <div
+        className="col-sm-10"
       >
         <div
-          className="col-sm-2"
+          className="row"
         >
-          <Avatar
-            size="lg"
-            url="/api/v4/users/123/image"
-            username="test"
-          />
+          <b>
+            @test
+             
+          </b>
+          -
+           
+          Test display name
         </div>
         <div
-          className="col-sm-10"
+          className="row email-group-row"
         >
-          <div
-            className="row"
-          >
-            <b>
-              @test
-               
-            </b>
-            -
-             
-            Test display name
-          </div>
-          <div
-            className="row email-group-row"
-          >
-            test@test.com
-          </div>
+          test@test.com
         </div>
       </div>
     </div>
@@ -65,7 +61,7 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
 
 exports[`admin_console/team_channel_settings/group/GroupUsersRow should match snapshot with two groups 1`] = `
 <div
-  className="group "
+  className="group"
 >
   <div
     className="group-row roc"
@@ -79,36 +75,32 @@ exports[`admin_console/team_channel_settings/group/GroupUsersRow should match sn
       className="group-name col-sm-8"
     >
       <div
-        className="row"
+        className="col-sm-2"
+      >
+        <Avatar
+          size="lg"
+          url="/api/v4/users/123/image"
+          username="test"
+        />
+      </div>
+      <div
+        className="col-sm-10"
       >
         <div
-          className="col-sm-2"
+          className="row"
         >
-          <Avatar
-            size="lg"
-            url="/api/v4/users/123/image"
-            username="test"
-          />
+          <b>
+            @test
+             
+          </b>
+          -
+           
+          Test display name
         </div>
         <div
-          className="col-sm-10"
+          className="row email-group-row"
         >
-          <div
-            className="row"
-          >
-            <b>
-              @test
-               
-            </b>
-            -
-             
-            Test display name
-          </div>
-          <div
-            className="row email-group-row"
-          >
-            test@test.com
-          </div>
+          test@test.com
         </div>
       </div>
     </div>

@@ -15,7 +15,6 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         id: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        implicit: PropTypes.bool,
         hasChildren: PropTypes.bool,
         collapsed: PropTypes.bool,
         onRemoveItem: PropTypes.func.isRequired,
@@ -135,17 +134,15 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     {this.props.name}
                 </div>
                 <div className='remove'>
-                    {!this.props.implicit &&
-                        <button
-                            className='btn btn-link'
-                            onClick={() => this.setState({showConfirmationModal: true})}
-                        >
-                            <FormattedMessage
-                                id='admin.group_settings.group_details.group_teams_and_channels_row.remove'
-                                defaultMessage='Remove'
-                            />
-                        </button>
-                    }
+                    <button
+                        className='btn btn-link'
+                        onClick={() => this.setState({showConfirmationModal: true})}
+                    >
+                        <FormattedMessage
+                            id='admin.group_settings.group_details.group_teams_and_channels_row.remove'
+                            defaultMessage='Remove'
+                        />
+                    </button>
                 </div>
             </div>
         );
