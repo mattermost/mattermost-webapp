@@ -59,3 +59,6 @@ export function titleCase(str) {
 
 export const reUrl = /(https?:\/\/[^ ]*)/;
 
+export const generateRandomNumber = (min, max) => {
+    return Math.floor((Math.random() * (max - min)) + min);
+};
