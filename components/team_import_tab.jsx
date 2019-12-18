@@ -3,9 +3,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import * as utils from 'utils/utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import {t} from 'utils/i18n';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';

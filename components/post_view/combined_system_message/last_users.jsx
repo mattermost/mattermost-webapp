@@ -3,11 +3,11 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
+import {intlShape} from 'utils/react_intl';
 
 import Markdown from 'components/markdown';
 

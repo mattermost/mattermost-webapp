@@ -3,13 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
+import {t} from 'utils/i18n';
 import {
     containsAtChannel,
     postMessageOnKeyPress,
@@ -18,6 +19,7 @@ import {
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
 import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 
@@ -27,6 +29,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
+import LocalizedIcon from 'components/localized_icon';
 import MsgTyping from 'components/msg_typing';
 import PostDeletedModal from 'components/post_deleted_modal';
 import ResetStatusModal from 'components/reset_status_modal';
@@ -1299,12 +1302,12 @@ export default class CreatePost extends React.Component {
                                     className={sendButtonClass}
                                     onClick={this.handleSubmit}
                                 >
-                                    <i
+                                    <LocalizedIcon
                                         className='fa fa-paper-plane'
-                                        title={formatMessage({
-                                            id: 'create_post.icon',
+                                        title={{
+                                            id: t('create_post.icon'),
                                             defaultMessage: 'Send Post Icon',
-                                        })}
+                                        }}
                                     />
                                 </a>
                             </span>
