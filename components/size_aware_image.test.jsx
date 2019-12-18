@@ -25,14 +25,13 @@ describe('components/SizeAwareImage', () => {
 
     loadImage.mockReturnValue(() => ({}));
 
-    test('should render an svg when first mounted with dimensions and div display set to position absolute', () => {
+    test('should render an svg when first mounted with dimensions and img display set to none', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
 
         const viewBox = wrapper.find('svg').prop('viewBox');
         expect(viewBox).toEqual('0 0 300 200');
         const style = wrapper.find('.file-preview__button').prop('style');
-        expect(style).toHaveProperty('position', 'absolute');
-        expect(style).toHaveProperty('visibility', 'hidden');
+        expect(style).toHaveProperty('display', 'none');
     });
 
     test('img should have inherited class name from prop', () => {
@@ -53,12 +52,12 @@ describe('components/SizeAwareImage', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not have position absolute on button when image is in loaded state', () => {
+    test('should have display set to initial in loaded state', () => {
         const wrapper = mount(<SizeAwareImage {...baseProps}/>);
         wrapper.setState({loaded: true, error: false});
 
         const style = wrapper.find('.file-preview__button').prop('style');
-        expect(style).not.toHaveProperty('position', 'absolute');
+        expect(style).toHaveProperty('display', 'initial');
     });
 
     test('should render the actual image when first mounted without dimensions', () => {
