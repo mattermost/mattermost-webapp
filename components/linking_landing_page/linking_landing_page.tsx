@@ -132,7 +132,6 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     renderGoNativeAppMessage = () => {
         const {browserUnsupported, protocolUnsupported} = this.state;
         const downloadLink = this.getDownloadLink();
-        const isMobile = UserAgent.isMobile();
 
         if (protocolUnsupported && downloadLink) {
             return (
@@ -400,7 +399,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                 </div>
             );
         }
-        
+
         return header;
     }
 
@@ -411,7 +410,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             this.openInBrowser();
             return null;
         }
-        
+
         return (
             <div className='get-app'>
                 {this.renderHeader()}

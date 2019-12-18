@@ -3,12 +3,12 @@
 
 import {connect} from 'react-redux';
 
+import {Client4} from 'mattermost-redux/client';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'mattermost-redux/types/store';
 
 import LinkingLandingPage from './linking_landing_page';
-import {Client4} from 'mattermost-redux/client';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
