@@ -13,7 +13,7 @@ describe('Messaging', () => {
     before(() => {
         // # Login and go to /
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
     });
 
     it('M17458 - System message limited options', () => {
@@ -47,7 +47,7 @@ describe('Messaging', () => {
 
             // # Log-in as a different user
             cy.apiLogin('user-1');
-            cy.visit('/');
+            cy.visit('/ad-1/channels/town-square');
 
             // # Mouse over the post to show the options
             cy.get(`#post_${lastPostId}`).trigger('mouseover', {force: true});
