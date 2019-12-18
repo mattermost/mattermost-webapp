@@ -165,7 +165,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             setByEnv={false}
             value=""
           />
-          <UserAutocompleteSetting
+          <Connect(UserAutocompleteSetting)
             disabled={false}
             helpText={
               <SchemaText
@@ -460,7 +460,7 @@ exports[`components/admin_console/CustomPluginSettings should match snapshot wit
             setByEnv={false}
             value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
           />
-          <UserAutocompleteSetting
+          <Connect(UserAutocompleteSetting)
             disabled={false}
             helpText={
               <SchemaText

@@ -127,7 +127,7 @@ describe('Messaging', () => {
             cy.get(`#rhsPost_${postId}`).find('.attachment__image').should('exist').and('be.visible');
 
             // # Close Message Details
-            cy.get('#sidebarCollapse').click();
+            cy.get('#sbrSidebarCollapse').click();
 
             // * Can view the gif on main view
             cy.get(`#post_${postId}`).find('.attachment__image').should('exist').and('be.visible');
