@@ -311,6 +311,8 @@ describe('React to last message shortcut', () => {
             cy.findByLabelText('reactions').should('not.exist');
             cy.findByLabelText('remove reaction smile').should('not.exist');
         });
+
+        cy.closeRHS();
     });
 
     it('Should also open emoji picker for last message with Mac keyboard', () => {
