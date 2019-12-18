@@ -52,7 +52,15 @@ export default class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
+
+        /**
+         * To Check if the current post is last in the list of RHS
+         */
         isLastPost: PropTypes.bool,
+
+        /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
         emojiPickerForLastMessage: PropTypes.shape({
             shouldOpen: PropTypes.bool,
             emittedFrom: PropTypes.string

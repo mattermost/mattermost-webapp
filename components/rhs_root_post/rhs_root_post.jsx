@@ -47,7 +47,15 @@ export default class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+
+        /**
+         * To Check if the current post is last in the list of RHS
+         */
         isLastPost: PropTypes.bool,
+
+        /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
         emojiPickerForLastMessage: PropTypes.shape({
             shouldOpen: PropTypes.bool,
             emittedFrom: PropTypes.string

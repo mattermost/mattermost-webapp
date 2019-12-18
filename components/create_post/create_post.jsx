@@ -258,12 +258,6 @@ export default class CreatePost extends React.Component {
              * Function to get the users timezones in the channel
              */
             getChannelTimezones: PropTypes.func.isRequired,
-
-            /**
-             * Function to set the state of to show emoji picker for last message to false
-             */
-            showEmojiPickerForLastMessage: PropTypes.func,
-
             scrollPostListToBottom: PropTypes.func.isRequired,
 
             /**
