@@ -10,7 +10,6 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
 
 let townsquareChannelId;
-let RealWebSocket;
 const websockets = [];
 
 describe('Messaging', () => {
@@ -25,39 +24,7 @@ describe('Messaging', () => {
         });
 
         // # Wrap websocket to be able to connect and close connections on demand
-        cy.on('window:before:load', (win) => {
-            RealWebSocket = WebSocket;
-            cy.stub(win, 'WebSocket').callsFake((...args) => {
-                const mockWebSocket = {
-                    wrappedSocket: null,
-                    onopen: null,
-                    onmessage: null,
-                    onerror: null,
-                    onclose: null,
-                    send(data) {
-                        if (this.wrappedSocket) {
-                            this.wrappedSocket.send(data);
-                        } else {
-                            onerror();
-                        }
-                    },
-                    close() {
-                        if (this.wrappedSocket) {
-                            this.wrappedSocket.close(1000);
-                        }
-                    },
-                    connect() {
-                        this.wrappedSocket = new RealWebSocket(...args);
-                        this.wrappedSocket.onopen = this.onopen;
-                        this.wrappedSocket.onmessage = this.onmessage;
-                        this.wrappedSocket.onerror = this.onerror;
-                        this.wrappedSocket.onclose = this.onclose;
-                    },
-                };
-                websockets.push(mockWebSocket);
-                return mockWebSocket;
-            });
-        });
+        cy.mockWebsockets(websockets);
     });
 
     it('M18682-RHS fetches messages on socket reconnect when a different channel is in center', () => {
@@ -96,11 +63,12 @@ describe('Messaging', () => {
 
                 // # Get last post Id
                 cy.getLastPostIdRHS().then((beforeWebSocketLastPostId) => {
-                    // * Should be the same post as before
-                    cy.get('@myPostId').should('equal', beforeWebSocketLastPostId);
-
-                    // * Should exist in the RHS
-                    cy.get(`#rhsPost_${beforeWebSocketLastPostId}`).should('exist');
+                    // * Verify that only "def" is posted and not "ghi"
+                    cy.get('#rhsPostList').should('be.visible').children().should('have.length', 1);
+                    cy.get('#rhsPostList').within(() => {
+                        cy.findByText('def').should('be.visible');
+                        cy.queryByText('ghi').should('not.exist');
+                    });
 
                     // * Connect all sockets one more time
                     websockets.forEach((value) => {
@@ -110,13 +78,11 @@ describe('Messaging', () => {
                     // # Wait for sockets to be connected
                     cy.wait(TIMEOUTS.MEDIUM);
 
-                    // # Get last post Id
-                    cy.getLastPostIdRHS().then((afterWebSocketLastPostId) => {
-                        // * Should be different Id as before
-                        cy.get('@myPostId').should('not.equal', afterWebSocketLastPostId);
-
-                        // * Should exist in RHS
-                        cy.get(`#rhsPost_${afterWebSocketLastPostId}`).should('exist');
+                    // * Verify that both "def" and "ghi" are posted on websocket reconnect
+                    cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);
+                    cy.get('#rhsPostList').within(() => {
+                        cy.findByText('def').should('be.visible');
+                        cy.findByText('ghi').should('be.visible');
                     });
                 });
             });
