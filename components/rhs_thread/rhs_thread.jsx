@@ -19,6 +19,7 @@ import RhsComment from 'components/rhs_comment';
 import RhsHeaderPost from 'components/rhs_header_post';
 import RhsRootPost from 'components/rhs_root_post';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import NewMessagesBelow from 'components/post_view/new_messages_below';
 
 export function renderView(props) {
     return (
@@ -78,6 +79,8 @@ export default class RhsThread extends React.Component {
             isScrolling: false,
             topRhsPostId: 0,
             openTime,
+            atBottom: true,
+            lastViewedBottom: Date.now(),
         };
     }
 
@@ -191,6 +194,7 @@ export default class RhsThread extends React.Component {
     scrollToBottom = () => {
         if ($('.post-right__scroll')[0]) {
             $('.post-right__scroll').parent().scrollTop($('.post-right__scroll')[0].scrollHeight);
+            this.state.atBottom = true;
         }
     }
 
@@ -238,6 +242,33 @@ export default class RhsThread extends React.Component {
         this.setState({
             isScrolling: false,
         });
+        this.updateAtBottom(this.scroll.getScrollTop()- this.scroll.getScrollHeight() + this.scroll.getClientHeight() === 0);
+    }
+
+    updateAtBottom = (atBottom) => {
+        if (atBottom !== this.state.atBottom) {
+            // Update lastViewedBottom when the list reaches or leaves the bottom
+            let lastViewedBottom = Date.now();
+            if (this.props.posts && this.props.posts.length > 0) {
+                const latestPostTimeStamp = this.props.posts[this.props.posts.length-1].create_at;
+                if (latestPostTimeStamp > lastViewedBottom) {
+                    lastViewedBottom = latestPostTimeStamp;
+                }
+            }
+
+            this.setState({
+                atBottom,
+                lastViewedBottom,
+            });
+        }
+    }
+
+    getSidebarBody = () => {
+        return this.refs.sidebarbody;
+    }
+
+    setScroll = (scroll) => {
+        this.scroll = scroll;
     }
 
     render() {
@@ -336,6 +367,15 @@ export default class RhsThread extends React.Component {
                 );
             }
         }
+        const newMessagesBelow = (
+            <NewMessagesBelow
+                isRHS={true}
+                atBottom={this.state.atBottom}
+                onClick={this.scrollToBottom}
+                lastViewedBottom={this.state.lastViewedBottom}
+                postArray={postsArray}
+            />
+        );
 
         return (
             <div
@@ -359,7 +399,14 @@ export default class RhsThread extends React.Component {
                     renderThumbVertical={renderThumbVertical}
                     renderView={renderView}
                     onScroll={this.handleScroll}
+                    ref={this.setScroll}
+                    style={{WebkitTransform: 'rotate(0deg)',
+                        MozTransform: 'rotate(0deg)',
+                        MsTransform: 'rotate(0deg)',
+                        OTransform: 'rotate(0deg)',
+                        transform: 'rotate(0deg)'}}
                 >
+                    {newMessagesBelow}
                     <div className='post-right__scroll'>
                         <div
                             role='application'

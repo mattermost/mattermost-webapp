@@ -33,11 +33,40 @@ export function makeCountUnreadsBelow() {
     );
 }
 
+export function makeCountUnreadsBelowRHS() {
+    return createSelector(
+        getAllPosts,
+        getCurrentUserId,
+        (state, posts) => posts,
+        (state, posts, lastViewedBottom) => lastViewedBottom,
+        (allPosts, currentUserId, posts, lastViewedBottom) => {
+            if (!posts) {
+                return 0;
+            }
+
+            // Count the number of new posts made by other users that haven't been deleted
+            return posts.map((post) => allPosts[post.id]).filter((post) => {
+                return post &&
+                    post.user_id !== currentUserId &&
+                    post.state !== Posts.POST_DELETED &&
+                    post.create_at > lastViewedBottom;
+            }).length;
+        }
+    );
+}
+
 function makeMapStateToProps() {
+    const countUnreadBelowRHS = makeCountUnreadsBelowRHS();
     const countUnreadsBelow = makeCountUnreadsBelow();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
 
     return (state, ownProps) => {
+        if (ownProps.isRHS) {
+            return {
+                newMessages: countUnreadBelowRHS(state, ownProps.postArray, ownProps.lastViewedBottom),
+            };
+        }
+
         let postIds = getPostIdsInChannel(state, ownProps.channelId);
 
         if (postIds) {
