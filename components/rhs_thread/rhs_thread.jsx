@@ -240,10 +240,6 @@ export default class RhsThread extends React.Component {
         });
     }
 
-    getSidebarBody = () => {
-        return this.refs.sidebarbody;
-    }
-
     render() {
         if (this.props.posts == null || this.props.selected == null) {
             return (
@@ -319,7 +315,6 @@ export default class RhsThread extends React.Component {
                             rootId={selected.id}
                             rootDeleted={selected.state === Posts.POST_DELETED}
                             latestPostId={postsLength > 0 ? postsArray[postsLength - 1].id : selected.id}
-                            getSidebarBody={this.getSidebarBody}
                         />
                     </div>
                 );
@@ -346,7 +341,6 @@ export default class RhsThread extends React.Component {
             <div
                 id='rhsContainer'
                 className='sidebar-right__body'
-                ref='sidebarbody'
             >
                 <FloatingTimestamp
                     isScrolling={this.state.isScrolling}

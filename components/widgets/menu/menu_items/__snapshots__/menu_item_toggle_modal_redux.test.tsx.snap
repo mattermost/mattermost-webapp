@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/MenuItemToggleModalRedux should match snapshot with extra text 1`] = `
-<Connect(ModalToggleButtonRedux)
+<Connect(InjectIntl(ModalToggleButtonRedux))
   accessibilityLabel="Whatever"
   className="MenuItem__help"
   dialogProps={
@@ -12,15 +12,11 @@ exports[`components/MenuItemToggleModalRedux should match snapshot with extra te
   dialogType={[MockFunction]}
   modalId="test"
 >
+  Whatever
   <span
-    className="MenuItem__primary-text"
-  >
-    Whatever
-  </span>
-  <span
-    className="MenuItem__help-text"
+    className="extra-text"
   >
     Extra text
   </span>
-</Connect(ModalToggleButtonRedux)>
+</Connect(InjectIntl(ModalToggleButtonRedux))>
 `;

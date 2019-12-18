@@ -42,7 +42,8 @@ describe('plugins/MainMenuActions', () => {
         const wrapper = shallowWithIntl(
             <MainMenu
                 {...requiredProps}
-            />);
+            />
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem').props().text).toBe('some plugin text');

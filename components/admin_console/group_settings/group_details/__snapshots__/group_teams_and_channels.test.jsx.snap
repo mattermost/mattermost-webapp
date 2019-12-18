@@ -35,7 +35,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <GroupTeamsAndChannelsRow
       hasChildren={true}
       id="11111111111111111111111111"
-      implicit={false}
       key="11111111111111111111111111"
       name="Team 1"
       onChangeRoles={[Function]}
@@ -55,7 +54,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <GroupTeamsAndChannelsRow
       hasChildren={false}
       id="22222222222222222222222222"
-      implicit={false}
       key="22222222222222222222222222"
       name="Team 2"
       onChangeRoles={[Function]}
@@ -66,7 +64,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <GroupTeamsAndChannelsRow
       hasChildren={false}
       id="33333333333333333333333333"
-      implicit={false}
       key="33333333333333333333333333"
       name="Team 3"
       onChangeRoles={[Function]}
@@ -77,7 +74,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
     <GroupTeamsAndChannelsRow
       hasChildren={true}
       id="99999999999999999999999999"
-      implicit={true}
       key="99999999999999999999999999"
       name="Team 9"
       onChangeRoles={[Function]}

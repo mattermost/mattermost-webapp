@@ -26,12 +26,7 @@ exports[`components/SizeAwareImage should match snapshot when handleSmallImageCo
     className="file-preview__button"
     style={
       Object {
-        "height": 1,
-        "overflow": "hidden",
-        "position": "absolute",
-        "top": 0,
-        "visibility": "hidden",
-        "width": 1,
+        "display": "none",
       }
     }
   >
@@ -88,12 +83,7 @@ exports[`components/SizeAwareImage should render a placeholder and has loader wh
     className="file-preview__button"
     style={
       Object {
-        "height": 1,
-        "overflow": "hidden",
-        "position": "absolute",
-        "top": 0,
-        "visibility": "hidden",
-        "width": 1,
+        "display": "none",
       }
     }
   >
