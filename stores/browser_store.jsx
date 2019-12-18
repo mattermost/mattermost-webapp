@@ -121,6 +121,10 @@ class BrowserStoreClass {
     setLandingPreferenceToBrowser(siteUrl) {
         localStorage.setItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl), LandingPreferenceTypes.BROWSER);
     }
+
+    clearLandingPreference(siteUrl) {
+        localStorage.removeItem(StoragePrefixes.LANDING_PREFERENCE + String(siteUrl));
+    }
 }
 
 var BrowserStore = new BrowserStoreClass();

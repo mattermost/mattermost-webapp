@@ -35,6 +35,7 @@ type State = {
     location: string;
     nativeLocation: string;
     brandImageError: boolean;
+    navigating: boolean;
 }
 
 export default class LinkingLandingPage extends PureComponent<Props, State> {
@@ -51,6 +52,7 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
             location,
             nativeLocation: location.replace(/^(https|http)/, 'mattermost'),
             brandImageError: false,
+            navigating: false,
         };
     }
 
@@ -59,6 +61,15 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         if (this.checkLandingPreferenceApp()) {
             this.openMattermostApp();
         }
+
+        window.addEventListener('beforeunload', this.clearLandingPreferenceIfNotChecked);
+    }
+
+    clearLandingPreferenceIfNotChecked = () => {
+        if (!this.state.navigating) {
+            BrowserStore.clearLandingPreference(this.props.siteUrl);
+        }
+        window.removeEventListener('beforeunload', this.clearLandingPreferenceIfNotChecked);
     }
 
     checkLandingPreferenceBrowser = () => {
@@ -72,11 +83,18 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
     }
 
     handleChecked = () => {
+        // If it was checked, and now we're unchecking it, clear the preference
+        if (this.state.rememberChecked) {
+            BrowserStore.clearLandingPreference(this.props.siteUrl);
+        }
         this.setState({rememberChecked: !this.state.rememberChecked});
     }
 
-    setPreference = (pref: string) => {
+    setPreference = (pref: string, clearIfNotChecked?: boolean) => {
         if (!this.state.rememberChecked) {
+            if (clearIfNotChecked) {
+                BrowserStore.clearLandingPreference();
+            }
             return;
         }
 
@@ -160,8 +178,13 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
 
         return (
             <a
-                href='#'
-                onClick={this.openMattermostApp}
+                href={this.state.nativeLocation}
+                onMouseDown={() => {
+                    this.setPreference(LandingPreferenceTypes.MATTERMOSTAPP, true);
+                }}
+                onClick={() => {
+                    this.setState({redirectPage: true, navigating: true});
+                }}
                 className='btn btn-primary btn-lg get-app__download'
             >
                 {this.renderSystemDialogMessage()}
@@ -358,8 +381,13 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
                     </div>
                     <div className='get-app__status'>
                         <a
-                            href='#'
-                            onClick={this.openInBrowser}
+                            href={this.state.location}
+                            onMouseDown={() => {
+                                this.setPreference(LandingPreferenceTypes.BROWSER, true);
+                            }}
+                            onClick={() => {
+                                this.setState({navigating: true});
+                            }}
                             className='btn btn-default btn-lg get-app__continue'
                         >
                             <FormattedMessage
