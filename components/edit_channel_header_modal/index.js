@@ -10,9 +10,12 @@ import {Preferences} from 'mattermost-redux/constants';
 import {closeModal} from 'actions/views/modals';
 
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
+import {isModalOpen} from '../../selectors/views/modals';
+import {ModalIdentifiers} from '../../utils/constants';
 
 function mapStateToProps(state) {
     return {
+        show: isModalOpen(state, ModalIdentifiers.EDIT_CHANNEL_HEADER),
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
     };
 }
