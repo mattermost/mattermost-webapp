@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/QuickInput should match snapshot when clearable and empty 1`] = `
+<QuickInput
+  clearable={true}
+  delayInputUpdate={false}
+  value=""
+>
+  <div>
+    <input
+      defaultValue=""
+    />
+  </div>
+</QuickInput>
+`;
+
+exports[`components/QuickInput should match snapshot when clearable and with value 1`] = `
+<QuickInput
+  clearable={true}
+  delayInputUpdate={false}
+  value="mock"
+>
+  <div>
+    <input
+      defaultValue="mock"
+    />
+    <div
+      className="input-clear visible"
+      onClick={[Function]}
+    >
+      <OverlayTrigger
+        defaultOverlayShown={false}
+        delayShow={400}
+        overlay={
+          <Tooltip
+            bsClass="tooltip"
+            id="InputClearTooltip"
+            placement="right"
+          >
+            <FormattedMessage
+              defaultMessage="Clear input"
+              id="input.clear"
+              values={Object {}}
+            />
+          </Tooltip>
+        }
+        placement="bottom"
+        trigger={
+          Array [
+            "hover",
+            "focus",
+          ]
+        }
+      >
+        <span
+          aria-hidden="true"
+          className="input-clear-x"
+          onBlur={[Function]}
+          onClick={null}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          ×
+        </span>
+      </OverlayTrigger>
+    </div>
+  </div>
+</QuickInput>
+`;
+
+exports[`components/QuickInput should match snapshot when clearable and with value 2`] = `
+<QuickInput
+  clearable={true}
+  delayInputUpdate={false}
+  value="mock"
+>
+  <div>
+    <input
+      defaultValue="mock"
+    />
+  </div>
+</QuickInput>
+`;
+
+exports[`components/QuickInput should match snapshot when not clearable and empty 1`] = `
+<QuickInput
+  clearable={false}
+  delayInputUpdate={false}
+  value=""
+>
+  <div>
+    <input
+      defaultValue=""
+    />
+  </div>
+</QuickInput>
+`;
+
+exports[`components/QuickInput should match snapshot when not clearable and with content 1`] = `
+<QuickInput
+  clearable={false}
+  delayInputUpdate={false}
+  value="mock"
+>
+  <div>
+    <input
+      defaultValue="mock"
+    />
+  </div>
+</QuickInput>
+`;

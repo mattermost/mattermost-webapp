@@ -319,7 +319,7 @@ class ShortcutsModal extends React.PureComponent {
                             <strong>{renderShortcut(formatMessage(shortcuts.mainHeader))}</strong>
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body ref='modalBody'>
+                    <Modal.Body>
                         <div className='row'>
                             <div className='col-sm-4'>
                                 <div className='section'>
