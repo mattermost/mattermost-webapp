@@ -84,7 +84,9 @@ export default class GroupRow extends React.Component {
                     <div className='group-description row-content roles'>
                         <MenuWrapper>
                             <div>
-                                <a>
+                                <a
+                                    data-testid='current-role'
+                                >
                                     <span>{this.displayCurrentRole()}</span>
                                     <span className='caret'/>
                                 </a>
@@ -95,6 +97,7 @@ export default class GroupRow extends React.Component {
                                 ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
                             >
                                 <Menu.ItemAction
+                                    id='role-to-be'
                                     onClick={this.setNewGroupRole}
                                     text={this.displayRoleToBe()}
                                 />
