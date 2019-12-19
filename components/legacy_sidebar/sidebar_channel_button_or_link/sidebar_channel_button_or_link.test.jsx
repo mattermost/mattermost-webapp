@@ -6,9 +6,10 @@ import {shallow} from 'enzyme';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import {Constants} from 'utils/constants';
-import SidebarChannelButtonOrLink from 'components/sidebar/sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
 
-describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink', () => {
+import SidebarChannelButtonOrLink from './sidebar_channel_button_or_link.jsx';
+
+describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLink', () => {
     const baseProps = {
         channelType: Constants.DM_CHANNEL,
         channelId: 'test-channel-id',

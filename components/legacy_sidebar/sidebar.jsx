@@ -58,7 +58,7 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class Sidebar extends React.PureComponent {
+export default class LegacySidebar extends React.PureComponent {
     static propTypes = {
 
         /**

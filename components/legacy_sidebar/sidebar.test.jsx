@@ -6,7 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Constants} from 'utils/constants';
-import Sidebar from 'components/sidebar/sidebar';
+import Sidebar from 'components/legacy_sidebar/sidebar';
 
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
@@ -26,7 +26,7 @@ jest.mock('utils/browser_history', () => {
     };
 });
 
-describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
+describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
     const allChannels = {
         c1: {
             id: 'c1',

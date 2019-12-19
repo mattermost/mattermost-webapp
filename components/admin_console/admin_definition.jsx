@@ -4350,6 +4350,32 @@ const AdminDefinition = {
                         help_text_markdown: true,
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
+                        key: 'ServiceSettings.ExperimentalChannelSidebarOrganization',
+                        label: t('admin.experimental.experimentalChannelSidebarOrganization.title'),
+                        label_default: 'Sidebar Organization - TODO DEVIN:',
+                        help_text: t('admin.experimental.experimentalChannelSidebarOrganization.desc'),
+                        help_text_default: 'Enables new Channel Sidebar Organization 2020 - TODO DEVIN',
+                        help_text_markdown: true,
+                        options: [
+                            {
+                                value: 'disabled',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.disabled'),
+                                display_name_default: 'Disabled',
+                            },
+                            {
+                                value: 'default_off',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_off'),
+                                display_name_default: 'Enabled (off by default)',
+                            },
+                            {
+                                value: 'default_on',
+                                display_name: t('admin.experimental.experimentalChannelSidebarOrganization.default_on'),
+                                display_name_default: 'Enabled (on by default)',
+                            },
+                        ],
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'DisplaySettings.ExperimentalTimezone',
                         label: t('admin.experimental.experimentalTimezone.title'),

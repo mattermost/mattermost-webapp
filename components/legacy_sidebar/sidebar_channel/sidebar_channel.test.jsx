@@ -42,7 +42,7 @@ jest.mock('actions/global_actions.jsx', () => {
     };
 });
 
-describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
+describe('component/legacy_sidebar/sidebar_channel/SidebarChannel', () => {
     const defaultProps = {
         config: {},
         channelDisplayName: 'Channel display name',

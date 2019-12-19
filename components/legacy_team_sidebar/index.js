@@ -13,7 +13,7 @@ import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {switchTeam} from 'actions/team_actions.jsx';
 
-import TeamSidebar from './team_sidebar_controller.jsx';
+import LegacyTeamSidebar from './legacy_team_sidebar_controller.jsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
@@ -42,4 +42,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TeamSidebar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LegacyTeamSidebar));

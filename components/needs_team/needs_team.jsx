@@ -30,6 +30,7 @@ export default class NeedsTeam extends React.Component {
         currentUser: PropTypes.object,
         currentChannelId: PropTypes.string,
         currentTeamId: PropTypes.string,
+        useLegacyLHS: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             fetchMyChannelsAndMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,
@@ -249,6 +250,7 @@ export default class NeedsTeam extends React.Component {
                             pathName={renderProps.location.pathname}
                             teamType={teamType}
                             fetchingChannels={!this.state.finishedFetchingChannels}
+                            useLegacyLHS={this.props.useLegacyLHS}
                         />
                     )}
                 />
