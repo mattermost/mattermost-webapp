@@ -24,6 +24,7 @@ describe('components/post_view/message_attachments/ActionMenu', () => {
         },
         actions: {
             autocompleteChannels: jest.fn(),
+            autocompleteUsers: jest.fn(),
             selectAttachmentMenuAction: jest.fn(),
         },
     };
