@@ -20,9 +20,12 @@ const addDelay = (win, routes, delay) => {
     });
 };
 
-// # Wrap websocket to be able to connect and close connections on demand
-Cypress.Commands.add('mockWebsockets', (socketList) => {
-    cy.on('window:before:load', (win) => mockWebsockets(win, socketList));
+// Websocket list to use with mockWebsockets
+window.mockWebsockets = [];
+
+// Wrap websocket to be able to connect and close connections on demand
+Cypress.Commands.add('mockWebsockets', () => {
+    cy.on('window:before:load', (win) => mockWebsockets(win));
 });
 
 const mockWebsockets = (win, socketList) => {
@@ -54,7 +57,7 @@ const mockWebsockets = (win, socketList) => {
                 this.wrappedSocket.onclose = this.onclose;
             },
         };
-        socketList.push(mockWebSocket);
+        window.mockWebsockets.push(mockWebSocket);
         return mockWebSocket;
     });
 };

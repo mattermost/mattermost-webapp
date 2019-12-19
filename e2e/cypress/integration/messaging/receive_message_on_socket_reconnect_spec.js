@@ -10,12 +10,11 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
 
 let townsquareChannelId;
-const websockets = [];
 
 describe('Messaging', () => {
     before(() => {
         // # Wrap websocket to be able to connect and close connections on demand
-        cy.mockWebsockets(websockets);
+        cy.mockWebsockets();
 
         // # Login and go to /
         cy.apiLogin('sysadmin');
@@ -29,7 +28,7 @@ describe('Messaging', () => {
 
     it('M18682-RHS fetches messages on socket reconnect when a different channel is in center', () => {
         // # Connect all sockets
-        websockets.forEach((value) => {
+        window.mockWebsockets.forEach((value) => {
             value.connect();
         });
 
@@ -46,7 +45,7 @@ describe('Messaging', () => {
             // # Change channel
             cy.get('#sidebarItem_suscipit-4').click({force: true}).then(() => {
                 // # Close all sockets
-                websockets.forEach((value) => {
+                window.mockWebsockets.forEach((value) => {
                     if (value.close) {
                         value.close();
                     }
@@ -65,7 +64,7 @@ describe('Messaging', () => {
                     cy.queryByText('ghi').should('not.exist');
                 }).then(() => {
                     // * Connect all sockets one more time
-                    websockets.forEach((value) => {
+                    window.mockWebsockets.forEach((value) => {
                         value.connect();
                     });
 
