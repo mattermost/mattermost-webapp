@@ -276,7 +276,9 @@ export default class PluginRegistry {
     // - text - A string or React element to display in the menu
     // - action - A function to trigger when component is clicked on
     // - filter - A function whether to apply the plugin into the post' dropdown menu
+    //
     // Returns an unique identifier for the root submenu, and a function to register submenu items.
+    // At this time, only one level of nesting is allowed to avoid rendering issue in the RHS.
     registerPostDropdownSubMenuAction(text, action, filter) {
         function registerMenuItem(pluginId, id, parentMenuId, innerText, innerAction, innerFilter) {
             store.dispatch({
@@ -293,6 +295,10 @@ export default class PluginRegistry {
                 },
             });
             return function registerSubMenuItem(t, a, f) {
+                if (parentMenuId) {
+                    throw new Error('Submenus are currently limited to a single level.');
+                }
+
                 return registerMenuItem(pluginId, generateId(), id, t, a, f);
             };
         }

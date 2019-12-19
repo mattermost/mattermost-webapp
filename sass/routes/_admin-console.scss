@@ -270,7 +270,7 @@
         }
 
         &.warning {
-            background: #fcf8e3; 
+            background: #fcf8e3;
             border-color: #faebcc;
             color: #8a6d3b;
         }
@@ -524,6 +524,12 @@
     width: 220px;
     z-index: 10;
 
+    .Menu {
+        .dropdown-menu {
+            overflow: auto;
+        }
+    }
+
     mark {
         border-radius: 5%;
         background-color: $highlight-color;
@@ -576,7 +582,7 @@
                     border: 2px solid $primary-color;
                 }
             }
-            .sidebar__search-clear {
+            .input-clear {
                 color: $white;
                 font-weight: bold;
                 position: absolute;

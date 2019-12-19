@@ -5,10 +5,11 @@ import $ from 'jquery';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import {defineMessages, FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import ConfirmModal from '../../confirm_modal.jsx';
@@ -111,10 +112,6 @@ class UserSettingsModal extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (!Utils.isMobile()) {
-            $('.settings-content .minimize-settings').perfectScrollbar('update');
-        }
-
         if (this.state.active_tab !== prevState.active_tab) {
             $(ReactDOM.findDOMNode(this.modalBodyRef.current)).scrollTop(0);
         }
