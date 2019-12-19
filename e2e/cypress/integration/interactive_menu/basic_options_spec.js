@@ -25,7 +25,7 @@ const payload = getMessageMenusPayload({options});
 let channelId;
 let incomingWebhook;
 
-describe('MM-15887 Interactive menus - basic options', () => {
+describe('Interactive Menu', () => {
     before(() => {
         // Set required ServiceSettings
         const newSettings = {
@@ -90,7 +90,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         cy.get('body').click();
     });
 
-    it('displays selected option and posts ephemeral message', () => {
+    it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -117,7 +117,7 @@ describe('MM-15887 Interactive menus - basic options', () => {
         });
     });
 
-    it('displays reply in center channel with "commented on [user\'s] message: [text]"', () => {
+    it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
@@ -154,6 +154,55 @@ describe('MM-15887 Interactive menus - basic options', () => {
         });
     });
 
+    it('IM21039 - Searching within the list of options', () => {
+        const searchOptions = [
+            {text: 'SearchOption1', value: 'searchoption1'},
+            {text: 'SearchOption2', value: 'searchoption2'},
+            ...options,
+        ];
+        const searchOptionsPayload = getMessageMenusPayload({options: searchOptions});
+
+        // # Post an incoming webhook for interactive menu with search options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: searchOptionsPayload});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+        });
+
+        cy.get('@messageAttachmentList').within(() => {
+            cy.get('.select-suggestion-container > input').click().clear().type('sea');
+
+            // * Message attachment menu dropdown should now be open
+            cy.get('#suggestionList').should('exist').children().should('have.length', 2);
+
+            // # Checking values inside the attachment menu dropdown
+            cy.get('#suggestionList').within(() => {
+                // * Each dropdown should contain the searchOptions text
+                cy.findByText(searchOptions[0].text).should('exist');
+                cy.findByText(searchOptions[1].text).should('exist');
+            });
+        });
+    });
+
+    it('IM21042 - "No items match" feedback', () => {
+        const missingUser = Date.now();
+        const userOptions = getMessageMenusPayload({dataSource: 'users'});
+
+        // # Post an incoming webhook for interactive menu with user options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: userOptions});
+
+        // # Get message attachment from the last post
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#messageAttachmentList_${postId}`).as('messageAttachmentList');
+        });
+
+        cy.get('@messageAttachmentList').within(() => {
+            cy.get('.select-suggestion-container > input').click().clear().type(`${missingUser}`);
+            cy.get('.suggestion-list__no-results').should('be.visible').should('have.text', `No items match ${missingUser}`);
+        });
+    });
+
     it('should truncate properly the selected long basic option', () => {
         const withLongBasicOption = [
             {text: 'Option 0 - This is with very long option', value: 'option0'},
@@ -187,6 +236,38 @@ describe('MM-15887 Interactive menus - basic options', () => {
                     verifyLastPost();
                 });
             });
+        });
+    });
+
+    it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
+        // # Create a message attachment with menu
+        const basicOptionPayload = getMessageMenusPayload({options});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // * Message attachment menu dropdown should be closed
+                cy.get('#suggestionList').should('not.exist');
+
+                // // # Open the message attachment menu dropdown
+                cy.findByPlaceholderText('Select an option...').click();
+
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('exist').children().should('have.length', options.length);
+
+                // # Checking values inside the attachment menu dropdown
+                cy.get('#suggestionList').within(() => {
+                    // * Each dropdown should contain the options text
+                    cy.findByText(options[0].text).should('exist');
+                    cy.findByText(options[1].text).should('exist');
+                    cy.findByText(options[2].text).should('exist');
+                });
+            });
+
+            // # Close message attachment menu dropdown
+            cy.get('body').click();
         });
     });
 });

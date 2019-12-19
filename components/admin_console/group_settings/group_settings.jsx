@@ -19,7 +19,7 @@ export default class GroupSettings extends React.PureComponent {
                 <div className='admin-console__header'>
                     <FormattedMessage
                         id='admin.group_settings.groupsPageTitle'
-                        defaultMessage='Groups'
+                        defaultMessage='Groups (Beta)'
                     />
                 </div>
 

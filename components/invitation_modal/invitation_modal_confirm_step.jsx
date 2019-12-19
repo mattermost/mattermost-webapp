@@ -67,7 +67,7 @@ export default class InvitationModalConfirmStep extends React.Component {
                     <InviteIcon/>
                 </div>
                 {invitesType === InviteTypes.INVITE_MEMBER &&
-                    <h1>
+                    <h1 id='invitation_modal_title'>
                         <FormattedMarkdownMessage
                             id='invitation_modal.confirm.members_title'
                             defaultMessage='**Members** Invited to **{teamName}**'
@@ -75,7 +75,7 @@ export default class InvitationModalConfirmStep extends React.Component {
                         />
                     </h1>}
                 {invitesType === InviteTypes.INVITE_GUEST &&
-                    <h1>
+                    <h1 id='invitation_modal_title'>
                         <FormattedMarkdownMessage
                             id='invitation_modal.confirm.guests_title'
                             defaultMessage='**Guests** Invited to **{teamName}**'
