@@ -122,15 +122,15 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     title="Email notifications"
     updateSection={[Function]}
   >
-    <div
+    <section
       className="section-max form-horizontal "
     >
-      <div
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
         Email notifications
-      </div>
+      </h4>
       <div
         className="col-sm-9 col-sm-offset-3"
       >
@@ -267,7 +267,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </SettingItemMax>
 </EmailNotificationSetting>
 `;
@@ -490,15 +490,15 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     title="Email notifications"
     updateSection={[Function]}
   >
-    <div
+    <section
       className="section-max form-horizontal "
     >
-      <div
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
         Email notifications
-      </div>
+      </h4>
       <div
         className="col-sm-9 col-sm-offset-3"
       >
@@ -698,7 +698,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </SettingItemMax>
 </EmailNotificationSetting>
 `;
