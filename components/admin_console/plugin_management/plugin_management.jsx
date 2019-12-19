@@ -218,37 +218,34 @@ const PluginItem = ({
         );
     }
 
-    let removeButton;
-    if (!pluginStatus.is_prepackaged) {
-        let removeButtonText;
-        if (removing) {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.removing'
-                    defaultMessage='Removing...'
-                />
-            );
-        } else {
-            removeButtonText = (
-                <FormattedMessage
-                    id='admin.plugin.remove'
-                    defaultMessage='Remove'
-                />
-            );
-        }
-        removeButton = (
-            <span>
-                {' - '}
-                <a
-                    data-plugin-id={pluginStatus.id}
-                    disabled={removing}
-                    onClick={handleRemove}
-                >
-                    {removeButtonText}
-                </a>
-            </span>
+    let removeButtonText;
+    if (removing) {
+        removeButtonText = (
+            <FormattedMessage
+                id='admin.plugin.removing'
+                defaultMessage='Removing...'
+            />
+        );
+    } else {
+        removeButtonText = (
+            <FormattedMessage
+                id='admin.plugin.remove'
+                defaultMessage='Remove'
+            />
         );
     }
+    const removeButton = (
+        <span>
+            {' - '}
+            <a
+                data-plugin-id={pluginStatus.id}
+                disabled={removing}
+                onClick={handleRemove}
+            >
+                {removeButtonText}
+            </a>
+        </span>
+    );
 
     let description;
     if (pluginStatus.description) {
@@ -256,19 +253,6 @@ const PluginItem = ({
             <div className='padding-top'>
                 {pluginStatus.description}
             </div>
-        );
-    }
-
-    let prepackagedLabel;
-    if (pluginStatus.is_prepackaged) {
-        prepackagedLabel = (
-            <span>
-                {', '}
-                <FormattedMessage
-                    id='admin.plugin.prepackaged'
-                    defaultMessage='pre-packaged'
-                />
-            </span>
         );
     }
 
@@ -364,7 +348,6 @@ const PluginItem = ({
                 {pluginStatus.id}
                 {' - '}
                 {pluginStatus.version}
-                {prepackagedLabel}
                 {')'}
             </div>
             {description}
@@ -908,7 +891,7 @@ export default class PluginManagement extends AdminSettings {
                         <p className='help-text'>
                             <FormattedHTMLMessage
                                 id='admin.plugin.installedDesc'
-                                defaultMessage='Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed.'
+                                defaultMessage='Installed plugins on your Mattermost server.'
                             />
                         </p>
                         <br/>

@@ -1110,7 +1110,7 @@
   "admin.plugin.enabling": "Enabling...",
   "admin.plugin.error.activate": "Unable to upload the plugin. It may conflict with another plugin on your server.",
   "admin.plugin.error.extract": "Encountered an error when extracting the plugin. Review your plugin file content and try again.",
-  "admin.plugin.installedDesc": "Installed plugins on your Mattermost server. Pre-packaged plugins are installed by default, and can be disabled but not removed.",
+  "admin.plugin.installedDesc": "Installed plugins on your Mattermost server.",
   "admin.plugin.installedTitle": "Installed Plugins: ",
   "admin.plugin.management.title": "Plugin Management",
   "admin.plugin.multiple_versions_warning": "There are multiple versions of this plugin installed across your cluster. Re-install this plugin to ensure it works consistently.",
