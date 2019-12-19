@@ -4,12 +4,6 @@
     width: 100%;
     z-index: 100;
 
-    .suggestion-list__item {
-        &:hover {
-            background: alpha-color($black, .1);
-        }
-    }
-
     .badge {
         position: absolute;
         top: 8px;
