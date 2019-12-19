@@ -43,9 +43,6 @@ describe('Messaging', () => {
             // # Post a message
             cy.postMessageReplyInRHS('def');
 
-            // # Save our post for later use
-            cy.getLastPostIdRHS().as('myPostId');
-
             // # Change channel
             cy.get('#sidebarItem_suscipit-4').click({force: true}).then(() => {
                 // # Close all sockets
@@ -66,21 +63,21 @@ describe('Messaging', () => {
                 cy.get('#rhsPostList').within(() => {
                     cy.findByText('def').should('be.visible');
                     cy.queryByText('ghi').should('not.exist');
-                });
+                }).then(() => {
+                    // * Connect all sockets one more time
+                    websockets.forEach((value) => {
+                        value.connect();
+                    });
 
-                // * Connect all sockets one more time
-                websockets.forEach((value) => {
-                    value.connect();
-                });
+                    // # Wait for sockets to be connected
+                    cy.wait(TIMEOUTS.MEDIUM);
 
-                // # Wait for sockets to be connected
-                cy.wait(TIMEOUTS.MEDIUM);
-
-                // * Verify that both "def" and "ghi" are posted on websocket reconnect
-                cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);
-                cy.get('#rhsPostList').within(() => {
-                    cy.findByText('def').should('be.visible');
-                    cy.findByText('ghi').should('be.visible');
+                    // * Verify that both "def" and "ghi" are posted on websocket reconnect
+                    cy.get('#rhsPostList').should('be.visible').children().should('have.length', 2);
+                    cy.get('#rhsPostList').within(() => {
+                        cy.findByText('def').should('be.visible');
+                        cy.findByText('ghi').should('be.visible');
+                    });
                 });
             });
         });
