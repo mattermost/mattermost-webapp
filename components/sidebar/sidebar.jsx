@@ -16,6 +16,7 @@ import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import * as ChannelUtils from 'utils/channel_utils.jsx';
 import {Constants, ModalIdentifiers, SidebarChannelGroups} from 'utils/constants';
 import {intlShape} from 'utils/react_intl';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
 import favicon16x16 from 'images/favicon/favicon-16x16.png';
@@ -37,8 +38,6 @@ import ChannelCreate from './channel_create';
 import ChannelMore from './channel_more';
 import ChannelName from './channel_name';
 import MorePublicDirectChannels from './more_public_direct_channels';
-
-import * as UserAgent from 'utils/user_agent';
 
 export function renderView(props) {
     return (
