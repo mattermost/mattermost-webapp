@@ -351,11 +351,7 @@ export default class SchemaAdminSettings extends React.Component {
     buildButtonSetting = (setting) => {
         const handleRequestAction = (success, error) => {
             const successCallback = (data) => {
-                const metadata = new Map();
-                Object.keys(data).forEach((key) => {
-                    metadata.set(key, data[key]);
-                });
-
+                const metadata = new Map(Object.entries(data));
                 const settings = (this.props.schema && this.props.schema.settings) || [];
                 settings.forEach((tsetting) => {
                     if (tsetting.key && tsetting.setFromMetadataField) {
