@@ -12,7 +12,7 @@ exports[`components/post_view/post_list snapshot for loading when there are no p
       className="post-list__content"
       id="virtualizedPostListContent"
     >
-      <InjectIntl(PostList)
+      <injectIntl(PostList)
         actions={
           Object {
             "canLoadMorePosts": [Function],
@@ -46,7 +46,7 @@ exports[`components/post_view/post_list snapshot with couple of posts 1`] = `
       className="post-list__content"
       id="virtualizedPostListContent"
     >
-      <InjectIntl(PostList)
+      <injectIntl(PostList)
         actions={
           Object {
             "canLoadMorePosts": [Function],

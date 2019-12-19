@@ -146,7 +146,7 @@ exports[`components/invitation_modal/InvitationModal should match the snapshot w
           />
         }
       />
-      <InjectIntl(InvitationModalMembersStep)
+      <injectIntl(InvitationModalMembersStep)
         inviteId="test-invite-id"
         onEdit={[Function]}
         onSubmit={[Function]}

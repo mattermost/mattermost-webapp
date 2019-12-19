@@ -18,7 +18,7 @@ describe('components/MenuItemToggleModalRedux', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<Connect(InjectIntl(ModalToggleButtonRedux))
+<Connect(injectIntl(ModalToggleButtonRedux))
   accessibilityLabel="Whatever"
   dialogProps={
     Object {
@@ -29,7 +29,7 @@ describe('components/MenuItemToggleModalRedux', () => {
   modalId="test"
 >
   Whatever
-</Connect(InjectIntl(ModalToggleButtonRedux))>
+</Connect(injectIntl(ModalToggleButtonRedux))>
 `);
     });
 
