@@ -4,33 +4,6 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
 <DateSeparator
   date={2018-01-12T20:15:13.000Z}
   enableTimezone={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   timeZone="Australia/Sydney"
 >
   <BasicSeparator>
@@ -62,33 +35,6 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
 exports[`components/post_view/DateSeparator should render date without timezone 1`] = `
 <DateSeparator
   date={2018-01-12T12:15:13.000Z}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
 >
   <BasicSeparator>
     <div
@@ -119,33 +65,6 @@ exports[`components/post_view/DateSeparator should render date without timezone 
 <DateSeparator
   date={2018-01-12T12:15:13.000Z}
   enableTimezone={false}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   timeZone="Australia/Sydney"
 >
   <BasicSeparator>

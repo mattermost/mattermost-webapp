@@ -659,6 +659,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         <FormattedHTMLMessage
           defaultMessage="You currently have 0.0.1 installed. View the <a href=\\"http://example.com/release\\" target='_blank' rel='noopener noreferrer'>release notes</a> to learn about the changes included in this update."
           id="marketplace_modal.list.update_confirmation.message.current_with_release_notes"
+          tagName="span"
           values={
             Object {
               "installedVersion": "0.0.1",
@@ -673,6 +674,7 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should add extra war
         <FormattedHTMLMessage
           defaultMessage="This update may contain breaking changes. Consult the <a href=\\"http://example.com/release\\" target='_blank' rel='noopener noreferrer'>release notes</a> before upgrading."
           id="marketplace_modal.list.update_confirmation.message.warning_major_version_with_release_notes"
+          tagName="span"
           values={
             Object {
               "releaseNotesUrl": "http://example.com/release",
@@ -812,33 +814,6 @@ exports[`components/MarketplaceItem UpdateConfirmationModal should render withou
 exports[`components/MarketplaceItem UpdateDetails should render with release notes url 1`] = `
 <UpdateDetails
   installedVersion="0.0.1"
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
@@ -893,33 +868,6 @@ exports[`components/MarketplaceItem UpdateDetails should render with release not
 exports[`components/MarketplaceItem UpdateDetails should render without release notes url 1`] = `
 <UpdateDetails
   installedVersion="0.0.1"
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": "Etc/UTC",
-    }
-  }
   isDefaultMarketplace={true}
   isInstalling={false}
   onUpdate={[Function]}
