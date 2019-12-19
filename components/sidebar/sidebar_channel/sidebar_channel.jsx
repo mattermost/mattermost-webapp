@@ -257,6 +257,7 @@ export default class SidebarChannel extends React.PureComponent {
                     offTopicDisplayName={this.props.offTopicDisplayName}
                 />
             );
+            console.log('OPEN LHS');
             this.props.actions.openLhs();
         }
 
