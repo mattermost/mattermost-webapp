@@ -137,7 +137,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.CustomBrandTexthelp-text').find('span').should('be.visible').and('have.text', 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.');
 
         //Enable custom branding
-        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check({ force: true });
+        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check({force: true});
 
         // # Enter a custom brand text
         const customBrandText = 'Random brand text';
