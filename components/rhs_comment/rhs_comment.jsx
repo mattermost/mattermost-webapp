@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants/index';
 import {
@@ -13,6 +13,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';

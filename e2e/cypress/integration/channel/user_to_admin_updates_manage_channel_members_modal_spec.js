@@ -9,6 +9,25 @@
 
 import users from '../../fixtures/users.json';
 
+describe('View Members modal', () => {
+    it('MM-20164 - Going from a Member to an Admin should update the modal', () => {
+        cy.apiLogin('user-1');
+        cy.apiGetMe().then((res) => {
+            // # Promote user-1 as a system admin
+            // # Visit default channel and verify members modal
+            promoteToSysAdmin(res.body);
+            cy.visit('/');
+            verifyMemberDropdownAction(true);
+
+            // # Make user a regular member
+            // # Reload and verify members modal
+            demoteToMember(res.body);
+            cy.reload();
+            verifyMemberDropdownAction(false);
+        });
+    });
+});
+
 const demoteToMember = (user) => {
     cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
@@ -17,35 +36,28 @@ const promoteToSysAdmin = (user) => {
     cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
 };
 
-describe('View Members modal', () => {
-    it('MM-20164 - Going from a Member to an Admin should update the modal', () => {
-        cy.apiLogin('user-1');
-        cy.apiGetMe().then((res) => {
-            // # Make user a regular member
-            demoteToMember(res.body);
+function verifyMemberDropdownAction(hasActionItem) {
+    // # Click member count to open member list popover
+    cy.get('#member_popover').click();
 
-            // # Visit Town square and go to view members modal
-            cy.visit('/');
-            cy.get('#sidebarItem_town-square').click({force: true});
-            cy.get('#member_popover').click();
-            cy.findByTestId('membersModal').click();
+    cy.get('#member-list-popover').should('be.visible').within(() => {
+        // * Verify that the modal is open by checking its title
+        cy.findByText('Channel Members').should('exist');
 
-            // * Check to see if no drop down menu exists
-            cy.findAllByTestId('userListItemActions').then((el) => {
-                expect(el[0].childElementCount).equal(0);
-                cy.wrap(el[0]).should('not.be.visible');
-            });
-
-            // Promote user to a system admin
-            promoteToSysAdmin(res.body);
-
-            // * Check to see if a drop now exists now
-            cy.findAllByTestId('userListItemActions').then((el) => {
-                expect(el[0].childElementCount).equal(1);
-                cy.wrap(el[0]).should((children) => {
-                    expect(children).contain('Channel Member');
-                });
-            });
-        });
+        // # Click "View Members"
+        cy.findByText('View Members').click();
     });
-});
+
+    cy.get('#channelMembersModal').should('be.visible').within(() => {
+        // * Verify that the title is correct
+        cy.findByText('Town Square').should('be.visible');
+        cy.findByText('Members').should('be.visible');
+
+        // * Check to see any user has dropdown menu
+        if (hasActionItem) {
+            cy.findAllByText('Channel Member').should('exist');
+        } else {
+            cy.findByText('Channel Member').should('not.exist');
+        }
+    });
+}
