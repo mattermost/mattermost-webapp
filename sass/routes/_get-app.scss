@@ -24,7 +24,7 @@
 
     .get-app__custom-site-name {
         align-self: center;
-        margin-left: 8px;
+        margin-left: 40px;
 
         > span {
             opacity: 0.8;	
@@ -36,6 +36,9 @@
         }
     }
     
+    .get-app__custom-logo + .get-app__custom-site-name {
+        margin-left: 8px;
+    }
 }
 
 .get-app__dialog {
@@ -283,13 +286,17 @@
         }
 
         .get-app__custom-site-name {
-            margin-left: 4px;
-
+            margin-left: 0;
+            
             > span {
                 font-size: 24px;	
                 line-height: 24px;
                 font-weight: bold;
             }
+        }
+
+        .get-app__custom-logo + .get-app__custom-site-name {
+            margin-left: 4px;
         }
     }
 
