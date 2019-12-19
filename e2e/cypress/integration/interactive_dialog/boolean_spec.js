@@ -70,7 +70,7 @@ describe('Interactive Dialog', () => {
                 cy.get('#interactiveDialogModalLabel').should('be.visible').and('have.text', simpleDialog.dialog.title);
                 cy.wrap($elForm).find('button.close').should('be.visible').and('contain', '×').and('contain', 'Close');
             });
-            
+
             // * Verify that the body contains the boolean element
             cy.get('.modal-body').should('be.visible').children().should('have.length', 1).each(($elForm, index) => {
                 const element = simpleDialog.dialog.elements[index];
@@ -91,6 +91,7 @@ describe('Interactive Dialog', () => {
                     cy.wrap($elForm).find('.help-text').should('be.visible').and('have.text', element.help_text);
                 }
             });
+
             // * Verify that the footer contains cancel and submit buttons
             cy.get('.modal-footer').should('be.visible').within(($elForm) => {
                 cy.wrap($elForm).find('#interactiveDialogCancel').should('be.visible').and('have.text', 'Cancel');

@@ -213,7 +213,7 @@ function getBooleanDialog(triggerId, webhookBaseUrl) {
                 },
             ],
         }
-    }
+    };
 }
 
 module.exports = {
