@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -519,9 +518,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         link.sizes = '16x16';
         document.head.appendChild(link);
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.updateFavicon = jest.fn();
 
