@@ -3,13 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
