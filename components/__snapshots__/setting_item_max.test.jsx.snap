@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/SettingItemMin should match snapshot 1`] = `
-<div
+<section
   className="section-max form-horizontal "
 >
-  <div
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </div>
+  </h4>
   <div
     className="col-sm-12"
   >
@@ -61,19 +61,19 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
       </div>
     </div>
   </div>
-</div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
-<div
+<section
   className="section-max form-horizontal "
 >
-  <div
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </div>
+  </h4>
   <div
     className="col-sm-12"
   >
@@ -135,19 +135,19 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
       </div>
     </div>
   </div>
-</div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
-<div
+<section
   className="section-max form-horizontal "
 >
-  <div
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </div>
+  </h4>
   <div
     className="col-sm-12"
   >
@@ -209,19 +209,19 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
       </div>
     </div>
   </div>
-</div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, with new saveTextButton 1`] = `
-<div
+<section
   className="section-max form-horizontal "
 >
-  <div
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </div>
+  </h4>
   <div
     className="col-sm-12"
   >
@@ -267,19 +267,19 @@ exports[`components/SettingItemMin should match snapshot, with new saveTextButto
       </div>
     </div>
   </div>
-</div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
-<div
+<section
   className="section-max form-horizontal "
 >
-  <div
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </div>
+  </h4>
   <div
     className="col-sm-12"
   >
@@ -310,5 +310,5 @@ exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
       </div>
     </div>
   </div>
-</div>
+</section>
 `;

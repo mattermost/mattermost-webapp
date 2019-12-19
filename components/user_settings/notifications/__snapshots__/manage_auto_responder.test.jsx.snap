@@ -85,10 +85,10 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
     updateSection={[MockFunction]}
     width="medium"
   >
-    <div
+    <section
       className="section-max form-horizontal "
     >
-      <div
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
@@ -101,7 +101,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             Automatic Direct Message Replies
           </span>
         </FormattedMessage>
-      </div>
+      </h4>
       <div
         className="col-sm-10 col-sm-offset-2"
       >
@@ -228,7 +228,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </SettingItemMax>
 </ManageAutoResponder>
 `;
@@ -340,10 +340,10 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
     updateSection={[MockFunction]}
     width="medium"
   >
-    <div
+    <section
       className="section-max form-horizontal "
     >
-      <div
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
@@ -356,7 +356,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             Automatic Direct Message Replies
           </span>
         </FormattedMessage>
-      </div>
+      </h4>
       <div
         className="col-sm-10 col-sm-offset-2"
       >
@@ -549,7 +549,7 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </SettingItemMax>
 </ManageAutoResponder>
 `;
