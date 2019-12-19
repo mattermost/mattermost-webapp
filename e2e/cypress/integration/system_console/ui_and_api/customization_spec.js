@@ -26,6 +26,7 @@ describe('Customization', () => {
                     SiteName: config.TeamSettings.SiteName,
                     CustomDescriptionText: config.TeamSettings.CustomDescriptionText,
                     EnableCustomBrand: config.TeamSettings.EnableCustomBrand,
+                    CustomBrandText: config.TeamSettings.CustomBrandText,
                 },
                 NativeAppSettings: {
                     AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
@@ -122,6 +123,33 @@ describe('Customization', () => {
         cy.apiGetConfig().then((response) => {
             // * Verify the site description is saved, directly via REST API
             expect(response.body.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
+        });
+    });
+
+    it('SC20342 - Can change Custom Brand Text setting', () => {
+        // * Verify custom brand text label is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomBrandTextlabel').scrollIntoView().should('be.visible').and('have.text', 'Custom Brand Text:');
+
+        // * Verify the custom brand input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.CustomBrandTextinput').should('have.value', origConfig.TeamSettings.CustomBrandText);
+
+        // * Verify the custom brand help text is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomBrandTexthelp-text').find('span').should('be.visible').and('have.text', 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.');
+
+        //Enable custom branding
+        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check({ force: true });
+
+        // # Enter a custom brand text
+        const customBrandText = 'Random brand text';
+        cy.findByTestId('TeamSettings.CustomBrandTextinput').clear().type(customBrandText);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the custom brand text is saved, directly via REST API
+            expect(response.body.TeamSettings.CustomBrandText).to.eq(customBrandText);
         });
     });
 
