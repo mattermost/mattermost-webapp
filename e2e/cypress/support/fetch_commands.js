@@ -28,7 +28,7 @@ Cypress.Commands.add('mockWebsockets', () => {
     cy.on('window:before:load', (win) => mockWebsockets(win));
 });
 
-const mockWebsockets = (win, socketList) => {
+const mockWebsockets = (win) => {
     const RealWebSocket = WebSocket;
     cy.stub(win, 'WebSocket').callsFake((...args) => {
         const mockWebSocket = {
