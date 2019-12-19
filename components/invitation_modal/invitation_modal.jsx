@@ -40,6 +40,8 @@ export default class InvitationModal extends React.Component {
         }).isRequired,
     }
 
+    modal = React.createRef();
+
     constructor(props) {
         super(props);
         let step = STEPS_INITIAL;
@@ -77,14 +79,23 @@ export default class InvitationModal extends React.Component {
         } else {
             this.setState({step: STEPS_INITIAL, hasChanges: false, lastInviteChannels: [], lastInviteMesssage: '', prevStep: this.state.step});
         }
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
+        }
     }
 
     goToMembers = () => {
         this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
+        }
     }
 
     goToGuests = () => {
         this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
+        }
     }
 
     goToPrevStep = () => {
@@ -92,6 +103,9 @@ export default class InvitationModal extends React.Component {
             this.setState({step: STEPS_INVITE_GUESTS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_GUEST});
         } else if (this.state.prevStep === STEPS_INVITE_MEMBERS) {
             this.setState({step: STEPS_INVITE_MEMBERS, prevStep: this.state.step, hasChanges: false, invitesSent: [], invitesNotSent: [], invitesType: InviteTypes.INVITE_MEMBER});
+        }
+        if (this.modal && this.modal.current) {
+            this.modal.current.resetFocus();
         }
     }
 
@@ -192,6 +206,8 @@ export default class InvitationModal extends React.Component {
                     show={Boolean(this.props.show)}
                     onClose={this.close}
                     onGoBack={this.getBackFunction()}
+                    ref={this.modal}
+                    ariaLabelledBy='invitation_modal_title'
                 >
                     <div
                         data-testid='invitationModal'

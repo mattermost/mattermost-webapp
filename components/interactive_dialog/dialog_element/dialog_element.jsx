@@ -35,6 +35,7 @@ export default class DialogElement extends React.PureComponent {
         onChange: PropTypes.func,
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
+            autocompleteUsers: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -44,7 +45,7 @@ export default class DialogElement extends React.PureComponent {
         this.providers = [];
         if (props.type === 'select') {
             if (props.dataSource === 'users') {
-                this.providers = [new GenericUserProvider()];
+                this.providers = [new GenericUserProvider(props.actions.autocompleteUsers)];
             } else if (props.dataSource === 'channels') {
                 this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (props.options) {

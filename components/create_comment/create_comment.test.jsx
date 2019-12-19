@@ -29,7 +29,6 @@ describe('components/CreateComment', () => {
         ctrlSend: false,
         latestPostId,
         locale: 'en',
-        getSidebarBody: jest.fn(),
         clearCommentDraftUploads: jest.fn(),
         onUpdateCommentDraft: jest.fn(),
         updateCommentDraftWithRootId: jest.fn(),

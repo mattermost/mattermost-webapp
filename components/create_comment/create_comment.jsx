@@ -88,11 +88,6 @@ export default class CreateComment extends React.PureComponent {
         locale: PropTypes.string.isRequired,
 
         /**
-         * A function returning a ref to the sidebar
-         */
-        getSidebarBody: PropTypes.func,
-
-        /**
          * Create post error id
          */
         createPostErrorId: PropTypes.string,
@@ -710,8 +705,8 @@ export default class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
