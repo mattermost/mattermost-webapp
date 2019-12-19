@@ -44,8 +44,7 @@ h6 {
 }
 
 .markdown__paragraph-inline {
-    display: inline-flex;
-    align-items: center;
+    display: inline;
 
     + .markdown__paragraph-inline {
         margin-left: 4px;
@@ -155,9 +154,9 @@ h6 {
         border: unset;
     }
 
-    .markdown__paragraph-inline {
-        display: inline-flex;
-        align-items: center;
+    div.markdown__paragraph-inline {
+        display: inline-block;
+        line-height: 22px;
     }
 
     .broken-image {

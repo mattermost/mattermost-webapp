@@ -9,7 +9,9 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
   >
     <InviteIcon />
   </div>
-  <h1>
+  <h1
+    id="invitation_modal_title"
+  >
     <InjectIntl(FormattedMarkdownMessage)
       defaultMessage="Invite people to **{teamName}**"
       id="invitation_modal.title"
@@ -21,14 +23,20 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
     />
   </h1>
   <div
+    aria-describedby="inviteMembersSectionDescription"
+    aria-labeledby="inviteMembersSectionHeader"
     className="invitation-modal-option"
     data-testid="inviteMembersLink"
     onClick={[MockFunction]}
+    onKeyDown={[Function]}
+    tabIndex="0"
   >
     <div
       data-testid="inviteMembersSection"
     >
-      <h2>
+      <h2
+        id="inviteMembersSectionHeader"
+      >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Invite **Members**"
           id="invitation_modal.invite_members.title"
@@ -38,19 +46,27 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
         defaultMessage="Invite new team members with a link or by email. Team members have access to messages and files in open teams and public channels."
         id="invitation_modal.invite_members.description"
         values={Object {}}
-      />
+      >
+        <Component />
+      </FormattedMessage>
     </div>
     <ArrowRightIcon
       className="arrow"
     />
   </div>
   <div
+    aria-describedby="inviteGuestsSectionDescription"
+    aria-labeledby="inviteGuestsSectionHeader"
     className="invitation-modal-option"
     data-testid="inviteGuestLink"
     onClick={[MockFunction]}
+    onKeyDown={[Function]}
+    tabIndex="0"
   >
     <div>
-      <h2>
+      <h2
+        id="inviteGuestsSectionHeader"
+      >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Invite **Guests**"
           id="invitation_modal.invite_guests.title"
@@ -60,7 +76,9 @@ exports[`components/invitation_modal/InvitationModalInitialStep should match the
         defaultMessage="Invite guests to one or more channels. Guests only have access to messages, files, and people in the channels they are members of."
         id="invitation_modal.invite_guests.description"
         values={Object {}}
-      />
+      >
+        <Component />
+      </FormattedMessage>
     </div>
     <ArrowRightIcon
       className="arrow"
