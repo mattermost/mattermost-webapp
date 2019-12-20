@@ -28,6 +28,20 @@ export const defaultIntl = createIntl({
     textComponent: 'span',
 });
 
+function unwrapForwardRef<WrappedComponentElement extends ReactElement>(element: ReactElement): WrappedComponentElement {
+    const {type, props} = element as ReactElement<any, ExoticComponent>;
+    if (type.$$typeof && type.$$typeof === Symbol.for('react.forward_ref')) {
+        type ForwardRefComponent = ForwardRefExoticComponent<any> & {
+            render: () => ReactElement;
+        };
+        return React.cloneElement(
+            (type as ForwardRefComponent).render(),
+            props,
+        ) as WrappedComponentElement;
+    }
+    return element as WrappedComponentElement;
+}
+
 type IntlInjectedElement = ReactElement<any, ReturnType<typeof injectIntl>>;
 export function isIntlInjectedElement(element: ReactElement): element is IntlInjectedElement {
     const {type} = element;
@@ -43,6 +57,9 @@ interface ShallowWithIntlOptions extends ShallowRendererProps {
 
 export function shallowWithIntl<T extends IntlInjectedElement>(element: T, options?: ShallowWithIntlOptions = {}) {
     const {intl = defaultIntl, ...shallowOptions} = options || {};
+
+    // eslint-disable-next-line no-param-reassign
+    element = unwrapForwardRef<T>(element);
 
     if (!isIntlInjectedElement(element)) {
         throw new Error('shallowWithIntl() allows only components wrapped by injectIntl() HOC. Use shallow() instead.');
