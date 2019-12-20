@@ -68,9 +68,13 @@ export default class GroupRow extends React.Component {
         const {group} = this.props;
         return (
             <div
+                id='group'
                 className='group'
             >
-                <div className='group-row'>
+                <div 
+                    id='group-row'
+                    className='group-row'
+                >
                     <span className='group-name row-content'>
                         {group.display_name || group.name}
                     </span>
@@ -104,7 +108,10 @@ export default class GroupRow extends React.Component {
                             </Menu>
                         </MenuWrapper>
                     </div>
-                    <span className='group-actions'>
+                    <span
+                        id='group-actions'
+                        className='group-actions'
+                    >
                         <a
                             href='#'
                             onClick={this.removeGroup}
