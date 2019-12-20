@@ -8,6 +8,14 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {Constants} from 'utils/constants';
 import Sidebar from 'components/sidebar/sidebar';
 
+jest.mock('utils/user_agent', () => {
+    const original = require.requireActual('utils/user_agent');
+    return {
+        ...original,
+        isFirefox: () => true,
+    };
+});
+
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
     return {
