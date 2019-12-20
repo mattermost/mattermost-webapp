@@ -9,9 +9,10 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import {closeModal} from 'actions/views/modals';
 
-import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 import {isModalOpen} from '../../selectors/views/modals';
 import {ModalIdentifiers} from '../../utils/constants';
+
+import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 
 function mapStateToProps(state) {
     return {
