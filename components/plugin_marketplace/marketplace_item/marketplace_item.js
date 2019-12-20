@@ -351,7 +351,7 @@ export default class MarketplaceItem extends React.Component {
                 <Tooltip id='plugin-marketplace__local-tooltop'>
                     <FormattedMessage
                         id='marketplace_modal.list.local.tooltip'
-                        defaultMessage='This plugin is not listed in the marketplace but was installed manually.'
+                        defaultMessage='This plugin is not listed in the marketplace.'
                     />
                 </Tooltip>
             );

@@ -191,7 +191,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
               placement="right"
             >
               <FormattedMessage
-                defaultMessage="This plugin is not listed in the marketplace but was installed manually."
+                defaultMessage="This plugin is not listed in the marketplace."
                 id="marketplace_modal.list.local.tooltip"
                 values={Object {}}
               />
