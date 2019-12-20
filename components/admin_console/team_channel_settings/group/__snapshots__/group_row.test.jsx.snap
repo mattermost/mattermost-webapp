@@ -3,9 +3,11 @@
 exports[`admin_console/team_channel_settings/group/GroupRow should match snapshot 1`] = `
 <div
   className="group"
+  id="group"
 >
   <div
     className="group-row"
+    id="group-row"
   >
     <span
       className="group-name row-content"
@@ -33,7 +35,9 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
         className=""
       >
         <div>
-          <a>
+          <a
+            data-testid="current-role"
+          >
             <span>
               <FormattedMessage
                 defaultMessage="Member"
@@ -52,6 +56,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
           openUp={false}
         >
           <MenuItemAction
+            id="role-to-be"
             onClick={[Function]}
             show={true}
             text="Channel Admin"
@@ -61,6 +66,7 @@ exports[`admin_console/team_channel_settings/group/GroupRow should match snapsho
     </div>
     <span
       className="group-actions"
+      id="group-actions"
     >
       <a
         href="#"
