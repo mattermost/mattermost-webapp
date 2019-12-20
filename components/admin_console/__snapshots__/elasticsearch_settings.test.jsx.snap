@@ -410,6 +410,13 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -853,6 +860,13 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}

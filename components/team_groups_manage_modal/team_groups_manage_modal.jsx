@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
@@ -17,14 +17,14 @@ import {intlShape} from 'utils/react_intl';
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
 import groupsAvatar from 'images/groups-avatar.png';
-
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
 import * as Utils from 'utils/utils.jsx';
 
-export default class TeamGroupsManageModal extends React.PureComponent {
+class TeamGroupsManageModal extends React.PureComponent {
     static propTypes = {
+        intl: intlShape.isRequired,
         team: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroupsAssociatedToTeam: PropTypes.func.isRequired,
@@ -33,10 +33,6 @@ export default class TeamGroupsManageModal extends React.PureComponent {
             closeModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape,
     };
 
     state = {
@@ -166,7 +162,7 @@ export default class TeamGroupsManageModal extends React.PureComponent {
     };
 
     render() {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const memberCount = this.state.item.member_count;
         return (
             <>
@@ -192,3 +188,5 @@ export default class TeamGroupsManageModal extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(TeamGroupsManageModal);
