@@ -20,6 +20,17 @@ const options = [
     {text: 'Option 2', value: 'option2'},
     {text: 'Option 3', value: 'option3'},
 ];
+const distinctOptions = [
+    {text: 'Apple', value: 'apple'},
+    {text: 'Orange', value: 'orange'},
+    {text: 'Banana', value: 'banana'},
+    {text: 'Grapes', value: 'grapes'},
+    {text: 'Melon', value: 'melon'},
+    {text: 'Mango', value: 'mango'},
+    {text: 'Mango Raw', value: 'mangoraw'},
+    {text: 'Avacado', value: 'avacado'},
+];
+
 const payload = getMessageMenusPayload({options});
 
 let channelId;
@@ -60,7 +71,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('matches elements', () => {
+    xit('matches elements', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -90,7 +101,7 @@ describe('Interactive Menu', () => {
         cy.get('body').click();
     });
 
-    it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
+    xit('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -117,7 +128,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
+    xit('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
@@ -154,7 +165,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21039 - Searching within the list of options', () => {
+    xit('IM21039 - Searching within the list of options', () => {
         const searchOptions = [
             {text: 'SearchOption1', value: 'searchoption1'},
             {text: 'SearchOption2', value: 'searchoption2'},
@@ -185,7 +196,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21042 - "No items match" feedback', () => {
+    xit('IM21042 - "No items match" feedback', () => {
         const missingUser = Date.now();
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
@@ -203,7 +214,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('should truncate properly the selected long basic option', () => {
+    xit('should truncate properly the selected long basic option', () => {
         const withLongBasicOption = [
             {text: 'Option 0 - This is with very long option', value: 'option0'},
             ...options,
@@ -216,7 +227,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('should truncate properly the selected long username option', () => {
+    xit('should truncate properly the selected long username option', () => {
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
         // # Post an incoming webhook for interactive menu with user options and verify the post
@@ -225,7 +236,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('should truncate properly the selected long channel display name option', () => {
+    xit('should truncate properly the selected long channel display name option', () => {
         const channelOptions = getMessageMenusPayload({dataSource: 'channels'});
 
         cy.getCurrentTeamId().then((teamId) => {
@@ -239,7 +250,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
+    xit('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
         // # Create a message attachment with menu
         const basicOptionPayload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
@@ -272,35 +283,57 @@ describe('Interactive Menu', () => {
     });
 
     it('IM21036 - Enter selects the option', () => {
-        // // # Create a message attachment with menu
-        // const basicOptionPayload = getMessageMenusPayload({options});
-        // cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
+        // # Create a message attachment with menu
+        const distinctOptionsPayload = getMessageMenusPayload({options: distinctOptions});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctOptionsPayload});
 
-        // // # Get the last posted message id
-        // cy.getLastPostId().then((lastPostId) => {
-        //     // # Get the last messages attachment container
-        //     cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
-        //         // * Message attachment menu dropdown should be closed
-        //         cy.get('#suggestionList').should('not.exist');
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // # Find the message attachment menu and assign it to a variable for later use
+                cy.findByPlaceholderText('Select an option...').as('optionInputField');
 
-        //         // // # Open the message attachment menu dropdown
-        //         cy.findByPlaceholderText('Select an option...').click();
+                // # Open the options menu
+                cy.get('@optionInputField').click();
 
-        //         // * Message attachment menu dropdown should now be open
-        //         cy.get('#suggestionList').should('exist').children().should('have.length', options.length);
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('exist').children().should('have.length', distinctOptions.length);
 
-        //         // # Checking values inside the attachment menu dropdown
-        //         cy.get('#suggestionList').within(() => {
-        //             // * Each dropdown should contain the options text
-        //             cy.findByText(options[0].text).should('exist');
-        //             cy.findByText(options[1].text).should('exist');
-        //             cy.findByText(options[2].text).should('exist');
-        //         });
-        //     });
+                // # Lets make the last option we are interested in finding
+                const selectedOption = distinctOptions[5].text;
 
-        //     // # Close message attachment menu dropdown
-        //     cy.get('body').click();
-        // });
+                // # Type the selected word to find in the list
+                cy.get('@optionInputField').type(selectedOption);
+
+                cy.wait(TIMEOUTS.TINY);
+
+                // # Checking values inside the attachment menu dropdown
+                cy.get('#suggestionList').within(() => {
+                    // * All other options should not be there
+                    cy.findByText(distinctOptions[0].text).should('not.exist');
+                    cy.findByText(distinctOptions[1].text).should('not.exist');
+                    cy.findByText(distinctOptions[2].text).should('not.exist');
+                    cy.findByText(distinctOptions[3].text).should('not.exist');
+                    cy.findByText(distinctOptions[4].text).should('not.exist');
+
+                    // * Selected option should be there in the search list and click it
+                    cy.findByText(selectedOption).should('exist');
+
+                    // * Other matched option should also be there
+                    cy.findByText(distinctOptions[6].text).should('exist');
+                });
+
+                // # Enter is clicked to select the correct match
+                cy.get('@optionInputField').type('{enter}');
+
+                // * Since option was clicked dropdown should be closed
+                cy.get('#suggestionList').should('not.exist');
+
+                // * Verify the input has the selected value
+                cy.findByDisplayValue(selectedOption).should('exist');
+            });
+        });
     });
 });
 
