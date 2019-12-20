@@ -15,100 +15,123 @@ jest.mock('utils/post_utils.jsx', () => ({
 }));
 
 describe('components/RhsRootPost', () => {
-    let post;
-    let defaultProps;
-
-    beforeEach(() => {
-        post = {
-            channel_id: 'channel_id',
-            create_at: 1502715365009,
-            delete_at: 0,
-            edit_at: 1502715372443,
-            id: 'id',
-            is_pinned: false,
-            message: 'post message',
-            original_id: '',
-            parent_id: '',
-            pending_post_id: '',
-            props: {},
-            root_id: '',
-            type: '',
-            update_at: 1502715372443,
-            user_id: 'user_id',
-        };
-
-        defaultProps = {
-            post,
-            teamId: 'team_id',
-            currentUserId: 'user_id',
-            compactDisplay: true,
-            commentCount: 0,
-            author: 'Author',
-            reactions: {},
-            isFlagged: false,
-            isBusy: false,
-            previewCollapsed: '',
-            previewEnabled: false,
-            isEmbedVisible: false,
-            enableEmojiPicker: true,
-            enablePostUsernameOverride: false,
-            isReadOnly: false,
-            pluginPostTypes: {},
-            channelIsArchived: false,
-            channelType: 'O',
-            channelDisplayName: 'Test',
-            handleCardClick: jest.fn(),
-        };
-    });
+    const post = {
+        channel_id: 'channel_id',
+        create_at: 1502715365009,
+        delete_at: 0,
+        edit_at: 1502715372443,
+        id: 'id',
+        is_pinned: false,
+        message: 'post message',
+        original_id: '',
+        parent_id: '',
+        pending_post_id: '',
+        props: {},
+        root_id: '',
+        type: '',
+        update_at: 1502715372443,
+        user_id: 'user_id',
+    };
+    const baseProps = {
+        post,
+        teamId: 'team_id',
+        currentUserId: 'user_id',
+        compactDisplay: true,
+        commentCount: 0,
+        author: 'Author',
+        reactions: {},
+        isFlagged: false,
+        isBusy: false,
+        previewCollapsed: '',
+        previewEnabled: false,
+        isEmbedVisible: false,
+        enableEmojiPicker: true,
+        enablePostUsernameOverride: false,
+        isReadOnly: false,
+        pluginPostTypes: {},
+        channelIsArchived: false,
+        channelType: 'O',
+        channelDisplayName: 'Test',
+        handleCardClick: jest.fn(),
+        actions: {
+            markPostAsUnread: jest.fn(),
+        },
+    };
 
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
-            <RhsRootPost {...defaultProps}/>
-        );
+            <RhsRootPost {...baseProps}/>
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot when flagged', () => {
         const props = {
-            ...defaultProps,
+            ...baseProps,
             isFlagged: true,
         };
         const wrapper = shallowWithIntl(
             <RhsRootPost {...props}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot on deleted post', () => {
         const props = {
-            ...defaultProps,
+            ...baseProps,
             post: {
-                ...defaultProps.post,
+                ...baseProps.post,
                 state: Posts.POST_DELETED,
             },
         };
         const wrapper = shallowWithIntl(
             <RhsRootPost {...props}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot on flagged, deleted post', () => {
         const props = {
-            ...defaultProps,
+            ...baseProps,
             post: {
-                ...defaultProps.post,
+                ...baseProps.post,
                 state: Posts.POST_DELETED,
                 isFlagged: true,
             },
         };
         const wrapper = shallowWithIntl(
             <RhsRootPost {...props}/>
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should show pointer when alt is held down', () => {
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...baseProps}/>
+        ).dive();
+
+        expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
+
+        wrapper.setState({alt: true});
+
+        expect(wrapper.find('.post.cursor--pointer').exists()).toBe(true);
+    });
+
+    test('should call markPostAsUnread when post is alt+clicked on', () => {
+        const wrapper = shallowWithIntl(
+            <RhsRootPost {...baseProps}/>
+        ).dive();
+
+        wrapper.simulate('click', {altKey: false});
+
+        expect(baseProps.actions.markPostAsUnread).not.toHaveBeenCalled();
+
+        wrapper.simulate('click', {altKey: true});
+
+        expect(baseProps.actions.markPostAsUnread).toHaveBeenCalled();
     });
 });

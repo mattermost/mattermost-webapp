@@ -1,6 +1,14 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    #navbar_wrapper {
+        .navbar-default {
+            .navbar-brand {
+                margin-left: 0;
+            }
+        }
+    }
+
     .app__body {
         .MenuWrapper {
             .MenuItem__divider {
@@ -8,6 +16,10 @@
                 border: none;
             }
         }
+    }
+
+    .post-right__container {
+        height: 100%;
     }
 
     .line-switch__toggle {
@@ -1254,7 +1266,7 @@
                 right: 20px;
                 text-align: center;
                 text-shadow: none;
-                top: 30px;
+                top: 70px;
                 width: 30px;
             }
 
@@ -1539,6 +1551,10 @@
                 padding: .5em 1em;
             }
 
+            .post-create {
+                padding: 0;
+            }
+
             .emoji-rhs {
                 // bring back the emoji picker for mobile
                 // display: none;
@@ -1552,8 +1568,11 @@
             }
 
             .post-create-footer {
-                padding-right: 0;
-                padding-top: 10px;
+                padding: 6px 0 0;
+
+                .post-error {
+                    margin-bottom: 8px;
+                }
 
                 .control-label {
                     margin: .5em 0;
@@ -1567,7 +1586,7 @@
             vertical-align: top;
         }
 
-        .sidebar__search-clear {
+        .input-clear {
             color: inherit;
             height: 32px;
             margin-right: 0;
@@ -1583,7 +1602,7 @@
             }
         }
 
-        .sidebar__search-clear-x {
+        .input-clear-x {
             font-size: 21px;
             font-weight: 700;
             line-height: 0;

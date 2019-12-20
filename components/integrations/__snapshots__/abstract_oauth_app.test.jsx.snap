@@ -4,7 +4,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/test/integrations/oauth2-apps"
     >
@@ -19,7 +19,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot 1`] = `
       id="Header"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >
@@ -325,7 +325,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
 <div
   className="backstage-content"
 >
-  <injectIntl(BackstageHeader)>
+  <BackstageHeader>
     <Link
       to="/test/integrations/oauth2-apps"
     >
@@ -340,7 +340,7 @@ exports[`components/integrations/AbstractOAuthApp should match snapshot, display
       id="Header"
       values={Object {}}
     />
-  </injectIntl(BackstageHeader)>
+  </BackstageHeader>
   <div
     className="backstage-form"
   >

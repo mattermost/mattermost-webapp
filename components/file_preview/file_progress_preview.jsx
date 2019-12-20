@@ -26,6 +26,7 @@ export default class FileProgressPreview extends React.PureComponent {
         let percent = 0;
         let fileNameComponent;
         let previewImage;
+        let progressBar;
         const {fileInfo, clientId} = this.props;
 
         if (fileInfo) {
@@ -59,15 +60,18 @@ export default class FileProgressPreview extends React.PureComponent {
                             </React.Fragment>
                         )}
                     </span>
-                    {percent && (
-                        <ProgressBar
-                            className='post-image__progressBar'
-                            now={percent}
-                            active={percent === 100}
-                        />
-                    )}
                 </React.Fragment>
             );
+
+            if (percent) {
+                progressBar = (
+                    <ProgressBar
+                        className='post-image__progressBar'
+                        now={percent}
+                        active={percent === 100}
+                    />
+                );
+            }
         }
 
         return (
@@ -94,6 +98,7 @@ export default class FileProgressPreview extends React.PureComponent {
                             <RemoveIcon/>
                         </a>
                     </div>
+                    {progressBar}
                 </div>
             </div>
         );

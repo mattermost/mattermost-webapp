@@ -10,6 +10,16 @@ exports[`components/error_page/ErrorMessage should match snapshot, channel_not_f
 </p>
 `;
 
+exports[`components/error_page/ErrorMessage should match snapshot, channel_not_found type 2`] = `
+<p>
+  <FormattedMessage
+    defaultMessage="Your guest account has no channels assigned. Please contact an administrator."
+    id="error.channel_not_found.message_guest"
+    values={Object {}}
+  />
+</p>
+`;
+
 exports[`components/error_page/ErrorMessage should match snapshot, local_storage type 1`] = `
 <div>
   <FormattedMessage

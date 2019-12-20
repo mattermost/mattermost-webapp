@@ -8,6 +8,7 @@ import {injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
+import {intlShape} from 'utils/react_intl';
 
 import Markdown from 'components/markdown';
 
@@ -48,10 +49,10 @@ const typeMessage = {
 
 class LastUsers extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         actor: PropTypes.string,
         expandedLocale: PropTypes.object.isRequired,
         formatOptions: PropTypes.object.isRequired,
+        intl: intlShape.isRequired,
         postType: PropTypes.string.isRequired,
         usernames: PropTypes.array.isRequired,
     };

@@ -14,6 +14,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
 import messageHtmlToComponent from 'utils/message_html_to_component';
+import {intlShape} from 'utils/react_intl';
 import * as TextFormatting from 'utils/text_formatting.jsx';
 import * as Utils from 'utils/utils.jsx';
 import {showNotification} from 'utils/notifications';
@@ -36,7 +37,7 @@ import LoginMfa from '../login_mfa.jsx';
 
 class LoginController extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
 
         location: PropTypes.object.isRequired,
         isLicensed: PropTypes.bool.isRequired,

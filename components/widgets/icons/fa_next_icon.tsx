@@ -3,31 +3,26 @@
 
 import React from 'react';
 
-import {injectIntl, IntlShape} from 'react-intl';
+import LocalizedIcon from 'components/localized_icon';
+
+import {t} from 'utils/i18n';
 
 type Props = {
-    intl: IntlShape;
-} & Partial<DefaultProps>
-
-type DefaultProps = {
     additionalClassName: string | null;
 }
 
-class NextIcon extends React.PureComponent<Props> {
-    public static defaultProps: DefaultProps = {
+export default class NextIcon extends React.PureComponent<Props> {
+    public static defaultProps: Props = {
         additionalClassName: null,
     };
 
     public render(): JSX.Element {
-        const {formatMessage} = this.props.intl;
         const className = 'fa fa-1x fa-angle-right' + (this.props.additionalClassName ? ' ' + this.props.additionalClassName : '');
         return (
-            <i
+            <LocalizedIcon
                 className={className}
-                title={formatMessage({id: 'generic_icons.next', defaultMessage: 'Next Icon'})}
+                title={{id: t('generic_icons.next'), defaultMessage: 'Next Icon'}}
             />
         );
     }
 }
-
-export default injectIntl(NextIcon);

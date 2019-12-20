@@ -13,6 +13,7 @@ import {
 
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import {isMobile} from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -31,7 +32,6 @@ import UserProfile from 'components/user_profile';
 
 class RhsComment extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         post: PropTypes.object,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -52,6 +52,10 @@ class RhsComment extends React.PureComponent {
         isConsecutivePost: PropTypes.bool,
         handleCardClick: PropTypes.func,
         a11yIndex: PropTypes.number,
+        intl: intlShape.isRequired,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
+        }),
     };
 
     constructor(props) {
@@ -62,6 +66,7 @@ class RhsComment extends React.PureComponent {
         this.state = {
             showEmojiPicker: false,
             dropdownOpened: false,
+            alt: false,
             hover: false,
             a11yActive: false,
             currentAriaLabel: '',
@@ -69,12 +74,18 @@ class RhsComment extends React.PureComponent {
     }
 
     componentDidMount() {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+
         if (this.postRef.current) {
             this.postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
         }
     }
     componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
+
         if (this.postRef.current) {
             this.postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
             this.postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
@@ -153,8 +164,16 @@ class RhsComment extends React.PureComponent {
             className += ' same--user';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className;
     };
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -182,9 +201,15 @@ class RhsComment extends React.PureComponent {
         this.setState({a11yActive: false});
     }
 
+    handlePostClick = (e) => {
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(this.props.post);
+        }
+    }
+
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged, intl} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl)});
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
     }
 
     render() {
@@ -430,6 +455,7 @@ class RhsComment extends React.PureComponent {
                 id={'rhsPost_' + post.id}
                 tabIndex='-1'
                 className={`a11y__section ${this.getClassName(post, isSystemMessage)}`}
+                onClick={this.handlePostClick}
                 onMouseOver={this.setHover}
                 onMouseLeave={this.unsetHover}
                 aria-label={this.state.currentAriaLabel}

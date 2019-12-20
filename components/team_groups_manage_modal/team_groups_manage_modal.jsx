@@ -12,6 +12,7 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 import AddGroupsToTeamModal from 'components/add_groups_to_team_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
@@ -19,7 +20,7 @@ import groupsAvatar from 'images/groups-avatar.png';
 
 class TeamGroupsManageModal extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
         team: PropTypes.object.isRequired,
         actions: PropTypes.shape({
             getGroupsAssociatedToTeam: PropTypes.func.isRequired,

@@ -3,14 +3,15 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'utils/constants';
+import {t} from 'utils/i18n';
+import LocalizedIcon from 'components/localized_icon';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
-class SystemNotice extends React.PureComponent {
+export default class SystemNotice extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         currentUserId: PropTypes.string.isRequired,
         notices: PropTypes.arrayOf(PropTypes.object).isRequired,
         preferences: PropTypes.object.isRequired,
@@ -92,7 +93,6 @@ class SystemNotice extends React.PureComponent {
 
     render() {
         const notice = this.getCurrentNotice();
-        const {formatMessage} = this.props.intl;
 
         if (notice == null) {
             return null;
@@ -102,9 +102,9 @@ class SystemNotice extends React.PureComponent {
         if (notice.adminOnly) {
             visibleMessage = (
                 <div className='system-notice__info'>
-                    <i
+                    <LocalizedIcon
                         className='fa fa-eye'
-                        title={formatMessage({id: 'system_notice.adminVisible.icon', defaultMessage: 'Only visible to System Admins Icon'})}
+                        title={{id: t('system_notice.adminVisible.icon'), defaultMessage: 'Only visible to System Admins Icon'}}
                     />
                     <FormattedMessage
                         id='system_notice.adminVisible'
@@ -157,5 +157,3 @@ class SystemNotice extends React.PureComponent {
         );
     }
 }
-
-export default injectIntl(SystemNotice);

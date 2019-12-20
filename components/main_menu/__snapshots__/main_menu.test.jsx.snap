@@ -61,6 +61,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -348,6 +349,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -653,6 +655,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -992,6 +995,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -1297,6 +1301,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -1636,6 +1641,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -1958,6 +1964,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"

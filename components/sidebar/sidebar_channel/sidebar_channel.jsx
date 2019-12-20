@@ -7,6 +7,7 @@ import {injectIntl} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import SidebarChannelButtonOrLink from '../sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
@@ -14,11 +15,6 @@ import SidebarTutorialTip from '../sidebar_tutorial_tip.jsx';
 
 class SidebarChannel extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * react-intl API
-         */
-        intl: PropTypes.any,
 
         /**
          * Global config object
@@ -94,6 +90,8 @@ class SidebarChannel extends React.PureComponent {
          * Whether the channel contains a draft in the center channel
          */
         hasDraft: PropTypes.bool.isRequired,
+
+        intl: intlShape.isRequired,
 
         /**
          * Whether or not to mark the channel as unread when it has unread messages and no mentions
@@ -322,4 +320,4 @@ class SidebarChannel extends React.PureComponent {
     }
 }
 
-export default injectIntl(SidebarChannel);
+export default injectIntl(SidebarChannel, {withRef: true});

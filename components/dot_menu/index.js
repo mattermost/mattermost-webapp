@@ -14,12 +14,14 @@ import {
     pinPost,
     unpinPost,
     setEditingPost,
+    markPostAsUnread,
 } from 'actions/post_actions.jsx';
 
 import DotMenu from './dot_menu.jsx';
 
 function mapStateToProps(state) {
     return {
+        components: state.plugins.components,
         postEditTimeLimit: getConfig(state).PostEditTimeLimit,
         isLicensed: getLicense(state).IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
@@ -36,6 +38,7 @@ function mapDispatchToProps(dispatch) {
             pinPost,
             unpinPost,
             openModal,
+            markPostAsUnread,
         }, dispatch),
     };
 }

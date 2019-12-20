@@ -58,6 +58,7 @@ export default class ViewImageModal extends React.PureComponent {
         fileInfos: [],
         startIndex: 0,
         pluginFilePreviewComponents: [],
+        post: {}, // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
     constructor(props) {
@@ -213,6 +214,7 @@ export default class ViewImageModal extends React.PureComponent {
         const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
         const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
         const isExternalFile = !fileInfo.id;
+        let dialogClassName = 'a11y__modal modal-image';
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
@@ -242,6 +244,7 @@ export default class ViewImageModal extends React.PureComponent {
                     </React.Suspense>
                 );
             } else if (CodePreview.supports(fileInfo)) {
+                dialogClassName += ' modal-code';
                 content = (
                     <CodePreview
                         fileInfo={fileInfo}
@@ -319,7 +322,7 @@ export default class ViewImageModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 className='modal-image'
-                dialogClassName='a11y__modal modal-image'
+                dialogClassName={dialogClassName}
                 role='dialog'
                 aria-labelledby='viewImageModalLabel'
             >

@@ -54,21 +54,32 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right"
+          className="btn btn-primary comment-btn"
           disabled={false}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -161,7 +172,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(InjectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -205,21 +216,32 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right"
+          className="btn btn-primary comment-btn"
           disabled={false}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -312,7 +334,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(InjectIntl(FileUpload))
             fileCount={3}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -332,21 +354,32 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right"
+          className="btn btn-primary comment-btn"
           disabled={false}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -451,7 +484,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(InjectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -495,21 +528,32 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
+      <div
+        className="text-right margin-top"
+      >
         <input
-          className="btn btn-primary comment-btn pull-right disabled"
+          className="btn btn-primary comment-btn disabled"
           disabled={true}
+          id="addCommentButton"
           onClick={[Function]}
           type="button"
           value="Add Comment"
@@ -602,7 +646,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
         <span
           className="post-body__actions"
         >
-          <Connect(injectIntl(FileUpload))
+          <Connect(InjectIntl(FileUpload))
             fileCount={4}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -646,27 +690,30 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
       <div
         className="d-flex justify-content-between"
       >
-        <Connect(MsgTyping)
-          channelId="g6139tbospd18cmxroesdk3kkc"
-          postId=""
-        />
-        <TextboxLinks
-          characterLimit={4000}
-          message=""
-          showPreview={false}
-          updatePreview={[Function]}
-        />
+        <div
+          className="col"
+        >
+          <Connect(MsgTyping)
+            channelId="g6139tbospd18cmxroesdk3kkc"
+            postId=""
+          />
+        </div>
+        <div
+          className="col col-auto"
+        >
+          <TextboxLinks
+            characterLimit={4000}
+            message=""
+            showPreview={false}
+            updatePreview={[Function]}
+          />
+        </div>
       </div>
-      <div>
-        <input
-          className="btn btn-primary comment-btn pull-right"
-          disabled={false}
-          onClick={[Function]}
-          type="button"
-          value="Add Comment"
-        />
+      <div
+        className="text-right margin-top"
+      >
         <span
-          className="pull-right post-right-comments-upload-in-progress"
+          className="post-right-comments-upload-in-progress"
         >
           <FormattedMessage
             defaultMessage="File uploading"
@@ -674,6 +721,14 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
             values={Object {}}
           />
         </span>
+        <input
+          className="btn btn-primary comment-btn"
+          disabled={false}
+          id="addCommentButton"
+          onClick={[Function]}
+          type="button"
+          value="Add Comment"
+        />
         <Connect(FilePreview)
           fileInfos={
             Array [

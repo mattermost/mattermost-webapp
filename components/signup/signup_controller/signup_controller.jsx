@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {Client4} from 'mattermost-redux/client';
 
@@ -13,13 +13,14 @@ import logoImage from 'images/logo.png';
 import AnnouncementBar from 'components/announcement_bar';
 import BackButton from 'components/common/back_button.jsx';
 import FormError from 'components/form_error';
+import LocalizedIcon from 'components/localized_icon';
 
 import LoadingScreen from 'components/loading_screen';
 import {Constants} from 'utils/constants';
+import {t} from 'utils/i18n';
 
-class SignupController extends React.Component {
+export default class SignupController extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
         location: PropTypes.object,
         loggedIn: PropTypes.bool.isRequired,
         isLicensed: PropTypes.bool.isRequired,
@@ -147,7 +148,6 @@ class SignupController extends React.Component {
     }
 
     renderSignupControls = () => {
-        const {formatMessage} = this.props.intl;
         let signupControls = [];
 
         if (this.props.enableSignUpWithEmail) {
@@ -158,9 +158,10 @@ class SignupController extends React.Component {
                     to={'/signup_email' + window.location.search}
                 >
                     <span>
-                        <span
+                        <LocalizedIcon
                             className='icon fa fa-envelope'
-                            title={formatMessage({id: 'signup.email.icon', defaultMessage: 'Email Icon'})}
+                            component='span'
+                            title={{id: t('signup.email.icon'), defaultMessage: 'Email Icon'}}
                         />
                         <FormattedMessage
                             id='signup.email'
@@ -252,9 +253,10 @@ class SignupController extends React.Component {
                     to={'/login' + query}
                 >
                     <span>
-                        <span
+                        <LocalizedIcon
                             className='icon fa fa-folder-open fa--margin-top'
-                            title={formatMessage({id: 'signup.ldap.icon', defaultMessage: 'AD/LDAP Icon'})}
+                            component='span'
+                            title={{id: t('signup.ldap.icon'), defaultMessage: 'AD/LDAP Icon'}}
                         />
                         <span>
                             {LDAPText}
@@ -279,9 +281,10 @@ class SignupController extends React.Component {
                     to={'/login/sso/saml' + window.location.search + query}
                 >
                     <span>
-                        <span
+                        <LocalizedIcon
                             className='icon fa fa-lock fa--margin-top'
-                            title={formatMessage({id: 'signup.saml.icon', defaultMessage: 'SAML Icon'})}
+                            component='span'
+                            title={{id: t('signup.saml.icon'), defaultMessage: 'SAML Icon'}}
                         />
                         <span>
                             {this.props.samlLoginButtonText}
@@ -397,5 +400,3 @@ class SignupController extends React.Component {
         );
     }
 }
-
-export default injectIntl(SignupController);

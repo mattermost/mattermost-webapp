@@ -3,18 +3,18 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {injectIntl} from 'react-intl';
 import debounce from 'lodash/debounce';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-import {injectIntl} from 'react-intl';
 
 import imgTrans from 'images/img_trans.gif';
+import {intlShape} from 'utils/react_intl';
 
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
 
 class EmojiPickerItem extends React.Component {
     static propTypes = {
-        intl: PropTypes.any,
         emoji: PropTypes.object.isRequired,
         onItemOver: PropTypes.func.isRequired,
         onItemClick: PropTypes.func.isRequired,
@@ -25,6 +25,7 @@ class EmojiPickerItem extends React.Component {
         containerRef: PropTypes.any,
         containerTop: PropTypes.number.isRequired,
         containerBottom: PropTypes.number.isRequired,
+        intl: intlShape.isRequired,
     };
 
     shouldComponentUpdate(nextProps) {

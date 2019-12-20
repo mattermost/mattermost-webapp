@@ -6,6 +6,8 @@ import {injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 import marked from 'marked';
 
+import {intlShape} from 'utils/react_intl';
+
 const TARGET_BLANK_URL_PREFIX = '!';
 
 export class CustomRenderer extends marked.Renderer {
@@ -38,7 +40,7 @@ export class CustomRenderer extends marked.Renderer {
 class FormattedMarkdownMessage extends React.PureComponent {
     static get propTypes() {
         return {
-            intl: PropTypes.any,
+            intl: intlShape.isRequired,
             id: PropTypes.string.isRequired,
             defaultMessage: PropTypes.string.isRequired,
             values: PropTypes.object,
@@ -48,9 +50,7 @@ class FormattedMarkdownMessage extends React.PureComponent {
     render() {
         const origMsg = this.props.intl.formatMessage({
             id: this.props.id,
-
-            // Any strings, but never empty
-            defaultMessage: this.props.defaultMessage || this.props.id,
+            defaultMessage: this.props.defaultMessage,
         }, this.props.values);
 
         const markedUpMessage = marked(origMsg, {
