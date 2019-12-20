@@ -14,9 +14,9 @@ let townsquareChannelId;
 
 describe('Account Settings > General', () => {
     before(() => {
-        // # Login and go to /
+        // # Login and go to town square
         cy.apiLogin('sysadmin');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
 
         // # Store channel id for further use
         cy.getCurrentChannelId().then((id) => {
@@ -28,16 +28,13 @@ describe('Account Settings > General', () => {
         // # Click the hamburger button
         cy.get('#headerInfo').find('button').click({force: true});
 
-        // # Wait for the menu to open
-        cy.wait(TIMEOUTS.TINY);
-
         // * Menu should be visible
-        cy.get('#sidebarDropdownMenu').find('ul').should('be.visible');
+        cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');
 
         // # Post a message as other user and wait for it to reach
         cy.postMessageAs({sender: users['user-1'], message: 'abc', channelId: townsquareChannelId}).wait(TIMEOUTS.SMALL);
 
         // * Menu should still be visible
-        cy.get('#sidebarDropdownMenu').find('ul').should('be.visible');
+        cy.get('#sidebarDropdownMenu').find('.dropdown-menu').should('be.visible');
     });
 });
