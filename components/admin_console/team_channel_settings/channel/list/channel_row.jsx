@@ -44,7 +44,7 @@ export default class ChannelRow extends React.Component {
                             defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}
                         />
                     </span>
-                    <span 
+                    <span
                         className='group-actions'
                         data-testid={`${channel.display_name}edit`}
                     >

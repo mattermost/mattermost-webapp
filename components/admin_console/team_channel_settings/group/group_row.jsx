@@ -71,7 +71,7 @@ export default class GroupRow extends React.Component {
                 id='group'
                 className='group'
             >
-                <div 
+                <div
                     id='group-row'
                     className='group-row'
                 >

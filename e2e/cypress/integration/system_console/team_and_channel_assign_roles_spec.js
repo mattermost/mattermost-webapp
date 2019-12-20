@@ -16,14 +16,15 @@ describe('System Console', () => {
         cy.findByTestId('eligendiedit').click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500);
+        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Remove all exisiting groups
-        cy.get('#groups-list--body').then(el => {
+        cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0 ; i < el[0].childNodes.length; i++) {
+                for (let i = 0; i < el[0].childNodes.length; i++) {
                     cy.get('#group-actions').click();
                 }
+
                 // # Save the setting
                 cy.get('#saveSetting').click();
             }
@@ -45,9 +46,9 @@ describe('System Console', () => {
 
         // * Check to make the the current role text is displayed as Team Admin
         cy.findByTestId('current-role').should('have.text', 'Team Admin');
-
     });
-  it('MM-20646 - System Admin can map roles to groups from Channel Configuration screen', () => {
+
+    it('MM-20646 - System Admin can map roles to groups from Channel Configuration screen', () => {
         cy.apiLogin('sysadmin');
 
         // # Go to system admin page and to channel configuration page of channel "autem"
@@ -55,14 +56,15 @@ describe('System Console', () => {
         cy.findByTestId('autemedit').click();
 
         // # Wait until the groups retrieved and show up
-        cy.wait(500);
+        cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
 
         // # Remove all exisiting groups
-        cy.get('#groups-list--body').then(el => {
+        cy.get('#groups-list--body').then((el) => {
             if (el[0].childNodes[0].innerText !== 'No groups specified yet') {
-                for (let i = 0 ; i < el[0].childNodes.length; i++) {
+                for (let i = 0; i < el[0].childNodes.length; i++) {
                     cy.get('#group-actions').click();
                 }
+
                 // # Save the setting
                 cy.get('#saveSetting').click();
             }
@@ -84,6 +86,5 @@ describe('System Console', () => {
 
         // * Check to make the the current role text is displayed as Channel Admin
         cy.findByTestId('current-role').should('have.text', 'Channel Admin');
-
     });
 });
