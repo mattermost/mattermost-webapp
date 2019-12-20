@@ -12,9 +12,16 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     >
       <QuickInput
         className="form-control filter-textbox"
+        clearable={false}
         delayInputUpdate={false}
         id="searchChannelsTextbox"
-        inputComponent={[Function]}
+        inputComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "displayName": "LocalizedInput",
+            "render": [Function],
+          }
+        }
         onInput={[Function]}
         placeholder={
           Object {
@@ -30,7 +37,9 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     className="more-modal__list"
     role="application"
   >
-    <div>
+    <div
+      id="moreChannelsList"
+    >
       <LoadingScreen
         position="relative"
         style={

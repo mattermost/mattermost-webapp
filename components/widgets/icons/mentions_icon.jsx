@@ -18,7 +18,7 @@ export default class MentionsIcon extends React.PureComponent {
                             height='14px'
                             viewBox='0 0 20 20'
                             version='1.1'
-                            role='icon'
+                            role='img'
                             aria-label={ariaLabel}
                         >
                             <g

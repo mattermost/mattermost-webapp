@@ -2,17 +2,12 @@
 
 .channel-header {
     @include flex(0 0 63px);
+    max-height: 63px;
     border-bottom: 1px solid;
     font-size: 14px;
     position: relative;
     width: 100%;
     z-index: 9;
-
-    .move--left & {
-        .flex-parent {
-            padding-right: 0;
-        }
-    }
 
     .Badge {
         display: inline-block;
@@ -87,7 +82,7 @@
         }
 
         .markdown__paragraph-inline {
-            margin: 0;
+            margin: 0 0 8px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
@@ -370,7 +365,7 @@
         position: relative;
         text-overflow: ellipsis;
         margin: 2px 0 0;
-        height: 22px;
+        height: 27px;
         width: 100%;
         display: flex;
         align-items: flex-start;
@@ -398,6 +393,12 @@
         .header-description__text {
             flex: 1 1 0;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+
+            li {
+                margin-bottom: 8px;
+            }
         }
 
         .status {
@@ -617,6 +618,7 @@
         .dropdown-menu {
             margin: 4px 0 0 10px;
             min-width: 220px;
+            overflow: auto;
         }
 
         .sidebar-header-dropdown,
@@ -734,7 +736,7 @@
     }
 }
 
-#navbar {
+#navbar_wrapper {
     .navbar-default {
         .navbar-toggle {
             &.menu-toggle {

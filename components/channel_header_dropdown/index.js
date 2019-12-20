@@ -60,6 +60,8 @@ const mapStateToProps = (state) => ({
     isReadonly: isCurrentChannelReadOnly(state),
     isArchived: isCurrentChannelArchived(state),
     penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
+    pluginMenuItems: state.plugins.components.ChannelHeader || [],
+    isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
 });
 
 const mobileMapStateToProps = (state) => {

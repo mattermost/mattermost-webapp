@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import AuditTable from 'components/audit_table/audit_table.jsx';
 
 describe('components/audit_table/AuditTable', () => {

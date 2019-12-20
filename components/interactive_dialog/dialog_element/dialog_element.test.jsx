@@ -17,6 +17,7 @@ describe('components/interactive_dialog/DialogElement', () => {
         maxLength: 100,
         actions: {
             autocompleteChannels: jest.fn(),
+            autocompleteUsers: jest.fn(),
         },
     };
     const baseTextSettingProps = {
@@ -165,7 +166,7 @@ describe('components/interactive_dialog/DialogElement', () => {
             expect(wrapper.find(RadioSetting).exists()).toBe(true);
         });
 
-        test('The default value is the first element of the list', () => {
+        test('No default value is selected from the radio button list', () => {
             const wrapper = shallow(
                 <DialogElement
                     {...baseDialogProps}
@@ -174,7 +175,7 @@ describe('components/interactive_dialog/DialogElement', () => {
                     onChange={jest.fn()}
                 />
             );
-            expect(wrapper.find({options: radioOptions, value: radioOptions[0].value}).exists()).toBe(true);
+            expect(wrapper.find({options: radioOptions}).props.value).toBeUndefined();
         });
 
         test('The default value can be specified from the list', () => {

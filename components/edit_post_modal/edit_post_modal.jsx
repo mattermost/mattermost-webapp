@@ -3,13 +3,15 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
-import {splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
+import {splitMessageBasedOnCaretPosition, postMessageOnKeyPress} from 'utils/post_utils.jsx';
+
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
+
 import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -18,12 +20,14 @@ import TextboxLinks from 'components/textbox/textbox_links.jsx';
 
 const KeyCodes = Constants.KeyCodes;
 
-export default class EditPostModal extends React.PureComponent {
+class EditPostModal extends React.PureComponent {
     static propTypes = {
         canEditPost: PropTypes.bool,
         canDeletePost: PropTypes.bool,
+        codeBlockOnCtrlEnter: PropTypes.bool,
         ctrlSend: PropTypes.bool,
         config: PropTypes.object.isRequired,
+        intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
         editingPost: PropTypes.shape({
             post: PropTypes.object,
@@ -43,10 +47,6 @@ export default class EditPostModal extends React.PureComponent {
         }).isRequired,
     }
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
     constructor(props) {
         super(props);
 
@@ -57,15 +57,19 @@ export default class EditPostModal extends React.PureComponent {
             postError: '',
             errorClass: null,
             showEmojiPicker: false,
+            prevShowState: props.editingPost.show,
         };
     }
 
-    UNSAFE_componentWillUpdate(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.editingPost.show && nextProps.editingPost.show) {
-            this.setState({
-                editText: nextProps.editingPost.post.message_source || nextProps.editingPost.post.message,
-            });
+    static getDerivedStateFromProps(props, state) {
+        if (props.editingPost.show && !state.prevShowState) {
+            return {
+                editText: props.editingPost.post.message_source || props.editingPost.post.message,
+                prevShowState: props.editingPost.show,
+            };
         }
+
+        return null;
     }
 
     updatePreview = (newState) => {
@@ -210,11 +214,17 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     handleEditKeyPress = (e) => {
-        if (!UserAgent.isMobile() && !this.props.ctrlSend && Utils.isKeyPressed(e, KeyCodes.ENTER) && !e.shiftKey && !e.altKey) {
+        const {ctrlSend, codeBlockOnCtrlEnter} = this.props;
+
+        const {allowSending, ignoreKeyPress} = postMessageOnKeyPress(e, this.state.editText, ctrlSend, codeBlockOnCtrlEnter, Date.now(), this.lastChannelSwitchAt, this.state.caretPosition);
+
+        if (ignoreKeyPress) {
             e.preventDefault();
-            this.editbox.blur();
-            this.handleEdit();
-        } else if (this.props.ctrlSend && e.ctrlKey && Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+            e.stopPropagation();
+            return;
+        }
+
+        if (allowSending) {
             e.preventDefault();
             this.editbox.blur();
             this.handleEdit();
@@ -264,7 +274,7 @@ export default class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false});
+        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
     }
 
     setEditboxRef = (ref) => {
@@ -292,7 +302,7 @@ export default class EditPostModal extends React.PureComponent {
     }
 
     render() {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const errorBoxClass = 'edit-post-footer' + (this.state.postError ? ' has-error' : '');
         let postError = null;
         if (this.state.postError) {
@@ -430,3 +440,5 @@ export default class EditPostModal extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(EditPostModal);

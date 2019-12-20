@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 export default class DeleteChannelModal extends React.PureComponent {
@@ -73,6 +73,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                 onExited={this.props.onHide}
                 role='dialog'
                 aria-labelledby='deleteChannelModalLabel'
+                id='deleteChannelModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
@@ -122,6 +123,7 @@ export default class DeleteChannelModal extends React.PureComponent {
                         data-dismiss='modal'
                         onClick={this.handleDelete}
                         autoFocus={true}
+                        id='deleteChannelModalDeleteButton'
                     >
                         <FormattedMessage
                             id='delete_channel.del'

@@ -29,8 +29,7 @@ export default class PasswordResetSendLink extends React.PureComponent {
     handleSendLink = async (e) => {
         e.preventDefault();
 
-        const input = this.emailInput.current && this.emailInput.current.input.current;
-        const email = input && input.value.trim().toLowerCase();
+        const email = this.emailInput.current.value.trim().toLowerCase();
         if (!email || !isEmail(email)) {
             this.setState({
                 error: (

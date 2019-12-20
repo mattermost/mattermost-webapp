@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 import {getRecentPostsChunkInChannel, makeGetPostsChunkAroundPost, getUnreadPostsChunk, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
+import {markChannelAsRead, markChannelAsViewed} from 'mattermost-redux/actions/channels';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 
 import {getLatestPostId, makeCreateAriaLabelForPost} from 'utils/post_utils.jsx';
@@ -57,7 +58,7 @@ function makeMapStateToProps() {
         }
 
         if (postIds) {
-            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true});
+            formattedPostIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, indicateNewMessages: true, channelId: ownProps.channelId});
             if (postIds.length) {
                 const latestPostId = memoizedGetLatestPostId(postIds);
                 const latestPost = getPost(state, latestPostId);
@@ -89,6 +90,8 @@ function mapDispatchToProps(dispatch) {
             loadPostsAround,
             checkAndSetMobileView,
             syncPostsInChannel,
+            markChannelAsViewed,
+            markChannelAsRead,
         }, dispatch),
     };
 }

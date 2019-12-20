@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
-import {Constants} from 'utils/constants.jsx';
-import Sidebar from 'components/sidebar/sidebar.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {Constants} from 'utils/constants';
+import Sidebar from 'components/sidebar/sidebar';
 
 jest.mock('utils/utils', () => {
     const original = require.requireActual('utils/utils');
@@ -142,26 +143,26 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     };
 
     test('should match snapshot, on sidebar show', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on sidebar show with favorites', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar
                 {...{
                     ...defaultProps,
                     favoriteChannelIds: ['c1', 'c3', 'c5'],
                 }}
             />
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on sidebar show with unreads', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar
                 {...{
                     ...defaultProps,
@@ -169,12 +170,12 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     showUnreadSection: true,
                 }}
             />
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, on sidebar not show the channel switcher', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar
                 {...{
                     ...defaultProps,
@@ -182,28 +183,28 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
                     channelSwitcherOption: true,
                 }}
             />
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot, when render as an empty div because no have a team or a user', () => {
-        let wrapper = shallow(
+        let wrapper = shallowWithIntl(
             <Sidebar
                 {...{
                     ...defaultProps,
                     currentTeam: null,
                 }}
             />
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
-        wrapper = shallow(
+        wrapper = shallowWithIntl(
             <Sidebar
                 {...{
                     ...defaultProps,
                     currentUser: null,
                 }}
             />
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -223,9 +224,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             keyCode: Constants.KeyCodes.UP[1],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.updateScrollbarOnChannelChange = jest.fn();
         instance.componentDidUpdate = jest.fn();
@@ -312,9 +313,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             keyCode: Constants.KeyCodes.UP[1],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.updateScrollbarOnChannelChange = jest.fn();
         instance.updateUnreadIndicators = jest.fn();
@@ -387,9 +388,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             keyCode: Constants.KeyCodes.K[1],
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.handleOpenMoreDirectChannelsModal = jest.fn();
         expect(instance.handleOpenMoreDirectChannelsModal).not.toBeCalled();
@@ -406,9 +407,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('set correctly the title when needed', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.updateTitle();
         instance.componentDidUpdate = jest.fn();
@@ -417,18 +418,21 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         wrapper.setProps({config: {SiteName: null}});
         instance.updateTitle();
         expect(document.title).toBe('Public test 1 - Test team display name');
-        wrapper.setProps({currentChannel: {type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
+        wrapper.setProps({currentChannel: {id: 1, type: Constants.DM_CHANNEL}, currentTeammate: {display_name: 'teammate'}});
         instance.updateTitle();
         expect(document.title).toBe('teammate - Test team display name');
         wrapper.setProps({unreads: {mentionCount: 3, messageCount: 4}});
         instance.updateTitle();
         expect(document.title).toBe('(3) * teammate - Test team display name');
+        wrapper.setProps({currentChannel: {}, currentTeammate: {}});
+        instance.updateTitle();
+        expect(document.title).toBe('Mattermost - Join a team');
     });
 
     test('should show/hide correctly more channels modal', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.componentDidUpdate = jest.fn();
         instance.showMoreChannelsModal();
@@ -440,9 +444,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('should show/hide correctly new channel modal', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.componentDidUpdate = jest.fn();
         instance.showNewChannelModal(Constants.PRIVATE_CHANNEL);
@@ -454,9 +458,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('should show/hide correctly more direct channels modal', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.componentDidUpdate = jest.fn();
         instance.showMoreDirectChannelsModal([]);
@@ -468,18 +472,18 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     });
 
     test('should verify if the channel is displayed for props', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         expect(instance.channelIdIsDisplayedForProps(instance.props.orderedChannelIds, 'c1')).toBe(true);
         expect(instance.channelIdIsDisplayedForProps(instance.props.orderedChannelIds, 'c9')).toBe(false);
     });
 
     test('should handle correctly open more direct channels toggle', () => {
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
         instance.showMoreDirectChannelsModal = jest.fn();
         instance.hideMoreDirectChannelsModal = jest.fn();
@@ -497,9 +501,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
     test('should listen/unlisten keydown events', () => {
         document.addEventListener = jest.fn();
         document.removeEventListener = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        );
+        ).dive();
         const instance = wrapper.instance();
 
         expect(document.addEventListener).toHaveBeenCalledTimes(2);

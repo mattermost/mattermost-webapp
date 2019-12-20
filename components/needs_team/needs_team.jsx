@@ -9,14 +9,14 @@ import iNoBounce from 'inobounce';
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions.jsx';
 import {startPeriodicSync, stopPeriodicSync, reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions.jsx';
-import Constants from 'utils/constants.jsx';
-import * as UserAgent from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {makeAsyncComponent} from 'components/async_load';
-import loadBackstageController from 'bundle-loader?lazy!components/backstage';
+const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
 
-const BackstageController = makeAsyncComponent(loadBackstageController);
+const BackstageController = makeAsyncComponent(LazyBackstageController);
 
 let wakeUpInterval;
 let lastTime = Date.now();
@@ -34,7 +34,7 @@ export default class NeedsTeam extends React.Component {
             fetchMyChannelsAndMembers: PropTypes.func.isRequired,
             getMyTeamUnreads: PropTypes.func.isRequired,
             viewChannel: PropTypes.func.isRequired,
-            markChannelAsRead: PropTypes.func.isRequired,
+            markChannelAsReadOnFocus: PropTypes.func.isRequired,
             getTeamByName: PropTypes.func.isRequired,
             addUserToTeam: PropTypes.func.isRequired,
             selectTeam: PropTypes.func.isRequired,
@@ -148,7 +148,7 @@ export default class NeedsTeam extends React.Component {
     }
 
     handleFocus = () => {
-        this.props.actions.markChannelAsRead(this.props.currentChannelId);
+        this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
         window.isActive = true;
 
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS) {

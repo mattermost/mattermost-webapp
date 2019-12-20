@@ -6,7 +6,7 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils.jsx';
-import ProfilePicture from 'components/profile_picture.jsx';
+import ProfilePicture from 'components/profile_picture';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
@@ -119,6 +119,7 @@ export default class UserListRow extends React.Component {
                     {this.props.extraInfo}
                 </div>
                 <div
+                    data-testid='userListItemActions'
                     className='more-modal__actions'
                 >
                     {buttons}

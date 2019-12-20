@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import ModalStore from 'stores/modal_store.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 const ActionTypes = Constants.ActionTypes;
 
@@ -206,7 +206,6 @@ export default class ImportThemeModal extends React.Component {
                                 onClick={this.handleSubmit}
                                 type='submit'
                                 className='btn btn-primary'
-                                tabIndex='3'
                             >
                                 <FormattedMessage
                                     id='user.settings.import_theme.submit'

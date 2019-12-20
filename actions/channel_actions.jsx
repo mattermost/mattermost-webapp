@@ -14,7 +14,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
 
 export function openDirectChannelToUserId(userId) {
@@ -89,7 +89,7 @@ export function loadChannelsForCurrentUser() {
     };
 }
 
-export function searchMoreChannels(term) {
+export function searchMoreChannels(term, showArchivedChannels) {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
@@ -98,10 +98,12 @@ export function searchMoreChannels(term) {
             throw new Error('No team id');
         }
 
-        const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term));
+        const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term, showArchivedChannels));
         if (data) {
             const myMembers = getMyChannelMemberships(state);
-            const channels = data.filter((c) => !myMembers[c.id]);
+
+            // When searching public channels, only get channels user is not a member of
+            const channels = showArchivedChannels ? data : data.filter((c) => !myMembers[c.id]);
             return {data: channels};
         }
 

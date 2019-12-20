@@ -13,7 +13,7 @@ import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 
 import Constants from 'utils/constants.jsx';
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 
 const headerMarkdownOptions = {singleline: false, mentionHighlight: false};
@@ -154,7 +154,7 @@ export default class ChannelInfoModal extends React.PureComponent {
                         <strong>{channelIcon}{channel.display_name}</strong>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body>
                     {channelPurposeElement}
                     {channelHeader}
                     <div className='form-group'>

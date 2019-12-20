@@ -3,13 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
-import {isDesktopApp} from 'utils/user_agent.jsx';
+import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
+import {isDesktopApp} from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import TeamIcon from '../../widgets/team_icon/team_icon';

@@ -43,17 +43,17 @@ describe('stripMarkdown | RemoveMarkdown', () => {
             outputText: 'Inline code has double backtick and triple backtick around it.',
         },
         {
-            description: 'codespan: multiline codespan',
-            inputText: 'Multiline ```\ncodespan\n```',
-            outputText: 'Multiline codespan',
+            description: 'code block: single line code block',
+            inputText: 'Code block\n```\nline\n```',
+            outputText: 'Code block line',
         },
         {
-            description: 'codespan: multiline codespan 2',
-            inputText: 'Multiline ```function(number) {\n  return number + 1;\n}```',
+            description: 'code block: multiline code block 2',
+            inputText: 'Multiline\n```function(number) {\n  return number + 1;\n}```',
             outputText: 'Multiline function(number) {   return number + 1; }',
         },
         {
-            description: 'codespan: language highlighting',
+            description: 'code block: language highlighting',
             inputText: '```javascript\nvar s = "JavaScript syntax highlighting";\nalert(s);\n```',
             outputText: 'var s = "JavaScript syntax highlighting"; alert(s);',
         },
@@ -203,6 +203,16 @@ describe('stripMarkdown | RemoveMarkdown', () => {
             description: 'text: multiline',
             inputText: 'This is multiline text.\nHere is the next line.\n',
             outputText: 'This is multiline text. Here is the next line.',
+        },
+        {
+            description: 'text: multiline with blockquote',
+            inputText: 'This is multiline text.\n> With quote',
+            outputText: 'This is multiline text. With quote',
+        },
+        {
+            description: 'text: multiline with list items',
+            inputText: 'This is multiline text.\n * List item ',
+            outputText: 'This is multiline text. List item',
         },
         {
             description: 'text: &amp; entity',

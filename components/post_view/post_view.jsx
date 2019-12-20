@@ -14,6 +14,7 @@ export default class PostView extends React.PureComponent {
         channelLoading: PropTypes.bool,
         channelId: PropTypes.string,
         focusedPostId: PropTypes.string,
+        prevChannelId: PropTypes.string.isRequired,
     }
 
     constructor(props) {
@@ -66,12 +67,15 @@ export default class PostView extends React.PureComponent {
         }
 
         return (
-            <PostList
-                unreadChunkTimeStamp={this.state.unreadChunkTimeStamp}
-                channelId={this.props.channelId}
-                changeUnreadChunkTimeStamp={this.changeUnreadChunkTimeStamp}
-                focusedPostId={this.props.focusedPostId}
-            />
+            <div id='post-list'>
+                <PostList
+                    unreadChunkTimeStamp={this.state.unreadChunkTimeStamp}
+                    channelId={this.props.channelId}
+                    changeUnreadChunkTimeStamp={this.changeUnreadChunkTimeStamp}
+                    focusedPostId={this.props.focusedPostId}
+                    prevChannelId={this.props.prevChannelId}
+                />
+            </div>
         );
     }
 }

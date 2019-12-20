@@ -67,6 +67,7 @@ function mapStateToProps(state) {
         canCreatePrivateChannel,
         isOpen: getIsLhsOpen(state),
         unreads: getUnreads(state),
+        viewArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true')
     };
 }
 

@@ -7,7 +7,7 @@ import React from 'react';
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 
 import SizeAwareImage from 'components/size_aware_image';
-import {FileTypes} from 'utils/constants.jsx';
+import {FileTypes} from 'utils/constants';
 import {
     getFileType,
 } from 'utils/utils';
@@ -188,6 +188,7 @@ export default class SingleImageView extends React.PureComponent {
                                 fileInfo={this.props.fileInfo}
                                 onImageLoaded={this.imageLoaded}
                                 showLoader={this.props.isEmbedVisible}
+                                handleSmallImageContainer={true}
                             />
                         </div>
                     </div>

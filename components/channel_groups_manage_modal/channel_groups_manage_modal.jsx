@@ -3,13 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
-import {ModalIdentifiers} from 'utils/constants.jsx';
+import {ModalIdentifiers} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 
 import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
 
