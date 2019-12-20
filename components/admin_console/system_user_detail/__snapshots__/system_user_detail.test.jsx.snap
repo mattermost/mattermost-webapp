@@ -330,7 +330,7 @@ exports[`components/admin_console/system_user_detail should match snapshot if MF
               <span
                 className="SystemUserDetail__field-text"
               >
-                MFA
+                Email, MFA: Yes
               </span>
             </div>
             <span

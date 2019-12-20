@@ -35,6 +35,7 @@ import './system_user_detail.scss';
 export default class SystemUserDetail extends React.PureComponent {
     static propTypes = {
         user: PropTypes.object.isRequired,
+        mfaEnabled: PropTypes.bool.isRequired,
         actions: PropTypes.shape({
             updateUserActive: PropTypes.func.isRequired,
             setNavigationBlocked: PropTypes.func.isRequired,
@@ -46,6 +47,7 @@ export default class SystemUserDetail extends React.PureComponent {
         user: {
             email: null,
         },
+        mfaEnabled: false,
     }
 
     constructor(props) {
@@ -283,6 +285,32 @@ export default class SystemUserDetail extends React.PureComponent {
         return null;
     }
 
+    getAuthenticationText() {
+        const {user, mfaEnabled} = this.props;
+        let authLine;
+
+        if (user.auth_service) {
+            let service;
+            if (user.auth_service === Constants.LDAP_SERVICE || user.auth_service === Constants.SAML_SERVICE) {
+                service = user.auth_service.toUpperCase();
+            } else {
+                service = Utils.toTitleCase(user.auth_service);
+            }
+            authLine = service
+        } else {
+            authLine = 'Email'
+        }
+        if (mfaEnabled) {
+            authLine += ', ';
+            if (user.mfa_active) {
+                authLine += 'MFA: Yes'
+            } else {
+                authLine += 'MFA: No'
+            }
+        }
+        return authLine;
+    }
+
     render() {
         const {user} = this.props;
         let deactivateMemberModal;
@@ -366,7 +394,7 @@ export default class SystemUserDetail extends React.PureComponent {
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.authenticationMethod', 'Authentication Method')}</span>
                                     <div className='SystemUserDetail__field-text'>
                                         <SheidOutlineIcon className='SystemUserDetail__field-icon'/>
-                                        <span className='SystemUserDetail__field-text'>{user.mfa_active ? 'MFA' : 'Email'}</span>
+                                        <span className='SystemUserDetail__field-text'>{this.getAuthenticationText()}</span>
                                     </div>
 
                                     <span className='SystemUserDetail__field-label'>{Utils.localizeMessage('admin.userManagement.userDetail.role', 'Role')}</span>
