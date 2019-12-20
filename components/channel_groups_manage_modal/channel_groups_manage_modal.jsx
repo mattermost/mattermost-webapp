@@ -57,16 +57,8 @@ class ChannelGroupsManageModal extends React.PureComponent {
         this.props.actions.openModal({modalId: ModalIdentifiers.ADD_GROUPS_TO_TEAM, dialogType: AddGroupsToChannelModal});
     };
 
-    makeChannelAdmin = async (item, listModal) => {
-        this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: true}).then(async () => {
-            listModal.setState({loading: true});
-            const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
-            listModal.setState({loading: false, items, totalCount});
-        });
-    };
-
-    makeChannelMember = async (item, listModal) => {
-        this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: false}).then(async () => {
+    changeChannelMemberStatus = async (item, listModal, isChannelAdmin) => {
+        this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: isChannelAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
             listModal.setState({loading: false, items, totalCount});
@@ -76,9 +68,9 @@ class ChannelGroupsManageModal extends React.PureComponent {
     renderRow = (item, listModal) => {
         let title;
         if (item.scheme_admin) {
-            title = Utils.localizeMessage('channel_members_dropdown.channel_admin', 'Channel Admin');
+            title = Utils.localizeMessage('channel_members_dropdown.channel_admins', 'Channel Admins');
         } else {
-            title = Utils.localizeMessage('channel_members_dropdown.channel_member', 'Channel Member');
+            title = Utils.localizeMessage('channel_members_dropdown.channel_members', 'Channel Members');
         }
 
         return (
@@ -116,13 +108,13 @@ class ChannelGroupsManageModal extends React.PureComponent {
                         >
                             <Menu.ItemAction
                                 show={!item.scheme_admin}
-                                onClick={() => this.makeChanneldmin(item, listModal)}
-                                text={Utils.localizeMessage('admin.user_item.channel_members_dropdown.make_channel_admin', 'Make Channel Admin')}
+                                onClick={() => this.changeChannelMemberStatus(item, listModal, true)}
+                                text={Utils.localizeMessage('channel_members_dropdown.make_channel_admins', 'Make Channel Admins')}
                             />
                             <Menu.ItemAction
                                 show={Boolean(item.scheme_admin)}
-                                onClick={() => this.makeChannelMember(item, listModal)}
-                                text={Utils.localizeMessage('channel_members_dropdown.make_channel_member', 'Make Channel Member')}
+                                onClick={() => this.changeChannelMemberStatus(item, listModal, false)}
+                                text={Utils.localizeMessage('channel_members_dropdown.make_channel_members', 'Make Channel Members')}
                             />
                             <Menu.ItemAction
                                 onClick={() => this.onClickRemoveGroup(item, listModal)}
