@@ -61,6 +61,7 @@ describe('components/admin_console/system_user_detail', () => {
                 ...defaultProps.user,
                 mfa_active: 'MFA',
             },
+            mfaEnabled: true,
         };
         const wrapper = shallow(<SystemUserDetail {...props}/>);
         expect(wrapper).toMatchSnapshot();
