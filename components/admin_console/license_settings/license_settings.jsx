@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedDate, FormattedTime, FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
 
@@ -99,7 +99,13 @@ export default class LicenseSettings extends React.Component {
         let licenseType;
         let licenseKey;
 
-        const issued = <React.Fragment><FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>{' '}{Utils.displayTime(parseInt(license.IssuedAt, 10), true)}</React.Fragment>;
+        const issued = (
+            <React.Fragment>
+                <FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>
+                {' '}
+                <FormattedTime value={new Date(parseInt(license.IssuedAt, 10))}/>
+            </React.Fragment>
+        );
         const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
         const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
 
@@ -129,7 +135,7 @@ export default class LicenseSettings extends React.Component {
                     <a
                         rel='noopener noreferrer'
                         target='_blank'
-                        href='https://about.mattermost.com/privacy/'
+                        href='https://about.mattermost.com/default-privacy-policy/'
                     >{'Privacy Policy.'}</a>
                 </div>
             );
@@ -169,13 +175,13 @@ export default class LicenseSettings extends React.Component {
             // Note: DO NOT LOCALISE THESE STRINGS. Legally we can not since the license is in English.
             edition = (
                 <p>
-                    {'Mattermost Enterprise Edition. Unlock enterprise features in this software through the purchase of a subscription from '}
+                    {'Mattermost Enterprise Edition. A license is required to unlock enterprise features. Start a trial subscription at '}
                     <a
                         target='_blank'
                         rel='noopener noreferrer'
-                        href='https://mattermost.com/'
+                        href='https://mattermost.com/trial/?utm_medium=product&utm_source=product-trial'
                     >
-                        {'https://mattermost.com/'}
+                        {'https://mattermost.com/trial/'}
                     </a>
                 </p>
             );

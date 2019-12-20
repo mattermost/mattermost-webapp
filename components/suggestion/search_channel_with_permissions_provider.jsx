@@ -18,7 +18,7 @@ import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import store from 'stores/redux_store.jsx';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -60,6 +60,10 @@ class SearchChannelWithPermissionsSuggestion extends Suggestion {
             <div
                 onClick={this.handleClick}
                 className={className}
+                onMouseMove={this.handleMouseMove}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 {...Suggestion.baseProps}
             >
                 {icon}

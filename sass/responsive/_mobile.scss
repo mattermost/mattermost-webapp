@@ -1,6 +1,27 @@
 @charset 'UTF-8';
 
 @media screen and (max-width: 768px) {
+    #navbar_wrapper {
+        .navbar-default {
+            .navbar-brand {
+                margin-left: 0;
+            }
+        }
+    }
+
+    .app__body {
+        .MenuWrapper {
+            .MenuItem__divider {
+                margin: 0;
+                border: none;
+            }
+        }
+    }
+
+    .post-right__container {
+        height: 100%;
+    }
+
     .line-switch__toggle {
         margin: 8px 0;
     }
@@ -120,7 +141,7 @@
     }
 
     .MenuWrapper {
-        .Menu {
+        .Menu__content {
             &.dropdown-menu {
                 max-height: 100%;
                 max-width: 100%;
@@ -147,7 +168,7 @@
     }
 
     .mobile-main-menu {
-        .Menu {
+        .Menu__content {
             &.dropdown-menu {
                 width: 100%;
                 position: relative;
@@ -171,6 +192,7 @@
                 .MenuItem {
                     > button,
                     > a {
+                        height: auto;
                         padding: 3px 16px;
                         font-size: 15px;
                         line-height: 32px;
@@ -228,10 +250,20 @@
                 z-index: 9999;
                 display: flex;
                 margin: 0;
-                padding: 0 2em;
+                padding: 6em 2em 4em;
                 background: transparent;
-                flex-direction: column;
-                justify-content: center;
+                flex-wrap: wrap;
+                align-items: center;
+                overflow: auto;
+
+                .Menu__content {
+                    width: 100%;
+                    max-height: inherit;
+                    max-width: inherit;
+                    position: relative;
+                    top: 0;
+                    padding: 0;
+                }
 
                 &:after {
                     background: alpha-color($black, .3);
@@ -1152,7 +1184,7 @@
         }
     }
 
-    #navbar {
+    #navbar_wrapper {
         .browser--ie & {
             .navbar-default {
                 .dropdown-menu {
@@ -1186,13 +1218,13 @@
                 }
             }
 
-            .dropdown-menu {
+            .Menu {
                 @include single-transition(all, .35s, ease);
                 background: alpha-color($black, .9);
                 display: block;
-                height: calc(100% - 26px);
+                height: 100%;
                 left: 0;
-                overflow: auto;
+                overflow: hidden;
                 padding: 2.5em 0 0;
                 position: fixed;
                 top: 48px;
@@ -1203,32 +1235,46 @@
                     height: calc(100% - 48px - #{$announcement-bar-height});
                     top: calc(48px + #{$announcement-bar-height});
                 }
+            }
 
+            .Menu__content {
+                background: transparent;
+                position: absolute;
+                top: 0;
+                width: 100%;
+                max-width: 100%;
+                overflow: auto;
+                height: 100%;
+                max-height: 100%;
+                padding: 2rem 2rem 5rem;
+            }
+
+            .Menu__close {
+                @include border-radius(50%);
+                border: 1px solid $white;
+                color: $white;
+                display: block;
+                font-family: 'Open Sans', sans-serif;
+                font-size: 23px;
+                font-weight: 200;
+                height: 30px;
+                line-height: 0;
+                margin-left: -15px;
+                opacity: 1;
+                padding-top: 13px;
+                position: fixed;
+                right: 20px;
+                text-align: center;
+                text-shadow: none;
+                top: 70px;
+                width: 30px;
+            }
+
+            .dropdown-menu {
                 .dropdown__divider {
                     &+.dropdown__divider {
                         display: none;
                     }
-                }
-
-                .close {
-                    @include border-radius(50%);
-                    border: 1px solid $white;
-                    color: $white;
-                    display: block;
-                    font-family: 'Open Sans', sans-serif;
-                    font-size: 23px;
-                    font-weight: 200;
-                    height: 30px;
-                    line-height: 0;
-                    margin-left: -15px;
-                    opacity: 1;
-                    padding-top: 13px;
-                    position: fixed;
-                    right: 20px;
-                    text-align: center;
-                    text-shadow: none;
-                    top: 20px;
-                    width: 30px;
                 }
 
                 >li {
@@ -1240,7 +1286,9 @@
                         line-height: 32px;
                         margin: 0 auto;
                         text-align: center;
-                        width: 70%;
+                        width: 100%;
+                        padding: 0.4rem 2rem;
+                        height: auto;
 
                         &:hover {
                             background: transparent;
@@ -1254,7 +1302,6 @@
                     hr {
                         border-bottom: 1px solid alpha-color($white, .3);
                         margin: 8px auto;
-                        width: 70%;
                     }
                 }
             }
@@ -1504,6 +1551,10 @@
                 padding: .5em 1em;
             }
 
+            .post-create {
+                padding: 0;
+            }
+
             .emoji-rhs {
                 // bring back the emoji picker for mobile
                 // display: none;
@@ -1517,8 +1568,11 @@
             }
 
             .post-create-footer {
-                padding-right: 0;
-                padding-top: 10px;
+                padding: 6px 0 0;
+
+                .post-error {
+                    margin-bottom: 8px;
+                }
 
                 .control-label {
                     margin: .5em 0;
@@ -1532,7 +1586,7 @@
             vertical-align: top;
         }
 
-        .sidebar__search-clear {
+        .input-clear {
             color: inherit;
             height: 32px;
             margin-right: 0;
@@ -1548,7 +1602,7 @@
             }
         }
 
-        .sidebar__search-clear-x {
+        .input-clear-x {
             font-size: 21px;
             font-weight: 700;
             line-height: 0;
@@ -1695,7 +1749,7 @@
     .modal-body {
         .MenuWrapper {
             .Menu {
-                &.dropdown-menu {
+                .dropdown-menu {
                     max-height: none;
                     max-width: none;
                     right: 0;
@@ -1723,15 +1777,6 @@
         >span {
             &:first-child {
                 margin-bottom: 1rem;
-            }
-        }
-    }
-
-    .app__body {
-        .MenuWrapper {
-            .MenuItem__divider {
-                margin: 0;
-                border: none;
             }
         }
     }
@@ -2251,7 +2296,7 @@
 }
 
 @media screen and (max-width: 380px) and (max-height: 580px) {
-    #navbar {
+    #navbar_wrapper {
         .navbar-default {
             .dropdown-menu {
                 padding-top: 1em;

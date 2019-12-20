@@ -8,7 +8,7 @@ import {debounce} from 'mattermost-redux/actions/helpers';
 import {Permissions} from 'mattermost-redux/constants';
 
 import {getStandardAnalytics} from 'actions/admin_actions.jsx';
-import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants.jsx';
+import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n.jsx';
 import {getUserOptionsFromFilter, searchUserOptionsFromFilter} from 'utils/filter_users';
@@ -222,7 +222,7 @@ export default class SystemUsers extends React.Component {
         }
 
         this.setState({loading: false});
-    }, Constants.SEARCH_TIMEOUT_MILLISECONDS, true);
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS);
 
     getUserById = async (id) => {
         if (this.props.users[id]) {
@@ -301,7 +301,6 @@ export default class SystemUsers extends React.Component {
                 <div className='system-users__filter'>
                     <LocalizedInput
                         id='searchUsers'
-                        ref='filter'
                         className='form-control filter-textbox'
                         placeholder={{id: t('filtered_user_list.search'), defaultMessage: 'Search users'}}
                         onInput={doSearch}

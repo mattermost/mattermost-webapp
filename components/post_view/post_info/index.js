@@ -9,7 +9,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 import {getSelectedPostCard} from 'selectors/rhs.jsx';
 
 import PostInfo from './post_info.jsx';

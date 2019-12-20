@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import UserSettingsTheme from 'components/user_settings/display/user_settings_theme/user_settings_theme.jsx';
 
 describe('components/user_settings/display/user_settings_theme/user_settings_theme.jsx', () => {

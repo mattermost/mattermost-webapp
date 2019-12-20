@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -21,6 +21,7 @@ import {
     formatUsersWithPostsPerDayData,
     formatChannelDoughtnutData,
     formatPostDoughtnutData,
+    synchronizeChartData,
 } from '../format';
 
 const StatTypes = Constants.StatTypes;
@@ -49,6 +50,7 @@ export default class SystemAnalytics extends React.PureComponent {
         const postCountsDay = formatPostsPerDayData(stats[StatTypes.POST_PER_DAY]);
         const botPostCountsDay = formatPostsPerDayData(stats[StatTypes.BOT_POST_PER_DAY]);
         const userCountsWithPostsDay = formatUsersWithPostsPerDayData(stats[StatTypes.USERS_WITH_POSTS_PER_DAY]);
+        synchronizeChartData(postCountsDay, botPostCountsDay, userCountsWithPostsDay);
 
         let banner;
         let postCount;

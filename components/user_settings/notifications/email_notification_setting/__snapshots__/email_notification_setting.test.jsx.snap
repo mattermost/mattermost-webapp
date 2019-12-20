@@ -45,7 +45,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   saving={false}
   sendEmailNotifications={true}
   serverError=""
-  siteName="Mattermost"
   updateSection={[MockFunction]}
 >
   <SettingItemMax
@@ -107,13 +106,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             className="margin-top x2"
           >
             <FormattedMessage
-              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
-              values={
-                Object {
-                  "siteName": "Mattermost",
-                }
-              }
+              values={Object {}}
             />
              
           </div>
@@ -216,16 +211,12 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 className="margin-top x2"
               >
                 <FormattedMessage
-                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
-                  values={
-                    Object {
-                      "siteName": "Mattermost",
-                    }
-                  }
+                  values={Object {}}
                 >
                   <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                    Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
                   </span>
                 </FormattedMessage>
                  
@@ -238,10 +229,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <hr />
             <SaveButton
               btnClass="btn-primary"
+              defaultMessage={
+                <FormattedMessage
+                  defaultMessage="Save"
+                  id="save_button.save"
+                  values={Object {}}
+                />
+              }
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
+              savingMessage={
+                <FormattedMessage
+                  defaultMessage="Saving"
+                  id="save_button.saving"
+                  values={Object {}}
+                />
+              }
             >
               <button
                 className="save-button btn btn-primary"
@@ -252,10 +257,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               >
                 <LoadingWrapper
                   loading={false}
-                  text="Saving"
+                  text={
+                    <FormattedMessage
+                      defaultMessage="Saving"
+                      id="save_button.saving"
+                      values={Object {}}
+                    />
+                  }
                 >
                   <span>
-                    Save
+                    <FormattedMessage
+                      defaultMessage="Save"
+                      id="save_button.save"
+                      values={Object {}}
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </FormattedMessage>
                   </span>
                 </LoadingWrapper>
               </button>
@@ -317,8 +336,8 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
 <Connect(SettingItemMin)
   describe={
     <FormattedMessage
-      defaultMessage="Never"
-      id="user.settings.notifications.email.never"
+      defaultMessage="Immediately"
+      id="user.settings.notifications.email.immediately"
       values={Object {}}
     />
   }
@@ -373,7 +392,6 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
   saving={false}
   sendEmailNotifications={true}
   serverError=""
-  siteName="Mattermost"
   updateSection={[MockFunction]}
 >
   <SettingItemMax
@@ -481,13 +499,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             className="margin-top x2"
           >
             <FormattedMessage
-              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+              defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
               id="user.settings.notifications.emailInfo"
-              values={
-                Object {
-                  "siteName": "Mattermost",
-                }
-              }
+              values={Object {}}
             />
              
             <FormattedMessage
@@ -649,16 +663,12 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 className="margin-top x2"
               >
                 <FormattedMessage
-                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+                  defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
                   id="user.settings.notifications.emailInfo"
-                  values={
-                    Object {
-                      "siteName": "Mattermost",
-                    }
-                  }
+                  values={Object {}}
                 >
                   <span>
-                    Email notifications are sent for mentions and direct messages when you are offline or away from Mattermost for more than 5 minutes.
+                    Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
                   </span>
                 </FormattedMessage>
                  
@@ -680,10 +690,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             <hr />
             <SaveButton
               btnClass="btn-primary"
+              defaultMessage={
+                <FormattedMessage
+                  defaultMessage="Save"
+                  id="save_button.save"
+                  values={Object {}}
+                />
+              }
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
+              savingMessage={
+                <FormattedMessage
+                  defaultMessage="Saving"
+                  id="save_button.saving"
+                  values={Object {}}
+                />
+              }
             >
               <button
                 className="save-button btn btn-primary"
@@ -694,10 +718,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               >
                 <LoadingWrapper
                   loading={false}
-                  text="Saving"
+                  text={
+                    <FormattedMessage
+                      defaultMessage="Saving"
+                      id="save_button.saving"
+                      values={Object {}}
+                    />
+                  }
                 >
                   <span>
-                    Save
+                    <FormattedMessage
+                      defaultMessage="Save"
+                      id="save_button.save"
+                      values={Object {}}
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </FormattedMessage>
                   </span>
                 </LoadingWrapper>
               </button>
@@ -810,13 +848,9 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
           className="margin-top x2"
         >
           <FormattedMessage
-            defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away from {siteName} for more than 5 minutes."
+            defaultMessage="Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes."
             id="user.settings.notifications.emailInfo"
-            values={
-              Object {
-                "siteName": "Mattermost",
-              }
-            }
+            values={Object {}}
           />
            
         </div>

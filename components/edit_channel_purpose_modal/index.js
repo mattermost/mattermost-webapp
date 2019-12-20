@@ -2,25 +2,18 @@
 // See LICENSE.txt for license information.
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import EditChannelPurposeModal from './edit_channel_purpose_modal.jsx';
 
-const mapStateToProps = createSelector(
-    (state) => getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
-    ({requests}) => {
-        const {channels: {updateChannel}} = requests;
-        return {
-            serverError: updateChannel.error,
-            requestStatus: updateChannel.status,
-        };
-    },
-    (ctrlSend, requestInfo) => ({ctrlSend, ...requestInfo})
-);
+function mapStateToProps(state) {
+    return {
+        ctrlSend: getBool(state, Constants.Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {

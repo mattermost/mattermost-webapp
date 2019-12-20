@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import JobTable from './table.jsx';
 
@@ -75,14 +75,6 @@ describe('components/admin_console/jobs/table', () => {
             type: 'data_retention',
         }],
     };
-
-    test('should match snapshot, init', () => {
-        const wrapper = shallowWithIntl(
-            <JobTable {...baseProps}/>
-        ).dive();
-
-        expect(wrapper).toMatchSnapshot();
-    });
 
     test('should call create job func', () => {
         const wrapper = shallowWithIntl(

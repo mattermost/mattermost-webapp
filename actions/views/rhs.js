@@ -5,6 +5,7 @@ import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {
+    clearSearch,
     getFlaggedPosts,
     getPinnedPosts,
     searchPostsWithParams,
@@ -80,6 +81,13 @@ export function updateSearchTerms(terms) {
     };
 }
 
+function updateSearchResultsTerms(terms) {
+    return {
+        type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
+        terms,
+    };
+}
+
 export function performSearch(terms, isMentionSearch) {
     return (dispatch, getState) => {
         const teamId = getCurrentTeamId(getState());
@@ -100,10 +108,7 @@ export function showSearchResults() {
         const searchTerms = getSearchTerms(getState());
 
         dispatch(updateRhsState(RHSStates.SEARCH));
-        dispatch({
-            type: ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS,
-            terms: searchTerms,
-        });
+        dispatch(updateSearchResultsTerms(searchTerms));
 
         return dispatch(performSearch(searchTerms));
     };
@@ -174,10 +179,6 @@ export function showPinnedPosts(channelId) {
         const teamId = getCurrentTeamId(state);
 
         dispatch(batchActions([
-            {
-                type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                terms: '',
-            },
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 channelId: channelId || currentChannelId,
@@ -281,4 +282,14 @@ export function selectPost(post) {
 
 export function selectPostCard(post) {
     return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
+}
+
+export function openRHSSearch() {
+    return (dispatch) => {
+        dispatch(clearSearch());
+        dispatch(updateSearchTerms(''));
+        dispatch(updateSearchResultsTerms(''));
+
+        dispatch(updateRhsState(RHSStates.SEARCH));
+    };
 }

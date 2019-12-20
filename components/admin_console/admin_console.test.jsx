@@ -42,9 +42,10 @@ describe('components/AdminConsole', () => {
         },
     };
 
-    test('should redirect to / when not system admin', () => {
+    test('should redirect to town-square when not system admin', () => {
         const props = {
             ...baseProps,
+            unauthorizedRoute: '/team-id/channels/town-square',
             isCurrentUserSystemAdmin: false,
         };
         const wrapper = shallow(
@@ -56,6 +57,7 @@ describe('components/AdminConsole', () => {
     test('should generate the routes', () => {
         const props = {
             ...baseProps,
+            unauthorizedRoute: '/team-id/channels/town-square',
             isCurrentUserSystemAdmin: true,
         };
         const wrapper = shallow(

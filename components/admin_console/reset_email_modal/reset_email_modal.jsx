@@ -97,6 +97,7 @@ export default class ResetEmailModal extends React.Component {
                 onHide={this.doCancel}
                 role='dialog'
                 aria-labelledby='resetEmailModalLabel'
+                data-testid='resetEmailModal'
             >
                 <Modal.Header closeButton={true}>
                     <Modal.Title
@@ -113,7 +114,10 @@ export default class ResetEmailModal extends React.Component {
                     <Modal.Body>
                         <div className='form-group'>
                             <div className='col-sm-10'>
-                                <div className={urlClass}>
+                                <div
+                                    className={urlClass}
+                                    data-testid='resetEmailForm'
+                                >
                                     <span
                                         data-toggle='tooltip'
                                         title='New Email'
@@ -130,7 +134,6 @@ export default class ResetEmailModal extends React.Component {
                                         className='form-control'
                                         maxLength='128'
                                         autoFocus={true}
-                                        tabIndex='1'
                                     />
                                 </div>
                                 {errorMsg}
@@ -152,7 +155,7 @@ export default class ResetEmailModal extends React.Component {
                             onClick={this.doSubmit}
                             type='submit'
                             className='btn btn-primary'
-                            tabIndex='2'
+                            data-testid='resetEmailButton'
                         >
                             <FormattedMessage
                                 id='admin.reset_email.reset'

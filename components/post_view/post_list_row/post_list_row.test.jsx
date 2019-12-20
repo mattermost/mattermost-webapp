@@ -11,7 +11,7 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {PostListRowListIds} from 'utils/constants';
 
 import PostListRow from './post_list_row.jsx';

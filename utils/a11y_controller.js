@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants.jsx';
+import Constants, {EventTypes, A11yClassNames, A11yAttributeNames, A11yCustomEventTypes} from 'utils/constants';
 import {isKeyPressed, cmdOrCtrlPressed, isMac} from 'utils/utils';
 import {isDesktopApp} from 'utils/user_agent';
 
@@ -588,8 +588,19 @@ export default class A11yController {
             return [];
         }
         return Array.from(elements).sort((elementA, elementB) => {
-            const elementAOrder = elementA.getAttribute(A11yAttributeNames.SORT_ORDER);
-            const elementBOrder = elementB.getAttribute(A11yAttributeNames.SORT_ORDER);
+            const elementAOrder = parseInt(elementA.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
+            const elementBOrder = parseInt(elementB.getAttribute(A11yAttributeNames.SORT_ORDER), 10);
+
+            if (isNaN(elementAOrder) && isNaN(elementBOrder)) {
+                return 0;
+            }
+            if (isNaN(elementBOrder)) {
+                return -1;
+            }
+            if (isNaN(elementAOrder)) {
+                return 1;
+            }
+
             return elementAOrder - elementBOrder;
         });
     }

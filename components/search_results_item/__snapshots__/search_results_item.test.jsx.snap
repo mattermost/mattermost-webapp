@@ -10,19 +10,13 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
   />
   <div
     className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
-      <FormattedMessage
-        defaultMessage="Direct Message (with {username})"
-        id="search_item.direct"
-        values={
-          Object {
-            "username": "Other guy",
-          }
-        }
-      />
+      Direct Message (with Other guy)
     </div>
     <div
       className="post__content"
@@ -179,6 +173,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               }
             >
               <Connect(PostMessageView)
+                isRHS={true}
                 options={
                   Object {
                     "mentionHighlight": false,
@@ -225,8 +220,10 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
   />
   <div
     className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
       channel_name
@@ -389,6 +386,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               }
             >
               <Connect(PostMessageView)
+                isRHS={true}
                 options={
                   Object {
                     "mentionHighlight": false,
@@ -435,8 +433,10 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
   />
   <div
     className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
       channel_name
@@ -587,6 +587,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               }
             >
               <Connect(PostMessageView)
+                isRHS={true}
                 options={
                   Object {
                     "mentionHighlight": false,
@@ -633,8 +634,10 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   />
   <div
     className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
       channel_name
@@ -768,8 +771,10 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
   />
   <div
     className="a11y__section post post--thread post--compact"
+    onFocus={[Function]}
   >
     <div
+      aria-hidden="true"
       className="search-channel__name"
     >
       channel_name

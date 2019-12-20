@@ -7,7 +7,7 @@ import React from 'react';
 import ExternalImage from 'components/external_image';
 import SizeAwareImage from 'components/size_aware_image';
 
-import {PostTypes} from 'utils/constants.jsx';
+import {PostTypes} from 'utils/constants';
 import {useSafeUrl} from 'utils/url';
 import {isSystemMessage} from 'utils/post_utils.jsx';
 
@@ -204,11 +204,11 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (this.props.currentUserId === this.props.post.user_id) {
             removePreviewButton = (
                 <button
-                    id='removePreviewButton'
                     type='button'
                     className='btn-close'
                     aria-label='Close'
                     onClick={this.handleRemovePreview}
+                    data-testid='removeLinkPreviewButton'
                 >
                     <span aria-hidden='true'>{'×'}</span>
                 </button>

@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
 import CreatePost from 'components/create_post';
-import FileUploadOverlay from 'components/file_upload_overlay.jsx';
+import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import TutorialView from 'components/tutorial';
 import {clearMarks, mark, measure, trackEvent} from 'actions/diagnostics_actions.jsx';
@@ -43,18 +43,31 @@ export default class ChannelView extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
-        let updatedState = {url: props.match.url};
-        if (!state.url || props.match.url !== state.url) {
-            updatedState = {...updatedState, deferredPostView: ChannelView.createDeferredPostView()};
+        let updatedState = {};
+        if (props.match.url !== state.url) {
+            updatedState = {deferredPostView: ChannelView.createDeferredPostView(), url: props.match.url};
         }
 
-        return updatedState;
+        if (props.channelId !== state.channelId) {
+            updatedState = {...updatedState, channelId: props.channelId, prevChannelId: state.channelId};
+        }
+
+        if (Object.keys(updatedState).length) {
+            return updatedState;
+        }
+
+        return null;
     }
 
     constructor(props) {
         super(props);
 
-        this.state = {url: ''};
+        this.state = {
+            url: props.match.url,
+            channelId: props.channelId,
+            prevChannelId: '',
+            deferredPostView: ChannelView.createDeferredPostView(),
+        };
     }
 
     getChannelView = () => {
@@ -124,7 +137,10 @@ export default class ChannelView extends React.PureComponent {
                         />
                     }
                     {channelIsArchived &&
-                        <div className='channel-archived__message'>
+                        <div
+                            id='channelArchivedMessage'
+                            className='channel-archived__message'
+                        >
                             <FormattedMarkdownMessage
                                 id='archivedChannelMessage'
                                 defaultMessage='You are viewing an **archived channel**. New messages cannot be posted.'
@@ -158,6 +174,7 @@ export default class ChannelView extends React.PureComponent {
                 />
                 <DeferredPostView
                     channelId={this.props.channelId}
+                    prevChannelId={this.state.prevChannelId}
                 />
                 {createPost}
             </div>
