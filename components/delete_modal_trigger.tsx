@@ -1,5 +1,3 @@
-
-
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -16,13 +14,10 @@ type State = {
     showDeleteModal: boolean;
 }
 
-
-
 export default class DeleteModalTrigger extends React.PureComponent<Props, State>  {  
 
     constructor(props: Props) {
         super(props);
-
         if (this.constructor == DeleteModalTrigger) { 
             throw new TypeError('Can not construct abstract class.');
         }
@@ -30,7 +25,7 @@ export default class DeleteModalTrigger extends React.PureComponent<Props, State
         this.state = {showDeleteModal: false,};
     }
 
-    handleOpenModal = (e: React.SyntheticEvent) => {
+    public handleOpenModal = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
         //this.setState({showDeleteModal: true,});
@@ -51,20 +46,21 @@ export default class DeleteModalTrigger extends React.PureComponent<Props, State
         }
     }
 
-    get triggerTitle() {
-        return ""
+
+    get triggerTitle():JSX.Element {
+        return <div></div>
     }
 
-    get modalTitle() {
-        return ""
+    get modalTitle():JSX.Element  {
+        return <div></div>
     }
 
-    get modalMessage() {
-        return ""
+    get modalMessage():JSX.Element {
+        return <div></div>
     }
 
-    get modalConfirmButton() {
-        return ""
+    get modalConfirmButton():JSX.Element {
+        return <div></div>
     }
 
     render() {

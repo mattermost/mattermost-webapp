@@ -11,10 +11,10 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 describe('components/DeleteModalTrigger', () => {
     test('should throw error when trying to construct DeleteModalTrigger', () => {
         expect(() => {
-            new DeleteModalTrigger(); //eslint-disable-line no-new
+            new DeleteModalTrigger({onDelete: ()=>{}}); //eslint-disable-line no-new
         }).toThrow(TypeError);
         expect(() => {
-            new DeleteModalTrigger(); //eslint-disable-line no-new
+            new DeleteModalTrigger({onDelete: ()=>{}}); //eslint-disable-line no-new
         }).toThrow('Can not construct abstract class.');
     });
 
@@ -112,9 +112,11 @@ describe('components/DeleteModalTrigger', () => {
             <ChildModal onDelete={jest.fn()}/>
         );
 
+        const instance = wrapper.instance() as ChildModal;
+
         const preventDefault = jest.fn();
         wrapper.setState({showDeleteModal: false});
-        wrapper.instance().handleOpenModal({preventDefault});
+        instance.handleOpenModal({preventDefault} as any);
         expect(wrapper.state('showDeleteModal')).toEqual(true);
         expect(preventDefault).toHaveBeenCalledTimes(1);
     });
@@ -126,7 +128,8 @@ describe('components/DeleteModalTrigger', () => {
             <ChildModal onDelete={onDelete}/>
         );
 
-        wrapper.instance().handleConfirm();
+        const instance = wrapper.instance() as ChildModal;
+        instance.handleConfirm();
         expect(onDelete).toHaveBeenCalledTimes(1);
     });
 
@@ -137,8 +140,9 @@ describe('components/DeleteModalTrigger', () => {
             <ChildModal onDelete={jest.fn()}/>
         );
 
+        const instance = wrapper.instance() as ChildModal;
         wrapper.setState({showDeleteModal: true});
-        wrapper.instance().handleCancel();
+        instance.handleCancel();
         expect(wrapper.state('showDeleteModal')).toEqual(false);
     });
 
