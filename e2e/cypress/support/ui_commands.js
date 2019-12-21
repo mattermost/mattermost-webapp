@@ -426,7 +426,7 @@ Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png
  * Upload a file on target input in binary format -
  * @param {String} targetInput - #LocatorID
  * @param {String} fileName - Filename to upload from the fixture Ex: drawPlugin-binary.tar
- * @Param {String} fileType - application/gzip
+ * @param {String} fileType - application/gzip
  */
 Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, fileType) => {
     cy.log('Upload process started .FileName:' + fileName);
@@ -444,17 +444,9 @@ Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, 
 });
 
 /**
- * Search for plugin management in filter container
+ * Navigate to system console-PluginManagement from account settings
  */
-Cypress.Commands.add('searchForPluginManagementSysConsole', () => {
-    cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
-        wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
-});
-
-/**
- * Navigate to system console from account settings
- */
-Cypress.Commands.add('navigateToSystemConsoleFromAdminSettings', () => {
+Cypress.Commands.add('systemConsolePluginManagement', () => {
     cy.get('#lhsHeader').should('be.visible').within(() => {
         // # Click hamburger main menu
         cy.get('#sidebarHeaderDropdownButton').click();
@@ -465,13 +457,10 @@ Cypress.Commands.add('navigateToSystemConsoleFromAdminSettings', () => {
             cy.get('#systemConsole').should('be.visible').click();
         });
     });
-});
 
-/**
- * Get Enable or Disable Draw Plugin control
- */
-Cypress.Commands.add('getDisableEnableDrawPluginControl', () => {
-    cy.wait(TIMEOUTS.TINY).get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]');
+    //Search for plugin management in filter container
+    cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
+        wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
 });
 
 /**
@@ -480,7 +469,10 @@ Cypress.Commands.add('getDisableEnableDrawPluginControl', () => {
  * @param {String} fileName - Filename to upload from the fixture
  * @param {String} fileType - formation of the file - 'application/gzip'
  */
-Cypress.Commands.add('enableDisableDrawPlugin', (status, fileName, fileType) => {
+Cypress.Commands.add('drawpluginConfiguration', (status, fileName, fileType) => { 
+    //Navigate to system console - Plugin Management - Enable Draw plugin
+    cy.systemConsolePluginManagement();
+    cy.wait(TIMEOUTS.TINY);
     switch (status) {
     case 'Remove':
         cy.get('span > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Remove').click();
@@ -489,10 +481,10 @@ Cypress.Commands.add('enableDisableDrawPlugin', (status, fileName, fileType) => 
     case 'Enable':
         cy.get('input[type=file]').uploadFile(fileName, fileType).wait(TIMEOUTS.TINY);
         cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.TINY);
-        cy.getDisableEnableDrawPluginControl().findByText('Enable').click();
+        cy.get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Enable').click();
         break;
     case 'Disable':
-        cy.getDisableEnableDrawPluginControl().findByText('Disable').click();
+        cy.get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Disable').click();
         break;
     }
 });

@@ -4,94 +4,73 @@
 /**
  * Note : This test requires draw plugin tar file under fixtures folder.
  * Download from : https://integrations.mattermost.com/draw-plugin/
- * Copy to : <MatterMostWebAppsLocation>e2e/cypress/fixtures/drawPlugin-binary.tar.gz
+ * Copy to : ./e2e/cypress/fixtures/com.mattermost.draw-plugin.tar.gz
  */
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Draw plugin : Post message', () => {
+    const fileName = 'com.mattermost.draw-plugin.tar.gz';
+    const fileType = 'application/gzip';
+    const pluginId = 'com.mattermost.draw-plugin';
+
     before(() => {
-        //Login with admin access -> enable Draw plugin
+        cy.apiUpdateConfig({
+            PluginSettings: {
+                Enable: true,
+                RequirePluginSignature: false,
+            },
+        });
+
+        // # Login with admin access and upload Draw plugin
         cy.apiLogin('sysadmin').visit('/');
-        cy.switchToPluginManagementEnableDisableDraw('Enable', fileName, fileType);
+        cy.drawpluginConfiguration('Enable', fileName, fileType);
 
         // # Login with user-1
         cy.apiLogin('user-1').visit('/');
-        cy.visit('/ad-1/channels/town-square');
+        cy.get('#post_textbox').clear().type('This check is for draw plugin');
     });
 
     after(() => {
-        //Login with admin access -> Remove Draw plugin once tests are done
+        // # UnInstall Draw plugin
         cy.apiLogin('sysadmin').visit('/');
-        cy.switchToPluginManagementEnableDisableDraw('Remove', fileName, fileType);
-        cy.apiLogout();
+        cy.uninstallPluginById(pluginId);
     });
 
     it('M11759-Draw plugin : Post message check for Draw Plugin & My Computer events', () => {
-        //Assertion 1 : Upload Image and check Message doesnt post
-        //Steps : Open Channel - Draft msg - Click on draw plugin - Upload file - validate text
-        openDrawPluginMenuOptions();
-        cy.get('#drawPaintBrush').click();
+        //Assertion 1 : Upload image via draw plugin and check Message doesn't post
+
+        // # Open file upload options - Select draw plugin
+        cy.get('#fileUploadButton').click();
+        cy.get('#fileUploadOptions').findByText('Draw').click();
+
+        // * upload a file and verify drafted message still exist in textbox
         cy.get('canvas').trigger('pointerdown').trigger('pointerup').click();
+        cy.findByText('Upload').should('be.visible').click();
         cy.get('#post_textbox').
             should('be.visible').wait(TIMEOUTS.TINY).
             should('have.text', 'This check is for draw plugin');
-        validatePostMessageOnUploadCancelOperations('Upload');
 
-        //Assertion 2 :Cancel draw plugin upload and check Message doesnt post
-        //Steps : Open Channel - Draft msg - Click on draw plugin - click on cancel - validate post
-        openDrawPluginMenuOptions();
-        cy.get('#drawPaintBrush').click();
-        validatePostMessageOnUploadCancelOperations('Cancel');
+        //Assertion 2 :Cancel draw plugin upload and check Message doesn't post
 
-        //Assertion 3 : click on Your Computer and check message doesnt post
-        //Steps : Validate draft message doesn't post to channel
-        openDrawPluginMenuOptions();
-        cy.get('#yourComputer').click();
-        getPostTextBox().should('be.visible').wait(TIMEOUTS.TINY).
+        // # Open file upload options - Select draw plugin
+        cy.get('#fileUploadButton').click();
+        cy.get('#fileUploadOptions').findByText('Draw').click();
+
+        // * Cancel the file upload process and verify drafted message still exist in textbox
+        cy.findByText('Cancel').should('be.visible').click();
+        cy.get('#post_textbox').
+            should('be.visible').wait(TIMEOUTS.TINY).
             should('have.text', 'This check is for draw plugin');
 
-        //Logout from current user
-        cy.apiLogout();
+        //Assertion 3 : click on Your Computer and check message doesn't post
+
+        // # Open file upload options - Select your computer plugin
+        cy.get('#fileUploadButton').click();
+        cy.get('#fileUploadOptions').findByText('Your computer').click();
+
+        // * Click on my computer and verify drafted message still exist in textbox
+        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TINY).
+            should('have.text', 'This check is for draw plugin');
     });
 });
-
-// Holds locator for posting message
-const getPostTextBox = () => {
-    return cy.get('#post_textbox');
-};
-
-/**
- * Method to validate Post message on performin upload and cancel operations in Draw plugin screen
- * @param {*} buttonClassName  - > Upload or Cancel Element locator
- */
-function validatePostMessageOnUploadCancelOperations(locateByText) {
-    cy.findByText(locateByText).should('be.visible').click();
-    getPostTextBox().
-        should('be.visible').wait(TIMEOUTS.TINY).
-        should('have.text', 'This check is for draw plugin');
-}
-
-/**
- * Method to clear text and open draw plugin menu
- */
-function openDrawPluginMenuOptions() {
-    // Clear saved draft message - Click on upload option
-    getPostTextBox().clear().type('This check is for draw plugin');
-    cy.get('#fileUploadButton').wait(TIMEOUTS.TINY).click();
-}
-
-/**
- * Method to Switch to Plugin Management - Upload/Disable/Enable Elements
- */
-Cypress.Commands.add('switchToPluginManagementEnableDisableDraw', (status, fileName, fileType) => {
-    cy.navigateToSystemConsoleFromAdminSettings();
-    cy.searchForPluginManagementSysConsole();
-    cy.enableDisableDrawPlugin(status, fileName, fileType);
-});
-
-/**
-* Section holds constants which are required for this spec
-*/
-const fileName = 'drawPlugin-binary.tar.gz';
-const fileType = 'application/gzip';

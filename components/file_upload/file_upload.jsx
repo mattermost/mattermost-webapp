@@ -628,10 +628,7 @@ export default class FileUpload extends PureComponent {
                         }}
                     >
                         <a href='#'>
-                            <span
-                                className='margin-right'
-                                id='drawPaintBrush'
-                            >
+                            <span className='margin-right'>
                                 {item.icon}
                             </span>
                             {item.text}
@@ -666,6 +663,7 @@ export default class FileUpload extends PureComponent {
                             </div>
                         </button>
                         <Menu
+                            id='fileUploadOptions'
                             openLeft={true}
                             openUp={true}
                             ariaLabel={formatMessage({id: 'file_upload.menuAriaLabel', defaultMessage: 'Upload type selector'})}
@@ -678,10 +676,7 @@ export default class FileUpload extends PureComponent {
                                     onTouchEnd={this.simulateInputClick}
                                 >
                                     <span className='margin-right'>
-                                        <i
-                                            className='fa fa-laptop'
-                                            id='yourComputer'
-                                        />
+                                        <i className='fa fa-laptop'/>
                                     </span>
                                     <FormattedMessage
                                         id='yourcomputer'
