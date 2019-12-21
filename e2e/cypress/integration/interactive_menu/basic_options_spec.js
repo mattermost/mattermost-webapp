@@ -13,6 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
+import messageAttachmentOptions from '../../fixtures/message-attachments-with-menu-options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
@@ -263,6 +264,56 @@ describe('Interactive Menu', () => {
                     cy.findByText(options[0].text).should('exist');
                     cy.findByText(options[1].text).should('exist');
                     cy.findByText(options[2].text).should('exist');
+                });
+            });
+
+            // # Close message attachment menu dropdown
+            cy.get('body').click();
+        });
+    });
+
+    it('IM21035 - Long lists of selections are scrollable', () => {
+        const longListOptions = messageAttachmentOptions['long-list'];
+        const longListOptionPayload = getMessageMenusPayload({options: longListOptions});
+
+        // # Create a message attachment with long menu options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: longListOptionPayload});
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // * Message attachment menu dropdown should be closed
+                cy.get('#suggestionList').should('not.exist');
+
+                // // # Open the message attachment menu dropdown
+                cy.findByPlaceholderText('Select an option...').click();
+
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('exist').children().should('have.length', longListOptions.length);
+
+                const lenghtOfLongListOptions = longListOptions.length;
+
+                // # Scroll to bottom of the options
+                cy.get('#suggestionList').scrollTo('bottom').then((listContainer) => {
+                    // * When scrolled to bottom, the top options should be not visible but should exist in dom
+                    cy.findByText(longListOptions[0].text, {listContainer}).should('exist').and('not.be.visible');
+                    cy.findByText(longListOptions[1].text, {listContainer}).should('exist').and('not.be.visible');
+
+                    // # But the last options should be visible
+                    cy.findByText(longListOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('exist').and('be.visible');
+                    cy.findByText(longListOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('exist').and('be.visible');
+                });
+
+                // # Scroll to top of the options
+                cy.get('#suggestionList').scrollTo('top').then((listContainer) => {
+                    // * When scrolled to top, the bottom options should be not visible
+                    cy.findByText(longListOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('not.be.visible');
+                    cy.findByText(longListOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('not.be.visible');
+
+                    // # But the top options should be visible
+                    cy.findByText(longListOptions[0].text, {listContainer}).should('be.visible');
+                    cy.findByText(longListOptions[1].text, {listContainer}).should('be.visible');
                 });
             });
 
