@@ -39,7 +39,6 @@ export const Plugins = ({plugins}) => (
             name={p.manifest.name}
             description={p.manifest.description}
             version={p.manifest.version}
-            isPrepackaged={false}
             downloadUrl={p.download_url}
             homepageUrl={p.homepage_url}
             releaseNotesUrl={p.release_notes_url}

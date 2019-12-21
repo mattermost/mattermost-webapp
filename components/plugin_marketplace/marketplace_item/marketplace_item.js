@@ -294,7 +294,7 @@ export default class MarketplaceItem extends React.Component {
             <button
                 onClick={this.onInstall}
                 className='btn btn-primary'
-                disabled={this.props.installing || this.props.downloadUrl === ''}
+                disabled={this.props.installing}
             >
                 <LoadingWrapper
                     loading={this.props.installing}
@@ -351,7 +351,7 @@ export default class MarketplaceItem extends React.Component {
                 <Tooltip id='plugin-marketplace__local-tooltop'>
                     <FormattedMessage
                         id='marketplace_modal.list.local.tooltip'
-                        defaultMessage='This plugin is not listed in the marketplace but was installed manually.'
+                        defaultMessage='This plugin is not listed in the marketplace.'
                     />
                 </Tooltip>
             );

@@ -32,7 +32,6 @@ describe('components/PluginManagement', () => {
                 state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                 name: 'Plugin 0',
                 description: 'The plugin 0.',
-                is_prepackaged: false,
                 active: false,
                 instances: [
                     {
@@ -48,7 +47,6 @@ describe('components/PluginManagement', () => {
                 state: PluginState.PLUGIN_STATE_STOPPING,
                 name: 'Plugin 1',
                 description: 'The plugin.',
-                is_prepackaged: false,
                 active: true,
                 instances: [
                     {
@@ -258,7 +256,6 @@ describe('components/PluginManagement', () => {
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
-                    is_prepackaged: false,
                     active: false,
                     instances: [
                         {
@@ -274,7 +271,6 @@ describe('components/PluginManagement', () => {
                     state: PluginState.PLUGIN_STATE_STOPPING,
                     name: 'Plugin 1',
                     description: 'The plugin.',
-                    is_prepackaged: false,
                     active: true,
                     instances: [
                         {
@@ -343,7 +339,6 @@ describe('components/PluginManagement', () => {
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
-                    is_prepackaged: false,
                     active: false,
                     instances: [
                         {
@@ -400,7 +395,6 @@ describe('components/PluginManagement', () => {
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
-                    is_prepackaged: false,
                     active: false,
                     instances: [
                         {
@@ -457,7 +451,6 @@ describe('components/PluginManagement', () => {
                     state: PluginState.PLUGIN_STATE_NOT_RUNNING,
                     name: 'Plugin 0',
                     description: 'The plugin 0.',
-                    is_prepackaged: false,
                     active: false,
                     instances: [
                         {
