@@ -49,18 +49,28 @@ export function unregisterPluginTranslationsSource(pluginId) {
 
 export function loadTranslations(locale, url) {
     return async (dispatch) => {
-        const translations = {};
+        const translations = {...en};
         Object.values(pluginTranslationSources).forEach((pluginFunc) => {
             Object.assign(translations, pluginFunc(locale));
         });
-        let localeTranslations = en;
 
         // Need to go to the server for languages other than English
 
         if (locale !== 'en') {
-            localeTranslations = await Client4.getTranslations(url);
+            try {
+                const serverTranslations = await Client4.getTranslations(url);
+                Object.assign(translations, serverTranslations);
+            } catch (error) {
+                console.error(error); //eslint-disable-line no-console
+            }
         }
-        copyAndDispatchTranslations(dispatch, translations, localeTranslations, locale);
+        dispatch({
+            type: ActionTypes.RECEIVED_TRANSLATIONS,
+            data: {
+                locale,
+                translations,
+            },
+        });
     };
 }
 
