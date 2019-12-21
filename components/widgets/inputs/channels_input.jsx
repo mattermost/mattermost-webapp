@@ -3,12 +3,12 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 import AsyncSelect from 'react-select/lib/Async';
 import {components} from 'react-select';
 import classNames from 'classnames';
 
 import {Constants} from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import PublicChannelIcon from 'components/widgets/icons/globe_icon.jsx';
@@ -40,10 +40,6 @@ export default class ChannelsInput extends React.Component {
         loadingMessageDefault: 'Loading',
         noOptionsMessageId: t('widgets.channels_input.empty'),
         noOptionsMessageDefault: 'No channels found',
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -83,13 +79,12 @@ export default class ChannelsInput extends React.Component {
     }
 
     loadingMessage = () => {
-        let text = 'Loading';
-        if (this.context.intl) {
-            text = this.context.intl.formatMessage({
-                id: this.props.loadingMessageId,
-                defaultMessage: this.props.loadingMessageDefault,
-            });
-        }
+        const text = (
+            <FormattedMessage
+                id={this.props.loadingMessageId}
+                defaultMessage={this.props.loadingMessageDefault}
+            />
+        );
 
         return (<LoadingSpinner text={text}/>);
     }

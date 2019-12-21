@@ -480,6 +480,12 @@ export default class SuggestionBox extends React.Component {
         });
     }
 
+    setSelection = (term) => {
+        this.setState({
+            selection: term,
+        });
+    }
+
     clear = () => {
         this.setState({
             cleared: true,
@@ -693,6 +699,7 @@ export default class SuggestionBox extends React.Component {
                         renderNoResults={renderNoResults}
                         onCompleteWord={this.handleCompleteWord}
                         preventClose={this.preventSuggestionListClose}
+                        onItemHover={this.setSelection}
                         cleared={this.state.cleared}
                         matchedPretext={this.state.matchedPretext}
                         items={this.state.items}
