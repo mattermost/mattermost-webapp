@@ -317,7 +317,7 @@ describe('Interactive Menu', () => {
                     cy.findByText(distinctOptions[3].text).should('not.exist');
                     cy.findByText(distinctOptions[4].text).should('not.exist');
 
-                    // * Selected option should be there in the search list and click it
+                    // * Selected option should be there in the search list
                     cy.findByText(selectedOption).should('exist');
 
                     // * Other matched option should also be there
@@ -332,6 +332,20 @@ describe('Interactive Menu', () => {
 
                 // * Verify the input has the selected value
                 cy.findByDisplayValue(selectedOption).should('exist');
+            });
+        });
+
+        // # Lets wait a little for the webhook to return confirmation message
+        cy.wait(TIMEOUTS.TINY);
+
+        // # Get the emphemirical message from webhook, which is only visible to us
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).within(() => {
+                // * Check if Bot message is the last message
+                cy.findByText('(Only visible to you)').should('exist');
+
+                // * Check if we got ephemeral message of our selection
+                cy.findByText(/Ephemeral | select option: mango/).should('exist');
             });
         });
     });
