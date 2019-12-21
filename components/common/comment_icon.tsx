@@ -11,7 +11,7 @@ import ReplyIcon from 'components/widgets/icons/reply_icon';
 
 type Props = {
     location: 'CENTER' | 'SEARCH';
-    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    handleCommentClick: React.EventHandler<React.MouseEvent>;
     searchStyle: string;
     commentCount: number;
     postId?: string;
