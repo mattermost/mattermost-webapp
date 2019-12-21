@@ -202,7 +202,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             setByEnv={false}
             value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
           />
-          <UserAutocompleteSetting
+          <Connect(UserAutocompleteSetting)
             disabled={false}
             helpText={
               <SchemaText
@@ -684,6 +684,13 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
   >
     <SaveButton
       btnClass="btn-primary"
+      defaultMessage={
+        <FormattedMessage
+          defaultMessage="Save"
+          id="save_button.save"
+          values={Object {}}
+        />
+      }
       disabled={true}
       extraClasses=""
       onClick={[Function]}

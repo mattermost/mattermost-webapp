@@ -452,6 +452,8 @@ export function handleChannelUpdatedEvent(msg) {
 
 function handleChannelMemberUpdatedEvent(msg) {
     const channelMember = JSON.parse(msg.data.channelMember);
+    const roles = channelMember.roles.split(' ');
+    dispatch(loadRolesIfNeeded(roles));
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 
@@ -973,9 +975,11 @@ function handleUserRoleUpdated(msg) {
 
     if (user) {
         const roles = msg.data.roles;
+        const newRoles = roles.split(' ');
         const demoted = user.roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN) && !roles.includes(Constants.PERMISSIONS_SYSTEM_ADMIN);
 
         store.dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...user, roles}});
+        dispatch(loadRolesIfNeeded(newRoles));
 
         if (demoted && global.location.pathname.startsWith('/admin_console')) {
             redirectUserToDefaultTeam();

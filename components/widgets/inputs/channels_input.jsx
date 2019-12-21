@@ -3,8 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 import AsyncSelect from 'react-select/lib/Async';
-import {intlShape} from 'react-intl';
 import {components} from 'react-select';
 import classNames from 'classnames';
 
@@ -23,6 +23,7 @@ import './channels_input.scss';
 export default class ChannelsInput extends React.Component {
     static propTypes = {
         placeholder: PropTypes.string,
+        ariaLabel: PropTypes.string.isRequired,
         channelsLoader: PropTypes.func,
         onChange: PropTypes.func,
         value: PropTypes.arrayOf(PropTypes.object),
@@ -39,10 +40,6 @@ export default class ChannelsInput extends React.Component {
         loadingMessageDefault: 'Loading',
         noOptionsMessageId: t('widgets.channels_input.empty'),
         noOptionsMessageDefault: 'No channels found',
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -82,13 +79,12 @@ export default class ChannelsInput extends React.Component {
     }
 
     loadingMessage = () => {
-        let text = 'Loading';
-        if (this.context.intl) {
-            text = this.context.intl.formatMessage({
-                id: this.props.loadingMessageId,
-                defaultMessage: this.props.loadingMessageDefault,
-            });
-        }
+        const text = (
+            <FormattedMessage
+                id={this.props.loadingMessageId}
+                defaultMessage={this.props.loadingMessageDefault}
+            />
+        );
 
         return (<LoadingSpinner text={text}/>);
     }
@@ -177,6 +173,7 @@ export default class ChannelsInput extends React.Component {
                 onFocus={this.onFocus}
                 tabSelectsValue={true}
                 value={this.props.value}
+                aria-label={this.props.ariaLabel}
             />
         );
     }

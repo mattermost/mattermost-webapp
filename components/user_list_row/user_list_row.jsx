@@ -119,6 +119,7 @@ export default class UserListRow extends React.Component {
                     {this.props.extraInfo}
                 </div>
                 <div
+                    data-testid='userListItemActions'
                     className='more-modal__actions'
                 >
                     {buttons}

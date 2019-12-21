@@ -53,7 +53,6 @@ export default class SidebarHeaderDropdownButton extends React.PureComponent {
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={<Tooltip id='team-name__tooltip'>{this.props.teamDescription}</Tooltip>}
-                    ref='descriptionOverlay'
                 >
                     {teamNameWithToolTip}
                 </OverlayTrigger>

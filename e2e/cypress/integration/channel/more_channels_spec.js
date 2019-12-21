@@ -7,16 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// import users from '../../fixtures/users.json';
 import * as TIMEOUTS from '../../fixtures/timeouts';
-
-describe('Channels', () => {
-    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
-        verifyMoreChannelsModalWithArchivedSelection(false);
-
-        verifyMoreChannelsModalWithArchivedSelection(true);
-    });
-});
 
 let channel;
 
@@ -29,7 +20,7 @@ describe('Channels', () => {
         });
 
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/channels/town-square');
         cy.getCurrentTeamId().then((teamId) => {
             // # Create new test channel
             cy.apiCreateChannel(teamId, 'channel-test', 'Channel Test' + Date.now()).then((res) => {
@@ -38,16 +29,22 @@ describe('Channels', () => {
         });
     });
 
+    it('MM-19337 Verify UI of More channels modal with archived selection', () => {
+        verifyMoreChannelsModalWithArchivedSelection(false);
+
+        verifyMoreChannelsModalWithArchivedSelection(true);
+    });
+
     it('MM-19337 Enable users to view archived channels', () => {
-        // # Login as new use and go to "/"
-        cy.loginAsNewUser();
-        cy.visit('/');
+        // # Login as new user and go to "/"
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.loginAsNewUser({}, [teamId]);
+            cy.visit('/ad-1/channels/town-square');
+        });
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-            cy.get('#publicChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-            });
+        cy.get('#publicChannelList').should('be.visible').within(() => {
+            cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
@@ -91,10 +88,8 @@ describe('Channels', () => {
         });
 
         // # Go to LHS and click "More..." under Public Channels group
-        cy.get('#sidebarChannelContainer').should('be.visible').within(() => {
-            cy.get('#publicChannelList').should('be.visible').within(() => {
-                cy.findByText('More...').scrollIntoView().should('be.visible').click();
-            });
+        cy.get('#publicChannelList').should('be.visible').within(() => {
+            cy.findByText('More...').scrollIntoView().should('be.visible').click();
         });
 
         cy.get('#moreChannelsModal').should('be.visible').within(() => {
@@ -128,7 +123,7 @@ describe('Channels', () => {
         cy.get('#sidebarItem_town-square').click();
 
         // * Assert that archived channel doesn't show up in LHS list
-        cy.get('#sidebarChannelContainer').should('be.visible').should('not.contain', channel.display_name);
+        cy.get('#publicChannelList').should('not.contain', channel.display_name);
     });
 });
 
@@ -153,7 +148,9 @@ function verifyMoreChannelsModal(isEnabled) {
     cy.visit('/');
 
     // # Select "More..." on the left hand side menu
-    cy.get('#sidebarPublicChannelsMore').should('be.visible').click({force: true});
+    cy.get('#publicChannelList').should('be.visible').within(() => {
+        cy.findByText('More...').scrollIntoView().should('be.visible').click({force: true});
+    });
 
     // * Verify that the more channels modal is open and with or without option to view archived channels
     cy.get('#moreChannelsModal').should('be.visible').within(() => {
