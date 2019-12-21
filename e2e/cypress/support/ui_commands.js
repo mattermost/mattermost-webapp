@@ -469,7 +469,7 @@ Cypress.Commands.add('systemConsolePluginManagement', () => {
  * @param {String} fileName - Filename to upload from the fixture
  * @param {String} fileType - formation of the file - 'application/gzip'
  */
-Cypress.Commands.add('drawpluginConfiguration', (status, fileName, fileType) => { 
+Cypress.Commands.add('drawpluginConfiguration', (status, fileName, fileType) => {
     //Navigate to system console - Plugin Management - Enable Draw plugin
     cy.systemConsolePluginManagement();
     cy.wait(TIMEOUTS.TINY);
