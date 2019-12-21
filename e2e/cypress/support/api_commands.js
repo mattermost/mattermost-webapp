@@ -512,6 +512,36 @@ Cypress.Commands.add('apiSaveThemePreference', (value = JSON.stringify(theme.def
     });
 });
 
+const defaultSidebarSettingPreference = {
+    grouping: 'by_type',
+    unreads_at_top: 'true',
+    favorite_at_top: 'true',
+    sorting: 'alpha',
+};
+
+/**
+ * Saves theme preference of a user directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {Object} value - sidebar settings object.  Will pass default value if none is provided.
+ */
+Cypress.Commands.add('apiSaveSidebarSettingPreference', (value = {}) => {
+    return cy.getCookie('MMUSERID').then((cookie) => {
+        const newValue = {
+            ...defaultSidebarSettingPreference,
+            ...value,
+        };
+
+        const preference = {
+            user_id: cookie.value,
+            category: 'sidebar_settings',
+            name: '',
+            value: JSON.stringify(newValue),
+        };
+
+        return cy.apiSaveUserPreference([preference]);
+    });
+});
+
 /**
  * Saves the preference on whether to show link and image previews
  * This API assume that the user is logged in and has cookie to access
@@ -620,8 +650,15 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
     // # Login as sysadmin to make admin requests
     cy.apiLogin('sysadmin');
 
+    const createUserOption = {
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        method: 'POST',
+        url: '/api/v4/users',
+        body: {email, username, first_name: firstName, last_name: lastName, password, nickname},
+    };
+
     // # Create a new user
-    return cy.request({method: 'POST', url: '/api/v4/users', body: {email, username, first_name: firstName, last_name: lastName, password, nickname}}).then((userResponse) => {
+    return cy.request(createUserOption).then((userResponse) => {
         // Safety assertions to make sure we have a valid response
         expect(userResponse).to.have.property('body').to.have.property('id');
 
@@ -638,9 +675,13 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
                 expect(teamsResponse).to.have.property('body').to.have.length.greaterThan(1);
 
                 // Pull out only the first 2 teams
-                teamsResponse.body.slice(0, 2).map((t) => t.id).forEach((teamId) => {
-                    cy.apiAddUserToTeam(teamId, userId);
-                });
+                teamsResponse.body.
+                    filter((t) => t.delete_at === 0).
+                    slice(0, 2).
+                    map((t) => t.id).
+                    forEach((teamId) => {
+                        cy.apiAddUserToTeam(teamId, userId);
+                    });
             });
         }
 
@@ -669,14 +710,16 @@ Cypress.Commands.add('createNewUser', (user = {}, teamIds = [], bypassTutorial =
  * Otherwise use default values
  @returns {Object} Returns object containing email, username, id and password if you need it further in the test
  */
-Cypress.Commands.add('loginAsNewUser', (user = {}, bypassTutorial = true) => {
-    return cy.createNewUser(user, [], bypassTutorial).then((newUser) => {
+Cypress.Commands.add('loginAsNewUser', (user = {}, teamIds = [], bypassTutorial = true) => {
+    return cy.createNewUser(user, teamIds, bypassTutorial).then((newUser) => {
+        cy.apiLogout();
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             url: '/api/v4/users/login',
             method: 'POST',
             body: {login_id: newUser.username, password: newUser.password},
-        }).then(() => {
+        }).then((response) => {
+            expect(response.status).to.equal(200);
             cy.visit('/');
 
             return cy.wrap(newUser);
@@ -724,6 +767,23 @@ Cypress.Commands.add('apiUnpinPosts', (postId) => {
 // System config
 // https://api.mattermost.com/#tag/system
 // *****************************************************************************
+
+Cypress.Commands.add('apiUpdateConfigBasic', (newSettings = {}) => {
+    // # Get current settings
+    cy.request('/api/v4/config').then((response) => {
+        const oldSettings = response.body;
+
+        const settings = merge(oldSettings, newSettings);
+
+        // # Set the modified settings
+        cy.request({
+            url: '/api/v4/config',
+            headers: {'X-Requested-With': 'XMLHttpRequest'},
+            method: 'PUT',
+            body: settings,
+        });
+    });
+});
 
 Cypress.Commands.add('apiUpdateConfig', (newSettings = {}) => {
     cy.apiLogin('sysadmin');

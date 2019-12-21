@@ -18,7 +18,7 @@ describe('components/MenuItemToggleModalRedux', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<Connect(ModalToggleButtonRedux)
+<Connect(InjectIntl(ModalToggleButtonRedux))
   accessibilityLabel="Whatever"
   dialogProps={
     Object {
@@ -29,7 +29,21 @@ describe('components/MenuItemToggleModalRedux', () => {
   modalId="test"
 >
   Whatever
-</Connect(ModalToggleButtonRedux)>
+</Connect(InjectIntl(ModalToggleButtonRedux))>
 `);
+    });
+
+    test('should match snapshot with extra text', () => {
+        const wrapper = shallow(
+            <MenuItemToggleModalReduxImpl
+                modalId='test'
+                dialogType={jest.fn()}
+                dialogProps={{test: 'test'}}
+                text='Whatever'
+                extraText='Extra text'
+            />
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

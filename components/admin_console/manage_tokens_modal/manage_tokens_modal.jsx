@@ -51,11 +51,11 @@ export default class ManageTokensModal extends React.PureComponent {
         this.state = {error: null};
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    componentDidUpdate(prevProps) {
         const userId = this.props.user ? this.props.user.id : null;
-        const nextUserId = nextProps.user ? nextProps.user.id : null;
-        if (nextUserId && nextUserId !== userId) {
-            this.props.actions.getUserAccessTokensForUser(nextUserId, 0, 200);
+        const prevUserId = prevProps.user ? prevProps.user.id : null;
+        if (userId && prevUserId !== userId) {
+            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
         }
     }
 

@@ -2,7 +2,7 @@
 
 exports[`messageHtmlToComponent Inline markdown image 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img__container"
 >
   <MarkdownImage
     alt="Mattermost"
@@ -10,6 +10,7 @@ exports[`messageHtmlToComponent Inline markdown image 1`] = `
     imageIsLink={false}
     imageMetadata={Object {}}
     postId="post_id"
+    postType="system_header_change"
     src="/images/icon.png"
   />
 </div>
@@ -17,7 +18,7 @@ exports[`messageHtmlToComponent Inline markdown image 1`] = `
 
 exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = `
 <div
-  className="style--none"
+  className="markdown-inline-img__container"
 >
   <a
     className="theme markdown__link"
@@ -31,6 +32,7 @@ exports[`messageHtmlToComponent Inline markdown image where image is link 1`] = 
       imageIsLink={true}
       imageMetadata={Object {}}
       postId="post_id"
+      postType="system_header_change"
       src="images/icon.png"
     />
   </a>
