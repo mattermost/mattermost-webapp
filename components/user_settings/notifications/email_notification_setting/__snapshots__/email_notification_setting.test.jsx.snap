@@ -110,7 +110,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               id="user.settings.notifications.emailInfo"
               values={Object {}}
             />
-             
+
           </div>
         </fieldset>,
       ]
@@ -217,7 +217,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
                   </span>
                 </FormattedMessage>
-                 
+
               </div>
             </fieldset>
           </div>
@@ -501,7 +501,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
               id="user.settings.notifications.emailInfo"
               values={Object {}}
             />
-             
+
             <FormattedMessage
               defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
               id="user.settings.notifications.emailBatchingInfo"
@@ -667,7 +667,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                     Email notifications are sent for mentions and direct messages when you are offline or away for more than 5 minutes.
                   </span>
                 </FormattedMessage>
-                 
+
                 <FormattedMessage
                   defaultMessage="Notifications received over the time period selected are combined and sent in a single email."
                   id="user.settings.notifications.emailBatchingInfo"
@@ -848,7 +848,7 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
             id="user.settings.notifications.emailInfo"
             values={Object {}}
           />
-           
+
         </div>
       </fieldset>,
     ]
