@@ -24,6 +24,8 @@ describe('Customization', () => {
                 },
                 TeamSettings: {
                     SiteName: config.TeamSettings.SiteName,
+                    CustomDescriptionText: config.TeamSettings.CustomDescriptionText,
+                    EnableCustomBrand: config.TeamSettings.EnableCustomBrand,
                 },
                 NativeAppSettings: {
                     AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
@@ -96,6 +98,30 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.TeamSettings.SiteName).to.eq(siteName);
+        });
+    });
+
+    it('SC20332 - Can change Site Description setting', () => {
+        // * Verify site description label is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomDescriptionTextlabel').should('be.visible').and('have.text', 'Site Description: ');
+
+        // * Verify the site description input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').should('have.value', origConfig.TeamSettings.CustomDescriptionText);
+
+        // * Verify the site description help text is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomDescriptionTexthelp-text').find('span').should('be.visible').and('have.text', 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.');
+
+        // # Generate and enter a random site description
+        const siteDescription = 'New site description';
+        cy.findByTestId('TeamSettings.CustomDescriptionTextinput').clear().type(siteDescription);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the site description is saved, directly via REST API
+            expect(response.body.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
         });
     });
 
@@ -303,6 +329,43 @@ describe('Customization', () => {
 
             // * Verify the site name is saved, directly via REST API
             expect(config.SupportSettings.TermsOfServiceLink).to.eq(newValue);
+        });
+    });
+
+    it('SC20339 - Can change Enable Custom Branding setting', () => {
+        // # Make sure necessary field is false
+        cy.apiUpdateConfigBasic({TeamSettings: {EnableCustomBrand: false}});
+        cy.reload();
+
+        cy.findByTestId('TeamSettings.EnableCustomBrand').should('be.visible').within(() => {
+            // * Verify that setting is visible and matches text content
+            cy.get('label:first').should('be.visible').and('have.text', 'Enable Custom Branding: ');
+
+            // * Verify that help setting is visible and matches text content
+            const content = 'Enable custom branding to show an image of your choice, uploaded below, and some help text, written below, on the login page.';
+            cy.get('.help-text').should('be.visible').and('have.text', content);
+
+            // # Set Enable Custom Branding to true
+            cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check();
+        });
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(true);
+        });
+
+        // # Set Enable Custom Branding to false
+        cy.findByTestId('TeamSettings.EnableCustomBrandfalse').check();
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // * Verify that the value is save, directly via REST API
+        cy.apiGetConfig().then((response) => {
+            expect(response.body.TeamSettings.EnableCustomBrand).to.equal(false);
         });
     });
 });
