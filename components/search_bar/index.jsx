@@ -12,6 +12,7 @@ import {
     closeRightHandSide,
 } from 'actions/views/rhs';
 import {autocompleteChannelsForSearch} from 'actions/channel_actions';
+import {autocompleteUsersInTeam} from 'actions/user_actions';
 import {getRhsState, getSearchTerms, getIsSearchingTerm} from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
@@ -37,6 +38,7 @@ function mapDispatchToProps(dispatch) {
             showFlaggedPosts,
             closeRightHandSide,
             autocompleteChannelsForSearch,
+            autocompleteUsersInTeam,
         }, dispatch),
     };
 }
