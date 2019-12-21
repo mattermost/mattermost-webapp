@@ -1,35 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {Locations} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
 import ReplyIcon from 'components/widgets/icons/reply_icon';
 
-export default class CommentIcon extends React.PureComponent {
-    static propTypes = {
-        location: PropTypes.oneOf([Locations.CENTER, Locations.SEARCH]).isRequired,
-        handleCommentClick: PropTypes.func.isRequired,
-        searchStyle: PropTypes.string,
-        commentCount: PropTypes.number,
-        postId: PropTypes.string,
-        extraClass: PropTypes.string,
-    };
+type Props = {
+    location: 'CENTER' | 'SEARCH';
+    handleCommentClick?: React.EventHandler<React.MouseEvent>;
+    searchStyle: string;
+    commentCount: number;
+    postId?: string;
+    extraClass: string;
+}
 
-    static defaultProps = {
+export default class CommentIcon extends React.PureComponent<Props> {
+    public static defaultProps: Partial<Props> = {
+        location: 'CENTER',
         searchStyle: '',
         commentCount: 0,
         extraClass: '',
-        location: Locations.CENTER,
-    };
+    }
 
-    render() {
-        let commentCountSpan = '';
+    public render(): JSX.Element {
+        let commentCountSpan: JSX.Element | null = null;
         let iconStyle = 'comment-icon__container';
         if (this.props.commentCount > 0) {
             iconStyle += ' icon--show';
