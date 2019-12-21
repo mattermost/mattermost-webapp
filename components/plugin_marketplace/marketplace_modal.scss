@@ -17,7 +17,28 @@
         padding-right: 15px;
     }
 
-    .input-clear {
+    .flex-parent {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 10px;
+
+        .flex-child {
+            flex: 1;
+            text-align: center;
+            &:nth-child(2) {
+                flex: 20;
+                padding-top: 8px;
+                color: #777777;
+            }
+
+            button {
+                font-weight: bold;
+                font-size: 15px;
+            }
+        }
+    }
+
+    .sidebar__search-clear {
         top: 32px;
         right: 38px;
         font-size: 22px;
