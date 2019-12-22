@@ -36,10 +36,20 @@ exports[`components/SaveButton should match snapshot, extraClasses 1`] = `
 >
   <LoadingWrapper
     loading={false}
-    text="Saving"
+    text={
+      <FormattedMessage
+        defaultMessage="Saving"
+        id="save_button.saving"
+        values={Object {}}
+      />
+    }
   >
     <span>
-      Save
+      <FormattedMessage
+        defaultMessage="Save"
+        id="save_button.save"
+        values={Object {}}
+      />
     </span>
   </LoadingWrapper>
 </button>
@@ -81,10 +91,20 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 1`] = `
 >
   <LoadingWrapper
     loading={false}
-    text="Saving"
+    text={
+      <FormattedMessage
+        defaultMessage="Saving"
+        id="save_button.saving"
+        values={Object {}}
+      />
+    }
   >
     <span>
-      Save
+      <FormattedMessage
+        defaultMessage="Save"
+        id="save_button.save"
+        values={Object {}}
+      />
     </span>
   </LoadingWrapper>
 </button>
@@ -126,7 +146,13 @@ exports[`components/SaveButton should match snapshot, on defaultMessage 2`] = `
 >
   <LoadingWrapper
     loading={false}
-    text="Saving"
+    text={
+      <FormattedMessage
+        defaultMessage="Saving"
+        id="save_button.saving"
+        values={Object {}}
+      />
+    }
   >
     <span>
       Go
@@ -171,10 +197,20 @@ exports[`components/SaveButton should match snapshot, on savingMessage 1`] = `
 >
   <LoadingWrapper
     loading={true}
-    text="Saving"
+    text={
+      <FormattedMessage
+        defaultMessage="Saving"
+        id="save_button.saving"
+        values={Object {}}
+      />
+    }
   >
     <span>
-      Save
+      <FormattedMessage
+        defaultMessage="Save"
+        id="save_button.save"
+        values={Object {}}
+      />
     </span>
   </LoadingWrapper>
 </button>
@@ -219,7 +255,11 @@ exports[`components/SaveButton should match snapshot, on savingMessage 2`] = `
     text="Saving Config..."
   >
     <span>
-      Save
+      <FormattedMessage
+        defaultMessage="Save"
+        id="save_button.save"
+        values={Object {}}
+      />
     </span>
   </LoadingWrapper>
 </button>
