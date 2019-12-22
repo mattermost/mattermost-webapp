@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -61,7 +61,7 @@ function clearTimeouts(arrayOfTimeoutIds) {
     });
 }
 
-export default class CreatePost extends React.Component {
+class CreatePost extends React.Component {
     static propTypes = {
 
         /**
@@ -193,6 +193,7 @@ export default class CreatePost extends React.Component {
             shouldOpen: PropTypes.bool,
             emittedFrom: PropTypes.string
         }),
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
             /**
@@ -274,10 +275,6 @@ export default class CreatePost extends React.Component {
             toggleEmojiPickerForLastMessage: PropTypes.func
         }).isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     static defaultProps = {
         latestReplyablePostId: '',
@@ -856,8 +853,8 @@ export default class CreatePost extends React.Component {
                     uploadsInProgress,
                 };
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
@@ -1146,7 +1143,7 @@ export default class CreatePost extends React.Component {
             showTutorialTip,
             readOnlyChannel,
         } = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const members = currentChannelMembersCount - 1;
         const {renderScrollbar} = this.state;
         const ariaLabelMessageInput = Utils.localizeMessage('accessibility.sections.centerFooter', 'message input complimentary region');
@@ -1413,3 +1410,5 @@ export default class CreatePost extends React.Component {
         );
     }
 }
+
+export default injectIntl(CreatePost);

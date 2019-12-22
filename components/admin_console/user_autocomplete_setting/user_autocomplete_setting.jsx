@@ -19,13 +19,16 @@ export default class UserAutocompleteSetting extends React.Component {
             value: PropTypes.string,
             onChange: PropTypes.func,
             disabled: PropTypes.bool,
+            actions: PropTypes.shape({
+                autocompleteUsers: PropTypes.func.isRequired,
+            }),
         };
     }
 
     constructor(props) {
         super(props);
 
-        this.userSuggestionProviders = [new GenericUserProvider()];
+        this.userSuggestionProviders = [new GenericUserProvider(props.actions.autocompleteUsers)];
     }
 
     handleChange = (e) => {
