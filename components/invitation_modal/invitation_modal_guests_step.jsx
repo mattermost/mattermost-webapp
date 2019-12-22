@@ -140,7 +140,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>
-                <h1>
+                <h1 id='invitation_modal_title'>
                     <FormattedMarkdownMessage
                         id='invitation_modal.guests.title'
                         defaultMessage='Invite **Guests** to {teamName}'

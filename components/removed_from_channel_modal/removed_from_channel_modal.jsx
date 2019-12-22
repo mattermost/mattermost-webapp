@@ -72,7 +72,7 @@ export default class RemovedFromChannelModal extends React.PureComponent {
                         </span>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body>
                     <p>
                         <FormattedMessage
                             id='removed_channel.remover'
