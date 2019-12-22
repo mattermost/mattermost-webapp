@@ -19,7 +19,6 @@ describe('Scroll channel`s messages in mobile view', () => {
     });
 
     it('M18759 - detect change in floating timestamp', () => {
-
         // # scroll to previous date
         cy.findAllByTestId('BasicSeparator').last().scrollIntoView();
 
