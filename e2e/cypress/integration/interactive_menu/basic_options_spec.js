@@ -13,6 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
+import messageAttachmentsOptions from '../../fixtures/message-attachments-with-menu-options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
@@ -251,7 +252,7 @@ describe('Interactive Menu', () => {
                 // * Message attachment menu dropdown should be closed
                 cy.get('#suggestionList').should('not.exist');
 
-                // // # Open the message attachment menu dropdown
+                // # Open the message attachment menu dropdown
                 cy.findByPlaceholderText('Select an option...').click();
 
                 // * Message attachment menu dropdown should now be open
@@ -272,7 +273,61 @@ describe('Interactive Menu', () => {
     });
 
     it('IM21040 - Selection is mirrored in RHS / Message Thread', () => {
+        // # Create a webhook with distinct options
+        const distinctList = messageAttachmentsOptions['distinct-list'];
+        const distinctListOptionPayload = getMessageMenusPayload({options: distinctList});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
 
+        const selectedItem = distinctList[2].text;
+        const firstFewLettersOfSelectedItem = selectedItem.substring(0, 3); // Make sure the options have minimum lenght of 3
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // # Start typing only first few letters in the input
+                cy.findByPlaceholderText('Select an option...').clear().type(`${firstFewLettersOfSelectedItem}`);
+
+                // * Message attachment dropdown with the selected item should be visible
+                cy.get('#suggestionList').should('exist').within(() => {
+                    cy.findByText(selectedItem).should('exist');
+                });
+
+                // # Now that we know selected option appeared in the list, Click enter on input field
+                cy.findByPlaceholderText('Select an option...').clear().type('{enter}');
+
+                // * Verify the input has the selected value
+                cy.findByDisplayValue(selectedItem).should('exist');
+            });
+        });
+
+        // # Lets wait a little for the webhook to return confirmation message
+        cy.wait(TIMEOUTS.TINY);
+
+        // # Checking if we got the ephemeral message with the selection we made
+        cy.getLastPostId().then((botLastPostId) => {
+            cy.get(`#post_${botLastPostId}`).within(() => {
+                // * Check if Bot message is the last message
+                cy.findByText('(Only visible to you)').should('exist');
+
+                // * Check if we got ephemeral message of our selection
+                cy.findByText(/Ephemeral | select option: banana/).should('exist');
+            });
+        });
+
+        cy.getNthPostId(-2).then((webhookMessageId) => {
+            // # Click on reply icon to open message in RHS
+            cy.clickPostCommentIcon(webhookMessageId);
+
+            // * Verify RHS has opened
+            cy.get('#rhsContainer').should('exist');
+
+            // # Same id as parent post in center, only opened in RHS
+            cy.get(`#rhsPost_${webhookMessageId}`).within(() => {
+                // * Verify the input has the selected value same as that of Center
+                cy.findByDisplayValue(selectedItem).should('exist');
+            });
+        });
     });
 });
 
