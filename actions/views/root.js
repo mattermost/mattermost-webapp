@@ -55,7 +55,6 @@ export function loadTranslations(locale, url) {
         });
 
         // Need to go to the server for languages other than English
-
         if (locale !== 'en') {
             try {
                 const serverTranslations = await Client4.getTranslations(url);
