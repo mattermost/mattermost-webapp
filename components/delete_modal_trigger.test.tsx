@@ -11,10 +11,10 @@ import ConfirmModal from 'components/confirm_modal.jsx';
 describe('components/DeleteModalTrigger', () => {
     test('should throw error when trying to construct DeleteModalTrigger', () => {
         expect(() => {
-            new DeleteModalTrigger({onDelete: ()=>{}}); //eslint-disable-line no-new
+            new DeleteModalTrigger({onDelete: () => {}}); //eslint-disable-line no-new
         }).toThrow(TypeError);
         expect(() => {
-            new DeleteModalTrigger({onDelete: ()=>{}}); //eslint-disable-line no-new
+            new DeleteModalTrigger({onDelete: () => {}}); //eslint-disable-line no-new
         }).toThrow('Can not construct abstract class.');
     });
 
@@ -152,7 +152,7 @@ describe('components/DeleteModalTrigger', () => {
         const wrapper = shallow(
             <ChildModal onDelete={onDelete}/>
         );
-        
+
         const instance = wrapper.instance() as ChildModal;
         const evt = {key: Constants.KeyCodes.ENTER[0]} as React.KeyboardEvent;
         instance.handleConfirm = jest.fn();

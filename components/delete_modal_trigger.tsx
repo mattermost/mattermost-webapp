@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import Constants from 'utils/constants.jsx';
 import * as Utils from 'utils/utils.jsx';
+
 import ConfirmModal from './confirm_modal.jsx';
 
 type Props = {
@@ -14,30 +16,27 @@ type State = {
     showDeleteModal: boolean;
 }
 
-export default class DeleteModalTrigger extends React.PureComponent<Props, State>  {  
-
+export default class DeleteModalTrigger extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-        if (this.constructor == DeleteModalTrigger) { 
+        if (this.constructor === DeleteModalTrigger) {
             throw new TypeError('Can not construct abstract class.');
         }
-
-        this.state = {showDeleteModal: false,};
+        this.state = {showDeleteModal: false};
     }
 
     public handleOpenModal = (e: React.SyntheticEvent) => {
         e.preventDefault();
 
-        //this.setState({showDeleteModal: true,});
-        this.setState({showDeleteModal: true,});
-    }   
+        this.setState({showDeleteModal: true});
+    }
 
     public handleConfirm = () => {
         this.props.onDelete();
     }
 
     handleCancel = () => {
-        this.setState({showDeleteModal: false,});
+        this.setState({showDeleteModal: false});
     }
 
     handleKeyDown = (e: React.KeyboardEvent) => {
@@ -46,21 +45,20 @@ export default class DeleteModalTrigger extends React.PureComponent<Props, State
         }
     }
 
-
-    get triggerTitle():JSX.Element {
-        return <div></div>
+    get triggerTitle(): JSX.Element {
+        return <div> </div>;
     }
 
-    get modalTitle():JSX.Element  {
-        return <div></div>
+    get modalTitle(): JSX.Element {
+        return <div> </div>;
     }
 
-    get modalMessage():JSX.Element {
-        return <div></div>
+    get modalMessage(): JSX.Element {
+        return <div> </div>;
     }
 
-    get modalConfirmButton():JSX.Element {
-        return <div></div>
+    get modalConfirmButton(): JSX.Element {
+        return <div> </div>;
     }
 
     render() {
