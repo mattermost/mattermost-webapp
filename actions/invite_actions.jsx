@@ -32,12 +32,13 @@ export function sendMembersInvites(teamId, users, emails) {
         }
         if (usersToAdd.length > 0) {
             const response = await dispatch(addUsersToTeam(teamId, usersToAdd.map((u) => u.id)));
-            const errors = response.data ? (response.data.errors || {}) : {};
-            for (const user of usersToAdd) {
-                if (errors[user.id]) {
-                    notSent.push({user, reason: errors[user.id]});
+            const members = response.data || [];
+            for (const userToAdd of usersToAdd) {
+                const memberWithError = members.find((m) => m.user_id === userToAdd.id && m.error);
+                if (memberWithError) {
+                    notSent.push({user: userToAdd, reason: memberWithError.error.message});
                 } else {
-                    sent.push({user, reason: localizeMessage('invite.members.added-to-team', 'This member has been added to the team.')});
+                    sent.push({user: userToAdd, reason: localizeMessage('invite.members.added-to-team', 'This member has been added to the team.')});
                 }
             }
         }
