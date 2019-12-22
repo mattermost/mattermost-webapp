@@ -67,16 +67,4 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
             {mark_unread: NotificationLevels.MENTION}
         );
     });
-
-    it('should be hidden if the channel type is DM', () => {
-        const props = {
-            ...baseProps,
-            channel: {
-                ...baseProps.channel,
-                type: Constants.DM_CHANNEL,
-            },
-        };
-        const wrapper = shallow(<MenuItemToggleMuteChannel {...props}/>);
-        expect(wrapper).toMatchSnapshot();
-    });
 });
