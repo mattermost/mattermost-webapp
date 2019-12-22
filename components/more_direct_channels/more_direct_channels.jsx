@@ -281,7 +281,7 @@ export default class MoreDirectChannels extends React.Component {
         return option.username;
     }
 
-    renderOption = (option, isSelected, onAdd) => {
+    renderOption = (option, isSelected, onAdd, onMouseMove) => {
         if (option.type && option.type === 'G') {
             return (
                 <GroupMessageOption
@@ -332,6 +332,7 @@ export default class MoreDirectChannels extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <ProfilePicture
                     src={Client4.getProfilePictureUrl(option.id, option.last_picture_update)}
