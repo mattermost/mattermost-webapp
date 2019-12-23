@@ -452,6 +452,8 @@ export function handleChannelUpdatedEvent(msg) {
 
 function handleChannelMemberUpdatedEvent(msg) {
     const channelMember = JSON.parse(msg.data.channelMember);
+    const roles = channelMember.roles.split(' ');
+    dispatch(loadRolesIfNeeded(roles));
     dispatch({type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER, data: channelMember});
 }
 

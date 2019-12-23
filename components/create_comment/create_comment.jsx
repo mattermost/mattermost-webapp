@@ -4,7 +4,7 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
@@ -29,7 +29,7 @@ import TextboxLinks from 'components/textbox/textbox_links.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import MessageSubmitError from 'components/message_submit_error';
 
-export default class CreateComment extends React.PureComponent {
+class CreateComment extends React.PureComponent {
     static propTypes = {
 
         /**
@@ -96,6 +96,8 @@ export default class CreateComment extends React.PureComponent {
          * Called to clear file uploads in progress
          */
         clearCommentDraftUploads: PropTypes.func.isRequired,
+
+        intl: intlShape.isRequired,
 
         /**
          * Called when comment draft needs to be updated
@@ -183,10 +185,6 @@ export default class CreateComment extends React.PureComponent {
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
     }
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
 
     static getDerivedStateFromProps(props, state) {
         let updatedState = {
@@ -705,8 +703,8 @@ export default class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
@@ -783,7 +781,7 @@ export default class CreateComment extends React.PureComponent {
     render() {
         const {draft} = this.state;
         const {readOnlyChannel} = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const enableAddButton = this.shouldEnableAddButton();
         const {renderScrollbar} = this.state;
         const ariaLabelReplyInput = Utils.localizeMessage('accessibility.sections.rhsFooter', 'reply input region');
@@ -1039,3 +1037,5 @@ export default class CreateComment extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(CreateComment);
