@@ -30,6 +30,5 @@ describe('Messaging', () => {
 
         // * Check that last message do contain right message
         cy.getLastPost().should('have', '닥터 카레브');
-
     });
 });
