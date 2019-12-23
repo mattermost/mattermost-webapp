@@ -18,7 +18,9 @@ export default class SidebarTutorialTip extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.props.openLhs();
+        if (this.props.townSquareDisplayName || this.props.offTopicDisplayName) {
+            this.props.openLhs();
+        }
     }
 
     render = () => {
