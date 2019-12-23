@@ -13,6 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
+import messageAttachmentsOptions from '../../fixtures/message-attachments-with-menu-options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
@@ -60,7 +61,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('matches elements', () => {
+    xit('matches elements', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -90,7 +91,7 @@ describe('Interactive Menu', () => {
         cy.get('body').click();
     });
 
-    it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
+    xit('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -117,7 +118,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
+    xit('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
@@ -154,7 +155,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21039 - Searching within the list of options', () => {
+    xit('IM21039 - Searching within the list of options', () => {
         const searchOptions = [
             {text: 'SearchOption1', value: 'searchoption1'},
             {text: 'SearchOption2', value: 'searchoption2'},
@@ -185,7 +186,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21042 - "No items match" feedback', () => {
+    xit('IM21042 - "No items match" feedback', () => {
         const missingUser = Date.now();
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
@@ -203,7 +204,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('should truncate properly the selected long basic option', () => {
+    xit('should truncate properly the selected long basic option', () => {
         const withLongBasicOption = [
             {text: 'Option 0 - This is with very long option', value: 'option0'},
             ...options,
@@ -216,7 +217,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('should truncate properly the selected long username option', () => {
+    xit('should truncate properly the selected long username option', () => {
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
         // # Post an incoming webhook for interactive menu with user options and verify the post
@@ -225,7 +226,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('should truncate properly the selected long channel display name option', () => {
+    xit('should truncate properly the selected long channel display name option', () => {
         const channelOptions = getMessageMenusPayload({dataSource: 'channels'});
 
         cy.getCurrentTeamId().then((teamId) => {
@@ -239,7 +240,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
+    xit('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
         // # Create a message attachment with menu
         const basicOptionPayload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
@@ -268,6 +269,89 @@ describe('Interactive Menu', () => {
 
             // # Close message attachment menu dropdown
             cy.get('body').click();
+        });
+    });
+
+    it('IM21044 - Change selection in RHS / Message Thread', () => {
+        // # Create a webhook with distinct options
+        const distinctList = messageAttachmentsOptions['distinct-list'];
+        const distinctListOptionPayload = getMessageMenusPayload({options: distinctList});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
+
+        const firstSelectedItem = distinctList[2].text;
+        const secondSelectedItem = distinctList[7].text;
+
+        // # Verify the webhook posted the message
+        cy.getLastPostId().then((parentPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${parentPostId}`).within(() => {
+                // # Open the message attachment menu dropdown by clickin on input
+                cy.findByPlaceholderText('Select an option...').click();
+
+                // * Message attachment dropdown with the selected item should be visible
+                cy.get('#suggestionList').should('exist').within(() => {
+                    // # Make a first selection from the given options
+                    cy.findByText(firstSelectedItem).should('exist').click();
+                });
+
+                // * Verify the input has the selected value you clicked
+                cy.findByDisplayValue(firstSelectedItem).should('exist');
+            });
+
+            // # Lets wait a little for the webhook to return confirmation message
+            cy.wait(TIMEOUTS.TINY);
+
+            // # Checking if we got the ephemeral message with the selection we made
+            cy.getLastPostId().then((botLastPostId) => {
+                cy.get(`#post_${botLastPostId}`).within(() => {
+                    // * Check if Bot message only visible to you
+                    cy.findByText('(Only visible to you)').should('exist');
+
+                    // * Check if we got ephemeral message of our selection ie. firstSelectedItem
+                    cy.findByText(/Ephemeral | select option: banana/).should('exist');
+                });
+            });
+
+            // # Click on reply icon to original message with attachment message in RHS
+            cy.clickPostCommentIcon(parentPostId);
+
+            // * Verify RHS has opened
+            cy.get('#rhsContainer').should('exist');
+
+            // # Same id as parent post in center should be opened in RHS since we clicked reply button
+            cy.get(`#rhsPost_${parentPostId}`).within(() => {
+                // * Verify the input has the selected value same as that of Center and open dropdown to make new selection
+                cy.findByDisplayValue(firstSelectedItem).should('exist').click();
+
+                // * Message attachment dropdown with the selected item should be visible
+                cy.get('#suggestionList').should('exist').within(() => {
+                    // # Make a second selection different from first from options
+                    cy.findByText(secondSelectedItem).should('exist').click();
+                });
+
+                // * Verify the input has the new selected value in the RHS message
+                cy.findByDisplayValue(secondSelectedItem).should('exist');
+            });
+
+            // # Lets wait a little for the webhook to return confirmation message
+            cy.wait(TIMEOUTS.TINY);
+
+            // * Verify the original message with attacment's selection is also changed
+            cy.get(`#messageAttachmentList_${parentPostId}`).within(() => {
+                // * Verify the input in center has the new selected value i.e secondSelectedItem
+                cy.findByDisplayValue(secondSelectedItem).should('exist');
+            });
+
+            // # Checking if we got updated ephemeral message with the new selection we made
+            cy.getLastPostId().then((secondBotLastPostId) => {
+                cy.get(`#post_${secondBotLastPostId}`).within(() => {
+                // * Check if Bot message only for you
+                    cy.findByText('(Only visible to you)').should('exist');
+
+                    // * Check if we got ephemeral message of second selection
+                    cy.findByText(/Ephemeral | select option: avacado/).should('exist');
+                });
+            });
         });
     });
 });
