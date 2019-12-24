@@ -10,7 +10,7 @@
 describe('Compact view: Markdown quotation', () => {
     before(() => {
         // # Login and go to /
-        cy.apiLogin('user-1');
+        cy.apiLogin('user-1');''
         cy.visit('/');
     });
 
