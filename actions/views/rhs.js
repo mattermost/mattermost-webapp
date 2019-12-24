@@ -14,7 +14,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -25,6 +25,32 @@ import {ActionTypes, RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
+
+function selectPostFromRightHandSideSearchWithPreviousState(post, previousRhsState) {
+    return async (dispatch, getState) => {
+        const postRootId = Utils.getRootId(post);
+        await dispatch(PostActions.getPostThread(postRootId));
+
+        dispatch({
+            type: ActionTypes.SELECT_POST,
+            postId: postRootId,
+            channelId: post.channel_id,
+            previousRhsState: previousRhsState || getRhsState(getState()),
+            timestamp: Date.now(),
+        });
+    };
+}
+
+function selectPostCardFromRightHandSideSearchWithPreviousState(post, previousRhsState) {
+    return async (dispatch, getState) => {
+        dispatch({
+            type: ActionTypes.SELECT_POST_CARD,
+            postId: post.id,
+            channelId: post.channel_id,
+            previousRhsState: previousRhsState || getRhsState(getState()),
+        });
+    };
+}
 
 export function updateRhsState(rhsState, channelId) {
     return (dispatch, getState) => {
@@ -42,29 +68,11 @@ export function updateRhsState(rhsState, channelId) {
 }
 
 export function selectPostFromRightHandSideSearch(post) {
-    return async (dispatch, getState) => {
-        const postRootId = Utils.getRootId(post);
-        await dispatch(PostActions.getPostThread(postRootId));
-
-        dispatch({
-            type: ActionTypes.SELECT_POST,
-            postId: postRootId,
-            channelId: post.channel_id,
-            previousRhsState: getRhsState(getState()),
-            timestamp: Date.now(),
-        });
-    };
+    return selectPostFromRightHandSideSearchWithPreviousState(post);
 }
 
 export function selectPostCardFromRightHandSideSearch(post) {
-    return async (dispatch, getState) => {
-        dispatch({
-            type: ActionTypes.SELECT_POST_CARD,
-            postId: post.id,
-            channelId: post.channel_id,
-            previousRhsState: getRhsState(getState()),
-        });
-    };
+    return selectPostCardFromRightHandSideSearchWithPreviousState(post);
 }
 
 export function selectPostFromRightHandSideSearchByPostId(postId) {
@@ -291,5 +299,37 @@ export function openRHSSearch() {
         dispatch(updateSearchResultsTerms(''));
 
         dispatch(updateRhsState(RHSStates.SEARCH));
+    };
+}
+
+export function openAtPrevious(previous) {
+    return (dispatch, getState) => {
+        if (!previous) {
+            return openRHSSearch()(dispatch);
+        }
+
+        if (previous.isMentionSearch) {
+            return showMentions()(dispatch, getState);
+        }
+        if (previous.pinnedPostsChannelId) {
+            const channel = getChannel(getState(), previous.pinnedPostsChannelId);
+            return channel ? showPinnedPosts(previous.pinnedPostsChannelId)(dispatch, getState) : openRHSSearch()(dispatch);
+        }
+        if (previous.isFlaggedPosts) {
+            return showFlaggedPosts()(dispatch, getState);
+        }
+        if (previous.selectedPostId) {
+            const post = getPost(getState(), previous.selectedPostId);
+            return post ? selectPostFromRightHandSideSearchWithPreviousState(post, previous.previousRhsState)(dispatch, getState) : openRHSSearch()(dispatch);
+        }
+        if (previous.selectedPostCardId) {
+            const post = getPost(getState(), previous.selectedPostCardId);
+            return post ? selectPostCardFromRightHandSideSearchWithPreviousState(post, previous.previousRhsState)(dispatch, getState) : openRHSSearch()(dispatch);
+        }
+        if (previous.searchVisible) {
+            return showSearchResults()(dispatch, getState);
+        }
+
+        return openRHSSearch()(dispatch);
     };
 }

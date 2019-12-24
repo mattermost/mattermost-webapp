@@ -7,7 +7,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
-import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide} from 'actions/views/rhs';
+import {setRhsExpanded, showPinnedPosts, openRHSSearch, closeRightHandSide, openAtPrevious} from 'actions/views/rhs';
 import {
     getIsRhsExpanded,
     getIsRhsOpen,
@@ -41,19 +41,24 @@ function mapStateToProps(state) {
         }
     }
 
+    const selectedPostId = getSelectedPostId(state);
+    const selectedPostCardId = getSelectedPostCardId(state);
+
     return {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
         channel,
         currentUserId: getCurrentUserId(state),
-        postRightVisible: Boolean(getSelectedPostId(state)),
-        postCardVisible: Boolean(getSelectedPostCardId(state)),
+        postRightVisible: Boolean(selectedPostId),
+        postCardVisible: Boolean(selectedPostCardId),
         searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
         previousRhsState: getPreviousRhsState(state),
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isPluginView: rhsState === RHSStates.PLUGIN,
+        selectedPostId,
+        selectedPostCardId,
     };
 }
 
@@ -64,6 +69,7 @@ function mapDispatchToProps(dispatch) {
             showPinnedPosts,
             openRHSSearch,
             closeRightHandSide,
+            openAtPrevious,
         }, dispatch),
     };
 }

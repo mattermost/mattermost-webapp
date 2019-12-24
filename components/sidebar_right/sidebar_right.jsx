@@ -31,11 +31,14 @@ export default class SidebarRight extends React.PureComponent {
         isPinnedPosts: PropTypes.bool,
         isPluginView: PropTypes.bool,
         previousRhsState: PropTypes.string,
+        selectedPostId: PropTypes.string,
+        selectedPostCardId: PropTypes.string,
         actions: PropTypes.shape({
             setRhsExpanded: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
+            openAtPrevious: PropTypes.func.isRequired,
         }),
     };
 
@@ -48,13 +51,29 @@ export default class SidebarRight extends React.PureComponent {
         };
     }
 
+    setPrevious = () => {
+        if (!this.props.isOpen) {
+            return;
+        }
+
+        this.previous = {
+            searchVisible: this.props.searchVisible,
+            isMentionSearch: this.props.isMentionSearch,
+            pinnedPostsChannelId: this.props.isPinnedPosts && this.props.channel ? this.props.channel.id : null,
+            isFlaggedPosts: this.props.isFlaggedPosts,
+            selectedPostId: this.props.selectedPostId,
+            selectedPostCardId: this.props.selectedPostCardId,
+            previousRhsState: this.props.previousRhsState,
+        };
+    }
+
     handleShortcut = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
             e.preventDefault();
             if (this.props.isOpen) {
                 this.props.actions.closeRightHandSide();
             } else {
-                this.props.actions.openRHSSearch();
+                this.props.actions.openAtPrevious(this.previous);
             }
         }
     }
@@ -85,6 +104,8 @@ export default class SidebarRight extends React.PureComponent {
         if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && channel.id !== prevProps.channel.id) {
             actions.showPinnedPosts(channel.id);
         }
+
+        this.setPrevious();
     }
 
     determineTransition = () => {
