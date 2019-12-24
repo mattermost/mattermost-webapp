@@ -13,7 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import messageAttachmentsOptions from '../../fixtures/message-attachments-with-menu-options.json';
+import messageMenuOptions from '../../fixtures/message-attachments-with-menu-options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
@@ -274,7 +274,7 @@ describe('Interactive Menu', () => {
 
     it('IM21044 - Change selection in RHS / Message Thread', () => {
         // # Create a webhook with distinct options
-        const distinctOptions = messageAttachmentsOptions['distinct-options'];
+        const distinctOptions = messageMenuOptions['distinct-options'];
         const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
 
