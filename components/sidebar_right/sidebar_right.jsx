@@ -59,7 +59,7 @@ export default class SidebarRight extends React.PureComponent {
         this.previous = {
             searchVisible: this.props.searchVisible,
             isMentionSearch: this.props.isMentionSearch,
-            pinnedPostsChannelId: this.props.isPinnedPosts && this.props.channel ? this.props.channel.id : null,
+            isPinnedPosts: this.props.isPinnedPosts,
             isFlaggedPosts: this.props.isFlaggedPosts,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,

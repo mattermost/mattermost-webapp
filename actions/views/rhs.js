@@ -14,7 +14,7 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId, getChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -311,9 +311,8 @@ export function openAtPrevious(previous) {
         if (previous.isMentionSearch) {
             return showMentions()(dispatch, getState);
         }
-        if (previous.pinnedPostsChannelId) {
-            const channel = getChannel(getState(), previous.pinnedPostsChannelId);
-            return channel ? showPinnedPosts(previous.pinnedPostsChannelId)(dispatch, getState) : openRHSSearch()(dispatch);
+        if (previous.isPinnedPosts) {
+            return showPinnedPosts()(dispatch, getState);
         }
         if (previous.isFlaggedPosts) {
             return showFlaggedPosts()(dispatch, getState);
