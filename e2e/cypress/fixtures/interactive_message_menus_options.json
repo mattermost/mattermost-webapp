@@ -1,14 +1,4 @@
 {
-    "simple-list": [{
-        "text": "Option 1",
-        "value": "option1"
-    }, {
-        "text": "Option 2",
-        "value": "option2"
-    }, {
-        "text": "Option 3",
-        "value": "option3"
-    }],
     "distinct-list": [
         {"text": "Apple", "value": "apple"},
         {"text": "Orange", "value": "orange"},
@@ -20,3 +10,4 @@
         {"text": "Avacado", "value": "avacado"}
     ]
 }
+
