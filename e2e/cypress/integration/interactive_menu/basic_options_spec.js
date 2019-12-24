@@ -274,12 +274,12 @@ describe('Interactive Menu', () => {
 
     it('IM21044 - Change selection in RHS / Message Thread', () => {
         // # Create a webhook with distinct options
-        const distinctList = messageAttachmentsOptions['distinct-list'];
-        const distinctListOptionPayload = getMessageMenusPayload({options: distinctList});
+        const distinctOptions = messageAttachmentsOptions['distinct-options'];
+        const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
 
-        const firstSelectedItem = distinctList[2].text;
-        const secondSelectedItem = distinctList[7].text;
+        const firstSelectedItem = distinctOptions[2].text;
+        const secondSelectedItem = distinctOptions[7].text;
 
         // # Verify the webhook posted the message
         cy.getLastPostId().then((parentPostId) => {

@@ -1,5 +1,5 @@
 {
-    "distinct-list": [
+    "distinct-options": [
         {"text": "Apple", "value": "apple"},
         {"text": "Orange", "value": "orange"},
         {"text": "Banana", "value": "banana"},
