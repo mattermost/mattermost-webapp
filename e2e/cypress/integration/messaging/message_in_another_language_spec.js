@@ -15,20 +15,21 @@ describe('Messaging', () => {
 
     it('M17456 - Message in another language should be displayed properly', () => {
         const msg = '안녕하세요';
+        const msg2 = '닥터 카레브';
 
         // # Make a post
         cy.postMessage(msg);
 
         // * Check that last message do contain right message
-        cy.getLastPost().should('have', '안녕하세요');
+        cy.getLastPost().should('have', msg);
 
         // # Mouseover the post and click post comment icon.
         cy.clickPostCommentIcon();
 
         // # Post a reply in RHS.
-        cy.postMessageReplyInRHS('닥터 카레브');
+        cy.postMessageReplyInRHS(msg2);
 
         // * Check that last message do contain right message
-        cy.getLastPost().should('have', '닥터 카레브');
+        cy.getLastPost().should('have', msg2);
     });
 });
