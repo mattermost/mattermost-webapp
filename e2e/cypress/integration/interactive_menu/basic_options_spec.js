@@ -349,7 +349,7 @@ describe('Interactive Menu', () => {
                     cy.findByText('(Only visible to you)').should('exist');
 
                     // * Check if we got ephemeral message of second selection
-                    cy.findByText(/Ephemeral | select option: avacado/).should('exist');
+                    cy.findByText(/Ephemeral | select option: avacodo/).should('exist');
                 });
             });
         });
