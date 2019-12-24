@@ -147,7 +147,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                             defaultMessage='Assigned Roles'
                         />
                     </div>
-                    <div class="group-actions"></div>
+                    <div className="group-actions"></div>
                 </div>
                 <div className='group-teams-and-channels--body'>
                     {entries.map((entry) => (

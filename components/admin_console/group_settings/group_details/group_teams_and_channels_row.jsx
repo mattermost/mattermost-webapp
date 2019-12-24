@@ -213,17 +213,22 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     onConfirm={this.removeItem}
                     onCancel={() => this.setState({showConfirmationModal: false})}
                 />
-
-                <div className='arrow-icon'>
-                    {arrowIcon}
+                <div className='name-content'>
+                    <div className='arrow-icon'>
+                        {arrowIcon}
+                    </div>
+                    {teamIcon}
+                    {channelIcon}
+                    <div className='name'>
+                        {this.props.name}
+                    </div>
                 </div>
-                {teamIcon}
-                {channelIcon}
-                <div className='name'>
-                    {this.props.name}
+                <div className='type'>
+                    {typeText}
                 </div>
-                {typeText}
-                {this.displayAssignedRolesDropdown()}
+                <div className='roles'>
+                    {this.displayAssignedRolesDropdown()}
+                </div>
                 <div className='remove'>
                     <button
                         className='btn btn-link'

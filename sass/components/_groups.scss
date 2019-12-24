@@ -491,6 +491,11 @@
     }
 
     .group-teams-and-channels--body {
+        .group-teams-and-channels-row.has-clidren {
+            .type {
+                margin-left: 20px;
+            }
+        }
         .group-teams-and-channels-row {
             display: flex;
             padding: 5px;
@@ -500,20 +505,7 @@
                 background: alpha-color($white, .5)
             }
 
-            .arrow-icon {
-                margin-left: 10px;
 
-                .fa-caret-right {
-                    padding: 5px;
-                    cursor: pointer;
-                }
-
-                .open {
-                    transform: rotate(90deg);
-                    transform-origin: 55% 50%;
-                    transition: transform 300ms;
-                }
-            }
 
             .team-icon,
             .channel-icon {
@@ -534,8 +526,34 @@
                 }
             }
 
-            .name {
-                width: 100%;
+            .name-content {
+                flex: 1;
+                display: flex;
+
+                .name {
+                    flex: 1;
+                }
+
+                .arrow-icon {
+                    margin-left: 10px;
+    
+                    .fa-caret-right {
+                        padding: 5px;
+                        cursor: pointer;
+                    }
+    
+                    .open {
+                        transform: rotate(90deg);
+                        transform-origin: 55% 50%;
+                        transition: transform 300ms;
+                    }
+                }
+            }
+
+
+            .type{
+                flex: 1;
+                margin-left: -29px;
             }
 
             .remove {
