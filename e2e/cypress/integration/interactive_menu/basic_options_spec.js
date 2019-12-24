@@ -279,7 +279,7 @@ describe('Interactive Menu', () => {
         cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
 
         const selectedItem = distinctList[2].text;
-        const firstFewLettersOfSelectedItem = selectedItem.substring(0, 3); // Make sure the options have minimum lenght of 3
+        const firstFewLettersOfSelectedItem = selectedItem.substring(0, 3); // Make sure the options have minimum length of 3
 
         // # Get the last posted message id
         cy.getLastPostId().then((lastPostId) => {
