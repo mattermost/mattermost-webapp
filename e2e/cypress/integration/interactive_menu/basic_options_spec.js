@@ -13,22 +13,13 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
+import messageMenuOptions from '../../fixtures/interactive_message_menus_options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
     {text: 'Option 1', value: 'option1'},
     {text: 'Option 2', value: 'option2'},
     {text: 'Option 3', value: 'option3'},
-];
-const distinctOptions = [
-    {text: 'Apple', value: 'apple'},
-    {text: 'Orange', value: 'orange'},
-    {text: 'Banana', value: 'banana'},
-    {text: 'Grapes', value: 'grapes'},
-    {text: 'Melon', value: 'melon'},
-    {text: 'Mango', value: 'mango'},
-    {text: 'Mango Raw', value: 'mangoraw'},
-    {text: 'Avacado', value: 'avacado'},
 ];
 
 const payload = getMessageMenusPayload({options});
@@ -161,6 +152,9 @@ describe('Interactive Menu', () => {
                     cy.get('.post__link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
+
+                // # Close RHS
+                cy.closeRHS();
             });
         });
     });
@@ -284,6 +278,7 @@ describe('Interactive Menu', () => {
 
     it('IM21036 - Enter selects the option', () => {
         // # Create a message attachment with menu
+        const distinctOptions = messageMenuOptions['distinct-options'];
         const distinctOptionsPayload = getMessageMenusPayload({options: distinctOptions});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctOptionsPayload});
 
