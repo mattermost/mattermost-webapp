@@ -215,12 +215,12 @@ describe('Interactive Menu', () => {
         });
 
         cy.get('@messageAttachmentList').within(() => {
-            cy.get('.select-suggestion-container > input').click();
+            cy.findByPlaceholderText('Select an option...').as('optionInputField');
+            cy.get('@optionInputField').click();
             cy.get('#suggestionList').should('be.visible');
 
             // # Hit the down arrow two times
-            cy.get('.select-suggestion-container > input').type('{downarrow}');
-            cy.get('.select-suggestion-container > input').type('{downarrow}');
+            cy.get('@optionInputField').type('{downarrow}{downarrow}');
 
             // # Verify the correct option has been selected
             cy.get('#suggestionList').within(() => {
@@ -228,8 +228,7 @@ describe('Interactive Menu', () => {
             });
 
             // # Hit the up arrow two times
-            cy.get('.select-suggestion-container > input').type('{uparrow}');
-            cy.get('.select-suggestion-container > input').type('{uparrow}');
+            cy.get('@optionInputField').type('{uparrow}{uparrow}');
 
             // # Verify the correct option has been selected
             cy.get('#suggestionList').within(() => {
