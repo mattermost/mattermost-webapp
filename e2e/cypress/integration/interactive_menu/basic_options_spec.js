@@ -274,11 +274,11 @@ describe('Interactive Menu', () => {
 
     it('IM21040 - Selection is mirrored in RHS / Message Thread', () => {
         // # Create a webhook with distinct options
-        const distinctList = messageMenuOptions['distinct-list'];
-        const distinctListOptionPayload = getMessageMenusPayload({options: distinctList});
+        const distinctOptions = messageMenuOptions['distinct-options'];
+        const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
 
-        const selectedItem = distinctList[2].text;
+        const selectedItem = distinctOptions[2].text;
         const firstFewLettersOfSelectedItem = selectedItem.substring(0, 3); // Make sure the options have minimum length of 3
 
         // # Get the last posted message id
