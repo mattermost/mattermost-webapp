@@ -13,7 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import messageAttachmentOptions from '../../fixtures/message-attachments-with-menu-options.json';
+import messageMenusOptions from '../../fixtures/interactive_message_menus_options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
@@ -273,7 +273,7 @@ describe('Interactive Menu', () => {
     });
 
     it('IM21035 - Long lists of selections are scrollable', () => {
-        const longListOptions = messageAttachmentOptions['long-list'];
+        const longListOptions = messageMenusOptions['long-list'];
         const longListOptionPayload = getMessageMenusPayload({options: longListOptions});
 
         // # Create a message attachment with long menu options

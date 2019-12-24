@@ -1,14 +1,4 @@
 {
-    "simple-list": [{
-        "text": "Option 1",
-        "value": "option1"
-    }, {
-        "text": "Option 2",
-        "value": "option2"
-    }, {
-        "text": "Option 3",
-        "value": "option3"
-    }],
     "long-list": [ 
         {"text": "Afghanistan", "value": "AF"}, 
         {"text": "Åland Islands", "value": "AX"}, 
