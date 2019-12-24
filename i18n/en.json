@@ -1665,6 +1665,8 @@
   "admin.userManagement.userDetail.addTeam": "Add Team",
   "admin.userManagement.userDetail.authenticationMethod": "Authentication Method",
   "admin.userManagement.userDetail.email": "Email",
+  "admin.userManagement.userDetail.mfaNo": "MFA: No",
+  "admin.userManagement.userDetail.mfaYes": "MFA: Yes",
   "admin.userManagement.userDetail.role": "Role",
   "admin.userManagement.userDetail.teamsSubtitle": "Teams to which this user belongs",
   "admin.userManagement.userDetail.teamsTitle": "Team Membership",

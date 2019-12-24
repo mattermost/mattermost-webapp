@@ -296,16 +296,16 @@ export default class SystemUserDetail extends React.PureComponent {
             } else {
                 service = Utils.toTitleCase(user.auth_service);
             }
-            authLine = service
+            authLine = service;
         } else {
-            authLine = 'Email'
+            authLine = Utils.localizeMessage('admin.userManagement.userDetail.email', 'Email');
         }
         if (mfaEnabled) {
             authLine += ', ';
             if (user.mfa_active) {
-                authLine += 'MFA: Yes'
+                authLine += Utils.localizeMessage('admin.userManagement.userDetail.mfaYes', 'MFA: Yes');
             } else {
-                authLine += 'MFA: No'
+                authLine += Utils.localizeMessage('admin.userManagement.userDetail.mfaNo', 'MFA: No');
             }
         }
         return authLine;
