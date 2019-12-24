@@ -48,7 +48,7 @@ export default class FloatingTimestamp extends React.PureComponent {
         return (
             <div
                 className={className}
-                data-testid='post-list__timestamp'
+                data-testid='floatingTimestamp'
             >
                 <div>
                     <span>{dateString}</span>

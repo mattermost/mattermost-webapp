@@ -6,31 +6,61 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+import users from '../../fixtures/users';
+
+const sysadmin = users.sysadmin;
 
 describe('Scroll channel`s messages in mobile view', () => {
+    let newChannel;
+
     before(() => {
         cy.apiLogin('user-1');
 
         // # resize browser to phone view
         cy.viewport('iphone-6');
 
-        // # visit channel that has message on different days
-        cy.visit('ad-1/channels/minima-3');
+        // # visit channel
+        cy.createAndVisitNewChannel().then((channel) => {
+            newChannel = channel;
+        });
     });
 
     it('M18759 - detect change in floating timestamp', () => {
-        // # scroll to previous date
-        cy.findAllByTestId('BasicSeparator').last().scrollIntoView();
+        let date;
+
+        // # Post a day old message
+        for (let j = 2; j >= 0; j--) {
+            date = Cypress.moment().subtract(-j, 'days').valueOf();
+            for (let i = 0; i < 5; i++) {
+                cy.postMessageAs({sender: sysadmin, message: `Hello \n from \n other \n day \n - ${j}`, channelId: newChannel.id, createAt: date});
+            }
+        }
+
+        // # reload to see correct changes
+        cy.reload();
+
+        const yesterdaysDate = Cypress.moment().subtract(-1, 'days');
+        const twoDaysAgo = Cypress.moment().subtract(0, 'days');
+
+        // # set date 3 days fron now because channel created today and scroll not working because of it
+        cy.clock(Cypress.moment().subtract(-3, 'days').valueOf(), ['Date']);
 
         // * check date on scroll and save it
-        cy.get('[data-testid="post-list__timestamp"] span span').
-            should('have.text', 'Wed, Dec 18, 2019').and('be.visible').as('date1');
+        cy.findAllByTestId('postView').eq(10).scrollIntoView();
 
-        // # scroll to first date in this channel
-        cy.findAllByTestId('BasicSeparator').first().scrollIntoView();
+        // * check date on scroll is yesterday
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', 'Yesterday');
 
-        // * verify that date changed
-        cy.get('[data-testid="post-list__timestamp"] span span').
-            should('not.have.text', '@date1').and('be.visible');
+        // * check date on scroll and save it
+        cy.findAllByTestId('postView').eq(7).scrollIntoView();
+
+        // * check date on scroll is day before yesterday
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', yesterdaysDate.format('ddd, MMM D, YYYY'));
+
+        // * check date on scroll and save it
+        cy.findAllByTestId('postView').eq(4).scrollIntoView();
+
+        // * check date on scroll is two days ago
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', twoDaysAgo.format('ddd, MMM D, YYYY'));
     });
 });
