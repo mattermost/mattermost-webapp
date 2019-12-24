@@ -13,7 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import messageMenuOptions from '../../fixtures/message-attachments-with-menu-options.json';
+import messageMenuOptions from '../../fixtures/interactive_message_menus_options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
