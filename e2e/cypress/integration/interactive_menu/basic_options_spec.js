@@ -274,10 +274,10 @@ describe('Interactive Menu', () => {
 
     it('IM21035 - Long lists of selections are scrollable', () => {
         const manyOptions = messageMenusOptions['many-options'];
-        const longListOptionPayload = getMessageMenusPayload({options: manyOptions});
+        const manyOptionsPayload = getMessageMenusPayload({options: manyOptions});
 
         // # Create a message attachment with long menu options
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: longListOptionPayload});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: manyOptionsPayload});
 
         // # Get the last posted message id
         cy.getLastPostId().then((lastPostId) => {
