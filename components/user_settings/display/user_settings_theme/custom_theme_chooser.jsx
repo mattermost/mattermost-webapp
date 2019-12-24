@@ -11,7 +11,6 @@ import {t} from 'utils/i18n';
 import 'bootstrap-colorpicker';
 
 import Constants from 'utils/constants';
-import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 
 import LocalizedIcon from 'components/localized_icon';
@@ -118,10 +117,6 @@ export default class CustomThemeChooser extends React.Component {
     static propTypes = {
         theme: PropTypes.object.isRequired,
         updateTheme: PropTypes.func.isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape.isRequired,
     };
 
     constructor(props) {
@@ -252,7 +247,6 @@ export default class CustomThemeChooser extends React.Component {
     }
 
     render() {
-        const {formatMessage} = this.context.intl;
         const theme = this.props.theme;
 
         const sidebarElements = [];
@@ -296,7 +290,9 @@ export default class CustomThemeChooser extends React.Component {
                         className='col-sm-6 form-group'
                         key={'custom-theme-key' + index}
                     >
-                        <label className='custom-label'>{formatMessage(messages[element.id])}</label>
+                        <label className='custom-label'>
+                            <FormattedMessage {...messages[element.id]}/>
+                        </label>
                         <div
                             className='input-group theme-group group--code dropdown'
                             id={element.id}
@@ -332,7 +328,7 @@ export default class CustomThemeChooser extends React.Component {
                     >
                         <ColorChooser
                             id={element.id}
-                            label={formatMessage(messages[element.id])}
+                            label={<FormattedMessage {...messages[element.id]}/>}
                             color={theme[element.id]}
                             onChange={this.handleColorChange}
                         />
@@ -352,7 +348,7 @@ export default class CustomThemeChooser extends React.Component {
                     >
                         <ColorChooser
                             id={element.id}
-                            label={formatMessage(messages[element.id])}
+                            label={<FormattedMessage {...messages[element.id]}/>}
                             color={color}
                             onChange={this.handleColorChange}
                         />
@@ -366,7 +362,7 @@ export default class CustomThemeChooser extends React.Component {
                     >
                         <ColorChooser
                             id={element.id}
-                            label={formatMessage(messages[element.id])}
+                            label={<FormattedMessage {...messages[element.id]}/>}
                             color={theme[element.id]}
                             onChange={this.handleColorChange}
                         />

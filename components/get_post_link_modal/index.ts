@@ -3,12 +3,13 @@
 
 import {connect} from 'react-redux';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getSiteURL} from 'utils/url';
 
 import GetPostLinkModal from './get_post_link_modal';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state) || {};
     const currentTeamUrl = `${getSiteURL()}/${currentTeam.name}`;
     return {

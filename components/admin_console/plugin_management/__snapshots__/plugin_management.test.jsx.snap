@@ -246,6 +246,13 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -491,6 +498,13 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -770,6 +784,13 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1054,6 +1075,13 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1333,6 +1361,13 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1585,6 +1620,13 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1864,6 +1906,13 @@ exports[`components/PluginManagement should match snapshot, text entered into th
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -2143,6 +2192,13 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -2485,6 +2541,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -2795,6 +2858,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -3105,6 +3175,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -3415,6 +3492,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -3757,6 +3841,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
