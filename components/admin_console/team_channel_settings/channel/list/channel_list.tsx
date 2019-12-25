@@ -29,18 +29,19 @@ interface ChannelListState {
     channels: undefined[];
     searchTotalCount: number;
     pageResetKey: number;
+
+    searchMode: boolean;
 }
 
 export default class ChannelList extends React.PureComponent<ChannelListProps, ChannelListState> {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         searchString: '',
-    //         channels: [],
-    //         searchTotalCount: 0,
-    //         pageResetKey: 0
-    //     };
-    // }
+    state: ChannelListState = {
+        searchString: '',
+        channels: [],
+        searchTotalCount: 0,
+        pageResetKey: 0,
+        searchMode: false,
+    };
+
     searchBar = () => {
         return (
             <div className='groups-list--global-actions'>
@@ -72,7 +73,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         this.setState({searchString: e.target.value});
     };
 
-    private handleChannelSearchKeyUp = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    private handleChannelSearchKeyUp = async (e: React.KeyboardEvent) => {
         const {key} = e;
         const {searchString} = this.state;
         if (key === Constants.KeyCodes.ENTER[0]) {
@@ -85,7 +86,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             this.resetSearch();
         }
     };
-    private getDataBySearch = async (page, perPage) => {
+    private getDataBySearch = async (page: any, perPage: any) => {
         const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
         return channels.concat(response.data.channels);
@@ -97,7 +98,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     header() {
         return (
-            <>
+            <React.Fragment>
                 {this.searchBar()}
                 <div className='groups-list--header'>
                     <div className='group-name adjusted'>
@@ -122,10 +123,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                         <div className='group-actions'/>
                     </div>
                 </div>
-            </>
+            </React.Fragment>
         );
     }
-    onPageChangedCallback = (pagination, channels) => {
+
+    onPageChangedCallback = (pagination: {}, channels: any) => {
         if (this.state.searchMode) {
             this.setState({channels});
         }
@@ -150,11 +152,13 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
     }
 
     private renderRow = (item) => {
-        return (<ChannelRow
-            key={item.id}
-            channel={item}
-            onRowClick={this.onChannelClick}
-                />);
+        return (
+            <ChannelRow
+                key={item.id}
+                channel={item}
+                onRowClick={this.onChannelClick}
+            />
+        );
     };
 
     private onChannelClick = (id) => {
