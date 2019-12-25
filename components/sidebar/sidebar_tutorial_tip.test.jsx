@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SidebarTutorialTip from 'components/sidebar/sidebar_tutorial_tip.jsx';
+import SidebarTutorialTip from 'components/sidebar/sidebar_tutorial_tip';
 
 describe('component/sidebar/SidebarTutorialTip', () => {
     test('should match snapshot, without townSquare and without offTopic', () => {

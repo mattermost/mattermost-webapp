@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+/* eslint-disable react/require-optimization */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -14,41 +14,58 @@ import tutorialGifWhite from 'images/tutorialTipWhite.gif';
 const Preferences = Constants.Preferences;
 const TutorialSteps = Constants.TutorialSteps;
 
-export default class TutorialTip extends React.Component {
-    static propTypes = {
-        currentUserId: PropTypes.string.isRequired,
-        step: PropTypes.number.isRequired,
-        screens: PropTypes.array.isRequired,
-        placement: PropTypes.string.isRequired,
-        overlayClass: PropTypes.string,
-        diagnosticsTag: PropTypes.string,
-        actions: PropTypes.shape({
-            closeRhsMenu: PropTypes.func.isRequired,
-            savePreferences: PropTypes.func.isRequired,
-        }),
-    }
+type Preference = {
+    user_id: string;
+    category: string;
+    name: string;
+    value: string;
+}
 
-    static defaultProps = {
+type Props = {
+    currentUserId: string;
+    step: number;
+    screens: Array<JSX.Element>;
+    placement: string;
+    overlayClass: string;
+    diagnosticsTag?: string;
+    actions: {
+        closeRhsMenu: () => void;
+        savePreferences: (currentUserId: string, preferences: Array<Preference>) => void;
+    };
+}
+
+type State = {
+    currentScreen: number;
+    show: boolean;
+}
+
+export default class TutorialTip extends React.Component<Props, State> {
+    public targetRef: React.RefObject<HTMLImageElement>;
+
+    public static defaultProps: Partial<Props> = {
         overlayClass: '',
     }
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
 
-        this.state = {currentScreen: 0, show: false};
+        this.state = {
+            currentScreen: 0,
+            show: false
+        };
 
         this.targetRef = React.createRef();
     }
 
-    show = () => {
+    private show = (): void => {
         this.setState({show: true});
     }
 
-    hide = () => {
+    private hide = (): void => {
         this.setState({show: false});
     }
 
-    handleNext = () => {
+    public handleNext = (): void => {
         if (this.state.currentScreen < this.props.screens.length - 1) {
             this.setState({currentScreen: this.state.currentScreen + 1});
             return;
@@ -86,7 +103,7 @@ export default class TutorialTip extends React.Component {
         savePreferences(currentUserId, preferences);
     }
 
-    skipTutorial = (e) => {
+    public skipTutorial = (e: React.MouseEvent<HTMLAnchorElement>): void => {
         e.preventDefault();
 
         if (this.props.diagnosticsTag) {
@@ -109,27 +126,29 @@ export default class TutorialTip extends React.Component {
         actions.savePreferences(currentUserId, preferences);
     }
 
-    handleCircleClick = (e, screen) => {
+    private handleCircleClick = (e: React.MouseEvent<HTMLAnchorElement>, screen: number): void => {
         e.preventDefault();
         this.setState({currentScreen: screen});
     }
 
-    getTarget = () => {
+    private getTarget = (): HTMLImageElement | null => {
         return this.targetRef.current;
     }
 
-    render() {
-        const buttonText = this.state.currentScreen === this.props.screens.length - 1 ? (
-            <FormattedMessage
-                id='tutorial_tip.ok'
-                defaultMessage='Okay'
-            />
-        ) : (
-            <FormattedMessage
-                id='tutorial_tip.next'
-                defaultMessage='Next'
-            />
-        );
+    public render(): JSX.Element {
+        const buttonText = this.state.currentScreen === this.props.screens.length - 1 ?
+            (
+                <FormattedMessage
+                    id='tutorial_tip.ok'
+                    defaultMessage='Okay'
+                />
+            ) :
+            (
+                <FormattedMessage
+                    id='tutorial_tip.next'
+                    defaultMessage='Next'
+                />
+            );
 
         const dots = [];
         if (this.props.screens.length > 1) {
@@ -151,7 +170,7 @@ export default class TutorialTip extends React.Component {
             }
         }
 
-        var tutorialGifImage = tutorialGif;
+        let tutorialGifImage = tutorialGif;
         if (this.props.overlayClass === 'tip-overlay--header' || this.props.overlayClass === 'tip-overlay--sidebar' || this.props.overlayClass === 'tip-overlay--header--up') {
             tutorialGifImage = tutorialGifWhite;
         }
