@@ -352,6 +352,7 @@
                 }
 
                 &.unread-title {
+                    color: v(sidebar-unread-text);
                     font-weight: 600;
                 }
 
@@ -398,6 +399,7 @@
                     font-weight: 400;
 
                     &.unread-title {
+                        color: v(sidebar-unread-text);
                         font-weight: 600;
                     }
                 }
