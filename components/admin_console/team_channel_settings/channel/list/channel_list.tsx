@@ -17,8 +17,8 @@ import ChannelRow from './channel_row';
 
 interface ChannelListProps {
     actions: {
-        searchAllChannels: (...args: any[]) => any;
-        getData: (...args: any[]) => any;
+        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => any;
+        getData: (page?: number, perPage?: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => any;
     };
     data?: any[];
     total?: number;
@@ -29,7 +29,6 @@ interface ChannelListState {
     channels: undefined[];
     searchTotalCount: number;
     pageResetKey: number;
-
     searchMode: boolean;
 }
 
@@ -161,7 +160,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         );
     };
 
-    private onChannelClick = (id) => {
+    private onChannelClick = (id: string) => {
         browserHistory.push(`/admin_console/user_management/channels/${id}`);
     };
 }

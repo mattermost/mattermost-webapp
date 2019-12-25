@@ -12,7 +12,7 @@ import {t} from 'utils/i18n';
 
 import {Constants} from 'utils/constants';
 
-import List from './channel_list.jsx';
+import List from './channel_list';
 
 const compareByDisplayName = (a, b) => a.display_name.localeCompare(b.display_name);
 

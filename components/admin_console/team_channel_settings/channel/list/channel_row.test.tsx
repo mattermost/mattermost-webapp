@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelRow from './channel_row.jsx';
+import ChannelRow from './channel_row';
 
 describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
     const testChannel = {
