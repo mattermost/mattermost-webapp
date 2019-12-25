@@ -24,7 +24,7 @@ export default class ChannelRow extends React.Component<Props> {
     render(): JSX.Element {
         const {channel} = this.props;
         return (
-            <div 
+            <div
                 className={'group '} 
                 onClick={this.handleRowClick}
             >

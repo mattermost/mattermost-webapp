@@ -19,8 +19,9 @@ interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => any;
         getData: (page?: number, perPage?: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => any;
+        removeGroup?: () => void;
     };
-    data?: any[];
+    data?: {id: string; display_name: string}[];
     total?: number;
 }
 
