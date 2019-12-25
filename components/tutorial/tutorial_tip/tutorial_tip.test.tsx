@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ReactWrapper, mount, ShallowWrapper} from 'enzyme';
+import {shallow, ShallowWrapper} from 'enzyme';
 
 // import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TutorialTip from 'components/tutorial/tutorial_tip/tutorial_tip';
@@ -33,9 +33,6 @@ describe('components/tutorial/tutorial_tip/tutorial_tip', () => {
         const closeRhsMenu = jest.fn();
 
         const props = {...requiredProps, actions: {closeRhsMenu, savePreferences}};
-
-        // const wrapper = mountWithIntl(<TutorialTip {...props}/>) as unknown as ReactWrapper<{}, {}, TutorialTip>;
-        // const wrapper = mount(<TutorialTip {...props}/>) as ReactWrapper<{}, {}, TutorialTip>;
         const wrapper: ShallowWrapper<any, any, TutorialTip> = shallow(
             <TutorialTip {...props}/>
         );
