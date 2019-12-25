@@ -19,6 +19,7 @@ export default class ActionMenu extends React.PureComponent {
         actions: PropTypes.shape({
             autocompleteChannels: PropTypes.func.isRequired,
             selectAttachmentMenuAction: PropTypes.func.isRequired,
+            autocompleteUsers: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -29,7 +30,7 @@ export default class ActionMenu extends React.PureComponent {
         this.providers = [];
         if (action) {
             if (action.data_source === 'users') {
-                this.providers = [new GenericUserProvider()];
+                this.providers = [new GenericUserProvider(props.actions.autocompleteUsers)];
             } else if (action.data_source === 'channels') {
                 this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (action.options) {

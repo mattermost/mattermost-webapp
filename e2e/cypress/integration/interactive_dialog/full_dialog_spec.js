@@ -29,7 +29,7 @@ const optionsLength = {
     someradiooptions: 2, // number of defined basic options
 };
 
-describe('ID15888 Interactive Dialog', () => {
+describe('Interactive Dialog', () => {
     before(() => {
         // Set required ServiceSettings
         const newSettings = {
@@ -76,7 +76,7 @@ describe('ID15888 Interactive Dialog', () => {
         cy.reload();
     });
 
-    it('UI check', () => {
+    it('ID15888 - UI check', () => {
         // # Post a slash command
         cy.get('#postListContent').should('be.visible');
         cy.postMessage(`/${createdCommand.trigger}`);
@@ -145,7 +145,7 @@ describe('ID15888 Interactive Dialog', () => {
         });
     });
 
-    it('Cancel button works', () => {
+    it('ID15888 - Cancel button works', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -159,7 +159,7 @@ describe('ID15888 Interactive Dialog', () => {
         cy.get('#interactiveDialogModal').should('not.be.visible');
     });
 
-    it('"X" closes the dialog', () => {
+    it('ID15888 - "X" closes the dialog', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -175,7 +175,7 @@ describe('ID15888 Interactive Dialog', () => {
         cy.get('#interactiveDialogModal').should('not.be.visible');
     });
 
-    it('Correct error messages displayed if empty form is submitted', () => {
+    it('ID15888 - Correct error messages displayed if empty form is submitted', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -202,7 +202,7 @@ describe('ID15888 Interactive Dialog', () => {
         closeInteractiveDialog();
     });
 
-    it('Email validation', () => {
+    it('ID15888 - Email validation', () => {
         // # Post a slash command
         cy.postMessage(`/${createdCommand.trigger}`);
 
@@ -231,7 +231,7 @@ describe('ID15888 Interactive Dialog', () => {
         closeInteractiveDialog();
     });
 
-    it('Number validation', () => {
+    it('ID15888 - Number validation', () => {
         cy.postMessage(`/${createdCommand.trigger}`);
 
         cy.get('#interactiveDialogModal').should('be.visible');

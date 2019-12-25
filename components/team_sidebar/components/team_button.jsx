@@ -3,21 +3,44 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {intlShape} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import {isDesktopApp} from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
 // eslint-disable-next-line react/require-optimization
-export default class TeamButton extends React.Component {
-    static contextTypes = {
+class TeamButton extends React.Component {
+    static propTypes = {
+        btnClass: PropTypes.string,
+        url: PropTypes.string.isRequired,
+        displayName: PropTypes.string,
+        content: PropTypes.node,
+        tip: PropTypes.node.isRequired,
+        active: PropTypes.bool,
+        disabled: PropTypes.bool,
+        unread: PropTypes.bool,
+        mentions: PropTypes.number,
+        placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
+        teamIconUrl: PropTypes.string,
+        switchTeam: PropTypes.func.isRequired,
         intl: intlShape.isRequired,
+    };
+
+    static defaultProps = {
+        btnClass: '',
+        tip: '',
+        placement: 'right',
+        active: false,
+        disabled: false,
+        unread: false,
+        mentions: 0,
     };
 
     handleSwitch = (e) => {
@@ -33,7 +56,7 @@ export default class TeamButton extends React.Component {
 
     render() {
         const {teamIconUrl, displayName, btnClass, mentions, unread} = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
 
         let teamClass = this.props.active ? 'active' : '';
         const disabled = this.props.disabled ? 'team-disabled' : '';
@@ -148,27 +171,4 @@ export default class TeamButton extends React.Component {
     }
 }
 
-TeamButton.defaultProps = {
-    btnClass: '',
-    tip: '',
-    placement: 'right',
-    active: false,
-    disabled: false,
-    unread: false,
-    mentions: 0,
-};
-
-TeamButton.propTypes = {
-    btnClass: PropTypes.string,
-    url: PropTypes.string.isRequired,
-    displayName: PropTypes.string,
-    content: PropTypes.node,
-    tip: PropTypes.node.isRequired,
-    active: PropTypes.bool,
-    disabled: PropTypes.bool,
-    unread: PropTypes.bool,
-    mentions: PropTypes.number,
-    placement: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-    teamIconUrl: PropTypes.string,
-    switchTeam: PropTypes.func.isRequired,
-};
+export default injectIntl(TeamButton);

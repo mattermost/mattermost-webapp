@@ -44,8 +44,7 @@ h6 {
 }
 
 .markdown__paragraph-inline {
-    display: inline-flex;
-    align-items: center;
+    display: inline;
 
     + .markdown__paragraph-inline {
         margin-left: 4px;
@@ -60,12 +59,12 @@ h6 {
         max-height: 500px;
         @include border-radius(4px);
     }
-    
+
     div.markdown-inline-img {
         min-width: 50px;
         display: inline-block;
         width: 100%;
-        vertical-align: middle;
+        vertical-align: top;
     }
 
     .post {
@@ -79,17 +78,15 @@ h6 {
 
     .markdown-inline-img__container {
         display: inline-block;
-        width: 100%;
+        width: calc(100% - 5px);
     }
 
     .markdown-inline-img--loading {
         visibility: hidden;
     }
-    
+
     .markdown-inline-img--hover {
-        max-width: calc(100% - 5px);
         border: 1px solid transparent;
-        
         &:hover {
             @include single-transition(all, .1s, linear);
             @include box-shadow(0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1));
@@ -137,7 +134,7 @@ h6 {
         max-height: 18px;
         @include border-radius(2px);
     }
-        
+
     .markdown-inline-img--loading {
         height: 18px;
         visibility: hidden;
@@ -145,7 +142,7 @@ h6 {
 
     .markdown-inline-img--hover {
         border: 1px solid transparent;
-        
+
         &:hover {
             @include single-transition(all, .1s, linear);
             @include box-shadow(0 2px 2px 0 rgba($black, 0.1), 0 2px 2px 0 rgba($black, 0.1));
@@ -157,9 +154,9 @@ h6 {
         border: unset;
     }
 
-    .markdown__paragraph-inline {
-        display: inline-flex;
-        align-items: center;
+    div.markdown__paragraph-inline {
+        display: inline-block;
+        line-height: 22px;
     }
 
     .broken-image {
@@ -307,6 +304,7 @@ h6 {
     td {
         border: 1px solid #ddd;
         padding: 6px 13px;
+        white-space: nowrap;
     }
 
     tbody tr {

@@ -120,7 +120,7 @@ export default class SettingsUpload extends React.Component {
 }
 
 SettingsUpload.propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.node.isRequired,
     submit: PropTypes.func.isRequired,
     fileTypesAccepted: PropTypes.string.isRequired,
     helpText: PropTypes.object,

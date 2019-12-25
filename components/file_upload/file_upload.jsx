@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import {defineMessages, intlShape, FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
@@ -15,6 +15,7 @@ import {
     isMobileApp,
 } from 'utils/user_agent';
 import {getTable} from 'utils/paste';
+import {intlShape} from 'utils/react_intl';
 import {
     clearFileInput,
     cmdOrCtrlPressed,
@@ -70,7 +71,7 @@ const customStyles = {
     top: 'auto',
 };
 
-export default class FileUpload extends PureComponent {
+class FileUpload extends PureComponent {
     static propTypes = {
 
         /**
@@ -92,6 +93,8 @@ export default class FileUpload extends PureComponent {
          * Function to get file upload targeted input
          */
         getTarget: PropTypes.func.isRequired,
+
+        intl: intlShape.isRequired,
 
         locale: PropTypes.string.isRequired,
 
@@ -157,10 +160,6 @@ export default class FileUpload extends PureComponent {
              */
             handleFileUploadEnd: PropTypes.func.isRequired,
         }).isRequired,
-    };
-
-    static contextTypes = {
-        intl: intlShape,
     };
 
     static defaultProps = {
@@ -305,7 +304,7 @@ export default class FileUpload extends PureComponent {
 
         this.props.onUploadStart(clientIds, currentChannelId);
 
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
         const errors = [];
         if (sortedFiles.length > uploadsRemaining) {
             errors.push(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
@@ -441,7 +440,7 @@ export default class FileUpload extends PureComponent {
     containsEventTarget = (targetElement, eventTarget) => targetElement && targetElement.contains(eventTarget);
 
     pasteUpload = (e) => {
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
 
         if (!e.clipboardData || !e.clipboardData.items || getTable(e.clipboardData)) {
             return;
@@ -545,7 +544,7 @@ export default class FileUpload extends PureComponent {
         }
 
         const {onUploadError} = this.props;
-        const {formatMessage} = this.context.intl;
+        const {formatMessage} = this.props.intl;
 
         onUploadError(formatMessage(holders.limited, {count: Constants.MAX_UPLOAD_FILES}));
     }
@@ -571,9 +570,10 @@ export default class FileUpload extends PureComponent {
     }
 
     render() {
-        const {formatMessage} = this.context.intl;
+        const isMobile = isMobileApp();
+        const {formatMessage} = this.props.intl;
         let multiple = true;
-        if (isMobileApp()) {
+        if (isMobile) {
             // iOS WebViews don't upload videos properly in multiple mode
             multiple = false;
         }
@@ -597,8 +597,8 @@ export default class FileUpload extends PureComponent {
                         id='fileUploadButton'
                         aria-label={ariaLabel}
                         className='style--none post-action icon icon--attachment'
-                        onClick={this.simulateInputClick}
-                        onTouchEnd={this.simulateInputClick}
+                        onClick={!isMobile && this.simulateInputClick}
+                        onTouchEnd={isMobile && this.simulateInputClick}
                     >
                         <AttachmentIcon/>
                     </button>
@@ -669,8 +669,8 @@ export default class FileUpload extends PureComponent {
                             <li>
                                 <a
                                     href='#'
-                                    onClick={this.simulateInputClick}
-                                    onTouchEnd={this.simulateInputClick}
+                                    onClick={!isMobile && this.simulateInputClick}
+                                    onTouchEnd={isMobile && this.simulateInputClick}
                                 >
                                     <span className='margin-right'><i className='fa fa-laptop'/></span>
                                     <FormattedMessage
@@ -697,3 +697,5 @@ export default class FileUpload extends PureComponent {
         );
     }
 }
+
+export default injectIntl(FileUpload, {withRef: true});

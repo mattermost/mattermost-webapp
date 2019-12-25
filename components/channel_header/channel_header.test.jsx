@@ -6,7 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import ChannelHeader from 'components/channel_header/channel_header';
 import Markdown from 'components/markdown';
-import Constants from 'utils/constants';
+import Constants, {RHSStates} from 'utils/constants';
 
 describe('components/ChannelHeader', () => {
     const baseProps = {
@@ -54,14 +54,14 @@ describe('components/ChannelHeader', () => {
     test('should render properly when empty', () => {
         const wrapper = shallowWithIntl(
             <ChannelHeader {...baseProps}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should render properly when populated', () => {
         const wrapper = shallowWithIntl(
             <ChannelHeader {...populatedProps}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -92,7 +92,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -104,7 +104,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -116,7 +116,43 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        );
+        ).dive();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render active pinned posts', () => {
+        const props = {
+            ...populatedProps,
+            rhsState: RHSStates.PIN,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        ).dive();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render active flagged posts', () => {
+        const props = {
+            ...populatedProps,
+            rhsState: RHSStates.FLAG,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        ).dive();
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render active mentions posts', () => {
+        const props = {
+            ...populatedProps,
+            rhsState: RHSStates.MENTION,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>
+        ).dive();
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -136,7 +172,7 @@ describe('components/ChannelHeader', () => {
 
         const wrapper = shallowWithIntl(
             <ChannelHeader {...props}/>
-        );
+        ).dive();
         expect(wrapper.containsMatchingElement(
             <Markdown
                 message={props.currentUser.bot_description}
