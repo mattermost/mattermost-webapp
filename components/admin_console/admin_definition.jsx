@@ -4344,6 +4344,16 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "teamname"',
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.UseNewSAMLLibrary',
+                        label: t('admin.experimental.experimentalUseNewSAMLLibrary.title'),
+                        label_default: 'Use Improved SAML Library (Beta):',
+                        help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
+                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://about.mattermost.com/support/](!https://about.mattermost.com/support/). Changing this setting requires a server restart before taking effect.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('SAML'))
+                    },
+                    {
                         type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.LoginButtonColor',
                         label: t('admin.experimental.samlSettingsLoginButtonColor.title'),
