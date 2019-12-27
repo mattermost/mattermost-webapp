@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
@@ -13,16 +12,18 @@ import * as Utils from 'utils/utils';
 
 import Avatar from 'components/widgets/users/avatar';
 
-export default class AdminGroupUsersRow extends React.PureComponent {
-    static propTypes = {
-        displayName: PropTypes.string.isRequired,
-        user: PropTypes.object.isRequired,
-        lastPictureUpdate: PropTypes.number.isRequired,
+interface AdminGroupUsersRowProps {
+    displayName: string;
+    user: object;
+    lastPictureUpdate: number;
+}
+export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUsersRowProps, {}> {
+    renderRolesColumn = (member) => {
+        return member.roles.split(' ').map((role) =>
+            Utils.localizeMessage('admin.permissions.roles.' + role + '.name', role)
+        ).join(', ');
     };
 
-    renderRolesColumn = (member) => {
-        return member.roles.split(' ').map((role) => Utils.localizeMessage('admin.permissions.roles.' + role + '.name', role)).join(', ');
-    }
     renderGroupsColumn = (member) => {
         if (member.groups.length === 1) {
             return member.groups[0].display_name;
@@ -30,11 +31,7 @@ export default class AdminGroupUsersRow extends React.PureComponent {
         return (
             <OverlayTrigger
                 placement='top'
-                overlay={
-                    <Tooltip id='groupsTooltip'>
-                        {member.groups.map((g) => g.display_name).join(', ')}
-                    </Tooltip>
-                }
+                overlay={<Tooltip id='groupsTooltip'>{member.groups.map((g) => g.display_name).join(', ')}</Tooltip>}
             >
                 <a href='#'>
                     <FormattedMessage
@@ -45,14 +42,12 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                 </a>
             </OverlayTrigger>
         );
-    }
+    };
 
     render = () => {
         const {user, lastPictureUpdate, displayName} = this.props;
         return (
-            <div
-                className='group'
-            >
+            <div className='group'>
                 <div
                     className='group-row roc'
                     style={{padding: '30px 0px'}}
@@ -71,20 +66,11 @@ export default class AdminGroupUsersRow extends React.PureComponent {
                                 {'-'}&nbsp;
                                 {displayName}
                             </div>
-                            <div className='row email-group-row'>
-                                {user.email}
-                            </div>
-
+                            <div className='row email-group-row'>{user.email}</div>
                         </div>
                     </div>
-                    <span
-                        className='col-sm-2 group-user-removal-column group-description'
-                    >
-                        {this.renderRolesColumn(user)}
-                    </span>
-                    <span
-                        className='col-sm-2 group-user-removal-column group-description group-description-link'
-                    >
+                    <span className='col-sm-2 group-user-removal-column group-description'>{this.renderRolesColumn(user)}</span>
+                    <span className='col-sm-2 group-user-removal-column group-description group-description-link'>
                         {this.renderGroupsColumn(user)}
                     </span>
                 </div>

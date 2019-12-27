@@ -4,8 +4,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
-
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 
 import GroupRow from './group_row';
@@ -32,11 +30,11 @@ const Header = () => {
     );
 };
 
-export default class GroupList extends React.PureComponent {
-    static propTypes = {
-        removeGroup: PropTypes.func,
-    }
+interface Props {
+    removeGroup?: (...args: any[]) => any;
+}
 
+export default class GroupList extends React.PureComponent<Props> {
     renderRow = (item) => {
         return (
             <GroupRow
@@ -47,13 +45,13 @@ export default class GroupList extends React.PureComponent {
         );
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <AbstractList
                 header={<Header/>}
                 renderRow={this.renderRow}
                 {...this.props}
-            />);
+            />
+        );
     }
 }
-

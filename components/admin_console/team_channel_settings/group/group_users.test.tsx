@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {_} from 'lodash';
 
-import GroupUsers from './group_users.jsx';
+import GroupUsers from './group_users';
 
 describe('admin_console/team_channel_settings/group/GroupUsers', () => {
     const defaultProps = {

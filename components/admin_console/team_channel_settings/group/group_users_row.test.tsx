@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupUsersRow from './group_users_row.jsx';
+import GroupUsersRow from './group_users_row';
 
 describe('admin_console/team_channel_settings/group/GroupUsersRow', () => {
     const testUser = {

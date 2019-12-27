@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupList from './group_list.jsx';
+import GroupList from './group_list';
 
 describe('admin_console/team_channel_settings/group/GroupList', () => {
     test('should match snapshot', () => {
