@@ -7,6 +7,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {GlobalState} from 'mattermost-redux/types/store';
+import {UserTimezone} from 'mattermost-redux/types/users';
 
 import {areTimezonesEnabledAndSupported} from 'selectors/general';
 
@@ -14,12 +16,16 @@ import {Preferences} from 'utils/constants';
 
 import LocalDateTime from './local_date_time';
 
-function mapStateToProps(state, props) {
+type Props = {
+    userTimezone: UserTimezone;
+};
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const currentUserId = getCurrentUserId(state);
 
     let userTimezone;
-    if (props.userTimezone) {
-        userTimezone = props.userTimezone;
+    if (ownProps.userTimezone) {
+        userTimezone = ownProps.userTimezone;
     } else {
         userTimezone = getUserTimezone(state, currentUserId);
     }

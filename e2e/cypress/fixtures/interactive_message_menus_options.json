@@ -58,5 +58,15 @@
         {"text": "Cuba", "value": "CU"}, 
         {"text": "Cyprus", "value": "CY"}, 
         {"text": "Czech Republic", "value": "CZ"}
+    ],
+    "distinct-options": [
+        {"text": "Apple", "value": "apple"},
+        {"text": "Orange", "value": "orange"},
+        {"text": "Banana", "value": "banana"},
+        {"text": "Grapes", "value": "grapes"},
+        {"text": "Melon", "value": "melon"},
+        {"text": "Mango", "value": "mango"},
+        {"text": "Mango Raw", "value": "mangoraw"},
+        {"text": "Avacodo", "value": "avacodo"}
     ]
 }
