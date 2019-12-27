@@ -2,7 +2,7 @@
 
 exports[`admin_console/team_channel_settings/channel/ChannelRow should match snapshot 1`] = `
 <div
-  className="group "
+  className="group"
   onClick={[Function]}
 >
   <div
