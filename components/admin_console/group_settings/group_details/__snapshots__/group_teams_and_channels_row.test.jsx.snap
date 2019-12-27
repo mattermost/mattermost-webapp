@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for private-channel 1`] = `
-<div
+<tr
   className="group-teams-and-channels-row"
 >
   <ConfirmModal
@@ -42,31 +42,36 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     }
   />
-  <div
-    className="arrow-icon"
-  />
-  <div
-    className="team-icon"
-  />
-  <div
-    className="channel-icon"
-  >
-    <LockIcon
-      className="icon icon__lock"
+  <td>
+    <span
+      className="arrow-icon"
     />
-  </div>
-  <div
-    className="name"
-  >
-    Test private-channel
-  </div>
-  <FormattedMessage
-    defaultMessage="Channel (Private)"
-    id="admin.group_settings.group_details.group_teams_and_channels_row.privateChannel"
-    values={Object {}}
-  />
-  <div
-    className="remove"
+    <span
+      className="team-icon"
+    />
+    <span
+      className="channel-icon"
+    >
+      <LockIcon
+        className="icon icon__lock"
+      />
+    </span>
+    <span
+      className="name"
+    >
+      Test private-channel
+    </span>
+  </td>
+  <td>
+    <FormattedMessage
+      defaultMessage="Channel (Private)"
+      id="admin.group_settings.group_details.group_teams_and_channels_row.privateChannel"
+      values={Object {}}
+    />
+  </td>
+  <td />
+  <td
+    className="text-right"
   >
     <button
       className="btn btn-link"
@@ -78,12 +83,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
         values={Object {}}
       />
     </button>
-  </div>
-</div>
+  </td>
+</tr>
 `;
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for private-team 1`] = `
-<div
+<tr
   className="group-teams-and-channels-row"
 >
   <ConfirmModal
@@ -124,35 +129,40 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     }
   />
-  <div
-    className="arrow-icon"
-  />
-  <div
-    className="team-icon team-icon-private"
-  >
+  <td>
     <span
-      className="fa-stack fa-2x"
+      className="arrow-icon"
+    />
+    <span
+      className="team-icon team-icon-private"
     >
-      <i
-        className="fa fa-circle-thin fa-stack-2x"
-      />
-      <i
-        className="fa fa-lock fa-stack-1x"
-      />
+      <span
+        className="fa-stack fa-2x"
+      >
+        <i
+          className="fa fa-circle-thin fa-stack-2x"
+        />
+        <i
+          className="fa fa-lock fa-stack-1x"
+        />
+      </span>
     </span>
-  </div>
-  <div
-    className="name"
-  >
-    Test private-team
-  </div>
-  <FormattedMessage
-    defaultMessage="Team (Private)"
-    id="admin.group_settings.group_details.group_teams_and_channels_row.privateTeam"
-    values={Object {}}
-  />
-  <div
-    className="remove"
+    <span
+      className="name"
+    >
+      Test private-team
+    </span>
+  </td>
+  <td>
+    <FormattedMessage
+      defaultMessage="Team (Private)"
+      id="admin.group_settings.group_details.group_teams_and_channels_row.privateTeam"
+      values={Object {}}
+    />
+  </td>
+  <td />
+  <td
+    className="text-right"
   >
     <button
       className="btn btn-link"
@@ -164,12 +174,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
         values={Object {}}
       />
     </button>
-  </div>
-</div>
+  </td>
+</tr>
 `;
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for public-channel 1`] = `
-<div
+<tr
   className="group-teams-and-channels-row"
 >
   <ConfirmModal
@@ -210,31 +220,36 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     }
   />
-  <div
-    className="arrow-icon"
-  />
-  <div
-    className="team-icon"
-  />
-  <div
-    className="channel-icon"
-  >
-    <GlobeIcon
-      className="icon icon__globe"
+  <td>
+    <span
+      className="arrow-icon"
     />
-  </div>
-  <div
-    className="name"
-  >
-    Test public-channel
-  </div>
-  <FormattedMessage
-    defaultMessage="Channel"
-    id="admin.group_settings.group_details.group_teams_and_channels_row.publicChannel"
-    values={Object {}}
-  />
-  <div
-    className="remove"
+    <span
+      className="team-icon"
+    />
+    <span
+      className="channel-icon"
+    >
+      <GlobeIcon
+        className="icon icon__globe"
+      />
+    </span>
+    <span
+      className="name"
+    >
+      Test public-channel
+    </span>
+  </td>
+  <td>
+    <FormattedMessage
+      defaultMessage="Channel"
+      id="admin.group_settings.group_details.group_teams_and_channels_row.publicChannel"
+      values={Object {}}
+    />
+  </td>
+  <td />
+  <td
+    className="text-right"
   >
     <button
       className="btn btn-link"
@@ -246,12 +261,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
         values={Object {}}
       />
     </button>
-  </div>
-</div>
+  </td>
+</tr>
 `;
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, for public-team 1`] = `
-<div
+<tr
   className="group-teams-and-channels-row"
 >
   <ConfirmModal
@@ -292,28 +307,33 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     }
   />
-  <div
-    className="arrow-icon"
-  />
-  <div
-    className="team-icon team-icon-public"
-  >
-    <i
-      className="fa fa-circle-o-notch"
+  <td>
+    <span
+      className="arrow-icon"
     />
-  </div>
-  <div
-    className="name"
-  >
-    Test public-team
-  </div>
-  <FormattedMessage
-    defaultMessage="Team"
-    id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
-    values={Object {}}
-  />
-  <div
-    className="remove"
+    <span
+      className="team-icon team-icon-public"
+    >
+      <i
+        className="fa fa-circle-o-notch"
+      />
+    </span>
+    <span
+      className="name"
+    >
+      Test public-team
+    </span>
+  </td>
+  <td>
+    <FormattedMessage
+      defaultMessage="Team"
+      id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
+      values={Object {}}
+    />
+  </td>
+  <td />
+  <td
+    className="text-right"
   >
     <button
       className="btn btn-link"
@@ -325,12 +345,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
         values={Object {}}
       />
     </button>
-  </div>
-</div>
+  </td>
+</tr>
 `;
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, when has children 1`] = `
-<div
+<tr
   className="group-teams-and-channels-row has-clidren"
 >
   <ConfirmModal
@@ -371,33 +391,38 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     }
   />
-  <div
-    className="arrow-icon"
-  >
-    <i
-      className="fa fa-caret-right open"
-      onClick={[Function]}
+  <td>
+    <span
+      className="arrow-icon"
+    >
+      <i
+        className="fa fa-caret-down"
+        onClick={[Function]}
+      />
+    </span>
+    <span
+      className="team-icon team-icon-public"
+    >
+      <i
+        className="fa fa-circle-o-notch"
+      />
+    </span>
+    <span
+      className="name"
+    >
+      Test team with children
+    </span>
+  </td>
+  <td>
+    <FormattedMessage
+      defaultMessage="Team"
+      id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
+      values={Object {}}
     />
-  </div>
-  <div
-    className="team-icon team-icon-public"
-  >
-    <i
-      className="fa fa-circle-o-notch"
-    />
-  </div>
-  <div
-    className="name"
-  >
-    Test team with children
-  </div>
-  <FormattedMessage
-    defaultMessage="Team"
-    id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
-    values={Object {}}
-  />
-  <div
-    className="remove"
+  </td>
+  <td />
+  <td
+    className="text-right"
   >
     <button
       className="btn btn-link"
@@ -409,12 +434,12 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
         values={Object {}}
       />
     </button>
-  </div>
-</div>
+  </td>
+</tr>
 `;
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannelsRow should match snapshot, when has children and is collapsed 1`] = `
-<div
+<tr
   className="group-teams-and-channels-row has-clidren collapsed"
 >
   <ConfirmModal
@@ -455,33 +480,38 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       />
     }
   />
-  <div
-    className="arrow-icon"
-  >
-    <i
-      className="fa fa-caret-right"
-      onClick={[Function]}
+  <td>
+    <span
+      className="arrow-icon"
+    >
+      <i
+        className="fa fa-caret-right"
+        onClick={[Function]}
+      />
+    </span>
+    <span
+      className="team-icon team-icon-public"
+    >
+      <i
+        className="fa fa-circle-o-notch"
+      />
+    </span>
+    <span
+      className="name"
+    >
+      Test team with children
+    </span>
+  </td>
+  <td>
+    <FormattedMessage
+      defaultMessage="Team"
+      id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
+      values={Object {}}
     />
-  </div>
-  <div
-    className="team-icon team-icon-public"
-  >
-    <i
-      className="fa fa-circle-o-notch"
-    />
-  </div>
-  <div
-    className="name"
-  >
-    Test team with children
-  </div>
-  <FormattedMessage
-    defaultMessage="Team"
-    id="admin.group_settings.group_details.group_teams_and_channels_row.publicTeam"
-    values={Object {}}
-  />
-  <div
-    className="remove"
+  </td>
+  <td />
+  <td
+    className="text-right"
   >
     <button
       className="btn btn-link"
@@ -493,6 +523,6 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
         values={Object {}}
       />
     </button>
-  </div>
-</div>
+  </td>
+</tr>
 `;

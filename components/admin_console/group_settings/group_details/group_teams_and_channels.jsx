@@ -126,30 +126,31 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         }
 
         return (
-            <div className='group-teams-and-channels'>
-                <div className='group-teams-and-channels--header'>
-                    <div className='group-name'>
-                        <FormattedMessage
-                            id='admin.group_settings.group_profile.group_teams_and_channels.name'
-                            defaultMessage='Name'
-                        />
-                    </div>
-                    <div className='group-content'>
+            <table className='AdminPanel__table group-teams-and-channels'>
+                <thead className='group-teams-and-channels--header'>
+                    <tr>
+                        <th width='30%'>
+                            <FormattedMessage
+                                id='admin.group_settings.group_profile.group_teams_and_channels.name'
+                                defaultMessage='Name'
+                            />
+                        </th>
+                        <th width='25%'>
                             <FormattedMessage
                                 id='admin.group_settings.group_profile.group_teams_and_channels.type'
                                 defaultMessage='Type'
                             />
-
-                    </div>
-                    <div className='group-content'>
-                        <FormattedMessage
-                            id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
-                            defaultMessage='Assigned Roles'
-                        />
-                    </div>
-                    <div className="group-actions"></div>
-                </div>
-                <div className='group-teams-and-channels--body'>
+                        </th>
+                        <th width='25%'>
+                            <FormattedMessage
+                                id='admin.group_settings.group_profile.group_teams_and_channels.assignedRoles'
+                                defaultMessage='Assigned Roles'
+                            />
+                        </th>
+                        <th width='20%'/>
+                    </tr>
+                </thead>
+                <tbody className='group-teams-and-channels--body'>
                     {entries.map((entry) => (
                         <GroupTeamsAndChannelsRow
                             key={entry.id}
@@ -159,8 +160,8 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                             {...entry}
                         />
                     ))}
-                </div>
-            </div>
+                </tbody>
+            </table>
         );
     };
 }

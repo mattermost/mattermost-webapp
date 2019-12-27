@@ -107,7 +107,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         if (this.props.hasChildren) {
             arrowIcon = (
                 <i
-                    className={'fa fa-caret-right' + (this.props.collapsed ? '' : ' open')}
+                    className={'fa ' + (this.props.collapsed ? 'fa-caret-right' : 'fa-caret-down')}
                     onClick={this.toggleCollapse}
                 />
             );
@@ -124,9 +124,9 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         switch (this.props.type) {
         case 'public-team':
             teamIcon = (
-                <div className='team-icon team-icon-public'>
+                <span className='team-icon team-icon-public'>
                     <i className={'fa fa-circle-o-notch'}/>
-                </div>
+                </span>
             );
             typeText = (
                 <FormattedMessage
@@ -137,12 +137,12 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             break;
         case 'private-team':
             teamIcon = (
-                <div className='team-icon team-icon-private'>
+                <span className='team-icon team-icon-private'>
                     <span className='fa-stack fa-2x'>
                         <i className={'fa fa-circle-thin fa-stack-2x'}/>
                         <i className={'fa fa-lock fa-stack-1x'}/>
                     </span>
-                </div>
+                </span>
             );
             typeText = (
                 <FormattedMessage
@@ -152,15 +152,15 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             );
             break;
         default:
-            teamIcon = (<div className='team-icon'/>);
+            teamIcon = (<span className='team-icon'/>);
         }
 
         switch (this.props.type) {
         case 'public-channel':
             channelIcon = (
-                <div className='channel-icon'>
+                <span className='channel-icon'>
                     <GlobeIcon className='icon icon__globe'/>
-                </div>
+                </span>
             );
             typeText = (
                 <FormattedMessage
@@ -171,9 +171,9 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             break;
         case 'private-channel':
             channelIcon = (
-                <div className='channel-icon'>
+                <span className='channel-icon'>
                     <LockIcon className='icon icon__lock'/>
-                </div>
+                </span>
             );
             typeText = (
                 <FormattedMessage
@@ -187,7 +187,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         const displayType = this.props.type.split('-')[1];
 
         return (
-            <div className={'group-teams-and-channels-row' + extraClasses}>
+            <tr className={'group-teams-and-channels-row' + extraClasses}>
                 <ConfirmModal
                     show={this.state.showConfirmationModal}
                     title={
@@ -213,23 +213,23 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                     onConfirm={this.removeItem}
                     onCancel={() => this.setState({showConfirmationModal: false})}
                 />
-                <div className='name-content'>
-                    <div className='arrow-icon'>
+                <td>
+                    <span className='arrow-icon'>
                         {arrowIcon}
-                    </div>
+                    </span>
                     {teamIcon}
                     {channelIcon}
-                    <div className='name'>
+                    <span className='name'>
                         {this.props.name}
-                    </div>
-                </div>
-                <div className='type'>
+                    </span>
+                </td>
+                <td>
                     {typeText}
-                </div>
-                <div className='roles'>
+                </td>
+                <td>
                     {this.displayAssignedRolesDropdown()}
-                </div>
-                <div className='remove'>
+                </td>
+                <td className='text-right'>
                     <button
                         className='btn btn-link'
                         onClick={() => this.setState({showConfirmationModal: true})}
@@ -239,8 +239,8 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                             defaultMessage='Remove'
                         />
                     </button>
-                </div>
-            </div>
+                </td>
+            </tr>
         );
     };
 }

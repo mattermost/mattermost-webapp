@@ -1,35 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannels should match snapshot, with teams, with channels and loaded 1`] = `
-<div
-  className="group-teams-and-channels"
+<table
+  className="AdminPanel__table group-teams-and-channels"
 >
-  <div
+  <thead
     className="group-teams-and-channels--header"
   >
-    <div>
-      <FormattedMessage
-        defaultMessage="Name"
-        id="admin.group_settings.group_profile.group_teams_and_channels.name"
-        values={Object {}}
+    <tr>
+      <th
+        width="30%"
+      >
+        <FormattedMessage
+          defaultMessage="Name"
+          id="admin.group_settings.group_profile.group_teams_and_channels.name"
+          values={Object {}}
+        />
+      </th>
+      <th
+        width="25%"
+      >
+        <FormattedMessage
+          defaultMessage="Type"
+          id="admin.group_settings.group_profile.group_teams_and_channels.type"
+          values={Object {}}
+        />
+      </th>
+      <th
+        width="25%"
+      >
+        <FormattedMessage
+          defaultMessage="Assigned Roles"
+          id="admin.group_settings.group_profile.group_teams_and_channels.assignedRoles"
+          values={Object {}}
+        />
+      </th>
+      <th
+        width="20%"
       />
-    </div>
-    <div>
-      <FormattedMessage
-        defaultMessage="Type"
-        id="admin.group_settings.group_profile.group_teams_and_channels.type"
-        values={Object {}}
-      />
-    </div>
-    <div>
-      <FormattedMessage
-        defaultMessage="Assigned Roles"
-        id="admin.group_settings.group_profile.group_teams_and_channels.assignedRoles"
-        values={Object {}}
-      />
-    </div>
-  </div>
-  <div
+    </tr>
+  </thead>
+  <tbody
     className="group-teams-and-channels--body"
   >
     <GroupTeamsAndChannelsRow
@@ -99,8 +110,8 @@ exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChan
       onToggleCollapse={[Function]}
       type="private-channel"
     />
-  </div>
-</div>
+  </tbody>
+</table>
 `;
 
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannels should match snapshot, with teams, with channels and loading 1`] = `
