@@ -6,13 +6,16 @@ import PropTypes from 'prop-types';
 
 import {FormattedMessage} from 'react-intl';
 
-import MarketplaceItem from './marketplace_item';
+import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
+
+import MarketplaceItem from '../marketplace_item';
 
 const PLUGINS_PER_PAGE = 15;
 
-export class MarketplaceList extends React.PureComponent {
+export default class MarketplaceList extends React.PureComponent {
     static propTypes = {
         plugins: PropTypes.array.isRequired,
+        theme: PropTypes.object.isRequired,
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -63,6 +66,7 @@ export class MarketplaceList extends React.PureComponent {
     };
 
     render() {
+        const style = getStyle(this.props.theme);
         const pageStart = this.state.page * this.state.pluginsPerPage;
         const pageEnd = pageStart + this.state.pluginsPerPage;
         const pluginsToDisplay = this.props.plugins.slice(pageStart, pageEnd);
@@ -113,14 +117,17 @@ export class MarketplaceList extends React.PureComponent {
                     installedVersion={p.installed_version}
                 />
             ))}
-            <div className='flex-parent'>
-                <div className='flex-child'>
+            <div className='row'>
+                <div className='col-xs-2'>
                     {previousButton}
                 </div>
-                <div className='flex-child'>
+                <div
+                    className='col-xs-8'
+                    style={style.count}
+                >
                     {this.renderCount()}
                 </div>
-                <div className='flex-child'>
+                <div className='col-xs-2'>
                     {nextButton}
                 </div>
             </div>
@@ -128,3 +135,11 @@ export class MarketplaceList extends React.PureComponent {
         ;
     }
 }
+
+const getStyle = makeStyleFromTheme((theme) => {
+    return {
+        count: {
+            color: changeOpacity(theme.centerChannelColor, 0.6),
+        },
+    };
+});

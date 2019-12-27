@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MarketplaceList} from './marketplace_list';
+import MarketplaceList from './marketplace_list';
 
 describe('components/marketplace/marketplace_list', () => {
     const samplePlugin = {
@@ -23,6 +23,7 @@ describe('components/marketplace/marketplace_list', () => {
     it('should render with multiple plugins', () => {
         const wrapper = shallow(
             <MarketplaceList
+                theme={{centerChannelColor: '#3d3c40'}}
                 plugins={[
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
                     samplePlugin, samplePlugin, samplePlugin, samplePlugin, samplePlugin,
@@ -48,7 +49,10 @@ describe('components/marketplace/marketplace_list', () => {
 
     it('should set page to 0 when list of plugins changed', () => {
         const wrapper = shallow(
-            <MarketplaceList plugins={[samplePlugin, samplePlugin]}/>
+            <MarketplaceList
+                theme={{centerChannelColor: '#3d3c40'}}
+                plugins={[samplePlugin, samplePlugin]}
+            />
         );
 
         wrapper.setState({page: 10});
