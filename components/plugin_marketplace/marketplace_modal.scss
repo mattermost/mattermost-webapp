@@ -17,23 +17,18 @@
         padding-right: 15px;
     }
 
-    .flex-parent {
-        display: flex;
-        justify-content: space-around;
+    div.row {
         margin-top: 10px;
 
-        .flex-child {
-            flex: 1;
+        div {
             text-align: center;
             &:nth-child(2) {
-                flex: 20;
                 padding-top: 8px;
-                color: #777777;
             }
 
             button {
                 font-weight: bold;
-                font-size: 15px;
+                font-size: 14px;
             }
         }
     }

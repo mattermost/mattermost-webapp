@@ -21,7 +21,7 @@ exports[`components/marketplace/ AllPlugins should render with no plugins 1`] = 
 `;
 
 exports[`components/marketplace/ AllPlugins should render with one plugin 1`] = `
-<MarketplaceList
+<Connect(MarketplaceList)
   plugins={
     Array [
       Object {
@@ -42,7 +42,7 @@ exports[`components/marketplace/ AllPlugins should render with one plugin 1`] = 
 `;
 
 exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
-<MarketplaceList
+<Connect(MarketplaceList)
   plugins={
     Array [
       Object {
@@ -75,7 +75,7 @@ exports[`components/marketplace/ AllPlugins should render with plugins 1`] = `
 `;
 
 exports[`components/marketplace/ InstalledPlugins should render with multiple plugins 1`] = `
-<MarketplaceList
+<Connect(MarketplaceList)
   plugins={
     Array [
       Object {
@@ -139,7 +139,7 @@ exports[`components/marketplace/ InstalledPlugins should render with no plugins 
 `;
 
 exports[`components/marketplace/ InstalledPlugins should render with one plugin 1`] = `
-<MarketplaceList
+<Connect(MarketplaceList)
   plugins={
     Array [
       Object {
