@@ -450,6 +450,9 @@ describe('Interactive Menu', () => {
                 // * Verify the input has the selected value same as that of Center
                 cy.findByDisplayValue(selectedItem).should('exist');
             });
+
+            // # Close RHS
+            cy.closeRHS();
         });
     });
 
@@ -533,6 +536,8 @@ describe('Interactive Menu', () => {
                     cy.findByText(/Ephemeral | select option: avacodo/).should('exist');
                 });
             });
+
+            cy.closeRHS();
         });
     });
 });
