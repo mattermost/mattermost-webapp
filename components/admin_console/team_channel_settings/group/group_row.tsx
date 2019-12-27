@@ -5,8 +5,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 interface GroupRowProps {
-    group: object;
-    removeGroup: (...args: any[]) => any;
+    group: {id: string; display_name: string; name?: string; member_count: number;};
+    removeGroup: (gid: string) => void;
+    key?: string;
 }
 
 export default class GroupRow extends React.Component<GroupRowProps> {

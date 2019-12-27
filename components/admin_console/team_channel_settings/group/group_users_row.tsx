@@ -14,7 +14,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 interface AdminGroupUsersRowProps {
     displayName: string;
-    user: object;
+    user: {id: string; username: string; email: string};
     lastPictureUpdate: number;
 }
 export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUsersRowProps, {}> {
@@ -63,8 +63,7 @@ export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUs
                         <div className='col-sm-10'>
                             <div className='row'>
                                 <b>{'@' + user.username}&nbsp;</b>
-                                {'-'}&nbsp;
-                                {displayName}
+                                <div>{'-'}&nbsp;{displayName}</div>
                             </div>
                             <div className='row email-group-row'>{user.email}</div>
                         </div>

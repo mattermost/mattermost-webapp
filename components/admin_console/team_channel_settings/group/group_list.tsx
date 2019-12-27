@@ -31,11 +31,11 @@ const Header = () => {
 };
 
 interface Props {
-    removeGroup?: (...args: any[]) => any;
+    removeGroup?: (gid: string) => void;
 }
 
 export default class GroupList extends React.PureComponent<Props> {
-    renderRow = (item) => {
+    renderRow = (item: {id: string}) => {
         return (
             <GroupRow
                 key={item.id}
