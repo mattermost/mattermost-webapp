@@ -17,7 +17,6 @@ describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
             <ChannelRow
-
                 onRowClick={jest.fn()}
                 channel={testChannel}
             />

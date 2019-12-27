@@ -18,11 +18,15 @@ import ChannelRow from './channel_row';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => any;
-        getData: (page?: number, perPage?: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => any;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => any;
         removeGroup?: () => void;
     };
     data?: {id: string; display_name: string}[];
     total?: number;
+    removeGroup?: () => void;
+    onPageChangedCallback?: () => void;
+    emptyListTextId: string;
+    emptyListTextDefaultMessage: string;
 }
 
 interface ChannelListState {
@@ -86,7 +90,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
             this.resetSearch();
         }
     };
-    private getDataBySearch = async (page: any, perPage: any) => {
+    private getDataBySearch = async (page: number, perPage: number) => {
         const response = await this.props.actions.searchAllChannels(this.state.searchString, '', false, page, perPage);
         const channels = new Array(page * perPage); // Pad the array with empty entries because AbstractList expects to slice the results based on the pagination offset.
         return channels.concat(response.data.channels);
@@ -127,7 +131,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         );
     }
 
-    onPageChangedCallback = (pagination: {}, channels: any) => {
+    onPageChangedCallback = (pagination: {startCount: number; endCount: number; total: number}, channels: any[]) => {
         if (this.state.searchMode) {
             this.setState({channels});
         }
@@ -151,7 +155,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         );
     }
 
-    private renderRow = (item) => {
+    private renderRow = (item: any) => {
         return (
             <ChannelRow
                 key={item.id}
