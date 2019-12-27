@@ -15,7 +15,6 @@ interface Props {
 }
 
 export default class ChannelRow extends React.Component<Props> {
-
     private handleRowClick = () => {
         const {channel, onRowClick} = this.props;
         onRowClick(channel.id);
@@ -25,30 +24,33 @@ export default class ChannelRow extends React.Component<Props> {
         const {channel} = this.props;
         return (
             <div
-                className={'group '} 
+                className={'group'}
                 onClick={this.handleRowClick}
             >
-                <div className="group-row">
-                    <span className="group-name overflow--ellipsis row-content" data-testid="channel-display-name">
+                <div className='group-row'>
+                    <span
+                        className='group-name overflow--ellipsis row-content'
+                        data-testid='channel-display-name'
+                    >
                         {channel.type === Constants.PRIVATE_CHANNEL ? (
-                            <LockIcon className="channel-icon channel-icon__lock" />
+                            <LockIcon className='channel-icon channel-icon__lock'/>
                         ) : (
-                            <GlobeIcon className="channel-icon channel-icon__globe" />
+                            <GlobeIcon className='channel-icon channel-icon__globe'/>
                         )}
                         {channel.display_name}
                     </span>
-                    <span className="group-description row-content">{channel.team_name}</span>
-                    <span className="group-description adjusted row-content">
+                    <span className='group-description row-content'>{channel.team_name}</span>
+                    <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
                             defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}
                         />
                     </span>
-                    <span className="group-actions">
+                    <span className='group-actions'>
                         <Link to={`/admin_console/user_management/channels/${channel.id}`}>
-                            <FormattedMessage 
-                                id="admin.channel_settings.channel_row.configure" 
-                                defaultMessage="Edit" 
+                            <FormattedMessage
+                                id='admin.channel_settings.channel_row.configure'
+                                defaultMessage='Edit'
                             />
                         </Link>
                     </span>
