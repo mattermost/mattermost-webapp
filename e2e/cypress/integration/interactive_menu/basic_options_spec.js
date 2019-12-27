@@ -13,7 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
-import messageMenuOptions from '../../fixtures/interactive_message_menus_options.json';
+import messageMenusOptions from '../../fixtures/interactive_message_menus_options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
@@ -278,7 +278,7 @@ describe('Interactive Menu', () => {
 
     it('IM21036 - Enter selects the option', () => {
         // # Create a message attachment with menu
-        const distinctOptions = messageMenuOptions['distinct-options'];
+        const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctOptionsPayload = getMessageMenusPayload({options: distinctOptions});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctOptionsPayload});
 
@@ -342,6 +342,56 @@ describe('Interactive Menu', () => {
                 // * Check if we got ephemeral message of our selection
                 cy.findByText(/Ephemeral | select option: mango/).should('exist');
             });
+        });
+    });
+
+    it('IM21035 - Long lists of selections are scrollable', () => {
+        const manyOptions = messageMenusOptions['many-options'];
+        const manyOptionsPayload = getMessageMenusPayload({options: manyOptions});
+
+        // # Create a message attachment with long menu options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: manyOptionsPayload});
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // * Message attachment menu dropdown should be closed
+                cy.get('#suggestionList').should('not.exist');
+
+                // // # Open the message attachment menu dropdown
+                cy.findByPlaceholderText('Select an option...').click();
+
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('exist').children().should('have.length', manyOptions.length);
+
+                const lenghtOfLongListOptions = manyOptions.length;
+
+                // # Scroll to bottom of the options
+                cy.get('#suggestionList').scrollTo('bottom').then((listContainer) => {
+                    // * When scrolled to bottom, the top options should be not visible but should exist in dom
+                    cy.findByText(manyOptions[0].text, {listContainer}).should('exist').and('not.be.visible');
+                    cy.findByText(manyOptions[1].text, {listContainer}).should('exist').and('not.be.visible');
+
+                    // # But the last options should be visible
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('exist').and('be.visible');
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('exist').and('be.visible');
+                });
+
+                // # Scroll to top of the options
+                cy.get('#suggestionList').scrollTo('top').then((listContainer) => {
+                    // * When scrolled to top, the bottom options should be not visible
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('not.be.visible');
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('not.be.visible');
+
+                    // # But the top options should be visible
+                    cy.findByText(manyOptions[0].text, {listContainer}).should('be.visible');
+                    cy.findByText(manyOptions[1].text, {listContainer}).should('be.visible');
+                });
+            });
+
+            // # Close message attachment menu dropdown
+            cy.get('body').click();
         });
     });
 });
