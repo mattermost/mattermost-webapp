@@ -36,6 +36,8 @@ export default class AutocompleteSelector extends React.PureComponent {
         this.state = {
             input: '',
         };
+
+        this.dropDirection = 'bottom';
     }
 
     onChange = (e) => {
