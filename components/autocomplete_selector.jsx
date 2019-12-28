@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom'
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
@@ -57,6 +58,23 @@ export default class AutocompleteSelector extends React.PureComponent {
                 this.suggestionRef.blur();
             }
         });
+    }
+
+    componentWillUpdate() {
+        if (this.suggestionRef) {
+            const scrollTop = $(window).scrollTop();
+            const scrollBottom = $(window).scrollTop() + $(window).height;
+            const elementOffsetTop = ReactDOM.findDOMNode(this.suggestionRef).getBoundingClientRect().top;
+            const elementOffsetBottom = ReactDOM.findDOMNode(this.suggestionRef).getBoundingClientRect().bottom;
+            const distanceTop = (elementOffsetTop - scrollTop);
+            const distanceBottom = (elementOffsetBottom - scrollBottom);
+            if (distanceTop > 0) {
+                this.dropDirection = 'bottom';
+            }
+            if (distanceBottom < 0) {
+                this.dropDirection = 'top';
+            }
+        }
     }
 
     setSuggestionRef = (ref) => {
@@ -145,6 +163,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                         openWhenEmpty={true}
                         replaceAllInputOnSelect={true}
                         disabled={disabled}
+                        listStyle={this.dropDirection}
                     />
                     {helpTextContent}
                     {footer}
