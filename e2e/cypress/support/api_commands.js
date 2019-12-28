@@ -6,6 +6,7 @@ import merge from 'merge-deep';
 import {getRandomInt} from '../utils';
 
 import users from '../fixtures/users.json';
+
 import theme from '../fixtures/theme.json';
 
 // *****************************************************************************
@@ -968,3 +969,80 @@ Cypress.Commands.add('uninstallPluginById', (pluginId) => {
         return cy.wrap(response);
     });
 });
+
+/**
+ * Enable plugin by id.
+ *
+ * @param {String} pluginId - Id of the plugin to enable
+ */
+Cypress.Commands.add('enablePluginById', (pluginId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: `/api/v4/plugins/${encodeURIComponent(pluginId)}/enable`,
+        method: 'POST',
+        timeout: 60000,
+        failOnStatusCode: true,
+    }).then((response) => {
+        if (response.status !== 200 && response.status !== 404) {
+            expect(response.status).to.equal(200);
+        }
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Upload binary file by name and Type *
+ * @param {String} fileName - name of the plugin to upload
+ * @param {String} fileType - type of the plugin to upload
+ */
+Cypress.Commands.add('uploadBinaryFileByName', (fileName, fileType) => {
+    const formData = new FormData();
+
+    // Get file from fixtures as binary
+    cy.fixture(fileName, 'binary').then((content) => {
+        // File in binary format gets converted to blob so it can be sent as Form data
+        Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
+            formData.set('plugin', blob, fileName);
+            formRequest('POST', '/api/v4/plugins', formData);
+        });
+    });
+});
+
+/**
+ * process binary file HTTP form request
+ * @param {String} method - Http request method - POST/PUT
+ * @param {String} url - HTTP resource URL
+ * @param {FormData} FormData - Key value pairs representing form fields and value
+ */
+function formRequest(method, url, formData) {
+    const baseUrl = Cypress.config('baseUrl');
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url, false);
+    let cookies = '';
+    cy.getCookie('MMCSRF', {log: false}).then((token) => {
+        //get MMCSRF cookie value
+        const csrfToken = token.value;
+        cy.getCookies({log: false}).then((cookieValues) => {
+            cy.log(csrfToken);
+
+            //prepare cookie string
+            cookieValues.forEach((cookie) => {
+                cookies += cookie.name + '=' + cookie.value + '; ';
+            });
+            cy.log(cookies);
+
+            //set headers
+            xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);
+            xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT');
+            xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+            xhr.setRequestHeader('Cookie', cookies);
+            xhr.send(formData);
+            if (xhr.readyState === 4) {
+                expect(xhr.status, 'Expected form request to be processed successfully').to.equal(201);
+            }
+            else {
+                expect(xhr.status, 'Form request process delayed').to.equal(201);
+            }
+        });
+    });
+}
