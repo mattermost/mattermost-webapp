@@ -13,6 +13,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import users from '../../fixtures/users.json';
+import messageMenusOptions from '../../fixtures/interactive_message_menus_options.json';
 import {getMessageMenusPayload} from '../../utils';
 
 const options = [
@@ -20,6 +21,7 @@ const options = [
     {text: 'Option 2', value: 'option2'},
     {text: 'Option 3', value: 'option3'},
 ];
+
 const payload = getMessageMenusPayload({options});
 
 let channelId;
@@ -163,6 +165,9 @@ describe('Interactive Menu', () => {
                     cy.get('.post__link').should('not.be.visible');
                     cy.get(`#rhsPostMessageText_${replyMessageId}`).should('be.visible').and('have.text', 'Reply to webhook');
                 });
+
+                // # Close RHS
+                cy.closeRHS();
             });
         });
     });
@@ -281,6 +286,183 @@ describe('Interactive Menu', () => {
 
             // # Close message attachment menu dropdown
             cy.get('body').click();
+        });
+    });
+
+    it('IM21036 - Enter selects the option', () => {
+        // # Create a message attachment with menu
+        const distinctOptions = messageMenusOptions['distinct-options'];
+        const distinctOptionsPayload = getMessageMenusPayload({options: distinctOptions});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctOptionsPayload});
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // # Find the message attachment menu and assign it to a variable for later use
+                cy.findByPlaceholderText('Select an option...').as('optionInputField');
+
+                // # Open the options menu
+                cy.get('@optionInputField').click();
+
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('exist').children().should('have.length', distinctOptions.length);
+
+                // # Lets make the last option we are interested in finding
+                const selectedOption = distinctOptions[5].text;
+
+                // # Type the selected word to find in the list
+                cy.get('@optionInputField').type(selectedOption);
+
+                cy.wait(TIMEOUTS.TINY);
+
+                // # Checking values inside the attachment menu dropdown
+                cy.get('#suggestionList').within(() => {
+                    // * All other options should not be there
+                    cy.findByText(distinctOptions[0].text).should('not.exist');
+                    cy.findByText(distinctOptions[1].text).should('not.exist');
+                    cy.findByText(distinctOptions[2].text).should('not.exist');
+                    cy.findByText(distinctOptions[3].text).should('not.exist');
+                    cy.findByText(distinctOptions[4].text).should('not.exist');
+
+                    // * Selected option should be there in the search list
+                    cy.findByText(selectedOption).should('exist');
+
+                    // * Other matched option should also be there
+                    cy.findByText(distinctOptions[6].text).should('exist');
+                });
+
+                // # Enter is clicked to select the correct match
+                cy.get('@optionInputField').type('{enter}');
+
+                // * Since option was clicked dropdown should be closed
+                cy.get('#suggestionList').should('not.exist');
+
+                // * Verify the input has the selected value
+                cy.findByDisplayValue(selectedOption).should('exist');
+            });
+        });
+
+        // # Lets wait a little for the webhook to return confirmation message
+        cy.wait(TIMEOUTS.TINY);
+
+        // # Get the emphemirical message from webhook, which is only visible to us
+        cy.getLastPostId().then((lastPostId) => {
+            cy.get(`#post_${lastPostId}`).within(() => {
+                // * Check if Bot message is the last message
+                cy.findByText('(Only visible to you)').should('exist');
+
+                // * Check if we got ephemeral message of our selection
+                cy.findByText(/Ephemeral | select option: mango/).should('exist');
+            });
+        });
+    });
+
+    it('IM21035 - Long lists of selections are scrollable', () => {
+        const manyOptions = messageMenusOptions['many-options'];
+        const manyOptionsPayload = getMessageMenusPayload({options: manyOptions});
+
+        // # Create a message attachment with long menu options
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: manyOptionsPayload});
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // * Message attachment menu dropdown should be closed
+                cy.get('#suggestionList').should('not.exist');
+
+                // // # Open the message attachment menu dropdown
+                cy.findByPlaceholderText('Select an option...').click();
+
+                // * Message attachment menu dropdown should now be open
+                cy.get('#suggestionList').should('exist').children().should('have.length', manyOptions.length);
+
+                const lenghtOfLongListOptions = manyOptions.length;
+
+                // # Scroll to bottom of the options
+                cy.get('#suggestionList').scrollTo('bottom').then((listContainer) => {
+                    // * When scrolled to bottom, the top options should be not visible but should exist in dom
+                    cy.findByText(manyOptions[0].text, {listContainer}).should('exist').and('not.be.visible');
+                    cy.findByText(manyOptions[1].text, {listContainer}).should('exist').and('not.be.visible');
+
+                    // # But the last options should be visible
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('exist').and('be.visible');
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('exist').and('be.visible');
+                });
+
+                // # Scroll to top of the options
+                cy.get('#suggestionList').scrollTo('top').then((listContainer) => {
+                    // * When scrolled to top, the bottom options should be not visible
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 1].text, {listContainer}).should('not.be.visible');
+                    cy.findByText(manyOptions[lenghtOfLongListOptions - 2].text, {listContainer}).should('not.be.visible');
+
+                    // # But the top options should be visible
+                    cy.findByText(manyOptions[0].text, {listContainer}).should('be.visible');
+                    cy.findByText(manyOptions[1].text, {listContainer}).should('be.visible');
+                });
+            });
+
+            // # Close message attachment menu dropdown
+            cy.get('body').click();
+        });
+    });
+
+    it('IM21040 - Selection is mirrored in RHS / Message Thread', () => {
+        // # Create a webhook with distinct options
+        const distinctOptions = messageMenusOptions['distinct-options'];
+        const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
+
+        const selectedItem = distinctOptions[2].text;
+        const firstFewLettersOfSelectedItem = selectedItem.substring(0, 3); // Make sure the options have minimum length of 3
+
+        // # Get the last posted message id
+        cy.getLastPostId().then((lastPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${lastPostId}`).within(() => {
+                // # Start typing only first few letters in the input
+                cy.findByPlaceholderText('Select an option...').clear().type(`${firstFewLettersOfSelectedItem}`);
+
+                // * Message attachment dropdown with the selected item should be visible
+                cy.get('#suggestionList').should('exist').within(() => {
+                    cy.findByText(selectedItem).should('exist');
+                });
+
+                // # Now that we know selected option appeared in the list, Click enter on input field
+                cy.findByPlaceholderText('Select an option...').clear().type('{enter}');
+
+                // * Verify the input has the selected value
+                cy.findByDisplayValue(selectedItem).should('exist');
+            });
+        });
+
+        // # Lets wait a little for the webhook to return confirmation message
+        cy.wait(TIMEOUTS.TINY);
+
+        // # Checking if we got the ephemeral message with the selection we made
+        cy.getLastPostId().then((botLastPostId) => {
+            cy.get(`#post_${botLastPostId}`).within(() => {
+                // * Check if Bot message is the last message
+                cy.findByText('(Only visible to you)').should('exist');
+
+                // * Check if we got ephemeral message of our selection
+                cy.findByText(/Ephemeral | select option: banana/).should('exist');
+            });
+        });
+
+        cy.getNthPostId(-2).then((webhookMessageId) => {
+            // # Click on reply icon to open message in RHS
+            cy.clickPostCommentIcon(webhookMessageId);
+
+            // * Verify RHS has opened
+            cy.get('#rhsContainer').should('exist');
+
+            // # Same id as parent post in center, only opened in RHS
+            cy.get(`#rhsPost_${webhookMessageId}`).within(() => {
+                // * Verify the input has the selected value same as that of Center
+                cy.findByDisplayValue(selectedItem).should('exist');
+            });
         });
     });
 
