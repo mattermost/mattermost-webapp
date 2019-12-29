@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Channel} from 'mattermost-redux/types/channels';
 import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 
@@ -10,7 +11,7 @@ import GlobeIcon from 'components/widgets/icons/globe_icon';
 import LockIcon from 'components/widgets/icons/lock_icon';
 
 interface Props {
-    channel: any;
+    channel: Channel;
     onRowClick: (id: string) => void;
 }
 

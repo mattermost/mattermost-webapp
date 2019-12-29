@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {Channel} from 'mattermost-redux/types/channels';
+import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
@@ -17,8 +19,8 @@ import ChannelRow from './channel_row';
 
 interface ChannelListProps {
     actions: {
-        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => any;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => any;
+        searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult;
         removeGroup?: () => void;
     };
     data?: {id: string; display_name: string}[];
@@ -31,7 +33,7 @@ interface ChannelListProps {
 
 interface ChannelListState {
     searchString: string;
-    channels: undefined[];
+    channels: Channel[];
     searchTotalCount: number;
     pageResetKey: number;
     searchMode: boolean;
@@ -102,7 +104,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
 
     header() {
         return (
-            <React.Fragment>
+            <>
                 {this.searchBar()}
                 <div className='groups-list--header'>
                     <div className='group-name adjusted'>
@@ -127,11 +129,11 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                         <div className='group-actions'/>
                     </div>
                 </div>
-            </React.Fragment>
+            </>
         );
     }
 
-    onPageChangedCallback = (pagination: {startCount: number; endCount: number; total: number}, channels: any[]) => {
+    onPageChangedCallback = (pagination: {startCount: number; endCount: number; total: number}, channels: Channel[]) => {
         if (this.state.searchMode) {
             this.setState({channels});
         }
@@ -155,7 +157,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         );
     }
 
-    private renderRow = (item: any) => {
+    private renderRow = (item: Channel) => {
         return (
             <ChannelRow
                 key={item.id}
