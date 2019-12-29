@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Group} from 'mattermost-redux/types/groups';
 import {FormattedMessage} from 'react-intl';
 
 interface GroupRowProps {
-    group: {id: string; display_name: string; name?: string; member_count: number};
+    group: Group;
     removeGroup: (gid: string) => void;
     key?: string;
 }

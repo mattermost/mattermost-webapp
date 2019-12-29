@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
@@ -14,17 +15,17 @@ import Avatar from 'components/widgets/users/avatar';
 
 interface AdminGroupUsersRowProps {
     displayName: string;
-    user: {id: string; username: string; email: string};
+    user: UserProfile;
     lastPictureUpdate: number;
 }
 export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUsersRowProps, {}> {
-    renderRolesColumn = (member) => {
+    renderRolesColumn = (member: UserProfile) => {
         return member.roles.split(' ').map((role) =>
             Utils.localizeMessage('admin.permissions.roles.' + role + '.name', role)
         ).join(', ');
     };
 
-    renderGroupsColumn = (member) => {
+    renderGroupsColumn = (member: UserProfile) => {
         if (member.groups.length === 1) {
             return member.groups[0].display_name;
         }
