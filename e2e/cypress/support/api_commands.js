@@ -1039,8 +1039,7 @@ function formRequest(method, url, formData) {
             xhr.send(formData);
             if (xhr.readyState === 4) {
                 expect(xhr.status, 'Expected form request to be processed successfully').to.equal(201);
-            }
-            else {
+            } else {
                 expect(xhr.status, 'Form request process delayed').to.equal(201);
             }
         });
