@@ -1021,13 +1021,10 @@ function formRequest(method, url, formData) {
         //get MMCSRF cookie value
         const csrfToken = token.value;
         cy.getCookies({log: false}).then((cookieValues) => {
-            cy.log(csrfToken);
-
             //prepare cookie string
             cookieValues.forEach((cookie) => {
                 cookies += cookie.name + '=' + cookie.value + '; ';
             });
-            cy.log(cookies);
 
             //set headers
             xhr.setRequestHeader('Access-Control-Allow-Origin', baseUrl);

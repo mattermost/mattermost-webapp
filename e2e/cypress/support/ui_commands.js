@@ -471,20 +471,20 @@ Cypress.Commands.add('systemConsolePluginManagement', () => {
  */
 Cypress.Commands.add('drawpluginConfiguration', (status, fileName, fileType) => {
     //Navigate to system console - Plugin Management - Enable Draw plugin
-    cy.systemConsolePluginManagement();
     cy.wait(TIMEOUTS.TINY);
     switch (status) {
     case 'Remove':
-        cy.get('span > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Remove').click();
-        cy.get('#confirmModalButton').should('be.visible').click().wait(TIMEOUTS.TINY);
+        cy.get('span > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Remove').click().wait(TIMEOUTS.TINY);
+        cy.get('#confirmModalButton').should('be.visible').wait(TIMEOUTS.TINY).click();
         break;
     case 'Enable':
         cy.get('input[type=file]').uploadFile(fileName, fileType).wait(TIMEOUTS.TINY);
         cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.TINY);
+        cy.wait(TIMEOUTS.TINY);
         cy.get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Enable').click();
         break;
     case 'Disable':
-        cy.get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Disable').click();
+        cy.get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Disable').click().wait(TIMEOUTS.TINY);
         break;
     }
 });
