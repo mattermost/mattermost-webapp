@@ -983,9 +983,7 @@ Cypress.Commands.add('enablePluginById', (pluginId) => {
         timeout: 60000,
         failOnStatusCode: true,
     }).then((response) => {
-        if (response.status !== 200 && response.status !== 404) {
-            expect(response.status).to.equal(200);
-        }
+        expect(response.status).to.equal(200);
         return cy.wrap(response);
     });
 });
