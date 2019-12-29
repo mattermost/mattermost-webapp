@@ -2715,6 +2715,7 @@
   "login.verified": " Email Verified",
   "manage_channel_groups_modal.search_placeholder": "Search groups",
   "manage_team_groups_modal.search_placeholder": "Search groups",
+  "marketplace_list.countTotalPage": "{startCount, number} - {endCount, number} {count, plural, one {plugin} other {plugins}} of {total, number} total",
   "marketplace_modal.install_plugins": "Install Plugins",
   "marketplace_modal.installing": "Installing...",
   "marketplace_modal.list.configure": "Configure",
