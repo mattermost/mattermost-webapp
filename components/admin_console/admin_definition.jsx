@@ -1691,6 +1691,7 @@ const AdminDefinition = {
                         label_default: 'Lock Teammate Name Display for all users: ',
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
                         help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
+                        isHidden: it.isnt(it.licensedForFeature('LockTeammateNameDisplay'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
