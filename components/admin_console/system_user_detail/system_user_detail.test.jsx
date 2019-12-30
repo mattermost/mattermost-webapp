@@ -104,5 +104,4 @@ describe('components/admin_console/system_user_detail', () => {
         const wrapper = shallow(<SystemUserDetail {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
-
 });
