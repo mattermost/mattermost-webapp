@@ -96,7 +96,7 @@
         &:last-child {
             border-radius: 0 0 4px 4px;
         }
-        &:hover, &--is-focused {
+        &--is-focused {
             background: var(--button-bg-10);
         }
         &--no-matches:hover{

@@ -4,12 +4,13 @@
 import {connect} from 'react-redux';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {isGuest} from 'utils/utils.jsx';
 
 import ErrorPage from './error_page';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const user = getCurrentUser(state);
 
