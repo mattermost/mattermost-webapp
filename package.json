@@ -208,7 +208,8 @@
     "testURL": "http://localhost:8065"
   },
   "jest-junit": {
-    "output": "build/test-results.xml"
+    "outputDirectory": "build",
+    "outputName": "test-results.xml"
   },
   "scripts": {
     "check": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
