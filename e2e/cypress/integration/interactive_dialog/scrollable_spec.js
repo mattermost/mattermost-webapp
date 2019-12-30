@@ -18,6 +18,11 @@ let userAndChannelDialog;
 
 describe('Interactive Dialog', () => {
     before(() => {
+        // # Check webhook
+        cy.request(Cypress.env().webhookBaseUrl).then((response => {
+            expect(response.status === 200, "This test requires webhook server running. Initiate `npm run start:webhook` to start.");
+        }));
+
         // Set required ServiceSettings
         const newSettings = {
             ServiceSettings: {
@@ -116,14 +121,11 @@ describe('Interactive Dialog', () => {
                 cy.wrap($elForm).find('#interactiveDialogSubmit').should('be.visible').and('have.text', userAndChannelDialog.dialog.submit_label);
             });
 
-            closeInteractiveDialog();
+            // # Close interactive dialog
+            cy.get('.modal-header').should('be.visible').within(($elForm) => {
+                cy.wrap($elForm).find('button.close').should('be.visible').click();
+            });
+            cy.get('#interactiveDialogModal').should('not.be.visible');
         });
     });
 });
-
-function closeInteractiveDialog() {
-    cy.get('.modal-header').should('be.visible').within(($elForm) => {
-        cy.wrap($elForm).find('button.close').should('be.visible').click();
-    });
-    cy.get('#interactiveDialogModal').should('not.be.visible');
-}
