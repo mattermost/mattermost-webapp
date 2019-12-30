@@ -162,10 +162,24 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             <hr />
             <SaveButton
               btnClass="btn-primary"
+              defaultMessage={
+                <FormattedMessage
+                  defaultMessage="Save"
+                  id="save_button.save"
+                  values={Object {}}
+                />
+              }
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
+              savingMessage={
+                <FormattedMessage
+                  defaultMessage="Saving"
+                  id="save_button.saving"
+                  values={Object {}}
+                />
+              }
             >
               <button
                 className="save-button btn btn-primary"
@@ -176,10 +190,24 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               >
                 <LoadingWrapper
                   loading={false}
-                  text="Saving"
+                  text={
+                    <FormattedMessage
+                      defaultMessage="Saving"
+                      id="save_button.saving"
+                      values={Object {}}
+                    />
+                  }
                 >
                   <span>
-                    Save
+                    <FormattedMessage
+                      defaultMessage="Save"
+                      id="save_button.save"
+                      values={Object {}}
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </FormattedMessage>
                   </span>
                 </LoadingWrapper>
               </button>
@@ -457,10 +485,24 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
             <hr />
             <SaveButton
               btnClass="btn-primary"
+              defaultMessage={
+                <FormattedMessage
+                  defaultMessage="Save"
+                  id="save_button.save"
+                  values={Object {}}
+                />
+              }
               disabled={false}
               extraClasses=""
               onClick={[Function]}
               saving={false}
+              savingMessage={
+                <FormattedMessage
+                  defaultMessage="Saving"
+                  id="save_button.saving"
+                  values={Object {}}
+                />
+              }
             >
               <button
                 className="save-button btn btn-primary"
@@ -471,10 +513,24 @@ exports[`components/user_settings/notifications/ManageAutoResponder should match
               >
                 <LoadingWrapper
                   loading={false}
-                  text="Saving"
+                  text={
+                    <FormattedMessage
+                      defaultMessage="Saving"
+                      id="save_button.saving"
+                      values={Object {}}
+                    />
+                  }
                 >
                   <span>
-                    Save
+                    <FormattedMessage
+                      defaultMessage="Save"
+                      id="save_button.save"
+                      values={Object {}}
+                    >
+                      <span>
+                        Save
+                      </span>
+                    </FormattedMessage>
                   </span>
                 </LoadingWrapper>
               </button>

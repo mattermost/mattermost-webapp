@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
 
@@ -40,13 +40,7 @@ const renderScrollThumbVertical = (props) => (
     />
 );
 
-export default class AdminSidebar extends React.Component {
-    static get contextTypes() {
-        return {
-            intl: intlShape.isRequired,
-        };
-    }
-
+class AdminSidebar extends React.Component {
     static propTypes = {
         license: PropTypes.object.isRequired,
         config: PropTypes.object,
@@ -56,6 +50,7 @@ export default class AdminSidebar extends React.Component {
         siteName: PropTypes.string,
         onFilterChange: PropTypes.func.isRequired,
         navigationBlocked: PropTypes.bool.isRequired,
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
 
             /*
@@ -95,7 +90,7 @@ export default class AdminSidebar extends React.Component {
         if (this.idx !== null &&
             (!isEqual(this.props.plugins, prevProps.plugins) ||
                 !isEqual(this.props.adminDefinition, prevProps.adminDefinition))) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
         }
     }
 
@@ -108,7 +103,7 @@ export default class AdminSidebar extends React.Component {
         }
 
         if (this.idx === null) {
-            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.context.intl);
+            this.idx = generateIndex(this.props.adminDefinition, this.props.plugins, this.props.intl);
         }
         let query = '';
         for (const term of filter.split(' ')) {
@@ -333,3 +328,5 @@ export default class AdminSidebar extends React.Component {
         );
     }
 }
+
+export default injectIntl(AdminSidebar);
