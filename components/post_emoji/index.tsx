@@ -4,12 +4,17 @@
 import {connect} from 'react-redux';
 
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {getEmojiMap} from 'selectors/emojis';
 
-import PostEmoji from './post_emoji.tsx';
+import PostEmoji from './post_emoji';
 
-function mapStateToProps(state, ownProps) {
+type Props = {
+    name: string;
+};
+
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     const emojiMap = getEmojiMap(state);
     const emoji = emojiMap.get(ownProps.name);
 

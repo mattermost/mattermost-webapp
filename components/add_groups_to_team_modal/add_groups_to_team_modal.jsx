@@ -167,7 +167,7 @@ export default class AddGroupsToTeamModal extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd) {
+    renderOption(option, isSelected, onAdd, onMouseMove) {
         const rowSelected = isSelected ? 'more-modal__row--selected' : '';
 
         return (
@@ -176,6 +176,7 @@ export default class AddGroupsToTeamModal extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <img
                     className='more-modal__image'

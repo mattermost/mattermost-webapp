@@ -201,6 +201,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
@@ -210,6 +211,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
                 "render": [Function],
               }
             }
+            onClear={[Function]}
             onInput={[Function]}
             placeholder={
               Object {
@@ -281,6 +283,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
@@ -290,6 +293,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
                 "render": [Function],
               }
             }
+            onClear={[Function]}
             onInput={[Function]}
             placeholder={
               Object {
@@ -361,6 +365,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         >
           <QuickInput
             className="form-control filter-textbox search_input"
+            clearable={true}
             delayInputUpdate={false}
             id="searchMarketplaceTextbox"
             inputComponent={
@@ -370,6 +375,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
                 "render": [Function],
               }
             }
+            onClear={[Function]}
             onInput={[Function]}
             placeholder={
               Object {
