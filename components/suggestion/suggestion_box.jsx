@@ -194,6 +194,15 @@ export default class SuggestionBox extends React.Component {
         EventEmitter.removeListener('mention_key_click', this.handleMentionKeyClick);
     }
 
+    componentWillUpdate() {
+        if (this.inputRef.current) {
+            let width = ReactDOM.findDOMNode(this.inputRef.current).getBoundingClientRect().width;
+            if (width !== this.state.width) {
+                this.setState({width: width});
+            }
+        }
+    }
+
     componentDidUpdate(prevProps) {
         const {value} = this.props;
 
@@ -690,24 +699,26 @@ export default class SuggestionBox extends React.Component {
                     onKeyDown={this.handleKeyDown}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <SuggestionListComponent
-                        ariaLiveRef={this.suggestionReadOut}
-                        open={this.state.focused}
-                        pretext={this.pretext}
-                        location={listStyle}
-                        renderDividers={renderDividers}
-                        renderNoResults={renderNoResults}
-                        onCompleteWord={this.handleCompleteWord}
-                        preventClose={this.preventSuggestionListClose}
-                        onItemHover={this.setSelection}
-                        cleared={this.state.cleared}
-                        matchedPretext={this.state.matchedPretext}
-                        items={this.state.items}
-                        terms={this.state.terms}
-                        selection={this.state.selection}
-                        components={this.state.components}
-                        wrapperHeight={this.props.wrapperHeight}
-                    />
+                    <div style={{position: 'fixed', zIndex: 101, width:this.state.width}}>
+                        <SuggestionListComponent
+                            ariaLiveRef={this.suggestionReadOut}
+                            open={this.state.focused}
+                            pretext={this.pretext}
+                            location={listStyle}
+                            renderDividers={renderDividers}
+                            renderNoResults={renderNoResults}
+                            onCompleteWord={this.handleCompleteWord}
+                            preventClose={this.preventSuggestionListClose}
+                            onItemHover={this.setSelection}
+                            cleared={this.state.cleared}
+                            matchedPretext={this.state.matchedPretext}
+                            items={this.state.items}
+                            terms={this.state.terms}
+                            selection={this.state.selection}
+                            components={this.state.components}
+                            wrapperHeight={this.props.wrapperHeight}
+                        />
+                    </div>
                 }
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'date' &&
                     <SuggestionDateComponent
