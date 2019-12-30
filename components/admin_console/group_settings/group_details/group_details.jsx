@@ -33,6 +33,7 @@ export default class GroupDetails extends React.PureComponent {
             getGroupSyncables: PropTypes.func.isRequired,
             link: PropTypes.func.isRequired,
             unlink: PropTypes.func.isRequired,
+            patchGroupSyncable: PropTypes.func.isRequired,
         }).isRequired,
     };
 

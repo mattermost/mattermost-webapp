@@ -5,10 +5,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {
-    linkGroupSyncable, 
-    unlinkGroupSyncable, 
-    getGroup as fetchGroup, 
-    getGroupMembers as fetchMembers, 
+    linkGroupSyncable,
+    unlinkGroupSyncable,
+    getGroup as fetchGroup,
+    getGroupMembers as fetchMembers,
     getGroupSyncables as fetchGroupSyncables,
     patchGroupSyncable
 } from 'mattermost-redux/actions/groups';
