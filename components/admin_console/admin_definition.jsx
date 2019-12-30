@@ -2455,6 +2455,23 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'LdapSettings.AdminFilter',
+                        label: t('admin.ldap.adminFilterTitle'),
+                        label_default: 'Admin Filter:',
+                        help_text: t('admin.ldap.adminFilterFilterDesc'),
+                        help_text_default: '(Optional) Enter an AD/LDAP filter to use when searching for admin objects. Only the users selected by the query will be able to access Mattermost as Admins.\n \nNote: If this filter is removed/changed, active admins will not be demoted to a member and will retain their Admin role. Admins can be demoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a admin will be demoted from a admin to a member when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote admins to members in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_markdown: true,
+                        placeholder: t('admin.ldap.adminFilterEx'),
+                        placeholder_default: 'E.g.: "(objectClass=admins)"',
+                        isDisabled: it.either(
+                            it.both(
+                                it.stateIsFalse('LdapSettings.Enable'),
+                                it.stateIsFalse('LdapSettings.EnableSync'),
+                            )
+                        ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'LdapSettings.GroupFilter',
                         label: t('admin.ldap.groupFilterTitle'),
                         label_default: 'Group Filter:',
@@ -3097,6 +3114,18 @@ const AdminDefinition = {
                             it.configIsFalse('GuestAccountsSettings', 'Enable'),
                             it.stateIsFalse('SamlSettings.Enable'),
                         ),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.AdminAttribute',
+                        label: t('admin.saml.adminAttrTitle'),
+                        label_default: 'Admin Attribute:',
+                        placeholder: t('admin.saml.adminAttrEx'),
+                        placeholder_default: 'E.g.: "usertype=Admin" or "isAdmin=true"',
+                        help_text: t('admin.saml.adminAttrDesc'),
+                        help_text_default: '(Optional) The attribute in the SAML Assertion that will be used to apply a admin role to users in Mattermost.\n \nNote: If this attribute is removed/changed from your admin user in SAML and the user is still active, they will not be demoted to a member and will retain their Admin role. Admins can be demoted in **System Console > User Management**.\n \n \nExisting members that are identified by this attribute as a admin will be demoted from a admin to a member when they are asked to login next. The next login is based upon Session lengths set in **System Console > Session Lengths**. It is highly recommend to manually demote users to members in **System Console > User Management ** to ensure access is restricted immediately.',
+                        help_text_markdown: true,
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
