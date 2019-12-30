@@ -19,9 +19,9 @@ let userAndChannelDialog;
 describe('Interactive Dialog', () => {
     before(() => {
         // # Check webhook
-        cy.request(Cypress.env().webhookBaseUrl).then((response => {
-            expect(response.status === 200, "This test requires webhook server running. Initiate `npm run start:webhook` to start.");
-        }));
+        cy.request(Cypress.env().webhookBaseUrl).then((response) => {
+            expect(response.status === 200, 'This test requires webhook server running. Initiate `npm run start:webhook` to start.');
+        });
 
         // Set required ServiceSettings
         const newSettings = {
@@ -109,6 +109,9 @@ describe('Interactive Dialog', () => {
                     cy.wrap($elForm).find('.form-control').type('{uparrow}'.repeat(10));
                     cy.wrap($elForm).find('.mentions__name').first().should('be.visible');
                 }
+
+                // # Select one element to close the dropdown
+                cy.wrap($elForm).find('.mentions__name').first().click();
 
                 if (element.help_text) {
                     cy.wrap($elForm).find('.help-text').should('be.visible').and('have.text', element.help_text);
