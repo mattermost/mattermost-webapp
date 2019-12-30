@@ -2463,11 +2463,9 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.ldap.adminFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=admins)"',
-                        isDisabled: it.either(
-                            it.both(
-                                it.stateIsFalse('LdapSettings.Enable'),
-                                it.stateIsFalse('LdapSettings.EnableSync'),
-                            )
+                        isDisabled: it.both(
+                            it.stateIsFalse('LdapSettings.Enable'),
+                            it.stateIsFalse('LdapSettings.EnableSync'),
                         ),
                     },
                     {
