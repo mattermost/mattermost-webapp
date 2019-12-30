@@ -3,6 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
@@ -196,9 +197,9 @@ export default class SuggestionBox extends React.Component {
 
     componentWillUpdate() {
         if (this.inputRef.current) {
-            let width = ReactDOM.findDOMNode(this.inputRef.current).getBoundingClientRect().width;
+            const width = ReactDOM.findDOMNode(this.inputRef.current).getBoundingClientRect().width;
             if (width !== this.state.width) {
-                this.setState({width: width});
+                this.setState({width});
             }
         }
     }
@@ -699,7 +700,7 @@ export default class SuggestionBox extends React.Component {
                     onKeyDown={this.handleKeyDown}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <div style={{position: 'fixed', zIndex: 101, width:this.state.width}}>
+                    <div style={{position: 'fixed', zIndex: 101, width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused}
