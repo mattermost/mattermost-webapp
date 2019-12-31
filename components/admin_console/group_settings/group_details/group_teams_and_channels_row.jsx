@@ -47,7 +47,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
     }
 
     displayAssignedRolesDropdown = () => {
-        const {schemeAdmin} = this.props;
+        const {schemeAdmin, name} = this.props;
         const channelAdmin = (
             <FormattedMessage
                 id='admin.group_teams_and_channels_row.channelAdmin'
@@ -57,7 +57,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
         const teamAdmin = (
             <FormattedMessage
                 id='admin.group_teams_and_channels_row.teamAdmin'
-                defaultMessage='Channel Admin'
+                defaultMessage='Team Admin'
             />
         );
         const member = (
@@ -77,7 +77,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             dropDown = (
                 <div >
                     <MenuWrapper>
-                        <div>
+                        <div id={`${name}_current_role`}>
                             <a>
                                 <span>{currentRole} </span>
                                 <span className='caret'/>
@@ -89,6 +89,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                             ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
                         >
                             <Menu.ItemAction
+                                id={`${name}_role_to_be`}
                                 onClick={this.changeRoles}
                                 text={roleToBe}
                             />

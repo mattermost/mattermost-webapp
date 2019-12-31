@@ -85,8 +85,11 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 });
             }
         });
-
-        teamEntries.sort((a, b) => a.name.localeCompare(b.name));
+        teamEntries.sort((a, b) => {
+            if (a.name && b.name) {
+                a.name.localeCompare(b.name);
+            }
+        });
         teamEntries.forEach((team) => {
             entries.push(team);
             if (team.hasChildren && !team.collapsed) {
@@ -126,7 +129,10 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         }
 
         return (
-            <table className='AdminPanel__table group-teams-and-channels'>
+            <table
+                id='team_and_channel_membership_table'
+                className='AdminPanel__table group-teams-and-channels'
+            >
                 <thead className='group-teams-and-channels--header'>
                     <tr>
                         <th width='30%'>
