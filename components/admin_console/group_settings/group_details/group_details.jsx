@@ -106,7 +106,7 @@ export default class GroupDetails extends React.PureComponent {
             await this.props.actions.patchGroupSyncable(this.props.groupID, id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: roleToBe});
             await this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_TEAM);
         } else {
-            await this.props.actions.patchGroupSyncable(this.props.groupID, id, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true, scheme_admin: roleToBe});
+            await this.props.actions.patchGroupSyncable(this.props.groupID, id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: roleToBe});
             await this.props.actions.getGroupSyncables(this.props.groupID, Groups.SYNCABLE_TYPE_CHANNEL);
         }
         this.setState({loadingTeamsAndChannels: false});

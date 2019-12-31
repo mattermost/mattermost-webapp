@@ -3,6 +3,7 @@
 exports[`components/admin_console/group_settings/group_details/GroupTeamsAndChannels should match snapshot, with teams, with channels and loaded 1`] = `
 <table
   className="AdminPanel__table group-teams-and-channels"
+  id="team_and_channel_membership_table"
 >
   <thead
     className="group-teams-and-channels--header"

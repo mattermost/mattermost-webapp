@@ -21,7 +21,6 @@ describe('System Console', () => {
             }
         });
 
-
         // # Wait until the groups retrieved and show up
         cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
 
@@ -36,7 +35,7 @@ describe('System Console', () => {
         cy.get('#add_channel').click();
         cy.get('#multiSelectList').first().click();
         cy.get('#saveItems').click();
-        
+
         cy.get('#group_teams_and_channels').then((el) => {
             let name;
             for (let i = 1; i < el[0].childNodes[1].rows.length; i++) {
