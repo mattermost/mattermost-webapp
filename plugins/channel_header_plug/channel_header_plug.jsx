@@ -117,9 +117,13 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     }
 
     createButton = (plug) => {
+        let activeClass = '';
+        if (plug.active && plug.active()) {
+            activeClass = ' active';
+        }
         return (
             <HeaderIconWrapper
-                buttonClass='channel-header__icon style--none'
+                buttonClass={'channel-header__icon style--none' + activeClass}
                 iconComponent={plug.icon}
                 onClick={() => plug.action(this.props.channel, this.props.channelMember)}
                 buttonId={plug.id}
@@ -186,7 +190,13 @@ export default class ChannelHeaderPlug extends React.PureComponent {
     }
 
     render() {
-        const components = this.props.components || [];
+        let components = this.props.components || [];
+        components = components.filter((c) => {
+            if (c.show) {
+                return c.show();
+            }
+            return true;
+        });
 
         if (components.length === 0) {
             return null;

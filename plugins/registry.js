@@ -105,7 +105,9 @@ export default class PluginRegistry {
     // - action - a function called when the button is clicked, passed the channel and channel member as arguments
     // - dropdown_text - string or React element shown for the dropdown button description
     // - tooltip_text - string shown for tooltip appear on hover
-    registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText) {
+    // - show - a function that returns true if button should be shown and false if not
+    // - active - a function that returns true if button should should have the "active" CSS class and false if not
+    registerChannelHeaderButtonAction(icon, action, dropdownText, tooltipText, show = () => true, active = () => false) {
         const id = generateId();
 
         const data = {
@@ -115,6 +117,8 @@ export default class PluginRegistry {
             action,
             dropdownText: resolveReactElement(dropdownText),
             tooltipText,
+            show,
+            active,
         };
 
         store.dispatch({
