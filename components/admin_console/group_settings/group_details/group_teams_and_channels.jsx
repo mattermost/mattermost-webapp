@@ -85,7 +85,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 });
             }
         });
-        teamEntries.sort((a, b) => (a.name && b.name) ? a.name.localeCompare(b.name) : 0);
+        teamEntries.sort((a, b) => ((a.name && b.name) ? a.name.localeCompare(b.name) : 0));
         teamEntries.forEach((team) => {
             entries.push(team);
             if (team.hasChildren && !team.collapsed) {
