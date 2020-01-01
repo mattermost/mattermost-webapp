@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import PermalinkView from 'components/permalink_view';
 import ChannelHeaderMobile from 'components/channel_header_mobile';
 import ChannelIdentifierRouter from 'components/channel_layout/channel_identifier_router';
+import AppRouter from 'components/channel_layout/app_route';
 
 export default class CenterChannel extends React.PureComponent {
     static propTypes = {
@@ -60,6 +61,14 @@ export default class CenterChannel extends React.PureComponent {
                                     returnTo={this.state.returnTo}
                                 />
                             )}
+                        />
+                        <Route
+                            path={'/:team/apps/:identifier'}
+                            component={AppRouter}
+                        />
+                        <Route
+                            path={'/:team/channel-apps/:channel/:identifier'}
+                            component={AppRouter}
                         />
                         <Route
                             path={'/:team/:path(channels|messages)/:identifier'}
