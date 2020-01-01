@@ -1505,6 +1505,7 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username}님이 채널 설명을 제거했습니다. (이전: {old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username}님이 채널 설명을 {old}에서 {new}(으)로 변경했습니다.",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username}님이 채널 설명을 {new}(으)로 변경했습니다.",
+  "applications": "Applications",
   "archivedChannelMessage": "**보존 처리 된 채널**을 보고계십니다. 새 메시지를 게시 할 수 없습니다.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "계정 활성화",

@@ -137,6 +137,11 @@ class Sidebar extends React.PureComponent {
         channelSwitcherOption: PropTypes.bool.isRequired,
 
         /**
+         * Setting that holds the list of sidebar application links
+         */
+        pluginApps: PropTypes.array.isRequired,
+
+        /**
          * Setting that enables user to view archived channels
          */
         viewArchivedChannels: PropTypes.bool,
@@ -566,6 +571,7 @@ class Sidebar extends React.PureComponent {
         const {orderedChannelIds} = this.state;
 
         const sectionsToHide = [SidebarChannelGroups.UNREADS, SidebarChannelGroups.FAVORITE];
+        const pluginApps = this.props.pluginApps && this.props.pluginApps.filter((p) => p.show());
 
         return (
             <Scrollbars
@@ -583,6 +589,24 @@ class Sidebar extends React.PureComponent {
                     id='sidebarChannelContainer'
                     className='nav-pills__container'
                 >
+                    {pluginApps && pluginApps.length > 0 &&
+                        <ul
+                            key='apps'
+                            className='nav nav-pills nav-stacked'
+                        >
+                            <li>
+                                <h4 id='apps'>
+                                    <FormattedMessage
+                                        id={'applications'}
+                                        defaultMessage={'Applications'}
+                                    />
+                                </h4>
+                            </li>
+                            <Pluggable
+                                pluggableName='TeamApp'
+                                teamName={this.props.currentTeam.name}
+                            />
+                        </ul>}
                     {orderedChannelIds.map((sec) => {
                         const section = {
                             type: sec.type,

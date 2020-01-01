@@ -1505,6 +1505,7 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} a eliminat scopul canalului (a fost: {old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} a actualizat scopul canalului de la: {old} la: {new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} a actualizat scopul canalului la: {new}",
+  "applications": "Applications",
   "archivedChannelMessage": "Vizualizați un ** canal arhivat**. Mesaje noi nu pot fi postate.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "Contul activat",

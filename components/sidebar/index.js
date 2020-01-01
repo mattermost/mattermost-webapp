@@ -72,6 +72,7 @@ function mapStateToProps(state) {
         canCreatePrivateChannel,
         isOpen: getIsLhsOpen(state),
         unreads: getUnreads(state),
+        pluginApps: state.plugins.components.TeamApp,
         viewArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true')
     };
 }

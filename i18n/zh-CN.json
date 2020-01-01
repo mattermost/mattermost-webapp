@@ -1505,6 +1505,7 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} 移除了频道作用 (曾是：{old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} 更新了频道作用从：{old} 到：{new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} 更新了频道作用到：{new}",
+  "applications": "Applications",
   "archivedChannelMessage": "您正在查看**已归档的频道**。新消息无法被发送。",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "帐户已激活",

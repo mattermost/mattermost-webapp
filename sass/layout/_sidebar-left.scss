@@ -446,6 +446,10 @@
             @include transition-timing-function(ease-in-out);
         }
     }
+    #apps {
+        margin: 1em 1em .6em 1em;
+        text-transform: uppercase;
+    }
 }
 
 .channel-loading-gif {

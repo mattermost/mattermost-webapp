@@ -1505,6 +1505,7 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} removeu o propósito do canal (era: {old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} atualizou o propósito do canal de: {old} para: {new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} atualizou o propósito do canal para: {new}",
+  "applications": "Applications",
   "archivedChannelMessage": "Você está vendo um **canal arquivado**. Novas mensagens não podem ser publicadas.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "Conta ativada",

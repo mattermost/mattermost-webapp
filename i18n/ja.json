@@ -1505,6 +1505,7 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} がチャンネルの目的({old})を削除しました",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} がチャンネルの目的を {old} から {new} へ更新しました",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} がチャンネルの目的を {new} へ更新しました",
+  "applications": "Applications",
   "archivedChannelMessage": "**アーカイブされたチャンネル**を閲覧しています。新しいメッセージは投稿できません。",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "アカウントが有効になりました",
