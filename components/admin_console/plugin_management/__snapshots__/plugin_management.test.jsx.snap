@@ -73,7 +73,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -248,6 +248,13 @@ exports[`components/PluginManagement should match snapshot 1`] = `
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -320,7 +327,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -495,6 +502,13 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -601,7 +615,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -776,6 +790,13 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -882,7 +903,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -1062,6 +1083,13 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1168,7 +1196,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -1343,6 +1371,13 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1449,7 +1484,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -1597,6 +1632,13 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1703,7 +1745,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -1878,6 +1920,13 @@ exports[`components/PluginManagement should match snapshot, text entered into th
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1984,7 +2033,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -2159,6 +2208,13 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -2265,7 +2321,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -2503,6 +2559,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -2609,7 +2672,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -2815,6 +2878,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -2921,7 +2991,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -3127,6 +3197,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -3233,7 +3310,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -3439,6 +3516,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -3545,7 +3629,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -3783,6 +3867,13 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}

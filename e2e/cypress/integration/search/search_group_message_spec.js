@@ -11,14 +11,18 @@ const groupMembers = ['aaron.peterson', 'aaron.ward', 'samuel.tucker'];
 
 describe('Search', () => {
     before(() => {
-        cy.apiLogin('user-1');
-        cy.apiSaveTeammateNameDisplayPreference('username');
+        cy.loginAsNewUser().then(() => {
+            cy.apiSaveTeammateNameDisplayPreference('username');
 
-        cy.apiGetUsers(groupMembers).then((res) => {
-            const userIds = res.body.map((user) => user.id);
+            cy.apiGetUsers(groupMembers).then((res) => {
+                const userIds = res.body.map((user) => user.id);
 
-            cy.apiCreateGroupChannel(userIds).then((resp) => {
-                cy.visit(`/ad-1/messages/${resp.body.name}`);
+                cy.apiCreateGroupChannel(userIds).then((resp) => {
+                    cy.apiGetTeams().then((response) => {
+                        const team = response.body[0];
+                        cy.visit(`/${team.name}/messages/${resp.body.name}`);
+                    });
+                });
             });
         });
     });
@@ -46,7 +50,7 @@ describe('Search', () => {
         });
 
         // * Should return exactly one result from the group channel and matches the message
-        cy.queryAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {
+        cy.findAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {
             cy.get('.search-channel__name').should('be.visible').and('have.text', groupMembers.join(', '));
             cy.get('.search-highlight').should('be.visible').and('have.text', message);
         });

@@ -92,22 +92,28 @@ describe('Post Header', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center dot menu' button and dropdown are hidden
-            cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-            cy.get(`#CENTER_dropdown_${postId}`).should('not.be.visible');
+            cy.get(`#post_${postId}`).should('be.visible').within(() => {
+                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
+                cy.get('.dropdown-menu').should('not.be.visible');
+            });
 
             // # Click dot menu of a post
-            cy.clickPostDotMenu();
+            cy.clickPostDotMenu(postId);
 
             // * Check that the center dot menu button and dropdown are visible
-            cy.get(`#CENTER_button_${postId}`).should('be.visible');
-            cy.get(`#CENTER_dropdown_${postId}`).should('be.visible');
+            cy.get(`#post_${postId}`).should('be.visible').within(() => {
+                cy.get(`#CENTER_button_${postId}`).should('be.visible');
+                cy.get('.dropdown-menu').should('be.visible');
+            });
 
             // # Click to other location like post textbox
             cy.get('#post_textbox').click();
 
-            // * Chack that the center dot menu and dropdown are hidden
-            cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
-            cy.get(`#CENTER_dropdown_${postId}`).should('not.be.visible');
+            // * Check that the center dot menu and dropdown are hidden
+            cy.get(`#post_${postId}`).should('be.visible').within(() => {
+                cy.get(`#CENTER_button_${postId}`).should('not.be.visible');
+                cy.get('.dropdown-menu').should('not.be.visible');
+            });
         });
     });
 
@@ -120,8 +126,8 @@ describe('Post Header', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center post reaction icon and emoji picker are not visible
-            cy.get(`#CENTER_reaction_${postId}`).should('not.be.visible');
-            cy.get('#emojiPicker').should('not.be.visible');
+            cy.get(`#CENTER_reaction_${postId}`).should('not.exist');
+            cy.get('#emojiPicker').should('not.exist');
 
             // # Click the center post reaction icon of the post
             cy.clickPostReactionIcon(postId);
@@ -139,8 +145,8 @@ describe('Post Header', () => {
             cy.get('#post_textbox').click();
 
             // * Check that the center post reaction icon and emoji picker are not visible
-            cy.get(`#CENTER_reaction_${postId}`).should('not.be.visible');
-            cy.get('#emojiPicker').should('not.be.visible');
+            cy.get(`#CENTER_reaction_${postId}`).should('not.exist');
+            cy.get('#emojiPicker').should('not.exist');
         });
     });
 
@@ -173,14 +179,13 @@ describe('Post Header', () => {
 
         cy.getLastPostId().then((postId) => {
             // * Check that the center flag icon of the post is not visible
-            cy.get(`#CENTER_flagIcon_${postId}`).should('not.be.visible');
+            cy.get(`#CENTER_flagIcon_${postId}`).should('not.exist');
 
             // * Check that the pinned badge of the post is not visible
             cy.get(`#post_${postId}`).should('not.have.class', 'post--pinned');
 
             // # Pin the post.
-            cy.clickPostDotMenu(postId);
-            cy.get(`#pin_post_${postId}`).should('be.visible').click();
+            cy.getPostMenu(postId, 'Pin to channel').click();
 
             // # Click the center flag icon of a post
             cy.clickPostFlagIcon(postId);
@@ -197,8 +202,7 @@ describe('Post Header', () => {
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('exist');
 
             // # unpin the post
-            cy.clickPostDotMenu(postId);
-            cy.get(`#unpin_post_${postId}`).should('be.visible').click();
+            cy.getPostMenu(postId, 'Un-pin from channel').click();
 
             // * Check that message exists in RHS flagged posts list
             // * Check that post is not be pinned in center
@@ -208,8 +212,7 @@ describe('Post Header', () => {
             cy.get(`#SEARCH_flagIcon_${postId}`).siblings('.post__pinned-badge').should('not.exist');
 
             // # Pin the post again.
-            cy.clickPostDotMenu(postId);
-            cy.get(`#pin_post_${postId}`).should('be.visible').click();
+            cy.getPostMenu(postId, 'Pin to channel').click();
 
             // * Check that post is be pinned in center
             // * Check that post is be pinned in RHS

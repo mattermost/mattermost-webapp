@@ -42,8 +42,10 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
+        clearable={true}
         completeOnTab={true}
         containerClass=""
         data-a11y-sort-order="8"
@@ -56,6 +58,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}
@@ -71,6 +74,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -92,43 +96,6 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
         type="search"
         value="test"
       />
-      <div
-        className="sidebar__search-clear visible"
-        id="searchClearButton"
-        onClick={[Function]}
-      >
-        <OverlayTrigger
-          defaultOverlayShown={false}
-          delayShow={400}
-          overlay={
-            <Tooltip
-              bsClass="tooltip"
-              id="searchClearTooltip"
-              placement="right"
-            >
-              <FormattedMessage
-                defaultMessage="Clear search query"
-                id="search_bar.clear"
-                values={Object {}}
-              />
-            </Tooltip>
-          }
-          placement="bottom"
-          trigger={
-            Array [
-              "hover",
-              "focus",
-            ]
-          }
-        >
-          <span
-            aria-hidden="true"
-            className="sidebar__search-clear-x"
-          >
-            ×
-          </span>
-        </OverlayTrigger>
-      </div>
     </form>
   </div>
 </div>
@@ -176,8 +143,10 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
+        clearable={true}
         completeOnTab={true}
         containerClass=""
         data-a11y-sort-order="8"
@@ -190,6 +159,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}
@@ -205,6 +175,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -284,8 +255,10 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
+        clearable={true}
         completeOnTab={true}
         containerClass=""
         data-a11y-sort-order="8"
@@ -298,6 +271,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}
@@ -313,6 +287,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
@@ -392,8 +367,10 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       />
       <SuggestionBox
         aria-describedby="searchbar-help-popup"
+        aria-label="Search"
         autoFocus={false}
         className="search-bar a11y__region"
+        clearable={true}
         completeOnTab={true}
         containerClass=""
         data-a11y-sort-order="8"
@@ -406,6 +383,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
         listenForMentionKeyClick={false}
         onBlur={[Function]}
         onChange={[Function]}
+        onClear={[Function]}
         onFocus={[Function]}
         onKeyDown={[Function]}
         openOnFocus={false}
@@ -421,6 +399,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
               "requestStarted": false,
             },
             SearchUserProvider {
+              "autocompleteUsersInTeam": [MockFunction],
               "disableDispatches": false,
               "latestComplete": true,
               "latestPrefix": "",
