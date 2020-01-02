@@ -1,28 +1,4 @@
-Skip to content
- 
-Search or jump to…
 
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@NiroshaV 
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
- 
-39
-719 1.3k mattermost/mattermost-webapp
- Code  Pull requests 103  Actions  Security  Insights
-mattermost-webapp/e2e/cypress/support/ui_commands.js  / 
-@Willyfrog Willyfrog [MM-20986] close modal on focus change due to shortcut (#4493)
-db658ca 16 days ago
-@saturninoabril @wlsf82 @hmhealey @Willyfrog @thekiiingbob
-445 lines (366 sloc)  14.8 KB
-  
-You're using code navigation to jump to definitions or references.
-Learn more or give us feedback
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
