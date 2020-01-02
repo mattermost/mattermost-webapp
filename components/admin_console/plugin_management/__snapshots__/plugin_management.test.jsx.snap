@@ -72,7 +72,7 @@ exports[`components/PluginManagement should match snapshot 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -325,7 +325,7 @@ exports[`components/PluginManagement should match snapshot when \`Enable Plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -612,7 +612,7 @@ exports[`components/PluginManagement should match snapshot when \`Require Signat
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -899,7 +899,7 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -1191,7 +1191,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -1478,7 +1478,7 @@ exports[`components/PluginManagement should match snapshot, disabled 1`] = `
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -1738,7 +1738,7 @@ exports[`components/PluginManagement should match snapshot, text entered into th
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -2025,7 +2025,7 @@ exports[`components/PluginManagement should match snapshot, upload disabled 1`] 
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -2312,7 +2312,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -2662,7 +2662,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -2980,7 +2980,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -3298,7 +3298,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
@@ -3616,7 +3616,7 @@ exports[`components/PluginManagement should match snapshot, with installed plugi
             }
             helpText={
               <InjectIntl(FormattedMarkdownMessage)
-                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more."
+                defaultMessage="When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more."
                 id="admin.plugins.settings.requirePluginSignatureDesc"
               />
             }
