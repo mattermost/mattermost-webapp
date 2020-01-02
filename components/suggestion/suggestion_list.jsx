@@ -21,6 +21,7 @@ export default class SuggestionList extends React.PureComponent {
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
         preventClose: PropTypes.func,
+        onItemHover: PropTypes.func.isRequired,
         pretext: PropTypes.string.isRequired,
         cleared: PropTypes.bool.isRequired,
         matchedPretext: PropTypes.array.isRequired,
@@ -39,10 +40,11 @@ export default class SuggestionList extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.contentRef = React.createRef();
+        this.itemRefs = new Map();
         this.suggestionReadOut = React.createRef();
         this.currentLabel = '';
         this.currentItem = {};
-        this.contentRef = null;
     }
 
     componentDidUpdate(prevProps) {
@@ -93,15 +95,9 @@ export default class SuggestionList extends React.PureComponent {
         this.announceLabel();
     }
 
-    setContentRef = (element) => {
-        this.contentRef = element;
-    }
     getContent = () => {
-        if (this.contentRef) {
-            return $(ReactDOM.findDOMNode(this.contentRef.current));
-        }
-        return null;
-    };
+        return $(this.contentRef.current);
+    }
 
     scrollToItem = (term) => {
         const content = this.getContent();
@@ -117,7 +113,7 @@ export default class SuggestionList extends React.PureComponent {
             const contentTopPadding = parseInt(content.css('padding-top'), 10);
             const contentBottomPadding = parseInt(content.css('padding-top'), 10);
 
-            const item = $(ReactDOM.findDOMNode(this.refs[term]));
+            const item = $(ReactDOM.findDOMNode(this.itemRefs.get(term)));
             if (item.length === 0) {
                 return;
             }
@@ -154,7 +150,7 @@ export default class SuggestionList extends React.PureComponent {
             <div
                 key='list-no-results'
                 className='suggestion-list__no-results'
-                ref={this.setContentRef}
+                ref={this.contentRef}
             >
                 <FormattedMarkdownMessage
                     id='suggestion_list.no_matches'
@@ -206,12 +202,13 @@ export default class SuggestionList extends React.PureComponent {
             items.push(
                 <Component
                     key={term}
-                    ref={term}
+                    ref={(ref) => this.itemRefs.set(term, ref)}
                     item={this.props.items[i]}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
+                    onMouseMove={this.props.onItemHover}
                 />
             );
         }
@@ -231,7 +228,7 @@ export default class SuggestionList extends React.PureComponent {
             <div className={mainClass}>
                 <div
                     id='suggestionList'
-                    ref={this.setContentRef}
+                    ref={this.contentRef}
                     style={{...contentStyle}}
                     className={contentClass}
                     onMouseDown={this.props.preventClose}
