@@ -26,7 +26,7 @@ type Props = {
     };
 };
 export default class BlockableLink extends React.PureComponent<Props> {
-    handleClick = (e: React.MouseEvent) => {
+    private handleClick = (e: React.MouseEvent) => {
         if (this.props.blocked) {
             e.preventDefault();
 

@@ -18,16 +18,10 @@ function mapStateToProps(state: object) {
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators(
-            {
-                deferNavigation
-            },
-            dispatch
-        )
+        actions: bindActionCreators({
+            deferNavigation
+        }, dispatch)
     };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(BlockableLink);
+export default connect(mapStateToProps, mapDispatchToProps)(BlockableLink);
