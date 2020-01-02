@@ -78,7 +78,7 @@ exports[`components/TeamMembersModal should match snapshot 1`] = `
     bsClass="modal-body"
     componentClass="div"
   >
-    <Connect(MemberListTeam) 
+    <Connect(MemberListTeam)
       teamId="id"
     />
   </ModalBody>
