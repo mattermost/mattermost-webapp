@@ -127,6 +127,7 @@ export default class SearchSuggestionList extends SuggestionList {
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
+                    onMouseMove={this.props.onItemHover}
                 />,
             );
         }
