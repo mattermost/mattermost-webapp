@@ -10,19 +10,10 @@ import {bindClientFunc} from 'mattermost-redux/actions/helpers';
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
-
-export async function saveConfig(config, success, error) {
-    const {data, error: err} = await AdminActions.updateConfig(config)(dispatch, getState);
-    if (data && success) {
-        success(data);
-    } else if (err && error) {
-        error({id: err.server_error_id, ...err});
-    }
-}
 
 export async function reloadConfig(success, error) {
     const {data, error: err} = await dispatch(AdminActions.reloadConfig());
@@ -343,6 +334,29 @@ export function unregisterAdminConsolePlugin(pluginId) {
             type: ActionTypes.REMOVED_ADMIN_CONSOLE_REDUCER,
             data: {
                 pluginId,
+            },
+        });
+    };
+}
+
+export async function testSiteURL(success, error, siteURL) {
+    const {data, error: err} = await dispatch(AdminActions.testSiteURL(siteURL));
+    if (data && success) {
+        success(data);
+    } else if (err && error) {
+        error({id: err.server_error_id, ...err});
+    }
+}
+
+export function registerAdminConsoleCustomSetting(pluginId, key, component, {showTitle}) {
+    return (storeDispatch) => {
+        storeDispatch({
+            type: ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT,
+            data: {
+                pluginId,
+                key,
+                component,
+                options: {showTitle},
             },
         });
     };

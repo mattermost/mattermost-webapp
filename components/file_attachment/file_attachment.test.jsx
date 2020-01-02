@@ -4,6 +4,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
 import FileAttachment from './file_attachment';
 
 jest.mock('utils/utils.jsx', () => {
@@ -119,5 +121,17 @@ describe('FileAttachment', () => {
         const wrapper = shallow(createComponent());
         wrapper.setState({loaded: false});
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should blur file attachment link after click', () => {
+        const wrapper = mountWithIntl(createComponent({compactDisplay: true}));
+        const e = {
+            preventDefault: jest.fn(),
+            target: {blur: jest.fn()},
+        };
+
+        const a = wrapper.find('#file-attachment-link');
+        a.simulate('click', e);
+        expect(e.target.blur).toHaveBeenCalled();
     });
 });

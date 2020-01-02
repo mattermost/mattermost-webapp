@@ -11,12 +11,7 @@ import Suggestion from './suggestion.jsx';
 import 'react-day-picker/lib/style.css';
 
 class SearchDateSuggestion extends Suggestion {
-    constructor(props) {
-        super(props);
-        this.handleDayClick = this.handleDayClick.bind(this);
-    }
-
-    handleDayClick(day) {
+    handleDayClick = (day) => {
         const dayString = day.toISOString().split('T')[0];
         this.props.onClick(dayString, this.props.matchedPretext);
     }
@@ -26,6 +21,9 @@ class SearchDateSuggestion extends Suggestion {
             <DayPicker
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}
+                ref={(node) => {
+                    this.node = node;
+                }}
             />
         );
     }

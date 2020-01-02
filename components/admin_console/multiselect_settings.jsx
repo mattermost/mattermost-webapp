@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactSelect from 'react-select';
 
-import FormError from 'components/form_error.jsx';
+import FormError from 'components/form_error';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
 export default class MultiSelectSetting extends React.Component {
     static propTypes = {
@@ -32,11 +32,10 @@ export default class MultiSelectSetting extends React.Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
         this.state = {error: false};
     }
 
-    handleChange(newValue) {
+    handleChange = (newValue) => {
         const values = newValue.map((n) => {
             return n.value;
         });

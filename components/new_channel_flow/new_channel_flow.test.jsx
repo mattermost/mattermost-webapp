@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import assert from 'assert';
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
@@ -10,6 +11,7 @@ import NewChannelFlow, {
     SHOW_NEW_CHANNEL,
     SHOW_EDIT_URL,
     SHOW_EDIT_URL_THEN_COMPLETE,
+    getChannelTypeFromProps,
 } from 'components/new_channel_flow/new_channel_flow.jsx';
 
 describe('components/NewChannelFlow', () => {
@@ -226,5 +228,65 @@ describe('components/NewChannelFlow', () => {
             expect(baseProps.onModalDismissed).toHaveBeenCalledTimes(1);
             done();
         });
+    });
+
+    test('getChannelTypeFromProps', () => {
+        const props = {
+            channelType: Constants.OPEN_CHANNEL,
+            canCreatePublicChannel: true,
+            canCreatePrivateChannel: true,
+        };
+
+        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
+
+        props.canCreatePublicChannel = false;
+        assert.equal(getChannelTypeFromProps(props), Constants.PRIVATE_CHANNEL);
+
+        props.canCreatePrivateChannel = false;
+        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
+
+        props.canCreatePublicChannel = true;
+        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
+
+        props.channelType = Constants.PRIVATE_CHANNEL;
+        props.canCreatePrivateChannel = true;
+        assert.equal(getChannelTypeFromProps(props), Constants.PRIVATE_CHANNEL);
+
+        props.canCreatePrivateChannel = false;
+        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
+
+        props.canCreatePublicChannel = true;
+        assert.equal(getChannelTypeFromProps(props), Constants.OPEN_CHANNEL);
+    });
+
+    test('should reset the state when being shown', () => {
+        const wrapper = shallow(
+            <NewChannelFlow
+                {...baseProps}
+                show={false}
+            />
+        );
+
+        wrapper.setState({
+            serverError: 'an error',
+            channelType: 'a type',
+            flowState: SHOW_EDIT_URL,
+            channelDisplayName: 'a display name',
+            channelName: 'a name',
+            channelPurpose: 'a purpose',
+            channelHeader: 'a header',
+            nameModified: true,
+        });
+
+        wrapper.setProps({show: true});
+
+        expect(wrapper.state('serverError')).toEqual('');
+        expect(wrapper.state('channelType')).toEqual(Constants.OPEN_CHANNEL);
+        expect(wrapper.state('flowState')).toEqual(SHOW_NEW_CHANNEL);
+        expect(wrapper.state('channelDisplayName')).toEqual('');
+        expect(wrapper.state('channelName')).toEqual('');
+        expect(wrapper.state('channelPurpose')).toEqual('');
+        expect(wrapper.state('channelHeader')).toEqual('');
+        expect(wrapper.state('nameModified')).toEqual(false);
     });
 });

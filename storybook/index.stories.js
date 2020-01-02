@@ -3,10 +3,13 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
+import {Router} from 'react-router-dom';
 
 import {addDecorator} from '@storybook/react';
 
 import IntlProvider from 'components/intl_provider';
+
+import {browserHistory} from 'utils/browser_history';
 
 import store from 'stores/redux_store.jsx';
 
@@ -20,9 +23,11 @@ resetTheme();
 addDecorator((storyFn) => (
     <Provider store={store}>
         <IntlProvider>
-            <div style={{background: 'white'}}>
-                {storyFn()}
-            </div>
+            <Router history={browserHistory}>
+                <div style={{background: 'white'}}>
+                    {storyFn()}
+                </div>
+            </Router>
         </IntlProvider>
     </Provider>
 ));

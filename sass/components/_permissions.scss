@@ -341,3 +341,16 @@
         }
     }
 }
+
+.team-info-block {	
+    display: flex;	
+    flex-grow: 1;	
+    align-items: center;		
+    .team-data {	
+        flex-grow: 1;	
+        padding: 0 0 0 10px;	
+        .title {	
+            font-weight: bold;	
+        }	
+    }	
+}

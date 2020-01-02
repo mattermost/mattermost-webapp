@@ -3,13 +3,26 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {leaveChannel as leaveChannelRedux, joinChannel, unfavoriteChannel} from 'mattermost-redux/actions/channels';
+import {
+    leaveChannel as leaveChannelRedux,
+    joinChannel,
+    markChannelAsRead,
+    unfavoriteChannel,
+} from 'mattermost-redux/actions/channels';
 import * as PostActions from 'mattermost-redux/actions/posts';
 import {TeamTypes} from 'mattermost-redux/action_types';
 import {autocompleteUsers} from 'mattermost-redux/actions/users';
 import {selectTeam} from 'mattermost-redux/actions/teams';
 import {Posts} from 'mattermost-redux/constants';
-import {getChannel, getChannelsNameMapInCurrentTeam, getCurrentChannel, getRedirectChannelNameForTeam, getMyChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {
+    getChannel,
+    getChannelsNameMapInCurrentTeam,
+    getCurrentChannel,
+    getRedirectChannelNameForTeam,
+    getMyChannels,
+    getMyChannelMemberships,
+    isManuallyUnread,
+} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentRelativeTeamUrl, getCurrentTeam, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
@@ -22,7 +35,7 @@ import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
 import {getSocketStatus} from 'selectors/views/websocket';
 
 import {browserHistory} from 'utils/browser_history';
-import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants.jsx';
+import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/constants';
 import {isMobile} from 'utils/utils.jsx';
 import LocalStorageStore from 'stores/local_storage_store.jsx';
 
@@ -147,7 +160,7 @@ export function autocompleteUsersInChannel(prefix, channelId) {
 export function loadUnreads(channelId) {
     return async (dispatch) => {
         const time = Date.now();
-        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId));
+        const {data, error} = await dispatch(PostActions.getPostsUnread(channelId, false));
         if (error) {
             return {
                 error,
@@ -179,7 +192,7 @@ export function loadUnreads(channelId) {
 
 export function loadPostsAround(channelId, focusedPostId) {
     return async (dispatch) => {
-        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2));
+        const {data, error} = await dispatch(PostActions.getPostsAround(channelId, focusedPostId, Posts.POST_CHUNK_SIZE / 2, false));
         if (error) {
             return {
                 error,
@@ -203,7 +216,7 @@ export function loadPostsAround(channelId, focusedPostId) {
 export function loadLatestPosts(channelId) {
     return async (dispatch) => {
         const time = Date.now();
-        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2));
+        const {data, error} = await dispatch(PostActions.getPosts(channelId, 0, Posts.POST_CHUNK_SIZE / 2, false));
 
         if (error) {
             return {
@@ -241,9 +254,9 @@ export function loadPosts({channelId, postId, type}) {
         const page = 0;
         let result;
         if (type === PostRequestTypes.BEFORE_ID) {
-            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT));
+            result = await dispatch(PostActions.getPostsBefore(channelId, postId, page, POST_INCREASE_AMOUNT, false));
         } else {
-            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT));
+            result = await dispatch(PostActions.getPostsAfter(channelId, postId, page, POST_INCREASE_AMOUNT, false));
         }
 
         const {data} = result;
@@ -274,7 +287,7 @@ export function loadPosts({channelId, postId, type}) {
     };
 }
 
-export function syncPostsInChannel(channelId, since) {
+export function syncPostsInChannel(channelId, since, fetchThreads = true) {
     return async (dispatch, getState) => {
         const time = Date.now();
         const state = getState();
@@ -286,7 +299,7 @@ export function syncPostsInChannel(channelId, since) {
             sinceTimeToGetPosts = lastPostsApiCallForChannel;
         }
 
-        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts));
+        const {data, error} = await dispatch(PostActions.getPostsSince(channelId, sinceTimeToGetPosts, fetchThreads));
         if (data) {
             dispatch({
                 type: ActionTypes.RECEIVED_POSTS_FOR_CHANNEL_AT_TIME,
@@ -300,12 +313,16 @@ export function syncPostsInChannel(channelId, since) {
 
 export function scrollPostListToBottom() {
     return () => {
-        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, true);
+        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_TO_BOTTOM);
     };
 }
 
-export function scrollPostList() {
-    return () => {
-        EventEmitter.emit(EventTypes.POST_LIST_SCROLL_CHANGE, false);
+export function markChannelAsReadOnFocus(channelId) {
+    return (dispatch, getState) => {
+        if (isManuallyUnread(getState(), channelId)) {
+            return;
+        }
+
+        dispatch(markChannelAsRead(channelId));
     };
 }

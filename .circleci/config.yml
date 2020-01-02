@@ -53,6 +53,15 @@ jobs:
           npm run mmjstool -- i18n extract-webapp --webapp-dir . --mobile-dir /tmp/fake-mobile-dir
           diff /tmp/en.json i18n/en.json
 
+  type-check:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: |
+          npm run check-types
+
   test:
     executor:
       name: default
@@ -76,6 +85,34 @@ jobs:
           root: .
           paths: .
 
+  build-storybook:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - *restore_cache
+      - run: npm run build-storybook
+      - store_artifacts:
+          path: ~/mattermost-webapp/storybook-static
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  upload-storybook:
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-s3/sync:
+          from: storybook-static
+          to: s3://alpha-storybook.mattermost.com/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
+          arguments: --cache-control no-cache
+      - aws-s3/sync:
+          from: storybook-static
+          to: s3://alpha-storybook.mattermost.com/commit/${CIRCLE_SHA1}/
+          arguments: --cache-control no-cache
+
   upload-s3:
     docker:
       - image: circleci/python:3.6
@@ -84,11 +121,11 @@ jobs:
           at: .
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
-          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
+          to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/
           arguments: --cache-control no-cache
       - aws-s3/copy:
           from: mattermost-webapp.tar.gz
-          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
+          to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
   prepare-docker-build:
@@ -99,7 +136,7 @@ jobs:
           at: .
       - run:
           command: |
-            curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform-pr/${CHANGE_BRANCH}/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
+            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-platform/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://releases.mattermost.com/mattermost-platform/master/mattermost-enterprise-linux-amd64.tar.gz
 
             tar xf server.tar.gz
             rm -rf mattermost/client
@@ -110,7 +147,7 @@ jobs:
           path: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
       - aws-s3/copy:
           from: /home/circleci/project/mattermost-enterprise-linux-amd64.tar.gz
-          to: s3://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
+          to: s3://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/
           arguments: --cache-control no-cache
 
   build-docker:
@@ -130,7 +167,7 @@ jobs:
             git clone git@github.com:mattermost/mattermost-server.git
 
             cd mattermost-server
-            export MM_PACKAGE=https://releases.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
+            export MM_PACKAGE=https://pr-builds.mattermost.com/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}/mattermost-enterprise-linux-amd64.tar.gz
             docker build --build-arg MM_PACKAGE=$MM_PACKAGE -t mattermost/mattermost-enterprise-edition:${TAG} build
             echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
             docker push mattermost/mattermost-enterprise-edition:${TAG}
@@ -146,22 +183,33 @@ workflows:
       - i18n-check:
           requires:
             - install
-      - test:
+      - type-check:
           requires:
-            - i18n-check
-            - lint
+            - install
       - build:
           requires:
-            - test
+            - install
       - upload-s3:
-          context: mattermost-ci-s3
+          context: mattermost-ci-pr-builds-s3
           requires:
             - build
       - prepare-docker-build:
-          context: mattermost-ci-s3
+          context: mattermost-ci-pr-builds-s3
           requires:
             - upload-s3
       - build-docker:
           context: matterbuild-docker
           requires:
             - prepare-docker-build
+      - build-storybook:
+          requires:
+            - build
+      - upload-storybook:
+          context: mattermost-s3-storybook-alpha
+          requires:
+            - build-storybook
+      - test:
+          requires:
+            - type-check
+            - i18n-check
+            - lint

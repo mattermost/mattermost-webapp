@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 
+import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
@@ -94,6 +95,23 @@ describe('components/SuggestionBox', () => {
         expect(instance.handlePretextChanged.mock.calls.length).toBe(1);
     });
 
+    test('should force pretext change after text has been cleared by parent', async () => {
+        const wrapper = shallow(
+            <SuggestionBox
+                {...baseProps}
+            />
+        );
+        const instance = wrapper.instance();
+        instance.handlePretextChanged = jest.fn();
+        instance.pretext = 'value';
+
+        wrapper.setProps({...baseProps});
+        expect(instance.handlePretextChanged).not.toBeCalled();
+
+        wrapper.setProps({...baseProps, value: ''});
+        expect(instance.handlePretextChanged).toBeCalledWith('');
+    });
+
     test('should force pretext change on composition update', () => {
         const wrapper = shallow(
             <SuggestionBox
@@ -109,5 +127,42 @@ describe('components/SuggestionBox', () => {
 
         instance.handleCompositionUpdate({data: '@저'});
         expect(instance.handlePretextChanged).toBeCalledWith('@저');
+    });
+
+    test('should reset selection after provider.handlePretextChanged is handled', () => {
+        const userid1 = {id: 'userid1', username: 'user', first_name: 'a', last_name: 'b', nickname: 'c'};
+        const userid2 = {id: 'userid2', username: 'user2', first_name: 'd', last_name: 'e', nickname: 'f'};
+        const userid3 = {id: 'userid3', username: 'other', first_name: 'X', last_name: 'Y', nickname: 'Z'};
+
+        const baseParams = {
+            currentUserId: 'userid1',
+            profilesInChannel: [userid1, userid2, userid3],
+            autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
+        };
+        const provider = new AtMentionProvider(baseParams);
+        const props = {
+            ...baseProps,
+            providers: [provider],
+        };
+        const wrapper = shallow(
+            <SuggestionBox
+                {...props}
+            />
+        );
+        const instance = wrapper.instance();
+
+        expect(wrapper.state('selection')).toEqual('');
+
+        instance.nonDebouncedPretextChanged('hello world @');
+        expect(wrapper.state('selection')).toEqual('@other');
+
+        instance.nonDebouncedPretextChanged('hello world @u');
+        expect(wrapper.state('selection')).toEqual('@user2');
+
+        instance.nonDebouncedPretextChanged('hello world @');
+        expect(wrapper.state('selection')).toEqual('@user2');
+
+        instance.nonDebouncedPretextChanged('hello world ');
+        expect(wrapper.state('selection')).toEqual('');
     });
 });

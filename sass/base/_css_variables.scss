@@ -1,6 +1,8 @@
 :root {
     --sidebar-bg: #145dbf;
     --sidebar-text: #ffffff;
+    --sidebar-text-60: #ffffff99;
+    --sidebar-text-80: #ffffffcc;
     --sidebar-unread-text: #ffffff;
     --sidebar-text-hover-bg: #4578bf;
     --sidebar-text-active-border: #579eff;
@@ -18,7 +20,7 @@
     --link-color: #2389d7;
     --button-bg: #166de0;
     --button-color: #ffffff;
-    --error-text-color: #fd5960;
+    --error-text: #fd5960;
     --mention-highlight-bg: #ffe577;
     --mention-highlight-link: #166de0;
 }

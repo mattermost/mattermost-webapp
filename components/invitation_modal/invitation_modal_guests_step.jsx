@@ -14,18 +14,18 @@ import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 import ChannelsInput from 'components/widgets/inputs/channels_input.jsx';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/widgets/icons/back_icon';
-
 import './invitation_modal_guests_step.scss';
 
 import {t} from 'utils/i18n.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 export default class InvitationModalGuestsStep extends React.Component {
     static propTypes = {
-        goBack: PropTypes.func,
+        teamName: PropTypes.string.isRequired,
         myInvitableChannels: PropTypes.array.isRequired,
         currentTeamId: PropTypes.string.isRequired,
         searchProfiles: PropTypes.func.isRequired,
+        searchChannels: PropTypes.func.isRequired,
         defaultChannels: PropTypes.array,
         defaultMessage: PropTypes.string,
         onEdit: PropTypes.func.isRequired,
@@ -95,10 +95,14 @@ export default class InvitationModalGuestsStep extends React.Component {
         }
     }
 
+    debouncedSearchChannels = debounce((term) => this.props.searchChannels(this.props.currentTeamId, term), 150);
+
     channelsLoader = async (value) => {
         if (!value) {
             return this.props.myInvitableChannels;
         }
+
+        this.debouncedSearchChannels(value);
         return this.props.myInvitableChannels.filter((channel) => {
             return channel.display_name.toLowerCase().startsWith(value.toLowerCase()) || channel.name.toLowerCase().startsWith(value.toLowerCase());
         });
@@ -133,28 +137,27 @@ export default class InvitationModalGuestsStep extends React.Component {
     render() {
         return (
             <div className='InvitationModalGuestsStep'>
-                {this.props.goBack &&
-                    <BackIcon
-                        className='back'
-                        onClick={this.props.goBack}
-                    />}
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>
-                <h1>
+                <h1 id='invitation_modal_title'>
                     <FormattedMarkdownMessage
                         id='invitation_modal.guests.title'
-                        defaultMessage='Invite **Guests**'
+                        defaultMessage='Invite **Guests** to {teamName}'
+                        values={{teamName: this.props.teamName}}
                     />
                 </h1>
-                <div className='add-people'>
+                <div
+                    className='add-people'
+                    data-testid='addPeople'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.guests.add_people.title'
                             defaultMessage='Invite People'
                         />
                     </h2>
-                    <div>
+                    <div data-testid='emailPlaceholder'>
                         <FormattedMessage
                             id='invitation_modal.guests.search-and-add.placeholder'
                             defaultMessage='Add guests or email addresses'
@@ -163,6 +166,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                                 <UsersEmailsInput
                                     usersLoader={this.usersLoader}
                                     placeholder={placeholder}
+                                    ariaLabel={localizeMessage('invitation_modal.guests.add_people.title', 'Invite People')}
                                     onChange={this.onUsersEmailsChange}
                                     value={this.state.usersAndEmails}
                                     onInputChange={this.onUsersInputChange}
@@ -178,11 +182,14 @@ export default class InvitationModalGuestsStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.guests.add_people.description'
-                            defaultMessage='Search and add guests or email invite new users.'
+                            defaultMessage='Add existing guests or send email invites to new guests.'
                         />
                     </div>
                 </div>
-                <div className='add-channels'>
+                <div
+                    className='add-channels'
+                    data-testid='channelPlaceholder'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.guests.add_channels.title'
@@ -197,6 +204,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                             {(placeholder) => (
                                 <ChannelsInput
                                     placeholder={placeholder}
+                                    ariaLabel={localizeMessage('invitation_modal.guests.add_channels.title', 'Search and Add Channels')}
                                     channelsLoader={this.channelsLoader}
                                     onChange={this.onChannelsChange}
                                     onInputChange={this.onChannelsInputChange}
@@ -213,7 +221,10 @@ export default class InvitationModalGuestsStep extends React.Component {
                         />
                     </div>
                 </div>
-                <div className='custom-message'>
+                <div
+                    className='custom-message'
+                    data-testid='customMessage'
+                >
                     {!this.state.customMessageOpen &&
                         <a
                             onClick={this.openCustomMessage}
@@ -253,6 +264,7 @@ export default class InvitationModalGuestsStep extends React.Component {
                         className={'btn ' + (this.state.channels.length === 0 || this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
                         disabled={this.state.channels.length === 0 || this.state.usersAndEmails.length === 0}
                         onClick={this.sendInvites}
+                        id='inviteGuestButton'
                     >
                         <FormattedMessage
                             id='invitation_modal.guests.invite_button'

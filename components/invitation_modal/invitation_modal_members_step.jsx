@@ -3,27 +3,28 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {injectIntl, FormattedMessage} from 'react-intl';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import InviteIcon from 'components/widgets/icons/invite_icon';
+import InviteMembersIcon from 'components/widgets/icons/invite_members_icon';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input.jsx';
 
-import BackIcon from 'components/widgets/icons/back_icon';
 import LinkIcon from 'components/widgets/icons/link_icon';
 
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 import {t} from 'utils/i18n.jsx';
+import {localizeMessage} from 'utils/utils.jsx';
 
 import './invitation_modal_members_step.scss';
 
-export default class InvitationModalMembersStep extends React.Component {
+class InvitationModalMembersStep extends React.Component {
     static propTypes = {
+        teamName: PropTypes.string.isRequired,
+        intl: PropTypes.any,
         inviteId: PropTypes.string.isRequired,
-        goBack: PropTypes.func,
         searchProfiles: PropTypes.func.isRequired,
         onEdit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
@@ -119,21 +120,20 @@ export default class InvitationModalMembersStep extends React.Component {
         const inviteUrl = getSiteURL() + '/signup_user_complete/?id=' + this.props.inviteId;
         return (
             <div className='InvitationModalMembersStep'>
-                {this.props.goBack &&
-                    <BackIcon
-                        className='back'
-                        onClick={this.props.goBack}
-                    />}
                 <div className='modal-icon'>
-                    <InviteIcon/>
+                    <InviteMembersIcon/>
                 </div>
-                <h1>
+                <h1 id='invitation_modal_title'>
                     <FormattedMarkdownMessage
                         id='invitation_modal.members.title'
-                        defaultMessage='Invite **Members**'
+                        defaultMessage='Invite **Members** to {teamName}'
+                        values={{teamName: this.props.teamName}}
                     />
                 </h1>
-                <div className='share-link'>
+                <div
+                    className='share-link'
+                    data-testid='shareLink'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.title'
@@ -147,10 +147,13 @@ export default class InvitationModalMembersStep extends React.Component {
                             type='text'
                             readOnly={true}
                             value={inviteUrl}
+                            aria-label={this.props.intl.formatMessage({id: 'invitation_modal.members.share_link.input', defaultMessage: 'team invite link'})}
+                            data-testid='shareLinkInput'
                         />
                         <button
                             className='share-link-input-button'
                             onClick={this.copyLink}
+                            data-testid='shareLinkInputButton'
                         >
                             <LinkIcon/>
                             {!this.state.copiedLink &&
@@ -170,7 +173,7 @@ export default class InvitationModalMembersStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.share_link.description'
-                            defaultMessage='Share this link to grant member access to this team.'
+                            defaultMessage='Share this link to invite people to this team.'
                         />
                     </div>
                 </div>
@@ -182,12 +185,16 @@ export default class InvitationModalMembersStep extends React.Component {
                             defaultMessage='OR'
                         />
                     </div>
+
                 </div>
-                <div className='search-and-add'>
+                <div
+                    className='search-and-add'
+                    data-testid='searchAdd'
+                >
                     <h2>
                         <FormattedMessage
                             id='invitation_modal.members.search_and_add.title'
-                            defaultMessage='Invite People'
+                            defaultMessage='Add or Invite People'
                         />
                     </h2>
                     <div data-testid='inputPlaceholder'>
@@ -199,6 +206,7 @@ export default class InvitationModalMembersStep extends React.Component {
                                 <UsersEmailsInput
                                     usersLoader={this.usersLoader}
                                     placeholder={placeholder}
+                                    ariaLabel={localizeMessage('invitation_modal.members.search_and_add.title', 'Invite People')}
                                     onChange={this.onChange}
                                     value={this.state.usersAndEmails}
                                     validAddressMessageId={t('invitation_modal.members.users_emails_input.valid_email')}
@@ -214,7 +222,7 @@ export default class InvitationModalMembersStep extends React.Component {
                     <div className='help-text'>
                         <FormattedMessage
                             id='invitation_modal.members.search-and-add.description'
-                            defaultMessage='Search and add members from other teams or email invite new users.'
+                            defaultMessage='Add existing members or send email invites to new members.'
                         />
                     </div>
                 </div>
@@ -223,6 +231,7 @@ export default class InvitationModalMembersStep extends React.Component {
                         className={'btn ' + (this.state.usersAndEmails.length === 0 ? 'btn-inactive' : 'btn-primary')}
                         onClick={this.submit}
                         disabled={this.state.usersAndEmails.length === 0}
+                        id='inviteMembersButton'
                     >
                         <FormattedMessage
                             id='invitation_modal.members.invite_button'
@@ -234,3 +243,5 @@ export default class InvitationModalMembersStep extends React.Component {
         );
     }
 }
+
+export default injectIntl(InvitationModalMembersStep);

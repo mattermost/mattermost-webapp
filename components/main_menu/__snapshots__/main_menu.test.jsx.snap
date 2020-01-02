@@ -61,6 +61,7 @@ exports[`components/Menu should match snapshot with id 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -197,6 +198,22 @@ exports[`components/Menu should match snapshot with id 1`] = `
         show={false}
         text="Integrations"
         to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -332,6 +349,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -468,6 +486,22 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
         show={false}
         text="Integrations"
         to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -621,6 +655,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -785,6 +820,22 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
         show={false}
         text="Integrations"
         to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -944,6 +995,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -1080,6 +1132,22 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
         show={true}
         text="Integrations"
         to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={true}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink
@@ -1233,6 +1301,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -1399,6 +1468,22 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
+      />
+    </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
@@ -1556,6 +1641,7 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -1711,6 +1797,22 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
         to="/team_name/integrations"
       />
     </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
+      />
+    </Connect(TeamPermissionGate)>
     <MenuItemLink
       id="customEmojis"
       show={false}
@@ -1862,6 +1964,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={
           <i
             className="fa fa-user-plus"
@@ -2043,6 +2146,22 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
         show={false}
         text="Integrations"
         to="/team_name/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="team-id"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={false}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink

@@ -15,6 +15,17 @@ export const SHOW_NEW_CHANNEL = 1;
 export const SHOW_EDIT_URL = 2;
 export const SHOW_EDIT_URL_THEN_COMPLETE = 3;
 
+export function getChannelTypeFromProps(props) {
+    let channelType = props.channelType || Constants.OPEN_CHANNEL;
+    if (!props.canCreatePublicChannel && channelType === Constants.OPEN_CHANNEL) {
+        channelType = Constants.PRIVATE_CHANNEL;
+    }
+    if (!props.canCreatePrivateChannel && channelType === Constants.PRIVATE_CHANNEL) {
+        channelType = Constants.OPEN_CHANNEL;
+    }
+    return channelType;
+}
+
 export default class NewChannelFlow extends React.Component {
     static propTypes = {
 
@@ -59,34 +70,39 @@ export default class NewChannelFlow extends React.Component {
         channelType: Constants.OPEN_CHANNEL,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            serverError: '',
-            channelType: props.channelType || Constants.OPEN_CHANNEL,
-            flowState: SHOW_NEW_CHANNEL,
-            channelDisplayName: '',
-            channelName: '',
-            channelPurpose: '',
-            channelHeader: '',
-            nameModified: false,
-        };
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    static getDerivedStateFromProps(props, state) {
         // If we are being shown, grab channel type from props and clear
-        if (nextProps.show === true && this.props.show === false) {
-            this.setState({
+        if (props.show === true && state.show === false) {
+            return {
                 serverError: '',
-                channelType: nextProps.channelType,
+                channelType: getChannelTypeFromProps(props),
                 flowState: SHOW_NEW_CHANNEL,
                 channelDisplayName: '',
                 channelName: '',
                 channelPurpose: '',
                 channelHeader: '',
                 nameModified: false,
-            });
+                show: props.show,
+            };
         }
+
+        return {show: props.show};
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            serverError: '',
+            channelType: getChannelTypeFromProps(props),
+            flowState: SHOW_NEW_CHANNEL,
+            channelDisplayName: '',
+            channelName: '',
+            channelPurpose: '',
+            channelHeader: '',
+            nameModified: false,
+            show: props.show,
+        };
     }
 
     onSubmit = () => {

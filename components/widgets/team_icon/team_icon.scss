@@ -6,11 +6,11 @@
 
 .TeamIcon__content {
     @include single-transition(all, .25s, ease);
-    @include opacity(.5);
     @include border-radius(3px);
-    background-color: alpha-color($black, .3);
+    background-color: alpha-color($black, .12);
     overflow: hidden;
     height: 100%;
+
     &.no-hover {
         transition:none;
     }
@@ -49,23 +49,12 @@
         line-height: 38px;
     }
 
-
-    &:hover {
-        .TeamIcon__content {
-            @include opacity(.8);
-
-            &.no-hover {
-                @include opacity(.5);
-            }
-        }
-    }
-
     .TeamIcon__image {
         @include clearfix;
         @include background-size(100% 100%);
         background-color: $white;
         background-repeat: no-repeat;
-        width: 44px;
+        width: 45px;
         height: 100%;
         &.TeamIcon__lg {
             width: 94px;

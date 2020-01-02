@@ -8,7 +8,7 @@ import {
     SearchTypes,
 } from 'mattermost-redux/action_types';
 
-import {ActionTypes, RHSStates} from 'utils/constants.jsx';
+import {ActionTypes, RHSStates} from 'utils/constants';
 
 function selectedPostId(state = '', action) {
     switch (action.type) {

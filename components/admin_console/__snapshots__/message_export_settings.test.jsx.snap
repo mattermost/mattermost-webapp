@@ -143,6 +143,13 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -161,7 +168,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -425,6 +431,13 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -443,7 +456,6 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -602,6 +614,13 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -620,7 +639,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}
@@ -884,6 +902,13 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -902,7 +927,6 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       </div>
       <Overlay
         animation={[Function]}
-        delayShow={400}
         placement="top"
         rootClose={false}
         show={false}

@@ -3,12 +3,17 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import ChannelHeader from 'components/channel_header';
+import LocalizedIcon from 'components/localized_icon';
 import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
+import Constants from 'utils/constants.jsx';
+import {t} from 'utils/i18n';
+import * as Utils from 'utils/utils.jsx';
 
 export default class PermalinkView extends React.PureComponent {
     static propTypes = {
@@ -31,32 +36,40 @@ export default class PermalinkView extends React.PureComponent {
         }).isRequired,
     };
 
-    static contextTypes = {
-        intl: intlShape.isRequired,
-    };
+    static getDerivedStateFromProps(props, state) {
+        let updatedState = {postid: props.match.params.postid};
+        if (state.postid !== props.match.params.postid) {
+            updatedState = {...updatedState, valid: false};
+        }
+
+        return updatedState;
+    }
 
     constructor(props) {
         super(props);
         this.state = {valid: false};
+
+        this.permalink = React.createRef();
     }
 
     componentDidMount() {
         this.doPermalinkEvent(this.props);
         document.body.classList.add('app__body');
+
+        window.addEventListener('keydown', this.onShortcutKeyDown);
     }
 
     componentWillUnmount() {
-        document.body.classList.remove('app__body');
+        window.removeEventListener('keydown', this.onShortcutKeyDown);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.params.postid !== nextProps.match.params.postid) {
-            this.doPermalinkEvent(nextProps);
+    componentDidUpdate() {
+        if (!this.state.valid) {
+            this.doPermalinkEvent(this.props);
         }
     }
 
     doPermalinkEvent = async (props) => {
-        this.setState({valid: false});
         const postId = props.match.params.postid;
         await this.props.actions.focusPost(postId, this.props.returnTo);
         this.setState({valid: true});
@@ -64,6 +77,12 @@ export default class PermalinkView extends React.PureComponent {
 
     isStateValid = () => {
         return this.state.valid && this.props.channelId && this.props.teamName;
+    }
+
+    onShortcutKeyDown = (e) => {
+        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L) && this.permalink.current) {
+            this.permalink.current.focus();
+        }
     }
 
     render() {
@@ -74,7 +93,6 @@ export default class PermalinkView extends React.PureComponent {
             match,
             teamName,
         } = this.props;
-        const {formatMessage} = this.context.intl;
 
         if (!this.isStateValid()) {
             return (
@@ -97,9 +115,14 @@ export default class PermalinkView extends React.PureComponent {
                     channelId={channelId}
                     focusedPostId={match.params.postid}
                 />
-                <div id='archive-link-home'>
+                <div
+                    id='archive-link-home'
+                >
                     <Link
                         to={'/' + teamName + '/channels/' + channelName}
+                        className='a11y__region'
+                        data-a11y-sort-order='2'
+                        innerRef={this.permalink}
                     >
                         {channelIsArchived &&
                             <FormattedMarkdownMessage
@@ -111,9 +134,9 @@ export default class PermalinkView extends React.PureComponent {
                             id='center_panel.recent'
                             defaultMessage='Click here to jump to recent messages. '
                         />
-                        <i
+                        <LocalizedIcon
                             className='fa fa-arrow-down'
-                            title={formatMessage({id: 'center_panel.recent.icon', defaultMessage: 'Jump to recent messages Icon'})}
+                            title={{id: t('center_panel.recent.icon'), defaultMessage: 'Jump to recent messages Icon'}}
                         />
                     </Link>
                 </div>

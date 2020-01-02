@@ -26,9 +26,6 @@ export default class ResetPasswordModal extends React.Component {
     constructor(props) {
         super(props);
 
-        this.doSubmit = this.doSubmit.bind(this);
-        this.doCancel = this.doCancel.bind(this);
-
         this.state = {
             serverErrorNewPass: null,
             serverErrorCurrentPass: null,
@@ -42,7 +39,7 @@ export default class ResetPasswordModal extends React.Component {
         });
     }
 
-    doSubmit(e) {
+    doSubmit = (e) => {
         e.preventDefault();
         let currentPassword = '';
         if (this.refs.currentPassword) {
@@ -83,7 +80,7 @@ export default class ResetPasswordModal extends React.Component {
         );
     }
 
-    doCancel() {
+    doCancel = () => {
         this.setState({
             serverErrorNewPass: null,
             serverErrorCurrentPass: null,
@@ -150,7 +147,6 @@ export default class ResetPasswordModal extends React.Component {
                             ref='currentPassword'
                             className='form-control'
                             autoFocus={true}
-                            tabIndex='1'
                         />
                     </div>
                 </div>
@@ -197,7 +193,6 @@ export default class ResetPasswordModal extends React.Component {
                                         ref='password'
                                         className='form-control'
                                         autoFocus={newPasswordFocus}
-                                        tabIndex='1'
                                     />
                                 </div>
                                 {serverErrorNewPass}
@@ -220,7 +215,6 @@ export default class ResetPasswordModal extends React.Component {
                             onClick={this.doSubmit}
                             type='submit'
                             className='btn btn-primary'
-                            tabIndex='2'
                         >
                             <FormattedMessage
                                 id='admin.reset_password.reset'

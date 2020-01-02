@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -23,7 +23,7 @@ function searchAndVerifyChannel(channel) {
     cy.get('#suggestionList').should('be.visible');
 
     // * Channel should appear
-    cy.getByTestId(channel.name).
+    cy.findByTestId(channel.name).
         should('be.visible');
 }
 
@@ -39,7 +39,7 @@ function searchAndVerifyUser(user) {
     cy.get('#suggestionList').should('be.visible');
 
     // # Verify user appears in results post-change
-    return cy.getByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
+    return cy.findByTestId(`mentionSuggestion_${user.username}`, {exact: false}).within((name) => {
         cy.wrap(name).find('.mention--align').should('have.text', `@${user.username}`);
         cy.wrap(name).find('.mention__fullname').should('have.text', ` - ${user.firstName} ${user.lastName} (${user.nickname})`);
     });

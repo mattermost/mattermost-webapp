@@ -6,7 +6,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils.jsx';
-import LoadingScreen from 'components/loading_screen.jsx';
+import LoadingScreen from 'components/loading_screen';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
 
 export default class BackstageList extends React.Component {
@@ -30,14 +30,12 @@ export default class BackstageList extends React.Component {
     constructor(props) {
         super(props);
 
-        this.updateFilter = this.updateFilter.bind(this);
-
         this.state = {
             filter: '',
         };
     }
 
-    updateFilter(e) {
+    updateFilter = (e) => {
         this.setState({
             filter: e.target.value,
         });
@@ -62,19 +60,19 @@ export default class BackstageList extends React.Component {
                 if (!filter) {
                     if (this.props.emptyText) {
                         children = (
-                            <span className='backstage-list__item backstage-list__empty'>
+                            <div className='backstage-list__item backstage-list__empty'>
                                 {this.props.emptyText}
-                            </span>
+                            </div>
                         );
                     }
                 } else if (this.props.emptyTextSearch) {
                     children = (
-                        <span
+                        <div
                             className='backstage-list__item backstage-list__empty'
                             id='emptySearchResultsMessage'
                         >
                             {React.cloneElement(this.props.emptyTextSearch, {values: {searchTerm: filter}})}
-                        </span>
+                        </div>
                     );
                 }
             }

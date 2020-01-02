@@ -4,23 +4,27 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
 <div
   className="InvitationModalGuestsStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
-  <h1>
+  <h1
+    id="invitation_modal_title"
+  >
     <InjectIntl(FormattedMarkdownMessage)
-      defaultMessage="Invite **Guests**"
+      defaultMessage="Invite **Guests** to {teamName}"
       id="invitation_modal.guests.title"
+      values={
+        Object {
+          "teamName": "Test Team",
+        }
+      }
     />
   </h1>
   <div
     className="add-people"
+    data-testid="addPeople"
   >
     <h2>
       <FormattedMessage
@@ -29,7 +33,9 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
         values={Object {}}
       />
     </h2>
-    <div>
+    <div
+      data-testid="emailPlaceholder"
+    >
       <FormattedMessage
         defaultMessage="Add guests or email addresses"
         id="invitation_modal.guests.search-and-add.placeholder"
@@ -42,7 +48,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
       className="help-text"
     >
       <FormattedMessage
-        defaultMessage="Search and add guests or email invite new users."
+        defaultMessage="Add existing guests or send email invites to new guests."
         id="invitation_modal.guests.add_people.description"
         values={Object {}}
       />
@@ -50,6 +56,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   </div>
   <div
     className="add-channels"
+    data-testid="channelPlaceholder"
   >
     <h2>
       <FormattedMessage
@@ -79,6 +86,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
   </div>
   <div
     className="custom-message"
+    data-testid="customMessage"
   >
     <a
       href="#"
@@ -106,6 +114,7 @@ exports[`components/invitation_modal/InvitationModalGuestsStep should match the 
     <button
       className="btn btn-inactive"
       disabled={true}
+      id="inviteGuestButton"
       onClick={[Function]}
     >
       <FormattedMessage

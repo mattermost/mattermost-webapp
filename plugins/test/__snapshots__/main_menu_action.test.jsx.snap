@@ -60,6 +60,7 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
     >
       <MenuItemToggleModalRedux
         dialogType={[Function]}
+        extraText="Add or invite people to the team"
         icon={false}
         id="invitePeople"
         modalId="invitation"
@@ -205,6 +206,22 @@ exports[`plugins/MainMenuActions should match snapshot and click plugin item for
         show={true}
         text="Integrations"
         to="/somename/integrations"
+      />
+    </Connect(TeamPermissionGate)>
+    <Connect(TeamPermissionGate)
+      permissions={
+        Array [
+          "manage_system",
+        ]
+      }
+      teamId="someteamid"
+    >
+      <MenuItemToggleModalRedux
+        dialogType={[Function]}
+        id="marketplaceModal"
+        modalId="plugin_marketplace"
+        show={true}
+        text="Plugin Marketplace"
       />
     </Connect(TeamPermissionGate)>
     <MenuItemLink

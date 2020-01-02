@@ -15,6 +15,9 @@ describe('components/PluginManagement', () => {
                 Enable: true,
                 EnableUploads: true,
                 AllowInsecureDownloadUrl: false,
+                EnableMarketplace: true,
+                MarketplaceUrl: 'marketplace.example.com',
+                RequirePluginSignature: false,
             },
             ExperimentalSettings: {
                 RestrictSystemAdmin: false,
@@ -133,6 +136,21 @@ describe('components/PluginManagement', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when `Require Signature Plugin` is true', () => {
+        const props = {
+            ...defaultProps,
+            config: {
+                ...defaultProps.config,
+                PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
+                    RequirePluginSignature: true,
+                },
+            },
+        };
+        const wrapper = shallow(<PluginManagement {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should match snapshot, upload disabled', () => {
         const props = {
             ...defaultProps,
@@ -176,6 +194,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -209,6 +228,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -293,6 +313,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -349,6 +370,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,
@@ -405,6 +427,7 @@ describe('components/PluginManagement', () => {
             config: {
                 ...defaultProps.config,
                 PluginSettings: {
+                    ...defaultProps.config.PluginSettings,
                     Enable: true,
                     EnableUploads: true,
                     AllowInsecureDownloadUrl: false,

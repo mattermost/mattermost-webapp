@@ -10,7 +10,7 @@ export function getRandomInt(max) {
 
 export function getEmailUrl(baseUrl) {
     if (baseUrl === 'http://localhost:8065') {
-        return 'http://localhost:9000/api/v1/mailbox';
+        return 'http://localhost:10080/api/v1/mailbox';
     }
 
     return `${baseUrl}/mail`;
@@ -45,6 +45,16 @@ export function getMessageMenusPayload({dataSource, options} = {}) {
     data.attachments[0].actions[0].integration.url = callbackUrl;
 
     return data;
+}
+
+export function titleCase(str) {
+    const splitStr = str.toLowerCase().split(' ');
+
+    for (let i = 0; i < splitStr.length; i++) {
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+
+    return splitStr.join(' ');
 }
 
 export const reUrl = /(https?:\/\/[^ ]*)/;

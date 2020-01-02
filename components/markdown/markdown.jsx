@@ -85,6 +85,16 @@ export default class Markdown extends React.PureComponent {
          * Whether or not to place the LinkTooltip component inside links
          */
         hasPluginTooltips: PropTypes.bool,
+
+        /**
+         * Post id prop passed down to markdown image
+         */
+        postId: PropTypes.string,
+
+        /**
+         * Post id prop passed down to markdown image
+         */
+        postType: PropTypes.string,
     };
 
     static defaultProps = {
@@ -92,6 +102,7 @@ export default class Markdown extends React.PureComponent {
         isRHS: false,
         proxyImages: true,
         imagesMetadata: {},
+        postId: '', // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
     render() {
@@ -115,6 +126,8 @@ export default class Markdown extends React.PureComponent {
             imageProps: this.props.imageProps,
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
+            postId: this.props.postId,
+            postType: this.props.postType,
         });
     }
 }

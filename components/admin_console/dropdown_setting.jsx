@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Setting from './setting.jsx';
+import Setting from './setting';
 
 export default class DropdownSetting extends React.Component {
     static propTypes = {
@@ -47,6 +47,7 @@ export default class DropdownSetting extends React.Component {
                 setByEnv={this.props.setByEnv}
             >
                 <select
+                    data-testid={this.props.id + 'dropdown'}
                     className='form-control'
                     id={this.props.id}
                     value={this.props.value}

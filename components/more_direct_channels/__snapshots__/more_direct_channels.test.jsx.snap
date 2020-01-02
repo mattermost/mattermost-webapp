@@ -4,6 +4,7 @@ exports[`components/MoreDirectChannels should match renderOption snapshot 1`] = 
 <div
   className="more-modal__row clickable more-modal__row--selected"
   onClick={[Function]}
+  onMouseMove={[Function]}
 >
   <ProfilePicture
     hasMention={false}
@@ -56,6 +57,7 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
   dialogClassName="a11y__modal more-modal more-direct-channels"
   dialogComponentClass={[Function]}
   enforceFocus={true}
+  id="moreDmModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -127,14 +129,20 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           Object {
             "delete_at": 0,
             "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_3",
+            "label": "user_id_3",
+            "value": "user_id_3",
           },
         ]
       }
@@ -147,14 +155,20 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
           Object {
             "delete_at": 0,
             "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
           },
           Object {
             "delete_at": 0,
             "id": "user_id_3",
+            "label": "user_id_3",
+            "value": "user_id_3",
           },
         ]
       }
@@ -163,9 +177,13 @@ exports[`components/MoreDirectChannels should match snapshot 1`] = `
         Array [
           Object {
             "id": "user_id_1",
+            "label": "user_id_1",
+            "value": "user_id_1",
           },
           Object {
             "id": "user_id_2",
+            "label": "user_id_2",
+            "value": "user_id_2",
           },
         ]
       }

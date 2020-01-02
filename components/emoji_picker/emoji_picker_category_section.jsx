@@ -13,8 +13,17 @@ export default class EmojiPickerCategorySection extends React.PureComponent {
     };
 
     componentDidMount() {
-        this.props.updateCategoryOffset(this.props.categoryName, this.div.offsetTop);
+        this.updateOffsetFrame = window.requestAnimationFrame(() => {
+            this.props.updateCategoryOffset(this.props.categoryName, this.div.offsetTop);
+        });
     }
+
+    componentWillUnmount() {
+        if (this.updateOffsetFrame) {
+            window.cancelAnimationFrame(this.updateOffsetFrame);
+        }
+    }
+
     divRef = (div) => {
         this.div = div;
     };

@@ -13,8 +13,7 @@ import AudioVideoPreview from 'components/audio_video_preview';
 import CodePreview from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
-import {AsyncComponent} from 'components/async_load.jsx';
-import loadPDFPreview from 'bundle-loader?lazy!components/pdf_preview';
+const PDFPreview = React.lazy(() => import('components/pdf_preview'));
 
 import ImagePreview from './image_preview';
 import PopoverBar from './popover_bar';
@@ -59,6 +58,7 @@ export default class ViewImageModal extends React.PureComponent {
         fileInfos: [],
         startIndex: 0,
         pluginFilePreviewComponents: [],
+        post: {}, // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
     };
 
     constructor(props) {
@@ -69,7 +69,7 @@ export default class ViewImageModal extends React.PureComponent {
             imageHeight: '100%',
             loaded: Utils.fillArray(false, this.props.fileInfos.length),
             progress: Utils.fillArray(0, this.props.fileInfos.length),
-            showFooter: false,
+            showCloseBtn: false,
         };
     }
 
@@ -196,11 +196,11 @@ export default class ViewImageModal extends React.PureComponent {
     }
 
     onMouseEnterImage = () => {
-        this.setState({showFooter: true});
+        this.setState({showCloseBtn: true});
     }
 
     onMouseLeaveImage = () => {
-        this.setState({showFooter: false});
+        this.setState({showCloseBtn: false});
     }
 
     render() {
@@ -214,6 +214,7 @@ export default class ViewImageModal extends React.PureComponent {
         const fileUrl = fileInfo.link || getFileUrl(fileInfo.id);
         const fileDownloadUrl = fileInfo.link || getFileDownloadUrl(fileInfo.id);
         const isExternalFile = !fileInfo.id;
+        let dialogClassName = 'a11y__modal modal-image';
 
         let content;
         if (this.state.loaded[this.state.imageIndex]) {
@@ -235,13 +236,15 @@ export default class ViewImageModal extends React.PureComponent {
                 );
             } else if (fileInfo && fileInfo.extension && fileInfo.extension === FileTypes.PDF) {
                 content = (
-                    <AsyncComponent
-                        doLoad={loadPDFPreview}
-                        fileInfo={fileInfo}
-                        fileUrl={fileUrl}
-                    />
+                    <React.Suspense fallback={null}>
+                        <PDFPreview
+                            fileInfo={fileInfo}
+                            fileUrl={fileUrl}
+                        />
+                    </React.Suspense>
                 );
             } else if (CodePreview.supports(fileInfo)) {
+                dialogClassName += ' modal-code';
                 content = (
                     <CodePreview
                         fileInfo={fileInfo}
@@ -310,7 +313,7 @@ export default class ViewImageModal extends React.PureComponent {
         }
 
         let closeButtonClass = 'modal-close';
-        if (this.state.showFooter) {
+        if (this.state.showCloseBtn) {
             closeButtonClass += ' modal-close--show';
         }
 
@@ -319,7 +322,7 @@ export default class ViewImageModal extends React.PureComponent {
                 show={this.props.show}
                 onHide={this.props.onModalDismissed}
                 className='modal-image'
-                dialogClassName='a11y__modal modal-image'
+                dialogClassName={dialogClassName}
                 role='dialog'
                 aria-labelledby='viewImageModalLabel'
             >
@@ -348,7 +351,6 @@ export default class ViewImageModal extends React.PureComponent {
                                 {content}
                             </div>
                             <PopoverBar
-                                show={this.state.showFooter}
                                 showPublicLink={showPublicLink}
                                 fileIndex={this.state.imageIndex}
                                 totalFiles={this.props.fileInfos.length}

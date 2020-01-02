@@ -9,7 +9,7 @@ import GroupsList from 'components/admin_console/group_settings/groups_list';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-import {getSiteURL} from 'utils/url.jsx';
+import {getSiteURL} from 'utils/url';
 
 export default class GroupSettings extends React.PureComponent {
     render = () => {
@@ -19,7 +19,7 @@ export default class GroupSettings extends React.PureComponent {
                 <div className='admin-console__header'>
                     <FormattedMessage
                         id='admin.group_settings.groupsPageTitle'
-                        defaultMessage='Groups'
+                        defaultMessage='Groups (Beta)'
                     />
                 </div>
 

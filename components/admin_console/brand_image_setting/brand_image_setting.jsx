@@ -9,13 +9,18 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
-import {Constants} from 'utils/constants.jsx';
-import FormError from 'components/form_error.jsx';
+import {Constants} from 'utils/constants';
+import FormError from 'components/form_error';
 
 const HTTP_STATUS_OK = 200;
 
 export default class BrandImageSetting extends React.PureComponent {
     static propTypes = {
+
+        /*
+         * Set for testing purpose
+         */
+        id: PropTypes.string,
 
         /*
          * Set to disable the setting
@@ -41,9 +46,6 @@ export default class BrandImageSetting extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.handleImageChange = this.handleImageChange.bind(this);
-        this.handleDeleteButtonPressed = this.handleDeleteButtonPressed.bind(this);
-
         this.state = {
             deleteBrandImage: false,
             brandImage: null,
@@ -53,7 +55,7 @@ export default class BrandImageSetting extends React.PureComponent {
         };
     }
 
-    UNSAFE_componentWillMount() { // eslint-disable-line camelcase
+    componentDidMount() {
         fetch(Client4.getBrandImageUrl(this.state.brandImageTimestamp)).then(
             (resp) => {
                 if (resp.status === HTTP_STATUS_OK) {
@@ -63,9 +65,7 @@ export default class BrandImageSetting extends React.PureComponent {
                 }
             }
         );
-    }
 
-    componentDidMount() {
         this.props.registerSaveAction(this.handleSave);
     }
 
@@ -86,7 +86,7 @@ export default class BrandImageSetting extends React.PureComponent {
         }
     }
 
-    handleImageChange() {
+    handleImageChange = () => {
         const element = $(this.refs.fileInput);
         if (element.prop('files').length > 0) {
             this.props.setSaveNeeded();
@@ -97,7 +97,7 @@ export default class BrandImageSetting extends React.PureComponent {
         }
     }
 
-    handleDeleteButtonPressed() {
+    handleDeleteButtonPressed = () => {
         this.setState({deleteBrandImage: true, brandImage: null, brandImageExists: false});
         this.props.setSaveNeeded();
     }
@@ -210,7 +210,10 @@ export default class BrandImageSetting extends React.PureComponent {
         }
 
         return (
-            <div className='form-group'>
+            <div
+                data-testid={this.props.id}
+                className='form-group'
+            >
                 <label className='control-label col-sm-4'>
                     <FormattedMessage
                         id='admin.team.brandImageTitle'

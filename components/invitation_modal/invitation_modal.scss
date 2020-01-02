@@ -31,27 +31,11 @@
             font-weight: 400;
         }
     }
-    .back {
-        position: fixed;
-        top: 48px;
-        left: 48px;
-        cursor: pointer;
-        svg {
-            fill: var(--center-channel-color-90);
-            padding: 4px;
-            width: 40px;
-            height: 40px;
-            border-radius: 4px;
-            &:hover {
-                background: var(--button-bg-10);
-            }
-        }
-    }
     .modal-icon {
         text-align: center;
         svg {
             fill: var(--button-bg);
-            height: 32px;
+            height: 38px;
             width: 126px;
             margin-right: 85px;
         }

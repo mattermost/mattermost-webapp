@@ -91,9 +91,32 @@ export default class Reaction extends React.PureComponent {
         this.props.actions.removeReaction(this.props.post.id, this.props.emojiName);
     }
 
-    loadMissingProfiles = () => {
+    loadMissingProfiles = async () => {
         const ids = this.props.reactions.map((reaction) => reaction.user_id);
         this.props.actions.getMissingProfilesByIds(ids);
+    }
+
+    getSortedUsers = (getDisplayName) => {
+        // Sort users by who reacted first with "you" being first if the current user reacted
+        let currentUserReacted = false;
+        const sortedReactions = this.props.reactions.sort((a, b) => a.create_at - b.create_at);
+        const users = sortedReactions.reduce((accumulator, current) => {
+            if (current.user_id === this.props.currentUserId) {
+                currentUserReacted = true;
+            } else {
+                const user = this.props.profiles.find((u) => u.id === current.user_id);
+                if (user) {
+                    accumulator.push(getDisplayName(user));
+                }
+            }
+            return accumulator;
+        }, []);
+
+        if (currentUserReacted) {
+            users.unshift(Utils.localizeMessage('reaction.you', 'You'));
+        }
+
+        return {currentUserReacted, users};
     }
 
     render() {
@@ -101,23 +124,9 @@ export default class Reaction extends React.PureComponent {
             return null;
         }
 
-        let currentUserReacted = false;
-        const users = [];
+        const {currentUserReacted, users} = this.getSortedUsers(Utils.getDisplayNameByUser);
+
         const otherUsersCount = this.props.otherUsersCount;
-        for (const user of this.props.profiles) {
-            if (user.id === this.props.currentUserId) {
-                currentUserReacted = true;
-            } else {
-                users.push(Utils.getDisplayNameByUser(user));
-            }
-        }
-
-        // Sort users in alphabetical order with "you" being first if the current user reacted
-        users.sort();
-        if (currentUserReacted) {
-            users.unshift(Utils.localizeMessage('reaction.you', 'You'));
-        }
-
         let names;
         if (otherUsersCount > 0) {
             if (users.length > 0) {
@@ -242,7 +251,7 @@ export default class Reaction extends React.PureComponent {
                 onClick={handleClick}
             >
                 <OverlayTrigger
-                    delayShow={1000}
+                    delayShow={500}
                     placement='top'
                     shouldUpdatePosition={true}
                     overlay={

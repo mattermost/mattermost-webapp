@@ -1,0 +1,201 @@
+@import 'compass/utilities';
+@import 'compass/css3';
+@import 'utils/variables';
+
+.modal-marketplace {
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    font-size: 16px;
+    color: var(--center-channel-color-90);
+
+    @media (max-width: 768px) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .input-clear {
+        top: 32px;
+        right: 38px;
+        font-size: 22px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-tabs {
+        font-size: 14px;
+
+        > li {
+            > a {
+                @include single-transition(all, .15s, ease);
+                padding: 10px 16px;
+            }
+        }
+    }
+
+    h1 {
+        font-size: 28px;
+        margin: 8px 0 24px;
+
+        strong {
+            font-weight: 400;
+        }
+    }
+
+    h2 {
+        font-weight: 300;
+        strong {
+            font-weight: 400;
+        }
+    }
+
+    .more-modal__list {
+        .more-modal__row {
+            align-items: normal;
+
+            .tag {
+                padding: 3px 5px;
+                margin-left: 10px;
+                background-color: $gray;
+                border-radius: 4px;
+                font-weight: bold;
+                font-size: 0.8em;
+                color: $white;
+                cursor: help;
+            }
+
+            .update {
+                border-top: 1px solid rgba(black, 0.1);
+                padding: 10px 10px 0 0;
+                margin: 10px 10px 0 0;
+                font-size: .9em;
+            }
+        }
+
+        .more-modal__description {
+            margin: 2px 0 0;
+            font-size: .9em;
+        }
+    }
+
+    .search_input {
+        flex: 1;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-bottom: 20px;
+        margin-top: 28px;
+        height: 40px;
+        width: 720px;
+    }
+
+    .btn {
+        font-weight: 600;
+        min-width: 8rem;
+        border-radius: 4px;
+        font-size: 13px;
+        padding: 8px 16px;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--button-bg);
+    }
+
+    .tabs {
+        width: 720px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .subtitle {
+        margin-left: 5px;
+    }
+
+    .plugin__list {
+        display: flex;
+        flex-direction: column;
+
+        .plugin__row {
+            border-bottom: 1px solid $light-gray;
+            display: flex;
+            padding: 10px 15px;
+            align-items: center;
+
+            &.clickable {
+                cursor: pointer;
+            }
+
+            &:hover {
+                .plugin__actions--round {
+                    opacity: .5;
+                }
+            }
+        }
+    }
+
+    .more-modal__list {
+        padding-bottom: 80px;
+    }
+
+    .icon__plugin {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 42px;
+        flex: 0 0 42px;
+        margin-right: 4px;
+        border-radius: 50%;
+
+        svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        svg {
+            fill: var(--button-bg);
+        }
+    }
+
+    .icon__plugin--background {
+        background-color: $white;
+        padding: 6px;
+
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .no_plugins_div{
+        text-align: center
+    }
+
+    .item_error {
+        background-color: var(--error-text-08);
+    }
+
+    .error_text {
+        color: var(--error-text);
+        opacity: 1;
+    }
+}
+
+.error-bar {
+    background-color: var(--error-text-08);
+    color: var(--error-text);
+    min-height: $announcement-bar-height;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    overflow: hidden;
+    padding: 5px 30px;
+    max-height: $announcement-bar-height;
+}
