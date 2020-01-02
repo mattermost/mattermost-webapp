@@ -42,7 +42,7 @@ describe('components/TeamMembersModal', () => {
 
         const modalProps = wrapper.find(Modal).first().props();
         if (modalProps.onExited) {
-            modalProps.onExited(document.createElement("div"));
+            modalProps.onExited(document.createElement('div'));
         }
         expect(onHide).toHaveBeenCalledTimes(1);
     });
