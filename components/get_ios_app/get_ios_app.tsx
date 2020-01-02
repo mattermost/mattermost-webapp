@@ -11,7 +11,7 @@ import AppStoreButton from 'images/app-store-button.png';
 import IPhone6Mockup from 'images/iphone-6-mockup.png';
 
 type Props = {
-    iosAppDownloadLink: string;
+    iosAppDownloadLink?: string;
     history: History;
     location: Location;
 }
@@ -40,7 +40,7 @@ export default function GetIosApp(props: Props): JSX.Element {
             <hr/>
             <a
                 className='get-ios-app__app-store-link'
-                href={useSafeUrl(iosAppDownloadLink)}
+                href={useSafeUrl(iosAppDownloadLink!)}
                 rel='noopener noreferrer'
             >
                 <img
