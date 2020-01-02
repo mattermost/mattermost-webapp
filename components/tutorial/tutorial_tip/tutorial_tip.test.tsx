@@ -4,7 +4,6 @@
 import React from 'react';
 import {shallow, ShallowWrapper} from 'enzyme';
 
-// import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import TutorialTip from 'components/tutorial/tutorial_tip/tutorial_tip';
 import {Constants, Preferences} from 'utils/constants';
 
