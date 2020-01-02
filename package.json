@@ -48,6 +48,7 @@
     "react-day-picker": "7.4.0",
     "react-dom": "16.8.6",
     "react-hot-loader": "4.12.15",
+    "react-inlinesvg": "1.0.0",
     "react-intl": "2.9.0",
     "react-overlays": "1.2.0",
     "react-redux": "5.1.1",
@@ -207,11 +208,12 @@
     "testURL": "http://localhost:8065"
   },
   "jest-junit": {
-    "output": "build/test-results.xml"
+    "outputDirectory": "build",
+    "outputName": "test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
-    "fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
+    "check": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
+    "fix": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",
