@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,7 +30,7 @@ export default class AppRouter extends React.PureComponent {
         if (this.props.channelId) {
             this.props.actions.selectChannel(this.props.channelId);
         }
-        $('body').addClass('app__body');
+        document.querySelector('body').classList.add('app__body');
     }
 
     render() {
