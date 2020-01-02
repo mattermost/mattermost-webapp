@@ -145,10 +145,16 @@ describe('components/CreateComment', () => {
         const mockImpl = () => {
             return {
                 setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
                 focus: jest.fn(),
             };
         };
-        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), focus: jest.fn()})}};
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        wrapper.instance().refs = {textbox: {getWrappedInstance: () => ({getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()})}};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
         expect(onUpdateCommentDraft).toHaveBeenCalled();
@@ -850,8 +856,21 @@ describe('components/CreateComment', () => {
         instance.commentMsgKeyPress = jest.fn();
         instance.focusTextbox = jest.fn();
         const blur = jest.fn();
-        const focus = jest.fn();
-        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus})}};
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                blur: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        instance.refs = {textbox: {getWrappedInstance: () => ({blur, focus, getInputBox: jest.fn(mockImpl)})}};
 
         const commentMsgKey = {
             preventDefault: jest.fn(),

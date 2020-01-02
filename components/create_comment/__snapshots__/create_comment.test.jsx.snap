@@ -41,6 +41,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value=""
         />
         <span
@@ -166,6 +167,7 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
@@ -327,6 +329,7 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
@@ -476,6 +479,7 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value=""
         />
         <span
@@ -637,6 +641,7 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
