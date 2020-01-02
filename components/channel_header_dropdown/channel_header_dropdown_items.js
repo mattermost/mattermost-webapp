@@ -45,6 +45,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         isArchived: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         penultimateViewedChannelName: PropTypes.string.isRequired,
+        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
         isLicensedForLDAPGroups: PropTypes.bool,
     }
 
@@ -76,6 +77,21 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                 </li>
             );
         }
+
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={() => {
+                        if (item.action) {
+                            item.action(this.props.channel.id);
+                        }
+                    }}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <React.Fragment>
@@ -269,7 +285,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>
-
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
                 <Menu.Group divider={divider}>
                     {isMobile &&
                         <MobileChannelHeaderPlug

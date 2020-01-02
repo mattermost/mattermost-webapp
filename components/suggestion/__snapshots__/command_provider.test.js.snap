@@ -4,6 +4,7 @@ exports[`CommandSuggestion should match snapshot 1`] = `
 <div
   className="command suggestion--selected"
   onClick={[Function]}
+  onMouseMove={[Function]}
   role="button"
   tabIndex={-1}
 >
