@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getSupportedTimezones} from 'mattermost-redux/actions/general';
 import {autoUpdateTimezone} from 'mattermost-redux/actions/timezone';
-import {getConfig, getSupportedTimezones as getTimezones} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getSupportedTimezones as getTimezones, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
@@ -30,7 +30,7 @@ function mapStateToProps(state) {
     const defaultClientLocale = config.DefaultClientLocale;
     const enableThemeSelection = config.EnableThemeSelection === 'true';
     const enableTimezone = config.ExperimentalTimezone === 'true';
-    const lockTeammateNameDisplay = config.LockTeammateNameDisplay === 'true';
+    const lockTeammateNameDisplay = getLicense(state).LockTeammateNameDisplay === 'true' && config.LockTeammateNameDisplay === 'true';
     const configTeammateNameDisplay = config.TeammateNameDisplay;
 
     return {
