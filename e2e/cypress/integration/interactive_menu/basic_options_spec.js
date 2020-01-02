@@ -463,6 +463,94 @@ describe('Interactive Menu', () => {
                 // * Verify the input has the selected value same as that of Center
                 cy.findByDisplayValue(selectedItem).should('exist');
             });
+
+            // # Close RHS
+            cy.closeRHS();
+        });
+    });
+
+    it('IM21044 - Change selection in RHS / Message Thread', () => {
+        // # Create a webhook with distinct options
+        const distinctOptions = messageMenusOptions['distinct-options'];
+        const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: distinctListOptionPayload});
+
+        const firstSelectedItem = distinctOptions[2].text;
+        const secondSelectedItem = distinctOptions[7].text;
+
+        // # Verify the webhook posted the message
+        cy.getLastPostId().then((parentPostId) => {
+            // # Get the last messages attachment container
+            cy.get(`#messageAttachmentList_${parentPostId}`).within(() => {
+                // # Open the message attachment menu dropdown by clickin on input
+                cy.findByPlaceholderText('Select an option...').click();
+
+                // * Message attachment dropdown with the selected item should be visible
+                cy.get('#suggestionList').should('exist').within(() => {
+                    // # Make a first selection from the given options
+                    cy.findByText(firstSelectedItem).should('exist').click();
+                });
+
+                // * Verify the input has the selected value you clicked
+                cy.findByDisplayValue(firstSelectedItem).should('exist');
+            });
+
+            // # Lets wait a little for the webhook to return confirmation message
+            cy.wait(TIMEOUTS.TINY);
+
+            // # Checking if we got the ephemeral message with the selection we made
+            cy.getLastPostId().then((botLastPostId) => {
+                cy.get(`#post_${botLastPostId}`).within(() => {
+                    // * Check if Bot message only visible to you
+                    cy.findByText('(Only visible to you)').should('exist');
+
+                    // * Check if we got ephemeral message of our selection ie. firstSelectedItem
+                    cy.findByText(/Ephemeral | select option: banana/).should('exist');
+                });
+            });
+
+            // # Click on reply icon to original message with attachment message in RHS
+            cy.clickPostCommentIcon(parentPostId);
+
+            // * Verify RHS has opened
+            cy.get('#rhsContainer').should('exist');
+
+            // # Same id as parent post in center should be opened in RHS since we clicked reply button
+            cy.get(`#rhsPost_${parentPostId}`).within(() => {
+                // * Verify the input has the selected value same as that of Center and open dropdown to make new selection
+                cy.findByDisplayValue(firstSelectedItem).should('exist').click();
+
+                // * Message attachment dropdown with the selected item should be visible
+                cy.get('#suggestionList').should('exist').within(() => {
+                    // # Make a second selection different from first from options
+                    cy.findByText(secondSelectedItem).should('exist').click();
+                });
+
+                // * Verify the input has the new selected value in the RHS message
+                cy.findByDisplayValue(secondSelectedItem).should('exist');
+            });
+
+            // # Lets wait a little for the webhook to return confirmation message
+            cy.wait(TIMEOUTS.TINY);
+
+            // * Verify the original message with attacment's selection is also changed
+            cy.get(`#messageAttachmentList_${parentPostId}`).within(() => {
+                // * Verify the input in center has the new selected value i.e secondSelectedItem
+                cy.findByDisplayValue(secondSelectedItem).should('exist');
+            });
+
+            // # Checking if we got updated ephemeral message with the new selection we made
+            cy.getLastPostId().then((secondBotLastPostId) => {
+                cy.get(`#post_${secondBotLastPostId}`).within(() => {
+                // * Check if Bot message only for you
+                    cy.findByText('(Only visible to you)').should('exist');
+
+                    // * Check if we got ephemeral message of second selection
+                    cy.findByText(/Ephemeral | select option: avacodo/).should('exist');
+                });
+            });
+
+            cy.closeRHS();
         });
     });
 
