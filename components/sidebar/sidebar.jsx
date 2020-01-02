@@ -597,7 +597,7 @@ class Sidebar extends React.PureComponent {
                             <li>
                                 <h4 id='apps'>
                                     <FormattedMessage
-                                        id={'applications'}
+                                        id={'sidebar.applications'}
                                         defaultMessage={'sidebar.applications'}
                                     />
                                 </h4>
