@@ -1,3 +1,28 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@NiroshaV 
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+ 
+39
+719 1.3k mattermost/mattermost-webapp
+ Code  Pull requests 103  Actions  Security  Insights
+mattermost-webapp/e2e/cypress/support/ui_commands.js  / 
+@Willyfrog Willyfrog [MM-20986] close modal on focus change due to shortcut (#4493)
+db658ca 16 days ago
+@saturninoabril @wlsf82 @hmhealey @Willyfrog @thekiiingbob
+445 lines (366 sloc)  14.8 KB
+  
+You're using code navigation to jump to definitions or references.
+Learn more or give us feedback
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -483,30 +508,4 @@ Cypress.Commands.add('systemConsolePluginManagement', () => {
     //Search for plugin management in filter container
     cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
         wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
-});
-
-/**
- * Method to enable/Disable/Remove draw plugin
- * @param {String} status - Action to be performed on draw plugin help text [Remove/Enable/Disable]
- * @param {String} fileName - Filename to upload from the fixture
- * @param {String} fileType - formation of the file - 'application/gzip'
- */
-Cypress.Commands.add('drawpluginConfiguration', (status, fileName, fileType) => {
-    //Navigate to system console - Plugin Management - Enable Draw plugin
-    cy.wait(TIMEOUTS.TINY);
-    switch (status) {
-    case 'Remove':
-        cy.get('span > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Remove').click().wait(TIMEOUTS.TINY);
-        cy.get('#confirmModalButton').should('be.visible').wait(TIMEOUTS.TINY).click();
-        break;
-    case 'Enable':
-        cy.get('input[type=file]').uploadFile(fileName, fileType).wait(TIMEOUTS.TINY);
-        cy.get('#uploadPlugin').should('be.visible').click().wait(TIMEOUTS.TINY);
-        cy.wait(TIMEOUTS.TINY);
-        cy.get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Enable').click();
-        break;
-    case 'Disable':
-        cy.get('#pluginConfigSettings > a[data-plugin-id="com.mattermost.draw-plugin"]').findByText('Disable').click().wait(TIMEOUTS.TINY);
-        break;
-    }
 });

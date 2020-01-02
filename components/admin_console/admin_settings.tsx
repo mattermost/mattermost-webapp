@@ -221,10 +221,7 @@ export default abstract class AdminSettings extends React.Component<Props, State
                 role='form'
                 onSubmit={this.handleSubmit}
             >
-                <div
-                    className='wrapper--fixed'
-                    id='pluginManagementRHS'
-                >
+                <div className='wrapper--fixed'>
                     <AdminHeader>
                         {this.renderTitle()}
                     </AdminHeader>

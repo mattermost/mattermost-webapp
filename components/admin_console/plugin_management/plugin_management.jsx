@@ -357,7 +357,7 @@ const PluginItem = ({
     }
 
     return (
-        <div>
+        <div data-testid={pluginStatus.id}>
             <div>
                 <strong>{pluginStatus.name}</strong>
                 {' ('}
@@ -368,10 +368,7 @@ const PluginItem = ({
                 {')'}
             </div>
             {description}
-            <div
-                className='padding-top'
-                id='pluginConfigSettings'
-            >
+            <div className='padding-top'>
                 {activateButton}
                 {removeButton}
                 {settingsButton}
@@ -974,7 +971,7 @@ export default class PluginManagement extends AdminSettings {
                             helpText={
                                 <FormattedMarkdownMessage
                                     id='admin.plugins.settings.requirePluginSignatureDesc'
-                                    defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](!https://mattermost.com/pl/default-plugin-signing) to learn more.'
+                                    defaultMessage='When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See [documentation](https://about.mattermost.com/) to learn more.'
                                 />
                             }
                             value={this.state.requirePluginSignature}
