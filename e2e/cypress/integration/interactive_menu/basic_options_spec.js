@@ -195,7 +195,7 @@ describe('Interactive Menu', () => {
     });
 
     it('IM21042 - "No items match" feedback', () => {
-        const missingUser = '1577793817254';
+        const missingUser = Date.now();
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
         // # Post an incoming webhook for interactive menu with user options
@@ -209,7 +209,7 @@ describe('Interactive Menu', () => {
 
                 cy.get('#suggestionList').within(() => {
                     // * Check if we get appropriate message when no options matches entered text
-                    cy.findByText(/No items match/gmui).should('exist');
+                    cy.get('.suggestion-list__no-results').should('be.visible').should('have.text', `No items match ${missingUser}`);
                 });
             });
         });
