@@ -1505,7 +1505,6 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} удалил заголовок канала (было: {old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} сменил заголовок канала с {old} на {new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} установил заголовок канала: {new}",
-  "applications": "Applications",
   "archivedChannelMessage": "Вы просматриваете **архивированный канал**. Создание новых сообщений запрещено.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "Аккаунт активирован",

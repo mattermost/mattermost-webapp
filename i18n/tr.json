@@ -1505,7 +1505,6 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} kanal amacını kaldırdı (önceki: {old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username}, {old} eski kanal amacını {new} olarak değiştirdi",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} kanal amacını {new} olarak güncelledi",
-  "applications": "Applications",
   "archivedChannelMessage": "**Arşivlenmiş bir kanala** bakıyorsunuz. Yeni ileti gönderilemez.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "Hesap etkinleştirildi",

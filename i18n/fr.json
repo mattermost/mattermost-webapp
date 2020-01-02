@@ -1505,7 +1505,6 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} a supprimé la description du canal (précédemment: {old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} a mis à jour la description du canal de: {old} en: {new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} a mis à jour la description du canal en: {new}",
-  "applications": "Applications",
   "archivedChannelMessage": "Vous consultez un **canal archivé**. Vous ne pouvez pas publier de nouveaux messages.",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "Compte activé",

@@ -1505,7 +1505,6 @@
   "app.channel.post_update_channel_purpose_message.removed": "{username} 已移除頻道用途(原為：{old})",
   "app.channel.post_update_channel_purpose_message.updated_from": "{username} 已更新頻道用途：從 {old} 改為 {new}",
   "app.channel.post_update_channel_purpose_message.updated_to": "{username} 已更新頻道用途為：{new}",
-  "applications": "Applications",
   "archivedChannelMessage": "正在觀看**被封存的頻道**。不能發布新訊息。",
   "atmos/camo": "atmos/camo",
   "audit_table.accountActive": "帳號已啟動",
