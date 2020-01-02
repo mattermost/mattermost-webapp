@@ -4,10 +4,16 @@
 import {connect} from 'react-redux';
 
 import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {GlobalState} from 'mattermost-redux/types/store';
 
-import TeamPermissionGate from './team_permission_gate.jsx';
+import TeamPermissionGate from './team_permission_gate';
 
-function mapStateToProps(state, ownProps) {
+type OwnProps = {
+    teamId: string;
+    permissions: Array<string>;
+}
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     if (!ownProps.teamId) {
         return {hasPermission: false};
     }

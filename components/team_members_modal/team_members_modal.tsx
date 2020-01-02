@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -14,17 +13,26 @@ import InvitationModal from 'components/invitation_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-export default class TeamMembersModal extends React.PureComponent {
-    static propTypes = {
-        currentTeam: PropTypes.object.isRequired,
-        onHide: PropTypes.func.isRequired,
-        onLoad: PropTypes.func,
-        actions: PropTypes.shape({
-            openModal: PropTypes.func.isRequired,
-        })
-    }
+import {openModal} from 'actions/views/modals';
 
-    constructor(props) {
+type Props = {
+    currentTeam: {
+        id: string;
+        display_name: string;
+    };
+    onHide: () => void;
+    onLoad?: () => void;
+    actions?: {
+        openModal: typeof openModal;
+    };
+}
+
+type State = {
+    show: boolean;
+}
+
+export default class TeamMembersModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -47,7 +55,9 @@ export default class TeamMembersModal extends React.PureComponent {
             modalId: ModalIdentifiers.INVITATION,
             dialogType: InvitationModal,
         };
-        this.props.actions.openModal(modalData);
+        if (this.props.actions) {
+            this.props.actions.openModal(modalData);
+        }
         this.setState({show: false});
     }
 
