@@ -20,13 +20,5 @@
         "emailname": "user-2",
         "firstName": "Samuel",
         "lastName": "Tucker"
-    },
-    "long-user": {
-        "username": "Avaaaaaaaa-cooooooodossssssss21212_asdfasdf232323asdfas32323",
-        "password": "SampleUs@r-3",
-        "email": "long-user@sample.mattermost.com",
-        "firstName": "Avaaaaaaaa-cooooooodo",
-        "lastName": "LongUserName",
-        "nickname": "Avaaaaaaaa-cooooooodo"
     }
 }

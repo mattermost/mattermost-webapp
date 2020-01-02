@@ -66,7 +66,7 @@ describe('Interactive Menu', () => {
         cy.wait(TIMEOUTS.TINY);
     });
 
-    xit('matches elements', () => {
+    it('matches elements', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -96,7 +96,7 @@ describe('Interactive Menu', () => {
         cy.get('body').click();
     });
 
-    xit('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
+    it('IM15887 - Selected Option is displayed, Ephemeral message is posted', () => {
         // # Post an incoming webhook
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
 
@@ -123,7 +123,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
+    it('IM15887 - Reply is displayed in center channel with "commented on [user\'s] message: [text]"', () => {
         const user1 = users['user-1'];
 
         // # Post an incoming webhook
@@ -163,7 +163,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM21039 - Searching within the list of options', () => {
+    it('IM21039 - Searching within the list of options', () => {
         const searchOptions = [
             {text: 'SearchOption1', value: 'searchoption1'},
             {text: 'SearchOption2', value: 'searchoption2'},
@@ -194,7 +194,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM21042 - "No items match" feedback', () => {
+    it('IM21042 - "No items match" feedback', () => {
         const missingUser = Date.now();
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
@@ -212,7 +212,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('should truncate properly the selected long basic option', () => {
+    it('should truncate properly the selected long basic option', () => {
         const withLongBasicOption = [
             {text: 'Option 0 - This is with very long option', value: 'option0'},
             ...options,
@@ -225,7 +225,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('should truncate properly the selected long username option', () => {
+    it('should truncate properly the selected long username option', () => {
         const userOptions = getMessageMenusPayload({dataSource: 'users'});
 
         // # Post an incoming webhook for interactive menu with user options and verify the post
@@ -234,7 +234,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('should truncate properly the selected long channel display name option', () => {
+    it('should truncate properly the selected long channel display name option', () => {
         const channelOptions = getMessageMenusPayload({dataSource: 'channels'});
 
         cy.getCurrentTeamId().then((teamId) => {
@@ -248,7 +248,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
+    it('IM21037 - Clicking in / Tapping on the message attachment menu box opens list of selections', () => {
         // # Create a message attachment with menu
         const basicOptionPayload = getMessageMenusPayload({options});
         cy.postIncomingWebhook({url: incomingWebhook.url, data: basicOptionPayload});
@@ -280,7 +280,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM21036 - Enter selects the option', () => {
+    it('IM21036 - Enter selects the option', () => {
         // # Create a message attachment with menu
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctOptionsPayload = getMessageMenusPayload({options: distinctOptions});
@@ -349,7 +349,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM21035 - Long lists of selections are scrollable', () => {
+    it('IM21035 - Long lists of selections are scrollable', () => {
         const manyOptions = messageMenusOptions['many-options'];
         const manyOptionsPayload = getMessageMenusPayload({options: manyOptions});
 
@@ -399,7 +399,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM21040 - Selection is mirrored in RHS / Message Thread', () => {
+    it('IM21040 - Selection is mirrored in RHS / Message Thread', () => {
         // # Create a webhook with distinct options
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
@@ -460,7 +460,7 @@ describe('Interactive Menu', () => {
         });
     });
 
-    xit('IM21044 - Change selection in RHS / Message Thread', () => {
+    it('IM21044 - Change selection in RHS / Message Thread', () => {
         // # Create a webhook with distinct options
         const distinctOptions = messageMenusOptions['distinct-options'];
         const distinctListOptionPayload = getMessageMenusPayload({options: distinctOptions});
