@@ -30,7 +30,7 @@ export default class AppRouter extends React.PureComponent {
         if (this.props.channelId) {
             this.props.actions.selectChannel(this.props.channelId);
         }
-        document.querySelector('body').classList.add('app__body');
+        document.body.classList.add('app__body');
     }
 
     render() {
