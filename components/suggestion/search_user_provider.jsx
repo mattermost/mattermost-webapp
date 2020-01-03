@@ -38,6 +38,7 @@ class SearchUserSuggestion extends Suggestion {
                     this.node = node;
                 }}
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
                 <SelectIcon/>
