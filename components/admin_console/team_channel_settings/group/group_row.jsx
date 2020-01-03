@@ -96,6 +96,7 @@ export default class GroupRow extends React.Component {
                                 </a>
                             </div>
                             <Menu
+                                id='role-to-be-menu'
                                 openLeft={true}
                                 openUp={false}
                                 ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
