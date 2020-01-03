@@ -216,8 +216,10 @@ export default class SuggestionList extends React.PureComponent {
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.location;
         let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
         if (this.props.wrapperHeight) {
+            console.log(`Wrapper height: ${this.props.wrapperHeight}`);
+            console.log(`Previewer Height: ${Constants.PREVIEWER_HEIGHT}`);
             maxHeight = Math.min(
-                windowHeight() - (this.props.wrapperHeight + Constants.PREVIEWER_HEIGHT),
+                windowHeight() - (this.props.wrapperHeight + Constants.SUGGESTION_LIST_MAXHEIGHT),
                 Constants.SUGGESTION_LIST_MAXHEIGHT
             );
         }
