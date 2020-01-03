@@ -228,6 +228,7 @@ export default class SettingPicture extends Component {
                         )}
                     >
                         <button
+                            id='removeSettingPicture'
                             className={`${imageContext}-img__remove`}
                             onClick={handler}
                         >
@@ -314,6 +315,7 @@ export default class SettingPicture extends Component {
                                 type={'modal'}
                             />
                             <input
+                                id='uploadPicture'
                                 ref={this.selectInput}
                                 className='hidden'
                                 accept='.jpg,.png,.bmp'
@@ -324,6 +326,7 @@ export default class SettingPicture extends Component {
                                 tabIndex='-1'
                             />
                             <button
+                                id='inputSettingPictureButton'
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
                                 onClick={this.handleInputFile}
@@ -335,6 +338,7 @@ export default class SettingPicture extends Component {
                                 />
                             </button>
                             <button
+                                id='saveSettingPicture'
                                 tabIndex={disableSaveButtonFocus ? '-1' : '0'}
                                 ref={this.confirmButton}
                                 className={confirmButtonClass}
@@ -352,6 +356,7 @@ export default class SettingPicture extends Component {
                                 </LoadingWrapper>
                             </button>
                             <button
+                                id='cancelSettingPicture'
                                 className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}
