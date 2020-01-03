@@ -34,7 +34,7 @@ function openTeamSettingsDialog() {
 
 describe('Teams Suite', () => {
     before(() => {
-        cy.apiUpdateConfig({ EmailSettings: { RequireEmailVerification: false } });
+        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
 
         // # Login as new user
         cy.loginAsNewUser().then(() => {
@@ -47,7 +47,6 @@ describe('Teams Suite', () => {
     });
 
     it('TS14632 Remove Team Icon', () => {
-
         // function to open the team settings dialog
         openTeamSettingsDialog();
 
