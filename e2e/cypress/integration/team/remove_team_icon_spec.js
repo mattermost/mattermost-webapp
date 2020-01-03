@@ -1,10 +1,17 @@
-import * as TIMEOUTS from '../../fixtures/timeouts';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
 
 let team;
 
 function openTeamSettingsDialog() {
     // validating the side bar is visible
-    cy.get('#sidebarHeaderDropdownButton').should('be.visible')
+    cy.get('#sidebarHeaderDropdownButton').should('be.visible');
 
     // clicking on the side bar
     cy.get('#sidebarHeaderDropdownButton').click();
@@ -27,7 +34,8 @@ function openTeamSettingsDialog() {
 
 describe('Teams Suite', () => {
     before(() => {
-        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: false}});
+        cy.apiUpdateConfig({ EmailSettings: { RequireEmailVerification: false } });
+
         // # Login as new user
         cy.loginAsNewUser().then(() => {
             // # Create new team and visit its URL
@@ -41,7 +49,7 @@ describe('Teams Suite', () => {
     it('TS14632 Remove Team Icon', () => {
 
         // function to open the team settings dialog
-        openTeamSettingsDialog()
+        openTeamSettingsDialog();
 
         // verify the settings picture button is visible to click
         cy.get('#inputSettingPictureButton').should('be.visible').click();
@@ -52,7 +60,7 @@ describe('Teams Suite', () => {
         // after uploading the picture the save button must be disabled
         cy.get('#saveSettingPicture').should('not.be.disabled').click();
 
-        // close the team settings dialog 
+        // close the team settings dialog
         cy.get('#teamSettingsModalLabel > .close').click();
 
         cy.get(`#${team.name}TeamButton`).within(() => {
@@ -61,7 +69,7 @@ describe('Teams Suite', () => {
         });
 
         // function to open the team settings dialog
-        openTeamSettingsDialog()
+        openTeamSettingsDialog();
 
         // click on 'X' icon to remove the image
         cy.get('#removeSettingPicture').should('be.visible').click();
@@ -79,7 +87,7 @@ describe('Teams Suite', () => {
         });
 
         // function to open the team settings dialog
-        openTeamSettingsDialog()
+        openTeamSettingsDialog();
 
         // click on 'X' icon to remove the image
         cy.get('#removeSettingPicture').should('be.visible').click();
@@ -87,7 +95,7 @@ describe('Teams Suite', () => {
         // click on the save picture button
         cy.get('#saveSettingPicture').click();
 
-        // close the team settings dialog 
+        // close the team settings dialog
         cy.get('#teamSettingsModalLabel > .close').click();
 
         // after removing the team icon initial team holder is visible but not team icon holder
@@ -95,6 +103,5 @@ describe('Teams Suite', () => {
             cy.get('#teamIconImage').should('not.exist');
             cy.get('#teamIconInitial').should('be.visible');
         });
-
     });
 });
