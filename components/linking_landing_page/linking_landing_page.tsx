@@ -65,11 +65,14 @@ export default class LinkingLandingPage extends PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.clearLandingPreferenceIfNotChecked);
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.clearLandingPreferenceIfNotChecked);
+    }
+
     clearLandingPreferenceIfNotChecked = () => {
         if (!this.state.navigating) {
             BrowserStore.clearLandingPreference(this.props.siteUrl);
         }
-        window.removeEventListener('beforeunload', this.clearLandingPreferenceIfNotChecked);
     }
 
     checkLandingPreferenceBrowser = () => {
