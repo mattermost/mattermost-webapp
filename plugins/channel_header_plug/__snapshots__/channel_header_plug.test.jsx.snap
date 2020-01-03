@@ -66,17 +66,33 @@ exports[`plugins/ChannelHeaderPlug should match snapshot with one extended compo
           ]
         }
       >
-        <button
-          className="channel-header__icon style--none"
-          id="someid"
-          onClick={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <OverlayWrapper
+              intl={null}
+            />
+          }
+          placement="bottom"
+          trigger={
+            Array [
+              "hover",
+            ]
+          }
         >
-          <i
-            className="fa fa-anchor"
-          />
-        </button>
+          <button
+            className="channel-header__icon style--none"
+            id="someid"
+            onClick={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            <i
+              className="fa fa-anchor"
+            />
+          </button>
+        </OverlayTrigger>
       </OverlayTrigger>
     </div>
   </HeaderIconWrapper>
