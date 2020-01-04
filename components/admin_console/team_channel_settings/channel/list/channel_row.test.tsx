@@ -3,16 +3,28 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {ChannelType} from 'mattermost-redux/types/channels';
 
 import ChannelRow from './channel_row';
 
 describe('admin_console/team_channel_settings/channel/ChannelRow', () => {
     const testChannel = {
         id: '123',
-        team_name: 'team',
-        type: 'O',
-        group_constrained: false,
+        create_at: 0,
+        update_at: 0,
+        delete_at: 0,
+        team_id: '123',
+        type: 'D' as ChannelType,
+        display_name: '123',
         name: 'DN',
+        header: '123',
+        purpose: '123',
+        last_post_at: 0,
+        total_msg_count: 0,
+        extra_update_at: 0,
+        creator_id: '123',
+        scheme_id: '123',
+        group_constrained: false
     };
     test('should match snapshot', () => {
         const wrapper = shallow(

@@ -40,7 +40,7 @@ export default class ChannelRow extends React.Component<Props> {
                         )}
                         {channel.display_name}
                     </span>
-                    <span className='group-description row-content'>{channel.team_name}</span>
+                    <span className='group-description row-content'>{channel.team_id}</span>
                     <span className='group-description adjusted row-content'>
                         <FormattedMessage
                             id={`admin.channel_settings.channel_row.managementMethod.${channel.group_constrained ? 'group' : 'manual'}`}
