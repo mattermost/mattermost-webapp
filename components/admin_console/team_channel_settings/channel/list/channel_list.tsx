@@ -21,14 +21,11 @@ interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
         getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult;
-        removeGroup?: () => void;
     };
     data?: {id: string; display_name: string}[];
     total?: number;
     removeGroup?: () => void;
     onPageChangedCallback?: () => void;
-    emptyListTextId: string;
-    emptyListTextDefaultMessage: string;
 }
 
 interface ChannelListState {
@@ -40,13 +37,16 @@ interface ChannelListState {
 }
 
 export default class ChannelList extends React.PureComponent<ChannelListProps, ChannelListState> {
-    state: ChannelListState = {
-        searchString: '',
-        channels: [],
-        searchTotalCount: 0,
-        pageResetKey: 0,
-        searchMode: false,
-    };
+    constructor(props: ChannelListProps) {
+        super(props);
+        this.state = {
+            searchString: '',
+            channels: [],
+            searchTotalCount: 0,
+            pageResetKey: 0,
+            searchMode: false,
+        };
+    }
 
     searchBar = () => {
         return (
