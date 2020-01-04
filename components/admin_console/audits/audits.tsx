@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,52 +10,47 @@ import LoadingScreen from 'components/loading_screen';
 
 import ReloadIcon from 'components/widgets/icons/fa_reload_icon';
 
-export default class Audits extends React.PureComponent {
-    static propTypes = {
-        isLicensed: PropTypes.bool.isRequired,
+type Props = {
+    isLicensed: boolean;
+    audits: Array<any>;
+    actions: {
+        getAudits: () => any;
+    };
+};
 
-        /*
-         * Array of audits to render
-         */
-        audits: PropTypes.arrayOf(PropTypes.object).isRequired,
+type State = {
+    loadingAudits: boolean;
+};
 
-        actions: PropTypes.shape({
-
-            /*
-             * Function to fetch audits
-             */
-            getAudits: PropTypes.func.isRequired,
-        }).isRequired,
-    }
-
-    constructor(props) {
+export default class Audits extends React.PureComponent<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
-            loadingAudits: true,
+            loadingAudits: true
         };
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.props.actions.getAudits().then(
             () => this.setState({loadingAudits: false})
         );
     }
 
-    reload = () => {
+    private reload = () => {
         this.setState({loadingAudits: true});
         this.props.actions.getAudits().then(
             () => this.setState({loadingAudits: false})
         );
-    }
+    };
 
-    activityLogHeader = () => {
+    private activityLogHeader = () => {
         const h4Style = {
             display: 'inline-block',
-            marginBottom: '6px',
+            marginBottom: '6px'
         };
-        const divStyle = {
-            clear: 'both',
+        const divStyle: object = {
+            clear: 'both'
         };
         return (
             <div style={divStyle}>
@@ -79,18 +73,16 @@ export default class Audits extends React.PureComponent {
                 </button>
             </div>
         );
-    }
+    };
 
-    renderComplianceReports = () => {
+    private renderComplianceReports = () => {
         if (!this.props.isLicensed) {
             return <div/>;
         }
-        return (
-            <ComplianceReports/>
-        );
-    }
+        return <ComplianceReports/>;
+    };
 
-    render() {
+    public render() {
         let content = null;
 
         if (this.state.loadingAudits) {
