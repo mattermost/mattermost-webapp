@@ -46,7 +46,7 @@ export class TeamIcon extends React.PureComponent<Props> {
         if (teamIconUrl) {
             icon = (
                 <div
-                    id='teamIconImage'
+                    data-testid='teamIconImage'
                     className={`TeamIcon__image TeamIcon__${size}`}
                     aria-label={'Team Icon'}
                     style={{backgroundImage: `url('${teamIconUrl}')`}}
@@ -55,7 +55,7 @@ export class TeamIcon extends React.PureComponent<Props> {
         } else {
             icon = (
                 <div
-                    id='teamIconInitial'
+                    data-testid='teamIconInitial'
                     className={`TeamIcon__initials TeamIcon__initials__${size}`}
                     aria-label={'Team Initials'}
                 >

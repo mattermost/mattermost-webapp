@@ -228,7 +228,7 @@ export default class SettingPicture extends Component {
                         )}
                     >
                         <button
-                            id='removeSettingPicture'
+                            data-testid='removeSettingPicture'
                             className={`${imageContext}-img__remove`}
                             onClick={handler}
                         >
@@ -315,7 +315,7 @@ export default class SettingPicture extends Component {
                                 type={'modal'}
                             />
                             <input
-                                id='uploadPicture'
+                                data-testid='uploadPicture'
                                 ref={this.selectInput}
                                 className='hidden'
                                 accept='.jpg,.png,.bmp'
@@ -326,7 +326,7 @@ export default class SettingPicture extends Component {
                                 tabIndex='-1'
                             />
                             <button
-                                id='inputSettingPictureButton'
+                                data-testid='inputSettingPictureButton'
                                 className='btn btn-sm btn-primary btn-file sel-btn'
                                 disabled={this.props.loadingPicture}
                                 onClick={this.handleInputFile}
@@ -338,7 +338,7 @@ export default class SettingPicture extends Component {
                                 />
                             </button>
                             <button
-                                id='saveSettingPicture'
+                                data-testid='saveSettingPicture'
                                 tabIndex={disableSaveButtonFocus ? '-1' : '0'}
                                 ref={this.confirmButton}
                                 className={confirmButtonClass}
@@ -356,7 +356,7 @@ export default class SettingPicture extends Component {
                                 </LoadingWrapper>
                             </button>
                             <button
-                                id='cancelSettingPicture'
+                                data-testid='cancelSettingPicture'
                                 className='btn btn-link btn-sm theme'
                                 href='#'
                                 onClick={this.handleCancel}
