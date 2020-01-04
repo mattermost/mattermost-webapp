@@ -72,7 +72,6 @@ export default class MenuItemToggleMuteChannel extends React.PureComponent {
         return (
             <Menu.ItemAction
                 id={id}
-                show={true}
                 onClick={this.handleClick}
                 text={text}
             />

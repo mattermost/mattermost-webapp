@@ -7,6 +7,7 @@ import {shallow} from 'enzyme';
 import {Constants, NotificationLevels} from 'utils/constants';
 
 import Menu from 'components/widgets/menu/menu';
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action.tsx';
 
 import MenuItemToggleMuteChannel from './toggle_mute_channel';
 
@@ -66,5 +67,29 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
             props.channel.id,
             {mark_unread: NotificationLevels.MENTION}
         );
+    });
+
+    it('should show Mute Channel to all channel types', () => {
+        [
+            Constants.DM_CHANNEL,
+            Constants.GM_CHANNEL,
+            Constants.OPEN_CHANNEL,
+            Constants.PRIVATE_CHANNEL,
+            Constants.ARCHIVED_CHANNEL,
+        ].forEach((channelType) => {
+            const channel = {
+                id: 'channel_id',
+                type: channelType,
+            };
+
+            const wrapper = shallow(
+                <MenuItemToggleMuteChannel
+                    {...baseProps}
+                    channel={channel}
+                />
+            );
+            expect(wrapper.find(MenuItemAction).props().show).toEqual(true);
+            expect(wrapper.find(MenuItemAction).props().text).toEqual('Mute Channel');
+        });
     });
 });
