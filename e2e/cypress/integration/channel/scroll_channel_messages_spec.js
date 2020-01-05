@@ -30,7 +30,7 @@ describe('Scroll channel`s messages in mobile view', () => {
 
         // # Post a day old message
         for (let j = 2; j >= 0; j--) {
-            date = Cypress.moment().subtract(-j, 'days').valueOf();
+            date = Cypress.moment().add(j, 'days').valueOf();
             for (let i = 0; i < 5; i++) {
                 cy.postMessageAs({sender: sysadmin, message: `Hello \n from \n other \n day \n - ${j}`, channelId: newChannel.id, createAt: date});
             }
@@ -39,23 +39,22 @@ describe('Scroll channel`s messages in mobile view', () => {
         // # reload to see correct changes
         cy.reload();
 
-        const yesterdaysDate = Cypress.moment().subtract(-1, 'days');
-        const twoDaysAgo = Cypress.moment().subtract(0, 'days');
+        const twoDaysAgo = Cypress.moment();
 
         // # set date 3 days fron now because channel created today and scroll not working because of it
-        cy.clock(Cypress.moment().subtract(-3, 'days').valueOf(), ['Date']);
+        cy.clock(Cypress.moment().add(2, 'days').valueOf(), ['Date']);
+
+        // * check date on scroll and save it
+        cy.findAllByTestId('postView').eq(15).scrollIntoView();
+
+        // * check date on scroll is today
+        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', 'Today');
 
         // * check date on scroll and save it
         cy.findAllByTestId('postView').eq(10).scrollIntoView();
 
         // * check date on scroll is yesterday
         cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', 'Yesterday');
-
-        // * check date on scroll and save it
-        cy.findAllByTestId('postView').eq(7).scrollIntoView();
-
-        // * check date on scroll is day before yesterday
-        cy.findByTestId('floatingTimestamp').should('be.visible').and('have.text', yesterdaysDate.format('ddd, MMM D, YYYY'));
 
         // * check date on scroll and save it
         cy.findAllByTestId('postView').eq(4).scrollIntoView();
