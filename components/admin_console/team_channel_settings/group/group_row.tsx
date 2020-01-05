@@ -6,14 +6,14 @@ import {Group} from 'mattermost-redux/types/groups';
 import {FormattedMessage} from 'react-intl';
 
 interface GroupRowProps {
-    group: Group;
+    group: Partial<Group>;
     removeGroup: (gid: string) => void;
     key?: string;
 }
 
 export default class GroupRow extends React.Component<GroupRowProps> {
     removeGroup = () => {
-        this.props.removeGroup(this.props.group.id);
+        this.props.removeGroup(this.props.group.id!);
     };
 
     render = () => {

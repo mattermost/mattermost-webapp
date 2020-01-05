@@ -8,37 +8,44 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
+import {Group} from 'mattermost-redux/types/groups';
+
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
 import Avatar from 'components/widgets/users/avatar';
 
+type ProfileWithGroups = Partial<UserProfile & {
+    groups: Partial<Group>[];
+}>;
+
 interface AdminGroupUsersRowProps {
     displayName: string;
-    user: UserProfile;
+    user: ProfileWithGroups;
     lastPictureUpdate: number;
 }
 export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUsersRowProps, {}> {
-    renderRolesColumn = (member: UserProfile) => {
-        return member.roles.split(' ').map((role) =>
+    renderRolesColumn = (member: ProfileWithGroups) => {
+        return member.roles!.split(' ').map((role) =>
             Utils.localizeMessage('admin.permissions.roles.' + role + '.name', role)
         ).join(', ');
     };
 
-    renderGroupsColumn = (member: UserProfile) => {
-        if (member.groups.length === 1) {
-            return member.groups[0].display_name;
+    renderGroupsColumn = (member: ProfileWithGroups) => {
+        const groups = member.groups || [];
+        if ((groups).length === 1) {
+            return groups[0].display_name;
         }
         return (
             <OverlayTrigger
                 placement='top'
-                overlay={<Tooltip id='groupsTooltip'>{member.groups.map((g) => g.display_name).join(', ')}</Tooltip>}
+                overlay={<Tooltip id='groupsTooltip'>{groups.map((g) => g.display_name).join(', ')}</Tooltip>}
             >
                 <a href='#'>
                     <FormattedMessage
                         id={t('team_channel_settings.group.group_user_row.numberOfGroups')}
                         defaultMessage={'{amount, number} {amount, plural, one {Group} other {Groups}}'}
-                        values={{amount: member.groups.length}}
+                        values={{amount: groups.length}}
                     />
                 </a>
             </OverlayTrigger>
@@ -57,7 +64,7 @@ export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUs
                         <div className='col-sm-2'>
                             <Avatar
                                 username={user.username}
-                                url={Client4.getProfilePictureUrl(user.id, lastPictureUpdate)}
+                                url={Client4.getProfilePictureUrl(user.id!, lastPictureUpdate)}
                                 size='lg'
                             />
                         </div>

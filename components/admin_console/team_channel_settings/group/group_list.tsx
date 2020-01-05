@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Group} from 'mattermost-redux/types/groups';
+
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 
 import GroupRow from './group_row';
@@ -31,16 +33,24 @@ const Header = () => {
 };
 
 interface Props {
-    removeGroup?: (gid: string) => void;
+    data?: Partial<Group>[];
+    onPageChangedCallback: () => void;
+    total: number;
+    emptyListTextId: string;
+    emptyListTextDefaultMessage: string;
+    actions: {
+        getData: () => void;
+        removeGroup: (gid: string) => void;
+    };
 }
 
 export default class GroupList extends React.PureComponent<Props> {
-    renderRow = (item: {id: string}) => {
+    renderRow = (item: Group) => {
         return (
             <GroupRow
                 key={item.id}
                 group={item}
-                removeGroup={this.props.removeGroup}
+                removeGroup={this.props.actions.removeGroup}
             />
         );
     }

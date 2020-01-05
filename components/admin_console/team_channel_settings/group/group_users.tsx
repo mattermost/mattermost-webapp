@@ -13,7 +13,7 @@ import GroupUsersRow from './group_users_row';
 const GROUP_MEMBERS_PAGE_SIZE = 10;
 
 interface AdminGroupUsersProps {
-    members?: UserProfile[];
+    members: Partial<UserProfile>& {last_picture_update?: number}[];
     total: number;
 }
 
@@ -36,7 +36,7 @@ export default class AdminGroupUsers extends React.PureComponent<AdminGroupUsers
         this.setState({page});
     };
 
-    renderRow = (member: UserProfile) => (
+    renderRow = (member: Partial<UserProfile> & {last_picture_update?: number}) => (
         <GroupUsersRow
             key={member.id}
             user={member}

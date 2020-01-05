@@ -3,14 +3,13 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {_} from 'lodash';
+import {range} from 'lodash';
 
 import GroupUsers from './group_users';
 
 describe('admin_console/team_channel_settings/group/GroupUsers', () => {
     const defaultProps = {
-        groupID: 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
-        members: _.range(0, 20).map((i) => ({
+        members: range(0, 20).map((i) => ({
             id: 'id' + i,
             username: 'username' + i,
             first_name: 'Name' + i,

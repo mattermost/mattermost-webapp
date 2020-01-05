@@ -4,10 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {UserProfile} from 'mattermost-redux/types/users';
+import {Group} from 'mattermost-redux/types/groups';
+
 import GroupUsersRow from './group_users_row';
 
 describe('admin_console/team_channel_settings/group/GroupUsersRow', () => {
-    const testUser = {
+    const testUser: Partial<UserProfile & {groups: Partial<Group>[]}> = {
         id: '123',
         username: 'test',
         email: 'test@test.com',
@@ -30,7 +33,7 @@ describe('admin_console/team_channel_settings/group/GroupUsersRow', () => {
         expect(wrapper).toMatchSnapshot();
     });
     test('should match snapshot with two groups', () => {
-        const testUser2 = {
+        const testUser2: Partial<UserProfile & {groups: Partial<Group>[]}> = {
             ...testUser,
             groups: [{
                 id: '123123',

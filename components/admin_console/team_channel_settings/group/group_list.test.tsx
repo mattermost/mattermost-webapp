@@ -4,14 +4,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Group} from 'mattermost-redux/types/groups';
+
 import GroupList from './group_list';
 
 describe('admin_console/team_channel_settings/group/GroupList', () => {
     test('should match snapshot', () => {
-        const testGroups = [{
+        const testGroups: Partial<Group>[] = [{
             id: '123',
             display_name: 'DN',
             member_count: 3,
+
         }];
 
         const actions = {
@@ -21,7 +24,6 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
 
         const wrapper = shallow(
             <GroupList
-                removeGroup={jest.fn()}
                 data={testGroups}
                 onPageChangedCallback={jest.fn()}
                 total={testGroups.length}
@@ -34,7 +36,7 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
     });
 
     test('should match snapshot with paging', () => {
-        const testGroups = [];
+        const testGroups: Partial<Group>[] = [];
         for (let i = 0; i < 30; i++) {
             testGroups.push({
                 id: 'id' + i,
@@ -49,7 +51,6 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
 
         const wrapper = shallow(
             <GroupList
-                removeGroup={jest.fn()}
                 data={testGroups}
                 onPageChangedCallback={jest.fn()}
                 total={30}
