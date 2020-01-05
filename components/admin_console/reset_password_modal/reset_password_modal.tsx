@@ -1,29 +1,54 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {adminResetPassword} from 'actions/admin_actions.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class ResetPasswordModal extends React.Component {
-    static propTypes = {
-        user: PropTypes.object,
-        currentUserId: PropTypes.string.isRequired,
-        show: PropTypes.bool.isRequired,
-        onModalSubmit: PropTypes.func,
-        onModalDismissed: PropTypes.func,
-        passwordConfig: PropTypes.object,
-    };
+interface User {
+    id: string;
+    auth_service: string;
+}
 
-    static defaultProps = {
+interface Error {
+    message: string;
+}
+
+interface PasswordConfig {
+    minimumLength: number;
+    requireLowercase: boolean;
+    requireNumber: boolean;
+    requireSymbol: boolean;
+    requireUppercase: boolean;
+}
+
+type State = {
+    serverErrorNewPass: JSX.Element|null;
+    serverErrorCurrentPass: JSX.Element|string|null;
+}
+
+type Props = {
+    user: User|null;
+    currentUserId: string;
+    show: boolean;
+    onModalSubmit: (user: User|null) => void;
+    onModalDismissed: () => void;
+    passwordConfig: PasswordConfig;
+    actions: Actions;
+}
+
+type Actions = {
+    adminResetPassword: (userId: string, currentPassword: string, password: string, success: () => void, error: (err: Error) => void) => void;
+}
+
+export default class ResetPasswordModal extends React.Component<Props, State> {
+    public static defaultProps: Partial<Props> = {
         show: false,
     };
 
-    constructor(props) {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -32,21 +57,24 @@ export default class ResetPasswordModal extends React.Component {
         };
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount(): void {
         this.setState({
             serverErrorNewPass: null,
             serverErrorCurrentPass: null,
         });
     }
 
-    doSubmit = (e) => {
+    private doSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
         e.preventDefault();
+        if (!this.props.user) {
+            return;
+        }
+
         let currentPassword = '';
         if (this.refs.currentPassword) {
-            currentPassword = this.refs.currentPassword.value;
+            currentPassword = (this.refs.currentPassword as HTMLInputElement).value;
             if (currentPassword === '') {
-                let errorMsg = '';
-                errorMsg = (
+                const errorMsg = (
                     <FormattedMessage
                         id='admin.reset_password.missing_current'
                         defaultMessage='Please enter your current password.'
@@ -57,7 +85,7 @@ export default class ResetPasswordModal extends React.Component {
             }
         }
 
-        const password = this.refs.password.value;
+        const password = (this.refs.password as HTMLInputElement).value;
 
         const {valid, error} = Utils.isValidPassword(password, this.props.passwordConfig);
         if (!valid && error) {
@@ -67,20 +95,20 @@ export default class ResetPasswordModal extends React.Component {
 
         this.setState({serverErrorNewPass: null});
 
-        adminResetPassword(
+        this.props.actions.adminResetPassword(
             this.props.user.id,
             currentPassword,
             password,
             () => {
                 this.props.onModalSubmit(this.props.user);
             },
-            (err) => {
+            (err: Error) => {
                 this.setState({serverErrorCurrentPass: err.message});
             }
         );
     }
 
-    doCancel = () => {
+    private doCancel = (): void => {
         this.setState({
             serverErrorNewPass: null,
             serverErrorCurrentPass: null,
@@ -88,7 +116,7 @@ export default class ResetPasswordModal extends React.Component {
         this.props.onModalDismissed();
     }
 
-    render() {
+    public render(): JSX.Element {
         const user = this.props.user;
         if (user == null) {
             return <div/>;
