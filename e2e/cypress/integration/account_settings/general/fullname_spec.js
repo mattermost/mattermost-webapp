@@ -6,11 +6,14 @@
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
+import {getRandomInt} from '../../../utils';
 
 describe('Account Settings > Sidebar > General', () => {
+    // # number to identify particular user
+    const uniqueNumber = getRandomInt(1000);
     before(() => {
         // # Go to Account Settings as new user
-        cy.loginAsNewUser('user-1');
+        cy.loginAsNewUser().as('newuser');
         cy.toAccountSettingsModal(null, true);
 
         // # Click General button
@@ -20,7 +23,7 @@ describe('Account Settings > Sidebar > General', () => {
         cy.get('#nameDesc').click();
 
         // * Set first name value
-        cy.get('#firstName').clear().type('정트리나/trina.jung/집단사무국(CO)');
+        cy.get('#firstName').clear().type(`정트리나${uniqueNumber}/trina.jung/집단사무국(CO)`);
 
         // # save form
         cy.get('#saveSetting').click();
@@ -28,37 +31,38 @@ describe('Account Settings > Sidebar > General', () => {
 
     it('M17459 - Filtering by first name with Korean characters', () => {
         cy.apiLogin('user-2');
+        cy.get('@newuser').then((user) => {
+            cy.visit('/ad-1/channels/town-square');
 
-        cy.visit('/ad-1/channels/town-square');
+            // # type in user`s firstName substring
+            cy.get('#post_textbox').clear().type(`@정트리나${uniqueNumber}`);
 
-        // # type in user`s firstName substring
-        cy.get('#post_textbox').clear().type('@정트리나');
+            // * verify that suggestion list is visible and has value
+            cy.get('.suggestion-list__divider').
+                find('span').
+                last().
+                should('be.visible').
+                and('have.text', 'Channel Members');
 
-        // * verify that suggestion list is visible and has value
-        cy.get('.suggestion-list__divider').
-            find('span').
-            last().
-            should('be.visible').
-            and('have.text', 'Channel Members');
+            // * verify that user listed in popup
+            cy.get('.mention--align').
+                should('be.visible').
+                and('have.text', `@${user.username}`);
 
-        // * verify that user listed in popup
-        cy.get('.mention--align').
-            should('be.visible').
-            and('have.text', '@user-1');
+            // # click enter in chat input
+            cy.get('#post_textbox').tab();
 
-        // # click enter in chat input
-        cy.get('#post_textbox').tab();
+            // # verify that after enter user`s username match
+            cy.get('#post_textbox').should('have.value', `@${user.username} `);
 
-        // # verify that after enter user`s username match
-        cy.get('#post_textbox').should('have.value', '@user-1 ');
+            // # click enter in chat input
+            cy.get('#post_textbox').type('{enter}');
 
-        // # click enter in chat input
-        cy.get('#post_textbox').type('{enter}');
-
-        // # verify that message has been post in chat
-        cy.get('[data-mention="user-1"]').
-            last().
-            scrollIntoView().
-            should('be.visible');
+            // # verify that message has been post in chat
+            cy.get(`[data-mention="${user.username}"]`).
+                last().
+                scrollIntoView().
+                should('be.visible');
+        });
     });
 });
