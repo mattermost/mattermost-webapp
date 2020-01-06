@@ -65,7 +65,7 @@ export default class UserAccessTokenSection extends React.Component {
         this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) { // eslint-disable-line camelcase
+    static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.active && prevState.active) {
             return {
                 active: nextProps.active,
