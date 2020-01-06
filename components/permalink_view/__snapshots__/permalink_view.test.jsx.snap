@@ -5,7 +5,7 @@ exports[`components/PermalinkView should match snapshot 1`] = `
   className="app__content"
   id="app-content"
 >
-  <withRouter(Connect(ChannelHeader))
+  <withRouter(Connect(InjectIntl(ChannelHeader)))
     channelId="channel_id"
   />
   <withRouter(Connect(PostView))
@@ -30,9 +30,15 @@ exports[`components/PermalinkView should match snapshot 1`] = `
         id="center_panel.recent"
         values={Object {}}
       />
-      <i
+      <LocalizedIcon
         className="fa fa-arrow-down"
-        title="Jump to recent messages Icon"
+        component="i"
+        title={
+          Object {
+            "defaultMessage": "Jump to recent messages Icon",
+            "id": "center_panel.recent.icon",
+          }
+        }
       />
     </Link>
   </div>
@@ -44,7 +50,7 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
   className="app__content"
   id="app-content"
 >
-  <withRouter(Connect(ChannelHeader))
+  <withRouter(Connect(InjectIntl(ChannelHeader)))
     channelId="channel_id"
   />
   <withRouter(Connect(PostView))
@@ -73,9 +79,15 @@ exports[`components/PermalinkView should match snapshot with archived channel 1`
         id="center_panel.recent"
         values={Object {}}
       />
-      <i
+      <LocalizedIcon
         className="fa fa-arrow-down"
-        title="Jump to recent messages Icon"
+        component="i"
+        title={
+          Object {
+            "defaultMessage": "Jump to recent messages Icon",
+            "id": "center_panel.recent.icon",
+          }
+        }
       />
     </Link>
   </div>
