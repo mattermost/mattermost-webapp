@@ -4,13 +4,9 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+import {UserProfile} from 'mattermost-redux/types/users';
 
 import * as Utils from 'utils/utils.jsx';
-
-interface User {
-    id: string;
-    auth_service: string;
-}
 
 interface Error {
     message: string;
@@ -30,10 +26,10 @@ type State = {
 }
 
 type Props = {
-    user: User|null;
+    user?: UserProfile;
     currentUserId: string;
     show: boolean;
-    onModalSubmit: (user: User|null) => void;
+    onModalSubmit: (user?: UserProfile) => void;
     onModalDismissed: () => void;
     passwordConfig: PasswordConfig;
     actions: Actions;
