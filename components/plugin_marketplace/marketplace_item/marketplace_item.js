@@ -56,7 +56,7 @@ export const Label = ({name, description, url}) => {
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
                 overlay={
-                    <Tooltip id={'plugin-marketplace_label_' + name.toLowerCase() + '-tooltop'}>
+                    <Tooltip id={'plugin-marketplace_label_' + name.toLowerCase() + '-tooltip'}>
                         {description}
                     </Tooltip>
                 }
