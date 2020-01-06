@@ -49,7 +49,7 @@ describe('Account Settings > Sidebar > General', () => {
                 should('be.visible').
                 and('have.text', `@${user.username}`);
 
-            // # click enter in chat input
+            // # Press tab on text input
             cy.get('#post_textbox').tab();
 
             // # verify that after enter user`s username match
