@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on active channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on active channel show 1`] = `
 <li
   className="active"
   key="channel-name"
@@ -27,9 +27,9 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel hide 1`] = `""`;
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel hide 1`] = `""`;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show 1`] = `
 <li
   className=""
   key="channel-name"
@@ -56,7 +56,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show with tutorial tip 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show with tutorial tip 1`] = `
 <li
   className=""
   key="town-square"
@@ -87,7 +87,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show with unread mentions (must have mentions badge) 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show with unread mentions (must have mentions badge) 1`] = `
 <li
   className=""
   key="channel-name"
@@ -114,7 +114,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show without unread mentions (must have no badge) 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel show without unread mentions (must have no badge) 1`] = `
 <li
   className=""
   key="channel-name"
@@ -141,7 +141,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel with draft 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on channel with draft 1`] = `
 <li
   className=""
   key="channel-name"
@@ -168,7 +168,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show 1`] = `
 <li
   className=""
   key="town-square"
@@ -195,7 +195,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show with enable X to close 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on default channel show with enable X to close 1`] = `
 <li
   className=""
   key="town-square"
@@ -222,7 +222,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on fake channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on fake channel show 1`] = `
 <li
   className=""
   key="channel-name"
@@ -249,7 +249,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on group channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on group channel show 1`] = `
 <li
   className=""
   key="channel-name"
@@ -276,7 +276,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on group channel show with enable X to close 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on group channel show with enable X to close 1`] = `
 <li
   className=""
   key="channel-name"
@@ -303,7 +303,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on myself channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on myself channel show 1`] = `
 <li
   className=""
   key="channel-name"
@@ -330,7 +330,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on private channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on private channel show 1`] = `
 <li
   className=""
   key="channel-name"
@@ -357,7 +357,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on private channel show with enable X to close 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on private channel show with enable X to close 1`] = `
 <li
   className=""
   key="channel-name"
@@ -384,7 +384,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show 1`] = `
 <li
   className=""
   key="channel-name"
@@ -411,7 +411,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </li>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show with enable X to close 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on public channel show with enable X to close 1`] = `
 <li
   className=""
   key="channel-name"

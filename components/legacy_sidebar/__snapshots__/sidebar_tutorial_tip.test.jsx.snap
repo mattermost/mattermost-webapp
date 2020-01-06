@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and with offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
@@ -91,7 +91,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
 />
 `;
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, with townSquare and without offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
@@ -182,7 +182,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, with townSq
 />
 `;
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and with offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"
@@ -273,7 +273,7 @@ exports[`component/sidebar/SidebarTutorialTip should match snapshot, without tow
 />
 `;
 
-exports[`component/sidebar/SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
+exports[`component/legacy_sidebar/SidebarTutorialTip should match snapshot, without townSquare and without offTopic 1`] = `
 <Connect(TutorialTip)
   diagnosticsTag="tutorial_tip_2_channels"
   overlayClass="tip-overlay--sidebar"

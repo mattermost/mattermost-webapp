@@ -5,9 +5,10 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Constants} from 'utils/constants';
-import SidebarChannelButtonOrLinkIcon from 'components/sidebar/sidebar_channel_button_or_link/sidebar_channel_button_or_link_icon.jsx';
 
-describe('component/sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon', () => {
+import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
+
+describe('component/legacy_sidebar/sidebar_channel_button_or_link/SidebarChannelButtonOrLinkIcon', () => {
     test('should match snapshot, on direct message', () => {
         const wrapper = shallow(
             <SidebarChannelButtonOrLinkIcon

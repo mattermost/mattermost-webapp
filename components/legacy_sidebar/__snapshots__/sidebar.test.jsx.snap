@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar not show the channel switcher 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar not show the channel switcher 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -268,7 +268,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -536,7 +536,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with favorites 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with favorites 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -804,7 +804,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with unreads 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with unreads 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -1072,11 +1072,11 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 1`] = `<div />`;
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 1`] = `<div />`;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 2`] = `<div />`;
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should match snapshot, when render as an empty div because no have a team or a user 2`] = `<div />`;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -1348,7 +1348,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 2`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 2`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -1616,7 +1616,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -1888,7 +1888,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 2`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 2`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -2156,7 +2156,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 1`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 1`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"
@@ -2424,7 +2424,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 </div>
 `;
 
-exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 2`] = `
+exports[`component/legacy_sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 2`] = `
 <div
   className="sidebar--left"
   id="sidebar-left"

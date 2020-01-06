@@ -19,6 +19,8 @@ import SidebarRight from 'components/sidebar_right';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import ImportThemeModal from 'components/user_settings/import_theme_modal.jsx';
 import ModalController from 'components/modal_controller';
+import LegacyTeamSidebar from 'components/legacy_team_sidebar';
+import LegacySidebar from 'components/legacy_sidebar';
 import TeamSidebar from 'components/team_sidebar';
 import Sidebar from 'components/sidebar';
 import * as Utils from 'utils/utils';
@@ -31,6 +33,7 @@ export default class ChannelController extends React.Component {
         pathName: PropTypes.string.isRequired,
         teamType: PropTypes.string.isRequired,
         fetchingChannels: PropTypes.bool.isRequired,
+        useLegacyLHS: PropTypes.bool.isRequired,
     };
 
     shouldComponentUpdate(nextProps) {
@@ -60,6 +63,9 @@ export default class ChannelController extends React.Component {
     }
 
     render() {
+        const PreferredTeamSidebar = this.props.useLegacyLHS ? LegacyTeamSidebar : TeamSidebar;
+        const PreferredSidebar = this.props.useLegacyLHS ? LegacySidebar : Sidebar;
+
         return (
             <div
                 id='channel_view'
@@ -71,8 +77,8 @@ export default class ChannelController extends React.Component {
                 <div className='container-fluid'>
                     <SidebarRight/>
                     <SidebarRightMenu teamType={this.props.teamType}/>
-                    <Route component={TeamSidebar}/>
-                    <Route component={Sidebar}/>
+                    <Route component={PreferredTeamSidebar}/>
+                    <Route component={PreferredSidebar}/>
                     {!this.props.fetchingChannels && <Route component={CenterChannel}/>}
                     {this.props.fetchingChannels && <LoadingScreen/>}
                     <Pluggable pluggableName='Root'/>

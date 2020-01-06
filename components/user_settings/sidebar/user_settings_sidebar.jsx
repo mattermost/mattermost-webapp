@@ -47,9 +47,19 @@ export default class UserSettingsSidebar extends React.Component {
         showChannelOrganization: PropTypes.bool.isRequired,
 
         /**
+         * Display the setting to toggle the new sidebar
+         */
+        showChannelSidebarOrganization: PropTypes.bool.isRequired,
+
+        /**
          * The preferences to show the channel switcher in the sidebar
          */
         channelSwitcherOption: PropTypes.string.isRequired,
+
+        /**
+         * The preferences to show the channel sidebar organization setting
+         */
+        channelSidebarOrganizationOption: PropTypes.string.isRequired,
 
         /**
          * Display the unread channels sections options
@@ -94,6 +104,7 @@ export default class UserSettingsSidebar extends React.Component {
         const {
             closeUnusedDirectMessages,
             channelSwitcherOption,
+            channelSidebarOrganizationOption,
             sidebarPreference: {
                 grouping,
                 sorting,
@@ -106,6 +117,7 @@ export default class UserSettingsSidebar extends React.Component {
             settings: {
                 close_unused_direct_messages: closeUnusedDirectMessages,
                 channel_switcher_section: channelSwitcherOption,
+                channel_sidebar_organization: channelSidebarOrganizationOption,
                 grouping,
                 unreadsAtTop,
                 favoriteAtTop,
@@ -151,6 +163,7 @@ export default class UserSettingsSidebar extends React.Component {
             this.trackSettingChangeIfNecessary('sorting');
             this.trackSettingChangeIfNecessary('unreadsAtTop');
             this.trackSettingChangeIfNecessary('favoriteAtTop');
+            this.trackSettingChangeIfNecessary('newSidebar');
         } else {
             preferences.push({
                 user_id: user.id,
@@ -170,13 +183,18 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     getPreviousSection = (sectionName) => {
-        const {showChannelOrganization} = this.props;
+        const {showChannelOrganization, showChannelSidebarOrganization} = this.props;
         switch (sectionName) {
         case 'autoCloseDM':
             return 'channelSwitcher';
         case 'groupChannels':
             return 'dummySectionName';
+        case 'channelSidebarOrganization':
+            return showChannelOrganization ? 'groupChannels' : 'dummySectionName';
         case 'channelSwitcher':
+            if (showChannelSidebarOrganization) {
+                return 'channelSidebarOrganization';
+            }
             return showChannelOrganization ? 'groupChannels' : 'dummySectionName';
         default:
             return null;
@@ -389,6 +407,106 @@ export default class UserSettingsSidebar extends React.Component {
             />
         );
     };
+
+    renderChannelSidebarOrganizationSection = () => {
+        const helpChannelSidebarOrganizationText = (
+            <FormattedMessage
+                id={t('user.settings.sidebar.channelSidebarOrganizationSection.desc')}
+                defaultMessage={'Enables or disables the new experimental channel sidebar.'}
+            />
+        );
+
+        let contents = (
+            <SettingItemMin
+                title={
+                    <FormattedMessage
+                        id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
+                        defaultMessage='Channel Sidebar Organization'
+                    />
+                }
+                describe={this.renderChannelSwitcherLabel(this.props.channelSidebarOrganizationOption)}
+                section={'channelSidebarOrganization'}
+                updateSection={this.updateSection}
+            />
+        );
+
+        if (this.props.activeSection === 'channelSidebarOrganization') {
+            contents = (
+                <SettingItemMax
+                    title={
+                        <FormattedMessage
+                            id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
+                            defaultMessage='Channel Sidebar Organization'
+                        />
+                    }
+                    inputs={[
+                        <fieldset key='channelSidebarOrganizationSectionSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id={t('user.settings.sidebar.channelSidebarOrganizationSectionTitle')}
+                                    defaultMessage='Channel Sidebar Organization'
+                                />
+                            </legend>
+                            <div
+                                id='channelSidebarOrganizationRadioOn'
+                                className='radio'
+                            >
+                                <label>
+                                    <input
+                                        id='channelSidebarOrganizationSectionEnabled'
+                                        type='radio'
+                                        name='channelSidebarOrganization'
+                                        checked={this.state.settings.channel_sidebar_organization === 'true'}
+                                        onChange={this.updateSetting.bind(this, 'channel_sidebar_organization', 'true')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.on'
+                                        defaultMessage='On'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div
+                                id='channelSidebarOrganizationRadioOff'
+                                className='radio'
+                            >
+                                <label>
+                                    <input
+                                        id='channelSidebarOrganizationSectionOff'
+                                        type='radio'
+                                        name='channelSidebarOrganization'
+                                        checked={this.state.settings.channel_sidebar_organization === 'false'}
+                                        onChange={this.updateSetting.bind(this, 'channel_sidebar_organization', 'false')}
+                                    />
+                                    <FormattedMessage
+                                        id='user.settings.sidebar.off'
+                                        defaultMessage='Off'
+                                    />
+                                </label>
+                                <br/>
+                            </div>
+                            <div id='channelSidebarOrganizationelpText'>
+                                <br/>
+                                {helpChannelSidebarOrganizationText}
+                            </div>
+                        </fieldset>,
+                    ]}
+                    setting={'channel_sidebar_organization'}
+                    submit={this.handleSubmit}
+                    saving={this.state.isSaving}
+                    server_error={this.state.serverError}
+                    updateSection={this.updateSection}
+                />
+            );
+        }
+
+        return (
+            <React.Fragment>
+                {contents}
+                <div className='divider-light'/>
+            </React.Fragment>
+        );
+    }
 
     renderChannelOrganizationSection = () => {
         const {
@@ -693,9 +811,10 @@ export default class UserSettingsSidebar extends React.Component {
     };
 
     render() {
-        const {showUnusedOption, showChannelOrganization} = this.props;
+        const {showUnusedOption, showChannelOrganization, showChannelSidebarOrganization} = this.props;
 
         const channelOrganizationSection = showChannelOrganization ? this.renderChannelOrganizationSection() : null;
+        const channelSidebarOrganizationSection = showChannelSidebarOrganization ? this.renderChannelSidebarOrganizationSection() : null;
         const autoCloseDMSection = showUnusedOption ? this.renderAutoCloseDMSection() : null;
         const channelSwitcherSection = this.renderChannelSwitcherSection();
 
@@ -740,6 +859,7 @@ export default class UserSettingsSidebar extends React.Component {
                     </h3>
                     <div className='divider-dark first'/>
                     {channelOrganizationSection}
+                    {channelSidebarOrganizationSection}
                     {channelSwitcherSection}
                     {showUnusedOption ? <div className='divider-light'/> : <div className='divider-dark'/>}
                     {autoCloseDMSection}
