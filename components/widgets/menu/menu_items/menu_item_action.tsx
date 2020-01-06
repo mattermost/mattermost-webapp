@@ -4,7 +4,6 @@
 import React from 'react';
 
 import menuItem from './menu_item';
-import { string } from 'prop-types';
 
 type Props = {
     onClick: (e: React.MouseEvent) => void;

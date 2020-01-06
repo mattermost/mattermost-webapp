@@ -22,8 +22,8 @@ const getTeamsAssociatedToGroupAndUnlink = (groupId) => {
                 method: 'DELETE',
             });
         });
-    });;
-}
+    });
+};
 
 // # Function to get all the channels associated to group and unlink them
 const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
@@ -40,8 +40,8 @@ const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
                 method: 'DELETE',
             });
         });
-    });;
-}
+    });
+};
 
 describe('System Console', () => {
     it('MM-20058 - System Admin can map roles to teams and channels via group configuration page', () => {
@@ -51,23 +51,24 @@ describe('System Console', () => {
         cy.visit('/admin_console/user_management/groups');
         cy.get('#developers_group').then((el) => {
             if (el.text().includes('Edit')) {
-                cy.get('#developers_edit').then((el) => {
+                cy.get('#developers_edit').then((buttonEl) => {
                     // # Get the Group ID and remove all the teams and channels currently attached to it then click the button
-                    const groupId = el[0].href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
+                    const groupId = buttonEl[0].href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
                     getTeamsAssociatedToGroupAndUnlink(groupId);
-                    getChannelsAssociatedToGroupAndUnlink(groupId)
+                    getChannelsAssociatedToGroupAndUnlink(groupId);
                     cy.get('#developers_edit').click();
                 });
             } else {
                 // # Get the Group ID and remove all the teams and channels currently attached to it then click the button
-                cy.get('#developers_configure').then((el) => {
-                    const groupId = el[0].href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
+                cy.get('#developers_configure').then((buttonEl) => {
+                    const groupId = buttonEl[0].href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
                     getTeamsAssociatedToGroupAndUnlink(groupId);
-                    getChannelsAssociatedToGroupAndUnlink(groupId)
+                    getChannelsAssociatedToGroupAndUnlink(groupId);
                     cy.get('#developers_configure').click();
                 });
             }
         });
+
         // # Wait until the groups retrieved and show up
         cy.wait(500); //eslint-disable-line cypress/no-unnecessary-waiting
 
@@ -96,7 +97,6 @@ describe('System Console', () => {
             for (let i = 1; i < el[0].childNodes[1].rows.length; i++) {
                 name = el[0].childNodes[1].rows[i].cells[0].innerText;
                 cy.wrap(el[0].childNodes[1].rows[i]).findByTestId(`${name}_current_role`).scrollIntoView().click();
-                
                 cy.wrap(el[0].childNodes[1].rows[i]).findByTestId(`${name}_role_to_be`).scrollIntoView().click();
             }
 
