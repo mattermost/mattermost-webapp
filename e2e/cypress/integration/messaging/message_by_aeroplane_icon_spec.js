@@ -19,7 +19,7 @@ describe('Messaging', () => {
     it('M18677 - Clicking on airplane icon does not open file attachment modal but sends the message', () => {
         // # type some characters in the message box
         const message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ';
-        cy.get('#post_textbox').type(message);
+        cy.get('#post_textbox').clear().type(message);
 
         // # click send
         cy.get('.send-button').click();
