@@ -18,6 +18,7 @@ exports[`components/widgets/separator date separator with text 1`] = `
 exports[`components/widgets/separator notification message separator with text 1`] = `
 <div
   className="Separator NotificationSeparator"
+  data-testid="NotificationSeparator"
 >
   <hr
     className="separator__hr"
@@ -33,6 +34,7 @@ exports[`components/widgets/separator notification message separator with text 1
 exports[`components/widgets/separator notification message separator without text 1`] = `
 <div
   className="Separator NotificationSeparator"
+  data-testid="NotificationSeparator"
 >
   <hr
     className="separator__hr"
