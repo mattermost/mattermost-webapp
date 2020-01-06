@@ -1,39 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/SettingItemMin should match snapshot 1`] = `
-<ul
+exports[`components/SettingItemMax should match snapshot 1`] = `
+<section
   className="section-max form-horizontal "
 >
-  <li
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </li>
-  <li
+  </h4>
+  <div
     className="col-sm-12"
   >
-    <ul
+    <div
       className="setting-list"
-      role="presentation"
       tabIndex="-1"
     >
-      <li
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         input_1
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
       >
         <hr />
         <SaveButton
           btnClass="btn-primary"
+          defaultMessage={
+            <FormattedMessage
+              defaultMessage="Save"
+              id="save_button.save"
+              values={Object {}}
+            />
+          }
           disabled={false}
           extraClasses=""
           onClick={[Function]}
           saving={false}
+          savingMessage={
+            <FormattedMessage
+              defaultMessage="Saving"
+              id="save_button.saving"
+              values={Object {}}
+            />
+          }
         />
         <button
           className="btn btn-sm btn-cancel cursor--pointer style--none"
@@ -46,37 +58,35 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
-exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
-<ul
+exports[`components/SettingItemMax should match snapshot, on clientError 1`] = `
+<section
   className="section-max form-horizontal "
 >
-  <li
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </li>
-  <li
+  </h4>
+  <div
     className="col-sm-12"
   >
-    <ul
+    <div
       className="setting-list"
-      role="presentation"
       tabIndex="-1"
     >
-      <li
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         input_1
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
       >
         <hr />
@@ -92,10 +102,24 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
         </div>
         <SaveButton
           btnClass="btn-primary"
+          defaultMessage={
+            <FormattedMessage
+              defaultMessage="Save"
+              id="save_button.save"
+              values={Object {}}
+            />
+          }
           disabled={false}
           extraClasses=""
           onClick={[Function]}
           saving={false}
+          savingMessage={
+            <FormattedMessage
+              defaultMessage="Saving"
+              id="save_button.saving"
+              values={Object {}}
+            />
+          }
         />
         <button
           className="btn btn-sm btn-cancel cursor--pointer style--none"
@@ -108,37 +132,35 @@ exports[`components/SettingItemMin should match snapshot, on clientError 1`] = `
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
-exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
-<ul
+exports[`components/SettingItemMax should match snapshot, on serverError 1`] = `
+<section
   className="section-max form-horizontal "
 >
-  <li
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </li>
-  <li
+  </h4>
+  <div
     className="col-sm-12"
   >
-    <ul
+    <div
       className="setting-list"
-      role="presentation"
       tabIndex="-1"
     >
-      <li
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         input_1
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
       >
         <hr />
@@ -154,10 +176,24 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
         </div>
         <SaveButton
           btnClass="btn-primary"
+          defaultMessage={
+            <FormattedMessage
+              defaultMessage="Save"
+              id="save_button.save"
+              values={Object {}}
+            />
+          }
           disabled={false}
           extraClasses=""
           onClick={[Function]}
           saving={false}
+          savingMessage={
+            <FormattedMessage
+              defaultMessage="Saving"
+              id="save_button.saving"
+              values={Object {}}
+            />
+          }
         />
         <button
           className="btn btn-sm btn-cancel cursor--pointer style--none"
@@ -170,37 +206,35 @@ exports[`components/SettingItemMin should match snapshot, on serverError 1`] = `
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
-exports[`components/SettingItemMin should match snapshot, with new saveTextButton 1`] = `
-<ul
+exports[`components/SettingItemMax should match snapshot, with new saveTextButton 1`] = `
+<section
   className="section-max form-horizontal "
 >
-  <li
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </li>
-  <li
+  </h4>
+  <div
     className="col-sm-12"
   >
-    <ul
+    <div
       className="setting-list"
-      role="presentation"
       tabIndex="-1"
     >
-      <li
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         input_1
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
       >
         <hr />
@@ -211,6 +245,13 @@ exports[`components/SettingItemMin should match snapshot, with new saveTextButto
           extraClasses=""
           onClick={[Function]}
           saving={false}
+          savingMessage={
+            <FormattedMessage
+              defaultMessage="Saving"
+              id="save_button.saving"
+              values={Object {}}
+            />
+          }
         />
         <button
           className="btn btn-sm btn-cancel cursor--pointer style--none"
@@ -223,37 +264,35 @@ exports[`components/SettingItemMin should match snapshot, with new saveTextButto
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
-exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
-<ul
+exports[`components/SettingItemMax should match snapshot, without submit 1`] = `
+<section
   className="section-max form-horizontal "
 >
-  <li
+  <h4
     className="col-sm-12 section-title"
     id="settingTitle"
   >
     title
-  </li>
-  <li
+  </h4>
+  <div
     className="col-sm-12"
   >
-    <ul
+    <div
       className="setting-list"
-      role="presentation"
       tabIndex="-1"
     >
-      <li
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         input_1
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
       >
         <hr />
@@ -268,8 +307,8 @@ exports[`components/SettingItemMin should match snapshot, without submit 1`] = `
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
