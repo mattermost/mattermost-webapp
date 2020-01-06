@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/SettingItemMin should match snapshot with active Save button 1`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
@@ -28,10 +28,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           src="http://localhost:8065/api/v4/users/src_id"
         />
       </li>
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -42,10 +41,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             }
           }
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -112,34 +110,33 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot with active Save button 2`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
       tabIndex="-1"
     >
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -150,10 +147,9 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             }
           }
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -220,25 +216,25 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, on loading picture 1`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
@@ -254,10 +250,9 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           src="http://localhost:8065/api/v4/users/src_id"
         />
       </li>
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -268,10 +263,9 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             }
           }
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -338,25 +332,25 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, profile picture on file 1`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
@@ -384,10 +378,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           </div>
         </div>
       </li>
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -398,10 +391,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             }
           }
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -468,25 +460,25 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, profile picture on source 1`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
@@ -502,10 +494,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           src="http://localhost:8065/api/v4/users/src_id"
         />
       </li>
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -516,10 +507,9 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             }
           }
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -586,25 +576,25 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, team icon on file 1`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
@@ -632,19 +622,17 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           </div>
         </div>
       </li>
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -711,25 +699,25 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, team icon on source 1`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
@@ -803,19 +791,17 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           </OverlayTrigger>
         </div>
       </li>
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="Upload a team icon in BMP, JPG or PNG format.\\\\nSquare images with a solid background color are recommended."
           id="setting_picture.help.team"
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -882,25 +868,25 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;
 
 exports[`components/SettingItemMin should match snapshot, user icon on source 1`] = `
-<ul
+<section
   className="section-max form-horizontal"
 >
-  <li
+  <h4
     className="col-xs-12 section-title"
   >
     Profile Picture
-  </li>
-  <li
+  </h4>
+  <div
     className="col-xs-offset-3 col-xs-8"
   >
-    <ul
+    <div
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
@@ -974,10 +960,9 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           </OverlayTrigger>
         </div>
       </li>
-      <li
+      <div
         className="setting-list-item padding-top x2"
         id="setting-picture__helptext"
-        role="presentation"
       >
         <FormattedMessage
           defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
@@ -988,10 +973,9 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             }
           }
         />
-      </li>
-      <li
+      </div>
+      <div
         className="setting-list-item"
-        role="presentation"
       >
         <hr />
         <FormError
@@ -1058,8 +1042,8 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             values={Object {}}
           />
         </button>
-      </li>
-    </ul>
-  </li>
-</ul>
+      </div>
+    </div>
+  </div>
+</section>
 `;

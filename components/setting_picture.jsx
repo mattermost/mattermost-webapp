@@ -287,10 +287,12 @@ export default class SettingPicture extends Component {
         }
 
         return (
-            <ul className='section-max form-horizontal'>
-                <li className='col-xs-12 section-title'>{this.props.title}</li>
-                <li className='col-xs-offset-3 col-xs-8'>
-                    <ul
+            <section className='section-max form-horizontal'>
+                <h4 className='col-xs-12 section-title'>
+                    {this.props.title}
+                </h4>
+                <div className='col-xs-offset-3 col-xs-8'>
+                    <div
                         className='setting-list'
                         ref={this.settingList}
                         tabIndex='-1'
@@ -298,16 +300,14 @@ export default class SettingPicture extends Component {
                         aria-describedby='setting-picture__helptext'
                     >
                         {imgRender}
-                        <li
+                        <div
                             id='setting-picture__helptext'
                             className='setting-list-item padding-top x2'
-                            role='presentation'
                         >
                             {helpText}
-                        </li>
-                        <li
+                        </div>
+                        <div
                             className='setting-list-item'
-                            role='presentation'
                         >
                             <hr/>
                             <FormError
@@ -367,10 +367,10 @@ export default class SettingPicture extends Component {
                                     defaultMessage='Cancel'
                                 />
                             </button>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
         );
     }
 }
