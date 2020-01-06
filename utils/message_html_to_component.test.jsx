@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {shallow} from 'enzyme';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting';
+import MarkdownImage from 'components/markdown_image';
 
 describe('messageHtmlToComponent', () => {
     test('plain text', () => {
@@ -44,15 +46,19 @@ That was some latex!`;
 
     test('Inline markdown image', () => {
         const options = {markdown: true};
-        const html = TextFormatting.formatText('![Mattermost](/images/icon.png)', options);
+        const html = TextFormatting.formatText('![Mattermost](/images/icon.png) and a [link](link)', options);
 
-        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'})).toMatchSnapshot();
+        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(MarkdownImage).prop('imageIsLink')).toBe(false);
     });
 
     test('Inline markdown image where image is link', () => {
         const options = {markdown: true};
         const html = TextFormatting.formatText('[![Mattermost](images/icon.png)](images/icon.png)', options);
 
-        expect(messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'})).toMatchSnapshot();
+        const component = messageHtmlToComponent(html, false, {hasPluginTooltips: false, postId: 'post_id'});
+        expect(component).toMatchSnapshot();
+        expect(shallow(component).find(MarkdownImage).prop('imageIsLink')).toBe(true);
     });
 });

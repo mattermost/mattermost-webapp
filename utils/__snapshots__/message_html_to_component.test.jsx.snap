@@ -12,6 +12,15 @@ exports[`messageHtmlToComponent Inline markdown image 1`] = `
     postId="post_id"
     src="/images/icon.png"
   />
+   and a 
+  <a
+    className="theme markdown__link"
+    href="http://link"
+    rel="noreferrer"
+    target="_blank"
+  >
+    link
+  </a>
 </div>
 `;
 

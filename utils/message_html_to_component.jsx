@@ -106,6 +106,16 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                     ...attribs
                 } = node.attribs;
 
+                const imageIsLink = (parentNode) => {
+                    if (parentNode &&
+                        parentNode.type === 'tag' &&
+                        parentNode.name === 'a'
+                    ) {
+                        return true;
+                    }
+                    return false;
+                };
+
                 return (
                     <MarkdownImage
                         className={className}
@@ -113,7 +123,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
                         {...attribs}
                         {...options.imageProps}
                         postId={options.postId}
-                        imageIsLink={html.includes('<a')}
+                        imageIsLink={imageIsLink(node.parentNode)}
                     />
                 );
             },
