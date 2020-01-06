@@ -173,7 +173,7 @@ describe('Customization', () => {
 
         // Get config again
         cy.apiGetConfig().then((response) => {
-            // * Verify the about link is saved, directly via REST API
+            // * Verify the Report a Problem link is saved, directly via REST API
             expect(response.body.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
         });
     });
