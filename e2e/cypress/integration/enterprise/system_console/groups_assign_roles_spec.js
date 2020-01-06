@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// # Function to get all the teams associated to group and unlink them
 const getTeamsAssociatedToGroupAndUnlink = (groupId) => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -24,6 +25,7 @@ const getTeamsAssociatedToGroupAndUnlink = (groupId) => {
     });;
 }
 
+// # Function to get all the channels associated to group and unlink them
 const getChannelsAssociatedToGroupAndUnlink = (groupId) => {
     cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
