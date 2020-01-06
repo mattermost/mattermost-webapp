@@ -234,6 +234,6 @@ describe('MM-18045 Verify Guest User Identification in different screens', () =>
         });
 
         // # Close and Clear the Search Autocomplete
-        cy.get('#searchClearButton').click();
+        cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
     });
 });

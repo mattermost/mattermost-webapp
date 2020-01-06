@@ -1,3 +1,4 @@
+
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
@@ -442,4 +443,45 @@ Cypress.Commands.add('fileUpload', (targetInput, fileName = 'mattermost-icon.png
             {subjectType: 'input', force: true},
         );
     });
+});
+
+/**
+ * Upload a file on target input in binary format -
+ * @param {String} targetInput - #LocatorID
+ * @param {String} fileName - Filename to upload from the fixture Ex: drawPlugin-binary.tar
+ * @param {String} fileType - application/gzip
+ */
+Cypress.Commands.add('uploadFile', {prevSubject: true}, (targetInput, fileName, fileType) => {
+    cy.log('Upload process started .FileName:' + fileName);
+    cy.fixture(fileName, 'binary').then((content) => {
+        return Cypress.Blob.binaryStringToBlob(content, fileType).then((blob) => {
+            const el = targetInput[0];
+            cy.log('el:' + el);
+            const testFile = new File([blob], fileName, {type: fileType});
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(testFile);
+            el.files = dataTransfer.files;
+            cy.wrap(targetInput).trigger('change', {force: true});
+        });
+    });
+});
+
+/**
+ * Navigate to system console-PluginManagement from account settings
+ */
+Cypress.Commands.add('systemConsolePluginManagement', () => {
+    cy.get('#lhsHeader').should('be.visible').within(() => {
+        // # Click hamburger main menu
+        cy.get('#sidebarHeaderDropdownButton').click();
+
+        // * Dropdown menu should be visible
+        cy.get('.dropdown-menu').should('be.visible').within(() => {
+            // * Plugin Marketplace button should be visible then click
+            cy.get('#systemConsole').should('be.visible').click();
+        });
+    });
+
+    //Search for plugin management in filter container
+    cy.get('li.filter-container').find('input#adminSidebarFilter.filter').
+        wait(TIMEOUTS.TINY).should('be.visible').type('plugin Management').click();
 });
