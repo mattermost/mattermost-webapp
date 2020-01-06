@@ -77,7 +77,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
             dropDown = (
                 <div >
                     <MenuWrapper>
-                        <div id={`${name}_current_role`}>
+                        <div data-testid={`${name}_current_role`}>
                             <a>
                                 <span>{currentRole} </span>
                                 <span className='caret'/>
@@ -89,7 +89,7 @@ export default class GroupTeamsAndChannelsRow extends React.PureComponent {
                             ariaLabel={localizeMessage('admin.team_channel_settings.group_row.memberRole', 'Member Role')}
                         >
                             <Menu.ItemAction
-                                id={`${name}_role_to_be`}
+                                testid={`${name}_role_to_be`}
                                 onClick={this.changeRoles}
                                 text={roleToBe}
                             />
