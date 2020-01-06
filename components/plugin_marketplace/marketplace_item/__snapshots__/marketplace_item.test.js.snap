@@ -25,17 +25,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render 1`] = `
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}
@@ -100,17 +100,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render installed plug
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion="1.0.0"
         isInstalling={false}
@@ -173,51 +173,51 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         target="_blank"
       >
         name
-      </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <OverlayTrigger
-        defaultOverlayShown={false}
-        delayShow={400}
-        overlay={
-          <Tooltip
-            bsClass="tooltip"
-            id="plugin-marketplace__local-tooltop"
-            placement="right"
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <OverlayTrigger
+          defaultOverlayShown={false}
+          delayShow={400}
+          overlay={
+            <Tooltip
+              bsClass="tooltip"
+              id="plugin-marketplace__local-tooltop"
+              placement="right"
+            >
+              <FormattedMessage
+                defaultMessage="This plugin is not listed in the marketplace but was installed manually."
+                id="marketplace_modal.list.local.tooltip"
+                values={Object {}}
+              />
+            </Tooltip>
+          }
+          placement="top"
+          trigger={
+            Array [
+              "hover",
+              "focus",
+            ]
+          }
+        >
+          <span
+            className="tag"
           >
             <FormattedMessage
-              defaultMessage="This plugin is not listed in the marketplace but was installed manually."
-              id="marketplace_modal.list.local.tooltip"
+              defaultMessage="LOCAL"
+              id="marketplace_modal.list.local"
               values={Object {}}
             />
-          </Tooltip>
-        }
-        placement="top"
-        trigger={
-          Array [
-            "hover",
-            "focus",
-          ]
-        }
-      >
-        <span
-          className="tag"
+          </span>
+        </OverlayTrigger>
+        <p
+          className="more-modal__description"
         >
-          <FormattedMessage
-            defaultMessage="LOCAL"
-            id="marketplace_modal.list.local"
-            values={Object {}}
-          />
-        </span>
-      </OverlayTrigger>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
+          test plugin
+        </p>
+      </a>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}
@@ -282,17 +282,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render with empty lis
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}
@@ -353,17 +353,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render with no plugin
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}
@@ -428,23 +428,23 @@ exports[`components/MarketplaceItem MarketplaceItem should render with one label
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <Label
+          description="some description"
+          key="someName"
+          name="someName"
+          url="http://example.com/info"
+        />
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <Label
-        description="some description"
-        key="someName"
-        name="someName"
-        url="http://example.com/info"
-      />
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}
@@ -509,17 +509,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render with server er
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description error_text"
+        >
+          An error occurred.
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <p
-        className="more-modal__description error_text"
-      >
-        An error occurred.
-      </p>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}
@@ -584,29 +584,29 @@ exports[`components/MarketplaceItem MarketplaceItem should render with two label
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <Label
+          description="some description"
+          key="someName"
+          name="someName"
+          url="http://example.com/info"
+        />
+        <Label
+          description="some description2"
+          key="someName2"
+          name="someName2"
+          url="http://example.com/info2"
+        />
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <Label
-        description="some description"
-        key="someName"
-        name="someName"
-        url="http://example.com/info"
-      />
-      <Label
-        description="some description2"
-        key="someName2"
-        name="someName2"
-        url="http://example.com/info2"
-      />
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}
@@ -671,17 +671,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update an
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (0.9.9)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (0.9.9)
-      </span>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion="0.9.9"
         isInstalling={false}
@@ -746,17 +746,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render with update av
         target="_blank"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (0.9.9)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </a>
-      <span
-        className="light subtitle"
-      >
-        (0.9.9)
-      </span>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion="0.9.9"
         isInstalling={false}
@@ -816,17 +816,17 @@ exports[`components/MarketplaceItem MarketplaceItem should render wtih no homepa
         className="style--none"
       >
         name
+        <span
+          className="light subtitle"
+        >
+          (1.0.0)
+        </span>
+        <p
+          className="more-modal__description"
+        >
+          test plugin
+        </p>
       </span>
-      <span
-        className="light subtitle"
-      >
-        (1.0.0)
-      </span>
-      <p
-        className="more-modal__description"
-      >
-        test plugin
-      </p>
       <UpdateDetails
         installedVersion=""
         isInstalling={false}

@@ -437,33 +437,9 @@ export default class MarketplaceItem extends React.Component {
             );
         }
 
-        let pluginName;
-        if (this.props.homepageUrl) {
-            pluginName = (
-                <a
-                    aria-label={ariaLabel}
-                    className='style--none more-modal__row--link'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href={this.props.homepageUrl}
-                >
-                    {this.props.name}
-                </a>
-            );
-        } else {
-            pluginName = (
-                <span
-                    aria-label={ariaLabel}
-                    className='style--none'
-                >
-                    {this.props.name}
-                </span>
-            );
-        }
-
-        const pluginDetails = (
+        const pluginDetailsInner = (
             <>
-                {pluginName}
+                {this.props.name}
                 <span className='light subtitle'>{versionLabel}</span>
                 {localTag}
                 {labelsTags}
@@ -472,6 +448,30 @@ export default class MarketplaceItem extends React.Component {
                 </p>
             </>
         );
+
+        let pluginDetails;
+        if (this.props.homepageUrl) {
+            pluginDetails = (
+                <a
+                    aria-label={ariaLabel}
+                    className='style--none more-modal__row--link'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    href={this.props.homepageUrl}
+                >
+                    {pluginDetailsInner}
+                </a>
+            );
+        } else {
+            pluginDetails = (
+                <span
+                    aria-label={ariaLabel}
+                    className='style--none'
+                >
+                    {pluginDetailsInner}
+                </span>
+            );
+        }
 
         return (
             <>
