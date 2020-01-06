@@ -165,6 +165,13 @@ Cypress.Commands.add('getLastPostId', () => {
         invoke('replace', 'post_', '');
 });
 
+Cypress.Commands.add('getLastPostIdRHS', () => {
+    waitUntilPermanentPost();
+
+    cy.get('#rhsPostList > div').last().should('have.attr', 'id').and('not.include', ':').
+        invoke('replace', 'rhsPost_', '');
+});
+
 /**
 * Get post ID based on index of post list
 * @param {Integer} index
