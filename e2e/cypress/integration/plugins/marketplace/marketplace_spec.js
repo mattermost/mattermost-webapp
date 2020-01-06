@@ -321,5 +321,15 @@ describe('Plugin Marketplace', () => {
                 cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
             });
         });
+
+        // This test is disabled until the marketplace instance with support for labels is deployed.
+        // This tests need to get updated when the labels send down from the Plugin Marketplace change.
+        xit('should show OFFICIAL label for github plugin', () => {
+            // # Scroll to GitHub plugin
+            cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
+
+            cy.get('#marketplace-plugin-github').find('.tag').should('be.visible').and('to.contain', 'OFFICIAL').trigger('mouseover');
+            cy.get('div.tooltip-inner').should('be.visible').and('contain', 'This plugin is maintained by Mattermost');
+        });
     });
 });
