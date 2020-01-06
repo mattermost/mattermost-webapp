@@ -113,21 +113,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -165,21 +165,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -217,21 +217,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -382,21 +382,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -434,21 +434,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -486,21 +486,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -651,21 +651,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -703,21 +703,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -755,21 +755,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -920,21 +920,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -972,21 +972,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1024,21 +1024,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1197,21 +1197,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1249,21 +1249,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1301,21 +1301,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1466,21 +1466,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1518,21 +1518,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1570,21 +1570,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1739,21 +1739,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1791,21 +1791,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -1843,21 +1843,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2008,21 +2008,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2060,21 +2060,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2112,21 +2112,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2277,21 +2277,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2329,21 +2329,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2381,21 +2381,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2546,21 +2546,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="public"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={true}
             channelId="c1"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c1"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c2"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c2"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2598,21 +2598,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="private"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c3"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c3"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c4"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c4"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
@@ -2650,21 +2650,21 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
               sectionType="direct"
             />
           </li>
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c5"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c5"
           />
-          <Connect(SidebarChannel)
+          <Connect(InjectIntl(SidebarChannel))
             active={false}
             channelId="c6"
             currentTeamName="test-team"
             currentUserId="my-user-id"
             key="c6"
           />
-          <ChannelMore
+          <InjectIntl(ChannelMore)
             browsePublicDirectChannels={[Function]}
             currentTeamId="team_id"
             moreChannels={[Function]}
