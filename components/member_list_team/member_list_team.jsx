@@ -54,11 +54,11 @@ export default class MemberListTeam extends React.Component {
         this.props.actions.setModalSearchTerm('');
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.searchTerm !== nextProps.searchTerm) {
+    componentDidUpdate(prevProps) { // eslint-disable-line camelcase
+        if (prevProps.searchTerm !== this.props.searchTerm) {
             clearTimeout(this.searchTimeoutId);
 
-            const searchTerm = nextProps.searchTerm;
+            const searchTerm = this.props.searchTerm;
             if (searchTerm === '') {
                 this.loadComplete();
                 this.searchTimeoutId = '';
@@ -71,8 +71,8 @@ export default class MemberListTeam extends React.Component {
                         loadStatusesForProfilesList,
                         loadTeamMembersForProfilesList,
                         searchProfiles,
-                    } = nextProps.actions;
-                    const {data} = await searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
+                    } = this.props.actions;
+                    const {data} = await searchProfiles(searchTerm, {team_id: this.props.currentTeamId});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
@@ -81,7 +81,7 @@ export default class MemberListTeam extends React.Component {
                     this.setState({loading: true});
 
                     loadStatusesForProfilesList(data);
-                    loadTeamMembersForProfilesList(data, nextProps.currentTeamId).then(({data: membersLoaded}) => {
+                    loadTeamMembersForProfilesList(data, this.props.currentTeamId).then(({data: membersLoaded}) => {
                         if (membersLoaded) {
                             this.loadComplete();
                         }
