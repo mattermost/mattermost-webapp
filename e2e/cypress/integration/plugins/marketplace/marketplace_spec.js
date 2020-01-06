@@ -300,7 +300,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
 
-        it('change tab on "install plugins" click', () => {
+        it('change tab on "Installed" click', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
                 // # switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
@@ -310,8 +310,8 @@ describe('Plugin Marketplace', () => {
                 cy.get('#marketplaceTabs-pane-installed').should('be.visible');
                 cy.get('#marketplaceTabs-pane-allPlugins').should('not.exist');
 
-                // # click on Install Plugins should change current tab
-                cy.findByText('Install Plugins').should('be.visible').click();
+                // # click on "All Plugins" should change current tab
+                cy.findByText('All Plugins').should('be.visible').click();
 
                 // * all plugins tab should be active
                 cy.findByText('All Plugins').should('be.visible').should('have.attr', 'aria-selected', 'true');
