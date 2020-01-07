@@ -6,7 +6,7 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import AnnouncementBar from 'components/announcement_bar';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import DisplayName from 'components/create_team/components/display_name';
 import SiteNameAndDescription from 'components/common/site_name_and_description';
 import TeamUrl from 'components/create_team/components/team_url';
