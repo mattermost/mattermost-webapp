@@ -22,7 +22,7 @@ describe('Post search display', () => {
 
         // # click on "x" displayed on searchbox
         cy.get('#searchbarContainer').should('be.visible').within(() => {
-            cy.get('#searchClearButton').click();
+            cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
         });
 
         // # RHS should be visible with search results

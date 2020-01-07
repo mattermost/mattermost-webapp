@@ -2,34 +2,31 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom';
 
 import {browserHistory} from 'utils/browser_history';
 
-export default class BlockableLink extends React.Component {
-    static propTypes = {
+type Props = {
+
+    /*
+   * Bool whether navigation is blocked
+   */
+    blocked: boolean;
+
+    /*
+   * String Link destination
+   */
+    to: string;
+    actions: {
 
         /*
-         * Bool whether navigation is blocked
-         */
-        blocked: PropTypes.bool.isRequired,
-
-        /*
-         * String Link destination
-         */
-        to: PropTypes.string.isRequired,
-
-        actions: PropTypes.shape({
-
-            /*
-             * Function for deferring navigation while blocked
-             */
-            deferNavigation: PropTypes.func.isRequired,
-        }).isRequired,
+     * Function for deferring navigation while blocked
+     */
+        deferNavigation: (func: () => void) => void;
     };
-
-    handleClick = (e) => {
+};
+export default class BlockableLink extends React.PureComponent<Props> {
+    private handleClick = (e: React.MouseEvent) => {
         if (this.props.blocked) {
             e.preventDefault();
 
@@ -39,7 +36,7 @@ export default class BlockableLink extends React.Component {
         }
     };
 
-    render() {
+    public render() {
         const props = {...this.props};
         Reflect.deleteProperty(props, 'blocked');
         Reflect.deleteProperty(props, 'actions');
@@ -48,7 +45,6 @@ export default class BlockableLink extends React.Component {
             <NavLink
                 {...props}
                 onClick={this.handleClick}
-            />
-        );
+            />);
     }
 }
