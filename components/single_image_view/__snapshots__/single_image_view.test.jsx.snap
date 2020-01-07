@@ -15,12 +15,10 @@ exports[`components/SingleImageView should match snapshot 1`] = `
         aria-label="Toggle Embed Visibility"
         className="style--none post__embed-visibility color--link"
         data-expanded={true}
-        id="single_file_upload__toggle_original_post_id"
         key="toggle"
         onClick={[Function]}
       />
       <div
-        id="single_file_upload__name_original_post_id"
         onClick={[Function]}
       >
         name
@@ -80,12 +78,10 @@ exports[`components/SingleImageView should match snapshot 2`] = `
         aria-label="Toggle Embed Visibility"
         className="style--none post__embed-visibility color--link"
         data-expanded={true}
-        id="single_file_upload__toggle_original_post_id"
         key="toggle"
         onClick={[Function]}
       />
       <div
-        id="single_file_upload__name_original_post_id"
         onClick={[Function]}
       >
         name
@@ -163,12 +159,10 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
         aria-label="Toggle Embed Visibility"
         className="style--none post__embed-visibility color--link"
         data-expanded={true}
-        id="single_file_upload__toggle_original_post_id"
         key="toggle"
         onClick={[Function]}
       />
       <div
-        id="single_file_upload__name_original_post_id"
         onClick={[Function]}
       >
         name_svg
@@ -230,12 +224,10 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
         aria-label="Toggle Embed Visibility"
         className="style--none post__embed-visibility color--link"
         data-expanded={true}
-        id="single_file_upload__toggle_original_post_id"
         key="toggle"
         onClick={[Function]}
       />
       <div
-        id="single_file_upload__name_original_post_id"
         onClick={[Function]}
       >
         name_svg
@@ -312,12 +304,10 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
         aria-label="Toggle Embed Visibility"
         className="style--none post__embed-visibility color--link"
         data-expanded={true}
-        id="single_file_upload__toggle_original_post_id"
         key="toggle"
         onClick={[Function]}
       />
       <div
-        id="single_file_upload__name_original_post_id"
         onClick={[Function]}
       >
         name
