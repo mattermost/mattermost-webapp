@@ -10,7 +10,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
-import CommentIcon from 'components/common/comment_icon.jsx';
+import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';

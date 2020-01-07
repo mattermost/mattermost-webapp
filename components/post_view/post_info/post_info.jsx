@@ -12,7 +12,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 import * as PostUtils from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
-import CommentIcon from 'components/common/comment_icon.jsx';
+import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
