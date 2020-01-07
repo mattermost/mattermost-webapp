@@ -48,6 +48,7 @@
     "react-day-picker": "7.4.0",
     "react-dom": "16.8.6",
     "react-hot-loader": "4.12.15",
+    "react-inlinesvg": "1.0.0",
     "react-intl": "2.9.0",
     "react-overlays": "1.2.0",
     "react-redux": "5.1.1",
@@ -135,7 +136,7 @@
     "jest-junit": "9.0.0",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.8.0",
-    "mmjstool": "github:mattermost/mattermost-utilities#3a3122a132e84a48591290afb2ad7625ae549803",
+    "mmjstool": "github:mattermost/mattermost-utilities#086f4ffdca4e31a0be22f6bcdfa093ed83fb29e8",
     "node-sass": "4.13.0",
     "react-router-enzyme-context": "1.2.0",
     "redux-mock-store": "1.5.3",
@@ -207,11 +208,12 @@
     "testURL": "http://localhost:8065"
   },
   "jest-junit": {
-    "output": "build/test-results.xml"
+    "outputDirectory": "build",
+    "outputName": "test-results.xml"
   },
   "scripts": {
-    "check": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
-    "fix": "eslint --ignore-pattern node_modules --ignore-pattern dist --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
+    "check": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
+    "fix": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet --fix",
     "build": "cross-env NODE_ENV=production webpack --display-error-details --verbose",
     "run": "webpack --progress --watch",
     "dev-server": "webpack-dev-server",

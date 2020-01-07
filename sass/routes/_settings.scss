@@ -234,7 +234,9 @@
                     padding: 1em 0 1.3em;
 
                     .section-title {
-                        margin-bottom: 10px;
+                        margin: 0 0 5px;
+                        font-size: 14px;
+                        line-height: 20px;
                     }
                 }
 
@@ -635,8 +637,11 @@
 
 .section-min__title {
     font-weight: 600;
-    margin-bottom: 5px;
+    margin: 0 0 5px;
     padding-right: 50px;
+    font-size: 14px;
+    line-height: 20px;
+
 }
 
 .section-min__edit {

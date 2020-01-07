@@ -39,7 +39,8 @@ export type Props = {
     optionRenderer: (
         option: Value,
         isSelected: boolean,
-        onAdd: (value: Value) => void
+        onAdd: (value: Value) => void,
+        onMouseMove: (value: Value) => void
     ) => void;
     options: Value[];
     perPage: number;
