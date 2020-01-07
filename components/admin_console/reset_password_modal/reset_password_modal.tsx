@@ -32,11 +32,9 @@ type Props = {
     onModalSubmit: (user?: UserProfile) => void;
     onModalDismissed: () => void;
     passwordConfig: PasswordConfig;
-    actions: Actions;
-}
-
-type Actions = {
-    adminResetPassword: (userId: string, currentPassword: string, password: string, success: () => void, error: (err: Error) => void) => void;
+    actions: {
+        adminResetPassword: (userId: string, currentPassword: string, password: string, success: () => void, error: (err: Error) => void) => void;
+    };
 }
 
 export default class ResetPasswordModal extends React.Component<Props, State> {
