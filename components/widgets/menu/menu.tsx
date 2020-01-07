@@ -96,6 +96,13 @@ export default class Menu extends React.PureComponent<Props> {
         return null;
     }
 
+    handleMenuClick = (e: React.MouseEvent) => {
+        if (e.target === this.node.current) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+
     public render() {
         const {children, openUp, openLeft, id, ariaLabel, customStyles} = this.props;
         let styles: React.CSSProperties = {};
@@ -123,6 +130,7 @@ export default class Menu extends React.PureComponent<Props> {
                     ref={this.node}
                     style={styles}
                     className='Menu__content dropdown-menu'
+                    onClick={this.handleMenuClick}
                 >
                     {children}
                 </ul>

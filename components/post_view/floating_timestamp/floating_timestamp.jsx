@@ -50,6 +50,7 @@ export default class FloatingTimestamp extends React.PureComponent {
             <div
                 className={className}
                 style={this.props.stylesOverride}
+                data-testid='floatingTimestamp'
             >
                 <div>
                     <span>{dateString}</span>
