@@ -546,8 +546,6 @@ describe('Interactive Menu', () => {
 
             cy.closeRHS();
         });
-
-        cy.closeRHS();
     });
 });
 
