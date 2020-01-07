@@ -19,6 +19,8 @@ export default class MarkdownImage extends React.PureComponent {
         alt: PropTypes.string,
         imageMetadata: PropTypes.object,
         src: PropTypes.string.isRequired,
+        height: PropTypes.number,
+        width: PropTypes.number,
         title: PropTypes.string,
         className: PropTypes.string.isRequired,
         postId: PropTypes.string.isRequired,
@@ -90,12 +92,16 @@ export default class MarkdownImage extends React.PureComponent {
                         this.props.className :
                         `${this.props.className} markdown-inline-img--hover cursor--pointer a11y--active`;
 
+                    const {height, width, title} = this.props;
                     return (
                         <>
                             <SizeAwareImage
                                 alt={alt}
                                 className={className}
                                 src={safeSrc}
+                                height={height}
+                                width={width}
+                                title={title}
                                 dimensions={imageMetadata}
                                 showLoader={true}
                                 onClick={this.showModal}
