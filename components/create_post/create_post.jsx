@@ -318,7 +318,7 @@ class CreatePost extends React.Component {
 
     componentDidMount() {
         this.onOrientationChange();
-        this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (_key, value) => {
+        this.props.actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
             if (value) {
                 return {...value, uploadsInProgress: []};
             }
@@ -795,7 +795,7 @@ class CreatePost extends React.Component {
                 const index = draft.uploadsInProgress.indexOf(clientIds[i]);
 
                 if (index !== -1) {
-                    draft.uploadsInProgress = draft.uploadsInProgress.filter((_item, itemIndex) => index !== itemIndex);
+                    draft.uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
                 }
             }
         }
@@ -820,7 +820,7 @@ class CreatePost extends React.Component {
             const index = draft.uploadsInProgress.indexOf(clientId);
 
             if (index !== -1) {
-                const uploadsInProgress = draft.uploadsInProgress.filter((_item, itemIndex) => index !== itemIndex);
+                const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
                 const modifiedDraft = {
                     ...draft,
                     uploadsInProgress,
@@ -847,7 +847,7 @@ class CreatePost extends React.Component {
             index = draft.uploadsInProgress.indexOf(id);
 
             if (index !== -1) {
-                const uploadsInProgress = draft.uploadsInProgress.filter((_item, itemIndex) => index !== itemIndex);
+                const uploadsInProgress = draft.uploadsInProgress.filter((item, itemIndex) => index !== itemIndex);
 
                 modifiedDraft = {
                     ...draft,
@@ -859,7 +859,7 @@ class CreatePost extends React.Component {
                 }
             }
         } else {
-            const fileInfos = draft.fileInfos.filter((_item, itemIndex) => index !== itemIndex);
+            const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
 
             modifiedDraft = {
                 ...draft,
