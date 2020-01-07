@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import marked, {MarkedOptions} from 'marked';
-import {oneLineTrim} from 'common-tags';
 
 import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
@@ -43,9 +42,11 @@ export default class Renderer extends marked.Renderer {
 
         let header = '';
         if (SyntaxHighlighting.canHighlight(usedLanguage)) {
-            header = oneLineTrim`<span class="post-code__language">
-                    ${SyntaxHighlighting.getLanguageName(usedLanguage)}
-                </span>`;
+            header = (
+                '<span class="post-code__language">' +
+                    SyntaxHighlighting.getLanguageName(usedLanguage) +
+                '</span>'
+            );
         }
 
         // if we have to apply syntax highlighting AND highlighting of search terms, create two copies
@@ -67,19 +68,23 @@ export default class Renderer extends marked.Renderer {
             if (tokens.size > 0) {
                 searched = TextFormatting.replaceTokens(searched, tokens);
 
-                searchedContent = oneLineTrim`<div class="post-code__search-highlighting">
-                        ${searched} 
-                    </div>`;
+                searchedContent = (
+                    '<div class="post-code__search-highlighting">' +
+                        searched +
+                    '</div>'
+                );
             }
         }
 
-        return oneLineTrim`<div class="${className}">
-                ${header}
-                <code class="hljs">
-                    ${searchedContent}
-                    ${content}
-                </code>
-            </div>`;
+        return (
+            '<div class="' + className + '">' +
+                header +
+                '<code class="' + codeClassName + '">' +
+                    searchedContent +
+                    content +
+                '</code>' +
+            '</div>'
+        );
     }
 
     public codespan(text: string) {
@@ -95,11 +100,13 @@ export default class Renderer extends marked.Renderer {
             output = TextFormatting.replaceTokens(output, tokens);
         }
 
-        return oneLineTrim`<span class="codespan__pre-wrap">
-                <code>
-                    ${output}
-                </code>
-            </span>`;
+        return (
+            '<span class="codespan__pre-wrap">' +
+                '<code>' +
+                    output +
+                '</code>' +
+            '</span>'
+        );
     }
 
     public br() {
