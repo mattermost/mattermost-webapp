@@ -342,7 +342,7 @@ class CreatePost extends React.Component {
             this.focusTextbox();
         }
 
-        // Clear timeout ids of shortcut to add emoji to last post when they stack up to 5, 
+        // Clear timeout ids of shortcut to add emoji to last post when they stack up to 5,
         // so we dont re clear everytime on every update.
         if (delayIdsClosingEmojiForLatMessage.size > 5) {
             clearTimeouts(delayIdsClosingEmojiForLatMessage);
