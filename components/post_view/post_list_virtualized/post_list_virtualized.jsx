@@ -233,6 +233,9 @@ export default class PostList extends React.PureComponent {
         window.removeEventListener('resize', this.handleWindowResize);
         document.removeEventListener('keydown', this.handleShortcut);
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
+        clearTimeout(this.forceShowUnreadToastTimer);
+        clearTimeout(this.hideNewMessagesTimeout);
+        clearTimeout(this.hideUnreadTimeout);
     }
 
     static getDerivedStateFromProps(props, prevState) {
@@ -443,8 +446,10 @@ export default class PostList extends React.PureComponent {
                 });
                 return;
             }
-            setTimeout(() => {
-                this.setState({showNewMessagesToast: false});
+            this.hideNewMessagesTimeout = setTimeout(() => {
+                if (this.mounted) {
+                    this.setState({showNewMessagesToast: false});  
+                }
             }, TOAST_FADEOUT_TIME);
         }
     }
@@ -455,8 +460,10 @@ export default class PostList extends React.PureComponent {
                 this.setState({showUnreadToast: false});
                 return;
             }
-            setTimeout(() => {
-                this.setState({showUnreadToast: false});
+            this.hideUnreadTimeout = setTimeout(() => {
+                if (this.mounted) {
+                    this.setState({showUnreadToast: false});
+                }
             }, this.forceUnreadEvenAtBottom ? TOAST_FADEOUT_TIME_UNREAD : TOAST_FADEOUT_TIME);
         }
     }

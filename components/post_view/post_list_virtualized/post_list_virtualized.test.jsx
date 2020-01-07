@@ -471,4 +471,235 @@ describe('PostList', () => {
         const initScrollToIndex = instance.initScrollToIndex();
         expect(initScrollToIndex).toEqual({index: 5, position: 'start', offset: -50});
     });
+
+    describe('unread count logic', () => {
+        test('If not atLatestPost and channelMarkedAsUnread is false then unread count is equal to unreads in present chunk plus recent messages', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            expect(wrapper.state('unreadCount')).toBe(15);
+        });
+
+        test('If atLatestPost then unread count is based on the number of posts below the new message indicator', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            expect(wrapper.state('unreadCount')).toBe(3);
+        });
+
+        test('If channelMarkedAsUnread then unread count should be based on the unreadCountInChannel', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: false,
+                channelMarkedAsUnread: true,
+                unreadCountInChannel: 10,
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            expect(wrapper.state('unreadCount')).toBe(10);
+        });
+    });
+
+    describe('toasts state', () => {
+        jest.useFakeTimers();
+        test('Should have unread toast if unreadCount > 0', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
+        test('Should have unread toast channel is marked as unread', () => {
+            const props = {
+                ...baseProps,
+                channelMarkedAsUnread: false,
+            };
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+            wrapper.setProps({channelMarkedAsUnread: true});
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+        });
+
+        test('Should have showNewMessagesToast if there are unreads and lastViewedAt is less than latestPostTimeStamp', () => {
+            const props = {
+                ...baseProps,
+                unreadCountInChannel: 10,
+                newRecentMessagesCount: 5,
+            };
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            wrapper.setState({atBottom: false, showUnreadToast: false, lastViewedBottom: 1234});
+            wrapper.setProps({latestPostTimeStamp: 1235});
+            expect(wrapper.state('showNewMessagesToast')).toBe(true);
+        });
+
+        test('Should hide unread toast if scrolled to bottom', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+            wrapper.setState({atBottom: false});
+            wrapper.instance().updateAtBottom(true);
+            expect(wrapper.state('atBottom')).toBe(true);
+            jest.runOnlyPendingTimers();
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+        });
+
+        test('Should hide showNewMessagesToast if scrolled to bottom', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            wrapper.setState({atBottom: false, showUnreadToast: false, lastViewedBottom: 1234});
+            wrapper.setProps({latestPostTimeStamp: 1235});
+            expect(wrapper.state('showNewMessagesToast')).toBe(true);
+            wrapper.instance().updateAtBottom(true);
+            expect(wrapper.state('atBottom')).toBe(true);
+            jest.runOnlyPendingTimers();
+            expect(wrapper.state('showNewMessagesToast')).toBe(false);
+        });
+
+        test('Should hide unread toast on scrollToUnread', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            instance.listRef = {current: {scrollToItem: jest.fn()}};
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+
+            instance.scrollToLatestMessages();
+            jest.runOnlyPendingTimers();
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+            expect(instance.listRef.current.scrollToItem).toHaveBeenCalledWith(0, 'end');
+        });
+
+        test('Should hide new messages toast on scrollToUnread', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const instance = wrapper.instance();
+            instance.listRef = {current: {scrollToItem: jest.fn()}};
+
+            wrapper.setState({atBottom: false, showUnreadToast: false, lastViewedBottom: 1234});
+            wrapper.setProps({latestPostTimeStamp: 1235});
+            expect(wrapper.state('showNewMessagesToast')).toBe(true);
+
+            instance.scrollToUnread();
+            jest.runOnlyPendingTimers();
+            expect(wrapper.state('showNewMessagesToast')).toBe(false);
+            expect(instance.listRef.current.scrollToItem).toHaveBeenCalledWith(3, 'start', -50);
+        });
+
+        test('Should hide unread toast if esc key is pressed', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            expect(wrapper.state('showUnreadToast')).toBe(true);
+
+            wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
+            expect(wrapper.state('showUnreadToast')).toBe(false);
+        });
+
+        test('Should hide new messages toast if esc key is pressed', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                postListIds: [ //order of the postIds is in reverse order so unreadCount should be 3
+                    'post1',
+                    'post2',
+                    'post3',
+                    PostListRowListIds.START_OF_NEW_MESSAGES,
+                    DATE_LINE + 1551711600000,
+                    'post4',
+                    'post5',
+                ],
+            };
+
+            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            wrapper.setState({atBottom: false, showUnreadToast: false, lastViewedBottom: 1234});
+            wrapper.setProps({latestPostTimeStamp: 1235});
+            expect(wrapper.state('showNewMessagesToast')).toBe(true);
+
+            wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
+            expect(wrapper.state('showNewMessagesToast')).toBe(false);
+        });
+    });
 });
