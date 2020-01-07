@@ -338,6 +338,7 @@ export default class SettingPicture extends Component {
                                 />
                             </button>
                             <button
+                                tabIndex={disableSaveButtonFocus ? '-1' : '0'}
                                 data-testid='saveSettingPicture'
                                 disabled={disableSaveButtonFocus}
                                 ref={this.confirmButton}
