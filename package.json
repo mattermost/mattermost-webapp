@@ -138,7 +138,7 @@
     "jest-junit": "9.0.0",
     "jquery-deferred": "0.3.1",
     "mini-css-extract-plugin": "0.8.0",
-    "mmjstool": "github:mattermost/mattermost-utilities#3a3122a132e84a48591290afb2ad7625ae549803",
+    "mmjstool": "github:mattermost/mattermost-utilities#086f4ffdca4e31a0be22f6bcdfa093ed83fb29e8",
     "node-sass": "4.13.0",
     "react-router-enzyme-context": "1.2.0",
     "redux-mock-store": "1.5.3",
@@ -210,7 +210,8 @@
     "testURL": "http://localhost:8065"
   },
   "jest-junit": {
-    "output": "build/test-results.xml"
+    "outputDirectory": "build",
+    "outputName": "test-results.xml"
   },
   "scripts": {
     "check": "eslint --ext .js --ext .jsx --ext tsx --ext ts . --quiet",
