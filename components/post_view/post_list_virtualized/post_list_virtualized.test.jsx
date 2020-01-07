@@ -96,24 +96,6 @@ describe('PostList', () => {
         });
     });
 
-    describe('new messages below', () => {
-        test('should mount outside of permalink view', () => {
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>).dive();
-
-            expect(wrapper.find(NewMessagesBelow).exists()).toBe(true);
-        });
-
-        test('should not mount when in permalink view', () => {
-            const props = {
-                ...baseProps,
-                focusedPostId: '1234',
-            };
-
-            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
-            expect(wrapper.find(NewMessagesBelow).exists()).toBe(false);
-        });
-    });
-
     describe('onScroll', () => {
         test('should call checkBottom', () => {
             const wrapper = shallowWithIntl(<PostList {...baseProps}/>).dive();
@@ -498,7 +480,7 @@ describe('PostList', () => {
                 newRecentMessagesCount: 5
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             expect(wrapper.state('unreadCount')).toBe(15);
         });
 
@@ -517,7 +499,7 @@ describe('PostList', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             expect(wrapper.state('unreadCount')).toBe(3);
         });
 
@@ -529,7 +511,7 @@ describe('PostList', () => {
                 unreadCountInChannel: 10,
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             expect(wrapper.state('unreadCount')).toBe(10);
         });
     });
@@ -543,7 +525,7 @@ describe('PostList', () => {
                 newRecentMessagesCount: 5
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
@@ -552,7 +534,7 @@ describe('PostList', () => {
                 ...baseProps,
                 channelMarkedAsUnread: false,
             };
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
 
             expect(wrapper.state('showUnreadToast')).toBe(false);
             wrapper.setProps({channelMarkedAsUnread: true});
@@ -565,7 +547,7 @@ describe('PostList', () => {
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
             };
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             wrapper.setState({atBottom: false, showUnreadToast: false, lastViewedBottom: 1234});
             wrapper.setProps({latestPostTimeStamp: 1235});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
@@ -586,7 +568,7 @@ describe('PostList', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             expect(wrapper.state('showUnreadToast')).toBe(true);
             wrapper.setState({atBottom: false});
             wrapper.instance().updateAtBottom(true);
@@ -609,7 +591,7 @@ describe('PostList', () => {
                     'post5',
                 ],
             };
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             wrapper.setState({atBottom: false, showUnreadToast: false, lastViewedBottom: 1234});
             wrapper.setProps({latestPostTimeStamp: 1235});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
@@ -634,7 +616,7 @@ describe('PostList', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             const instance = wrapper.instance();
             instance.listRef = {current: {scrollToItem: jest.fn()}};
             expect(wrapper.state('showUnreadToast')).toBe(true);
@@ -660,7 +642,7 @@ describe('PostList', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             const instance = wrapper.instance();
             instance.listRef = {current: {scrollToItem: jest.fn()}};
 
@@ -689,7 +671,7 @@ describe('PostList', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             expect(wrapper.state('showUnreadToast')).toBe(true);
 
             wrapper.instance().handleShortcut({key: 'ESC', keyCode: 27});
@@ -711,7 +693,7 @@ describe('PostList', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
+            const wrapper = shallowWithIntl(<PostList {...props}/>).dive();
             wrapper.setState({atBottom: false, showUnreadToast: false, lastViewedBottom: 1234});
             wrapper.setProps({latestPostTimeStamp: 1235});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);

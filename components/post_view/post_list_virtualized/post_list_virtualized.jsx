@@ -41,15 +41,11 @@ const virtListStyles = {
     maxHeight: '100%',
 };
 
-<<<<<<< HEAD:components/post_view/post_list_virtualized/post_list_virtualized.jsx
 const TOAST_FADEOUT_TIME_UNREAD = 4000;
 const TOAST_FADEOUT_TIME = 750;
 const OFFSET_TO_SHOW_TOAST = -50;
 
-export default class PostList extends React.PureComponent {
-=======
 class PostList extends React.PureComponent {
->>>>>>> master:components/post_view/post_list/post_list_virtualized.jsx
     static propTypes = {
 
         /**

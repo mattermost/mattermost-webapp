@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// # indicates a test step (e.g. # Go to a page)
+// # Indicates a test step (e.g. # Go to a page)
 // [*] indicates an assertion (e.g. * Check the title)
 // Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -22,62 +22,58 @@ describe('toasts', () => {
     });
 
     beforeEach(() => {
+        cy.visit('/ad-1/channels/town-square');
         cy.visit('/ad-1/channels/off-topic');
     });
 
     it('Unread messages toast is show when visiting a channel with unreads and should dissapear if scrolled to bottom', () => {
-        // # add enough messages
+        // # Add enough messages
         for (let index = 0; index < 30; index++) {
             cy.postMessageAs({sender: otherUser, message: `This is an old message [${index}]`, channelId: townsquareChannelId});
         }
 
-        // # visit channel to see the unread posts
-        cy.visit('/ad-1/channels/town-square');
+        visitTownSquareAndWaitForPageToLoad();
 
-        // # find the toast
+        // * find the toast
         cy.get('div.toast').should('be.visible');
-
-        // # check that the message is correct
-        cy.get('div.toast__message>span').first().contains('30 new messages');
         cy.clock();
+
+        // * check that the message is correct
+        cy.get('div.toast__message>span').first().contains('30 new messages');
         cy.get('div.post-list__dynamic').scrollTo('bottom');
-        cy.tick(5000);
+
+        // * should hide the scroll to new message button as it is at the bottom
+        cy.get('div.toast__jump').should('not.be.visible');
+        cy.tick(8000);
+
+        // * As time elapsed the toast should be hidden
         cy.get('div.toast').should('be.not.visible');
     });
 
     it('should show new message indicator when posts arrive and user is not at bottom', () => {
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage().then(() => {
-            // # find the toast
+            // * find the toast
             cy.get('div.toast').should('be.visible');
 
-            // # check that the message is correct
+            // * check that the message is correct
             cy.get('div.toast__message>span').first().contains('1 new message');
         });
     });
 
-    it('should remove new message indicator user scrolls to bottom', () => {
+    it('New message toast should not have action button when at bottom and hide toast in a sec', () => {
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage().then(() => {
-            // # find the toast
+            // * find the toast
             cy.get('div.toast').should('be.visible');
             cy.clock();
             cy.get('div.post-list__dynamic').scrollTo('bottom');
-            cy.tick(2000);
-            cy.get('div.toast').should('be.hidden');
-        });
-    });
 
-    it('new message toast should not have action button when at bottom', () => {
-        visitTownSquareAndWaitForPageToLoad();
-        scrollUpAndPostAMessage().then(() => {
-            // # find the toast
-            cy.get('div.toast').should('be.visible');
-            cy.get('div.toast__jump').should('be.visible');
-            cy.clock();
-            cy.get('div.post-list__dynamic').scrollTo('bottom');
+            // * should hide the scroll to new message button as it is at the bottom
             cy.get('div.toast__jump').should('not.be.visible');
             cy.tick(2000);
+
+            // * As time elapsed the toast should be hidden
             cy.get('div.toast').should('be.hidden');
         });
     });
@@ -85,31 +81,34 @@ describe('toasts', () => {
     it('new message toast should take to new messages line when clicked', () => {
         visitTownSquareAndWaitForPageToLoad();
 
-        // # scroll up so bottom is not visible
+        // # Scroll up so bottom is not visible
         cy.get('div.post-list__dynamic').scrollTo(0, '70%');
 
-        // # post few new message
+        // # Post few new message
         for (let index = 0; index < 4; index++) {
             cy.postMessageAs({sender: otherUser, message: `This is a new message [${index}]`, channelId: townsquareChannelId});
         }
 
         cy.get('.NotificationSeparator').should('not.be.visible');
         cy.get('div.toast__pointer').should('be.visible').click();
+
+        // * should scroll NotificationSeparator into view
         cy.get('.NotificationSeparator').should('be.visible');
     });
 
     it('Unread messages toast should take to bottom when clicked', () => {
-        // # add enough messages
+        // # Add enough messages
         for (let index = 0; index < 40; index++) {
             cy.postMessageAs({sender: otherUser, message: `This is a message for checking action on toast [${index}]`, channelId: townsquareChannelId});
         }
 
         visitTownSquareAndWaitForPageToLoad();
 
-        // # find the toast
+        // * find the toast
         cy.get('div.toast').should('be.visible');
         cy.get('div.toast__pointer').should('be.visible').click();
         cy.getLastPostId().then((postId) => {
+            // * last posted message should be in view
             cy.get(`#postMessageText_${postId} > p`).contains('This is a message for checking action on toast [39]');
         });
     });
@@ -118,6 +117,8 @@ describe('toasts', () => {
         visitTownSquareAndWaitForPageToLoad();
         scrollUpAndPostAMessage().then(() => {
             cy.get('div.toast').should('be.visible');
+
+            // # Click on toast dismiss button to close the toast
             cy.get('div.toast__dismiss').click();
             cy.get('div.toast').should('not.be.visible');
         });
@@ -130,7 +131,7 @@ describe('toasts', () => {
         cy.postMessageAs({sender: otherUser, message: 'This is a new message', channelId: townsquareChannelId});
         cy.go('back');
 
-        // # post a new message
+        // # Post a new message
         cy.get('div.toast').should('be.visible');
         cy.get('div.toast__dismiss').click();
         cy.get('div.toast').should('not.be.visible');
@@ -164,7 +165,7 @@ describe('toasts', () => {
         let postId;
         visitTownSquareAndWaitForPageToLoad();
 
-        // # post a new message
+        // # Post a new message
         cy.postMessageAs({
             sender: otherUser,
             message: 'This is a new message for marking as unread',
@@ -173,8 +174,11 @@ describe('toasts', () => {
             postId = post.id;
             cy.get(`#post_${postId}`).trigger('mouseover');
             cy.get(`#post_${postId} .post__dropdown`).click({force: true});
+
+            // # Mark post as unread
             cy.get(`#post_${postId} #unread_post_${postId}`).click();
 
+            // # Toast apprears and has the appropriate message
             cy.get('div.toast').should('be.visible');
             cy.get('div.toast__message>span').first().contains('1 new message');
         });
@@ -183,13 +187,16 @@ describe('toasts', () => {
     it('New message line should move if user is scrolled up and new messages arrive', () => {
         visitTownSquareAndWaitForPageToLoad();
 
-        // # post a new message
+        // # Post a new message
         cy.postMessageAs({sender: otherUser, message: 'post1', channelId: townsquareChannelId}).then(() => {
-            // The New Messages line should appear above the last post
+
+            // * The new messages line should appear above the last post
             cy.get('.NotificationSeparator').should('exist');
             cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post1');
             cy.get('div.post-list__dynamic').scrollTo(0, '70%');
             cy.postMessageAs({sender: otherUser, message: 'post2', channelId: townsquareChannelId}).then(() => {
+
+                // * The new messages line should have moved to the last post
                 cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
             });
         });
@@ -202,9 +209,12 @@ function visitTownSquareAndWaitForPageToLoad() {
 }
 
 function scrollUpAndPostAMessage() {
-    // # scroll up so bottom is not visible
+    // # Scroll up so bottom is not visible
     cy.get('div.post-list__dynamic').scrollTo(0, '70%');
 
-    // # post a new message
+    // # Without the wait the tests seem to fun flaky. Possibly because of ScrollTo having a race with post of message
+    cy.wait(20); // eslint-disable-line cypress/no-unnecessary-waiting
+
+    // # Post a new message
     return cy.postMessageAs({sender: otherUser, message: 'This is a new message', channelId: townsquareChannelId});
 }
