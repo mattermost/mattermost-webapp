@@ -257,7 +257,7 @@ describe('React to last message shortcut', () => {
         // * Check that the RHS is open
         cy.get('#rhsContainer').should('be.visible');
 
-        // # Post a repliews in RHS.
+        // # Post a replies in RHS.
         cy.postMessageReplyInRHS(MESSAGES.SMALL);
         cy.postMessageReplyInRHS(MESSAGES.TINY);
 
