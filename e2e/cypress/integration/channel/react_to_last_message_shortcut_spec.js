@@ -27,6 +27,7 @@ describe('React to last message shortcut', () => {
 
         // # Create a new channel for later use such as when channel is empty test
         cy.getCurrentTeamId().then((teamId) => {
+            // eslint-disable-next-line no-magic-numbers
             const newChannelName = `emptychannel-${generateRandomNumber(1, 100)}`;
             cy.apiCreateChannel(teamId, newChannelName, newChannelName).then((response) => {
                 newChannel = Object.assign({}, response.body);
@@ -35,17 +36,17 @@ describe('React to last message shortcut', () => {
     });
 
     it('Should open the emoji picker in the channel view when the focus is not on the center text box', () => {
-        // # Making sure there is at least a message without reaction
+        // # Make sure there is at least a message without reaction
         cy.postMessage(MESSAGES.TINY);
 
         // # Click anywhere to take focus away from center text box
         cy.get('#lhsList').within(() => {
             cy.findByText('Town Square').click();
         });
-        cy.wait(TIMEOUTS.TINY);
 
         // # Emulate react to last message shortcut
-        cy.get('body').type('{ctrl}{shift}\\');
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check that emoji picker is opened
         cy.get('#emojiPicker').should('exist').within(() => {
@@ -63,11 +64,12 @@ describe('React to last message shortcut', () => {
     });
 
     it('Should open the emoji picker in the channel view when the focus on the center text box', () => {
-        // # Making sure there is at least a message without reaction
+        // # Make sure there is at least a message without reaction
         cy.postMessage(MESSAGES.TINY);
 
         // # Emulate react to last message shortcut when focus is on the center text box
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).focus().type('{ctrl}{shift}\\');
+        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).focus().clear().cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check that emoji picker is opened
         cy.get('#emojiPicker').should('exist').within(() => {
@@ -85,41 +87,41 @@ describe('React to last message shortcut', () => {
     });
 
     it('Should not close the emoji picker even shortcut is repeated multiple times', () => {
-        // # Making sure there is at least a message without reaction
+        // # Make sure there is at least a message without reaction
         cy.postMessage(MESSAGES.TINY);
 
         // # Click anywhere to take focus away from center text box
         cy.get('#lhsList').within(() => {
             cy.findByText('Town Square').click();
         });
-        cy.wait(TIMEOUTS.TINY);
 
-        // * Picker should not be open
+        // * Verify emoji picker should not be open
         cy.get('#emojiPicker').should('not.exist');
 
-        // # Open picker by keyboard shortcut
-        cy.get('body').type('{ctrl}{shift}\\');
+        // # Emulate react to last message shortcut
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
-        // * Check if emoji picker opened
+        // * Check if emoji picker is now opened
         cy.get('#emojiPicker').should('exist');
 
         // # Emulate react to last message shortcut multiple times
-        cy.get('body').type('{ctrl}{shift}\\');
-        cy.get('body').type('{ctrl}{shift}\\');
-
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
         cy.wait(TIMEOUTS.SMALL);
 
-        // * Check if multiple times executing same shortcut did not close picker
+        // * Check if emoji picker is still open even after executing multiple times same shortcut
         cy.get('#emojiPicker').should('exist');
 
         // # Close the picker
         cy.get('body').click();
 
-        // * Picker should be closed
+        // * Picker should be closed now
         cy.get('#emojiPicker').should('not.exist');
 
         // * Open with last emoji picker once again,
-        cy.get('body').type('{ctrl}{shift}\\');
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check if it can open again
         cy.get('#emojiPicker').should('exist').within(() => {
@@ -137,22 +139,22 @@ describe('React to last message shortcut', () => {
     });
 
     it('Should add reaction to same post on which emoji picker was opened by shortcut,not on any new messages', () => {
-        // # Making sure there is at least a message without reaction
+        // # Make sure there is at least a message without reaction
         cy.postMessage(MESSAGES.TINY);
 
         // # Click anywhere to take focus away from center text box
         cy.get('#lhsList').within(() => {
             cy.findByText('Town Square').click();
         });
-        cy.wait(TIMEOUTS.TINY);
 
-        // # Let the post id which user initially intended to add reactions to, for later use
+        // # Save the post id which user initially intended to add reactions to, for later use
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#${lastPostId}_message`).as('postIdForAddingReaction');
         });
 
         // # Emulate react to last message shortcut
-        cy.get('body').type('{ctrl}{shift}\\');
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check that emoji picker is opened
         cy.get('#emojiPicker').should('exist');
@@ -160,13 +162,13 @@ describe('React to last message shortcut', () => {
         // # In meanwhile new messages pops up
         cy.postMessageAs({sender: users['user-2'], message: MESSAGES.TINY, channelId});
 
-        // * Check if emoji picker is opened and add a reaction
+        // * Check if emoji picker is still open and add a reaction
         cy.get('#emojiPicker').should('exist').within(() => {
             // # Search for an emoji and add it to message
             cy.findByPlaceholderText('Search Emoji').type('smile{enter}');
         });
 
-        // * Check if the emoji picker has the entered reaction to the message we intended
+        // * Check if the emoji picker has the entered reaction to the message we initially intended
         cy.get('@postIdForAddingReaction').within(() => {
             cy.findByLabelText('reactions').should('exist');
             cy.findByLabelText('remove reaction smile').should('exist');
@@ -182,7 +184,7 @@ describe('React to last message shortcut', () => {
     });
 
     it('Should open emoji picker for last message when focus is on RHS comment with only one post', () => {
-        // # Making sure there is at least a message to add comment to at center
+        // # Make sure there is at least a message to add comment to at center
         cy.postMessage(MESSAGES.TINY);
 
         // # Mouseover the last post and click post comment icon.
@@ -192,7 +194,8 @@ describe('React to last message shortcut', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Emulate react to last message shortcut when focus is on the right text box
-        cy.get('#reply_textbox', {timeout: TIMEOUTS.LARGE}).focus().type('{ctrl}{shift}\\');
+        cy.get('#reply_textbox', {timeout: TIMEOUTS.LARGE}).focus().clear().cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check emoji picker opened
         cy.get('#emojiPicker').should('exist').within(() => {
@@ -213,7 +216,7 @@ describe('React to last message shortcut', () => {
     });
 
     it('Should open emoji picker for last comment when focus is on RHS comment with multiple comments', () => {
-        // # Making sure there is at least a message to add comment to at center
+        // # Make sure there is at least a message to add comment to at center
         cy.postMessage(MESSAGES.TINY);
 
         // # Mouseover the last post and click post comment icon.
@@ -227,7 +230,8 @@ describe('React to last message shortcut', () => {
         cy.postMessageReplyInRHS(MESSAGES.TINY);
 
         // # Emulate react to last message shortcut when focus is on the right text box
-        cy.get('#reply_textbox', {timeout: TIMEOUTS.LARGE}).focus().type('{ctrl}{shift}\\');
+        cy.get('#reply_textbox', {timeout: TIMEOUTS.LARGE}).focus().clear().cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check emoji picker opened
         cy.get('#emojiPicker').should('exist').within(() => {
@@ -261,7 +265,7 @@ describe('React to last message shortcut', () => {
         cy.postMessageReplyInRHS(MESSAGES.SMALL);
         cy.postMessageReplyInRHS(MESSAGES.TINY);
 
-        // # This post is in RHS, where reaction should not be added
+        // # Save the post id in RHS, where reaction should not be added
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#${lastPostId}_message`).as('postInRHS');
         });
@@ -277,7 +281,8 @@ describe('React to last message shortcut', () => {
         });
 
         // # Emulate react to last message shortcut when focus is not on RHS or Center text box
-        cy.get('body').type('{ctrl}{shift}\\');
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check that emoji picker is opened when focus is not on RHS or CENTER text box
         cy.get('#emojiPicker').should('exist');
@@ -287,7 +292,8 @@ describe('React to last message shortcut', () => {
         cy.wait(TIMEOUTS.TINY);
 
         // # Focus back on Center textbox and enter shortcut
-        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).focus().type('{ctrl}{shift}\\');
+        cy.get('#post_textbox', {timeout: TIMEOUTS.LARGE}).focus().clear().cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check that emoji picker is opened when focus is on CENTER textbox
         cy.get('#emojiPicker').should('exist').within(() => {
@@ -295,7 +301,7 @@ describe('React to last message shortcut', () => {
             cy.findByPlaceholderText('Search Emoji').type('smile{enter}');
         });
 
-        // # This post is in Center, where reaction be added
+        // # This post is in Center, where reaction is to be added
         cy.getLastPostId().then((lastPostId) => {
             cy.get(`#${lastPostId}_message`).as('postInCenter');
         });
@@ -323,7 +329,8 @@ describe('React to last message shortcut', () => {
         cy.findAllByTestId('postView').should('have.length', 1);
 
         // # Emulate react to last message shortcut
-        cy.get('body').type('{ctrl}{shift}\\');
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check that emoji picker is not opened for empty channel
         cy.get('#emojiPicker').should('not.exist');
@@ -335,7 +342,8 @@ describe('React to last message shortcut', () => {
         cy.apiDeleteChannel(newChannel.id);
 
         // # Emulate react to last message shortcut
-        cy.get('body').type('{ctrl}{shift}\\');
+        cy.get('body').cmdOrCtrlShortcut('{shift}\\');
+        cy.wait(TIMEOUTS.TINY);
 
         // * Check that emoji picker is not opened
         cy.get('#emojiPicker').should('not.exist');
