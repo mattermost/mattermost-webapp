@@ -38,7 +38,9 @@ export function makeCountUnreadsBelow() {
    * If channel is at the latest set of posts:
       Unread count is the Number of posts below new message line
    * if channel is not at the latest set of posts:
-      WIP
+      1. UnreadCount + any recent messages in the latest chunk.
+      2. If channel was marked as unread.
+        * Unread count of channel alone.
 */
 
 function makeMapStateToProps() {
