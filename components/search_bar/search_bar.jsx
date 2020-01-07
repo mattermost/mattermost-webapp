@@ -56,9 +56,10 @@ export default class SearchBar extends React.Component {
         };
 
         this.suggestionProviders = [
+            new SearchDateProvider(),
             new SearchChannelProvider(props.actions.autocompleteChannelsForSearch),
             new SearchUserProvider(props.actions.autocompleteUsersInTeam),
-            new SearchDateProvider()];
+        ];
     }
 
     componentDidMount() {
