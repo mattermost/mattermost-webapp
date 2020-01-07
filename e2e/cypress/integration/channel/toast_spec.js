@@ -189,13 +189,11 @@ describe('toasts', () => {
 
         // # Post a new message
         cy.postMessageAs({sender: otherUser, message: 'post1', channelId: townsquareChannelId}).then(() => {
-
             // * The new messages line should appear above the last post
             cy.get('.NotificationSeparator').should('exist');
             cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post1');
             cy.get('div.post-list__dynamic').scrollTo(0, '70%');
             cy.postMessageAs({sender: otherUser, message: 'post2', channelId: townsquareChannelId}).then(() => {
-
                 // * The new messages line should have moved to the last post
                 cy.get('.NotificationSeparator').parent().parent().next().should('contain', 'post2');
             });
