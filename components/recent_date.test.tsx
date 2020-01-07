@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -10,6 +10,9 @@ import RecentDate, {
     isToday,
     isYesterday,
 } from './recent_date';
+
+// Date format for "ddd, MMM D, YYYY"
+const reDateFormat = /^[a-zA-Z]{3}, [a-zA-Z]{3} \d{1,2}, \d{4}$/;
 
 describe('RecentDate', () => {
     test('should render "Today" today', () => {
@@ -49,7 +52,21 @@ describe('RecentDate', () => {
 
         const wrapper = shallowWithIntl(<RecentDate {...props}/>);
 
-        expect(wrapper.find(FormattedDate).exists()).toBe(true);
+        expect(wrapper.text()).toMatch(reDateFormat);
+    });
+
+    test('should render date two days ago for supported timezone', () => {
+        const twoDaysAgo = new Date();
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+        const props = {
+            timeZone: 'Asia/Manila',
+            value: twoDaysAgo,
+        };
+
+        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+
+        expect(wrapper.text()).toMatch(reDateFormat);
     });
 });
 

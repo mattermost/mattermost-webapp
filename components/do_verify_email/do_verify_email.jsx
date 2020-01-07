@@ -9,7 +9,7 @@ import {trackEvent} from 'actions/diagnostics_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {AnnouncementBarTypes, AnnouncementBarMessages, VerifyEmailErrors} from 'utils/constants';
 import logoImage from 'images/logo.png';
-import BackButton from 'components/common/back_button.jsx';
+import BackButton from 'components/common/back_button';
 import LoadingScreen from 'components/loading_screen';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
