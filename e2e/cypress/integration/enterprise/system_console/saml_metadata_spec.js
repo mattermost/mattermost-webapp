@@ -11,33 +11,18 @@
  * Note: This test requires Enterprise license to be uploaded
  */
 const testSamlMetadataUrl = 'http://testsamlmetadataurl';
-const testIdpUrl = 'http://idpurl';
-const testIdpDescriptorUrl = 'http://idpdescriptorurl';
 const getSamlMetadataErrorMessage = 'SAML Metadata URL did not connect and pull data successfully';
 
-function setSAMLValidState() {
-    //set the names of the certs in the config file
-    cy.apiUpdateConfig({
-        SamlSettings: {
-            Enable: true,
-            Verify: true,
-            Encrypt: true,
-            IdpMetadataUrl: '',
-            IdpUrl: testIdpUrl,
-            IdpDescriptorUrl: testIdpDescriptorUrl,
-            IdpCertificateFile: 'saml-idp.crt',
-            PublicCertificateFile: 'saml-public.crt',
-            PrivateKeyFile: 'saml-private.key',
-        },
-    });
-}
+let config;
 
 describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
     before(() => {
-        // # Set SAMLSettings to default values
-        setSAMLValidState();
+        cy.apiUpdateConfig({SamlSettings: {Enable: true, IdpMetadataUrl: ''}});
+        cy.apiGetConfig().then((response) => {
+            config = response.body;
+        });
 
-        // # Login as "sysadmin" and go to /
+        // # Login as "sysadmin"
         cy.apiLogin('sysadmin');
 
         //make sure we can navigate to SAML settings
@@ -52,14 +37,14 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
 
     it('fail to fetch metadata from Idp Metadata Url', () => {
         //verify that the metadata Url textbox is enabled and empty
-        cy.get('input[id="SamlSettings.IdpMetadataUrl"]').
+        cy.findByTestId('SamlSettings.IdpMetadataUrlinput').
             scrollIntoView().should('be.visible').and('be.enabled').and('have.text', '');
 
         //verify that the Get Metadata Url fetch button is disabled
         cy.get('#getSamlMetadataFromIDPButton').find('button').should('be.visible').and('be.disabled');
 
         //type in the metadata Url in the metadata Url textbox
-        cy.get('input[id="SamlSettings.IdpMetadataUrl"]').
+        cy.findByTestId('SamlSettings.IdpMetadataUrlinput').
             scrollIntoView().should('be.visible').
             focus().type(testSamlMetadataUrl + '{enter}', {force: true});
 
@@ -67,13 +52,13 @@ describe('SystemConsole->SAML 2.0 - Get Metadata from Idp Flow', () => {
         cy.get('#getSamlMetadataFromIDPButton').should('be.visible').contains(getSamlMetadataErrorMessage);
 
         //verify that the IdpUrl textbox content has not been updated
-        cy.get('input[id="SamlSettings.IdpUrl"]').then((elem) => {
-            Cypress.$(elem).val() === testIdpUrl;
+        cy.findByTestId('SamlSettings.IdpUrlinput').then((elem) => {
+            Cypress.$(elem).val() === config.SamlSettings.IdpUrl;
         });
 
         //verify that the IdpUrl textbox content has not been updated
-        cy.get('input[id="SamlSettings.IdpDescriptorUrl"]').then((elem) => {
-            Cypress.$(elem).val() === testIdpDescriptorUrl;
+        cy.findByTestId('SamlSettings.IdpDescriptorUrl').then((elem) => {
+            Cypress.$(elem).val() === config.SamlSettings.IdpDescriptorUrl;
         });
 
         //verify that we can succezsfully save the settings (we have not affected previous state)
