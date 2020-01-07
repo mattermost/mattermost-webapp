@@ -8,12 +8,12 @@ exports[`components/SettingItemMin should match snapshot 1`] = `
   <div
     className="d-flex"
   >
-    <div
+    <h4
       className="section-min__title"
       id="sectionTitle"
     >
       title
-    </div>
+    </h4>
     <div
       className="section-min__edit"
     >
@@ -49,12 +49,12 @@ exports[`components/SettingItemMin should match snapshot, on disableOpen to true
   <div
     className="d-flex"
   >
-    <div
+    <h4
       className="section-min__title"
       id="sectionTitle"
     >
       title
-    </div>
+    </h4>
   </div>
 </div>
 `;
