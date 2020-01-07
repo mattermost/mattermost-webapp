@@ -48,7 +48,7 @@ exports[`components/ToggleModalButtonRedux component should match snapshot 1`] =
         "openModal": [Function],
       }
     }
-    aria-label="Delete Channel Dialog"
+    aria-label="Delete Channel dialog"
     className="style--none "
     data-toggle="modal toggle"
     id="channelDelete"
