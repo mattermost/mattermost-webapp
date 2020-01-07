@@ -6,7 +6,7 @@
     height: 100%;
     background: var(--center-channel-bg);
     z-index: 1030 !important;
-    overflow: auto;
+    overflow: hidden auto;
 
     .close-x, .back {
         border: 0;
