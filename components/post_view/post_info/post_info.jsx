@@ -118,7 +118,7 @@ export default class PostInfo extends React.PureComponent {
             removePost: PropTypes.func.isRequired,
 
             /**
-             * Functiont to set or unset emoji picker for last message
+             * Function to set or unset emoji picker for last message
              */
             toggleEmojiPickerForLastMessage: PropTypes.func
         }).isRequired,

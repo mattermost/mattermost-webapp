@@ -270,7 +270,7 @@ class CreatePost extends React.Component {
             scrollPostListToBottom: PropTypes.func.isRequired,
 
             /**
-             * Functiont to set or unset emoji picker for last message
+             * Function to set or unset emoji picker for last message
              */
             toggleEmojiPickerForLastMessage: PropTypes.func
         }).isRequired,
@@ -342,7 +342,8 @@ class CreatePost extends React.Component {
             this.focusTextbox();
         }
 
-        // Clear timeout ids of shortcut to add emoji to last post when they staack up to 5, so we dont re clear everytime.
+        // Clear timeout ids of shortcut to add emoji to last post when they stack up to 5, 
+        // so we dont re clear everytime on every update.
         if (delayIdsClosingEmojiForLatMessage.size > 5) {
             clearTimeouts(delayIdsClosingEmojiForLatMessage);
             delayIdsClosingEmojiForLatMessage.clear();
@@ -916,7 +917,7 @@ class CreatePost extends React.Component {
                 this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.CENTER});
 
                 // Autoclose the state of emoji for last message picker,
-                // It is usefull to as we dont need to explecitly close the state later in component
+                // It is usefull as we dont need to explicitly close the state later in component
                 // If valid post is found it will be open, if not no action will be taken and it will just close out
                 const delayTimerId = delay(() => {
                     this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: false});
