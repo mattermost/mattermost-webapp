@@ -26,6 +26,7 @@ export class CommandSuggestion extends Suggestion {
             <div
                 className={className}
                 onClick={this.handleClick}
+                onMouseMove={this.handleMouseMove}
                 {...Suggestion.baseProps}
             >
                 <div className='command__title'>
