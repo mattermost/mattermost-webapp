@@ -59,6 +59,11 @@ describe('System Console', () => {
                     cy.get('#developers_edit').click();
                 });
             } else {
+                // # Link the Group if its not linked before
+                if (el.find('.icon.fa-unlink').length > 0) {
+                    el.find('.icon.fa-unlink').click();
+                }
+
                 // # Get the Group ID and remove all the teams and channels currently attached to it then click the button
                 cy.get('#developers_configure').then((buttonEl) => {
                     const groupId = buttonEl[0].href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
@@ -78,7 +83,7 @@ describe('System Console', () => {
         cy.get('#multiSelectList').first().click();
         cy.get('#saveItems').click();
 
-        // # Add the first team in the group list then save
+        // # Add the first channel in the group list then save
         cy.get('#add_team_or_channel').click();
         cy.get('#add_channel').click();
         cy.get('#multiSelectList').first().click();
