@@ -43,6 +43,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  show={false}
 />
 `;
 
@@ -88,6 +89,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  show={false}
 />
 `;
 
@@ -133,6 +135,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  show={false}
 />
 `;
 
@@ -178,6 +181,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  show={false}
 />
 `;
 
@@ -223,5 +227,6 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
       "timeZone": "Etc/UTC",
     }
   }
+  show={false}
 />
 `;
