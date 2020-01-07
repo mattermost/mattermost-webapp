@@ -44,7 +44,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
-const delayIdsClosingEmojiForLatMessage = new Set();
+const delayIdsForLastMessageEmojiShortcut = new Set();
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str) {
@@ -344,9 +344,9 @@ class CreatePost extends React.Component {
 
         // Clear timeout ids of shortcut to add emoji to last post when they stack up to 5,
         // so we dont re clear everytime on every update.
-        if (delayIdsClosingEmojiForLatMessage.size > 5) {
-            clearTimeouts(delayIdsClosingEmojiForLatMessage);
-            delayIdsClosingEmojiForLatMessage.clear();
+        if (delayIdsForLastMessageEmojiShortcut.size > 5) {
+            clearTimeouts(delayIdsForLastMessageEmojiShortcut);
+            delayIdsForLastMessageEmojiShortcut.clear();
         }
     }
 
@@ -355,8 +355,8 @@ class CreatePost extends React.Component {
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
 
-        if (delayIdsClosingEmojiForLatMessage.size !== 0) {
-            clearTimeout(delayIdsClosingEmojiForLatMessage);
+        if (delayIdsForLastMessageEmojiShortcut.size !== 0) {
+            clearTimeout(delayIdsForLastMessageEmojiShortcut);
         }
     }
 
@@ -923,7 +923,7 @@ class CreatePost extends React.Component {
                     this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: false});
                 }, 3000);
 
-                delayIdsClosingEmojiForLatMessage.add(delayTimerId);
+                delayIdsForLastMessageEmojiShortcut.add(delayTimerId);
                 return;
             }
         }
