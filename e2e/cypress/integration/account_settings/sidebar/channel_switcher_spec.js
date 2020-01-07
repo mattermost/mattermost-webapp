@@ -231,7 +231,6 @@ describe('Account Settings > Sidebar > Channel Switcher', () => {
 
         // * focus should be on the input box
         cy.get('#post_textbox').should('be.focused');
-        cy.get('#post_textbox').should('be.empty');
     });
 
     it('Cmd/Ctrl+Shift+M closes Channel Switch modal and sets focus to mentions', () => {
