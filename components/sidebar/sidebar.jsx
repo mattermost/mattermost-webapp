@@ -753,6 +753,7 @@ class Sidebar extends React.PureComponent {
                 id='sidebar-left'
                 key='sidebar-left'
                 role='navigation'
+                aria-labelledby='sidebar-left'
             >
                 <NewChannelFlow
                     show={showChannelModal}

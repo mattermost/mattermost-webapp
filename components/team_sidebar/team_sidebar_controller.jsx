@@ -16,6 +16,7 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import Pluggable from 'plugins/pluggable';
 
 import TeamButton from './components/team_button.jsx';
+import {Modal} from 'react-bootstrap';
 
 export function renderView(props) {
     return (
@@ -138,6 +139,7 @@ export default class TeamSidebar extends React.PureComponent {
             <div
                 className={classNames('team-sidebar', {'move--right': this.props.isOpen})}
                 role='navigation'
+                aria-labelledby='teamSidebarWrapper'
             >
                 <div
                     className='team-wrapper'

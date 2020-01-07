@@ -2,6 +2,7 @@
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar not show the channel switcher 1`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -271,6 +272,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show 1`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -540,6 +542,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with favorites 1`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -809,6 +812,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot, on sidebar show with unreads 1`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -1082,6 +1086,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 1`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -1355,6 +1360,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more channels modal 2`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -1624,6 +1630,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 1`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -1897,6 +1904,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly more direct channels modal 2`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -2166,6 +2174,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 1`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
@@ -2435,6 +2444,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide corre
 
 exports[`component/sidebar/sidebar_channel/SidebarChannel should show/hide correctly new channel modal 2`] = `
 <div
+  aria-labelledby="sidebar-left"
   className="sidebar--left"
   id="sidebar-left"
   key="sidebar-left"
