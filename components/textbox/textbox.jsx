@@ -196,7 +196,7 @@ export default class Textbox extends React.Component {
             textboxClassName += ' bad-connection';
         }
         if (this.wrapper.current) {
-            wrapperHeight = this.wrapper.current.clientHeight;
+            wrapperHeight = this.getInputBox().clientHeight;
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
