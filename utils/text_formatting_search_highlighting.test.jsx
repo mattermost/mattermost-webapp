@@ -48,8 +48,9 @@ describe('TextFormatting.searchHighlighting', () => {
             '<div class="post-code post-code--wrap">' +
                 '<code class="hljs">' +
                     '<div class="post-code__search-highlighting">' +
-                        '<span class="search-highlight">words</span> in a sentence ' +
-                    '</div>words in a sentence' +
+                        '<span class="search-highlight">words</span> in a sentence' +
+                    '</div>' +
+                    'words in a sentence' +
                 '</code>' +
             '</div>',
     }, {
@@ -90,7 +91,7 @@ describe('TextFormatting.searchHighlighting', () => {
             '<div class="post-code post-code--wrap">' +
                 '<code class="hljs">' +
                     '<div class="post-code__search-highlighting">' +
-                        '<span class="search-highlight">words</span> in a sentence ' +
+                        '<span class="search-highlight">words</span> in a sentence' +
                     '</div>' +
                     'words in a sentence' +
                 '</code>' +
@@ -133,7 +134,7 @@ describe('TextFormatting.searchHighlighting', () => {
         assertTextMatch('foo⺑bar', 'foo⺑*', 'foo⺑', 'bar');
 
         function assertTextMatch(input, search, expectedMatch, afterMatch) {
-            expect(TextFormatting.formatText(input, {searchTerm: search})).
+            expect(TextFormatting.formatText(input, {searchTerm: search}).trim()).
                 toEqual(`<p><span class="search-highlight">${expectedMatch}</span>${afterMatch}</p>`);
         }
     });
