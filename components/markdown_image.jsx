@@ -21,6 +21,8 @@ export default class MarkdownImage extends React.PureComponent {
         alt: PropTypes.string,
         imageMetadata: PropTypes.object,
         src: PropTypes.string.isRequired,
+        height: PropTypes.number,
+        width: PropTypes.number,
         title: PropTypes.string,
         className: PropTypes.string.isRequired,
         postId: PropTypes.string.isRequired,

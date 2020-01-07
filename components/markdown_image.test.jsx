@@ -234,7 +234,7 @@ describe('components/MarkdownImage', () => {
             height: 76,
             width: 50
         };
-    
+
         const wrapper = shallow(
             <MarkdownImage {...props}/>
         );
@@ -248,11 +248,9 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
         expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active`);
-        
+
         expect(childrenWrapper.find(SizeAwareImage).prop('width')).toEqual(50);
         expect(childrenWrapper.find(SizeAwareImage).prop('height')).toEqual(76);
-        expect(childrenWrapper.find(SizeAwareImage).prop('title')).toEqual("test title");
-
-
+        expect(childrenWrapper.find(SizeAwareImage).prop('title')).toEqual('test title');
     });
 });
