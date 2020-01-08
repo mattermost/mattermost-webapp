@@ -22,7 +22,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -42,7 +42,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -62,7 +62,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -77,7 +77,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -97,7 +97,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn().mockResolvedValue({error: serverError})}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         const instance = wrapper.instance();
         await instance.handleSave();
@@ -120,7 +120,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn().mockResolvedValue({error: serverError})}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         const instance = wrapper.instance();
         await instance.handleSave();
@@ -138,7 +138,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn().mockResolvedValue({data: true})}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         const serverError = {
             id: 'fake-error-id',
@@ -161,7 +161,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn()}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         wrapper.find('textarea').simulate(
             'change',
@@ -184,7 +184,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel: jest.fn().mockResolvedValue({data: true})}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
         const instance = wrapper.instance();
         await instance.handleSave();
 
@@ -203,7 +203,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         wrapper.find('.save-button').simulate('click');
 
@@ -222,7 +222,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         wrapper.find('textarea').simulate('keydown', {
             preventDefault: jest.fn(),
@@ -246,7 +246,7 @@ describe('comoponents/EditChannelPurposeModal', () => {
                 actions={{patchChannel}}
             />,
             {disableLifecycleMethods: true}
-        );
+        ).dive();
 
         wrapper.find('textarea').simulate('keydown', {
             preventDefault: jest.fn(),

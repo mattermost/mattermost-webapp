@@ -30,6 +30,7 @@ exports[`components/search_bar/SearchBar should match snapshot with search 1`] =
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
@@ -131,6 +132,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search 1`
       autoComplete="off"
       className="search__form"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
@@ -243,6 +245,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
@@ -355,6 +358,7 @@ exports[`components/search_bar/SearchBar should match snapshot without search on
       autoComplete="off"
       className="search__form focused"
       onSubmit={[Function]}
+      role="application"
       style={
         Object {
           "overflow": "visible",
