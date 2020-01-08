@@ -300,6 +300,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
 
+        // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
         it('change tab on "install plugins" click', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
                 // # switch tab to installed plugin
