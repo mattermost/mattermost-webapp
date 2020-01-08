@@ -224,6 +224,7 @@ export default class CreateComment extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
+            suggestionListStyle: 'top',
         };
 
         this.lastBlurAt = 0;
@@ -938,6 +939,16 @@ export default class CreateComment extends React.PureComponent {
             scrollbarClass = ' scroll';
         }
 
+        const textboxRef = this.refs.textbox;
+        if (textboxRef) {
+            const textboxPosTop = textboxRef.getWrappedInstance().getInputBox().getBoundingClientRect().top;
+            if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
+                this.setState({suggestionListStyle: 'bottom'});
+            } else {
+                this.setState({suggestionListStyle: 'top'});
+            }
+        }
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -975,6 +986,7 @@ export default class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.state.showPreview}
+                                suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />

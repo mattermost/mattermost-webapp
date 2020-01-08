@@ -29,7 +29,7 @@
 }
 
 .suggestion-list--bottom {
-    position: relative;
+    position: absolute;
 }
 
 .suggestion-list__content {
@@ -67,10 +67,6 @@
 .suggestion-list__content--top {
     bottom: 0;
     position: absolute;
-}
-
-.suggestion-list--bottom {
-    position: relative;
 }
 
 .suggestion-list__divider {
