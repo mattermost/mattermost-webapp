@@ -397,36 +397,9 @@ export default class MarketplaceItem extends React.Component {
             pluginIcon = <PluginIcon className='icon__plugin icon__plugin--background'/>;
         }
 
-        let localTag;
-        if (!this.props.downloadUrl) {
-            const localTooltip = (
-                <Tooltip id='plugin-marketplace__local-tooltop'>
-                    <FormattedMessage
-                        id='marketplace_modal.list.local.tooltip'
-                        defaultMessage='This plugin is not listed in the marketplace but was installed manually.'
-                    />
-                </Tooltip>
-            );
-
-            localTag = (
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={localTooltip}
-                >
-                    <span className='tag'>
-                        <FormattedMessage
-                            id='marketplace_modal.list.local'
-                            defaultMessage='LOCAL'
-                        />
-                    </span>
-                </OverlayTrigger>
-            );
-        }
-
-        let labelsTags;
+        let labels;
         if (this.props.labels && this.props.labels.length !== 0) {
-            labelsTags = this.props.labels.map((label) => (
+            labels = this.props.labels.map((label) => (
                 <Label
                     key={label.name}
                     name={label.name}
@@ -441,8 +414,7 @@ export default class MarketplaceItem extends React.Component {
             <>
                 {this.props.name}
                 <span className='light subtitle'>{versionLabel}</span>
-                {localTag}
-                {labelsTags}
+                {labels}
                 <p className={classNames('more-modal__description', {error_text: this.props.error})}>
                     {this.props.error ? this.props.error : this.props.description}
                 </p>

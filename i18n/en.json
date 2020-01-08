@@ -2719,8 +2719,6 @@
   "marketplace_modal.installing": "Installing...",
   "marketplace_modal.list.configure": "Configure",
   "marketplace_modal.list.Install": "Install",
-  "marketplace_modal.list.local": "LOCAL",
-  "marketplace_modal.list.local.tooltip": "This plugin is not listed in the marketplace but was installed manually.",
   "marketplace_modal.list.try_again": "Try Again",
   "marketplace_modal.list.update": "Update",
   "marketplace_modal.list.update_available": "Update available:",

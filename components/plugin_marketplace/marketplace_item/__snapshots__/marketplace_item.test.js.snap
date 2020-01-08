@@ -178,40 +178,6 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
         >
           (1.0.0)
         </span>
-        <OverlayTrigger
-          defaultOverlayShown={false}
-          delayShow={400}
-          overlay={
-            <Tooltip
-              bsClass="tooltip"
-              id="plugin-marketplace__local-tooltop"
-              placement="right"
-            >
-              <FormattedMessage
-                defaultMessage="This plugin is not listed in the marketplace but was installed manually."
-                id="marketplace_modal.list.local.tooltip"
-                values={Object {}}
-              />
-            </Tooltip>
-          }
-          placement="top"
-          trigger={
-            Array [
-              "hover",
-              "focus",
-            ]
-          }
-        >
-          <span
-            className="tag"
-          >
-            <FormattedMessage
-              defaultMessage="LOCAL"
-              id="marketplace_modal.list.local"
-              values={Object {}}
-            />
-          </span>
-        </OverlayTrigger>
         <p
           className="more-modal__description"
         >
