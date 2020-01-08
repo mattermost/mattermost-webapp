@@ -81,7 +81,9 @@ function setNotificationSettings(desiredSettings = {first: true, username: true,
 
 const receiver = users['user-1'];
 const sender = users['user-2'];
+const sysadmin = users.sysadmin;
 let townsquareChannelId;
+let offTopicChannelId;
 
 describe('at-mention', () => {
     before(() => {
@@ -93,6 +95,10 @@ describe('at-mention', () => {
         cy.visit('/ad-1/channels/town-square');
         cy.getCurrentChannelId().then((id) => {
             townsquareChannelId = id;
+        });
+        cy.visit('/ad-1/channels/off-topic');
+        cy.getCurrentChannelId().then((id) => {
+            offTopicChannelId = id;
         });
     });
 
@@ -220,8 +226,78 @@ describe('at-mention', () => {
             cy.get('@postMessageText').
                 find(`[data-mention=${receiver.username}]`).
                 should('not.exist');
-
-            cy.get('#sidebarItem_saepe-5').click({force: true});
         });
+    });
+
+    it('M17445 - Words that trigger mentions support Chinese', () => {
+        var customText = '番茄';
+
+        // # Set Notification settings
+        setNotificationSettings({first: false, username: false, shouts: false, custom: true, customText});
+        const message = '番茄 I\'m messaging you!';
+        const message2 = '我爱吃番茄炒饭 I\'m messaging you!';
+
+        // # Use another account to post a message @-mentioning our receiver
+        cy.postMessageAs({sender, message, channelId: townsquareChannelId});
+
+        // # Check mention on /ad-1/channels/town-square
+        // * Verify unread mentions badge
+        cy.get('#publicChannel').scrollIntoView();
+
+        cy.get('#sidebarItem_town-square').
+            scrollIntoView().
+            find('#unreadMentions').
+            should('be.visible').
+            and('have.text', '1');
+
+        // * Go to that channel
+        cy.get('#sidebarItem_town-square').click({force: true});
+
+        // # Get last post message text
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).as('postMessageText');
+        });
+
+        // * Verify entire message
+        cy.get('@postMessageText').
+            should('be.visible').
+            and('have.text', message);
+
+        // * Verify highlight of username
+        cy.get('@postMessageText').
+            find('.mention--highlight').
+            should('be.visible').
+            and('have.text', '番茄');
+
+        // # Check mention on /ad-1/channels/off-topic
+        cy.postMessageAs({sender: sysadmin, message: message2, channelId: offTopicChannelId});
+
+        // * Verify unread mentions badge
+        cy.get('#publicChannel').scrollIntoView();
+
+        cy.get('#sidebarItem_off-topic').
+            scrollIntoView().
+            find('#unreadMentions').
+            should('be.visible').
+            and('have.text', '1');
+
+        // * Go to that channel
+        cy.get('#sidebarItem_off-topic').click({force: true});
+
+        // # Get last post message text
+        cy.getLastPostId().then((postId) => {
+            cy.get(`#postMessageText_${postId}`).as('postMessageText');
+        });
+
+        // * Verify entire message
+        cy.get('@postMessageText').
+            should('be.visible').
+            and('have.text', message2);
+
+        // * Verify highlight of username
+        cy.get('@postMessageText').
+            find('.mention--highlight').
+            should('be.visible').
+            and('have.text', '番茄');
     });
 });

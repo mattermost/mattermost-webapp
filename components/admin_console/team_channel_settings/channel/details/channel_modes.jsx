@@ -70,7 +70,7 @@ const AllowAllToggle = ({isSynced, isPublic, isDefault, onToggle}) =>
                 (
                     <FormattedMessage
                         id='admin.channel_settings.channel_details.isPublicDescr'
-                        defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private.  Converting private channels to public will be available in a future release.'
+                        defaultMessage='If `public` the channel is discoverable and any user can join, or if `private` invitations are required. Toggle to convert public channels to private. When Group Sync is enabled, private channels cannot be converted to public.'
                     />
                 )
             }

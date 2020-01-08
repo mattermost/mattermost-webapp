@@ -15,9 +15,15 @@ describe('components/widgets/loadingLoadingSpinner', () => {
   className="LoadingSpinner with-text"
   id="loadingSpinner"
 >
-  <span
+  <LocalizedIcon
     className="fa fa-spinner fa-fw fa-pulse spinner"
-    title="Loading Icon"
+    component="span"
+    title={
+      Object {
+        "defaultMessage": "Loading Icon",
+        "id": "generic_icons.loading",
+      }
+    }
   />
   test
 </span>
@@ -30,9 +36,15 @@ describe('components/widgets/loadingLoadingSpinner', () => {
   className="LoadingSpinner"
   id="loadingSpinner"
 >
-  <span
+  <LocalizedIcon
     className="fa fa-spinner fa-fw fa-pulse spinner"
-    title="Loading Icon"
+    component="span"
+    title={
+      Object {
+        "defaultMessage": "Loading Icon",
+        "id": "generic_icons.loading",
+      }
+    }
   />
 </span>
 `);
