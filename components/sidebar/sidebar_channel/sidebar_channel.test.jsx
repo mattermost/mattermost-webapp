@@ -90,6 +90,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <SidebarChannel {...props}/>
         ).dive();
         expect(wrapper).toMatchSnapshot();
+        expect(props.actions.openLhs).not.toBeCalled();
     });
 
     test('should match snapshot, on fake channel show', () => {
@@ -161,7 +162,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         };
         const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
-        expect(props.actions.openLhs).toBeCalled();
+        expect(props.actions.openLhs).not.toBeCalled();
     });
 
     test('should match snapshot, on channel show with unread mentions (must have mentions badge)', () => {
