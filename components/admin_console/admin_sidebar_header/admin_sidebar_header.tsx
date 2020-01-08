@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
+import {UserProfile} from 'mattermost-redux/src/types/users';
 
 import MenuIcon from 'components/widgets/icons/menu_icon';
 
@@ -13,11 +14,7 @@ import Avatar from 'components/widgets/users/avatar';
 import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown';
 
 type State = {
-    currentUser: {
-        last_picture_update?: number;
-        id: string;
-        username: string;
-    };
+    currentUser: UserProfile; 
 }
 
 export default class SidebarHeader extends React.Component<State> {
