@@ -55,6 +55,7 @@ export default class NeedsTeam extends React.Component {
             }).isRequired,
         }).isRequired,
         history: PropTypes.object.isRequired,
+        teamsList: PropTypes.arrayOf(PropTypes.object),
     };
 
     constructor(params) {
@@ -82,6 +83,8 @@ export default class NeedsTeam extends React.Component {
         this.state = {
             team,
             finishedFetchingChannels: false,
+            prevTeam: this.props.match.params.team,
+            teamsList: this.props.teamsList
         };
 
         if (!team) {
@@ -89,16 +92,17 @@ export default class NeedsTeam extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.match.params.team !== nextProps.match.params.team) {
-            const team = this.updateCurrentTeam(nextProps);
-            this.setState({
-                team,
-            });
-            if (!team) {
-                this.joinTeam(nextProps);
-            }
+    static getDerivedStateFromProps(nextProps, state) {
+        if (state.prevTeam !== nextProps.match.params.team) {
+            const team = state.teamsList ?
+                state.teamsList.find((teamObj) =>
+                    teamObj.name === nextProps.match.params.team) : null;
+            return {
+                prevTeam: nextProps.match.params.team,
+                team: (team || null)
+            };
         }
+        return {prevTeam: nextProps.match.params.team};
     }
 
     componentDidMount() {
@@ -123,6 +127,14 @@ export default class NeedsTeam extends React.Component {
         const {theme} = this.props;
         if (!Utils.areObjectsEqual(prevProps.theme, theme)) {
             Utils.applyTheme(theme);
+        }
+        if (this.props.match.params.team !== prevProps.match.params.team) {
+            if (this.state.team) {
+                this.initTeam(this.state.team);
+            }
+            if (!this.state.team) {
+                this.joinTeam(this.props);
+            }
         }
     }
 

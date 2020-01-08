@@ -21,6 +21,7 @@ export default class SuggestionList extends React.PureComponent {
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
         preventClose: PropTypes.func,
+        onItemHover: PropTypes.func.isRequired,
         pretext: PropTypes.string.isRequired,
         cleared: PropTypes.bool.isRequired,
         matchedPretext: PropTypes.array.isRequired,
@@ -207,6 +208,7 @@ export default class SuggestionList extends React.PureComponent {
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
+                    onMouseMove={this.props.onItemHover}
                 />
             );
         }
@@ -215,7 +217,7 @@ export default class SuggestionList extends React.PureComponent {
         let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
         if (this.props.wrapperHeight) {
             maxHeight = Math.min(
-                windowHeight() - (this.props.wrapperHeight + Constants.PREVIEWER_HEIGHT),
+                windowHeight() - (this.props.wrapperHeight + Constants.SUGGESTION_LIST_MAXHEIGHT),
                 Constants.SUGGESTION_LIST_MAXHEIGHT
             );
         }

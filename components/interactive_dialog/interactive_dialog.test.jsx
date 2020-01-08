@@ -4,6 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
+import {Provider} from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import InteractiveDialog from './interactive_dialog.jsx';
 
@@ -50,6 +54,41 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
             await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
             expect(wrapper.find(Modal.Footer).exists('.error-text')).toBe(false);
+        });
+    });
+
+    describe('default select element in Interactive Dialog', () => {
+        const mockStore = configureStore();
+
+        test('should be enabled by default', () => {
+            const selectElement = {
+                data_source: '',
+                default: 'opt3',
+                display_name: 'Option Selector',
+                name: 'someoptionselector',
+                optional: false,
+                options: [
+                    {text: 'Option1', value: 'opt1'},
+                    {text: 'Option2', value: 'opt2'},
+                    {text: 'Option3', value: 'opt3'}
+                ],
+                type: 'select'
+            };
+
+            const {elements, ...rest} = baseProps;
+            elements.push(selectElement);
+            const props = {
+                ...rest,
+                elements
+            };
+
+            const store = mockStore({});
+            const wrapper = mountWithIntl(
+                <Provider store={store}>
+                    <InteractiveDialog {...props}/>
+                </Provider>
+            );
+            expect(wrapper.find(Modal.Body).find('input').find({defaultValue: 'Option3'}).exists()).toBe(true);
         });
     });
 });

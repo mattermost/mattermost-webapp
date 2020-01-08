@@ -1,30 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-export default class BackButton extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * URL to return to
-         */
-        url: PropTypes.string,
+    /**
+     * URL to return to
+     */
+    url: string;
 
-        /**
-         * An optional click handler that will trigger when the user clicks on the back button
-         */
-        onClick: PropTypes.func,
-    };
+    /**
+     * onClick handler when user clicks back button
+     */
+    onClick?: React.EventHandler<React.MouseEvent>;
+}
 
-    static defaultProps = {
-        url: '/',
-    };
+export default class BackButton extends React.PureComponent<Props> {
+    public static defaultProps: Partial<Props> = {
+        url: '/'
+    }
 
-    render() {
+    public render(): JSX.Element {
         return (
             <div
                 id='back_button'
@@ -38,11 +37,11 @@ export default class BackButton extends React.PureComponent {
                         id='generic_icons.back'
                         defaultMessage='Back Icon'
                     >
-                        {(title) => (
+                        {(title: string | JSX.Element) => (
                             <span
                                 id='back_button_icon'
                                 className='fa fa-1x fa-angle-left'
-                                title={title}
+                                title={title.toString()}
                             />
                         )}
                     </FormattedMessage>
