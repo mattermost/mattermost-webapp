@@ -57,7 +57,7 @@ class ChannelGroupsManageModal extends React.PureComponent {
         this.props.actions.openModal({modalId: ModalIdentifiers.ADD_GROUPS_TO_TEAM, dialogType: AddGroupsToChannelModal});
     };
 
-    changeChannelMemberStatus = async (item, listModal, isChannelAdmin) => {
+    setChannelMemberStatus = async (item, listModal, isChannelAdmin) => {
         this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: isChannelAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
@@ -108,12 +108,12 @@ class ChannelGroupsManageModal extends React.PureComponent {
                         >
                             <Menu.ItemAction
                                 show={!item.scheme_admin}
-                                onClick={() => this.changeChannelMemberStatus(item, listModal, true)}
+                                onClick={() => this.setChannelMemberStatus(item, listModal, true)}
                                 text={Utils.localizeMessage('channel_members_dropdown.make_channel_admins', 'Make Channel Admins')}
                             />
                             <Menu.ItemAction
                                 show={Boolean(item.scheme_admin)}
-                                onClick={() => this.changeChannelMemberStatus(item, listModal, false)}
+                                onClick={() => this.setChannelMemberStatus(item, listModal, false)}
                                 text={Utils.localizeMessage('channel_members_dropdown.make_channel_members', 'Make Channel Members')}
                             />
                             <Menu.ItemAction
