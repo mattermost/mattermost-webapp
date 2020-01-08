@@ -9,8 +9,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Markdown from 'components/markdown';
 import {getSiteURL} from 'utils/url';
 
-export default function HelpFormatting() {
-    const renderRawExample = (example) => {
+export default function HelpFormatting(): JSX.Element {
+    const renderRawExample = (example: string | JSX.Element): JSX.Element => {
         return (
             <div className='post-code post-code--wrap'>
                 <code className='hljs'>{example}</code>
@@ -18,7 +18,7 @@ export default function HelpFormatting() {
         );
     };
 
-    const renderRawExampleWithResult = (example) => {
+    const renderRawExampleWithResult = (example: string | JSX.Element): JSX.Element => {
         return (
             <div>
                 {renderRawExample(example)}
@@ -29,7 +29,7 @@ export default function HelpFormatting() {
                     />
                 </p>
                 {' '}
-                <Markdown message={example}/>
+                <Markdown message={example.toString()}/>
             </div>
         );
     };
