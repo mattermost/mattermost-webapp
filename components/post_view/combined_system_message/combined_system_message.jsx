@@ -8,6 +8,7 @@ import {injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 
 import {t} from 'utils/i18n';
+import {intlShape} from 'utils/react_intl';
 
 import Markdown from 'components/markdown';
 
@@ -167,11 +168,11 @@ const postTypeMessage = {
 
 class CombinedSystemMessage extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         allUserIds: PropTypes.array.isRequired,
         allUsernames: PropTypes.array.isRequired,
         currentUserId: PropTypes.string.isRequired,
         currentUsername: PropTypes.string.isRequired,
+        intl: intlShape.isRequired,
         messageData: PropTypes.array.isRequired,
         showJoinLeave: PropTypes.bool.isRequired,
         userProfiles: PropTypes.array.isRequired,

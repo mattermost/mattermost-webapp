@@ -2,16 +2,18 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {FormattedMessage, DateSource} from 'react-intl';
+import moment from 'moment-timezone';
 
 type Props = {
-    value: Date | string | number;
+    timeZone?: string;
+    value: DateSource;
     children?(val: string): React.ReactElement | null;
 }
 
 export default class RecentDate extends React.PureComponent<Props> {
     public render() {
-        const {value, ...otherProps} = this.props;
+        const {value, timeZone} = this.props;
         const date = new Date(value);
 
         if (isToday(date)) {
@@ -30,16 +32,13 @@ export default class RecentDate extends React.PureComponent<Props> {
             );
         }
 
-        return (
-            <FormattedDate
-                {...otherProps}
-                value={value}
-                weekday='short'
-                month='short'
-                day='2-digit'
-                year='numeric'
-            />
-        );
+        const momentDate = value ? moment(value) : moment();
+
+        if (timeZone) {
+            momentDate.tz(timeZone);
+        }
+
+        return momentDate.format('ddd, MMM D, YYYY');
     }
 }
 

@@ -7,11 +7,12 @@ import {PropTypes} from 'prop-types';
 import {Permissions} from 'mattermost-redux/constants';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import {intlShape} from 'utils/react_intl';
 
 class ChannelMore extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         currentTeamId: PropTypes.string.isRequired,
+        intl: intlShape.isRequired,
         sectionType: PropTypes.string.isRequired,
         moreChannels: PropTypes.func.isRequired,
         moreDirectMessages: PropTypes.func.isRequired,
@@ -45,10 +46,10 @@ class ChannelMore extends React.PureComponent {
                 >
                     <li
                         key='public-channel-more'
-                        id='morePublicButton'
+                        data-testid='morePublicButton'
                     >
                         <button
-                            id='sidebarChannelsMore'
+                            id='sidebarPublicChannelsMore'
                             aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                             className='nav-more cursor--pointer style--none btn--block'
                             onClick={this.moreChannelsPublic}
@@ -70,10 +71,10 @@ class ChannelMore extends React.PureComponent {
                     >
                         <li
                             key='public-channel-more'
-                            id='morePublicButton'
+                            data-testid='morePublicButton'
                         >
                             <button
-                                id='sidebarChannelsMore'
+                                id='sidebarPrivateChannelsMore'
                                 aria-label={formatMessage({id: 'sidebar.morePublicAria', defaultMessage: 'more public channels'})}
                                 className='nav-more cursor--pointer style--none btn--block'
                                 onClick={this.moreChannelsPrivate}

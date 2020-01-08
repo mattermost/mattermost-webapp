@@ -11,6 +11,7 @@ import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 import * as GlobalActions from 'actions/global_actions.jsx';
 
 import Constants from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
@@ -30,11 +31,6 @@ import MessageSubmitError from 'components/message_submit_error';
 
 class CreateComment extends React.PureComponent {
     static propTypes = {
-
-        /**
-         * react-intl API
-         */
-        intl: PropTypes.any,
 
         /**
          * The channel for which this comment is a part of
@@ -92,11 +88,6 @@ class CreateComment extends React.PureComponent {
         locale: PropTypes.string.isRequired,
 
         /**
-         * A function returning a ref to the sidebar
-         */
-        getSidebarBody: PropTypes.func,
-
-        /**
          * Create post error id
          */
         createPostErrorId: PropTypes.string,
@@ -105,6 +96,8 @@ class CreateComment extends React.PureComponent {
          * Called to clear file uploads in progress
          */
         clearCommentDraftUploads: PropTypes.func.isRequired,
+
+        intl: intlShape.isRequired,
 
         /**
          * Called when comment draft needs to be updated
@@ -225,6 +218,7 @@ class CreateComment extends React.PureComponent {
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
+            suggestionListStyle: 'top',
         };
 
         this.lastBlurAt = 0;
@@ -260,6 +254,11 @@ class CreateComment extends React.PureComponent {
 
         // Focus on textbox when emoji picker is closed
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
+            this.focusTextbox();
+        }
+
+        // Focus on textbox when returned from preview mode
+        if (prevState.showPreview && !this.state.showPreview) {
             this.focusTextbox();
         }
 
@@ -504,7 +503,7 @@ class CreateComment extends React.PureComponent {
             codeBlockOnCtrlEnter,
         } = this.props;
 
-        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter);
+        const {allowSending, withClosedCodeBlock, message} = postMessageOnKeyPress(e, this.state.draft.message, ctrlSend, codeBlockOnCtrlEnter, 0, 0, this.state.caretPosition);
 
         if (allowSending) {
             e.persist();
@@ -705,8 +704,8 @@ class CreateComment extends React.PureComponent {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance()) {
-                    this.refs.fileUpload.getWrappedInstance().cancelUpload(id);
+                if (this.refs.fileUpload && this.refs.fileUpload.getWrappedInstance() && this.refs.fileUpload.getWrappedInstance().getWrappedInstance()) {
+                    this.refs.fileUpload.getWrappedInstance().getWrappedInstance().cancelUpload(id);
                 }
             }
         } else {
@@ -860,7 +859,7 @@ class CreateComment extends React.PureComponent {
         let uploadsInProgressText = null;
         if (draft.uploadsInProgress.length > 0) {
             uploadsInProgressText = (
-                <span className='pull-right post-right-comments-upload-in-progress'>
+                <span className='post-right-comments-upload-in-progress'>
                     {draft.uploadsInProgress.length === 1 ? (
                         <FormattedMessage
                             id='create_comment.file'
@@ -939,6 +938,16 @@ class CreateComment extends React.PureComponent {
             scrollbarClass = ' scroll';
         }
 
+        const textboxRef = this.refs.textbox;
+        if (textboxRef) {
+            const textboxPosTop = textboxRef.getWrappedInstance().getInputBox().getBoundingClientRect().top;
+            if (textboxPosTop < Constants.SUGGESTION_LIST_SPACE_RHS) {
+                this.setState({suggestionListStyle: 'bottom'});
+            } else {
+                this.setState({suggestionListStyle: 'top'});
+            }
+        }
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div
@@ -976,6 +985,7 @@ class CreateComment extends React.PureComponent {
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
                                 preview={this.state.showPreview}
+                                suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -1009,14 +1019,15 @@ class CreateComment extends React.PureComponent {
                             </div>
                         </div>
                         <div className='text-right margin-top'>
+                            {uploadsInProgressText}
                             <input
                                 type='button'
                                 disabled={!enableAddButton}
+                                id='addCommentButton'
                                 className={addButtonClass}
                                 value={formatMessage({id: 'create_comment.comment', defaultMessage: 'Add Comment'})}
                                 onClick={this.handleSubmit}
                             />
-                            {uploadsInProgressText}
                             {preview}
                             {serverError}
                         </div>

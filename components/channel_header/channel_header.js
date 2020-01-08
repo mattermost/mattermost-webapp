@@ -33,6 +33,7 @@ import {
     NotificationLevels,
     RHSStates,
 } from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
@@ -46,7 +47,6 @@ const SEARCH_BAR_MINIMUM_WINDOW_SIZE = 1140;
 
 class ChannelHeader extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         teamId: PropTypes.string.isRequired,
         currentUser: PropTypes.object.isRequired,
         channel: PropTypes.object,
@@ -62,6 +62,7 @@ class ChannelHeader extends React.PureComponent {
         ),
         rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
+        intl: intlShape.isRequired,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
             unfavoriteChannel: PropTypes.func.isRequired,
@@ -197,7 +198,12 @@ class ChannelHeader extends React.PureComponent {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
                 this.searchMentions(e);
+            }
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
+                // just close the modal if it's open, but let someone else handle the shortcut
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
             }
         }
     };
@@ -582,6 +588,16 @@ class ChannelHeader extends React.PureComponent {
             pinnedIconClass += ' active';
         }
 
+        let mentionsIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.MENTION) {
+            mentionsIconClass += ' active';
+        }
+
+        let flaggedIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.FLAG) {
+            flaggedIconClass += ' active';
+        }
+
         let title = (
             <React.Fragment>
                 {toggleFavorite}
@@ -687,10 +703,13 @@ class ChannelHeader extends React.PureComponent {
                         tooltipKey={'pinnedPosts'}
                     />
                     {this.state.showSearchBar ? (
-                        <div className='flex-child search-bar__container'>
+                        <div
+                            id='searchbarContainer'
+                            className='flex-child search-bar__container'
+                        >
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile()}
+                                isFocus={Utils.isMobile() || this.props.rhsOpen}
                             />
                         </div>
                     ) : (
@@ -715,6 +734,7 @@ class ChannelHeader extends React.PureComponent {
                             />
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + mentionsIconClass}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -724,6 +744,7 @@ class ChannelHeader extends React.PureComponent {
                             <FlagIcon className='icon icon__flag'/>
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + flaggedIconClass}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}

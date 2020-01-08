@@ -10,6 +10,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -26,7 +27,6 @@ import UserProfile from 'components/user_profile';
 
 class RhsRootPost extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
@@ -47,6 +47,10 @@ class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+        intl: intlShape.isRequired,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
+        }),
     };
 
     static defaultProps = {
@@ -57,11 +61,22 @@ class RhsRootPost extends React.PureComponent {
         super(props);
 
         this.state = {
+            alt: false,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     renderPostTime = (isEphemeral) => {
@@ -115,8 +130,16 @@ class RhsRootPost extends React.PureComponent {
             className += ' post--hovered';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className;
     };
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -124,9 +147,15 @@ class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handlePostClick = (e) => {
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(this.props.post);
+        }
+    }
+
     handlePostFocus = () => {
-        const {post, author, reactions, isFlagged, intl} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, intl)});
+        const {post, author, reactions, isFlagged} = this.props;
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
     }
 
     getDotMenuRef = () => {
@@ -320,6 +349,7 @@ class RhsRootPost extends React.PureComponent {
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 aria-label={this.state.currentAriaLabel}
+                onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
                 data-a11y-sort-order='0'
             >

@@ -37,25 +37,39 @@
             clear: both;
             color: inherit;
             cursor: pointer;
-            display: flex;
+            display: block;
             font-weight: normal;
             padding: 0 32px 0 24px;
             text-align: left;
             white-space: nowrap;
             width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 28px;
             height: 28px;
-            line-height: normal;
 
             &.MenuItem__help {
                 height: auto;
-                padding: 8px 24px;
-                flex-direction: column;
-                align-items: flex-start;
+                padding: 3px 24px 9px;
+            }
+
+            .MenuItem__icon {
+                width: 20px;
+                height: 20px;
+                display: inline-flex;
+                align-items: center;
+                margin-right: 8px;
+                top: 4px;
+                position: relative;
             }
 
             &:hover {
                 background: alpha-color($black, .08);
             }
+        }
+
+        &.MenuItem__dangerous {
+            color: $red;
         }
 
         span.icon {
@@ -68,7 +82,10 @@
         span.extra-text {
             @include opacity(.7);
             display: block;
-            font-size: 10px;
+            font-size: 12px;
+            line-height: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 }

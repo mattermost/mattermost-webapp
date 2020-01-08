@@ -7,7 +7,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {FormattedMessage} from 'react-intl';
 
-import {isEmptyObject} from 'utils/utils.jsx';
+import {isEmptyObject, windowHeight} from 'utils/utils.jsx';
+import {Constants} from 'utils/constants.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
@@ -20,6 +21,7 @@ export default class SuggestionList extends React.PureComponent {
         renderNoResults: PropTypes.bool,
         onCompleteWord: PropTypes.func.isRequired,
         preventClose: PropTypes.func,
+        onItemHover: PropTypes.func.isRequired,
         pretext: PropTypes.string.isRequired,
         cleared: PropTypes.bool.isRequired,
         matchedPretext: PropTypes.array.isRequired,
@@ -27,6 +29,7 @@ export default class SuggestionList extends React.PureComponent {
         terms: PropTypes.array.isRequired,
         selection: PropTypes.string.isRequired,
         components: PropTypes.array.isRequired,
+        wrapperHeight: PropTypes.number,
     };
 
     static defaultProps = {
@@ -37,6 +40,8 @@ export default class SuggestionList extends React.PureComponent {
     constructor(props) {
         super(props);
 
+        this.contentRef = React.createRef();
+        this.itemRefs = new Map();
         this.suggestionReadOut = React.createRef();
         this.currentLabel = '';
         this.currentItem = {};
@@ -91,7 +96,7 @@ export default class SuggestionList extends React.PureComponent {
     }
 
     getContent = () => {
-        return $(ReactDOM.findDOMNode(this.refs.content));
+        return $(this.contentRef.current);
     }
 
     scrollToItem = (term) => {
@@ -108,7 +113,7 @@ export default class SuggestionList extends React.PureComponent {
             const contentTopPadding = parseInt(content.css('padding-top'), 10);
             const contentBottomPadding = parseInt(content.css('padding-top'), 10);
 
-            const item = $(ReactDOM.findDOMNode(this.refs[term]));
+            const item = $(ReactDOM.findDOMNode(this.itemRefs.get(term)));
             if (item.length === 0) {
                 return;
             }
@@ -145,6 +150,7 @@ export default class SuggestionList extends React.PureComponent {
             <div
                 key='list-no-results'
                 className='suggestion-list__no-results'
+                ref={this.contentRef}
             >
                 <FormattedMarkdownMessage
                     id='suggestion_list.no_matches'
@@ -167,7 +173,6 @@ export default class SuggestionList extends React.PureComponent {
             if (!this.props.renderNoResults) {
                 return null;
             }
-
             items.push(this.renderNoResults());
         }
 
@@ -197,24 +202,34 @@ export default class SuggestionList extends React.PureComponent {
             items.push(
                 <Component
                     key={term}
-                    ref={term}
+                    ref={(ref) => this.itemRefs.set(term, ref)}
                     item={this.props.items[i]}
                     term={term}
                     matchedPretext={this.props.matchedPretext[i]}
                     isSelection={isSelection}
                     onClick={this.props.onCompleteWord}
+                    onMouseMove={this.props.onItemHover}
                 />
             );
         }
-
         const mainClass = 'suggestion-list suggestion-list--' + this.props.location;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.location;
+        let maxHeight = Constants.SUGGESTION_LIST_MAXHEIGHT;
+        if (this.props.wrapperHeight) {
+            maxHeight = Math.min(
+                windowHeight() - (this.props.wrapperHeight + Constants.SUGGESTION_LIST_MAXHEIGHT),
+                Constants.SUGGESTION_LIST_MAXHEIGHT
+            );
+        }
+
+        const contentStyle = {maxHeight};
 
         return (
             <div className={mainClass}>
                 <div
                     id='suggestionList'
-                    ref='content'
+                    ref={this.contentRef}
+                    style={{...contentStyle}}
                     className={contentClass}
                     onMouseDown={this.props.preventClose}
                 >

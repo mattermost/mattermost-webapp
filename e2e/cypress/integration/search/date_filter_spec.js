@@ -11,6 +11,8 @@ import users from '../../fixtures/users.json';
 import TIMEOUTS from '../../fixtures/timeouts';
 
 function searchAndValidate(query, expectedResults = []) {
+    cy.reload();
+
     // # Enter in search query, and hit enter
     cy.get('#searchBox').clear().wait(500).type(query).wait(500).type('{enter}');
 
@@ -222,7 +224,7 @@ describe('SF15699 Search Date Filter', () => {
 
             it('with "x"', () => {
                 cy.get('#searchBox').clear().wait(500).type(queryString);
-                cy.get('#searchClearButton').click();
+                cy.get('#searchFormContainer').find('.input-clear-x').click({force: true});
                 cy.get('#searchBox').should('have.value', '');
             });
         });
@@ -384,9 +386,11 @@ describe('SF15699 Search Date Filter', () => {
                 find('.post-message').
                 should('have.text', targetMessage);
 
+            cy.reload();
+
             // # Back space right after the date to bring up date picker again
-            cy.get('#searchBox').
-                focus().
+            cy.get('#searchBox').focus().clear().
+                type(`on:2019-01-15 ${targetMessage}`).
                 type('{leftarrow}'.repeat(targetMessage.length + 1)).
                 type('{backspace}');
 

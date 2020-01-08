@@ -13,6 +13,7 @@ import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
 import {getPreviousPostId, getLatestPostId} from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
@@ -44,11 +45,6 @@ class PostList extends React.PureComponent {
     static propTypes = {
 
         /**
-         * react-intl API
-         */
-        intl: PropTypes.any,
-
-        /**
          * Array of Ids in the channel including date separators, new message indicator, more messages loader,
          * manual load messages trigger and postId in the order of newest to oldest for populating virtual list rows
          */
@@ -78,6 +74,8 @@ class PostList extends React.PureComponent {
          * used for disabling triggering loadNewerPosts
          */
         atLatestPost: PropTypes.bool,
+
+        intl: intlShape.isRequired,
 
         latestPostTimeStamp: PropTypes.number,
 

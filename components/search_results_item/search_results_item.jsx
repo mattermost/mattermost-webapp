@@ -10,7 +10,7 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
-import CommentIcon from 'components/common/comment_icon.jsx';
+import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
 import PostProfilePicture from 'components/post_profile_picture';
 import UserProfile from 'components/user_profile';
@@ -25,6 +25,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 class SearchResultsItem extends React.PureComponent {
@@ -105,7 +106,7 @@ class SearchResultsItem extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.object.isRequired,
+        intl: intlShape.isRequired,
     };
 
     static defaultProps = {
@@ -335,6 +336,7 @@ class SearchResultsItem extends React.PureComponent {
                             searchMatches: this.props.matches,
                             mentionHighlight: this.props.isMentionSearch,
                         }}
+                        isRHS={true}
                     />
                 </PostBodyAdditionalContent>
             );

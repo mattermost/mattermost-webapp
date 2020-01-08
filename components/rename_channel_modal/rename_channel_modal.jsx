@@ -9,6 +9,7 @@ import {defineMessages, FormattedMessage, injectIntl} from 'react-intl';
 import LocalizedInput from 'components/localized_input/localized_input';
 import {browserHistory} from 'utils/browser_history';
 import Constants from 'utils/constants.jsx';
+import {intlShape} from 'utils/react_intl';
 import {cleanUpUrlable, getShortenedURL} from 'utils/url';
 import * as Utils from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
@@ -50,7 +51,7 @@ export class RenameChannelModal extends React.PureComponent {
         /**
          * react-intl helper object
          */
-        intl: PropTypes.any,
+        intl: intlShape.isRequired,
 
         /**
          * Function that is called when modal is hidden

@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedTime} from 'react-intl';
 import moment from 'moment-timezone';
 
 type Props = {
@@ -20,7 +19,7 @@ type Props = {
     /*
      * Current timezone of the user
      */
-    timeZone?: string;
+    timeZone?: string | null | undefined;
 
     /*
      * Enable timezone feature
@@ -28,8 +27,13 @@ type Props = {
     enableTimezone?: boolean;
 }
 
+type FormattedTimeResult = {
+    isoDate: string;
+    time: string;
+};
+
 export default class LocalDateTime extends React.PureComponent<Props> {
-    public render() {
+    private getFormattedTime: () => FormattedTimeResult = () => {
         const {
             enableTimezone,
             eventTime,
@@ -37,29 +41,32 @@ export default class LocalDateTime extends React.PureComponent<Props> {
             useMilitaryTime,
         } = this.props;
 
-        const date = eventTime ? new Date(eventTime) : new Date();
+        const momentDate = eventTime ? moment(eventTime) : moment();
+        const format = useMilitaryTime ? 'HH:mm' : 'hh:mm A';
 
-        const titleMoment = moment(date);
-        let titleString = titleMoment.toString();
+        let withTimezone;
         if (enableTimezone && timeZone) {
-            titleMoment.tz(timeZone);
-            titleString = titleMoment.toString() + ' (' + titleMoment.tz() + ')';
+            momentDate.tz(timeZone);
+            withTimezone = momentDate.toString() + ' (' + momentDate.tz() + ')';
         }
 
-        const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
+        return {
+            isoDate: withTimezone || momentDate.toString(),
+            time: momentDate.format(format),
+        };
+    };
+
+    public render() {
+        const {isoDate, time} = this.getFormattedTime();
 
         return (
             <time
-                aria-label={date.toString()}
+                aria-label={isoDate}
                 className='post__time'
-                dateTime={date.toISOString()}
-                title={titleString}
+                dateTime={isoDate}
+                title={isoDate}
             >
-                <FormattedTime
-                    {...timezoneProps}
-                    hour12={!useMilitaryTime}
-                    value={date}
-                />
+                <span>{time}</span>
             </time>
         );
     }

@@ -179,6 +179,14 @@ export const ActionTypes = keyMirror({
     ALL_CHANNEL_SYNC_STATUS: null,
 
     UPDATE_ACTIVE_SECTION: null,
+
+    RECEIVED_MARKETPLACE_PLUGINS: null,
+    INSTALLING_MARKETPLACE_PLUGIN: null,
+    INSTALLING_MARKETPLACE_PLUGIN_SUCCEEDED: null,
+    INSTALLING_MARKETPLACE_PLUGIN_FAILED: null,
+    FILTER_MARKETPLACE_PLUGINS: null,
+
+    POST_UNREAD_SUCCESS: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -270,6 +278,7 @@ export const SocketEvents = {
     POST_EDITED: 'post_edited',
     POST_DELETED: 'post_deleted',
     POST_UPDATED: 'post_updated',
+    POST_UNREAD: 'post_unread',
     CHANNEL_CONVERTED: 'channel_converted',
     CHANNEL_CREATED: 'channel_created',
     CHANNEL_DELETED: 'channel_deleted',
@@ -760,6 +769,7 @@ export const Constants = {
     MAX_FILENAME_LENGTH: 35,
     THUMBNAIL_WIDTH: 128,
     THUMBNAIL_HEIGHT: 100,
+    PREVIEWER_HEIGHT: 170,
     WEB_VIDEO_WIDTH: 640,
     WEB_VIDEO_HEIGHT: 480,
     MOBILE_VIDEO_WIDTH: 480,
@@ -793,6 +803,8 @@ export const Constants = {
     POST_DELETED: 'deleted',
     POST_UPDATED: 'updated',
     SYSTEM_MESSAGE_PREFIX: 'system_',
+    SUGGESTION_LIST_MAXHEIGHT: 292,
+    SUGGESTION_LIST_SPACE_RHS: 420,
     AUTO_RESPONDER: 'system_auto_responder',
     SYSTEM_MESSAGE_PROFILE_IMAGE: logoImage,
     RESERVED_TEAM_NAMES: [
@@ -1299,7 +1311,7 @@ export const Constants = {
     MAX_CUSTOM_BRAND_TEXT_LENGTH: 500,
     MAX_TERMS_OF_SERVICE_TEXT_LENGTH: 16383,
     DEFAULT_TERMS_OF_SERVICE_RE_ACCEPTANCE_PERIOD: 365,
-    CHANNEL_SCROLL_ADJUSTMENT: 100,
+    CHANNEL_SCROLL_ADJUSTMENT: 130,
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,

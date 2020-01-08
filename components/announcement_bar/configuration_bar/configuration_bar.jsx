@@ -8,6 +8,7 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod} from 'utils/license_utils.jsx';
 import {AnnouncementBarTypes, AnnouncementBarMessages} from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 
 import {t} from 'utils/i18n';
 
@@ -20,8 +21,8 @@ const RENEWAL_LINK = 'https://licensing.mattermost.com/renew';
 
 class ConfigurationAnnouncementBar extends React.PureComponent {
     static propTypes = {
-        intl: PropTypes.any,
         config: PropTypes.object,
+        intl: intlShape.isRequired,
         license: PropTypes.object,
         user: PropTypes.object,
         canViewSystemErrors: PropTypes.bool.isRequired,
@@ -148,6 +149,7 @@ class ConfigurationAnnouncementBar extends React.PureComponent {
                 <TextDismissableBar
                     allowDismissal={true}
                     text={siteURLMessage}
+                    siteURL={this.props.siteURL}
                     type={AnnouncementBarTypes.ANNOUNCEMENT}
                 />
             );

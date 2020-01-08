@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import $ from 'jquery';
-require('perfect-scrollbar/jquery')($);
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -220,18 +219,14 @@ export default class Root extends React.Component {
         }
     }
 
-    redirectIfNecessary = (props) => {
-        if (props.location.pathname === '/') {
+    componentDidUpdate(prevProps) {
+        if (this.props.location.pathname === '/') {
             if (this.props.noAccounts) {
-                this.props.history.push('/signup_user_complete');
-            } else if (props.showTermsOfService) {
-                this.props.history.push('/terms_of_service');
+                prevProps.history.push('/signup_user_complete');
+            } else if (this.props.showTermsOfService) {
+                prevProps.history.push('/terms_of_service');
             }
         }
-    }
-
-    UNSAFE_componentWillReceiveProps(newProps) { // eslint-disable-line camelcase
-        this.redirectIfNecessary(newProps);
     }
 
     componentDidMount() {

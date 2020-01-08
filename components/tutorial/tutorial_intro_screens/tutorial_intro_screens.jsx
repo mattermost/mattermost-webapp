@@ -330,7 +330,6 @@ export default class TutorialIntroScreens extends React.Component {
                             <button
                                 id='tutorialNextButton'
                                 className='btn btn-primary'
-                                tabIndex='1'
                                 onClick={this.handleNext}
                             >
                                 <FormattedMessage

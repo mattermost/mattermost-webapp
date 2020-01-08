@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Overlay, OverlayTrigger, Tooltip} from 'react-bootstrap';
@@ -47,10 +46,6 @@ export default class PopoverListMembers extends React.Component {
             statuses: props.statuses,
             sortedUsers: this.sortUsers(props.users, props.statuses),
         };
-    }
-
-    componentDidUpdate() {
-        $('.member-list__popover .popover-content .more-modal__body').perfectScrollbar();
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -163,6 +158,7 @@ export default class PopoverListMembers extends React.Component {
                 >
                     <button
                         className='btn btn-link'
+                        data-testid='membersModal'
                         onClick={this.showMembersModal}
                     >
                         {membersName}

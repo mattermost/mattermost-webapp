@@ -213,6 +213,15 @@ class SearchableUserList extends React.Component {
             const searchUsersTxt = formatMessage({id: t('filtered_user_list.search'), defaultMessage: 'Search users'});
             filterRow = (
                 <div className='col-xs-12'>
+                    <label
+                        className='hidden-label'
+                        htmlFor='searchUsersInput'
+                    >
+                        <FormattedMessage
+                            id='filtered_user_list.search'
+                            defaultMessage='Search users'
+                        />
+                    </label>
                     <QuickInput
                         id='searchUsersInput'
                         ref='filter'
