@@ -11,7 +11,7 @@ import MattermostIcon from 'images/favicon/android-chrome-192x192.png';
 import Nexus6Mockup from 'images/nexus-6p-mockup.png';
 
 type Props = {
-    androidAppDownloadLink: string;
+    androidAppDownloadLink?: string;
     history: History;
     location: Location;
 }
@@ -61,7 +61,7 @@ export default function GetAndroidApp(props: Props) {
             </div>
             <a
                 className='btn btn-primary get-android-app__app-store-link'
-                href={useSafeUrl(androidAppDownloadLink)}
+                href={useSafeUrl(androidAppDownloadLink!)}
             >
                 <FormattedMessage
                     id='get_app.continue'
