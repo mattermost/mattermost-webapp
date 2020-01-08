@@ -125,6 +125,10 @@ export default class ChannelsInput extends React.Component {
         );
     }
 
+    getOptionLabel = (channel) => {
+        return channel.display_name;
+    }
+
     onChange = (value) => {
         if (this.props.onChange) {
             this.props.onChange(value);
@@ -161,6 +165,7 @@ export default class ChannelsInput extends React.Component {
                 placeholder={this.props.placeholder}
                 components={this.components}
                 getOptionValue={this.getOptionValue}
+                getOptionLabel={this.getOptionLabel}
                 formatOptionLabel={this.formatOptionLabel}
                 noOptionsMessage={this.noOptionsMessage}
                 loadingMessage={this.loadingMessage}
