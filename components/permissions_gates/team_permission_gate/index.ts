@@ -8,12 +8,12 @@ import {GlobalState} from 'mattermost-redux/types/store';
 
 import TeamPermissionGate from './team_permission_gate';
 
-type OwnProps = {
+type Props = {
     teamId: string;
     permissions: Array<string>;
 }
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState, ownProps: Props) {
     if (!ownProps.teamId) {
         return {hasPermission: false};
     }

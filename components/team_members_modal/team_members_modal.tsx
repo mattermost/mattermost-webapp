@@ -13,8 +13,6 @@ import InvitationModal from 'components/invitation_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-import {openModal} from 'actions/views/modals';
-
 type Props = {
     currentTeam: {
         id: string;
@@ -22,8 +20,10 @@ type Props = {
     };
     onHide: () => void;
     onLoad?: () => void;
-    actions?: {
-        openModal: typeof openModal;
+    actions: {
+        openModal: (modalData: {modalId: string; dialogType: any}) => Promise<{
+            data: boolean;
+        }>;
     };
 }
 
@@ -55,9 +55,7 @@ export default class TeamMembersModal extends React.PureComponent<Props, State> 
             modalId: ModalIdentifiers.INVITATION,
             dialogType: InvitationModal,
         };
-        if (this.props.actions) {
-            this.props.actions.openModal(modalData);
-        }
+        this.props.actions.openModal(modalData);
         this.setState({show: false});
     }
 

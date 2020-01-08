@@ -19,6 +19,7 @@ describe('components/TeamMembersModal', () => {
                 }}
                 onHide={emptyFunction}
                 onLoad={emptyFunction}
+                actions={{openModal: jest.fn()}}
             />
         );
 
@@ -37,6 +38,7 @@ describe('components/TeamMembersModal', () => {
                 }}
                 onHide={onHide}
                 onLoad={emptyFunction}
+                actions={{openModal: jest.fn()}}
             />
         );
 

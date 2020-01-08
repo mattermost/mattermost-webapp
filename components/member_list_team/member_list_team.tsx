@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {getTeamStats} from 'mattermost-redux/actions/teams';
-import {searchProfiles} from 'mattermost-redux/actions/users';
+import {UserProfile} from 'mattermost-redux/types/users';
+import {TeamMembership} from 'mattermost-redux/types/teams';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
@@ -12,26 +12,32 @@ import * as UserAgent from 'utils/user_agent';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list_container.jsx';
 import TeamMembersDropdown from 'components/team_members_dropdown';
 
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
-import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
-import {setModalSearchTerm} from 'actions/views/search';
-
 const USERS_PER_PAGE = 50;
 
 type Props = {
     searchTerm: string;
-    users: Array<any>;
-    teamMembers: any;
+    users: Array<UserProfile>;
+    teamMembers: {
+        [userId: string]: TeamMembership;
+    };
     currentTeamId: string;
     totalTeamMembers: number;
     canManageTeamMembers?: boolean;
     actions: {
-        searchProfiles: typeof searchProfiles;
-        getTeamStats: typeof getTeamStats;
-        loadProfilesAndTeamMembers: typeof loadProfilesAndTeamMembers;
-        loadStatusesForProfilesList: typeof loadStatusesForProfilesList;
-        loadTeamMembersForProfilesList: typeof loadTeamMembersForProfilesList;
-        setModalSearchTerm: typeof setModalSearchTerm;
+        searchProfiles: (term: string, options?: {}) => Promise<{data: UserProfile[]}>;
+        getTeamStats: (teamId: string) => Promise<{data: {}}>;
+        loadProfilesAndTeamMembers: (page: number, perPage: number, teamId?: string, options?: {}) => Promise<{
+            data: boolean;
+        }>;
+        loadStatusesForProfilesList: (users: Array<UserProfile>) => Promise<{
+            data: boolean;
+        }>;
+        loadTeamMembersForProfilesList: (profiles: any, teamId: string) => Promise<{
+            data: boolean;
+        }>;
+        setModalSearchTerm: (term: string) => Promise<{
+            data: boolean;
+        }>;
     };
 }
 
@@ -53,8 +59,8 @@ export default class MemberListTeam extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        (this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId) as any).then((result: any) => {
-            if (result.data) {
+        this.props.actions.loadProfilesAndTeamMembers(0, Constants.PROFILE_CHUNK_SIZE, this.props.currentTeamId).then(({data}) => {
+            if (data) {
                 this.loadComplete();
             }
         });
@@ -79,7 +85,7 @@ export default class MemberListTeam extends React.Component<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    const profilesResult: any = await nextProps.actions.searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
+                    const {data} = await nextProps.actions.searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
@@ -87,9 +93,9 @@ export default class MemberListTeam extends React.Component<Props, State> {
 
                     this.setState({loading: true});
 
-                    nextProps.actions.loadStatusesForProfilesList(profilesResult.data);
-                    (nextProps.actions.loadTeamMembersForProfilesList(profilesResult.data, nextProps.currentTeamId) as any).then((teamMembersProfiles: any) => {
-                        if (teamMembersProfiles.data) {
+                    nextProps.actions.loadStatusesForProfilesList(data);
+                    nextProps.actions.loadTeamMembersForProfilesList(data, nextProps.currentTeamId).then((result) => {
+                        if (result.data) {
                             this.loadComplete();
                         }
                     });
@@ -122,8 +128,8 @@ export default class MemberListTeam extends React.Component<Props, State> {
         const teamMembers = this.props.teamMembers;
         const users = this.props.users;
         const actionUserProps: {
-            [key: string]: {
-                teamMember: {};
+            [userId: string]: {
+                teamMember: TeamMembership;
             };
         } = {};
 
