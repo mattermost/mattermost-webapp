@@ -85,7 +85,12 @@ export default class MemberListTeam extends React.Component<Props, State> {
 
             const searchTimeoutId = window.setTimeout(
                 async () => {
-                    const {data} = await nextProps.actions.searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
+                    const {
+                        loadStatusesForProfilesList,
+                        loadTeamMembersForProfilesList,
+                        searchProfiles,
+                    } = nextProps.actions;
+                    const {data} = await searchProfiles(searchTerm, {team_id: nextProps.currentTeamId});
 
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
@@ -93,9 +98,9 @@ export default class MemberListTeam extends React.Component<Props, State> {
 
                     this.setState({loading: true});
 
-                    nextProps.actions.loadStatusesForProfilesList(data);
-                    nextProps.actions.loadTeamMembersForProfilesList(data, nextProps.currentTeamId).then((result) => {
-                        if (result.data) {
+                    loadStatusesForProfilesList(data);
+                    loadTeamMembersForProfilesList(data, nextProps.currentTeamId).then(({data: membersLoaded}) => {
+                        if (membersLoaded) {
                             this.loadComplete();
                         }
                     });
