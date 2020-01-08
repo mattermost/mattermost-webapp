@@ -16,7 +16,6 @@ import SystemPermissionGate from 'components/permissions_gates/system_permission
 import Pluggable from 'plugins/pluggable';
 
 import TeamButton from './components/team_button.jsx';
-import {Modal} from 'react-bootstrap';
 
 export function renderView(props) {
     return (
