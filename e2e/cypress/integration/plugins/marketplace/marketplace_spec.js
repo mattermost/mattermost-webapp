@@ -301,7 +301,7 @@ describe('Plugin Marketplace', () => {
         });
 
         // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
-        it('change tab on "install plugins" click', () => {
+        it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
                 // # switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
