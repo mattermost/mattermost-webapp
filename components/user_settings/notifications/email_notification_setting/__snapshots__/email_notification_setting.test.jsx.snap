@@ -122,26 +122,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     title="Email notifications"
     updateSection={[Function]}
   >
-    <ul
+    <section
       className="section-max form-horizontal "
     >
-      <li
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
         Email notifications
-      </li>
-      <li
+      </h4>
+      <div
         className="col-sm-9 col-sm-offset-3"
       >
-        <ul
+        <div
           className="setting-list"
-          role="presentation"
           tabIndex="-1"
         >
-          <li
+          <div
             className="setting-list-item"
-            role="presentation"
           >
             <fieldset
               key="userNotificationEmailOptions"
@@ -222,8 +220,8 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                  
               </div>
             </fieldset>
-          </li>
-          <li
+          </div>
+          <div
             className="setting-list-item"
           >
             <hr />
@@ -294,10 +292,10 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </span>
               </FormattedMessage>
             </button>
-          </li>
-        </ul>
-      </li>
-    </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </SettingItemMax>
 </EmailNotificationSetting>
 `;
@@ -520,26 +518,24 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
     title="Email notifications"
     updateSection={[Function]}
   >
-    <ul
+    <section
       className="section-max form-horizontal "
     >
-      <li
+      <h4
         className="col-sm-12 section-title"
         id="settingTitle"
       >
         Email notifications
-      </li>
-      <li
+      </h4>
+      <div
         className="col-sm-9 col-sm-offset-3"
       >
-        <ul
+        <div
           className="setting-list"
-          role="presentation"
           tabIndex="-1"
         >
-          <li
+          <div
             className="setting-list-item"
-            role="presentation"
           >
             <fieldset
               key="userNotificationEmailOptions"
@@ -683,8 +679,8 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </FormattedMessage>
               </div>
             </fieldset>
-          </li>
-          <li
+          </div>
+          <div
             className="setting-list-item"
           >
             <hr />
@@ -755,10 +751,10 @@ exports[`components/user_settings/notifications/EmailNotificationSetting should 
                 </span>
               </FormattedMessage>
             </button>
-          </li>
-        </ul>
-      </li>
-    </ul>
+          </div>
+        </div>
+      </div>
+    </section>
   </SettingItemMax>
 </EmailNotificationSetting>
 `;
