@@ -210,7 +210,7 @@ class SearchableUserList extends React.Component {
         if (this.props.renderFilterRow) {
             filterRow = this.props.renderFilterRow(this.handleInput);
         } else {
-            const searchUsersTxt = formatMessage({id: t('filtered_user_list.search'), defaultMessage: 'Search users'});
+            const searchUsersTxt = formatMessage({id: t('filtered_user_list.search'), defaultMessage: 'Search users'}).toLowerCase();
             filterRow = (
                 <div className='col-xs-12'>
                     <label
