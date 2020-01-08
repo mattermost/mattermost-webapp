@@ -14,7 +14,7 @@ import Avatar from 'components/widgets/users/avatar';
 import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown';
 
 type State = {
-    currentUser: UserProfile; 
+    currentUser: Partial<UserProfile>& {id: string; last_picture_update?: number};
 }
 
 export default class SidebarHeader extends React.Component<State> {
