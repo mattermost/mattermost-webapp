@@ -65,6 +65,7 @@ function makeMapStateToProps() {
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
         const emojiPickerForLastMessage = getStateOfEmojiPickerForLastPost(state);
+
         return {
             currentTeamId: getCurrentTeamId(state),
             currentChannel,

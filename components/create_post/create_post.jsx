@@ -8,8 +8,6 @@ import {FormattedMessage, injectIntl} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import delay from 'lodash/delay';
-
 import * as GlobalActions from 'actions/global_actions.jsx';
 import Constants, {StoragePrefixes, ModalIdentifiers, Locations} from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -44,7 +42,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx'
 import MessageSubmitError from 'components/message_submit_error';
 
 const KeyCodes = Constants.KeyCodes;
-const delayIdsForLastMessageEmojiShortcut = new Set();
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str) {
@@ -53,12 +50,6 @@ function trimRight(str) {
     }
 
     return str.replace(/\s*$/, '');
-}
-
-function clearTimeouts(arrayOfTimeoutIds) {
-    arrayOfTimeoutIds.forEach((timeoutId) => {
-        clearTimeout(timeoutId);
-    });
 }
 
 class CreatePost extends React.Component {
@@ -341,23 +332,12 @@ class CreatePost extends React.Component {
         if (prevState.showEmojiPicker && !this.state.showEmojiPicker) {
             this.focusTextbox();
         }
-
-        // Clear timeout ids of shortcut to add emoji to last post when they stack up to 5,
-        // so we dont re clear everytime on every update.
-        if (delayIdsForLastMessageEmojiShortcut.size > 5) {
-            clearTimeouts(delayIdsForLastMessageEmojiShortcut);
-            delayIdsForLastMessageEmojiShortcut.clear();
-        }
     }
 
     componentWillUnmount() {
         document.removeEventListener('paste', this.pasteHandler);
         document.removeEventListener('keydown', this.documentKeyHandler);
         this.removeOrientationListeners();
-
-        if (delayIdsForLastMessageEmojiShortcut.size !== 0) {
-            clearTimeout(delayIdsForLastMessageEmojiShortcut);
-        }
     }
 
     updatePreview = (newState) => {
@@ -894,38 +874,12 @@ class CreatePost extends React.Component {
     documentKeyHandler = (e) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const shortcutModalKeyCombo = ctrlOrMetaKeyPressed && Utils.isKeyPressed(e, KeyCodes.FORWARD_SLASH);
-        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (shortcutModalKeyCombo) {
             e.preventDefault();
 
             GlobalActions.toggleShortcutsModal();
             return;
-        } else if (lastMessageEmojiKeyCombo) {
-            const {emojiPickerForLastMessage} = this.props;
-            const isShortcutForEmojiToLastAlreadyPressed = emojiPickerForLastMessage.shouldOpen === true &&
-                (emojiPickerForLastMessage.emittedFrom === Locations.RHS_ROOT || emojiPickerForLastMessage.emittedFrom === Locations.RHS_ROOT);
-
-            // Since the shortcut when performed on the RHS is also caught by this listener, so we will just close the state for last emoji picker
-            if (isShortcutForEmojiToLastAlreadyPressed) {
-                this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: false});
-                return;
-            }
-
-            // Open the toggle action as it was meant to be from CENTER plane
-            if (emojiPickerForLastMessage.shouldOpen === false) {
-                this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.CENTER});
-
-                // Autoclose the state of emoji for last message picker,
-                // It is usefull as we dont need to explicitly close the state later in component
-                // If valid post is found it will be open, if not no action will be taken and it will just close out
-                const delayTimerId = delay(() => {
-                    this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: false});
-                }, 3000);
-
-                delayIdsForLastMessageEmojiShortcut.add(delayTimerId);
-                return;
-            }
         }
 
         this.focusTextboxIfNecessary(e);
@@ -972,6 +926,7 @@ class CreatePost extends React.Component {
         const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
         const ctrlKeyCombo = ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey;
+        const lastMessageEmojiKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
 
         if (ctrlEnterKeyCombo) {
             this.postMsgKeyPress(e);
@@ -983,6 +938,8 @@ class CreatePost extends React.Component {
             this.loadPrevMessage(e);
         } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
             this.loadNextMessage(e);
+        } else if (lastMessageEmojiKeyCombo) {
+            this.reactToLastMessage(e);
         }
     }
 
@@ -1026,6 +983,15 @@ class CreatePost extends React.Component {
     loadNextMessage = (e) => {
         e.preventDefault();
         this.props.actions.moveHistoryIndexForward(Posts.MESSAGE_TYPES.POST).then(() => this.fillMessageFromHistory());
+    }
+
+    reactToLastMessage = (e) => {
+        e.preventDefault();
+        const {emojiPickerForLastMessage} = this.props;
+
+        if (emojiPickerForLastMessage.shouldOpen === false) {
+            this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.CENTER});
+        }
     }
 
     handleBlur = () => {

@@ -162,6 +162,14 @@ class CreateComment extends React.PureComponent {
         enableEmojiPicker: PropTypes.bool.isRequired,
 
         /**
+         * To check if the state of emoji for last message and from where it was emitted
+         */
+        emojiPickerForLastMessage: PropTypes.shape({
+            shouldOpen: PropTypes.bool,
+            emittedFrom: PropTypes.string
+        }),
+
+        /**
          * Set if the gif picker is enabled.
          */
         enableGifPicker: PropTypes.bool.isRequired,
@@ -537,6 +545,15 @@ class CreateComment extends React.PureComponent {
         this.emitTypingEvent();
     }
 
+    reactToLastMessage = (e) => {
+        e.preventDefault();
+        const {emojiPickerForLastMessage} = this.props;
+
+        if (emojiPickerForLastMessage.shouldOpen === false) {
+            this.props.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
+        }
+    }
+
     emitTypingEvent = () => {
         const {channelId, rootId} = this.props;
         GlobalActions.emitLocalUserTypingEvent(channelId, rootId);
@@ -613,8 +630,7 @@ class CreateComment extends React.PureComponent {
         }
 
         if (lastMessageEmojiKeyCombo) {
-            e.preventDefault();
-            this.props.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
+            this.reactToLastMessage(e);
         }
     }
 
