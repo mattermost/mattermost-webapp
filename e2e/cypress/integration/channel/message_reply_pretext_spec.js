@@ -58,13 +58,13 @@ describe('Message Reply with attachment pretext', () => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
                     cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello message to replying to an older bot post that has some attachment pretext');
-                    cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
+                    cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
 
                 // * Verify that the reply is in the RHS with matching text
                 cy.get(`#rhsPost_${replyId}`).within(() => {
                     cy.queryByTestId('post-link').should('not.be.visible');
-                    cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
+                    cy.get(`#rhsPostMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with message attachment');
                 });
 
                 cy.get(`#CENTER_time_${postId}`).find('time').invoke('attr', 'title').then((originalTimeStamp) => {
