@@ -10,7 +10,7 @@
 */
 Cypress.Commands.add('postMessageAs', ({sender, message, channelId, rootId, createAt}) => {
     const baseUrl = Cypress.config('baseUrl');
-    cy.fileUpload('#fileUploadInput', 'small-image.png');
+
     cy.task('postMessageAs', {sender, message, channelId, rootId, createAt, baseUrl}).then(({status, data}) => {
         expect(status).to.equal(201);
 
