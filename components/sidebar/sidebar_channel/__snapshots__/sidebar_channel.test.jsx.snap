@@ -82,6 +82,7 @@ exports[`component/sidebar/sidebar_channel/SidebarChannel should match snapshot,
   />
   <SidebarTutorialTip
     offTopicDisplayName="Off-Topic"
+    openLhs={[MockFunction]}
     townSquareDisplayName="Town Square"
   />
 </li>

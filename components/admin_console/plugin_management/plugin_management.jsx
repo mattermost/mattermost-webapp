@@ -341,7 +341,7 @@ const PluginItem = ({
     }
 
     return (
-        <div>
+        <div data-testid={pluginStatus.id}>
             <div>
                 <strong>{pluginStatus.name}</strong>
                 {' ('}
@@ -997,6 +997,7 @@ export default class PluginManagement extends AdminSettings {
                                 </div>
                                 <button
                                     className={btnClass}
+                                    id='uploadPlugin'
                                     disabled={!this.state.fileSelected}
                                     onClick={this.handleSubmitUpload}
                                 >
