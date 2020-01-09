@@ -514,6 +514,10 @@
     }
 
     .channel-switch__modal {
+        .suggestion-list {
+            position: relative;
+        }
+
         .modal-content {
             border-radius: 2px;
         }
