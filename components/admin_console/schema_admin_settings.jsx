@@ -12,7 +12,6 @@ import Constants from 'utils/constants';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
 import * as Utils from 'utils/utils.jsx';
 import RequestButton from 'components/admin_console/request_button/request_button';
-import LoadingScreen from 'components/loading_screen';
 import BooleanSetting from 'components/admin_console/boolean_setting';
 import TextSetting from 'components/admin_console/text_setting';
 import DropdownSetting from 'components/admin_console/dropdown_setting.jsx';
@@ -774,10 +773,6 @@ export default class SchemaAdminSettings extends React.Component {
     renderSettings = () => {
         const schema = this.props.schema;
 
-        if (!schema) {
-            return <LoadingScreen/>;
-        }
-
         const settingsList = [];
         if (schema.settings) {
             schema.settings.forEach((setting) => {
@@ -939,6 +934,17 @@ export default class SchemaAdminSettings extends React.Component {
             const CustomComponent = schema.component;
             return (
                 <CustomComponent {...this.props}/>
+            );
+        }
+
+        if (!schema) {
+            return (
+                <AdminHeader>
+                    <FormattedMessage
+                        id='error.not_found.title'
+                        defaultMessage='Page not found'
+                    />
+                </AdminHeader>
             );
         }
 
