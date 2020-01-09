@@ -36,35 +36,28 @@ describe('Message Reply with attachment pretext', () => {
         });
     });
 
-    it('MM-16734 Reply to an older attachment pretext', () => {
+    it('MM-16734 Reply to an older bot post that has some attachment pretext', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
-        // # Upload a file on center view
-        //cy.fileUpload('#fileUploadInput', 'image-small-height.png');
 
-        //verifyImageInPostFooter();
         // # Post a day old message
-       cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday pretext', channelId: newChannel.id, createAt: yesterdaysDate}).
+       cy.postMessageAs({sender: sysadmin, message: 'Hello message to replying to an older bot post that has some attachment pretext ', channelId: newChannel.id, createAt: yesterdaysDate}).
             its('id').
             should('exist').
-            as('yesterdaysPost');
-        verifyImageInPostFooter(false);
-        // # Add two subsequent posts
-        cy.postMessage('Current message');
-        cy.postMessage('Another message');
+            as('olderPost');
 
-        cy.get('@yesterdaysPost').then((postId) => {
+        cy.get('@olderPost').then((postId) => {
             // # Open RHS comment menu
             cy.clickPostCommentIcon(postId);
 
             // # Reply with the attachment
-            cy.postMessageReplyInRHS('A reply to an older post with attachment');
+            cy.postMessageReplyInRHS('A reply to an older post with message attachment');
 
             // # Get the latest reply post
             cy.getLastPostId().then((replyId) => {
                 // * Verify that the reply is in the channel view with matching text
                 cy.get(`#post_${replyId}`).within(() => {
-                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello from yesterday pretext');
+                    cy.queryByTestId('post-link').should('be.visible').and('have.text', 'Commented on sysadmin\'s message: Hello message to replying to an older bot post that has some attachment pretext');
                     cy.get(`#postMessageText_${replyId}`).should('be.visible').and('have.text', 'A reply to an older post with attachment');
                 });
 
