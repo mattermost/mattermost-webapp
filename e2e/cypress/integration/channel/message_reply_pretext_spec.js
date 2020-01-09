@@ -40,15 +40,15 @@ describe('Message Reply with attachment pretext', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
         // # Upload a file on center view
-        cy.fileUpload('#fileUploadInput', 'image-small-height.png');
+        //cy.fileUpload('#fileUploadInput', 'image-small-height.png');
 
         verifyImageInPostFooter();
         // # Post a day old message
-   /*     cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday pretext', channelId: newChannel.id, createAt: yesterdaysDate}).
+       cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday pretext', channelId: newChannel.id, createAt: yesterdaysDate}).
             its('id').
             should('exist').
             as('yesterdaysPost');
-        verifyImageInPostFooter(false);*/
+        verifyImageInPostFooter(false);
         // # Add two subsequent posts
         cy.postMessage('Current message');
         cy.postMessage('Another message');
