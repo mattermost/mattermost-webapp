@@ -11,6 +11,18 @@ import users from '../../fixtures/users.json';
 
 const sysadmin = users.sysadmin;
 
+function verifyImageInPostFooter(verifyExistence = true) {
+    if (verifyExistence) {
+        // * Verify that the image exists in the post message footer
+        cy.get('#postCreateFooter').should('be.visible').find('div.post-image__column').
+            should('exist').
+            and('be.visible');
+    } else {
+        // * Verify that the image no longer exists in the post message footer
+        cy.get('#postCreateFooter').find('div.post-image__column').should('not.exist');
+    }
+}
+
 describe('Message Reply with attachment pretext', () => {
     let newChannel;
 
@@ -36,7 +48,7 @@ describe('Message Reply with attachment pretext', () => {
             its('id').
             should('exist').
             as('yesterdaysPost');
-
+        verifyImageInPostFooter(false);
         // # Add two subsequent posts
         cy.postMessage('Current message');
         cy.postMessage('Another message');
