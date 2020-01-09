@@ -27,7 +27,7 @@ describe('Mention user', () => {
         cy.visit('/');
     });
 
-    it('M19761 autocomplete should match on all', () => {
+    it('M19761 autocomplete should match on cases', () => {
         [
             {input: '@samuel.tucker', expected: 'Samuel Tucker'},
             {input: '@samuel', expected: 'Samuel Tucker'},
