@@ -1706,6 +1706,13 @@ exports[`components/PluginManagement should match snapshot, No installed plugins
     >
       <SaveButton
         btnClass="btn-primary"
+        defaultMessage={
+          <FormattedMessage
+            defaultMessage="Save"
+            id="save_button.save"
+            values={Object {}}
+          />
+        }
         disabled={true}
         extraClasses=""
         onClick={[Function]}
@@ -1872,6 +1879,7 @@ exports[`components/PluginManagement should match snapshot, allow insecure URL e
               <button
                 className="btn"
                 disabled={true}
+                id="uploadPlugin"
                 onClick={[Function]}
               >
                 <FormattedMessage
