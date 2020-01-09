@@ -987,11 +987,9 @@ class CreatePost extends React.Component {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
-        const {emojiPickerForLastMessage} = this.props;
+        const {emojiPickerForLastMessage, actions: {toggleEmojiPickerForLastMessage}} = this.props;
 
-        if (emojiPickerForLastMessage.shouldOpen === false) {
-            this.props.actions.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.CENTER});
-        }
+        toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.CENTER});
     }
 
     handleBlur = () => {

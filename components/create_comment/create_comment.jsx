@@ -547,11 +547,9 @@ class CreateComment extends React.PureComponent {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
-        const {emojiPickerForLastMessage} = this.props;
+        const {emojiPickerForLastMessage, toggleEmojiPickerForLastMessage} = this.props;
 
-        if (emojiPickerForLastMessage.shouldOpen === false) {
-            this.props.toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
-        }
+        toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
     }
 
     emitTypingEvent = () => {

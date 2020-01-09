@@ -63,6 +63,11 @@ class RhsRootPost extends React.PureComponent {
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
             markPostAsUnread: PropTypes.func.isRequired,
+
+            /**
+             * Function to set or unset emoji picker for last message
+             */
+            toggleEmojiPickerForLastMessage: PropTypes.func
         }),
     };
 
@@ -93,13 +98,18 @@ class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost} = this.props;
+        const {emojiPickerForLastMessage, isLastPost, actions: {toggleEmojiPickerForLastMessage}} = this.props;
         const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage.shouldOpen;
         const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage.emittedFrom === Locations.RHS_ROOT;
         const isEmojiPickerClosed = this.state.showEmojiPicker === false;
 
-        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS && isEmojiPickerClosed && isLastPost) {
+        if (didEmojiPickerForLastMessageEmitted &&
+            didEmojiPickerForLastMessageEmittedForRHS &&
+            isEmojiPickerClosed && isLastPost) {
             this.toggleEmojiPicker();
+
+            // Setting the last message emoji action to empty to clean up the redux state
+            toggleEmojiPickerForLastMessage({shouldOpen: false});
         }
     }
 
