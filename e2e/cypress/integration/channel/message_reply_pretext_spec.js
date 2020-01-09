@@ -42,7 +42,7 @@ describe('Message Reply with attachment pretext', () => {
         // # Upload a file on center view
         //cy.fileUpload('#fileUploadInput', 'image-small-height.png');
 
-        verifyImageInPostFooter();
+        //verifyImageInPostFooter();
         // # Post a day old message
        cy.postMessageAs({sender: sysadmin, message: 'Hello from yesterday pretext', channelId: newChannel.id, createAt: yesterdaysDate}).
             its('id').
