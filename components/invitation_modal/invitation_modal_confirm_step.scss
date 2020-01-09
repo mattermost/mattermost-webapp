@@ -62,16 +62,30 @@
             }
         }
     }
-    .confirm-done {
+    .button-input-block {
         margin-top: 32px;
         text-align: right;
         margin-bottom: 28px;
-        button {
+        button{
             height: 48px;
-            padding: 13px 26px;
             min-width: 120px;
             font-size: 16px;
             font-weight: 600;
+            border-radius: 4px;
+        }
+        .invite-more {
+            margin-right: 16px;
+            padding: 13px 20px;
+            border: 1px solid;
+            background: var(--center-channel-bg);
+            color: var(--button-bg);;
+            &:focus, &:active, &:focus:active {
+                outline: none;
+                border-color: transparent;
+            }
+        }
+        .confirm-done {
+            padding: 13px 40px;
             background: var(--button-bg);
             color: var(--button-color);
             &:focus, &:active, &:focus:active {

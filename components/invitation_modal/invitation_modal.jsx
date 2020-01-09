@@ -271,6 +271,7 @@ export default class InvitationModal extends React.Component {
                                 teamName={this.props.currentTeam.display_name}
                                 currentTeamId={this.props.currentTeam.id}
                                 onDone={this.close}
+                                onInviteMore={this.goToInitialStep}
                                 invitesType={this.state.invitesType}
                                 invitesSent={this.state.invitesSent}
                                 invitesNotSent={this.state.invitesNotSent}
