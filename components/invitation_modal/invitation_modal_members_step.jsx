@@ -123,7 +123,7 @@ class InvitationModalMembersStep extends React.Component {
                 <div className='modal-icon'>
                     <InviteMembersIcon/>
                 </div>
-                <h1>
+                <h1 id='invitation_modal_title'>
                     <FormattedMarkdownMessage
                         id='invitation_modal.members.title'
                         defaultMessage='Invite **Members** to {teamName}'

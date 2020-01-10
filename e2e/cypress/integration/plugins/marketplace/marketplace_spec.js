@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -152,10 +152,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.be.visible');
 
             // * search should be visible
-            cy.get('#searchMarketplaceTextbox').should('be.visible');
+            cy.findByPlaceholderText('Search Plugins').should('be.visible').click();
 
             // * tabs should be visible
-            cy.get('#marketplaceTabs').should('be.visible');
+            cy.get('#marketplaceTabs').should('exist');
 
             // * all plugins tab button should be visible
             cy.get('#marketplaceTabs-tab-allPlugins').should('be.visible');
@@ -165,21 +165,21 @@ describe('Plugin Marketplace', () => {
         });
 
         it('autofocus on search plugin input box', () => {
-            cy.focused().should('have.id', 'searchMarketplaceTextbox');
+            cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
         });
 
         it('render the list of all plugins by default', () => {
             // * all plugins tab should be active
-            cy.get('#marketplaceTabs-pane-allPlugins').should('be.visible');
+            cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
 
             // * installed plugins tab should not be active
-            cy.get('#marketplaceTabs-pane-installed').should('not.be.visible');
+            cy.get('#marketplaceTabs-pane-installed').should('not.exist');
         });
 
         // this test uses exist, not visible, due to issues with Cypress
         it('render the list of installed plugins on demand', () => {
             // # click on installed plugins tab
-            cy.get('#marketplaceTabs-tab-installed').click();
+            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().click();
 
             // * all plugins tab should not be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('not.exist');
@@ -198,7 +198,7 @@ describe('Plugin Marketplace', () => {
 
         it('should filter all on search', () => {
             // # filter to jira plugin only
-            cy.get('#searchMarketplaceTextbox').type('jira');
+            cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.visible').type('jira');
 
             // * github plugin should be visible
             cy.get('#marketplace-plugin-jira').should('be.visible');
@@ -219,7 +219,7 @@ describe('Plugin Marketplace', () => {
             cy.apiUpdateConfigBasic(newSettings);
 
             // # filter to jira plugin only
-            cy.get('#searchMarketplaceTextbox').type('jira', {force: true});
+            cy.findByPlaceholderText('Search Plugins').should('be.visible').type('jira');
 
             // * Should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
@@ -246,7 +246,7 @@ describe('Plugin Marketplace', () => {
             cy.uninstallPluginById('com.mattermost.webex');
 
             // # filter to webex plugin only
-            cy.get('#searchMarketplaceTextbox').type('webex');
+            cy.findByPlaceholderText('Search Plugins').should('be.visible').type('webex');
 
             // * no other plugins should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
@@ -298,6 +298,28 @@ describe('Plugin Marketplace', () => {
 
             // * github plugin should still be visible
             cy.get('#marketplace-plugin-github').should('be.visible');
+        });
+
+        it('change tab on "install plugins" click', () => {
+            cy.get('#marketplaceTabs').should('exist').within(() => {
+                // # switch tab to installed plugin
+                cy.findByText(/Installed/).should('be.visible').click();
+                cy.findByText(/Installed/).should('have.attr', 'aria-selected', 'true');
+
+                // * installed plugins tab should be active
+                cy.get('#marketplaceTabs-pane-installed').should('be.visible');
+                cy.get('#marketplaceTabs-pane-allPlugins').should('not.exist');
+
+                // # click on Install Plugins should change current tab
+                cy.findByText('Install Plugins').should('be.visible').click();
+
+                // * all plugins tab should be active
+                cy.findByText('All Plugins').should('be.visible').should('have.attr', 'aria-selected', 'true');
+
+                // * all plugins pane should be active
+                cy.get('#marketplaceTabs-pane-installed').should('not.exist');
+                cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
+            });
         });
     });
 });

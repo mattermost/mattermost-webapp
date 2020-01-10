@@ -75,15 +75,11 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         channelIsArchived: false,
     };
 
-    beforeEach(() => {
-        defaultProps.actions.openLhs = jest.fn();
-    });
-
     test('should match snapshot, on channel show', () => {
         const props = defaultProps;
         const wrapper = shallowWithIntl(
             <SidebarChannel {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -92,8 +88,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         const props = {...defaultProps, shouldHideChannel: true};
         const wrapper = shallowWithIntl(
             <SidebarChannel {...props}/>
-        );
+        ).dive();
         expect(wrapper).toMatchSnapshot();
+        expect(props.actions.openLhs).not.toBeCalled();
     });
 
     test('should match snapshot, on fake channel show', () => {
@@ -116,7 +113,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStringified: JSON.stringify(channel),
         };
 
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -126,7 +123,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             ...defaultProps,
             active: true,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -137,7 +134,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             currentUserId: 'myself',
             channelTeammateId: 'myself',
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -149,7 +146,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelTeammateId: 'myself',
             hasDraft: true,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -163,9 +160,9 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelType: Constants.OPEN_CHANNEL,
             channelDisplayName: 'Town Square',
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
-        expect(props.actions.openLhs).toBeCalled();
+        expect(props.actions.openLhs).not.toBeCalled();
     });
 
     test('should match snapshot, on channel show with unread mentions (must have mentions badge)', () => {
@@ -174,7 +171,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             membership: {mention_count: 3},
             unreadMentions: 4,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -185,7 +182,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             membership: {mention_count: 3},
             unreadMentions: 0,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -200,7 +197,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -215,7 +212,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -230,7 +227,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -245,7 +242,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -263,7 +260,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -281,7 +278,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -299,7 +296,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -317,7 +314,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelStatus: 'test',
             channelFake: false,
         };
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         expect(wrapper).toMatchSnapshot();
         expect(props.actions.openLhs).not.toBeCalled();
     });
@@ -336,7 +333,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         wrapper.instance().handleLeaveDirectChannel();
         expect(savePreferences).toBeCalledWith('user-id', [{user_id: 'user-id', category: Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW, name: 'teammate-id', value: 'false'}]);
         expect(trackEvent).toBeCalledWith('ui', 'ui_direct_channel_x_button_clicked');
@@ -357,7 +354,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         wrapper.instance().handleLeaveDirectChannel();
         expect(savePreferences).toBeCalledWith('user-id', [{user_id: 'user-id', category: Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: 'test-channel-id', value: 'false'}]);
         expect(trackEvent).toBeCalledWith('ui', 'ui_direct_channel_x_button_clicked');
@@ -380,7 +377,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             active: true,
         };
 
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         wrapper.instance().handleLeaveDirectChannel();
         expect(savePreferences).toBeCalledWith('user-id', [{user_id: 'user-id', category: Constants.Preferences.CATEGORY_GROUP_CHANNEL_SHOW, name: 'test-channel-id', value: 'false'}]);
         expect(trackEvent).toBeCalledWith('ui', 'ui_direct_channel_x_button_clicked');
@@ -401,7 +398,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             active: true,
         };
 
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         const instance = wrapper.instance();
         instance.isLeaving = true;
         instance.handleLeaveDirectChannel();
@@ -422,7 +419,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         wrapper.instance().handleLeavePublicChannel();
         expect(leaveChannel).toBeCalledWith('test-channel-id');
         expect(trackEvent).toBeCalledWith('ui', 'ui_public_channel_x_button_clicked');
@@ -438,7 +435,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             channelDisplayName: 'Channel display name',
         };
 
-        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
+        const wrapper = shallowWithIntl(<SidebarChannel {...props}/>).dive();
         wrapper.instance().handleLeavePrivateChannel();
         expect(showLeavePrivateChannelModal).toBeCalledWith({id: 'test-channel-id', display_name: 'Channel display name'});
         expect(trackEvent).toBeCalledWith('ui', 'ui_private_channel_x_button_clicked');

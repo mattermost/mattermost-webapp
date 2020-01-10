@@ -57,12 +57,13 @@ describe('components/multiselect/multiselect', () => {
     });
 
     test('MultiSelectList should match state on next page', () => {
-        const renderOption: MultiSelectProps['optionRenderer'] = (option, isSelected, onAdd) => {
+        const renderOption: MultiSelectProps['optionRenderer'] = (option, isSelected, onAdd, onMouseMove) => {
             return (
                 <p
                     key={option.id}
                     ref={isSelected ? 'selected' : option.id}
                     onClick={() => onAdd(option)}
+                    onMouseMove={() => onMouseMove(option)}
                 >
                     {option.id}
                 </p>
