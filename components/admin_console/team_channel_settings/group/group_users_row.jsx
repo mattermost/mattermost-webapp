@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import Avatar from 'components/widgets/users/avatar';
 
 export default class AdminGroupUsersRow extends React.PureComponent {
