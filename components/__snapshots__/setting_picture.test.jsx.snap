@@ -60,6 +60,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={false}
           onChange={[Function]}
           tabIndex="-1"
@@ -68,6 +69,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -80,6 +82,8 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <button
           aria-label="Save"
           className="btn btn-sm btn-primary"
+          data-testid="saveSettingPicture"
+          disabled={false}
           onClick={[Function]}
           tabIndex="0"
         >
@@ -97,6 +101,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
@@ -162,6 +167,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={false}
           onChange={[Function]}
           tabIndex="-1"
@@ -170,6 +176,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -182,6 +189,8 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <button
           aria-label="Save"
           className="btn btn-sm btn-primary"
+          data-testid="saveSettingPicture"
+          disabled={false}
           onClick={[Function]}
           tabIndex="0"
         >
@@ -199,6 +208,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
@@ -274,6 +284,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={true}
           onChange={[Function]}
           tabIndex="-1"
@@ -282,6 +293,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={true}
           onClick={[Function]}
         >
@@ -294,6 +306,8 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
         <button
           aria-label="Uploading..."
           className="btn btn-sm btn-inactive disabled"
+          data-testid="saveSettingPicture"
+          disabled={true}
           onClick={[Function]}
           tabIndex="-1"
         >
@@ -311,6 +325,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
@@ -398,6 +413,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={false}
           onChange={[Function]}
           tabIndex="-1"
@@ -406,6 +422,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -418,6 +435,8 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
         <button
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
+          data-testid="saveSettingPicture"
+          disabled={true}
           onClick={[Function]}
           tabIndex="-1"
         >
@@ -435,6 +454,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
@@ -510,6 +530,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={false}
           onChange={[Function]}
           tabIndex="-1"
@@ -518,6 +539,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -530,6 +552,8 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
         <button
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
+          data-testid="saveSettingPicture"
+          disabled={true}
           onClick={[Function]}
           tabIndex="-1"
         >
@@ -547,6 +571,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
@@ -629,6 +654,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={false}
           onChange={[Function]}
           tabIndex="-1"
@@ -637,6 +663,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -649,6 +676,8 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
         <button
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
+          data-testid="saveSettingPicture"
+          disabled={true}
           onClick={[Function]}
           tabIndex="-1"
         >
@@ -666,6 +695,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
@@ -746,6 +776,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           >
             <button
               className="team-img__remove"
+              data-testid="removeSettingPicture"
               onClick={[Function]}
             >
               <span
@@ -793,6 +824,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={false}
           onChange={[Function]}
           tabIndex="-1"
@@ -801,6 +833,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -813,6 +846,8 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
         <button
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
+          data-testid="saveSettingPicture"
+          disabled={true}
           onClick={[Function]}
           tabIndex="-1"
         >
@@ -830,6 +865,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
@@ -910,6 +946,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           >
             <button
               className="profile-img__remove"
+              data-testid="removeSettingPicture"
               onClick={[Function]}
             >
               <span
@@ -962,6 +999,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           accept=".jpg,.png,.bmp"
           aria-hidden={true}
           className="hidden"
+          data-testid="uploadPicture"
           disabled={false}
           onChange={[Function]}
           tabIndex="-1"
@@ -970,6 +1008,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
         <button
           aria-label="Select"
           className="btn btn-sm btn-primary btn-file sel-btn"
+          data-testid="inputSettingPictureButton"
           disabled={false}
           onClick={[Function]}
         >
@@ -982,6 +1021,8 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
         <button
           aria-label="Save"
           className="btn btn-sm btn-inactive disabled"
+          data-testid="saveSettingPicture"
+          disabled={true}
           onClick={[Function]}
           tabIndex="-1"
         >
@@ -999,6 +1040,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
         <button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
+          data-testid="cancelSettingPicture"
           href="#"
           onClick={[Function]}
         >
