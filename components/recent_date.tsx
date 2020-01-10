@@ -2,20 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, DateSource, intlShape} from 'react-intl';
+import {
+    DateSource,
+    FormattedMessage,
+    injectIntl,
+} from 'react-intl';
 import moment from 'moment-timezone';
 
 type Props = {
     timeZone?: string;
     value: DateSource;
     children?(val: string): React.ReactElement | null;
+    intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
 }
 
-export default class RecentDate extends React.PureComponent<Props> {
-    public static contextTypes = {
-        intl: intlShape.isRequired,
-    };
-
+class RecentDate extends React.PureComponent<Props> {
     public render() {
         const {value, timeZone} = this.props;
         const date = new Date(value);
@@ -43,7 +44,7 @@ export default class RecentDate extends React.PureComponent<Props> {
             day: '2-digit',
             year: 'numeric'
         };
-        const formattedDate = this.context.intl.formatDate(value, options);
+        const formattedDate = this.props.intl.formatDate(value, options);
 
         // `formatDate` returns unformatted date string on error like in the case of (react-intl) unsupported timezone.
         // Therefore, use react-intl by default or moment-timezone for unsupported timezone.
@@ -77,3 +78,5 @@ export function isYesterday(date: Date) {
 
     return isSameDay(date, yesterday);
 }
+
+export default injectIntl(RecentDate);
