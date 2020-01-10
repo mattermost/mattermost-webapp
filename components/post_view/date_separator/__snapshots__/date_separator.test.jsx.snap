@@ -36,6 +36,7 @@ exports[`components/post_view/DateSeparator should render date with timezone ena
   <BasicSeparator>
     <div
       className="Separator BasicSeparator"
+      data-testid="basicSeparator"
     >
       <hr
         className="separator__hr"
@@ -93,6 +94,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
   <BasicSeparator>
     <div
       className="Separator BasicSeparator"
+      data-testid="basicSeparator"
     >
       <hr
         className="separator__hr"
@@ -151,6 +153,7 @@ exports[`components/post_view/DateSeparator should render date without timezone 
   <BasicSeparator>
     <div
       className="Separator BasicSeparator"
+      data-testid="basicSeparator"
     >
       <hr
         className="separator__hr"
