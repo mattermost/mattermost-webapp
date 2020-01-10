@@ -29,11 +29,6 @@ export default class InstalledOAuthApps extends React.PureComponent {
         */
         canManageOauth: PropTypes.bool,
 
-        /**
-        * The request state for regenOAuthAppSecret action. Contains status and error
-        */
-        regenOAuthAppSecretRequest: PropTypes.object.isRequired,
-
         actions: PropTypes.shape({
 
             /**
@@ -102,7 +97,6 @@ export default class InstalledOAuthApps extends React.PureComponent {
                     key={app.id}
                     team={this.props.team}
                     oauthApp={app}
-                    regenOAuthAppSecretRequest={this.props.regenOAuthAppSecretRequest}
                     onRegenerateSecret={this.props.actions.regenOAuthAppSecret}
                     onDelete={this.deleteOAuthApp}
                 />

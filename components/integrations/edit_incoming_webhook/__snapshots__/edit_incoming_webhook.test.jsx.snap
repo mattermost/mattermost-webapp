@@ -107,7 +107,7 @@ exports[`components/integrations/EditIncomingWebhook should have called submitHo
       "id": "update_incoming_webhook.updating",
     }
   }
-  serverError="error message"
+  serverError=""
   team={
     Object {
       "id": "testteamid",
