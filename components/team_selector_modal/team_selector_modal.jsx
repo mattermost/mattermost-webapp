@@ -6,10 +6,10 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import Constants, {ModalIdentifiers} from 'utils/constants.jsx';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import MultiSelect from 'components/multiselect/multiselect.jsx';
+import MultiSelect from 'components/multiselect/multiselect';
 import ConfirmModal from 'components/confirm_modal.jsx';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
@@ -139,7 +139,7 @@ export default class TeamSelectorModal extends React.Component {
         this.props.actions.setModalSearchTerm(term);
     }
 
-    renderOption(option, isSelected, onAdd) {
+    renderOption(option, isSelected, onAdd, onMouseMove) {
         var rowSelected = '';
         if (isSelected) {
             rowSelected = 'more-modal__row--selected';
@@ -151,6 +151,7 @@ export default class TeamSelectorModal extends React.Component {
                 ref={isSelected ? 'selected' : option.id}
                 className={'more-modal__row clickable ' + rowSelected}
                 onClick={() => onAdd(option)}
+                onMouseMove={() => onMouseMove(option)}
             >
                 <div
                     className='more-modal__details'

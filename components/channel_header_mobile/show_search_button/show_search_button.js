@@ -4,18 +4,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {localizeMessage} from 'utils/utils.jsx';
+
 import SearchIcon from 'components/widgets/icons/search_icon';
-import {RHSStates} from 'utils/constants';
 
 export default class ShowSearchButton extends React.PureComponent {
     static propTypes = {
         actions: PropTypes.shape({
-            updateRhsState: PropTypes.func.isRequired,
+            openRHSSearch: PropTypes.func.isRequired,
         }).isRequired,
     }
 
     handleClick = () => {
-        this.props.actions.updateRhsState(RHSStates.SEARCH);
+        this.props.actions.openRHSSearch();
     }
 
     render() {
@@ -24,6 +25,7 @@ export default class ShowSearchButton extends React.PureComponent {
                 type='button'
                 className='navbar-toggle navbar-right__icon navbar-search pull-right'
                 onClick={this.handleClick}
+                aria-label={localizeMessage('accessibility.button.Search', 'Search')}
             >
                 <SearchIcon
                     className='icon icon__search'

@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/diagnostics_actions.jsx';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -111,7 +111,6 @@ export default class ConvertChannelModal extends React.PureComponent {
                         type='button'
                         className='btn btn-link'
                         onClick={this.onHide}
-                        tabIndex='2'
                     >
                         <FormattedMessage
                             id='convert_channel.cancel'
@@ -124,7 +123,6 @@ export default class ConvertChannelModal extends React.PureComponent {
                         data-dismiss='modal'
                         onClick={this.handleConvert}
                         autoFocus={true}
-                        tabIndex='1'
                     >
                         <FormattedMessage
                             id='convert_channel.confirm'

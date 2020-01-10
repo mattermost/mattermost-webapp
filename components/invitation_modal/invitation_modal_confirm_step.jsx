@@ -7,17 +7,15 @@ import {FormattedMessage} from 'react-intl';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import InviteIcon from 'components/widgets/icons/invite_icon';
-import BackIcon from 'components/widgets/icons/back_icon';
 import InvitationModalConfirmStepTable from 'components/invitation_modal/invitation_modal_confirm_step_table';
 
-import {InviteTypes} from 'utils/constants.jsx';
+import {InviteTypes} from 'utils/constants';
 
 import './invitation_modal_confirm_step.scss';
 
 export default class InvitationModalConfirmStep extends React.Component {
     static propTypes = {
         teamName: PropTypes.string.isRequired,
-        goBack: PropTypes.func.isRequired,
         onDone: PropTypes.func.isRequired,
         invitesType: PropTypes.oneOf([InviteTypes.INVITE_MEMBER, InviteTypes.INVITE_GUEST]).isRequired,
         invitesSent: PropTypes.array.isRequired,
@@ -65,16 +63,11 @@ export default class InvitationModalConfirmStep extends React.Component {
         const {teamName, invitesType, invitesSent, invitesNotSent, onDone} = this.props;
         return (
             <div className='InvitationModalConfirmStep'>
-                {this.props.goBack &&
-                    <BackIcon
-                        className='back'
-                        onClick={this.props.goBack}
-                    />}
                 <div className='modal-icon'>
                     <InviteIcon/>
                 </div>
                 {invitesType === InviteTypes.INVITE_MEMBER &&
-                    <h1>
+                    <h1 id='invitation_modal_title'>
                         <FormattedMarkdownMessage
                             id='invitation_modal.confirm.members_title'
                             defaultMessage='**Members** Invited to **{teamName}**'
@@ -82,7 +75,7 @@ export default class InvitationModalConfirmStep extends React.Component {
                         />
                     </h1>}
                 {invitesType === InviteTypes.INVITE_GUEST &&
-                    <h1>
+                    <h1 id='invitation_modal_title'>
                         <FormattedMarkdownMessage
                             id='invitation_modal.confirm.guests_title'
                             defaultMessage='**Guests** Invited to **{teamName}**'

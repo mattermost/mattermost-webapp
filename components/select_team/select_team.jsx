@@ -10,8 +10,8 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions.jsx';
 
-import * as UserAgent from 'utils/user_agent.jsx';
-import Constants from 'utils/constants.jsx';
+import * as UserAgent from 'utils/user_agent';
+import Constants from 'utils/constants';
 
 import logoImage from 'images/logo.png';
 

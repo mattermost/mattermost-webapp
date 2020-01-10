@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import DelayedAction from 'utils/delayed_action';
-import Constants, {RHSStates} from 'utils/constants.jsx';
+import Constants, {RHSStates} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
@@ -90,10 +90,6 @@ export default class RhsCard extends React.Component {
         });
     }
 
-    getSidebarBody = () => {
-        return this.refs.sidebarbody;
-    }
-
     handleClick = () => {
         if (Utils.isMobile()) {
             GlobalActions.emitCloseRightHandSide();
@@ -147,10 +143,7 @@ export default class RhsCard extends React.Component {
         );
 
         return (
-            <div
-                className='sidebar-right__body sidebar-right__card'
-                ref='sidebarbody'
-            >
+            <div className='sidebar-right__body sidebar-right__card'>
                 <RhsCardHeader previousRhsState={this.props.previousRhsState}/>
                 <Scrollbars
                     autoHide={true}

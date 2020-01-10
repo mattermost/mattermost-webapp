@@ -16,10 +16,6 @@
         border-color: var(--center-channel-color-20);
         padding: 3px;
         transition: none;
-        &:hover {
-            border-color: var(--center-channel-color-20);
-            cursor: text;
-        }
         &--is-focused, &--menu-is-open {
             &:hover {
                 border-color: var(--button-bg);
@@ -98,7 +94,7 @@
         &:last-child {
             border-radius: 0 0 4px 4px;
         }
-        &:hover, &--is-focused {
+        &--is-focused {
             background: var(--button-bg-10);
         }
         &--no-matches:hover{

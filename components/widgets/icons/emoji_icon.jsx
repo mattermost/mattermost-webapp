@@ -11,7 +11,7 @@ export default class EmojiIcon extends React.PureComponent {
                     width='16px'
                     height='16px'
                     viewBox='0 0 15 15'
-                    role='icon'
+                    role='img'
                     aria-label='Emoji icon'
                 >
                     <g

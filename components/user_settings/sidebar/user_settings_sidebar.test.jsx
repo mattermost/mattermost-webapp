@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import configureStore from 'redux-mock-store';
 
-import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import UserSettingsSidebar from 'components/user_settings/sidebar/user_settings_sidebar.jsx';
 

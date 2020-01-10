@@ -27,7 +27,7 @@ describe('M16739 - Filtered emojis are sorted', () => {
         // #Assert first recently used emoji has the data-test-id value of 'cat' which was the last one we sent
         //cy.queryAllByTestId('emoji__item').first().children("img[data-testid='cat']").should('exist');
         cy.queryAllByTestId('emojiItem').first().within(($el) => {
-            cy.wrap($el).getByTestId('cat').should('be.visible');
+            cy.wrap($el).findByTestId('cat').should('be.visible');
         });
     });
 

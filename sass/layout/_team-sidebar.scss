@@ -8,6 +8,10 @@
     width: 65px;
     z-index: 13;
 
+    body.announcement-bar--fixed & {
+        height: calc(100% - #{$announcement-bar-height});
+    }
+
     .fa {
         @include single-transition(all, .15s, ease);
         @include opacity(.6);
@@ -53,6 +57,17 @@
                 }
             }
 
+            .TeamIcon__content {
+                @include opacity(.5);
+                &:hover {
+                    @include opacity(.8);
+
+                    &.no-hover {
+                        @include opacity(.5);
+                    }
+                }
+            }
+
             button {
                 border: none;
                 padding: 0;
@@ -85,6 +100,10 @@
                 @include opacity(.5);
                 cursor: not-allowed;
             }
+
+            .team-btn {
+                color: var(--sidebar-header-text-color);
+            }
         }
 
         .scrollbar--view {
@@ -104,5 +123,11 @@
 
     .app__content {
         margin-left: 285px;
+    }
+    .team-sidebar {
+        .team-wrapper {
+            .team-container {
+            }
+        }
     }
 }

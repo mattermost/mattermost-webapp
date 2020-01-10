@@ -3,13 +3,14 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations} from 'utils/constants.jsx';
+import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -46,6 +47,9 @@ export default class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
+        }),
     };
 
     static contextTypes = {
@@ -60,11 +64,22 @@ export default class RhsRootPost extends React.PureComponent {
         super(props);
 
         this.state = {
+            alt: false,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     renderPostTime = (isEphemeral) => {
@@ -118,14 +133,28 @@ export default class RhsRootPost extends React.PureComponent {
             className += ' post--hovered';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className;
     };
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
             dropdownOpened: isOpened,
         });
     };
+
+    handlePostClick = (e) => {
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(this.props.post);
+        }
+    }
 
     handlePostFocus = () => {
         const {post, author, reactions, isFlagged} = this.props;
@@ -323,7 +352,9 @@ export default class RhsRootPost extends React.PureComponent {
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 aria-label={this.state.currentAriaLabel}
+                onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
+                data-a11y-sort-order='0'
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div

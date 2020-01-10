@@ -10,7 +10,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
-import {AdvancedSections} from 'utils/constants.jsx';
+import {AdvancedSections} from 'utils/constants';
 
 export default class JoinLeaveSection extends React.PureComponent {
     static propTypes = {
@@ -67,6 +67,12 @@ export default class JoinLeaveSection extends React.PureComponent {
                     }
                     inputs={[
                         <fieldset key='joinLeaveSetting'>
+                            <legend className='form-legend hidden-label'>
+                                <FormattedMessage
+                                    id='user.settings.advance.joinLeaveTitle'
+                                    defaultMessage='Enable Join/Leave Messages'
+                                />
+                            </legend>
                             <div className='radio'>
                                 <label>
                                     <input

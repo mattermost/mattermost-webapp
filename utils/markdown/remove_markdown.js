@@ -29,7 +29,7 @@ export default class RemoveMarkdown extends marked.Renderer {
     }
 
     paragraph(text) {
-        return text;
+        return text + ' ';
     }
 
     table() {

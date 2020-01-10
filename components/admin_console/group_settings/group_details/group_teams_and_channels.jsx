@@ -35,6 +35,7 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
         if (type === 'public-team' || type === 'private-team') {
             await this.props.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_TEAM);
             await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_TEAM);
+            await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
         } else {
             await this.props.unlink(this.props.id, id, Groups.SYNCABLE_TYPE_CHANNEL);
             await this.props.getGroupSyncables(this.props.id, Groups.SYNCABLE_TYPE_CHANNEL);
@@ -54,7 +55,6 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                 name: team.team_display_name,
                 collapsed: this.state.collapsed[team.team_id],
                 id: team.team_id,
-                implicit: false,
             });
         });
 
@@ -75,7 +75,6 @@ export default class GroupTeamsAndChannels extends React.PureComponent {
                     name: channel.team_display_name,
                     collapsed: this.state.collapsed[channel.team_id],
                     id: channel.team_id,
-                    implicit: true,
                 });
             }
         });

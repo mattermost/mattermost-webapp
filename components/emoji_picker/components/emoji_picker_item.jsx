@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import debounce from 'lodash/debounce';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
-import {intlShape} from 'react-intl';
 
 import imgTrans from 'images/img_trans.gif';
+import {intlShape} from 'utils/react_intl';
 
 const SCROLLING_ADDITIONAL_VISUAL_SPACING = 10; // to make give the emoji some visual 'breathing room'
 const EMOJI_LAZY_LOAD_SCROLL_THROTTLE = 150;
@@ -49,11 +49,11 @@ export default class EmojiPickerItem extends React.Component {
         });
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (!this.props.isSelected && nextProps.isSelected) {
+    componentDidUpdate(prevProps) {
+        if (!prevProps.isSelected && this.props.isSelected) {
             const topOfTheEmojiItem = this.emojiItem.offsetTop;
             const bottomOfTheEmojiItem = topOfTheEmojiItem + this.emojiItem.offsetHeight;
-            const {containerRef, containerTop, containerBottom} = nextProps;
+            const {containerRef, containerTop, containerBottom} = this.props;
             if (topOfTheEmojiItem < containerTop) {
                 containerRef.scrollTop = topOfTheEmojiItem - SCROLLING_ADDITIONAL_VISUAL_SPACING;
             } else if (bottomOfTheEmojiItem > containerBottom) {

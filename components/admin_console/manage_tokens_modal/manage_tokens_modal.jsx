@@ -10,7 +10,7 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import RevokeTokenButton from 'components/admin_console/revoke_token_button';
 import LoadingScreen from 'components/loading_screen';
-import Avatar from 'components/widgets/users/avatar.jsx';
+import Avatar from 'components/widgets/users/avatar';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
@@ -51,11 +51,11 @@ export default class ManageTokensModal extends React.PureComponent {
         this.state = {error: null};
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
+    componentDidUpdate(prevProps) {
         const userId = this.props.user ? this.props.user.id : null;
-        const nextUserId = nextProps.user ? nextProps.user.id : null;
-        if (nextUserId && nextUserId !== userId) {
-            this.props.actions.getUserAccessTokensForUser(nextUserId, 0, 200);
+        const prevUserId = prevProps.user ? prevProps.user.id : null;
+        if (userId && prevUserId !== userId) {
+            this.props.actions.getUserAccessTokensForUser(userId, 0, 200);
         }
     }
 

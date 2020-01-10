@@ -3,8 +3,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {OverlayTrigger, Popover, Tooltip} from 'react-bootstrap';
-import {FormattedMessage, intlShape} from 'react-intl';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage} from 'react-intl';
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 
@@ -23,16 +23,17 @@ import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import QuickSwitchModal from 'components/quick_switch_modal';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
-
+import Popover from 'components/widgets/popover';
 import {
     Constants,
     ModalIdentifiers,
     NotificationLevels,
     RHSStates,
 } from 'utils/constants';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils';
 
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
@@ -59,6 +60,7 @@ export default class ChannelHeader extends React.PureComponent {
         rhsState: PropTypes.oneOf(
             Object.values(RHSStates),
         ),
+        rhsOpen: PropTypes.bool,
         isQuickSwitcherOpen: PropTypes.bool,
         actions: PropTypes.shape({
             favoriteChannel: PropTypes.func.isRequired,
@@ -66,8 +68,8 @@ export default class ChannelHeader extends React.PureComponent {
             showFlaggedPosts: PropTypes.func.isRequired,
             showPinnedPosts: PropTypes.func.isRequired,
             showMentions: PropTypes.func.isRequired,
+            openRHSSearch: PropTypes.func.isRequired,
             closeRightHandSide: PropTypes.func.isRequired,
-            updateRhsState: PropTypes.func.isRequired,
             getCustomEmojisInText: PropTypes.func.isRequired,
             updateChannelNotifyProps: PropTypes.func.isRequired,
             goToLastViewedChannel: PropTypes.func.isRequired,
@@ -84,10 +86,7 @@ export default class ChannelHeader extends React.PureComponent {
         super(props);
         this.toggleFavoriteRef = React.createRef();
 
-        const showSearchBar = Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE;
-        this.state = {
-            showSearchBar,
-        };
+        this.state = {showSearchBar: ChannelHeader.getShowSearchBar(props)};
 
         this.getHeaderMarkdownOptions = memoizeResult((channelNamesMap) => (
             {...headerMarkdownOptions, channelNamesMap}
@@ -118,10 +117,16 @@ export default class ChannelHeader extends React.PureComponent {
         }
     }
 
-    handleResize = () => {
-        const windowWidth = Utils.windowWidth();
+    static getDerivedStateFromProps(nextProps) {
+        return {showSearchBar: ChannelHeader.getShowSearchBar(nextProps)};
+    }
 
-        this.setState({showSearchBar: windowWidth > SEARCH_BAR_MINIMUM_WINDOW_SIZE});
+    static getShowSearchBar(props) {
+        return (Utils.windowWidth() > SEARCH_BAR_MINIMUM_WINDOW_SIZE) || props.rhsOpen;
+    }
+
+    handleResize = () => {
+        this.setState({showSearchBar: ChannelHeader.getShowSearchBar(this.props)});
     };
 
     handleClose = () => {
@@ -188,14 +193,20 @@ export default class ChannelHeader extends React.PureComponent {
 
     searchButtonClick = (e) => {
         e.preventDefault();
-        this.props.actions.updateRhsState(RHSStates.SEARCH);
+
+        this.props.actions.openRHSSearch();
     };
 
     handleShortcut = (e) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey) {
             if (Utils.isKeyPressed(e, Constants.KeyCodes.M)) {
                 e.preventDefault();
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
                 this.searchMentions(e);
+            }
+            if (Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
+                // just close the modal if it's open, but let someone else handle the shortcut
+                this.props.actions.closeModal(ModalIdentifiers.QUICK_SWITCH);
             }
         }
     };
@@ -329,21 +340,39 @@ export default class ChannelHeader extends React.PureComponent {
         }
 
         if (isGroup) {
-            const nodes = [];
+            // map the displayname to the gm member users
+            const membersMap = {};
             for (const user of gmMembers) {
                 if (user.id === currentUser.id) {
                     continue;
                 }
                 const userDisplayName = Utils.getDisplayNameByUserId(user.id);
-                nodes.push((
-                    <React.Fragment key={userDisplayName}>
-                        {nodes.length !== 0 && ', '}
-                        {userDisplayName}
+
+                if (!membersMap[userDisplayName]) {
+                    membersMap[userDisplayName] = []; //Create an array for cases with same display name
+                }
+
+                membersMap[userDisplayName].push(user);
+            }
+
+            const displayNames = channel.display_name.split(', ');
+
+            channelTitle = displayNames.map((displayName, index) => {
+                if (!membersMap[displayName]) {
+                    return displayName;
+                }
+
+                const user = membersMap[displayName].shift();
+
+                return (
+                    <React.Fragment key={user.id}>
+                        {index > 0 && ', '}
+                        {displayName}
                         <GuestBadge show={Utils.isGuest(user)}/>
                     </React.Fragment>
-                ));
-            }
-            channelTitle = nodes;
+                );
+            });
+
             if (hasGuests) {
                 hasGuestsText = (
                     <span className='has-guest-header'>
@@ -391,8 +420,8 @@ export default class ChannelHeader extends React.PureComponent {
             const popoverContent = (
                 <Popover
                     id='header-popover'
-                    bStyle='info'
-                    bSize='large'
+                    popoverStyle='info'
+                    popoverSize='lg'
                     placement='bottom'
                     className='channel-header__popover'
                     onMouseOver={this.handleOnMouseOver}
@@ -562,6 +591,16 @@ export default class ChannelHeader extends React.PureComponent {
             pinnedIconClass += ' active';
         }
 
+        let mentionsIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.MENTION) {
+            mentionsIconClass += ' active';
+        }
+
+        let flaggedIconClass = 'channel-header__icon';
+        if (rhsState === RHSStates.FLAG) {
+            flaggedIconClass += ' active';
+        }
+
         let title = (
             <React.Fragment>
                 {toggleFavorite}
@@ -667,10 +706,13 @@ export default class ChannelHeader extends React.PureComponent {
                         tooltipKey={'pinnedPosts'}
                     />
                     {this.state.showSearchBar ? (
-                        <div className='flex-child search-bar__container'>
+                        <div
+                            id='searchbarContainer'
+                            className='flex-child search-bar__container'
+                        >
                             <SearchBar
                                 showMentionFlagBtns={false}
-                                isFocus={Utils.isMobile()}
+                                isFocus={Utils.isMobile() || this.props.rhsOpen}
                             />
                         </div>
                     ) : (
@@ -681,6 +723,7 @@ export default class ChannelHeader extends React.PureComponent {
                                     aria-hidden='true'
                                 />
                             }
+                            ariaLabel={true}
                             buttonId={'channelHeaderSearchButton'}
                             onClick={this.searchButtonClick}
                             tooltipKey={'search'}
@@ -694,6 +737,7 @@ export default class ChannelHeader extends React.PureComponent {
                             />
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + mentionsIconClass}
                         buttonId={'channelHeaderMentionButton'}
                         onClick={this.searchMentions}
                         tooltipKey={'recentMentions'}
@@ -703,6 +747,7 @@ export default class ChannelHeader extends React.PureComponent {
                             <FlagIcon className='icon icon__flag'/>
                         }
                         ariaLabel={true}
+                        buttonClass={'style--none ' + flaggedIconClass}
                         buttonId={'channelHeaderFlagButton'}
                         onClick={this.getFlagged}
                         tooltipKey={'flaggedPosts'}

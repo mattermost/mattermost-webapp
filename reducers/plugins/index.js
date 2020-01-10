@@ -3,7 +3,39 @@
 
 import {combineReducers} from 'redux';
 
-import {ActionTypes} from 'utils/constants.jsx';
+import remove from 'lodash/remove';
+
+import {ActionTypes} from 'utils/constants';
+
+function hasMenuId(menu, menuId) {
+    if (!menu.subMenu) {
+        return false;
+    }
+
+    if (menu.id === menuId) {
+        return true;
+    }
+    for (const subMenu of menu.subMenu) {
+        // Recursively check if subMenu contains menuId.
+        if (hasMenuId(subMenu, menuId)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function buildMenu(rootMenu, data) {
+    // Recursively build the full menu tree.
+    const subMenu = rootMenu.subMenu.map((m) => buildMenu(m, data));
+    if (rootMenu.id === data.parentMenuId) {
+        subMenu.push(data);
+    }
+
+    return {
+        ...rootMenu,
+        subMenu,
+    };
+}
 
 function sortComponents(a, b) {
     if (a.pluginId < b.pluginId) {
@@ -138,8 +170,20 @@ function components(state = {}, action) {
             const nextState = {...state};
             const currentArray = nextState[action.name] || [];
             const nextArray = [...currentArray];
+            let actionData = action.data;
+            if (action.name === 'PostDropdownMenu' && actionData.parentMenuId) {
+                // Remove the menu from nextArray to rebuild it later.
+                const menu = remove(nextArray, (c) => hasMenuId(c, actionData.parentMenuId) && c.pluginId === actionData.pluginId);
+
+                // Request is for an unknown menuId, return original state.
+                if (!menu[0]) {
+                    return state;
+                }
+                actionData = buildMenu(menu[0], actionData);
+            }
+            nextArray.push(actionData);
             nextArray.sort(sortComponents);
-            nextState[action.name] = [...nextArray, action.data];
+            nextState[action.name] = nextArray;
             return nextState;
         }
         return state;
@@ -239,6 +283,42 @@ function adminConsoleReducers(state = {}, action) {
     }
 }
 
+function adminConsoleCustomComponents(state = {}, action) {
+    switch (action.type) {
+    case ActionTypes.RECEIVED_ADMIN_CONSOLE_CUSTOM_COMPONENT: {
+        if (!action.data) {
+            return state;
+        }
+
+        const pluginId = action.data.pluginId;
+        const key = action.data.key.toLowerCase();
+
+        const nextState = {...state};
+        if (!nextState[pluginId]) {
+            nextState[pluginId] = {};
+        }
+        const nextArray = {...nextState[pluginId]};
+        nextArray[key] = action.data;
+        nextState[pluginId] = nextArray;
+
+        return nextState;
+    }
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
+        if (!action.data || !state[action.data.id]) {
+            return state;
+        }
+
+        const pluginId = action.data.id;
+        const nextState = {...state};
+        delete nextState[pluginId];
+        return nextState;
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // object where every key is a plugin id and values are webapp plugin manifests
@@ -259,4 +339,8 @@ export default combineReducers({
     // object where every key is a plugin id and the value is a function that
     // modifies the admin console definition data structure
     adminConsoleReducers,
+
+    // objects where every key is a plugin id and the value is an object mapping keys to a custom
+    // React component to render on the plugin's system console.
+    adminConsoleCustomComponents,
 });

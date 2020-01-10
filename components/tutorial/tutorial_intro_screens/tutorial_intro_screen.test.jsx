@@ -6,7 +6,7 @@ import React from 'react';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import TutorialIntroScreens from 'components/tutorial/tutorial_intro_screens/tutorial_intro_screens.jsx';
-import {Constants, Preferences} from 'utils/constants.jsx';
+import {Constants, Preferences} from 'utils/constants';
 
 describe('components/tutorial/tutorial_intro_screens/TutorialIntroScreens', () => {
     jest.mock('actions/diagnostics_actions.jsx');

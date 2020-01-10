@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import ChannelsInput from './channels_input.jsx';
 
@@ -12,6 +12,7 @@ describe('components/widgets/inputs/ChannelsInput', () => {
         const wrapper = shallowWithIntl(
             <ChannelsInput
                 placeholder='test'
+                ariaLabel='test'
                 onChange={jest.fn()}
                 channelsLoader={jest.fn()}
                 value={[
@@ -22,6 +23,7 @@ describe('components/widgets/inputs/ChannelsInput', () => {
         );
         expect(wrapper).toMatchInlineSnapshot(`
 <Async
+  aria-label="test"
   cacheOptions={false}
   className="ChannelsInput"
   classNamePrefix="channels-input"

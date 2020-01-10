@@ -10,7 +10,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
-import ProfilePicture from 'components/profile_picture.jsx';
+import ProfilePicture from 'components/profile_picture';
 import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
 import ToggleModalButton from 'components/toggle_modal_button.jsx';
 import UserProfile from 'components/user_profile';
@@ -205,7 +205,7 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
+            <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
@@ -213,7 +213,7 @@ function createOffTopicIntroMessage(channel, centeredIntro) {
                         name: channel.display_name,
                     }}
                 />
-            </h4>
+            </h2>
             <p className='channel-intro__content'>
                 <FormattedMessage
                     id='intro_messages.offTopic'
@@ -322,7 +322,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
+            <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
@@ -330,7 +330,7 @@ export function createDefaultIntroMessage(channel, centeredIntro, enableUserCrea
                         name: channel.display_name,
                     }}
                 />
-            </h4>
+            </h2>
             <p className='channel-intro__content'>
                 {!isReadOnly &&
                     <FormattedMarkdownMessage
@@ -487,7 +487,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
             id='channelIntro'
             className={'channel-intro ' + centeredIntro}
         >
-            <h4 className='channel-intro__title'>
+            <h2 className='channel-intro__title'>
                 <FormattedMessage
                     id='intro_messages.beginning'
                     defaultMessage='Beginning of {name}'
@@ -495,7 +495,7 @@ function createStandardIntroMessage(channel, centeredIntro, locale) {
                         name: (uiName),
                     }}
                 />
-            </h4>
+            </h2>
             <p className='channel-intro__content'>
                 {createMessage}
                 {memberMessage}

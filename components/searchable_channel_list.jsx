@@ -10,15 +10,24 @@ import {FormattedMessage} from 'react-intl';
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
-import * as UserAgent from 'utils/user_agent.jsx';
+import * as UserAgent from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import LocalizedInput from 'components/localized_input/localized_input';
 
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
+
 import {t} from 'utils/i18n';
+
+import MenuWrapper from './widgets/menu/menu_wrapper';
+import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 export default class SearchableChannelList extends React.Component {
+    static getDerivedStateFromProps(props, state) {
+        return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
+    }
+
     constructor(props) {
         super(props);
 
@@ -38,18 +47,6 @@ export default class SearchableChannelList extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.page !== this.state.page) {
-            $(this.refs.channelList).scrollTop(0);
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (nextProps.isSearch && !this.props.isSearch) {
-            this.setState({page: 0});
-        }
-    }
-
     handleJoin(channel) {
         this.setState({joiningChannel: channel.id});
         this.props.handleJoin(
@@ -62,11 +59,22 @@ export default class SearchableChannelList extends React.Component {
 
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
+        let archiveIcon;
+        const {shouldShowArchivedChannels} = this.props;
+
+        if (shouldShowArchivedChannels) {
+            archiveIcon = (
+                <div className='more-modal__icon-container'>
+                    <ArchiveIcon className='icon icon__archive'/>
+                </div>
+            );
+        }
 
         return (
             <div
                 className='more-modal__row'
                 key={channel.id}
+                id={`ChannelRow-${channel.name}`}
             >
                 <div className='more-modal__details'>
                     <button
@@ -74,6 +82,7 @@ export default class SearchableChannelList extends React.Component {
                         aria-label={ariaLabel}
                         className='style--none more-modal__name'
                     >
+                        {archiveIcon}
                         {channel.display_name}
                     </button>
                     <p className='more-modal__description'>{channel.purpose}</p>
@@ -89,8 +98,8 @@ export default class SearchableChannelList extends React.Component {
                             text={localizeMessage('more_channels.joining', 'Joining...')}
                         >
                             <FormattedMessage
-                                id='more_channels.join'
-                                defaultMessage='Join'
+                                id={shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
+                                defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
                             />
                         </LoadingWrapper>
                     </button>
@@ -119,6 +128,12 @@ export default class SearchableChannelList extends React.Component {
         if (term === '') {
             this.setState({page: 0});
         }
+    }
+    toggleArchivedChannelsOn = () => {
+        this.props.toggleArchivedChannels(true);
+    }
+    toggleArchivedChannelsOff = () => {
+        this.props.toggleArchivedChannels(false);
     }
 
     render() {
@@ -212,15 +227,49 @@ export default class SearchableChannelList extends React.Component {
             );
         }
 
+        let channelDropdown;
+
+        if (this.props.canShowArchivedChannels) {
+            channelDropdown = (
+                <div className='more-modal__dropdown'>
+                    <MenuWrapper id='channelsMoreDropdown'>
+                        <a>
+                            <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
+                            <span className='caret'/>
+                        </a>
+                        <Menu
+                            openLeft={false}
+                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Team member role change')}
+                        >
+                            <Menu.ItemAction
+                                id='channelsMoreDropdownPublic'
+                                onClick={this.toggleArchivedChannelsOff}
+                                text={localizeMessage('suggestion.search.public', 'Public Channels')}
+                            />
+                            <Menu.ItemAction
+                                id='channelsMoreDropdownArchived'
+                                onClick={this.toggleArchivedChannelsOn}
+                                text={localizeMessage('suggestion.archive', 'Archived Channels')}
+                            />
+                        </Menu>
+                    </MenuWrapper>
+                </div>
+            );
+        }
+
         return (
             <div className='filtered-user-list'>
                 {input}
+                {channelDropdown}
                 <div
                     role='application'
                     ref='channelList'
                     className='more-modal__list'
                 >
-                    <div ref='channelListScroll'>
+                    <div
+                        id='moreChannelsList'
+                        ref='channelListScroll'
+                    >
                         {listContent}
                     </div>
                 </div>
@@ -248,4 +297,7 @@ SearchableChannelList.propTypes = {
     noResultsText: PropTypes.object,
     loading: PropTypes.bool,
     createChannelButton: PropTypes.element,
+    toggleArchivedChannels: PropTypes.func.isRequired,
+    shouldShowArchivedChannels: PropTypes.bool.isRequired,
+    canShowArchivedChannels: PropTypes.bool.isRequired,
 };

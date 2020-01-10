@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as GlobalActions from 'actions/global_actions.jsx';
-import {Constants, ModalIdentifiers} from 'utils/constants.jsx';
+import {Constants, ModalIdentifiers} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 
 import SidebarHeaderDropdownButton from '../sidebar_header_dropdown_button.jsx';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
-import MenuWrapper from 'components/widgets/menu/menu_wrapper.jsx';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import MainMenu from 'components/main_menu';
 
