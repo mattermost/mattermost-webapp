@@ -3,6 +3,8 @@
 
 import PropTypes from 'prop-types';
 import React, {
+    ExoticComponent,
+    ForwardRefExoticComponent,
     ReactElement,
 } from 'react';
 import {
@@ -55,7 +57,7 @@ interface ShallowWithIntlOptions extends ShallowRendererProps {
     intl?: IntlShape;
 }
 
-export function shallowWithIntl<T extends IntlInjectedElement>(element: T, options?: ShallowWithIntlOptions = {}) {
+export function shallowWithIntl<T extends IntlInjectedElement>(element: T, options?: ShallowWithIntlOptions) {
     const {intl = defaultIntl, ...shallowOptions} = options || {};
 
     // eslint-disable-next-line no-param-reassign

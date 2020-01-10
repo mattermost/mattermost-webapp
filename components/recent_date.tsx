@@ -2,12 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, DateSource} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import moment from 'moment-timezone';
 
 type Props = {
     timeZone?: string;
-    value: DateSource;
+    value: number | Date;
     children?(val: string): React.ReactElement | null;
 }
 
