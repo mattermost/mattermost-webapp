@@ -4,7 +4,6 @@
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger} from 'react-bootstrap';
 import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -14,6 +13,7 @@ import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 
 import LocalizedIcon from 'components/localized_icon';
+import OverlayTrigger from 'components/overlay_trigger';
 import Popover from 'components/widgets/popover';
 
 import ColorChooser from './color_chooser.jsx';

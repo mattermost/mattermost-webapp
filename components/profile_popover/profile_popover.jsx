@@ -3,12 +3,13 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage, injectIntl} from 'react-intl';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import LocalDateTime from 'components/local_date_time';
+import OverlayTrigger from 'components/overlay_trigger';
 import UserSettingsModal from 'components/user_settings/modal';
 import {browserHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions.jsx';
