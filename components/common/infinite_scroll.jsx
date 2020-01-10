@@ -114,6 +114,9 @@ export default class InfiniteScroll extends React.PureComponent {
                     });
 
                     if (totalItems === 0) {
+                        this.setState({
+                            isEndofData: true,
+                        });
                         return;
                     }
 
@@ -132,7 +135,7 @@ export default class InfiniteScroll extends React.PureComponent {
 
     render() {
         const {children, endOfDataMessage, styleClass, loaderStyle} = this.props;
-        const {isFetching, isEndofData} = this.state;
+        const {isEndofData} = this.state;
         return (
             // eslint-disable-next-line react/jsx-filename-extension
             <>
@@ -141,7 +144,7 @@ export default class InfiniteScroll extends React.PureComponent {
                     ref={this.node}
                 >
                     {children}
-                    {(isFetching) && (
+                    {(!isEndofData) && (
                         <LoadingScreen
                             style={loaderStyle}
                             message=' '
