@@ -25,6 +25,8 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
                 data={testChannels}
                 onPageChangedCallback={jest.fn()}
                 total={testChannels.length}
+                emptyListTextId={'test'}
+                emptyListTextDefaultMessage={'test'}
                 actions={actions}
             />);
 
@@ -52,6 +54,8 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
                 data={testChannels}
                 onPageChangedCallback={jest.fn()}
                 total={30}
+                emptyListTextId={'test'}
+                emptyListTextDefaultMessage={'test'}
                 actions={actions}
             />);
         wrapper.setState({loading: false});
