@@ -42,9 +42,12 @@ UpdateVersion.propTypes = {
 
 // Label renders a tag showing a name and a description in a tooltip.
 // If a URL is provided, clicking on the tag will open the URL in a new tab.
-export const Label = ({name, description, url}) => {
+export const Label = ({name, description, url, color}) => {
     const tag = (
-        <span className='tag'>
+        <span
+            className='tag'
+            style={{backgroundColor: color || ''}}
+        >
             {name.toUpperCase()}
         </span>
     );
@@ -89,6 +92,7 @@ Label.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     url: PropTypes.string,
+    color: PropTypes.string,
 };
 
 // UpdateDetails renders an inline update prompt for plugins, when available.
@@ -405,6 +409,7 @@ export default class MarketplaceItem extends React.Component {
                     name={label.name}
                     description={label.description}
                     url={label.url}
+                    color={label.color}
                 />
             )
             );
