@@ -24,7 +24,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {toggleEmojiPickerForLastMessage} from 'actions/post_actions';
+import {openEmojiPickerForLastMessageFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {getStateOfEmojiPickerForLastPost} from 'selectors/emojis';
 
@@ -125,7 +125,7 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
-            toggleEmojiPickerForLastMessage
+            openEmojiPickerForLastMessageFrom
         }, dispatch);
     };
 }

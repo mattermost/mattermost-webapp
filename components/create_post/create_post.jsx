@@ -263,7 +263,7 @@ class CreatePost extends React.Component {
             /**
              * Function to set or unset emoji picker for last message
              */
-            toggleEmojiPickerForLastMessage: PropTypes.func
+            openEmojiPickerForLastMessageFrom: PropTypes.func
         }).isRequired,
     }
 
@@ -987,9 +987,9 @@ class CreatePost extends React.Component {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
-        const {emojiPickerForLastMessage, actions: {toggleEmojiPickerForLastMessage}} = this.props;
+        const {actions: {openEmojiPickerForLastMessageFrom}} = this.props;
 
-        toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.CENTER});
+        openEmojiPickerForLastMessageFrom(Locations.CENTER);
     }
 
     handleBlur = () => {

@@ -28,7 +28,7 @@ import {Posts, Preferences as PreferencesRedux} from 'mattermost-redux/constants
 
 import {connectionErrorCount} from 'selectors/views/system';
 
-import {addReaction, createPost, setEditingPost, toggleEmojiPickerForLastMessage} from 'actions/post_actions.jsx';
+import {addReaction, createPost, setEditingPost, openEmojiPickerForLastMessageFrom} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
@@ -116,7 +116,7 @@ function mapDispatchToProps(dispatch) {
             clearDraftUploads: actionOnGlobalItemsWithPrefix,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
-            toggleEmojiPickerForLastMessage,
+            openEmojiPickerForLastMessageFrom,
             openModal,
             executeCommand,
             getChannelTimezones,

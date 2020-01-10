@@ -133,8 +133,7 @@ export const ActionTypes = keyMirror({
     SHOW_EDIT_POST_MODAL: null,
     HIDE_EDIT_POST_MODAL: null,
 
-    SHOW_LAST_MESSAGES_EMOJI_LIST: null,
-    HIDE_LAST_MESSAGES_EMOJI_LIST: null,
+    TOGGLE_EMOJI_FOR_LAST_MESSAGE: null,
 
     BROWSER_CHANGE_FOCUS: null,
 
@@ -682,6 +681,7 @@ export const Locations = {
     RHS_ROOT: 'RHS_ROOT',
     RHS_COMMENT: 'RHS_COMMENT',
     SEARCH: 'SEARCH',
+    NO_WHERE: 'NO_WHERE'
 };
 
 export const PostListRowListIds = {

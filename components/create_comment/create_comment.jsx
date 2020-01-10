@@ -198,7 +198,7 @@ class CreateComment extends React.PureComponent {
         /**
          * Function to set or unset emoji picker for last message
          */
-        toggleEmojiPickerForLastMessage: PropTypes.func
+        openEmojiPickerForLastMessageFrom: PropTypes.func
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -547,9 +547,9 @@ class CreateComment extends React.PureComponent {
 
     reactToLastMessage = (e) => {
         e.preventDefault();
-        const {emojiPickerForLastMessage, toggleEmojiPickerForLastMessage} = this.props;
+        const {openEmojiPickerForLastMessageFrom} = this.props;
 
-        toggleEmojiPickerForLastMessage({shouldOpen: true, emittedFrom: Locations.RHS_ROOT});
+        openEmojiPickerForLastMessageFrom(Locations.RHS_ROOT);
     }
 
     emitTypingEvent = () => {

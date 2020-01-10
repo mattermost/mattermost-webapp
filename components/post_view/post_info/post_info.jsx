@@ -120,7 +120,7 @@ export default class PostInfo extends React.PureComponent {
             /**
              * Function to set or unset emoji picker for last message
              */
-            toggleEmojiPickerForLastMessage: PropTypes.func
+            openEmojiPickerForLastMessageFrom: PropTypes.func
         }).isRequired,
     };
 
@@ -232,9 +232,9 @@ export default class PostInfo extends React.PureComponent {
     };
 
     componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost, actions: {toggleEmojiPickerForLastMessage}} = this.props;
-        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage.shouldOpen;
-        const didEmojiPickerForLastMessageEmittedForCenter = emojiPickerForLastMessage.emittedFrom === Locations.CENTER;
+        const {emojiPickerForLastMessage, isLastPost, actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage;
+        const didEmojiPickerForLastMessageEmittedForCenter = emojiPickerForLastMessage === Locations.CENTER;
         const isEmojiPickerClosed = this.state.showEmojiPicker === false;
 
         if (didEmojiPickerForLastMessageEmitted &&
@@ -243,7 +243,7 @@ export default class PostInfo extends React.PureComponent {
             this.toggleEmojiPicker();
 
             // Setting the last message emoji action to empty to clean up the redux state
-            toggleEmojiPickerForLastMessage({shouldOpen: false});
+            openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
         }
     }
 

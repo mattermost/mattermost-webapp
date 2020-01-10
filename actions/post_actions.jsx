@@ -283,14 +283,15 @@ export function resetEmbedVisibility() {
     return StorageActions.actionOnGlobalItemsWithPrefix(StoragePrefixes.EMBED_VISIBLE, () => null);
 }
 
-export function toggleEmojiPickerForLastMessage({shouldOpen = false, emittedFrom = ''}) {
-    if (shouldOpen) {
-        return {
-            type: ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST,
-            payload: {emittedFrom}
-        };
-    }
+/**
+ * It is called from either center or rhs text input when shortcut for react to last message is pressed
+ *
+ * @param {string} emittedFrom - It can be either "CENTER", "RHS_ROOT" or "NO_WHERE"
+ */
+
+export function openEmojiPickerForLastMessageFrom(emittedFrom) {
     return {
-        type: ActionTypes.HIDE_LAST_MESSAGES_EMOJI_LIST,
+        type: ActionTypes.TOGGLE_EMOJI_FOR_LAST_MESSAGE,
+        payload: emittedFrom
     };
 }

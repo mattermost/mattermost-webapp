@@ -6,11 +6,6 @@ import {UserTypes} from 'mattermost-redux/action_types';
 
 import {ActionTypes, Locations} from 'utils/constants';
 
-const INITIAL_STATE_EMOJI_FOR_LAST_MESSAGE = {
-    shouldOpen: false,
-    emittedFrom: ''
-};
-
 function emojiPickerCustomPage(state = 0, action) {
     switch (action.type) {
     case ActionTypes.INCREMENT_EMOJI_PICKER_PAGE:
@@ -22,26 +17,18 @@ function emojiPickerCustomPage(state = 0, action) {
     }
 }
 
-function emojiPickerForLastMessage(state = INITIAL_STATE_EMOJI_FOR_LAST_MESSAGE, action) {
+function emojiPickerForLastMessage(state = '', action) {
     switch (action.type) {
-    case ActionTypes.SHOW_LAST_MESSAGES_EMOJI_LIST:
-        if (action.payload.emittedFrom === Locations.CENTER) {
-            return {
-                shouldOpen: true,
-                emittedFrom: Locations.CENTER
-            };
-        } else if (action.payload.emittedFrom === Locations.RHS_ROOT) {
-            return {
-                shouldOpen: true,
-                emittedFrom: Locations.RHS_ROOT
-            };
+    case ActionTypes.TOGGLE_EMOJI_FOR_LAST_MESSAGE:
+        if (action.payload === Locations.CENTER) {
+            return Locations.CENTER;
+        } else if (action.payload === Locations.RHS_ROOT) {
+            return Locations.RHS_ROOT;
+        } else if (action.payload === Locations.NO_WHERE) {
+            return '';
         }
         return state;
-    case ActionTypes.HIDE_LAST_MESSAGES_EMOJI_LIST:
-        return {
-            shouldOpen: false,
-            emittedFrom: ''
-        };
+
     default:
         return state;
     }
