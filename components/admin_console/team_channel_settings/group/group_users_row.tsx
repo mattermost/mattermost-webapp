@@ -71,14 +71,10 @@ export default class AdminGroupUsersRow extends React.PureComponent<AdminGroupUs
                         <div className='col-sm-10'>
                             <div className='row'>
                                 <b>
-                                    <React.Fragment>
-                                        {'@' + user.username}&nbsp;
-                                    </React.Fragment>
+                                    {'@' + user.username}{'&nbsp;'}
                                 </b>
                                 <div>
-                                    <React.Fragment>
-                                        {'-'}&nbsp;{displayName}
-                                    </React.Fragment>
+                                    {'-'}{'&nbsp;'}{displayName}
                                 </div>
                             </div>
                             <div className='row email-group-row'>{user.email}</div>
