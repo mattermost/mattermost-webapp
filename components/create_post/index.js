@@ -35,7 +35,7 @@ import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded} from 'selectors/rhs';
 import {getCurrentLocale} from 'selectors/i18n';
-import {getEmojiMap, getStateOfEmojiPickerForLastPost} from 'selectors/emojis';
+import {getEmojiMap} from 'selectors/emojis';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {Constants, Preferences, StoragePrefixes, TutorialSteps, UserStatuses} from 'utils/constants';
@@ -64,7 +64,6 @@ function makeMapStateToProps() {
         const userIsOutOfOffice = getStatusForUserId(state, currentUserId) === UserStatuses.OUT_OF_OFFICE;
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
-        const emojiPickerForLastMessage = getStateOfEmojiPickerForLastPost(state);
 
         return {
             currentTeamId: getCurrentTeamId(state),
@@ -84,7 +83,6 @@ function makeMapStateToProps() {
             readOnlyChannel: ownProps.readOnlyChannel || (!isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && currentChannel.name === Constants.DEFAULT_CHANNEL),
             canUploadFiles: canUploadFiles(config),
             enableEmojiPicker,
-            emojiPickerForLastMessage,
             enableGifPicker,
             enableConfirmNotificationsToChannel,
             maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,

@@ -162,14 +162,6 @@ class CreateComment extends React.PureComponent {
         enableEmojiPicker: PropTypes.bool.isRequired,
 
         /**
-         * To check if the state of emoji for last message and from where it was emitted
-         */
-        emojiPickerForLastMessage: PropTypes.shape({
-            shouldOpen: PropTypes.bool,
-            emittedFrom: PropTypes.string
-        }),
-
-        /**
          * Set if the gif picker is enabled.
          */
         enableGifPicker: PropTypes.bool.isRequired,

@@ -100,10 +100,7 @@ export default class PostInfo extends React.PureComponent {
         /**
          * To check if the state of emoji for last message and from where it was emitted
          */
-        emojiPickerForLastMessage: PropTypes.shape({
-            shouldOpen: PropTypes.bool,
-            emittedFrom: PropTypes.string
-        }),
+        emojiPickerForLastMessage: PropTypes.string,
 
         /**
          * To Check if the current post is last in the list

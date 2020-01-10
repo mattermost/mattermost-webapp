@@ -176,14 +176,6 @@ class CreatePost extends React.Component {
          * To check if the timezones are enable on the server.
          */
         isTimezoneEnabled: PropTypes.bool.isRequired,
-
-        /**
-         * To check if the state of emoji for last message and from where it was emitted
-         */
-        emojiPickerForLastMessage: PropTypes.shape({
-            shouldOpen: PropTypes.bool,
-            emittedFrom: PropTypes.string
-        }),
         intl: intlShape.isRequired,
         actions: PropTypes.shape({
 

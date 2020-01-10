@@ -26,7 +26,6 @@ import {
 } from 'actions/views/create_comment';
 import {openEmojiPickerForLastMessageFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
-import {getStateOfEmojiPickerForLastPost} from 'selectors/emojis';
 
 import CreateComment from './create_comment.jsx';
 
@@ -51,8 +50,6 @@ function makeMapStateToProps() {
         const badConnection = connectionErrorCount(state) > 1;
         const isTimezoneEnabled = config.ExperimentalTimezone === 'true';
 
-        const emojiPickerForLastMessage = getStateOfEmojiPickerForLastPost(state);
-
         return {
             draft,
             messageInHistory,
@@ -63,7 +60,6 @@ function makeMapStateToProps() {
             createPostErrorId: err.server_error_id,
             readOnlyChannel: !isCurrentUserSystemAdmin(state) && config.ExperimentalTownSquareIsReadOnly === 'true' && channel.name === Constants.DEFAULT_CHANNEL,
             enableConfirmNotificationsToChannel,
-            emojiPickerForLastMessage,
             enableEmojiPicker,
             enableGifPicker,
             locale: getCurrentLocale(state),

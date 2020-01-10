@@ -58,10 +58,7 @@ describe('components/RhsComment', () => {
         channelIsArchived: false,
         isConsecutivePost: false,
         handleCardClick: jest.fn(),
-        emojiPickerForLastMessage: {
-            shouldOpen: false,
-            emittedFrom: ''
-        },
+        emojiPickerForLastMessage: '',
         actions: {
             markPostAsUnread: jest.fn(),
         },
