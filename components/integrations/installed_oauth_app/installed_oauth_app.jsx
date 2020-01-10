@@ -40,11 +40,6 @@ export default class InstalledOAuthApp extends React.PureComponent {
         creatorName: PropTypes.string.isRequired,
 
         /**
-        * The request state for regenOAuthAppSecret action. Contains status and error
-        */
-        regenOAuthAppSecretRequest: PropTypes.object.isRequired,
-
-        /**
         * The function to call when Regenerate Secret link is clicked
         */
         onRegenerateSecret: PropTypes.func.isRequired,
@@ -83,8 +78,7 @@ export default class InstalledOAuthApp extends React.PureComponent {
     handleRegenerate = (e) => {
         e.preventDefault();
         this.props.onRegenerateSecret(this.props.oauthApp.id).then(
-            () => {
-                const {error} = this.props.regenOAuthAppSecretRequest;
+            ({error}) => {
                 if (error) {
                     this.setState({error: error.message});
                 } else {

@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {injectIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -13,6 +13,7 @@ import {intlShape} from 'utils/react_intl';
 import {isDesktopApp} from 'utils/user_agent';
 import {localizeMessage} from 'utils/utils.jsx';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
+import OverlayTrigger from 'components/overlay_trigger';
 import TeamIcon from '../../widgets/team_icon/team_icon';
 
 // eslint-disable-next-line react/require-optimization
