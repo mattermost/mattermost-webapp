@@ -41,7 +41,7 @@ describe('components/login/LoginController', () => {
     it('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <LoginController {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -52,7 +52,7 @@ describe('components/login/LoginController', () => {
         };
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
-        ).dive();
+        );
         wrapper.setState({sessionExpired: true});
 
         expect(wrapper).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe('components/login/LoginController', () => {
         };
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -79,7 +79,7 @@ describe('components/login/LoginController', () => {
         LocalStorageStore.setWasLoggedIn(true);
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -96,7 +96,7 @@ describe('components/login/LoginController', () => {
         LocalStorageStore.setWasLoggedIn(true);
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -112,7 +112,7 @@ describe('components/login/LoginController', () => {
 
         const wrapper = shallowWithIntl(
             <LoginController {...props}/>
-        ).dive();
+        );
 
         wrapper.setState({sessionExpired: true});
 

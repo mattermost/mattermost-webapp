@@ -20,7 +20,7 @@ import MultiSelectSetting from 'components/admin_console/multiselect_settings.js
 import RadioSetting from 'components/admin_console/radio_setting';
 import ColorSetting from 'components/admin_console/color_setting';
 import GeneratedSetting from 'components/admin_console/generated_setting';
-import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting.jsx';
+import UserAutocompleteSetting from 'components/admin_console/user_autocomplete_setting';
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
 import JobsTable from 'components/admin_console/jobs';
 import FileUploadSetting from 'components/admin_console/file_upload_setting.jsx';
@@ -350,11 +350,38 @@ export default class SchemaAdminSettings extends React.Component {
 
     buildButtonSetting = (setting) => {
         const handleRequestAction = (success, error) => {
-            setting.action(success, error, this.state['ServiceSettings.SiteURL']);
+            const successCallback = (data) => {
+                const metadata = new Map(Object.entries(data));
+                const settings = (this.props.schema && this.props.schema.settings) || [];
+                settings.forEach((tsetting) => {
+                    if (tsetting.key && tsetting.setFromMetadataField) {
+                        const inputData = metadata.get(tsetting.setFromMetadataField);
+
+                        if (tsetting.type === Constants.SettingsTypes.TYPE_TEXT) {
+                            this.setState({[tsetting.key]: inputData, [`${tsetting.key}Error`]: null});
+                        } else if (tsetting.type === Constants.SettingsTypes.TYPE_FILE_UPLOAD) {
+                            if (this.buildSettingFunctions[tsetting.type] && this.buildSettingFunctions[tsetting.type](tsetting).props.onSetData) {
+                                this.buildSettingFunctions[tsetting.type](tsetting).props.onSetData(tsetting.key, inputData);
+                            }
+                        }
+                    }
+                });
+
+                if (success && typeof success === 'function') {
+                    success();
+                }
+            };
+
+            var sourceUrlKey = 'ServiceSettings.SiteURL';
+            if (setting.sourceUrlKey) {
+                sourceUrlKey = setting.sourceUrlKey;
+            }
+            setting.action(successCallback, error, this.state[sourceUrlKey]);
         };
 
         return (
             <RequestButton
+                id={setting.key}
                 key={this.props.schema.id + '_text_' + setting.key}
                 requestAction={handleRequestAction}
                 helpText={this.renderHelpText(setting)}
@@ -362,6 +389,7 @@ export default class SchemaAdminSettings extends React.Component {
                 buttonText={<span>{this.renderLabel(setting)}</span>}
                 showSuccessMessage={Boolean(setting.success_message)}
                 includeDetailedError={true}
+                disabled={this.isDisabled(setting)}
                 errorMessage={{
                     id: setting.error_message,
                     defaultMessage: setting.error_message_default,
@@ -658,6 +686,17 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     buildFileUploadSetting = (setting) => {
+        const setData = (id, data) => {
+            const successCallback = (filename) => {
+                this.handleChange(id, filename);
+                this.setState({[setting.key]: filename, [`${setting.key}Error`]: null});
+            };
+            const errorCallback = (error) => {
+                this.setState({[setting.key]: null, [`${setting.key}Error`]: error.message});
+            };
+            setting.set_action(successCallback, errorCallback, data);
+        };
+
         if (this.state[setting.key]) {
             const removeFile = (id, callback) => {
                 const successCallback = () => {
@@ -685,6 +724,7 @@ export default class SchemaAdminSettings extends React.Component {
                     removingText={Utils.localizeMessage(setting.removing_text, setting.removing_text_default)}
                     fileName={this.state[setting.key]}
                     onSubmit={removeFile}
+                    onSetData={setData}
                     disabled={this.isDisabled(setting)}
                     setByEnv={this.isSetByEnv(setting.key)}
                 />
@@ -705,6 +745,7 @@ export default class SchemaAdminSettings extends React.Component {
             };
             setting.upload_action(file, successCallback, errorCallback);
         };
+
         return (
             <FileUploadSetting
                 id={setting.key}
@@ -715,6 +756,7 @@ export default class SchemaAdminSettings extends React.Component {
                 disabled={this.isDisabled(setting)}
                 fileType={setting.fileType}
                 onSubmit={uploadFile}
+                onSetData={setData}
                 error={this.state.idpCertificateFileError}
                 setByEnv={this.isSetByEnv(setting.key)}
             />

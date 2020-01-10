@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
@@ -40,6 +39,7 @@ export default class SearchBar extends React.Component {
             showFlaggedPosts: PropTypes.func,
             closeRightHandSide: PropTypes.func,
             autocompleteChannelsForSearch: PropTypes.func.isRequired,
+            autocompleteUsersInTeam: PropTypes.func.isRequired,
         }),
     };
 
@@ -55,7 +55,11 @@ export default class SearchBar extends React.Component {
             focused: false,
         };
 
-        this.suggestionProviders = [new SearchChannelProvider(props.actions.autocompleteChannelsForSearch), new SearchUserProvider(), new SearchDateProvider()];
+        this.suggestionProviders = [
+            new SearchDateProvider(),
+            new SearchChannelProvider(props.actions.autocompleteChannelsForSearch),
+            new SearchUserProvider(props.actions.autocompleteUsersInTeam),
+        ];
     }
 
     componentDidMount() {
@@ -93,7 +97,7 @@ export default class SearchBar extends React.Component {
         }, 200);
     }
 
-    handleClear = () => {
+    onClear = () => {
         this.props.actions.updateSearchTerms('');
     }
 
@@ -212,21 +216,10 @@ export default class SearchBar extends React.Component {
             );
         }
 
-        const showClear = !this.props.isSearchingTerm && this.props.searchTerms && this.props.searchTerms.trim() !== '';
-
         let searchFormClass = 'search__form';
         if (this.state.focused) {
             searchFormClass += ' focused';
         }
-
-        const searchClearTooltip = (
-            <Tooltip id='searchClearTooltip'>
-                <FormattedMessage
-                    id='search_bar.clear'
-                    defaultMessage='Clear search query'
-                />
-            </Tooltip>
-        );
 
         return (
             <div className='sidebar-right__table'>
@@ -285,26 +278,9 @@ export default class SearchBar extends React.Component {
                             autoFocus={this.props.isFocus && this.props.searchTerms === ''}
                             delayInputUpdate={true}
                             renderDividers={true}
+                            clearable={true}
+                            onClear={this.onClear}
                         />
-                        {showClear &&
-                            <div
-                                id={this.props.isSideBarRight ? 'sbrSearchClearButton' : 'searchClearButton'}
-                                className='sidebar__search-clear visible'
-                                onClick={this.handleClear}
-                            >
-                                <OverlayTrigger
-                                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                                    placement='bottom'
-                                    overlay={searchClearTooltip}
-                                >
-                                    <span
-                                        className='sidebar__search-clear-x'
-                                        aria-hidden='true'
-                                    >
-                                        {'×'}
-                                    </span>
-                                </OverlayTrigger>
-                            </div>}
                         {this.props.isSearchingTerm && <LoadingSpinner/>}
                         {this.renderHintPopover()}
                     </form>

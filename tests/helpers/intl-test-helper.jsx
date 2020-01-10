@@ -10,10 +10,22 @@ import {intlShape} from 'utils/react_intl';
 const intlProvider = new IntlProvider({locale: 'en', timeZone: 'Etc/UTC'}, {});
 const {intl} = intlProvider.getChildContext();
 
+export function isIntlInjectedElement(element) {
+    const {type} = element;
+    if (typeof type === 'function' && type.name === 'InjectIntl') {
+        return true;
+    }
+    return false;
+}
+
 export function shallowWithIntl(node, {context} = {}) {
+    if (!isIntlInjectedElement(node)) {
+        throw new Error('shallowWithIntl() allows only components wrapped by injectIntl() HOC. Use shallow() instead.');
+    }
+
     return shallow(React.cloneElement(node, {intl}), {
         context: Object.assign({}, context, {intl}),
-    });
+    }).dive();
 }
 
 export function mountWithIntl(node, {context, childContextTypes} = {}) {
