@@ -159,6 +159,11 @@ export const ActionTypes = keyMirror({
     OPEN_LHS: null,
     CLOSE_LHS: null,
 
+    UPDATE_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
+    UPDATE_SHOW_PREVIEW_ON_CREATE_POST: null,
+    UPDATE_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
+    UPDATE_SHOW_PREVIEW_ON_EDIT_POST_MODAL: null,
+
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
     CLOSE_RHS_MENU: null,

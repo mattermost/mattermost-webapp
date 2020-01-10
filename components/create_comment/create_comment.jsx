@@ -184,6 +184,16 @@ class CreateComment extends React.PureComponent {
          * The last time, if any, when the selected post changed. Will be 0 if no post selected.
          */
         selectedPostFocussedAt: PropTypes.number.isRequired,
+
+        /**
+         * Update preview for textbox
+         */
+        updatePreview: PropTypes.func.isRequired,
+
+        /**
+         * Should preview be showed
+         */
+        showPreview: PropTypes.bool.isRequired,
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -214,7 +224,6 @@ class CreateComment extends React.PureComponent {
             showPostDeletedModal: false,
             showConfirmModal: false,
             showEmojiPicker: false,
-            showPreview: false,
             channelTimezoneCount: 0,
             uploadsProgressPercent: {},
             renderScrollbar: false,
@@ -258,7 +267,7 @@ class CreateComment extends React.PureComponent {
         }
 
         // Focus on textbox when returned from preview mode
-        if (prevState.showPreview && !this.state.showPreview) {
+        if (prevProps.showPreview && !this.props.showPreview) {
             this.focusTextbox();
         }
 
@@ -272,8 +281,8 @@ class CreateComment extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.setState({showPreview: newState});
+    updatePreview = (newPreviewValue) => {
+        this.props.updatePreview(newPreviewValue);
     }
 
     focusTextboxIfNecessary = (e) => {
@@ -881,7 +890,7 @@ class CreateComment extends React.PureComponent {
         }
 
         let fileUpload;
-        if (!readOnlyChannel && !this.state.showPreview) {
+        if (!readOnlyChannel && !this.props.showPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -901,7 +910,7 @@ class CreateComment extends React.PureComponent {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.showPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -984,7 +993,7 @@ class CreateComment extends React.PureComponent {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                preview={this.props.showPreview}
                                 suggestionListStyle={this.state.suggestionListStyle}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
@@ -1012,7 +1021,7 @@ class CreateComment extends React.PureComponent {
                             <div className='col col-auto'>
                                 <TextboxLinks
                                     characterLimit={this.props.maxPostSize}
-                                    showPreview={this.state.showPreview}
+                                    showPreview={this.props.showPreview}
                                     updatePreview={this.updatePreview}
                                     message={readOnlyChannel ? '' : this.state.message}
                                 />

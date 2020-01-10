@@ -24,7 +24,8 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
+import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt, showPreviewOnCreateComment} from 'selectors/rhs';
+import {updatePreviewOnCreateComment} from 'actions/views/rhs';
 
 import CreateComment from './create_comment.jsx';
 
@@ -67,6 +68,7 @@ function makeMapStateToProps() {
             badConnection,
             isTimezoneEnabled,
             selectedPostFocussedAt: getSelectedPostFocussedAt(state),
+            showPreview: showPreviewOnCreateComment(state),
         };
     };
 }
@@ -120,6 +122,7 @@ function makeMapDispatchToProps() {
             onEditLatestPost,
             resetCreatePostRequest,
             getChannelTimezones,
+            updatePreview: updatePreviewOnCreateComment,
         }, dispatch);
     };
 }

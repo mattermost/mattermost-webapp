@@ -9,10 +9,14 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import {closeModal} from 'actions/views/modals';
 
+import {updatePreviewOnEditChannelHeaderModal} from '../../actions/views/rhs';
+import {showPreviewOnEditChannelHeaderModal} from '../../selectors/rhs';
+
 import EditChannelHeaderModal from './edit_channel_header_modal.jsx';
 
 function mapStateToProps(state) {
     return {
+        preview: showPreviewOnEditChannelHeaderModal(state),
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
     };
 }
@@ -22,6 +26,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             closeModal,
             patchChannel,
+            updatePreview: updatePreviewOnEditChannelHeaderModal,
         }, dispatch),
     };
 }

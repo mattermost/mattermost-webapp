@@ -280,6 +280,34 @@ export function selectPost(post) {
     };
 }
 
+export function updatePreviewOnCreateComment(showPreview) {
+    return {
+        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_CREATE_COMMENT,
+        showPreview,
+    };
+}
+
+export function updatePreviewOnCreatePost(showPreview) {
+    return {
+        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_CREATE_POST,
+        showPreview,
+    };
+}
+
+export function updatePreviewOnEditChannelHeaderModal(showPreview) {
+    return {
+        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL,
+        showPreview,
+    };
+}
+
+export function updatePreviewOnEditPostModal(showPreview) {
+    return {
+        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_EDIT_POST_MODAL,
+        showPreview,
+    };
+}
+
 export function selectPostCard(post) {
     return {type: ActionTypes.SELECT_POST_CARD, postId: post.id, channelId: post.channel_id};
 }

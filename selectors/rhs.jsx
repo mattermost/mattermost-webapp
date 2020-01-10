@@ -116,3 +116,19 @@ export function getIsRhsMenuOpen(state) {
 export function getIsRhsExpanded(state) {
     return state.views.rhs.isSidebarExpanded;
 }
+
+export function showPreviewOnCreateComment(state) {
+    return state.views.rhs.shouldShowPreviewOnCreateComment;
+}
+
+export function showPreviewOnCreatePost(state) {
+    return state.views.rhs.shouldShowPreviewOnCreatePost;
+}
+
+export function showPreviewOnEditChannelHeaderModal(state) {
+    return state.views.rhs.shouldShowPreviewOnEditChannelHeaderModal;
+}
+
+export function showPreviewOnEditPostModal(state) {
+    return state.views.rhs.shouldShowPreviewOnEditPostModal;
+}

@@ -179,7 +179,17 @@ class CreatePost extends React.Component {
 
         intl: intlShape.isRequired,
 
+        /**
+         * Should preview be showed
+         */
+        showPreview: PropTypes.bool.isRequired,
+
         actions: PropTypes.shape({
+
+            /**
+             * Update preview for textbox
+             */
+            updatePreview: PropTypes.func.isRequired,
 
             /**
              *  func called after message submit.
@@ -269,7 +279,6 @@ class CreatePost extends React.Component {
                 message: props.draft.message,
                 submitting: false,
                 serverError: null,
-                showPreview: false,
             };
         }
         return updatedState;
@@ -285,7 +294,6 @@ class CreatePost extends React.Component {
             showEmojiPicker: false,
             showConfirmModal: false,
             channelTimezoneCount: 0,
-            showPreview: false,
             uploadsProgressPercent: {},
             renderScrollbar: false,
             currentChannel: props.currentChannel,
@@ -330,8 +338,8 @@ class CreatePost extends React.Component {
         this.removeOrientationListeners();
     }
 
-    updatePreview = (newState) => {
-        this.setState({showPreview: newState});
+    updatePreview = (newPreviewValue) => {
+        this.props.actions.updatePreview(newPreviewValue);
     }
 
     setOrientationListeners = () => {
@@ -1184,7 +1192,7 @@ class CreatePost extends React.Component {
         }
 
         let fileUpload;
-        if (!readOnlyChannel && !this.state.showPreview) {
+        if (!readOnlyChannel && !this.props.showPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1203,7 +1211,7 @@ class CreatePost extends React.Component {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.state.showPreview) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.showPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -1281,7 +1289,7 @@ class CreatePost extends React.Component {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.showPreview}
+                                preview={this.props.showPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -1324,7 +1332,7 @@ class CreatePost extends React.Component {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.state.showPreview}
+                                showPreview={this.props.showPreview}
                                 updatePreview={this.updatePreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />

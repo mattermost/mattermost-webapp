@@ -29,6 +29,7 @@ class EditPostModal extends React.PureComponent {
         config: PropTypes.object.isRequired,
         intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
+        preview: PropTypes.bool.isRequired,
         editingPost: PropTypes.shape({
             post: PropTypes.object,
             postId: PropTypes.string,
@@ -44,6 +45,7 @@ class EditPostModal extends React.PureComponent {
             editPost: PropTypes.func.isRequired,
             hideEditPostModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
+            updatePreview: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -51,7 +53,6 @@ class EditPostModal extends React.PureComponent {
         super(props);
 
         this.state = {
-            preview: false,
             editText: '',
             caretPosition: ''.length,
             postError: '',
@@ -72,8 +73,8 @@ class EditPostModal extends React.PureComponent {
         return null;
     }
 
-    updatePreview = (newState) => {
-        this.setState({preview: newState});
+    updatePreview = (newPreviewValue) => {
+        this.props.actions.updatePreview(newPreviewValue);
     }
 
     getContainer = () => {
@@ -259,7 +260,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     handleExit = () => {
-        this.setState({preview: false});
+        this.props.actions.updatePreview(false);
     }
 
     handleExited = () => {
@@ -274,7 +275,8 @@ class EditPostModal extends React.PureComponent {
         }
 
         this.refocusId = null;
-        this.setState({editText: '', postError: '', errorClass: null, preview: false, showEmojiPicker: false, prevShowState: false});
+        this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false, prevShowState: false});
+        this.props.actions.updatePreview(false);
     }
 
     setEditboxRef = (ref) => {
@@ -312,7 +314,7 @@ class EditPostModal extends React.PureComponent {
 
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-        if (this.props.config.EnableEmojiPicker === 'true' && !this.state.preview) {
+        if (this.props.config.EnableEmojiPicker === 'true' && !this.props.preview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -392,7 +394,7 @@ class EditPostModal extends React.PureComponent {
                                 id='edit_textbox'
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.state.preview}
+                                preview={this.props.preview}
                             />
                             <div className='post-body__actions'>
                                 {emojiPicker}
@@ -401,7 +403,7 @@ class EditPostModal extends React.PureComponent {
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.state.preview}
+                                showPreview={this.props.preview}
                                 ref={this.setTextboxLinksRef}
                                 updatePreview={this.updatePreview}
                                 message={this.state.editText}

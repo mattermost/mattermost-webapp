@@ -22,7 +22,10 @@ describe('Reducers.RHS', () => {
         isMenuOpen: false,
         isSidebarOpen: false,
         isSidebarExpanded: false,
-
+        shouldShowPreviewOnCreateComment: false,
+        shouldShowPreviewOnCreatePost: false,
+        shouldShowPreviewOnEditChannelHeaderModal: false,
+        shouldShowPreviewOnEditPostModal: false,
     };
 
     test('Initial state', () => {
