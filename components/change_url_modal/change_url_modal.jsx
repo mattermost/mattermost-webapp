@@ -3,8 +3,10 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Modal, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Modal, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
 import {getShortenedURL, cleanUpUrlable} from 'utils/url';
