@@ -1758,6 +1758,10 @@
             }
         }
     }
+
+    .signup-team-all {
+        max-height: calc(75vh - (118px + 187px));
+    }
 }
 
 @media screen and (max-width: 640px) {
@@ -2292,6 +2296,10 @@
         &.tip-overlay--sidebar {
             min-height: 440px;
         }
+    }
+
+    .signup-team-all {
+        max-height: calc(75vh - (111px + 187px));
     }
 }
 

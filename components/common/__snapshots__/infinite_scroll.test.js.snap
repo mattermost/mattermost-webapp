@@ -43,6 +43,37 @@ exports[`/components/common/InfiniteScroll should match snapshot 1`] = `
     className="infinite-scroll signup-team-all"
   >
     <div />
+    <LoadingScreen
+      message=" "
+      position="relative"
+      style={Object {}}
+    >
+      <div
+        className="loading-screen"
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
+      >
+        <div
+          className="loading__content"
+        >
+          <h3>
+             
+          </h3>
+          <div
+            className="round round-1"
+          />
+          <div
+            className="round round-2"
+          />
+          <div
+            className="round round-3"
+          />
+        </div>
+      </div>
+    </LoadingScreen>
   </div>
 </InfiniteScroll>
 `;
