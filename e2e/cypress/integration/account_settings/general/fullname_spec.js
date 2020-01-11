@@ -12,21 +12,27 @@ describe('Account Settings > Sidebar > General', () => {
     // # number to identify particular user
     const uniqueNumber = getRandomInt(1000);
     before(() => {
-        // # Go to Account Settings as new user
-        cy.loginAsNewUser().as('newuser');
-        cy.toAccountSettingsModal(null, true);
+        cy.apiLogin('user-2');
+        cy.visit('/ad-1/channels/town-square');
 
-        // # Click General button
-        cy.get('#generalButton').click();
+        cy.getCurrentTeamId().then((teamId) => {
+            cy.loginAsNewUser({}, [teamId]).as('newuser');
 
-        // # Open Full Name section
-        cy.get('#nameDesc').click();
+            // # Go to Account Settings as new user
+            cy.toAccountSettingsModal(null, true);
 
-        // * Set first name value
-        cy.get('#firstName').clear().type(`정트리나${uniqueNumber}/trina.jung/집단사무국(CO)`);
+            // # Click General button
+            cy.get('#generalButton').click();
 
-        // # save form
-        cy.get('#saveSetting').click();
+            // # Open Full Name section
+            cy.get('#nameDesc').click();
+
+            // * Set first name value
+            cy.get('#firstName').clear().type(`정트리나${uniqueNumber}/trina.jung/집단사무국(CO)`);
+
+            // # save form
+            cy.get('#saveSetting').click();
+        });
     });
 
     it('M17459 - Filtering by first name with Korean characters', () => {
