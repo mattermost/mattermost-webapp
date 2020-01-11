@@ -980,6 +980,24 @@ Cypress.Commands.add('uninstallPluginById', (pluginId) => {
 });
 
 /**
+ * Get all user`s plugins.
+ *
+ */
+Cypress.Commands.add('getAllPlugins', () => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/plugins',
+        method: 'GET',
+        failOnStatusCode: false,
+    }).then((response) => {
+        if (response.status !== 200 && response.status !== 404) {
+            expect(response.status).to.equal(200);
+        }
+        return cy.wrap(response);
+    });
+});
+
+/**
  * Enable plugin by id.
  *
  * @param {String} pluginId - Id of the plugin to enable

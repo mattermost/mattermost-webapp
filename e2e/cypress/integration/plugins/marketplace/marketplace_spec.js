@@ -299,6 +299,14 @@ describe('Plugin Marketplace', () => {
 
         it('change tab on "install plugins" click', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
+                // # uninstall all user`s plugins
+                cy.getAllPlugins().then((response) => {
+                    const active = response.body.active;
+                    const inactive = response.body.inactive;
+                    inactive.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+                    active.forEach((plugin) => cy.uninstallPluginById(plugin.id));
+                });
+
                 // # switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
                 cy.findByText(/Installed/).should('have.attr', 'aria-selected', 'true');
