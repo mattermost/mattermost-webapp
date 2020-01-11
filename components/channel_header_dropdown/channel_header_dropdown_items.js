@@ -19,7 +19,7 @@ import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
 import ConvertChannelModal from 'components/convert_channel_modal';
 import DeleteChannelModal from 'components/delete_channel_modal';
-import UndeleteChannelModal from 'components/undelete_channel_modal';
+import UnarchiveChannelModal from 'components/unarchive_channel_modal';
 import MoreDirectChannels from 'components/more_direct_channels';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 import ChannelGroupsManageModal from 'components/channel_groups_manage_modal';
@@ -69,7 +69,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         const channelMembersPermission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS;
         const channelPropertiesPermission = isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES;
         const channelDeletePermission = isPrivate ? Permissions.DELETE_PRIVATE_CHANNEL : Permissions.DELETE_PUBLIC_CHANNEL;
-        const channelUndeletePermission = Permissions.MANAGE_TEAM;
+        const channelUnarchivePermission = Permissions.MANAGE_TEAM;
 
         let divider;
         if (isMobile) {
@@ -312,17 +312,17 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                     <ChannelPermissionGate
                         channelId={channel.id}
                         teamId={channel.team_id}
-                        permissions={[channelUndeletePermission]}
+                        permissions={[channelUnarchivePermission]}
                     >
                         <Menu.ItemToggleModalRedux
                             id='channelUnarchiveChannel'
                             show={isArchived && !isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
-                            modalId={ModalIdentifiers.UNDELETE_CHANNEL}
-                            dialogType={UndeleteChannelModal}
+                            modalId={ModalIdentifiers.UNARCHIVE_CHANNEL}
+                            dialogType={UnarchiveChannelModal}
                             dialogProps={{
                                 channel,
                             }}
-                            text={localizeMessage('channel_header.undelete', 'Unarchive Channel')}
+                            text={localizeMessage('channel_header.unarchive', 'Unarchive Channel')}
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>

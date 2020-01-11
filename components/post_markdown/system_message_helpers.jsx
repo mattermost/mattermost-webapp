@@ -331,7 +331,7 @@ function renderChannelDeletedMessage(post) {
     );
 }
 
-function renderChannelUndeletedMessage(post) {
+function renderChannelUnarchivedMessage(post) {
     if (!post.props.username) {
         return null;
     }
@@ -340,7 +340,7 @@ function renderChannelUndeletedMessage(post) {
 
     return (
         <FormattedMessage
-            id='api.channel.undelete_channel.unarchived'
+            id='api.channel.restore_channel.unarchived'
             defaultMessage='{username} has unarchived the channel.'
             values={{username}}
         />
@@ -367,7 +367,7 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CONVERT_CHANNEL]: renderConvertChannelToPrivateMessage,
     [Posts.POST_TYPES.PURPOSE_CHANGE]: renderPurposeChangeMessage,
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
-    [Posts.POST_TYPES.CHANNEL_UNDELETED]: renderChannelUndeletedMessage,
+    [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: renderChannelUnarchivedMessage,
     [Posts.POST_TYPES.ME]: renderMeMessage,
 };
 

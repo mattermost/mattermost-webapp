@@ -325,8 +325,8 @@ export function handleEvent(msg) {
         handleChannelDeletedEvent(msg);
         break;
 
-    case SocketEvents.CHANNEL_UNDELETED:
-        handleChannelUndeletedEvent(msg);
+    case SocketEvents.CHANNEL_UNARCHIVED:
+        handleChannelUnarchivedEvent(msg);
         break;
 
     case SocketEvents.CHANNEL_CONVERTED:
@@ -851,12 +851,12 @@ function handleChannelDeletedEvent(msg) {
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
 }
 
-function handleChannelUndeletedEvent(msg) {
+function handleChannelUnarchivedEvent(msg) {
     const state = getState();
     const config = getConfig(state);
     const viewArchivedChannels = config.ExperimentalViewArchivedChannels === 'true';
 
-    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_UNDELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels}});
+    dispatch({type: ChannelTypes.RECEIVED_CHANNEL_UNARCHIVED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, viewArchivedChannels}});
 }
 
 function handlePreferenceChangedEvent(msg) {

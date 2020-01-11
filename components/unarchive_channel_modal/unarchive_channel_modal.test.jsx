@@ -7,9 +7,9 @@ import {Modal} from 'react-bootstrap';
 
 import {browserHistory} from 'utils/browser_history';
 
-import UndeleteChannelModal from './undelete_channel_modal';
+import UnarchiveChannelModal from './unarchive_channel_modal';
 
-describe('components/undelete_channel_modal', () => {
+describe('components/unarchive_channel_modal', () => {
     function emptyFunction() {} //eslint-disable-line no-empty-function
 
     const channel = {
@@ -37,22 +37,22 @@ describe('components/undelete_channel_modal', () => {
         channel,
         currentTeamDetails,
         actions: {
-            undeleteChannel: emptyFunction,
+            unarchiveChannel: emptyFunction,
         },
         onHide: emptyFunction,
         penultimateViewedChannelName: 'my-prev-channel',
     };
 
-    test('should match snapshot for undelete_channel_modal', () => {
+    test('should match snapshot for unarchive_channel_modal', () => {
         const wrapper = shallow(
-            <UndeleteChannelModal {...baseProps}/>
+            <UnarchiveChannelModal {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match state when onHide is called', () => {
         const wrapper = shallow(
-            <UndeleteChannelModal {...baseProps}/>
+            <UnarchiveChannelModal {...baseProps}/>
         );
 
         wrapper.setState({show: true});
@@ -60,26 +60,26 @@ describe('components/undelete_channel_modal', () => {
         expect(wrapper.state('show')).toEqual(false);
     });
 
-    test('should have called actions.undeleteChannel when handleUndelete is called', () => {
+    test('should have called actions.unarchiveChannel when handleUnarchive is called', () => {
         browserHistory.push = jest.fn();
-        const actions = {undeleteChannel: jest.fn()};
+        const actions = {unarchiveChannel: jest.fn()};
         const props = {...baseProps, actions};
         const wrapper = shallow(
-            <UndeleteChannelModal {...props}/>
+            <UnarchiveChannelModal {...props}/>
         );
 
         wrapper.setState({show: true});
-        wrapper.instance().handleUndelete();
+        wrapper.instance().handleUnarchive();
 
-        expect(actions.undeleteChannel).toHaveBeenCalledTimes(1);
-        expect(actions.undeleteChannel).toHaveBeenCalledWith(props.channel.id);
+        expect(actions.unarchiveChannel).toHaveBeenCalledTimes(1);
+        expect(actions.unarchiveChannel).toHaveBeenCalledWith(props.channel.id);
     });
 
     test('should have called props.onHide when Modal.onExited is called', () => {
         const onHide = jest.fn();
         const props = {...baseProps, onHide};
         const wrapper = shallow(
-            <UndeleteChannelModal {...props}/>
+            <UnarchiveChannelModal {...props}/>
         );
 
         wrapper.find(Modal).props().onExited();
