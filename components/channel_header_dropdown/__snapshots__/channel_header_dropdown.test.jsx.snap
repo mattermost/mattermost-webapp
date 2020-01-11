@@ -315,6 +315,31 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       isArchived={false}
     />
   </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelUnarchiveChannel"
+        modalId="undelete_channel"
+        show={false}
+        text="Unarchive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
+  </MenuGroup>
 </Fragment>
 `;
 
@@ -647,6 +672,31 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       id="channelCloseChannel"
       isArchived={false}
     />
+  </MenuGroup>
+  <MenuGroup>
+    <Connect(ChannelPermissionGate)
+      channelId="test-channel-id"
+      permissions={
+        Array [
+          "manage_team",
+        ]
+      }
+    >
+      <MenuItemToggleModalRedux
+        dialogProps={
+          Object {
+            "channel": Object {
+              "id": "test-channel-id",
+            },
+          }
+        }
+        dialogType={[Function]}
+        id="channelUnarchiveChannel"
+        modalId="undelete_channel"
+        show={false}
+        text="Unarchive Channel"
+      />
+    </Connect(ChannelPermissionGate)>
   </MenuGroup>
 </Fragment>
 `;
