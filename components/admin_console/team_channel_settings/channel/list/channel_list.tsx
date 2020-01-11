@@ -20,7 +20,7 @@ import ChannelRow from './channel_row';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => Promise<Channel[]>;
     };
     data?: {id: string; display_name: string}[];
     total?: number;
@@ -102,6 +102,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
         if ('data' in response) {
             return channels.concat(response.data.channels);
         }
+        return [];
     };
 
     private resetSearch = () => {
