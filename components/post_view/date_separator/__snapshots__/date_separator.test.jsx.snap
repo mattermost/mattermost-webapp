@@ -130,7 +130,6 @@ exports[`components/post_view/DateSeparator should render date without timezone 
       "timeZone": "Etc/UTC",
     }
   }
->>>>>>> wip: updated tests to work for NZ timezone with daylight savings and added in UserProfile type but has errors
 >
   <BasicSeparator>
     <div

@@ -13,11 +13,11 @@ import Avatar from 'components/widgets/users/avatar';
 
 import AdminNavbarDropdown from 'components/admin_console/admin_navbar_dropdown';
 
-type State = {
+type Props = {
     currentUser: UserProfile& {last_picture_update?: number};
 }
 
-export default class SidebarHeader extends React.Component<State> {
+export default class SidebarHeader extends React.Component<Props> {
     public render() {
         const me = this.props.currentUser;
         let profilePicture = null;
