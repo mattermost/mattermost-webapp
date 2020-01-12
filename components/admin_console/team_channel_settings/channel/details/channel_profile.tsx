@@ -10,6 +10,7 @@ import {t} from 'utils/i18n';
 
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
 interface ChannelProfileProps {
     channel: Channel;
     team: Team;
@@ -24,6 +25,7 @@ export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelPro
             titleDefault='Channel Profile'
             subtitleId={t('admin.channel_settings.channel_detail.profileDescription')}
             subtitleDefault='Summary of the channel, including the channel name.'
+            className='channel_profile'
         >
             <div className='group-teams-and-channels'>
                 <div className='group-teams-and-channels--body'>
