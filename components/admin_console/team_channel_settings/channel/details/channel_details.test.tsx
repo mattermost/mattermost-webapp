@@ -19,7 +19,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
         const allGroups = {
             123: groups[0],
         };
-        const testChannel: Partial<Channel> = {
+        const testChannel: Partial<Channel> & {team_name: string} = {
             id: '123',
             team_name: 'team',
             type: 'O',
