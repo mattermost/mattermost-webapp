@@ -259,9 +259,9 @@ class SidebarChannel extends React.PureComponent {
                 <SidebarTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
+                    openLhs={this.props.actions.openLhs}
                 />
             );
-            this.props.actions.openLhs();
         }
 
         let link = '';

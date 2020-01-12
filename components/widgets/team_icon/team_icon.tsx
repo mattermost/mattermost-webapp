@@ -37,9 +37,6 @@ export class TeamIcon extends React.PureComponent<Props> {
 
     public render() {
         const {name, url, size, withHover} = this.props;
-        if (!name && !url) {
-            throw new Error('Either `url` or `name` prop is required ');
-        }
         const hoverCss = withHover ? '' : 'no-hover';
         const teamIconUrl = url || imageURLForTeam({display_name: name});
         let icon;
@@ -64,7 +61,6 @@ export class TeamIcon extends React.PureComponent<Props> {
             );
         }
         return (
-
             <div className={`TeamIcon ${hoverCss} TeamIcon__${size}`} >
                 <div className={`TeamIcon__content ${hoverCss}`}>
                     {icon}
