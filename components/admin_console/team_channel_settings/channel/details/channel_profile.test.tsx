@@ -4,16 +4,14 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ChannelModes} from './channel_modes.jsx';
+import {ChannelProfile} from './channel_profile';
 
-describe('admin_console/team_channel_settings/channel/ChannelModes', () => {
+describe('admin_console/team_channel_settings/channel/ChannelProfile', () => {
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <ChannelModes
-                onToggle={jest.fn()}
-                isPublic={true}
-                isSynced={false}
-                isDefault={false}
+            <ChannelProfile
+                team={{display_name: 'test'}}
+                channel={{name: 'test'}}
             />
         );
         expect(wrapper).toMatchSnapshot();

@@ -11,7 +11,14 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LineSwitch from '../../line_switch';
 
-const SyncGroupsToggle = ({isSynced, isPublic, isDefault, onToggle}) => (
+interface Props {
+    isPublic: boolean;
+    isSynced: boolean;
+    isDefault: boolean;
+    onToggle: (isSynced: boolean, isPublic: boolean) => void;
+}
+
+const SyncGroupsToggle: React.SFC<Props> = ({isSynced, isPublic, isDefault, onToggle}) => (
     <LineSwitch
         disabled={isDefault}
         toggled={isSynced}
@@ -43,7 +50,7 @@ SyncGroupsToggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
 };
 
-const AllowAllToggle = ({isSynced, isPublic, isDefault, onToggle}) =>
+const AllowAllToggle: React.SFC<Props> = ({isSynced, isPublic, isDefault, onToggle}) =>
     !isSynced && (
         <LineSwitch
             disabled={isDefault}
@@ -95,7 +102,7 @@ AllowAllToggle.propTypes = {
     onToggle: PropTypes.func.isRequired,
 };
 
-export const ChannelModes = ({isPublic, isSynced, isDefault, onToggle}) => (
+export const ChannelModes: React.SFC<Props> = ({isPublic, isSynced, isDefault, onToggle}) => (
     <AdminPanel
         id='channel_manage'
         titleId={t('admin.channel_settings.channel_detail.manageTitle')}
