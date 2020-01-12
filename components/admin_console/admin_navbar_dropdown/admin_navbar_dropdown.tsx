@@ -30,7 +30,7 @@ interface AdminNavbarDropdownProps {
 }
 
 class AdminNavbarDropdown extends React.Component<AdminNavbarDropdownProps, {}> {
-    private handleLogout = (e) => {
+    private handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (this.props.navigationBlocked) {
             e.preventDefault();
             this.props.actions.deferNavigation(GlobalActions.emitUserLoggedOutEvent);

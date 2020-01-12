@@ -2,10 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'mattermost-redux/types/store';
 
 import {deferNavigation} from 'actions/admin_actions.jsx';
 import {getCurrentLocale} from 'selectors/i18n';
@@ -13,7 +15,7 @@ import {getNavigationBlocked} from 'selectors/views/admin';
 
 import AdminNavbarDropdown from './admin_navbar_dropdown.jsx';
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
         locale: getCurrentLocale(state),
         teams: getMyTeams(state),
@@ -22,7 +24,7 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             deferNavigation,
