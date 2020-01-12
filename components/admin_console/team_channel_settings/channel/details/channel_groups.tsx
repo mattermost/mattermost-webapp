@@ -16,10 +16,10 @@ import GroupList from '../../group';
 
 interface ChannelGroupsProps {
     synced: boolean;
-    channel: Channel;
+    channel: Partial<Channel>;
     onAddCallback: (groupIDs: string[]) => void;
     totalGroups: number;
-    groups: Group[];
+    groups: Partial<Group>[];
     removedGroups: object[];
     onGroupRemoved: (gid: string) => void;
 }

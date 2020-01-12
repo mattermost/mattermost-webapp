@@ -6,6 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Group} from 'mattermost-redux/types/groups';
 import {Channel} from 'mattermost-redux/types/channels';
+import {Team} from 'mattermost-redux/types/teams';
 
 import ChannelDetails from './channel_details';
 
@@ -26,7 +27,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             group_constrained: false,
             name: 'DN',
         };
-        const team = {
+        const team: Partial<Team> = {
             display_name: 'test',
         };
 

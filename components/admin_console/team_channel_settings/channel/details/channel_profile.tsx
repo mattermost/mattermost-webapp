@@ -12,8 +12,8 @@ import AdminPanel from 'components/widgets/admin_console/admin_panel';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
 interface ChannelProfileProps {
-    channel: Channel;
-    team: Team;
+    channel: Partial<Channel>;
+    team: Partial<Team>;
 }
 
 export const ChannelProfile: React.SFC<ChannelProfileProps> = (props: ChannelProfileProps): JSX.Element => {
