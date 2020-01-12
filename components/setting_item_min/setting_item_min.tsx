@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { RefObject } from 'react';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {isMobile} from 'utils/utils.jsx';
@@ -37,7 +37,7 @@ interface SettingItemMinProps {
     /**
      * Shows the previous active section for focusing
      */
-    previousActiveSection: string;
+    previousActiveSection?: string;
 
     /**
      * Actions
@@ -61,7 +61,7 @@ export default class SettingItemMin extends React.PureComponent<SettingItemMinPr
         this.edit = node;
     }
 
-    private handleUpdateSection = (e: React.MouseEvent<HTMLElement>) => {
+    public handleUpdateSection = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         this.props.actions.updateActiveSection(this.props.section);
         this.props.updateSection(this.props.section);

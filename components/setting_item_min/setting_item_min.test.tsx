@@ -38,7 +38,7 @@ describe('components/SettingItemMin', () => {
     test('should have called updateSection on handleUpdateSection with section', () => {
         const updateSection = jest.fn();
         const props = {...baseProps, updateSection};
-        const wrapper = shallow(
+        const wrapper: SettingItemMin = shallow(
             <SettingItemMin {...props}/>
         );
 
