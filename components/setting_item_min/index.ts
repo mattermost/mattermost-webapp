@@ -10,7 +10,7 @@ import {GlobalState} from 'mattermost-redux/types/store';
 import {getPreviousActiveSection} from 'selectors/views/settings';
 import {updateActiveSection} from 'actions/views/settings';
 
-import SettingItemMin from './setting_item_min.jsx';
+import SettingItemMin from './setting_item_min';
 
 function mapStateToProps(state: GlobalState) {
     return {
