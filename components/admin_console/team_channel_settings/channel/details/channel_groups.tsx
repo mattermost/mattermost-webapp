@@ -33,6 +33,7 @@ export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroup
             titleDefault={synced ? 'Synced Groups' : 'Groups'}
             subtitleId={synced ? t('admin.channel_settings.channel_detail.syncedGroupsDescription') : t('admin.channel_settings.channel_detail.groupsDescription')}
             subtitleDefault={synced ? 'Add and remove team members based on their group membership on the next scheduled sync.' : 'Group members will be added to the channel based on your sync schedule.'}
+            className='channel_groups'
             button={
                 <ToggleModalButton
                     className='btn btn-primary'
@@ -60,7 +61,6 @@ export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroup
                     isModeSync={synced}
                 />
             )}
-
         </AdminPanel>
     );
 };
