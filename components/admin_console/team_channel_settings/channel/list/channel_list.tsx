@@ -20,7 +20,7 @@ import ChannelRow from './channel_row';
 interface ChannelListProps {
     actions: {
         searchAllChannels: (term: string, notAssociatedToGroup?: string, excludeDefaultChannels?: boolean, page?: number, perPage?: number) => ActionFunc | ActionResult;
-        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => Promise<Channel[]>;
+        getData: (page: number, perPage: number, notAssociatedToGroup? : string, excludeDefaultChannels?: boolean) => ActionFunc | ActionResult|Promise<Channel[]>;
     };
     data?: {id: string; display_name: string}[];
     total?: number;
