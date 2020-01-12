@@ -17,7 +17,7 @@ describe('admin_console/team_channel_settings/channel/ChannelGroups', () => {
             member_count: 3,
         }];
 
-        const testChannel: Partial<Channel> = {
+        const testChannel: Partial<Channel> & {team_name: string} = {
             id: '123',
             team_name: 'team',
             type: 'O',
