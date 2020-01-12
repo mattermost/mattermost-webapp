@@ -12,7 +12,7 @@ interface SettingItemMinProps {
     /**
      * Settings title
      */
-    title: JSX.Element;
+    title: JSX.Element | string;
 
     /**
      * Option to disable opening the setting
@@ -32,7 +32,7 @@ interface SettingItemMinProps {
     /**
      * Settings description
      */
-    describe: JSX.Element;
+    describe: JSX.Element | string;
 
     /**
      * Shows the previous active section for focusing
