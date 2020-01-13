@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import {UserProfile} from 'mattermost-redux/types/users';
 import {FormattedMessage} from 'react-intl';
 
 import NextIcon from 'components/widgets/icons/fa_next_icon';
@@ -12,30 +12,31 @@ import GroupUsersRow from './group_users_row';
 
 const GROUP_MEMBERS_PAGE_SIZE = 10;
 
-export default class AdminGroupUsers extends React.PureComponent {
-    static propTypes = {
-        members: PropTypes.arrayOf(PropTypes.object),
-        total: PropTypes.number.isRequired,
-    };
+interface AdminGroupUsersProps {
+    members: Partial<UserProfile>& {last_picture_update?: number}[];
+    total: number;
+}
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: 0,
-        };
+interface AdminGroupUsersState {
+    page: number;
+}
+
+export default class AdminGroupUsers extends React.PureComponent<AdminGroupUsersProps, AdminGroupUsersState> {
+    state: AdminGroupUsersState = {
+        page: 0
     }
 
     previousPage = async () => {
         const page = this.state.page < 1 ? 0 : this.state.page - 1;
         this.setState({page});
-    }
+    };
 
     nextPage = async () => {
         const page = (this.state.page + 1) * GROUP_MEMBERS_PAGE_SIZE >= this.props.total ? this.state.page : this.state.page + 1;
         this.setState({page});
-    }
+    };
 
-    renderRow = (member) => (
+    renderRow = (member: Partial<UserProfile> & {last_picture_update?: number}) => (
         <GroupUsersRow
             key={member.id}
             user={member}
@@ -43,12 +44,10 @@ export default class AdminGroupUsers extends React.PureComponent {
             lastPictureUpdate={member.last_picture_update || 0}
         />
     );
-
     renderRows = () => {
         const offset = this.state.page * GROUP_MEMBERS_PAGE_SIZE;
         return this.props.members.slice(offset, offset + GROUP_MEMBERS_PAGE_SIZE).map(this.renderRow);
-    }
-
+    };
     renderPagination = () => {
         const {page} = this.state;
         const startCount = (page * GROUP_MEMBERS_PAGE_SIZE) + 1;
@@ -59,7 +58,6 @@ export default class AdminGroupUsers extends React.PureComponent {
         }
         const lastPage = endCount === total;
         const firstPage = page === 0;
-
         return (
             <div className='groups-list--footer'>
                 <div className='counter'>
@@ -69,7 +67,7 @@ export default class AdminGroupUsers extends React.PureComponent {
                         values={{
                             startCount,
                             endCount,
-                            total,
+                            total
                         }}
                     />
                 </div>
@@ -89,8 +87,7 @@ export default class AdminGroupUsers extends React.PureComponent {
                 </button>
             </div>
         );
-    }
-
+    };
     render = () => {
         return (
             <div className='groups-list groups-list-less-padding'>
