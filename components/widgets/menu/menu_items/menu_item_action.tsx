@@ -13,9 +13,11 @@ type Props = {
     id?: string;
     buttonClass?: string;
     isDangerous?: boolean;
+    testid?: string;
 }
-export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, buttonClass, isDangerous}: Props) => (
+export const MenuItemActionImpl = ({onClick, ariaLabel, text, extraText, id, buttonClass, isDangerous, testid}: Props) => (
     <button
+        data-testid={testid}
         id={id}
         aria-label={ariaLabel}
         className={'style--none' + (extraText ? ' MenuItem__help' : '') + (buttonClass ? ' ' + buttonClass : '') + (isDangerous ? ' MenuItem__dangerous' : '')}
