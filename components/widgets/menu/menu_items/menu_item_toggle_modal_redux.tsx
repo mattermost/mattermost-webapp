@@ -12,7 +12,7 @@ type Props = {
     dialogType: React.ComponentType<any>;
     dialogProps?: object;
     extraText?: string;
-    text: React.ReactNode;
+    text: string;
 }
 
 export const MenuItemToggleModalReduxImpl: React.FC<Props> = ({modalId, dialogType, dialogProps, text, extraText}: Props) => (

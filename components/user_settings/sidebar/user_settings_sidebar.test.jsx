@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 import PropTypes from 'prop-types';
 import configureStore from 'redux-mock-store';
 
-import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import UserSettingsSidebar from 'components/user_settings/sidebar/user_settings_sidebar.jsx';
 
@@ -43,7 +44,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
     const store = mockStore(state);
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<UserSettingsSidebar {...defaultProps}/>);
+        const wrapper = shallow(<UserSettingsSidebar {...defaultProps}/>);
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.state('isSaving')).toEqual(false);
@@ -61,7 +62,7 @@ describe('components/user_settings/sidebar/UserSettingsSidebar', () => {
         const newUpdateSection = jest.fn();
         const updateArg = 'unreadChannels';
         const props = {...defaultProps, updateSection: newUpdateSection};
-        const wrapper = shallowWithIntl(<UserSettingsSidebar {...props}/>);
+        const wrapper = shallow(<UserSettingsSidebar {...props}/>);
 
         wrapper.setState({isSaving: true,
             settings: {

@@ -76,6 +76,13 @@
                 .MenuItem__primary-text {
                     padding-bottom: 4px;
                 }
+
+                .icon {
+                    @media (max-width: 768px) {
+                        top: 10px;
+                        position: relative;
+                    }
+                }
             }
 
             .MenuItem__icon {
@@ -83,6 +90,7 @@
                 height: 20px;
                 display: inline-flex;
                 align-items: center;
+                justify-content: center;
                 margin-right: 8px;
                 top: 4px;
                 position: relative;

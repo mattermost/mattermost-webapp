@@ -1,15 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-import {FormattedDate, FormattedMessage} from 'react-intl';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {FormattedMessage} from 'react-intl';
 
 import RecentDate, {
     isToday,
     isYesterday,
 } from './recent_date';
+
+// Date format for "ddd, MMM D, YYYY"
+const reDateFormat = /^[a-zA-Z]{3}, [a-zA-Z]{3} \d{1,2}, \d{4}$/;
 
 describe('RecentDate', () => {
     test('should render "Today" today', () => {
@@ -19,7 +21,7 @@ describe('RecentDate', () => {
             value: today,
         };
 
-        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+        const wrapper = shallow(<RecentDate {...props}/>);
 
         expect(wrapper.find(FormattedMessage).exists()).toBe(true);
         expect(wrapper.find(FormattedMessage).prop('id')).toBe('date_separator.today');
@@ -33,7 +35,7 @@ describe('RecentDate', () => {
             value: yesterday,
         };
 
-        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+        const wrapper = shallow(<RecentDate {...props}/>);
 
         expect(wrapper.find(FormattedMessage).exists()).toBe(true);
         expect(wrapper.find(FormattedMessage).prop('id')).toBe('date_separator.yesterday');
@@ -47,9 +49,23 @@ describe('RecentDate', () => {
             value: twoDaysAgo,
         };
 
-        const wrapper = shallowWithIntl(<RecentDate {...props}/>);
+        const wrapper = shallow(<RecentDate {...props}/>);
 
-        expect(wrapper.find(FormattedDate).exists()).toBe(true);
+        expect(wrapper.text()).toMatch(reDateFormat);
+    });
+
+    test('should render date two days ago for supported timezone', () => {
+        const twoDaysAgo = new Date();
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+        const props = {
+            timeZone: 'Asia/Manila',
+            value: twoDaysAgo,
+        };
+
+        const wrapper = shallow(<RecentDate {...props}/>);
+
+        expect(wrapper.text()).toMatch(reDateFormat);
     });
 });
 

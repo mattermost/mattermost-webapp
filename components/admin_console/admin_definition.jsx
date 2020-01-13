@@ -12,7 +12,7 @@ import {
     removeIdpSamlCertificate, uploadIdpSamlCertificate,
     removePrivateSamlCertificate, uploadPrivateSamlCertificate,
     removePublicSamlCertificate, uploadPublicSamlCertificate,
-    invalidateAllEmailInvites, testSmtp, testSiteURL,
+    invalidateAllEmailInvites, testSmtp, testSiteURL, getSamlMetadataFromIdp, setSamlIdpCertificateFromMetadata
 } from 'actions/admin_actions';
 import SystemAnalytics from 'components/analytics/system_analytics';
 import TeamAnalytics from 'components/analytics/team_analytics';
@@ -1691,6 +1691,7 @@ const AdminDefinition = {
                         label_default: 'Lock Teammate Name Display for all users: ',
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
                         help_text_default: 'When true, disables users\' ability to change settings under Main Menu > Account Settings > Display > Teammate Name Display.',
+                        isHidden: it.isnt(it.licensedForFeature('LockTeammateNameDisplay'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_PERMISSION,
@@ -2465,6 +2466,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=group)"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2476,6 +2478,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupDisplayNameAttributeEx'),
                         placeholder_default: 'E.g.: "cn"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2488,6 +2491,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.groupIdAttributeEx'),
                         placeholder_default: 'E.g.: "objectGUID" or "entryUUID"',
                         isDisabled: it.stateIsFalse('LdapSettings.EnableSync'),
+                        isHidden: it.isnt(it.licensedForFeature('LDAPGroups'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2849,6 +2853,35 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
+                        key: 'SamlSettings.IdpMetadataUrl',
+                        label: t('admin.saml.idpMetadataUrlTitle'),
+                        label_default: 'Identity Provider Metadata URL:',
+                        help_text: t('admin.saml.idpMetadataUrlDesc'),
+                        help_text_default: 'The Metadata URL for the Identity Provider you use for SAML requests',
+                        placeholder: t('admin.saml.idpMetadataUrlEx'),
+                        placeholder_default: 'E.g.: "https://idp.example.org/SAML2/saml/metadata"',
+                        isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BUTTON,
+                        key: 'getSamlMetadataFromIDPButton',
+                        action: getSamlMetadataFromIdp,
+                        label: t('admin.saml.getSamlMetadataFromIDPUrl'),
+                        label_default: 'Get SAML Metadata from IdP',
+                        loading: t('admin.saml.getSamlMetadataFromIDPFetching'),
+                        loading_default: 'Fetching...',
+                        error_message: t('admin.saml.getSamlMetadataFromIDPFail'),
+                        error_message_default: 'SAML Metadata URL did not connect and pull data successfully',
+                        success_message: t('admin.saml.getSamlMetadataFromIDPSuccess'),
+                        success_message_default: 'SAML Metadata retrieved successfully. Two fields below have been updated',
+                        isDisabled: it.either(
+                            it.stateIsFalse('SamlSettings.Enable'),
+                            it.stateEquals('SamlSettings.IdpMetadataUrl', '')
+                        ),
+                        sourceUrlKey: 'SamlSettings.IdpMetadataUrl',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_TEXT,
                         key: 'SamlSettings.IdpUrl',
                         label: t('admin.saml.idpUrlTitle'),
                         label_default: 'SAML SSO URL:',
@@ -2857,6 +2890,7 @@ const AdminDefinition = {
                         placeholder: t('admin.saml.idpUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/SSO/Login"',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        setFromMetadataField: 'idp_url',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
@@ -2868,6 +2902,7 @@ const AdminDefinition = {
                         placeholder: t('admin.saml.idpDescriptorUrlEx'),
                         placeholder_default: 'E.g.: "https://idp.example.org/SAML2/issuer"',
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
+                        setFromMetadataField: 'idp_descriptor_url',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_FILE_UPLOAD,
@@ -2887,7 +2922,9 @@ const AdminDefinition = {
                         isDisabled: it.stateIsFalse('SamlSettings.Enable'),
                         fileType: '.crt,.cer,.cert,.pem',
                         upload_action: uploadIdpSamlCertificate,
+                        set_action: setSamlIdpCertificateFromMetadata,
                         remove_action: removeIdpSamlCertificate,
+                        setFromMetadataField: 'idp_public_certificate',
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -4306,6 +4343,16 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         placeholder: t('admin.experimental.experimentalPrimaryTeam.example'),
                         placeholder_default: 'E.g.: "teamname"',
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ExperimentalSettings.UseNewSAMLLibrary',
+                        label: t('admin.experimental.experimentalUseNewSAMLLibrary.title'),
+                        label_default: 'Use Improved SAML Library (Beta):',
+                        help_text: t('admin.experimental.experimentalUseNewSAMLLibrary.desc'),
+                        help_text_default: 'Enable an updated SAML Library, which does not require the XML Security Library (xmlsec1) to be installed. Warning: Not all providers have been tested. If you experience issues, please contact support: [https://about.mattermost.com/support/](!https://about.mattermost.com/support/). Changing this setting requires a server restart before taking effect.',
+                        help_text_markdown: true,
+                        isHidden: it.isnt(it.licensedForFeature('SAML'))
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_TEXT,
