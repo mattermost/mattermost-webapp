@@ -17,7 +17,7 @@ describe('Messaging', () => {
 
         // # Login and go to /
         cy.apiLogin('user-1');
-        cy.visit('/');
+        cy.visit('/ad-1/town-square');
     });
 
     it('M18713-Channel is removed from Unreads section if user navigates out of it via permalink', () => {
@@ -77,10 +77,10 @@ describe('Messaging', () => {
                 postMessageOnChannel(testChannel);
 
                 // # change user
-                cy.visit('/');
+                cy.visit('/ad-1/town-square');
                 cy.apiLogout();
                 cy.apiLogin('sysadmin');
-                cy.visit('/');
+                cy.visit('/ad-1/town-square');
 
                 // # Check Message is in Unread List
                 cy.get('#unreadsChannelList').should('be.visible').within(() => {

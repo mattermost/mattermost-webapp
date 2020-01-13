@@ -11,18 +11,6 @@ import users from '../../fixtures/users.json';
 
 const sysadmin = users.sysadmin;
 
-function verifyImageInPostFooter(verifyExistence = true) {
-    if (verifyExistence) {
-        // * Verify that the image exists in the post message footer
-        cy.get('#postCreateFooter').should('be.visible').find('div.post-image__column').
-            should('exist').
-            and('be.visible');
-    } else {
-        // * Verify that the image no longer exists in the post message footer
-        cy.get('#postCreateFooter').find('div.post-image__column').should('not.exist');
-    }
-}
-
 describe('Message Reply with attachment pretext', () => {
     let newChannel;
 
@@ -40,8 +28,10 @@ describe('Message Reply with attachment pretext', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
+        // # Create a bot
+        cy.apiCreateBot('Bot1','Test Bot','test bot for E2E test replying to older bot post')
         // # Post a day old message
-       cy.postMessageAs({sender: sysadmin, message: 'Hello message to replying to an older bot post that has some attachment pretext ', channelId: newChannel.id, createAt: yesterdaysDate}).
+       cy.postMessageAs({sender: 'Bot1', message: 'Hello message to replying to an older bot post that has some attachment pretext ', channelId: newChannel.id, createAt: yesterdaysDate}).
             its('id').
             should('exist').
             as('olderPost');
