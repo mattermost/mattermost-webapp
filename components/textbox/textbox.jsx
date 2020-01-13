@@ -15,7 +15,7 @@ import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import * as Utils from 'utils/utils.jsx';
 
-export default class Textbox extends React.Component {
+export default class Textbox extends React.PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
         channelId: PropTypes.string,
