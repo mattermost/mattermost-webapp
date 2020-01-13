@@ -461,7 +461,7 @@ describe('channel view actions', () => {
                 },
             });
 
-            await store.dispatch(Actions.syncPostsInChannel(channelId, 12350, false));
+            await store.dispatch(Actions.syncPostsInChannel(channelId, 12350));
             expect(PostActions.getPostsSince).toHaveBeenCalledWith(channelId, 12350, false);
         });
 
@@ -485,7 +485,7 @@ describe('channel view actions', () => {
                 },
             });
 
-            await store.dispatch(Actions.syncPostsInChannel(channelId, 12355, false));
+            await store.dispatch(Actions.syncPostsInChannel(channelId, 12355));
             expect(PostActions.getPostsSince).toHaveBeenCalledWith(channelId, 12343, false);
         });
     });
