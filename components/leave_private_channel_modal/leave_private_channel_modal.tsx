@@ -23,7 +23,6 @@ type Props = {
 }
 
 export default class LeavePrivateChannelModal extends React.Component<Props, State> {
-
     constructor(props: Props) {
         super(props);
 
