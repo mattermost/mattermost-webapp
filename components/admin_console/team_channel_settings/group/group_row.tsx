@@ -2,28 +2,29 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
+import {Group} from 'mattermost-redux/types/groups';
 import {FormattedMessage} from 'react-intl';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {localizeMessage} from 'utils/utils.jsx';
 
-export default class GroupRow extends React.Component {
-    static propTypes = {
-        group: PropTypes.object.isRequired,
-        removeGroup: PropTypes.func.isRequired,
-        setNewGroupRole: PropTypes.func.isRequired,
-        type: PropTypes.string.isRequired,
+interface GroupRowProps {
+    group: Partial<Group>;
+    removeGroup: (gid: string) => void;
+    key?: string;
+    setNewGroupRole: (gid: string) => void;
+    type: string;
+}
+
+export default class GroupRow extends React.Component<GroupRowProps> {
+    removeGroup = () => {
+        this.props.removeGroup(this.props.group.id!);
     };
 
-    removeGroup = () => {
-        this.props.removeGroup(this.props.group.id);
-    }
-
     setNewGroupRole = () => {
-        this.props.setNewGroupRole(this.props.group.id);
-    }
+        this.props.setNewGroupRole(this.props.group.id!);
+    };
 
     displayCurrentRole = () => {
         const {group, type} = this.props;
