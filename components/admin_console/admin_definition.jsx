@@ -2475,7 +2475,7 @@ const AdminDefinition = {
                         placeholder: t('admin.ldap.adminFilterEx'),
                         placeholder_default: 'E.g.: "(objectClass=admins)"',
                         isDisabled: it.either(
-                            it.configIsFalse('LdapSettings', 'EnableAdminFilter'),
+                            it.stateIsFalse('LdapSettings.EnableAdminFilter'),
                             it.both(
                                 it.stateIsFalse('LdapSettings.Enable'),
                                 it.stateIsFalse('LdapSettings.EnableSync'),
