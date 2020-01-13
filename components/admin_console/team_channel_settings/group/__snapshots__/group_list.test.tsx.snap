@@ -22,7 +22,9 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
   header={<Header />}
   onPageChangedCallback={[MockFunction]}
   renderRow={[Function]}
+  setNewGroupRole={[MockFunction]}
   total={1}
+  type="team"
 />
 `;
 
@@ -193,6 +195,8 @@ exports[`admin_console/team_channel_settings/group/GroupList should match snapsh
   header={<Header />}
   onPageChangedCallback={[MockFunction]}
   renderRow={[Function]}
+  setNewGroupRole={[MockFunction]}
   total={30}
+  type="team"
 />
 `;

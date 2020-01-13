@@ -46,8 +46,8 @@ interface Props {
     emptyListTextDefaultMessage: string;
     actions: {
         getData: () => void;
-        removeGroup: (gid: string) => void;
     };
+    removeGroup: (gid: string) => void;
     setNewGroupRole: (gid: string) => void;
     type: string;
 }
@@ -58,7 +58,7 @@ export default class GroupList extends React.PureComponent<Props> {
             <GroupRow
                 key={item.id}
                 group={item}
-                removeGroup={this.props.actions.removeGroup}
+                removeGroup={this.props.removeGroup}
                 setNewGroupRole={this.props.setNewGroupRole}
                 type={this.props.type}
             />
