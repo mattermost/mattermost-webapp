@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {OverlayTrigger} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
@@ -26,10 +27,13 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
 
         expect(wrapper).toMatchSnapshot();
 
-        const ref = wrapper.ref('headerOverlay');
-        ref.hide = jest.fn();
+        const hide = jest.fn();
+
+        const ref = wrapper.find(OverlayTrigger);
+        ref.instance().hide = hide;
         wrapper.instance().hide();
-        expect(ref.hide).toBeCalled();
+
+        expect(hide).toBeCalled();
     });
 
     test('should match snapshot, without channel header', () => {
@@ -40,11 +44,13 @@ describe('components/ChannelHeaderMobile/ChannelInfoButton', () => {
 
         expect(wrapper).toMatchSnapshot();
 
-        const ref = wrapper.ref('headerOverlay');
-        ref.hide = jest.fn();
+        const hide = jest.fn();
+
+        const ref = wrapper.find(OverlayTrigger);
+        ref.instance().hide = hide;
         wrapper.instance().showEditChannelHeaderModal();
 
-        expect(ref.hide).toBeCalled();
+        expect(hide).toBeCalled();
         expect(props.actions.openModal).toBeCalled();
     });
 });
