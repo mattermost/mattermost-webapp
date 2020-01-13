@@ -22,7 +22,7 @@
   "about.version": "Mattermostのバージョン:",
   "access_history.title": "アクセス履歴",
   "accessibility.button.attachment": "添付する",
-  "accessibility.button.dialog": "ダイアログ",
+  "accessibility.button.dialog": "{dialogName} dialog",
   "accessibility.button.Info": "情報",
   "accessibility.button.Search": "検索",
   "accessibility.sections.centerContent": "メッセージリストの主要領域",

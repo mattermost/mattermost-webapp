@@ -22,7 +22,7 @@
   "about.version": "Mattermost 버전:",
   "access_history.title": "접근 기록",
   "accessibility.button.attachment": "첨부",
-  "accessibility.button.dialog": "대화상자",
+  "accessibility.button.dialog": "{dialogName} dialog",
   "accessibility.button.Info": "정보",
   "accessibility.button.Search": "검색",
   "accessibility.sections.centerContent": "메세지 목록 주요 지역",

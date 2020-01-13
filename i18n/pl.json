@@ -22,7 +22,7 @@
   "about.version": "Wersja Mattermost:",
   "access_history.title": "Historia dostępu",
   "accessibility.button.attachment": "załącznik",
-  "accessibility.button.dialog": "dialog",
+  "accessibility.button.dialog": "{dialogName} dialog",
   "accessibility.button.Info": "Informacje",
   "accessibility.button.Search": "Szukaj",
   "accessibility.sections.centerContent": "Lista wiadomości - główna sekcja",

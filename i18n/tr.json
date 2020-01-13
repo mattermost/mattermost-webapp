@@ -22,7 +22,7 @@
   "about.version": "Mattermost Sürümü:",
   "access_history.title": "Erişim Geçmişi",
   "accessibility.button.attachment": "ek dosya",
-  "accessibility.button.dialog": "pencere",
+  "accessibility.button.dialog": "{dialogName} dialog",
   "accessibility.button.Info": "Bilgiler",
   "accessibility.button.Search": "Arama",
   "accessibility.sections.centerContent": "ana ileti listesi bölümü",
