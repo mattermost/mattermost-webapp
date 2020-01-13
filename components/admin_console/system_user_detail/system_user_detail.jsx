@@ -301,11 +301,9 @@ export default class SystemUserDetail extends React.PureComponent {
             authLine = Utils.localizeMessage('admin.userManagement.userDetail.email', 'Email');
         }
         if (mfaEnabled) {
-            authLine += ', ';
             if (user.mfa_active) {
-                authLine += Utils.localizeMessage('admin.userManagement.userDetail.mfaYes', 'MFA: Yes');
-            } else {
-                authLine += Utils.localizeMessage('admin.userManagement.userDetail.mfaNo', 'MFA: No');
+                authLine += ', ';
+                authLine += Utils.localizeMessage('admin.userManagement.userDetail.mfa', 'MFA');
             }
         }
         return authLine;
