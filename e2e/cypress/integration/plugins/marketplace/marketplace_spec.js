@@ -326,7 +326,10 @@ describe('Plugin Marketplace', () => {
             // # Scroll to GitHub plugin
             cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
 
+            // * OFFICIAL label is shown for github plugin
             cy.get('#marketplace-plugin-github').find('.tag').should('be.visible').and('to.contain', 'OFFICIAL').trigger('mouseover');
+
+            // * Tooltip is shown after click the label
             cy.get('div.tooltip-inner').should('be.visible').and('contain', 'This plugin is maintained by Mattermost');
         });
     });
