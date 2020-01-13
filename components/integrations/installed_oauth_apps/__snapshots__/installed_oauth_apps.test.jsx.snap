@@ -87,12 +87,6 @@ exports[`components/integrations/InstalledOAuthApps should match snapshot 2`] = 
     }
     onDelete={[Function]}
     onRegenerateSecret={[MockFunction]}
-    regenOAuthAppSecretRequest={
-      Object {
-        "error": null,
-        "status": "not_started",
-      }
-    }
     team={
       Object {
         "name": "test",

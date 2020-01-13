@@ -88,7 +88,7 @@ describe('components/SearchResultsItem', () => {
     test('should match snapshot for channel', () => {
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -110,7 +110,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -131,7 +131,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -147,7 +147,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
         expect(getDirectTeammate).toHaveBeenCalledWith('channel_id');
@@ -157,7 +157,7 @@ describe('components/SearchResultsItem', () => {
     test('Check for dotmenu dropdownOpened state', () => {
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...defaultProps}/>
-        ).dive();
+        );
 
         const instance = wrapper.instance();
         instance.handleDropdownOpened(false);
@@ -178,7 +178,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
         expect(selectPost).toHaveBeenCalledTimes(1);
@@ -197,7 +197,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
@@ -213,7 +213,7 @@ describe('components/SearchResultsItem', () => {
 
         const wrapper = shallowWithIntl(
             <SearchResultsItem {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });

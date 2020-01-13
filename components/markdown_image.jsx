@@ -21,6 +21,8 @@ export default class MarkdownImage extends React.PureComponent {
         alt: PropTypes.string,
         imageMetadata: PropTypes.object,
         src: PropTypes.string.isRequired,
+        height: PropTypes.number,
+        width: PropTypes.number,
         title: PropTypes.string,
         className: PropTypes.string.isRequired,
         postId: PropTypes.string.isRequired,
@@ -138,12 +140,16 @@ export default class MarkdownImage extends React.PureComponent {
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
+                    const {height, width, title} = this.props;
                     return (
                         <>
                             <SizeAwareImage
                                 alt={alt}
                                 className={className}
                                 src={safeSrc}
+                                height={height}
+                                width={width}
+                                title={title}
                                 dimensions={imageMetadata}
                                 showLoader={false}
                                 onClick={this.showModal}
