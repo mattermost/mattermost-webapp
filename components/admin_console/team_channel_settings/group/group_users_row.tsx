@@ -6,13 +6,14 @@ import {UserProfile} from 'mattermost-redux/types/users';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import {Group} from 'mattermost-redux/types/groups';
 
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
 
+import OverlayTrigger from 'components/overlay_trigger';
 import Avatar from 'components/widgets/users/avatar';
 
 type ProfileWithGroups = Partial<UserProfile & {
