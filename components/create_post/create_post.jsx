@@ -18,7 +18,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
-import {getTable, getPlainText, formatMarkdownTableMessage} from 'utils/paste';
+import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -722,9 +722,8 @@ class CreatePost extends React.Component {
 
         e.preventDefault();
 
-        const isGitHubCodeBlock = (/\b(js|blob|diff)-./).test(table.className);
         let message = '';
-        if (isGitHubCodeBlock) {
+        if (isGitHubCodeBlock(table.className)) {
             message = '```\n' + getPlainText(e.clipboardData) + '\n```';
         } else {
             message = formatMarkdownTableMessage(table, this.state.message.trim());

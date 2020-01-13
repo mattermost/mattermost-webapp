@@ -36,6 +36,11 @@ export function getPlainText(clipboardData: DataTransfer): string | boolean {
     return plainText;
 }
 
+export function isGitHubCodeBlock(tableClassName: string): boolean {
+    const result = (/\b(js|blob|diff)-./).test(tableClassName);
+    return result;
+}
+
 function columnText(column: Element): string {
     const noBreakSpace = '\u00A0';
     const text = column.textContent == null ?
