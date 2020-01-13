@@ -49,7 +49,7 @@ function trimRight(str) {
     return str.replace(/\s*$/, '');
 }
 
-export default class CreatePost extends React.Component {
+export default class CreatePost extends React.PureComponent {
     static propTypes = {
 
         /**
