@@ -25,7 +25,7 @@ interface AdminNavbarDropdownProps {
     navigationBlocked?: boolean;
     teams: Team[];
     actions: {
-        deferNavigation?: (onNavigationConfirmed: any) => any;
+        deferNavigation: (onNavigationConfirmed: any) => any;
     };
 }
 
