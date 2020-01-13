@@ -91,4 +91,50 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
             expect(wrapper.find(Modal.Body).find('input').find({defaultValue: 'Option3'}).exists()).toBe(true);
         });
     });
+
+    describe('bool element in Interactive Dialog', () => {
+        const mockStore = configureStore();
+        const element = {
+            data_source: '',
+            display_name: 'Boolean Selector',
+            name: 'somebool',
+            optional: false,
+            type: 'bool',
+            placeholder: 'Subscribe?',
+        };
+        const {elements, ...rest} = baseProps;
+        const props = {
+            ...rest,
+            elements: [
+                ...elements,
+                element,
+            ],
+        };
+
+        const testCases = [
+            {description: 'no default', expectedChecked: false},
+            {description: 'unknown default', default: 'unknown', expectedChecked: false},
+            {description: 'default of "false"', default: 'false', expectedChecked: false},
+            {description: 'default of true', default: true, expectedChecked: true},
+            {description: 'default of "true"', default: 'True', expectedChecked: true},
+            {description: 'default of "True"', default: 'True', expectedChecked: true},
+            {description: 'default of "TRUE"', default: 'TRUE', expectedChecked: true},
+        ];
+
+        testCases.forEach(testCase => test(`should interpret ${testCase.description}`, () => {
+            if (testCase.default === undefined) {
+                delete element.default;
+            } else {
+                element.default = testCase.default;
+            }
+
+            const store = mockStore({});
+            const wrapper = mountWithIntl(
+                <Provider store={store}>
+                    <InteractiveDialog {...props}/>
+                </Provider>
+            );
+            expect(wrapper.find(Modal.Body).find('input').find({checked: testCase.expectedChecked}).exists()).toBe(true);
+        }));
+    });
 });
