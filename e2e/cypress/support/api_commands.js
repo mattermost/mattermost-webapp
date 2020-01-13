@@ -1049,3 +1049,28 @@ function formRequest(method, url, formData) {
         });
     });
 }
+
+/**
+ * Creates a bot directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} username - The bots username
+ * @param {String} displayName - The non-unique UI name for the bot
+ * @param {String} description - The description of the bot
+ * All parameters are required
+ */
+Cypress.Commands.add('apiCreateBot', (username, displayName,description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots',
+        method: 'POST',
+        body: {
+            username: username,
+            display_name: displayName,
+            description: displayName,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response);
+    });
+});
+
