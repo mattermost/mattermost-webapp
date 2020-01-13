@@ -34,6 +34,10 @@
             line-height: 17px;
             white-space: normal;
             padding-bottom: 6px;
+
+            @media (max-width: 768px) {
+                margin: 0 0px 4px 38px;
+            }
         }
 
         > a {
