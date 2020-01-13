@@ -23,11 +23,6 @@ type Props = {
 }
 
 export default class LeavePrivateChannelModal extends React.Component<Props, State> {
-    static propTypes = {
-        actions: PropTypes.shape({
-            leaveChannel: PropTypes.func.isRequired,
-        }).isRequired,
-    };
 
     constructor(props: Props) {
         super(props);
