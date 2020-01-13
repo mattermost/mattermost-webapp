@@ -74,6 +74,11 @@ export default class PostHeader extends React.PureComponent {
          * If the user that made the post is a guest.
          */
         isGuest: PropTypes.bool.isRequired,
+
+        /**
+         * Source of image that should be override current user profile.
+         */
+        overwriteIcon: PropTypes.string,
     }
 
     render() {
@@ -98,6 +103,7 @@ export default class PostHeader extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         overwriteName={post.props.override_username}
+                        overwriteIcon={this.props.overwriteIcon}
                     />
                 );
             } else {

@@ -12,6 +12,7 @@ exports[`components/UserProfile should match snapshot 1`] = `
         hideStatus={false}
         isBusy={false}
         isRHS={false}
+        overwriteName=""
         src=""
         userId="user_id"
       />

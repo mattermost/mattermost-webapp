@@ -20,6 +20,7 @@ export default class UserProfile extends PureComponent {
         isBusy: PropTypes.bool,
         isRHS: PropTypes.bool,
         overwriteName: PropTypes.node,
+        overwriteIcon: PropTypes.node,
         user: PropTypes.object,
         userId: PropTypes.string,
     };
@@ -52,6 +53,7 @@ export default class UserProfile extends PureComponent {
             hasMention,
             hideStatus,
             overwriteName,
+            overwriteIcon,
             user,
             userId,
         } = this.props;
@@ -88,6 +90,8 @@ export default class UserProfile extends PureComponent {
                             hideStatus={hideStatus}
                             isRHS={isRHS}
                             hasMention={hasMention}
+                            overwriteName={overwriteName}
+                            overwriteIcon={overwriteIcon}
                         />
                     }
                 >
