@@ -48,7 +48,6 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testGroups)),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
