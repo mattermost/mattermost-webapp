@@ -29,7 +29,6 @@ module.exports = async ({sender, message, channelId, rootId, createAt = 0, baseU
             },
             method: 'post',
             data: {
-                file_ids: ["kf83bkfcpbd83moimygrwttzzh"],
                 channel_id: channelId,
                 message,
                 type: '',
