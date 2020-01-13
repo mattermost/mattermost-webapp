@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {t} from 'utils/i18n';
 
-import List from './group_list.jsx';
+import List from './group_list';
 
 function mapStateToProps(state, {groups, totalGroups, isModeSync, onGroupRemoved}) {
     return {

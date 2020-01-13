@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
+import {Group} from 'mattermost-redux/types/groups';
 
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 
@@ -32,28 +32,36 @@ const Header = () => {
     );
 };
 
-export default class GroupList extends React.PureComponent {
-    static propTypes = {
-        removeGroup: PropTypes.func,
-    }
+interface Props {
+    data?: Partial<Group>[];
+    onPageChangedCallback: () => void;
+    total: number;
+    emptyListTextId: string;
+    emptyListTextDefaultMessage: string;
+    actions: {
+        getData: () => void;
+        removeGroup: (gid: string) => void;
+    };
+}
 
-    renderRow = (item) => {
+export default class GroupList extends React.PureComponent<Props> {
+    renderRow = (item: Group) => {
         return (
             <GroupRow
                 key={item.id}
                 group={item}
-                removeGroup={this.props.removeGroup}
+                removeGroup={this.props.actions.removeGroup}
             />
         );
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <AbstractList
                 header={<Header/>}
                 renderRow={this.renderRow}
                 {...this.props}
-            />);
+            />
+        );
     }
 }
-

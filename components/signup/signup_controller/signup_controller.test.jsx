@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import * as GlobalActions from 'actions/global_actions.jsx';
 import {browserHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
@@ -47,7 +47,7 @@ describe('components/SignupController', () => {
     };
 
     test('should match snapshot for all signup options enabled with isLicensed enabled', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SignupController {...baseProps}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -59,7 +59,7 @@ describe('components/SignupController', () => {
             isLicensed: false,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SignupController {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
@@ -83,7 +83,7 @@ describe('components/SignupController', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SignupController {...props}/>
         );
 
@@ -110,7 +110,7 @@ describe('components/SignupController', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SignupController {...props}/>
         );
 

@@ -273,8 +273,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
 
-        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
-        xit('should install a plugin on demand', () => {
+        it('should install a plugin on demand', () => {
             // # uninstall any existing webex plugin
             cy.uninstallPluginById('com.mattermost.webex');
 
@@ -288,8 +287,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: 60000}).should('be.visible').and('have.text', 'Configure');
         });
 
-        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
-        xit('should install a plugin from search results on demand', () => {
+        it('should install a plugin from search results on demand', () => {
             // # uninstall any existing webex plugin
             cy.uninstallPluginById('com.mattermost.webex');
 
@@ -312,8 +310,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
         });
 
-        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
-        xit('should prompt to update an old GitHub plugin from all plugins', () => {
+        it('should prompt to update an old GitHub plugin from all plugins', () => {
             // # Install GitHub 0.7.0 plugin
             cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
@@ -324,10 +321,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').find('.update').should('be.visible').and('to.contain', 'Update available');
 
             // * github plugin should have update link
-            cy.get('#marketplace-plugin-github').find('.update a').should('be.visible').and('have.text', 'Update');
+            cy.get('#marketplace-plugin-github').find('.update b a').should('be.visible').and('have.text', 'Update');
 
             // # update GitHub plugin
-            cy.get('#marketplace-plugin-github .update a').click();
+            cy.get('#marketplace-plugin-github .update b a').click();
 
             // * confirmation modal should be visible
             cy.get('#confirmModal').should('be.visible');
