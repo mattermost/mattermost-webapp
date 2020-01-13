@@ -30,6 +30,8 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
                 emptyListTextId={'test'}
                 emptyListTextDefaultMessage={'test'}
                 actions={actions}
+                type='team'
+                setNewGroupRole={jest.fn()}
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -57,6 +59,8 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
                 emptyListTextId={'test'}
                 emptyListTextDefaultMessage={'test'}
                 actions={actions}
+                type='team'
+                setNewGroupRole={jest.fn()}
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
