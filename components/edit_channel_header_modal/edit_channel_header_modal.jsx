@@ -34,6 +34,11 @@ class EditChannelHeaderModal extends React.PureComponent {
          */
         channel: PropTypes.object.isRequired,
 
+        /**
+         * Set whether to show the modal or not
+         */
+        show: PropTypes.bool.isRequired,
+
         /*
          * boolean should be `ctrl` button pressed to send
          */
@@ -182,7 +187,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         return (
             <Modal
                 dialogClassName='a11y__modal'
-                show={true}
+                show={this.props.show}
                 keyboard={false}
                 onKeyDown={this.handleModalKeyDown}
                 onHide={this.hideModal}
