@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import {localizeMessage} from 'utils/utils.jsx';
 import {browserHistory} from 'utils/browser_history';
@@ -12,6 +12,7 @@ import {mark, trackEvent} from 'actions/diagnostics_actions.jsx';
 import {isDesktopApp} from 'utils/user_agent';
 import Constants from 'utils/constants';
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
+import OverlayTrigger from 'components/overlay_trigger';
 
 import SidebarChannelButtonOrLinkIcon from './sidebar_channel_button_or_link_icon.jsx';
 import SidebarChannelButtonOrLinkCloseButton from './sidebar_channel_button_or_link_close_button.jsx';
