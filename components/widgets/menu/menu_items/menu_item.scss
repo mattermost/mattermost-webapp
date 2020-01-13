@@ -51,6 +51,13 @@
             &.MenuItem__help {
                 height: auto;
                 padding: 3px 24px 9px;
+
+                .icon {
+                    @media (max-width: 768px) {
+                        top: 10px;
+                        position: relative;
+                    }
+                }
             }
 
             .MenuItem__icon {
@@ -87,6 +94,10 @@
             line-height: 12px;
             overflow: hidden;
             text-overflow: ellipsis;
+
+            @media (max-width: 768px) {
+                margin: 0 0px 4px 38px;
+            }
         }
     }
 }
