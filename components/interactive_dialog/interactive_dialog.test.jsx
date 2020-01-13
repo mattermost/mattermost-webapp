@@ -121,7 +121,7 @@ describe('components/interactive_dialog/InteractiveDialog', () => {
             {description: 'default of "TRUE"', default: 'TRUE', expectedChecked: true},
         ];
 
-        testCases.forEach(testCase => test(`should interpret ${testCase.description}`, () => {
+        testCases.forEach((testCase) => test(`should interpret ${testCase.description}`, () => {
             if (testCase.default === undefined) {
                 delete element.default;
             } else {
