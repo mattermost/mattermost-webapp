@@ -206,7 +206,7 @@ class PostList extends React.PureComponent {
         const postsAddedAtBottom = presentPostsCount !== prevPostsCount && this.props.postListIds[0] !== prevProps.postListIds[0];
         const notBottomWithLatestPosts = !this.state.atBottom && this.props.atLatestPost && presentPostsCount > 0;
 
-        //Marking exiting messages as read based on last time user reached to the bottom
+        //Marking existing messages as read based on last time user reached to the bottom
         //This moves the new message indicator to the latest posts and keeping in sync with the toast count
         if (postsAddedAtBottom && notBottomWithLatestPosts && !this.state.showUnreadToast) {
             this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, this.state.lastViewedBottom);
