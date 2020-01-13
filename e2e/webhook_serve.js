@@ -23,6 +23,7 @@ server.post('/message_menus', postMessageMenus);
 server.post('/dialog_request', onDialogRequest);
 server.post('/simple_dialog_request', onSimpleDialogRequest);
 server.post('/dialog_submit', onDialogSubmit);
+server.post('/boolean_dialog_request', onBooleanDialogRequest);
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`)); // eslint-disable-line no-console
 
@@ -65,6 +66,18 @@ function onSimpleDialogRequest(req, res) {
     if (body.trigger_id) {
         const webhookBaseUrl = getWebhookBaseUrl();
         const dialog = webhookUtils.getSimpleDialog(body.trigger_id, webhookBaseUrl);
+        openDialog(dialog);
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    return res.json({text: 'Simple dialog triggered via slash command!'});
+}
+
+function onBooleanDialogRequest(req, res) {
+    const {body} = req;
+    if (body.trigger_id) {
+        const webhookBaseUrl = getWebhookBaseUrl();
+        const dialog = webhookUtils.getBooleanDialog(body.trigger_id, webhookBaseUrl);
         openDialog(dialog);
     }
 
