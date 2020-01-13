@@ -5,12 +5,13 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedHTMLMessage, FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 import {Client4} from 'mattermost-redux/client';
 
 import {uploadBrandImage, deleteBrandImage} from 'actions/admin_actions.jsx';
 import {Constants} from 'utils/constants';
 import FormError from 'components/form_error';
+import OverlayTrigger from 'components/overlay_trigger';
 
 const HTTP_STATUS_OK = 200;
 
