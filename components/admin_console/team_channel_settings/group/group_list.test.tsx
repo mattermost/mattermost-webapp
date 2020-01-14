@@ -4,37 +4,41 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupList from './group_list.jsx';
+import {Group} from 'mattermost-redux/types/groups';
+
+import GroupList from './group_list';
 
 describe('admin_console/team_channel_settings/group/GroupList', () => {
     test('should match snapshot', () => {
-        const testGroups = [{
+        const testGroups: Partial<Group>[] = [{
             id: '123',
             display_name: 'DN',
             member_count: 3,
+
         }];
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testGroups),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
             <GroupList
-                removeGroup={jest.fn()}
                 data={testGroups}
                 onPageChangedCallback={jest.fn()}
                 total={testGroups.length}
                 emptyListTextId={'test'}
                 emptyListTextDefaultMessage={'test'}
                 actions={actions}
+                removeGroup={jest.fn()}
+                type='team'
+                setNewGroupRole={jest.fn()}
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot with paging', () => {
-        const testGroups = [];
+        const testGroups: Partial<Group>[] = [];
         for (let i = 0; i < 30; i++) {
             testGroups.push({
                 id: 'id' + i,
@@ -44,18 +48,19 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testGroups)),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
             <GroupList
-                removeGroup={jest.fn()}
                 data={testGroups}
                 onPageChangedCallback={jest.fn()}
                 total={30}
                 emptyListTextId={'test'}
                 emptyListTextDefaultMessage={'test'}
                 actions={actions}
+                type='team'
+                removeGroup={jest.fn()}
+                setNewGroupRole={jest.fn()}
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();

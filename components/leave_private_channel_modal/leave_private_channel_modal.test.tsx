@@ -4,8 +4,9 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal.jsx';
-import Constants from 'utils/constants';
+import {ChannelType} from 'mattermost-redux/types/channels';
+
+import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal';
 
 describe('components/LeavePrivateChannelModal', () => {
     const channels = {
@@ -13,22 +14,55 @@ describe('components/LeavePrivateChannelModal', () => {
             id: 'channel-1',
             name: 'test-channel-1',
             display_name: 'Test Channel 1',
-            type: 'P',
+            type: ('P' as ChannelType),
             team_id: 'team-1',
+            header: '',
+            purpose: '',
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0
         },
         'channel-2': {
             id: 'channel-2',
             name: 'test-channel-2',
             display_name: 'Test Channel 2',
-            type: 'P',
             team_id: 'team-1',
+            type: ('P' as ChannelType),
+            header: '',
+            purpose: '',
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0
         },
         'town-square': {
             id: 'town-square-id',
             name: 'town-square',
             display_name: 'Town Square',
-            type: 'O',
+            type: ('O' as ChannelType),
             team_id: 'team-1',
+            header: '',
+            purpose: '',
+            creator_id: '',
+            scheme_id: '',
+            group_constrained: false,
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0
         },
     };
 
@@ -49,7 +83,7 @@ describe('components/LeavePrivateChannelModal', () => {
     });
 
     test('should show and hide the modal dialog', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<LeavePrivateChannelModal>(
             <LeavePrivateChannelModal
                 {...baseProps}
             />
@@ -61,7 +95,6 @@ describe('components/LeavePrivateChannelModal', () => {
 
         wrapper.instance().handleHide();
         expect(wrapper.state('show')).toEqual(false);
-        expect(wrapper.state('channel')).toBeNull();
     });
 
     test('should fail to leave channel', (done) => {
@@ -76,7 +109,7 @@ describe('components/LeavePrivateChannelModal', () => {
                 }),
             },
         };
-        const wrapper = shallow(
+        const wrapper = shallow<LeavePrivateChannelModal>(
             <LeavePrivateChannelModal
                 {...props}
             />
@@ -107,7 +140,7 @@ describe('components/LeavePrivateChannelModal', () => {
                 }),
             },
         };
-        const wrapper = shallow(
+        const wrapper = shallow<LeavePrivateChannelModal>(
             <LeavePrivateChannelModal
                 {...props}
             />
@@ -119,12 +152,7 @@ describe('components/LeavePrivateChannelModal', () => {
         });
 
         const instance = wrapper.instance();
-        const enterKey = {
-            preventDefault: jest.fn(),
-            ctrlKey: false,
-            key: Constants.KeyCodes.ENTER[0],
-            keyCode: Constants.KeyCodes.ENTER[1],
-        };
+        const enterKey = new KeyboardEvent('keydown', {key: 'Enter'});
 
         instance.handleHide = jest.fn();
         instance.handleKeyPress(enterKey);

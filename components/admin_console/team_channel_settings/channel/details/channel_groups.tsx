@@ -22,10 +22,11 @@ interface ChannelGroupsProps {
     groups: Partial<Group>[];
     removedGroups: object[];
     onGroupRemoved: (gid: string) => void;
+    setNewGroupRole: () => void;
 }
 
 export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroupsProps): JSX.Element => {
-    const {onGroupRemoved, onAddCallback, totalGroups, groups, removedGroups, channel, synced} = props;
+    const {onGroupRemoved, onAddCallback, totalGroups, groups, removedGroups, channel, synced, setNewGroupRole} = props;
     return (
         <AdminPanel
             id='channel_groups'
@@ -58,7 +59,9 @@ export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroup
                     groups={groups}
                     totalGroups={totalGroups}
                     onGroupRemoved={onGroupRemoved}
+                    setNewGroupRole={setNewGroupRole}
                     isModeSync={synced}
+                    type='channel'
                 />
             )}
         </AdminPanel>

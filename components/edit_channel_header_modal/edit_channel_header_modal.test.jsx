@@ -31,6 +31,7 @@ describe('components/EditChannelHeaderModal', () => {
     const baseProps = {
         channel,
         ctrlSend: false,
+        show: false,
         actions: {
             closeModal: jest.fn(),
             patchChannel: jest.fn().mockResolvedValueOnce({error: serverError}).mockResolvedValue({}),

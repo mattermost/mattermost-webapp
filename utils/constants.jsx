@@ -436,6 +436,12 @@ export const StoragePrefixes = {
     LOGIN: '__login__',
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
+    LANDING_PREFERENCE: '__landing-preference__',
+};
+
+export const LandingPreferenceTypes = {
+    MATTERMOSTAPP: 'mattermostapp',
+    BROWSER: 'browser',
 };
 
 export const ErrorPageTypes = {
