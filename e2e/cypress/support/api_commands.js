@@ -1069,7 +1069,7 @@ Cypress.Commands.add('apiCreateBot', (username, displayName,description) => {
             description: displayName,
         },
     }).then((response) => {
-        expect(response.status).to.equal(200);
+        expect(response.status).to.equal(201);
         return cy.wrap(response);
     });
 });

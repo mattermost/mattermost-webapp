@@ -15,6 +15,9 @@ describe('Message Reply with attachment pretext', () => {
     let newChannel;
 
     before(() => {
+        // # Enable bot creation
+        cy.apiUpdateConfig({ EnableBotAccountCreation: { Enable: true, }, });
+
         // # Login and go to /
         cy.apiLogin('user-1');
 
@@ -28,10 +31,11 @@ describe('Message Reply with attachment pretext', () => {
         // # Get yesterdays date in UTC
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
+        const botName = 'bot-' + Date.now();
         // # Create a bot
-        cy.apiCreateBot('Bot1','Test Bot','test bot for E2E test replying to older bot post')
+        cy.apiCreateBot('botName','Test Bot','test bot for E2E test replying to older bot post')
         // # Post a day old message
-       cy.postMessageAs({sender: 'Bot1', message: 'Hello message to replying to an older bot post that has some attachment pretext ', channelId: newChannel.id, createAt: yesterdaysDate}).
+       cy.postMessageAs({sender: botName, message: 'Hello message to replying to an older bot post that has some attachment pretext ', channelId: newChannel.id, createAt: yesterdaysDate}).
             its('id').
             should('exist').
             as('olderPost');
