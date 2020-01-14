@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {shallow} from 'enzyme';
 import React from 'react';
-
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import CreateTeam from 'components/create_team/create_team.jsx';
 
@@ -28,13 +27,13 @@ describe('/components/create_team', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
+        const wrapper = shallow(<CreateTeam {...defaultProps}/>);
 
         expect(wrapper).toMatchSnapshot();
     });
 
     test('should run props.history.push with new state', () => {
-        const wrapper = shallowWithIntl(<CreateTeam {...defaultProps}/>);
+        const wrapper = shallow(<CreateTeam {...defaultProps}/>);
 
         const history = wrapper.instance().props.history;
         const state = {team: {name: 'team_name'}, wizard: ''};

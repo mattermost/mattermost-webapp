@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import PropTypes from 'prop-types';
+import {Group} from 'mattermost-redux/types/groups';
 
 import AbstractList from 'components/admin_console/team_channel_settings/abstract_list.jsx';
 
@@ -26,34 +26,52 @@ const Header = () => {
                         defaultMessage='Member Count'
                     />
                 </div>
+                <div className='group-description group-description-adjusted'>
+                    <FormattedMessage
+                        id='admin.team_channel_settings.group_list.rolesHeader'
+                        defaultMessage='Roles'
+                    />
+                </div>
                 <div className='group-actions'/>
             </div>
         </div>
     );
 };
 
-export default class GroupList extends React.PureComponent {
-    static propTypes = {
-        removeGroup: PropTypes.func,
-    }
+interface Props {
+    data?: Partial<Group>[];
+    onPageChangedCallback: () => void;
+    total: number;
+    emptyListTextId: string;
+    emptyListTextDefaultMessage: string;
+    actions: {
+        getData: () => void;
+    };
+    removeGroup: (gid: string) => void;
+    setNewGroupRole: (gid: string) => void;
+    type: string;
+}
 
-    renderRow = (item) => {
+export default class GroupList extends React.PureComponent<Props> {
+    renderRow = (item: Group) => {
         return (
             <GroupRow
                 key={item.id}
                 group={item}
                 removeGroup={this.props.removeGroup}
+                setNewGroupRole={this.props.setNewGroupRole}
+                type={this.props.type}
             />
         );
     }
 
-    render() {
+    render(): JSX.Element {
         return (
             <AbstractList
                 header={<Header/>}
                 renderRow={this.renderRow}
                 {...this.props}
-            />);
+            />
+        );
     }
 }
-

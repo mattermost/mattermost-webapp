@@ -2,26 +2,31 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
+
+import {Channel} from 'mattermost-redux/types/channels';
 
 import ModalStore from 'stores/modal_store.jsx';
 import Constants from 'utils/constants';
 import ConfirmModal from 'components/confirm_modal.jsx';
 
-export default class LeavePrivateChannelModal extends React.Component {
-    static propTypes = {
-        actions: PropTypes.shape({
-            leaveChannel: PropTypes.func.isRequired,
-        }).isRequired,
-    };
+type State = {
+    show: boolean;
+    channel?: Channel;
+};
 
-    constructor(props) {
+type Props = {
+    actions: {
+        leaveChannel: (channelId: any) => any;
+    };
+}
+
+export default class LeavePrivateChannelModal extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
-            show: false,
-            channel: null,
+            show: false
         };
     }
 
@@ -33,7 +38,7 @@ export default class LeavePrivateChannelModal extends React.Component {
         ModalStore.removeModalListener(Constants.ActionTypes.TOGGLE_LEAVE_PRIVATE_CHANNEL_MODAL, this.handleToggle);
     }
 
-    handleKeyPress = (e) => {
+    handleKeyPress = (e: KeyboardEvent) => {
         if (e.key === 'Enter' && this.state.show) {
             this.handleSubmit();
         }
@@ -45,7 +50,7 @@ export default class LeavePrivateChannelModal extends React.Component {
 
         if (channel) {
             const channelId = channel.id;
-            actions.leaveChannel(channelId).then((result) => {
+            actions.leaveChannel(channelId).then((result: {data: boolean}) => {
                 if (result.data) {
                     this.handleHide();
                 }
@@ -53,7 +58,7 @@ export default class LeavePrivateChannelModal extends React.Component {
         }
     };
 
-    handleToggle = (value) => {
+    handleToggle = (value: Channel): void => {
         this.setState({
             channel: value,
             show: value !== null,
@@ -62,15 +67,14 @@ export default class LeavePrivateChannelModal extends React.Component {
 
     handleHide = () => {
         this.setState({
-            show: false,
-            channel: null,
+            show: false
         });
     };
 
     render() {
-        let title = '';
-        let message = '';
-        if (this.state.channel) {
+        let title;
+        let message;
+        if (this.state.channel && this.state.channel.display_name) {
             title = (
                 <FormattedMessage
                     id='leave_private_channel_modal.title'
