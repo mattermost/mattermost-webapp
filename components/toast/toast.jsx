@@ -43,7 +43,7 @@ export default class Toast extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.mouted = true;
+        this.mounted = true;
     }
 
     componentWillUnmount() {
