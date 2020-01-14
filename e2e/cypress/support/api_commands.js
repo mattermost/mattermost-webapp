@@ -1075,9 +1075,9 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
 });
 
 /**
- * Creates a bot directly via API
+ * Get access token
  * This API assume that the user is logged in and has cookie to access
- * @param {String} user_id - The bots username
+ * @param {String} user_id - The user id to generate token for
  * @param {String} description - The description of the token usage
  * All parameters are required
  */
@@ -1089,6 +1089,40 @@ Cypress.Commands.add('apiAccessToken', (user_id, description) => {
         body: {
             description: description,
         },
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(token);
+    });
+});
+
+/**
+ * Get access token
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} user_id - The user id to generate token for
+ * @param {String} description - The description of the token usage
+ * All parameters are required
+ */
+Cypress.Commands.add('apiPostBotMessage', (channelId, message, token) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url:`api/v4/posts`
+        method: 'POST',
+        body: {
+            channel_id: channelId,
+            message: message,
+            props:{
+                   	attachments:
+                   	[
+                   		{
+                   			pretext: 'Look some text',
+                   			text: "This is text"
+                   		}
+                   	]
+                   },
+        },
+        auth: {
+            bearer: token
+          }
     }).then((response) => {
         expect(response.status).to.equal(201);
         return cy.wrap(token);
