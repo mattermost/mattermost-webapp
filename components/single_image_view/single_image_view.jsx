@@ -111,7 +111,7 @@ export default class SingleImageView extends React.PureComponent {
 
         // Add compact display class to image class if in compact mode
         if (compactDisplay) {
-            minPreviewClass += 'compact-display';
+            minPreviewClass += ' compact-display';
         }
 
         const toggle = (
@@ -124,10 +124,15 @@ export default class SingleImageView extends React.PureComponent {
             />
         );
 
+        let imageNameClass = 'image-name';
+        if (compactDisplay) {
+            imageNameClass += ' compact-display';
+        }
+
         const fileHeader = (
             <div
                 data-testid='image-name'
-                className='image-name'
+                className={imageNameClass}
             >
                 {toggle}
                 <div
