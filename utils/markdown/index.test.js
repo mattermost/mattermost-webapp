@@ -65,4 +65,28 @@ describe('format', () => {
             expect(output).toBe(expected);
         });
     });
+
+    test('should wrap code without a language tag', () => {
+        const output = format(`~~~
+this is long text this is long text this is long text this is long text this is long text this is long text
+~~~`);
+
+        expect(output).toContain('post-code--wrap');
+    });
+
+    test('should not wrap code with a valid language tag', () => {
+        const output = format(`~~~java
+this is long text this is long text this is long text this is long text this is long text this is long text
+~~~`);
+
+        expect(output).not.toContain('post-code--wrap');
+    });
+
+    test('should not wrap code with an invalid language', () => {
+        const output = format(`~~~nowrap
+this is long text this is long text this is long text this is long text this is long text this is long text
+~~~`);
+
+        expect(output).not.toContain('post-code--wrap');
+    });
 });
