@@ -67,7 +67,7 @@ describe('components/RhsComment', () => {
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -75,7 +75,7 @@ describe('components/RhsComment', () => {
     test('should match snapshot hovered', () => {
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>
-        ).dive();
+        );
 
         wrapper.setState({hover: true});
 
@@ -86,7 +86,7 @@ describe('components/RhsComment', () => {
         isMobile.mockImplementation(() => true);
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -101,7 +101,7 @@ describe('components/RhsComment', () => {
         };
         const wrapper = shallowWithIntl(
             <RhsComment {...props}/>
-        ).dive();
+        );
         wrapper.setState({hover: true});
 
         expect(wrapper).toMatchSnapshot();
@@ -110,7 +110,7 @@ describe('components/RhsComment', () => {
     test('should show pointer when alt is held down', () => {
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
 
@@ -122,7 +122,7 @@ describe('components/RhsComment', () => {
     test('should call markPostAsUnread when post is alt+clicked on', () => {
         const wrapper = shallowWithIntl(
             <RhsComment {...baseProps}/>
-        ).dive();
+        );
 
         wrapper.simulate('click', {altKey: false});
 

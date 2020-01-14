@@ -258,7 +258,9 @@ class Post extends React.PureComponent {
     }
 
     handleAlt = (e) => {
-        this.setState({alt: e.altKey});
+        if (this.state.alt !== e.altKey) {
+            this.setState({alt: e.altKey});
+        }
     }
 
     handleA11yActivateEvent = () => {
