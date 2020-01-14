@@ -33,6 +33,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelRow should match sna
     </span>
     <span
       className="group-actions"
+      data-testid="undefinededit"
     >
       <Link
         to="/admin_console/user_management/channels/123"

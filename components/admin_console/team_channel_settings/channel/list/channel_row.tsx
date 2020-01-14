@@ -25,7 +25,7 @@ export default class ChannelRow extends React.Component<Props> {
         const {channel} = this.props;
         return (
             <div
-                className={'group'}
+                className='group'
                 onClick={this.handleRowClick}
             >
                 <div className='group-row'>
@@ -47,8 +47,11 @@ export default class ChannelRow extends React.Component<Props> {
                             defaultMessage={channel.group_constrained ? 'Group Sync' : 'Manual Invites'}
                         />
                     </span>
-                    <span className='group-actions'>
-                        <Link to={`/admin_console/user_management/channels/${channel.id}`}>
+                    <span
+                        className='group-actions'
+                        data-testid={`${channel.display_name}edit`}
+                    >
+                        <Link to={`/admin_console/user_management/channels/${channel.id}`} >
                             <FormattedMessage
                                 id='admin.channel_settings.channel_row.configure'
                                 defaultMessage='Edit'
