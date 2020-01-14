@@ -42,11 +42,22 @@ export default class Toast extends React.PureComponent {
         return null;
     }
 
+    componentDidMount() {
+        this.mouted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+        clearTimeout(this.toastTimer);
+    }
+
     componentDidUpdate(prevProps) {
         const {show, toastTimer} = this.props;
         if (prevProps.show && !show) {
-            setTimeout(() => {
-                this.setState({show});
+            this.toastTimer = setTimeout(() => {
+                if (this.mouted) {
+                    this.setState({show});
+                }
             }, toastTimer);
         }
     }

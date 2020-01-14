@@ -50,4 +50,12 @@ describe('components/Toast', () => {
         toast.handleDismiss();
         expect(defaultProps.onDismiss).toHaveBeenCalledTimes(1);
     });
+
+    test('should change state to false after timer expires', () => {
+        jest.useFakeTimers();
+        const wrapper = mountWithIntl(<Toast {... defaultProps}><span>{'child'}</span></Toast>);
+        wrapper.setProps({show: false, toastTimer: 1000});
+        jest.runOnlyPendingTimers();
+        expect(wrapper.state('show')).toBe(false);
+    });
 });

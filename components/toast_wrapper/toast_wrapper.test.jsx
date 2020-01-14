@@ -3,10 +3,12 @@
 
 import React from 'react';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {DATE_LINE} from 'mattermost-redux/utils/post_list';
 
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+
 import {PostListRowListIds} from 'utils/constants';
+
 import ToastWrapper, {TOAST_FADEOUT_TIME_UNREAD, TOAST_FADEOUT_TIME} from './toast_wrapper.jsx';
 
 describe('components/ToastWrapper', () => {

@@ -457,7 +457,6 @@ export function splitMessageBasedOnCaretPosition(caretPosition, message) {
     return {firstPiece, lastPiece};
 }
 
-
 export function getNewMessageIndex(postListIds) {
     return postListIds.findIndex(
         (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
