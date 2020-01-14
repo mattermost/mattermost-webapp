@@ -35,7 +35,9 @@ describe('components/widgets/admin_console/AdminPanel', () => {
           values={Object {}}
         />
       </h3>
-      <span>
+      <div
+        className="margin-top"
+      >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
@@ -45,7 +47,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             }
           }
         />
-      </span>
+      </div>
     </div>
   </div>
   Test
@@ -78,7 +80,9 @@ describe('components/widgets/admin_console/AdminPanel', () => {
           values={Object {}}
         />
       </h3>
-      <span>
+      <div
+        className="margin-top"
+      >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
@@ -88,7 +92,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             }
           }
         />
-      </span>
+      </div>
     </div>
     <div
       className="button"
@@ -129,7 +133,9 @@ describe('components/widgets/admin_console/AdminPanel', () => {
           values={Object {}}
         />
       </h3>
-      <span>
+      <div
+        className="margin-top"
+      >
         <InjectIntl(FormattedMarkdownMessage)
           defaultMessage="test-subtitle-default"
           id="test-subtitle-id"
@@ -139,7 +145,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
             }
           }
         />
-      </span>
+      </div>
     </div>
   </div>
   Test
