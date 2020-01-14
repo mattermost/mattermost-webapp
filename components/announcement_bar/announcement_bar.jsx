@@ -3,10 +3,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import {Constants, AnnouncementBarTypes} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import OverlayTrigger from 'components/overlay_trigger';
 
 export default class AnnouncementBar extends React.PureComponent {
     static propTypes = {
