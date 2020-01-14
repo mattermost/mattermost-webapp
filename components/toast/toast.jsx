@@ -55,7 +55,7 @@ export default class Toast extends React.PureComponent {
         const {show, toastTimer} = this.props;
         if (prevProps.show && !show) {
             this.toastTimer = setTimeout(() => {
-                if (this.mouted) {
+                if (this.mounted) {
                     this.setState({show});
                 }
             }, toastTimer);
