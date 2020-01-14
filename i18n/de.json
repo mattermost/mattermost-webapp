@@ -22,7 +22,7 @@
   "about.version": "Mattermost-Version:",
   "access_history.title": "Zugriffs-Verlauf",
   "accessibility.button.attachment": "Anhang",
-  "accessibility.button.dialog": "Dialog",
+  "accessibility.button.dialog": "{dialogName} dialog",
   "accessibility.button.Info": "Info",
   "accessibility.button.Search": "Suche",
   "accessibility.sections.centerContent": "Nachrichtenlisten-Hauptregion",

@@ -22,7 +22,7 @@
   "about.version": "Versione Mattermost:",
   "access_history.title": "Cronologia accessi",
   "accessibility.button.attachment": "allegato",
-  "accessibility.button.dialog": "dialogo",
+  "accessibility.button.dialog": "{dialogName} dialogo",
   "accessibility.button.Info": "Informazioni",
   "accessibility.button.Search": "Ricerca",
   "accessibility.sections.centerContent": "regione principale lista messaggi",

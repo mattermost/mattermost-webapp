@@ -22,7 +22,7 @@
   "about.version": "Версія Mattermost:",
   "access_history.title": "Історія активності",
   "accessibility.button.attachment": "attachment",
-  "accessibility.button.dialog": "dialog",
+  "accessibility.button.dialog": "{dialogName} dialog",
   "accessibility.button.Info": "Інформація",
   "accessibility.button.Search": "Пошук",
   "accessibility.sections.centerContent": "message list main region",
