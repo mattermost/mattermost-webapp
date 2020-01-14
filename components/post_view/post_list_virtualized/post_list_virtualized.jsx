@@ -3,23 +3,24 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, FormattedDate, FormattedTime, injectIntl} from 'react-intl';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {DynamicSizeList} from 'react-window';
+import {injectIntl} from 'react-intl';
+
 import {isDateLine, isStartOfNewMessages} from 'mattermost-redux/utils/post_list';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import Constants, {PostListRowListIds, EventTypes, PostRequestTypes} from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
-import {getPreviousPostId, getLatestPostId, isIdNotPost} from 'utils/post_utils.jsx';
+import {getPreviousPostId, getLatestPostId, getNewMessageIndex} from 'utils/post_utils.jsx';
 import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 
 import FloatingTimestamp from 'components/post_view/floating_timestamp';
 import PostListRow from 'components/post_view/post_list_row';
 import ScrollToBottomArrows from 'components/post_view/scroll_to_bottom_arrows';
-import UnreadToast from 'components/toast/toast';
+import ToastWrapper from 'components/toast_wrapper';
 
 const OVERSCAN_COUNT_BACKWARD = window.OVERSCAN_COUNT_BACKWARD || 80; // Exposing the value for PM to test will be removed soon
 const OVERSCAN_COUNT_FORWARD = window.OVERSCAN_COUNT_FORWARD || 80; // Exposing the value for PM to test will be removed soon
@@ -41,8 +42,6 @@ const virtListStyles = {
     maxHeight: '100%',
 };
 
-const TOAST_FADEOUT_TIME_UNREAD = 4000;
-const TOAST_FADEOUT_TIME = 750;
 const OFFSET_TO_SHOW_TOAST = -50;
 
 class PostList extends React.PureComponent {
@@ -85,12 +84,6 @@ class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
-        unreadCountInChannel: PropTypes.number,
-
-        newRecentMessagesCount: PropTypes.number,
-
-        channelMarkedAsUnread: PropTypes.bool,
-
         lastViewedAt: PropTypes.string,
 
         actions: PropTypes.shape({
@@ -132,7 +125,7 @@ class PostList extends React.PureComponent {
         this.state = {
             isScrolling: false,
             isMobile,
-            atBottom: true,
+            atBottom: false,
             lastViewedBottom: Date.now(),
             postListIds: [channelIntroMessage],
             topPostId: '',
@@ -140,12 +133,10 @@ class PostList extends React.PureComponent {
             dynamicListStyle: {
                 willChange: 'transform',
             },
-            unreadCountInChannel: props.unreadCountInChannel,
         };
 
         this.listRef = React.createRef();
         this.postListRef = React.createRef();
-        this.forceUnreadEvenAtBottom = true;
         if (isMobile) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -171,12 +162,7 @@ class PostList extends React.PureComponent {
         this.props.actions.checkAndSetMobileView();
 
         window.addEventListener('resize', this.handleWindowResize);
-        document.addEventListener('keydown', this.handleShortcut);
-
         EventEmitter.addListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
-        this.forceShowUnreadToastTimer = setTimeout(() => {
-            this.forceUnreadEvenAtBottom = false;
-        }, TOAST_FADEOUT_TIME_UNREAD);
     }
 
     getSnapshotBeforeUpdate(prevProps) {
@@ -203,14 +189,6 @@ class PostList extends React.PureComponent {
         }
         const prevPostsCount = prevProps.postListIds.length;
         const presentPostsCount = this.props.postListIds.length;
-        const postsAddedAtBottom = presentPostsCount !== prevPostsCount && this.props.postListIds[0] !== prevProps.postListIds[0];
-        const notBottomWithLatestPosts = !this.state.atBottom && this.props.atLatestPost && presentPostsCount > 0;
-
-        //Marking exiting messages as read based on last time user reached to the bottom
-        //This moves the new message indicator to the latest posts and keeping in sync with the toast count
-        if (postsAddedAtBottom && notBottomWithLatestPosts && !this.state.showUnreadToast) {
-            this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, this.state.lastViewedBottom);
-        }
 
         if (snapshot) {
             const postlistScrollHeight = this.postListRef.current.scrollHeight;
@@ -229,18 +207,12 @@ class PostList extends React.PureComponent {
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('resize', this.handleWindowResize);
-        document.removeEventListener('keydown', this.handleShortcut);
         EventEmitter.removeListener(EventTypes.POST_LIST_SCROLL_TO_BOTTOM, this.scrollToLatestMessages);
-        clearTimeout(this.forceShowUnreadToastTimer);
-        clearTimeout(this.hideNewMessagesTimeout);
-        clearTimeout(this.hideUnreadTimeout);
     }
 
-    static getDerivedStateFromProps(props, prevState) {
+    static getDerivedStateFromProps(props) {
         const postListIds = props.postListIds;
         let newPostListIds;
-        let unreadCount;
-        let {showUnreadToast, showNewMessagesToast} = prevState;
 
         if (props.atOldestPost) {
             newPostListIds = [...postListIds, PostListRowListIds.CHANNEL_INTRO_MESSAGE];
@@ -258,32 +230,8 @@ class PostList extends React.PureComponent {
             }
         }
 
-        if (props.atLatestPost) {
-            unreadCount = PostList.countNewMessages(postListIds);
-        } else if (props.channelMarkedAsUnread) {
-            unreadCount = prevState.unreadCountInChannel;
-        } else {
-            unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
-        }
-
-        if (typeof showUnreadToast === 'undefined') {
-            showUnreadToast = unreadCount > 0;
-        }
-
-        if (props.channelMarkedAsUnread && !prevState.channelMarkedAsUnread && !prevState.showUnreadToast) {
-            showUnreadToast = true;
-        }
-
-        if (!showUnreadToast && !prevState.atBottom && unreadCount > 0 && (prevState.lastViewedBottom < props.latestPostTimeStamp)) {
-            showNewMessagesToast = true;
-        }
-
         return {
             postListIds: newPostListIds,
-            unreadCount,
-            showUnreadToast,
-            showNewMessagesToast,
-            channelMarkedAsUnread: props.channelMarkedAsUnread,
         };
     }
 
@@ -292,16 +240,6 @@ class PostList extends React.PureComponent {
             (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
         );
     }
-
-    handleShortcut = (e) => {
-        if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
-            if (this.state.showUnreadToast) {
-                this.hideUnreadToast();
-            } else if (this.state.showNewMessagesToast) {
-                this.hideNewMessagesToast();
-            }
-        }
-    };
 
     handleWindowResize = () => {
         this.props.actions.checkAndSetMobileView();
@@ -377,7 +315,7 @@ class PostList extends React.PureComponent {
         return postListIds[index] ? postListIds[index] : index;
     }
 
-    scrollTofailed = (index) => {
+    scrollToFailed = (index) => {
         if (index === 0) {
             this.props.actions.changeUnreadChunkTimeStamp('');
         } else {
@@ -435,39 +373,7 @@ class PostList extends React.PureComponent {
         return offsetFromBottom <= BUFFER_TO_BE_CONSIDERED_BOTTOM && scrollHeight > 0;
     }
 
-    hideNewMessagesToast = (dismiss = true) => {
-        if (this.state.showNewMessagesToast) {
-            if (dismiss) {
-                this.setState({
-                    showNewMessagesToast: false,
-                    lastViewedBottom: Date.now()
-                });
-                return;
-            }
-            this.hideNewMessagesTimeout = setTimeout(() => {
-                if (this.mounted) {
-                    this.setState({showNewMessagesToast: false});
-                }
-            }, TOAST_FADEOUT_TIME);
-        }
-    }
-
-    hideUnreadToast = (dismiss = true) => {
-        if (this.state.showUnreadToast) {
-            if (dismiss) {
-                this.setState({showUnreadToast: false});
-                return;
-            }
-            this.hideUnreadTimeout = setTimeout(() => {
-                if (this.mounted) {
-                    this.setState({showUnreadToast: false});
-                }
-            }, this.forceUnreadEvenAtBottom ? TOAST_FADEOUT_TIME_UNREAD : TOAST_FADEOUT_TIME);
-        }
-    }
-
     updateAtBottom = (atBottom) => {
-        const atBottomWithLatestPosts = atBottom && this.props.atLatestPost;
         if (atBottom !== this.state.atBottom) {
             // Update lastViewedBottom when the list reaches or leaves the bottom
             let lastViewedBottom = Date.now();
@@ -481,10 +387,12 @@ class PostList extends React.PureComponent {
                 lastViewedBottom,
             });
         }
-        if (atBottomWithLatestPosts) {
-            this.hideUnreadToast(false);
-            this.hideNewMessagesToast(false);
-        }
+    }
+
+    updateLastViewedBottomAt = (lastViewedBottom = Date.now()) => {
+        this.setState({
+            lastViewedBottom,
+        });
     }
 
     handleScrollStop = () => {
@@ -513,21 +421,6 @@ class PostList extends React.PureComponent {
         this.updateFloatingTimestamp(visibleStartIndex);
     }
 
-    static getNewMessageIndex = (postListIds) => {
-        return postListIds.findIndex(
-            (item) => item.indexOf(PostListRowListIds.START_OF_NEW_MESSAGES) === 0
-        );
-    }
-
-    static countNewMessages = (postListIds) => {
-        const mark = PostList.getNewMessageIndex(postListIds);
-        if (mark <= 0) {
-            return 0;
-        }
-        const newMessages = postListIds.slice(0, mark);
-        return newMessages.filter((id) => !isIdNotPost(id)).length;
-    }
-
     initScrollToIndex = () => {
         if (this.props.focusedPostId) {
             const index = this.state.postListIds.findIndex(
@@ -539,7 +432,7 @@ class PostList extends React.PureComponent {
             };
         }
 
-        const newMessagesSeparatorIndex = PostList.getNewMessageIndex(this.state.postListIds);
+        const newMessagesSeparatorIndex = getNewMessageIndex(this.state.postListIds);
 
         if (newMessagesSeparatorIndex > 0) {
             // if there is a dateLine above START_OF_NEW_MESSAGES then scroll to date line
@@ -566,9 +459,8 @@ class PostList extends React.PureComponent {
     scrollToLatestMessages = () => {
         if (this.props.atLatestPost) {
             this.scrollToBottom();
-            this.hideUnreadToast(false);
         } else {
-            this.props.actions.updateNewMessagesAtInChannel(this.props.channelId);
+            this.updateNewMessagesAtInChannel();
             this.props.actions.changeUnreadChunkTimeStamp('');
         }
     }
@@ -577,85 +469,29 @@ class PostList extends React.PureComponent {
         this.listRef.current.scrollToItem(0, 'end');
     }
 
-    scrollToUnread = () => {
-        this.listRef.current.scrollToItem(PostList.getNewMessageIndex(this.state.postListIds), 'start', OFFSET_TO_SHOW_TOAST);
-        this.hideNewMessagesToast();
+    scrollToNewMessage = () => {
+        this.listRef.current.scrollToItem(getNewMessageIndex(this.state.postListIds), 'start', OFFSET_TO_SHOW_TOAST);
     }
 
-    newMessagesToastText = (count, since) => {
-        let msgSince = '';
-        if (typeof since !== 'undefined') {
-            msgSince = (
-                <FormattedMessage
-                    id='postlist.toast.since'
-                    defaultMessage=' since {date} at {time}'
-                    values={{
-                        date: (
-                            <FormattedDate
-                                value={since}
-                                weekday='short'
-                                day='2-digit'
-                                month='short'
-                            />
-                        ),
-                        time: (
-                            <FormattedTime
-                                value={since}
-                                hour='2-digit'
-                                minute='2-digit'
-                            />
-                        ),
-                    }}
-                />
-            );
-        }
-        return (
-            <React.Fragment>
-                <FormattedMessage
-                    id='postlist.toast.newMessages'
-                    defaultMessage={'{count, number} new {count, plural, one {message} other {messages}}'}
-                    values={{count}}
-                />
-                {!this.state.isMobile && msgSince}
-            </React.Fragment>
-        );
-    }
-
-    updateNewMessagesAtInChannel = () => {
-        this.props.actions.updateNewMessagesAtInChannel(this.props.channelId);
+    updateNewMessagesAtInChannel = (lastViewedAt = Date.now()) => {
+        this.props.actions.updateNewMessagesAtInChannel(this.props.channelId, lastViewedAt);
     }
 
     renderToasts = (width) => {
-        let toastProps = {
-            countUnread: this.state.unreadCount,
-            show: false,
-            width,
-        };
-
-        if (this.state.showUnreadToast && this.state.unreadCount > 0) {
-            toastProps = {
-                ...toastProps,
-                onDismiss: this.hideUnreadToast,
-                onClick: this.scrollToLatestMessages,
-                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToBottom', 'Jump to recents'),
-                show: true,
-                showActions: !this.props.atLatestPost || (this.props.atLatestPost && !this.state.atBottom),
-            };
-        } else if (this.state.showNewMessagesToast) {
-            toastProps = {
-                ...toastProps,
-                onDismiss: this.hideNewMessagesToast,
-                onClick: this.scrollToUnread,
-                onClickMessage: Utils.localizeMessage('postlist.toast.scrollToLatest', 'Jump to new messages'),
-                show: true,
-                showActions: !this.props.atLatestPost || (this.props.atLatestPost && !this.state.atBottom),
-            };
-        }
-
         return (
-            <UnreadToast {...toastProps}>
-                {this.newMessagesToastText(this.state.unreadCount, this.state.lastViewedBottom)}
-            </UnreadToast>
+            <ToastWrapper
+                atLatestPost={this.props.atLatestPost}
+                postListIds={this.state.postListIds}
+                atBottom={this.state.atBottom}
+                width={width}
+                lastViewedBottom={this.state.lastViewedBottom}
+                latestPostTimeStamp={this.props.latestPostTimeStamp}
+                scrollToNewMessage={this.scrollToNewMessage}
+                scrollToLatestMessages={this.scrollToLatestMessages}
+                updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
+                updateLastViewedBottomAt={this.updateLastViewedBottomAt}
+                channelId={this.props.channelId}
+            />
         );
     }
 
@@ -683,7 +519,6 @@ class PostList extends React.PureComponent {
                             isScrolling={this.state.isScrolling}
                             isMobile={true}
                             postId={this.state.topPostId}
-                            stylesOverride={this.state.showUnreadToast || this.state.showNewMessagesToast ? {top: '50px'} : null}
                         />
                         <ScrollToBottomArrows
                             isScrolling={this.state.isScrolling}
@@ -736,7 +571,7 @@ class PostList extends React.PureComponent {
                                             loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
                                             correctScrollToBottom={this.props.atLatestPost}
                                             onItemsRendered={this.onItemsRendered}
-                                            scrollTofailed={this.scrollTofailed}
+                                            scrollToFailed={this.scrollToFailed}
                                         >
                                             {this.renderRow}
                                         </DynamicSizeList>

@@ -11,7 +11,7 @@ import UnreadBelowIcon from 'components/widgets/icons/unread_below_icon';
 import CloseIcon from 'components/widgets/icons/close_icon';
 import Constants from 'utils/constants';
 
-const MIN_TOAST_ZINDEX = 1;
+import './toast.scss';
 
 export default class Toast extends React.PureComponent {
     static propTypes = {
@@ -22,6 +22,33 @@ export default class Toast extends React.PureComponent {
         show: PropTypes.bool.isRequired,
         showActions: PropTypes.bool, //used for showing jump actions
         width: PropTypes.number,
+        toastTimer: PropTypes.number,
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            show: props.show,
+        };
+    }
+
+    static getDerivedStateFromProps(props) {
+        const {show} = props;
+        if (show) {
+            return {
+                show,
+            };
+        }
+        return null;
+    }
+
+    componentDidUpdate(prevProps) {
+        const {show, toastTimer} = this.props;
+        if (prevProps.show && !show) {
+            setTimeout(() => {
+                this.setState({show});
+            }, toastTimer);
+        }
     }
 
     handleDismiss = () => {
@@ -32,7 +59,8 @@ export default class Toast extends React.PureComponent {
 
     render() {
         let toastClass = 'toast';
-        if (this.props.show) {
+        const {show} = this.state;
+        if (show) {
             toastClass += ' toast__visible';
         }
 
@@ -53,7 +81,7 @@ export default class Toast extends React.PureComponent {
         };
 
         let closeTooltip = (<div/>);
-        if (this.props.showActions && this.props.show) {
+        if (this.props.showActions && show) {
             closeTooltip = (
                 <Tooltip id='toast-close__tooltip'>
                     <FormattedMessage
@@ -71,10 +99,7 @@ export default class Toast extends React.PureComponent {
         }
 
         return (
-            <div
-                className={toastClass}
-                style={{zIndex: MIN_TOAST_ZINDEX}}
-            >
+            <div className={toastClass}>
                 <div
                     className={toastActionClass}
                     onClick={this.props.showActions ? this.props.onClick : null}

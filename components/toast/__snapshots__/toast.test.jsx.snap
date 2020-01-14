@@ -3,11 +3,6 @@
 exports[`components/Toast should match snapshot for hiding toast 1`] = `
 <div
   className="toast"
-  style={
-    Object {
-      "zIndex": 1,
-    }
-  }
 >
   <div
     className="toast__message toast__pointer"
@@ -51,11 +46,6 @@ exports[`components/Toast should match snapshot for hiding toast 1`] = `
 exports[`components/Toast should match snapshot for showing toast 1`] = `
 <div
   className="toast toast__visible"
-  style={
-    Object {
-      "zIndex": 1,
-    }
-  }
 >
   <div
     className="toast__message toast__pointer"
@@ -120,11 +110,6 @@ exports[`components/Toast should match snapshot for showing toast 1`] = `
 exports[`components/Toast should match snapshot for toast width less than 780px 1`] = `
 <div
   className="toast toast__visible"
-  style={
-    Object {
-      "zIndex": 1,
-    }
-  }
 >
   <div
     className="toast__message toast__pointer"
@@ -189,11 +174,6 @@ exports[`components/Toast should match snapshot for toast width less than 780px 
 exports[`components/Toast should match snapshot to not have actions 1`] = `
 <div
   className="toast toast__visible"
-  style={
-    Object {
-      "zIndex": 1,
-    }
-  }
 >
   <div
     className="toast__message"

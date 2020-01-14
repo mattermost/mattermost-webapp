@@ -9,7 +9,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {makePreparePostIdsForPostList} from 'mattermost-redux/utils/post_list';
 import {countCurrentChannelUnreadMessages, isManuallyUnread} from 'mattermost-redux/selectors/entities/channels';
 
-import PostList from './post_list_virtualized.jsx';
+import ToastWrapper from './toast_wrapper.jsx';
 
 export function makeCountUnreadsBelow() {
     return createSelector(
@@ -66,4 +66,4 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(PostList);
+export default connect(makeMapStateToProps)(ToastWrapper);

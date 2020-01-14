@@ -9,7 +9,7 @@ import {PostRequestTypes} from 'utils/constants';
 
 import {getOldestPostId, getLatestPostId} from 'utils/post_utils.jsx';
 
-import VirtPostList from 'components/post_view/post_list_virtualized';
+import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
 
 const MAX_NUMBER_OF_AUTO_RETRIES = 3;
 export const MAX_EXTRA_PAGES_LOADED = 10;

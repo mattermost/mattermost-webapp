@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import VirtPostList from 'components/post_view/post_list_virtualized/post_list_virtualized';
+
 import {PostRequestTypes} from 'utils/constants';
-import VirtPostList from 'components/post_view/post_list_virtualized';
 
 import PostList, {MAX_EXTRA_PAGES_LOADED} from './post_list.jsx';
 
