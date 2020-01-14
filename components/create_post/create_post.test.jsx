@@ -73,7 +73,7 @@ const actionsProp = {
     setDraft: jest.fn(),
     setEditingPost: jest.fn(),
     openModal: jest.fn(),
-    updatePreview: jest.fn(),
+    setShowPreview: jest.fn(),
     executeCommand: async () => {
         return {data: true};
     },
@@ -134,7 +134,7 @@ function createPost({
             rhsExpanded={false}
             emojiMap={emojiMap}
             badConnection={false}
-            showPreview={false}
+            shouldShowPreview={false}
             isTimezoneEnabled={false}
         />
     );

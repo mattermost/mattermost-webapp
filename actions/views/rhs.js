@@ -280,30 +280,30 @@ export function selectPost(post) {
     };
 }
 
-export function updatePreviewOnCreateComment(showPreview) {
+export function setShowPreviewOnCreateComment(showPreview) {
     return {
-        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_CREATE_COMMENT,
+        type: ActionTypes.SET_SHOW_PREVIEW_ON_CREATE_COMMENT,
         showPreview,
     };
 }
 
-export function updatePreviewOnCreatePost(showPreview) {
+export function setShowPreviewOnCreatePost(showPreview) {
     return {
-        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_CREATE_POST,
+        type: ActionTypes.SET_SHOW_PREVIEW_ON__CREATE_POST,
         showPreview,
     };
 }
 
-export function updatePreviewOnEditChannelHeaderModal(showPreview) {
+export function setShowPreviewOnEditChannelHeaderModal(showPreview) {
     return {
-        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL,
+        type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL,
         showPreview,
     };
 }
 
-export function updatePreviewOnEditPostModal(showPreview) {
+export function setShowPreviewOnEditPostModal(showPreview) {
     return {
-        type: ActionTypes.UPDATE_SHOW_PREVIEW_ON_EDIT_POST_MODAL,
+        type: ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL,
         showPreview,
     };
 }

@@ -38,8 +38,8 @@ describe('components/CreateComment', () => {
         onMoveHistoryIndexForward: jest.fn(),
         onEditLatestPost: jest.fn(),
         resetCreatePostRequest: jest.fn(),
-        updatePreview: jest.fn(),
-        showPreview: false,
+        setShowPreview: jest.fn(),
+        shouldShowPreview: false,
         readOnlyChannel: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
@@ -1016,9 +1016,14 @@ describe('components/CreateComment', () => {
         instance.focusTextbox = jest.fn();
         expect(instance.focusTextbox).not.toBeCalled();
 
-        instance.updatePreview(true);
+        instance.setShowPreview(true);
 
-        expect(baseProps.updatePreview).toHaveBeenCalledWith(true);
+        expect(baseProps.setShowPreview).toHaveBeenCalledWith(true);
         expect(instance.focusTextbox).not.toBeCalled();
+
+        wrapper.setProps({shouldShowPreview: true});
+        expect(instance.focusTextbox).not.toBeCalled();
+        wrapper.setProps({shouldShowPreview: false});
+        expect(instance.focusTextbox).toBeCalled();
     });
 });

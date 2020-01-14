@@ -18,7 +18,7 @@ import {editPost} from 'actions/views/posts';
 import {getEditingPost} from 'selectors/posts';
 import Constants from 'utils/constants';
 
-import {updatePreviewOnEditPostModal} from '../../actions/views/rhs';
+import {setShowPreviewOnEditPostModal} from '../../actions/views/rhs';
 import {showPreviewOnEditPostModal} from '../../selectors/rhs';
 
 import EditPostModal from './edit_post_modal.jsx';
@@ -44,7 +44,7 @@ function mapStateToProps(state) {
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
         config,
         editingPost,
-        preview: showPreviewOnEditPostModal(state),
+        shouldShowPreview: showPreviewOnEditPostModal(state),
         maxPostSize: parseInt(config.MaxPostSize, 10) || Constants.DEFAULT_CHARACTER_LIMIT,
     };
 }
@@ -56,7 +56,7 @@ function mapDispatchToProps(dispatch) {
             editPost,
             hideEditPostModal,
             openModal,
-            updatePreview: updatePreviewOnEditPostModal,
+            setShowPreview: setShowPreviewOnEditPostModal,
         }, dispatch),
     };
 }

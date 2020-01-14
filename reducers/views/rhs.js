@@ -228,7 +228,7 @@ function isMenuOpen(state = false, action) {
 
 function shouldShowPreviewOnCreateComment(state = false, action) {
     switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_PREVIEW_ON_CREATE_COMMENT:
+    case ActionTypes.SET_SHOW_PREVIEW_ON_CREATE_COMMENT:
         return action.showPreview;
     default:
         return state;
@@ -237,7 +237,7 @@ function shouldShowPreviewOnCreateComment(state = false, action) {
 
 function shouldShowPreviewOnCreatePost(state = false, action) {
     switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_PREVIEW_ON_CREATE_POST:
+    case ActionTypes.SET_SHOW_PREVIEW_ON__CREATE_POST:
         return action.showPreview;
     default:
         return state;
@@ -246,7 +246,7 @@ function shouldShowPreviewOnCreatePost(state = false, action) {
 
 function shouldShowPreviewOnEditChannelHeaderModal(state = false, action) {
     switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL:
+    case ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL:
         return action.showPreview;
     default:
         return state;
@@ -255,7 +255,7 @@ function shouldShowPreviewOnEditChannelHeaderModal(state = false, action) {
 
 function shouldShowPreviewOnEditPostModal(state = false, action) {
     switch (action.type) {
-    case ActionTypes.UPDATE_SHOW_PREVIEW_ON_EDIT_POST_MODAL:
+    case ActionTypes.SET_SHOW_PREVIEW_ON_EDIT_POST_MODAL:
         return action.showPreview;
     default:
         return state;

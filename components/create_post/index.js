@@ -30,7 +30,7 @@ import {connectionErrorCount} from 'selectors/views/system';
 
 import {addReaction, createPost, setEditingPost} from 'actions/post_actions.jsx';
 import {scrollPostListToBottom} from 'actions/views/channel';
-import {selectPostFromRightHandSideSearchByPostId, updatePreviewOnCreatePost} from 'actions/views/rhs';
+import {selectPostFromRightHandSideSearchByPostId, setShowPreviewOnCreatePost} from 'actions/views/rhs';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {getPostDraft, getIsRhsExpanded, showPreviewOnCreatePost} from 'selectors/rhs';
@@ -91,7 +91,7 @@ function makeMapStateToProps() {
             emojiMap: getEmojiMap(state),
             badConnection,
             isTimezoneEnabled,
-            showPreview: showPreviewOnCreatePost(state),
+            shouldShowPreview: showPreviewOnCreatePost(state),
         };
     };
 }
@@ -121,7 +121,7 @@ function mapDispatchToProps(dispatch) {
             runMessageWillBePostedHooks,
             runSlashCommandWillBePostedHooks,
             scrollPostListToBottom,
-            updatePreview: updatePreviewOnCreatePost,
+            setShowPreview: setShowPreviewOnCreatePost,
         }, dispatch),
     };
 }

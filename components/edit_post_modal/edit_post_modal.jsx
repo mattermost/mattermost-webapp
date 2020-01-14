@@ -29,7 +29,7 @@ class EditPostModal extends React.PureComponent {
         config: PropTypes.object.isRequired,
         intl: intlShape.isRequired,
         maxPostSize: PropTypes.number.isRequired,
-        preview: PropTypes.bool.isRequired,
+        shouldShowPreview: PropTypes.bool.isRequired,
         editingPost: PropTypes.shape({
             post: PropTypes.object,
             postId: PropTypes.string,
@@ -45,7 +45,7 @@ class EditPostModal extends React.PureComponent {
             editPost: PropTypes.func.isRequired,
             hideEditPostModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
-            updatePreview: PropTypes.func.isRequired,
+            setShowPreview: PropTypes.func.isRequired,
         }).isRequired,
     }
 
@@ -73,8 +73,8 @@ class EditPostModal extends React.PureComponent {
         return null;
     }
 
-    updatePreview = (newPreviewValue) => {
-        this.props.actions.updatePreview(newPreviewValue);
+    setShowPreview = (newPreviewValue) => {
+        this.props.actions.setShowPreview(newPreviewValue);
     }
 
     getContainer = () => {
@@ -260,7 +260,7 @@ class EditPostModal extends React.PureComponent {
     }
 
     handleExit = () => {
-        this.props.actions.updatePreview(false);
+        this.props.actions.setShowPreview(false);
     }
 
     handleExited = () => {
@@ -276,7 +276,7 @@ class EditPostModal extends React.PureComponent {
 
         this.refocusId = null;
         this.setState({editText: '', postError: '', errorClass: null, showEmojiPicker: false, prevShowState: false});
-        this.props.actions.updatePreview(false);
+        this.props.actions.setShowPreview(false);
     }
 
     setEditboxRef = (ref) => {
@@ -314,7 +314,7 @@ class EditPostModal extends React.PureComponent {
 
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
-        if (this.props.config.EnableEmojiPicker === 'true' && !this.props.preview) {
+        if (this.props.config.EnableEmojiPicker === 'true' && !this.props.shouldShowPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -394,7 +394,7 @@ class EditPostModal extends React.PureComponent {
                                 id='edit_textbox'
                                 ref={this.setEditboxRef}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.props.preview}
+                                preview={this.props.shouldShowPreview}
                             />
                             <div className='post-body__actions'>
                                 {emojiPicker}
@@ -403,9 +403,9 @@ class EditPostModal extends React.PureComponent {
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.props.preview}
+                                showPreview={this.props.shouldShowPreview}
                                 ref={this.setTextboxLinksRef}
-                                updatePreview={this.updatePreview}
+                                updatePreview={this.setShowPreview}
                                 message={this.state.editText}
                             />
                             <div className={errorBoxClass}>

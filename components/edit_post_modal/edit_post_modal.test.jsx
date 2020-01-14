@@ -46,12 +46,12 @@ function createEditPost({canEditPost, canDeletePost, ctrlSend, config, license, 
         addMessageIntoHistory: jest.fn(),
         hideEditPostModal: jest.fn(),
         openModal: jest.fn(),
-        updatePreview: jest.fn(),
+        setShowPreview: jest.fn(),
     };
     return (
         <EditPostModal
             canEditPost={canEditPostProp}
-            preview={false}
+            shouldShowPreview={false}
             canDeletePost={canDeletePostProp}
             ctrlSend={ctrlSendProp}
             config={configProp}
@@ -84,7 +84,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const editingPost = {
             postId: '123',
@@ -116,7 +116,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions})).dive();
 
@@ -234,16 +234,16 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
 
         const wrapper = shallowWithIntl(createEditPost({actions})).dive();
         const instance = wrapper.instance();
 
-        instance.updatePreview(true);
-        expect(actions.updatePreview).toHaveBeenCalledWith(true);
+        instance.setShowPreview(true);
+        expect(actions.setShowPreview).toHaveBeenCalledWith(true);
         instance.handleExit();
-        expect(actions.updatePreview).toHaveBeenCalledWith(false);
+        expect(actions.setShowPreview).toHaveBeenCalledWith(false);
     });
 
     it('should close without saving when post text is not changed', () => {
@@ -252,7 +252,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions})).dive();
         const instance = wrapper.instance();
@@ -272,7 +272,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         var wrapper = shallowWithIntl(createEditPost({actions})).dive();
         var instance = wrapper.instance();
@@ -322,7 +322,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         global.scrollTo = jest.fn();
         const wrapper = shallowWithIntl(createEditPost({actions})).dive();
@@ -350,7 +350,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const editingPost = {show: false};
         const wrapper = shallowWithIntl(createEditPost({actions, editingPost})).dive();
@@ -368,7 +368,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions})).dive();
         const instance = wrapper.instance();
@@ -480,7 +480,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions, canEditPost: false})).dive();
         wrapper.setState({editText: 'new message'});
@@ -506,7 +506,7 @@ describe('components/EditPostModal', () => {
             addMessageIntoHistory: jest.fn(),
             hideEditPostModal: jest.fn(),
             openModal: jest.fn(),
-            updatePreview: jest.fn(),
+            setShowPreview: jest.fn(),
         };
         const wrapper = shallowWithIntl(createEditPost({actions, canDeletePost: false})).dive();
         wrapper.setState({editText: ''});

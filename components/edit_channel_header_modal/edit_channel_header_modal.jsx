@@ -44,7 +44,7 @@ class EditChannelHeaderModal extends React.PureComponent {
         /*
          * Should preview be showed
          */
-        preview: PropTypes.bool.isRequired,
+        shouldShowPreview: PropTypes.bool.isRequired,
 
         /*
          * Collection of redux actions
@@ -59,9 +59,9 @@ class EditChannelHeaderModal extends React.PureComponent {
             patchChannel: PropTypes.func.isRequired,
 
             /**
-             * Update preview for textbox
+             * Set show preview for textbox
              */
-            updatePreview: PropTypes.func.isRequired,
+            setShowPreview: PropTypes.func.isRequired,
 
         }).isRequired,
     }
@@ -81,8 +81,8 @@ class EditChannelHeaderModal extends React.PureComponent {
         }
     }
 
-    updatePreview = (newState) => {
-        this.props.actions.updatePreview(newState);
+    setShowPreview = (newState) => {
+        this.props.actions.setShowPreview(newState);
     }
 
     handleChange = (e) => {
@@ -233,15 +233,15 @@ class EditChannelHeaderModal extends React.PureComponent {
                                 id='edit_textbox'
                                 ref='editChannelHeaderTextbox'
                                 characterLimit={1024}
-                                preview={this.props.preview}
+                                preview={this.props.shouldShowPreview}
                             />
                         </div>
                         <div className='post-create-footer'>
                             <TextboxLinks
                                 characterLimit={1024}
-                                showPreview={this.props.preview}
+                                showPreview={this.props.shouldShowPreview}
                                 ref={this.setTextboxLinksRef}
-                                updatePreview={this.updatePreview}
+                                setShowPreview={this.setShowPreview}
                                 message={this.state.header}
                             />
                         </div>

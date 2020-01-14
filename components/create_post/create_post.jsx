@@ -182,14 +182,14 @@ class CreatePost extends React.Component {
         /**
          * Should preview be showed
          */
-        showPreview: PropTypes.bool.isRequired,
+        shouldShowPreview: PropTypes.bool.isRequired,
 
         actions: PropTypes.shape({
 
             /**
-             * Update preview for textbox
+             * Set show preview for textbox
              */
-            updatePreview: PropTypes.func.isRequired,
+            setShowPreview: PropTypes.func.isRequired,
 
             /**
              *  func called after message submit.
@@ -338,8 +338,8 @@ class CreatePost extends React.Component {
         this.removeOrientationListeners();
     }
 
-    updatePreview = (newPreviewValue) => {
-        this.props.actions.updatePreview(newPreviewValue);
+    setShowPreview = (newPreviewValue) => {
+        this.props.actions.setShowPreview(newPreviewValue);
     }
 
     setOrientationListeners = () => {
@@ -685,7 +685,7 @@ class CreatePost extends React.Component {
                 this.handleSubmit(e);
             }
 
-            this.updatePreview(false);
+            this.setShowPreview(false);
         }
 
         this.emitTypingEvent();
@@ -1192,7 +1192,7 @@ class CreatePost extends React.Component {
         }
 
         let fileUpload;
-        if (!readOnlyChannel && !this.props.showPreview) {
+        if (!readOnlyChannel && !this.props.shouldShowPreview) {
             fileUpload = (
                 <FileUpload
                     ref='fileUpload'
@@ -1211,7 +1211,7 @@ class CreatePost extends React.Component {
         let emojiPicker = null;
         const emojiButtonAriaLabel = formatMessage({id: 'emoji_picker.emojiPicker', defaultMessage: 'Emoji Picker'}).toLowerCase();
 
-        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.showPreview) {
+        if (this.props.enableEmojiPicker && !readOnlyChannel && !this.props.shouldShowPreview) {
             emojiPicker = (
                 <div>
                     <EmojiPickerOverlay
@@ -1289,7 +1289,7 @@ class CreatePost extends React.Component {
                                 ref='textbox'
                                 disabled={readOnlyChannel}
                                 characterLimit={this.props.maxPostSize}
-                                preview={this.props.showPreview}
+                                preview={this.props.shouldShowPreview}
                                 badConnection={this.props.badConnection}
                                 listenForMentionKeyClick={true}
                             />
@@ -1332,8 +1332,8 @@ class CreatePost extends React.Component {
                             />
                             <TextboxLinks
                                 characterLimit={this.props.maxPostSize}
-                                showPreview={this.props.showPreview}
-                                updatePreview={this.updatePreview}
+                                showPreview={this.props.shouldShowPreview}
+                                updatePreview={this.setShowPreview}
                                 message={readOnlyChannel ? '' : this.state.message}
                             />
                         </div>
