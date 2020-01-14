@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GroupRow from './group_row.jsx';
+import GroupRow from './group_row';
 
 describe('admin_console/team_channel_settings/group/GroupRow', () => {
     const testGroup = {
@@ -17,6 +17,8 @@ describe('admin_console/team_channel_settings/group/GroupRow', () => {
             <GroupRow
                 group={testGroup}
                 removeGroup={() => {}}
+                setNewGroupRole={() => {}}
+                type='channel'
             />
         );
         expect(wrapper).toMatchSnapshot();
