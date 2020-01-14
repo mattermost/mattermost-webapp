@@ -19,7 +19,7 @@ describe('Message Reply with attachment pretext', () => {
         cy.apiUpdateConfig({ EnableBotAccountCreation: { Enable: true, }, });
 
         // # Login and go to /
-        cy.apiLogin('user-1');
+        cy.apiLogin('sysadmin');
 
         // # Create and visit new channel
         cy.createAndVisitNewChannel().then((channel) => {

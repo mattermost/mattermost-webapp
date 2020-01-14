@@ -1058,7 +1058,7 @@ function formRequest(method, url, formData) {
  * @param {String} description - The description of the bot
  * All parameters are required
  */
-Cypress.Commands.add('apiCreateBot', (username, displayName,description) => {
+Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
@@ -1066,7 +1066,7 @@ Cypress.Commands.add('apiCreateBot', (username, displayName,description) => {
         body: {
             username: username,
             display_name: displayName,
-            description: displayName,
+            description: description,
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
