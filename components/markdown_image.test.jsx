@@ -222,4 +222,35 @@ describe('components/MarkdownImage', () => {
         expect(childrenWrapper.find(SizeAwareImage).prop('className')).
             toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active markdown-inline-img--scaled-down`);
     });
+
+    test('should render image with title, height, width', () => {
+        const props = {
+            alt: 'test image',
+            title: 'test title',
+            className: 'markdown-inline-img',
+            postId: 'post_id',
+            src: 'https://example.com/image.png',
+            imageIsLink: false,
+            height: 76,
+            width: 50
+        };
+
+        const wrapper = shallow(
+            <MarkdownImage {...props}/>
+        );
+        wrapper.instance().setState({loaded: true});
+
+        const childrenNode = wrapper.props().children(props.src);
+
+        // using a div as a workaround because shallow doesn't support react fragments
+        const childrenWrapper = shallow(<div>{childrenNode}</div>);
+
+        expect(childrenWrapper.find(SizeAwareImage)).toHaveLength(1);
+        expect(childrenWrapper.find(SizeAwareImage).prop('className')).
+            toEqual(`${props.className} markdown-inline-img--hover cursor--pointer a11y--active`);
+
+        expect(childrenWrapper.find(SizeAwareImage).prop('width')).toEqual(50);
+        expect(childrenWrapper.find(SizeAwareImage).prop('height')).toEqual(76);
+        expect(childrenWrapper.find(SizeAwareImage).prop('title')).toEqual('test title');
+    });
 });
