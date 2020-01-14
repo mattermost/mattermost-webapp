@@ -160,27 +160,35 @@ class ToastWrapper extends React.PureComponent {
         let msgSince = '';
         if (typeof since !== 'undefined') {
             msgSince = (
-                <FormattedMessage
-                    id='postlist.toast.since'
-                    defaultMessage=' since {date} at {time}'
-                    values={{
-                        date: (
-                            <FormattedDate
-                                value={since}
-                                weekday='short'
-                                day='2-digit'
-                                month='short'
-                            />
-                        ),
-                        time: (
-                            <FormattedTime
-                                value={since}
-                                hour='2-digit'
-                                minute='2-digit'
-                            />
-                        ),
-                    }}
-                />
+                <React.Fragment>
+                    <FormattedMessage
+                        id='postlist.toast.since'
+                        defaultMessage=' since {date}'
+                        values={{
+                            date: (
+                                <FormattedDate
+                                    value={since}
+                                    weekday='short'
+                                    day='2-digit'
+                                    month='short'
+                                />
+                            )
+                        }}
+                    />
+                    <FormattedMessage
+                        id='postlist.toast.atTime'
+                        defaultMessage=' at {time}'
+                        values={{
+                            time: (
+                                <FormattedTime
+                                    value={since}
+                                    hour='2-digit'
+                                    minute='2-digit'
+                                />
+                            ),
+                        }}
+                    />
+                </React.Fragment>
             );
         }
         return (
