@@ -1070,7 +1070,7 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
-        return cy.wrap(response);
+        return cy.wrap(response.body.user_id);
     });
 });
 
@@ -1084,14 +1084,14 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
 Cypress.Commands.add('apiAccessToken', (user_id, description) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url:`/api/v4/users/{user_id}/tokens`
+        url: '/api/v4/users/' + user_id +'/tokens',
         method: 'POST',
         body: {
             description: description,
         },
     }).then((response) => {
-        expect(response.status).to.equal(201);
-        return cy.wrap(token);
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.token);
     });
 });
 
@@ -1105,26 +1105,26 @@ Cypress.Commands.add('apiAccessToken', (user_id, description) => {
 Cypress.Commands.add('apiPostBotMessage', (channelId, message, token) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url:`api/v4/posts`
+        url:`api/v4/posts`,
         method: 'POST',
         body: {
             channel_id: channelId,
             message: message,
-            props:{
-                   	attachments:
-                   	[
-                   		{
-                   			pretext: 'Look some text',
-                   			text: "This is text"
-                   		}
-                   	]
-                   },
+//            props:{
+//                   	attachments:
+//                   	[
+//                   		{
+//                   			pretext: 'Look some text',
+//                   			text: "This is text"
+//                   		}
+//                   	]
+//                   },
         },
         auth: {
             bearer: token
           }
     }).then((response) => {
         expect(response.status).to.equal(201);
-        return cy.wrap(token);
+        return cy.wrap(response);
     });
 });

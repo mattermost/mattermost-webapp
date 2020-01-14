@@ -13,11 +13,22 @@ const sysadmin = users.sysadmin;
 
 describe('Message Reply with attachment pretext', () => {
     let newChannel;
+    let botsUserId;
+    let accessToken;
 
     before(() => {
-        // # Enable bot creation
-        cy.apiUpdateConfig({ EnableBotAccountCreation: { Enable: true, }, });
 
+        // # Set ServiceSettings to expected values
+        const newSettings = {
+            ServiceSettings: {
+                EnableOAuthServiceProvider: true,
+                EnableIncomingWebhooks: true,
+                EnableOutgoingWebhooks: true,
+                EnableCommands: true,
+                EnableBotAccountCreation: true,
+            },
+        };
+        cy.apiUpdateConfig(newSettings);
         // # Login and go to /
         cy.apiLogin('sysadmin');
 
@@ -25,6 +36,7 @@ describe('Message Reply with attachment pretext', () => {
         cy.createAndVisitNewChannel().then((channel) => {
             newChannel = channel;
         });
+
     });
 
     it('MM-16734 Reply to an older bot post that has some attachment pretext', () => {
@@ -33,12 +45,17 @@ describe('Message Reply with attachment pretext', () => {
 
         const botName = 'bot-' + Date.now();
         // # Create a bot
-        cy.apiCreateBot('botName','Test Bot','test bot for E2E test replying to older bot post')
-        // # Post a day old message
-       cy.postMessageAs({sender: botName, message: 'Hello message to replying to an older bot post that has some attachment pretext ', channelId: newChannel.id, createAt: yesterdaysDate}).
-            its('id').
-            should('exist').
-            as('olderPost');
+        cy.apiCreateBot(botName,'Test Bot','test bot for E2E test replying to older bot post').then((userId) => {
+            botsUserId = userId;
+            cy.apiAccessToken(botsUserId, "Create token").then((token) => {
+                        accessToken = token;
+                                // # Post a day old message
+                               cy.apiPostBotMessage({newChannel, message: 'Hello message from Bot ', accessToken}).
+                                    its('id').
+                                    should('exist').
+                                    as('olderPost');
+                     });
+        });
 
         cy.get('@olderPost').then((postId) => {
             // # Open RHS comment menu
