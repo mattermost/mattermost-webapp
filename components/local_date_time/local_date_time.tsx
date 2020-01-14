@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {injectIntl} from 'react-intl';
 import moment from 'moment-timezone';
 
 type Props = {
@@ -25,15 +26,12 @@ type Props = {
      * Enable timezone feature
      */
     enableTimezone?: boolean;
+
+    intl: any; // TODO This needs to be replaced with IntlShape once react-intl is upgraded
 }
 
-type FormattedTimeResult = {
-    isoDate: string;
-    time: string;
-};
-
-export default class LocalDateTime extends React.PureComponent<Props> {
-    private getFormattedTime: () => FormattedTimeResult = () => {
+class LocalDateTime extends React.PureComponent<Props> {
+    public render() {
         const {
             enableTimezone,
             eventTime,
@@ -41,33 +39,38 @@ export default class LocalDateTime extends React.PureComponent<Props> {
             useMilitaryTime,
         } = this.props;
 
-        const momentDate = eventTime ? moment(eventTime) : moment();
-        const format = useMilitaryTime ? 'HH:mm' : 'hh:mm A';
+        const date = eventTime ? new Date(eventTime) : new Date();
 
-        let withTimezone;
+        const momentDate = moment(date);
+        let titleString = momentDate.toString();
         if (enableTimezone && timeZone) {
             momentDate.tz(timeZone);
-            withTimezone = momentDate.toString() + ' (' + momentDate.tz() + ')';
+            titleString = momentDate.toString() + ' (' + momentDate.tz() + ')';
         }
 
-        return {
-            isoDate: withTimezone || momentDate.toString(),
-            time: momentDate.format(format),
+        const timezoneProps = enableTimezone && timeZone ? {timeZone} : {};
+        const options = {
+            ...timezoneProps,
+            hour12: !useMilitaryTime,
         };
-    };
+        let formattedTime = this.props.intl.formatTime(date, options);
 
-    public render() {
-        const {isoDate, time} = this.getFormattedTime();
+        if (formattedTime === String(date)) {
+            const format = useMilitaryTime ? 'HH:mm' : 'hh:mm A';
+            formattedTime = momentDate.format(format);
+        }
 
         return (
             <time
-                aria-label={isoDate}
+                aria-label={date.toString()}
                 className='post__time'
-                dateTime={isoDate}
-                title={isoDate}
+                dateTime={date.toISOString()}
+                title={titleString}
             >
-                <span>{time}</span>
+                <span>{formattedTime}</span>
             </time>
         );
     }
 }
+
+export default injectIntl(LocalDateTime);
