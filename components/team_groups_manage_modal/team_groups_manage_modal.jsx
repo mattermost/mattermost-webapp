@@ -30,6 +30,7 @@ class TeamGroupsManageModal extends React.PureComponent {
             getGroupsAssociatedToTeam: PropTypes.func.isRequired,
             unlinkGroupSyncable: PropTypes.func.isRequired,
             patchGroupSyncable: PropTypes.func.isRequired,
+            getMyTeamMembers: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
@@ -60,6 +61,7 @@ class TeamGroupsManageModal extends React.PureComponent {
         this.props.actions.unlinkGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+
             listModal.setState({loading: false, items, totalCount});
         });
     };
@@ -83,10 +85,13 @@ class TeamGroupsManageModal extends React.PureComponent {
         this.props.actions.openModal({modalId: ModalIdentifiers.ADD_GROUPS_TO_TEAM, dialogType: AddGroupsToTeamModal});
     };
 
-    changeTeamMemberStatus = async (item, listModal, isTeamAdmin) => {
+    setTeamMemberStatus = async (item, listModal, isTeamAdmin) => {
         this.props.actions.patchGroupSyncable(item.id, this.props.team.id, Groups.SYNCABLE_TYPE_TEAM, {scheme_admin: isTeamAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+
+            this.props.actions.getMyTeamMembers();
+
             listModal.setState({loading: false, items, totalCount});
         });
     };
@@ -134,12 +139,12 @@ class TeamGroupsManageModal extends React.PureComponent {
                         >
                             <Menu.ItemAction
                                 show={!item.scheme_admin}
-                                onClick={() => this.changeTeamMemberStatus(item, listModal, true)}
+                                onClick={() => this.setTeamMemberStatus(item, listModal, true)}
                                 text={Utils.localizeMessage('team_members_dropdown.makeTeamAdmins', 'Make Team Admins')}
                             />
                             <Menu.ItemAction
                                 show={Boolean(item.scheme_admin)}
-                                onClick={() => this.changeTeamMemberStatus(item, listModal, false)}
+                                onClick={() => this.setTeamMemberStatus(item, listModal, false)}
                                 text={Utils.localizeMessage('team_members_dropdown.makeTeamMembers', 'Make Team Members')}
                             />
                             <Menu.ItemAction

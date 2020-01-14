@@ -29,6 +29,7 @@ class ChannelGroupsManageModal extends React.PureComponent {
             getGroupsAssociatedToChannel: PropTypes.func.isRequired,
             unlinkGroupSyncable: PropTypes.func.isRequired,
             patchGroupSyncable: PropTypes.func.isRequired,
+            getMyChannelMember: PropTypes.func.isRequired,
             closeModal: PropTypes.func.isRequired,
             openModal: PropTypes.func.isRequired,
         }).isRequired,
@@ -61,6 +62,9 @@ class ChannelGroupsManageModal extends React.PureComponent {
         this.props.actions.patchGroupSyncable(item.id, this.props.channel.id, Groups.SYNCABLE_TYPE_CHANNEL, {scheme_admin: isChannelAdmin}).then(async () => {
             listModal.setState({loading: true});
             const {items, totalCount} = await listModal.props.loadItems(listModal.setState.page, listModal.state.searchTerm);
+
+            await this.props.actions.getMyChannelMember(this.props.channel.id);
+
             listModal.setState({loading: false, items, totalCount});
         });
     };
