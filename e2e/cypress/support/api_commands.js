@@ -1074,3 +1074,23 @@ Cypress.Commands.add('apiCreateBot', (username, displayName, description) => {
     });
 });
 
+/**
+ * Creates a bot directly via API
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} user_id - The bots username
+ * @param {String} description - The description of the token usage
+ * All parameters are required
+ */
+Cypress.Commands.add('apiAccessToken', (user_id, description) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url:`/api/v4/users/{user_id}/tokens`
+        method: 'POST',
+        body: {
+            description: description,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(token);
+    });
+});
