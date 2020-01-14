@@ -80,7 +80,7 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
                     confirmButtonText={
                         <FormattedMessage
                             id='admin.guest_access.disableConfirmButton'
-                            defaultMessage='Disable Guest Access'
+                            defaultMessage='Save Disable Guest Access'
                         />
                     }
                     onConfirm={() => {

@@ -40,7 +40,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
       <FormattedMessage
-        defaultMessage="Disable Guest Access"
+        defaultMessage="Save Disable Guest Access"
         id="admin.guest_access.disableConfirmButton"
         values={Object {}}
       />
@@ -107,7 +107,7 @@ exports[`components/AdminConsole/CustomEnableDisableGuestAccountsSetting initial
     confirmButtonClass="btn btn-primary"
     confirmButtonText={
       <FormattedMessage
-        defaultMessage="Disable Guest Access"
+        defaultMessage="Save Disable Guest Access"
         id="admin.guest_access.disableConfirmButton"
         values={Object {}}
       />
