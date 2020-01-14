@@ -38,7 +38,14 @@ export function registerPluginTranslationsSource(pluginId, sourceFunction) {
         const translations = {};
         Object.assign(translations, immutableTranslations);
         if (immutableTranslations) {
-            copyAndDispatchTranslations(dispatch, translations, sourceFunction(locale), locale);
+            Object.assign(translations, sourceFunction(locale));
+            dispatch({
+                type: ActionTypes.RECEIVED_TRANSLATIONS,
+                data: {
+                    locale,
+                    translations,
+                },
+            });
         }
     };
 }
@@ -73,13 +80,3 @@ export function loadTranslations(locale, url) {
     };
 }
 
-function copyAndDispatchTranslations(dispatch, translations, from, locale) {
-    Object.assign(translations, from);
-    dispatch({
-        type: ActionTypes.RECEIVED_TRANSLATIONS,
-        data: {
-            locale,
-            translations,
-        },
-    });
-}
