@@ -149,6 +149,10 @@
     .info__value {
         padding-left: 10px;
         word-break: break-word;
+
+        p {
+            white-space: pre-wrap;
+        }
     }
 
     .team-member-list {
@@ -514,6 +518,10 @@
     }
 
     .channel-switch__modal {
+        .suggestion-list {
+            position: relative;
+        }
+
         .modal-content {
             border-radius: 2px;
         }

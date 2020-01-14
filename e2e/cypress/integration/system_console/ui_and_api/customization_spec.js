@@ -19,6 +19,7 @@ describe('Customization', () => {
                     SupportEmail: config.SupportSettings.SupportEmail,
                     HelpLink: config.SupportSettings.HelpLink,
                     AboutLink: config.SupportSettings.AboutLink,
+                    ReportAProblemLink: config.SupportSettings.ReportAProblemLink,
                     PrivacyPolicyLink: config.SupportSettings.PrivacyPolicyLink,
                     TermsOfServiceLink: config.SupportSettings.TermsOfServiceLink,
                 },
@@ -26,6 +27,7 @@ describe('Customization', () => {
                     SiteName: config.TeamSettings.SiteName,
                     CustomDescriptionText: config.TeamSettings.CustomDescriptionText,
                     EnableCustomBrand: config.TeamSettings.EnableCustomBrand,
+                    CustomBrandText: config.TeamSettings.CustomBrandText,
                 },
                 NativeAppSettings: {
                     AppDownloadLink: config.NativeAppSettings.AppDownloadLink,
@@ -122,6 +124,57 @@ describe('Customization', () => {
         cy.apiGetConfig().then((response) => {
             // * Verify the site description is saved, directly via REST API
             expect(response.body.TeamSettings.CustomDescriptionText).to.eq(siteDescription);
+        });
+    });
+
+    it('SC20342 - Can change Custom Brand Text setting', () => {
+        // * Verify custom brand text label is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomBrandTextlabel').scrollIntoView().should('be.visible').and('have.text', 'Custom Brand Text:');
+
+        // * Verify the custom brand input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('TeamSettings.CustomBrandTextinput').should('have.value', origConfig.TeamSettings.CustomBrandText);
+
+        // * Verify the custom brand help text is visible and matches the text
+        cy.findByTestId('TeamSettings.CustomBrandTexthelp-text').find('span').should('be.visible').and('have.text', 'Text that will appear below your custom brand image on your login screen. Supports Markdown-formatted text. Maximum 500 characters allowed.');
+
+        //Enable custom branding
+        cy.findByTestId('TeamSettings.EnableCustomBrandtrue').check({force: true});
+
+        // # Enter a custom brand text
+        const customBrandText = 'Random brand text';
+        cy.findByTestId('TeamSettings.CustomBrandTextinput').clear().type(customBrandText);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the custom brand text is saved, directly via REST API
+            expect(response.body.TeamSettings.CustomBrandText).to.eq(customBrandText);
+        });
+    });
+
+    it('SC20331 - Can change Report a Problem Link setting', () => {
+        // * Verify Report a Problem link label is visible and matches the text
+        cy.findByTestId('SupportSettings.ReportAProblemLinklabel').scrollIntoView().should('be.visible').and('have.text', 'Report a Problem Link:');
+
+        // * Verify Report a Problem link input box has default value. The default value depends on the setup before running the test.
+        cy.findByTestId('SupportSettings.ReportAProblemLinkinput').should('have.value', origConfig.SupportSettings.ReportAProblemLink);
+
+        // * Verify Report a Problem link help text is visible and matches the text
+        cy.findByTestId('SupportSettings.ReportAProblemLinkhelp-text').find('span').should('be.visible').and('have.text', 'The URL for the Report a Problem link in the Main Menu. If this field is empty, the link is removed from the Main Menu.');
+
+        // # Enter a problem link
+        const reportAProblemLink = 'https://about.mattermost.com/default-report-a-problem/test';
+        cy.findByTestId('SupportSettings.ReportAProblemLinkinput').clear().type(reportAProblemLink);
+
+        // # Click Save button
+        cy.get('#saveSetting').click();
+
+        // Get config again
+        cy.apiGetConfig().then((response) => {
+            // * Verify the Report a Problem link is saved, directly via REST API
+            expect(response.body.SupportSettings.ReportAProblemLink).to.eq(reportAProblemLink);
         });
     });
 
