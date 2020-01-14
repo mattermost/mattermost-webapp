@@ -13,7 +13,7 @@ import BooleanSetting from './boolean_setting';
 type Props = {
     id: string;
     value: boolean;
-    onChange: (id: string, value: any) => void;
+    onChange: (id: string, value: any, submit: boolean) => void;
     disabled?: boolean;
     setByEnv: boolean;
 }
@@ -32,10 +32,12 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
     }
 
     public handleChange = (id: string, value: boolean, confirm?: boolean) => {
+        const submit = confirm || false;
+
         if (!value && !confirm) {
             this.setState({showConfirm: true});
         } else {
-            this.props.onChange(id, value);
+            this.props.onChange(id, value, submit);
         }
     };
 

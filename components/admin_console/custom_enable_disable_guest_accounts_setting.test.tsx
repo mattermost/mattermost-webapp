@@ -53,7 +53,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             );
 
             wrapper.instance().handleChange('MySetting', true);
-            expect(props.onChange).toBeCalledWith(baseProps.id, true);
+            expect(props.onChange).toBeCalledWith(baseProps.id, true, false);
             expect(wrapper.state().showConfirm).toBe(false);
         });
 
@@ -83,7 +83,7 @@ describe('components/AdminConsole/CustomEnableDisableGuestAccountsSetting', () =
             );
 
             wrapper.instance().handleChange('MySetting', false, true);
-            expect(props.onChange).toBeCalledWith(baseProps.id, false);
+            expect(props.onChange).toBeCalledWith(baseProps.id, false, true);
             expect(wrapper.state().showConfirm).toBe(false);
         });
     });
