@@ -192,7 +192,7 @@ describe('PostList', () => {
 
     describe('updateAtBottom', () => {
         test('should update atBottom and lastViewedBottom when atBottom changes', () => {
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>).dive();
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
             wrapper.instance().updateAtBottom(true);
@@ -202,7 +202,7 @@ describe('PostList', () => {
         });
 
         test('should not update lastViewedBottom when atBottom does not change', () => {
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>).dive();
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
             wrapper.instance().updateAtBottom(false);
@@ -213,7 +213,7 @@ describe('PostList', () => {
         test('should update lastViewedBottom with latestPostTimeStamp as that is greater than Date.now()', () => {
             Date.now = jest.fn().mockReturnValue(12344);
 
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>).dive();
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
             wrapper.instance().updateAtBottom(true);
@@ -224,7 +224,7 @@ describe('PostList', () => {
         test('should update lastViewedBottom with Date.now() as it is greater than latestPostTimeStamp', () => {
             Date.now = jest.fn().mockReturnValue(12346);
 
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>).dive();
+            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
             wrapper.setState({lastViewedBottom: 1234});
 
             wrapper.instance().updateAtBottom(true);
