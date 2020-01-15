@@ -162,7 +162,7 @@ export default class AdminConsole extends React.Component<Props, State> {
                 <Redirect to={this.props.unauthorizedRoute}/>
             );
         }
-        
+
         if (!this.mainRolesLoaded(this.props.roles)) {
             return null;
         }
