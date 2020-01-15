@@ -6,5 +6,6 @@
 
 
 .infinite-scroll:hover {
-    overflow-y: scroll;
+    overflow-y: scroll; // for Firefox and browsers that doesn't support overflow-y:overlay property
+    overflow-y: overlay;
   }
