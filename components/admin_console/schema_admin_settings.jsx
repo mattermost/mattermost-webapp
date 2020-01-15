@@ -624,16 +624,23 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     handleChange = (id, value, submit = false) => {
-        let saveNeeded = 'config';
-        if (this.state.saveNeeded === 'permissions') {
-            saveNeeded = 'both';
+        let saveNeeded = this.state.saveNeeded;
+
+        // Only set saveNeeded & block navigation if the config is not going to immediately be saved
+        if (!submit) {
+            if (saveNeeded === 'permissions') {
+                saveNeeded = 'both';
+            } else {
+                saveNeeded = 'config';
+            }
+            this.props.setNavigationBlocked(true);
         }
+
         this.setState({saveNeeded, [id]: value}, () => {
             if (submit) {
-                this.handleSubmit();
+                this.submitSetting(null, id, value);
             }
         });
-        this.props.setNavigationBlocked(true);
     }
 
     handlePermissionChange = (id, value) => {
@@ -870,6 +877,25 @@ export default class SchemaAdminSettings extends React.Component {
         const elm = e.currentTarget.querySelector('.control-label');
         const isElipsis = elm.offsetWidth < elm.scrollWidth;
         this.setState({errorTooltip: isElipsis});
+    }
+
+    submitSetting = async (callback, key, value) => {
+        const config = JSON.parse(JSON.stringify(this.props.config));
+        const category = key.split('.')[0];
+        const setting = key.split('.')[1];
+        config[category][setting] = value;
+
+        const {error} = await this.props.updateConfig(config);
+        if (error) {
+            this.setState({
+                serverError: error.message,
+                serverErrorId: error.id,
+            });
+        }
+
+        if (callback) {
+            callback();
+        }
     }
 
     doSubmit = async (callback, getStateFromConfig) => {
