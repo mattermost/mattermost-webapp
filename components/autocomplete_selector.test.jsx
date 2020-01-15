@@ -36,6 +36,12 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
       listComponent={[Function]}
       listStyle="bottom"
       listenForMentionKeyClick={false}
+      modalBounds={
+        Object {
+          "bottom": 0,
+          "top": 0,
+        }
+      }
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
@@ -86,6 +92,12 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
       listComponent={[Function]}
       listStyle="bottom"
       listenForMentionKeyClick={false}
+      modalBounds={
+        Object {
+          "bottom": 0,
+          "top": 0,
+        }
+      }
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
@@ -127,6 +139,12 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
       listComponent={[Function]}
       listStyle="bottom"
       listenForMentionKeyClick={false}
+      modalBounds={
+        Object {
+          "bottom": 0,
+          "top": 0,
+        }
+      }
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
