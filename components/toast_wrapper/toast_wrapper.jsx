@@ -24,6 +24,7 @@ class ToastWrapper extends React.PureComponent {
         atBottom: PropTypes.bool,
         lastViewedBottom: PropTypes.number,
         width: PropTypes.number,
+        isMobile: PropTypes.bool,
         updateNewMessagesAtInChannel: PropTypes.func,
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
@@ -157,49 +158,38 @@ class ToastWrapper extends React.PureComponent {
     }
 
     newMessagesToastText = (count, since) => {
-        let msgSince = '';
-        if (typeof since !== 'undefined') {
-            msgSince = (
-                <React.Fragment>
-                    <FormattedMessage
-                        id='postlist.toast.since'
-                        defaultMessage=' since {date}'
-                        values={{
-                            date: (
-                                <FormattedDate
-                                    value={since}
-                                    weekday='short'
-                                    day='2-digit'
-                                    month='short'
-                                />
-                            )
-                        }}
-                    />
-                    <FormattedMessage
-                        id='postlist.toast.atTime'
-                        defaultMessage=' at {time}'
-                        values={{
-                            time: (
-                                <FormattedTime
-                                    value={since}
-                                    hour='2-digit'
-                                    minute='2-digit'
-                                />
-                            ),
-                        }}
-                    />
-                </React.Fragment>
+        if (!this.props.isMobile && typeof since !== 'undefined') {
+            return (
+                <FormattedMessage
+                    id='postlist.toast.newMessagesSince'
+                    defaultMessage={'{count, number} new {count, plural, one {message} other {messages}} since {date} at {time}'}
+                    values={{
+                        count,
+                        date: (
+                            <FormattedDate
+                                value={since}
+                                weekday='short'
+                                day='2-digit'
+                                month='short'
+                            />
+                        ),
+                        time: (
+                            <FormattedTime
+                                value={since}
+                                hour='2-digit'
+                                minute='2-digit'
+                            />
+                        )
+                    }}
+                />
             );
         }
         return (
-            <React.Fragment>
-                <FormattedMessage
-                    id='postlist.toast.newMessages'
-                    defaultMessage={'{count, number} new {count, plural, one {message} other {messages}}'}
-                    values={{count}}
-                />
-                {!this.state.isMobile && msgSince}
-            </React.Fragment>
+            <FormattedMessage
+                id='postlist.toast.newMessages'
+                defaultMessage={'{count, number} new {count, plural, one {message} other {messages}}'}
+                values={{count}}
+            />
         );
     }
 

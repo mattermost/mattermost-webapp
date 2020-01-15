@@ -491,6 +491,7 @@ class PostList extends React.PureComponent {
                 updateNewMessagesAtInChannel={this.updateNewMessagesAtInChannel}
                 updateLastViewedBottomAt={this.updateLastViewedBottomAt}
                 channelId={this.props.channelId}
+                isMobile={this.state.isMobile}
             />
         );
     }
