@@ -50,7 +50,7 @@ describe('Message Reply with attachment pretext', () => {
                 accessToken = token;
 
                 // # Post message with auth token
-                cy.apiPostBotMessage({newChannel, message: 'Hello message from Bot', accessToken}).
+                cy.apiPostBotMessage({newChannel, message: 'Hello message from Bot', pretext: 'Some Pretext', text: 'Some text', accessToken}).
                     its('id').
                     should('exist').
                     as('olderPost');

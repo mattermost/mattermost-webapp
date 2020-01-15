@@ -1096,16 +1096,19 @@ Cypress.Commands.add('apiAccessToken', (user_id, description) => {
 });
 
 /**
- * Get access token
+ * Post a message as a bot
  * This API assume that the user is logged in and has cookie to access
- * @param {String} user_id - The user id to generate token for
- * @param {String} description - The description of the token usage
+ * @param {String} channelid - The channel to post to
+ * @param {String} message - The message of the bot
+ * @param {String} pretext - The pretext of the message
+ * @param {String} text - The text to attach to message
+ * @param {String} token - The auth token 
  * All parameters are required
  */
-Cypress.Commands.add('apiPostBotMessage', (channelId, message, token) => {
+Cypress.Commands.add('apiPostBotMessage', (channelId, message, pretext, text, token) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url:`api/v4/posts`,
+        url:'api/v4/posts',
         method: 'POST',
         auth: {
             bearer: token,
@@ -1117,8 +1120,8 @@ Cypress.Commands.add('apiPostBotMessage', (channelId, message, token) => {
                    	attachments:
                    	[
                    		{
-                   			pretext: 'Look some text',
-                   			text: "This is text",
+                   			pretext: pretext,
+                   			text: text,
                    		},
                    	],
                    },
