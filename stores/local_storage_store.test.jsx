@@ -120,7 +120,7 @@ describe('stores/LocalStorageStore', () => {
         });
     });
 
-    describe('testing previous channel', () => {        
+    describe('testing previous channel', () => {
         test('should remove previous channel without subpath', () => {
             const userId1 = 'userId1';
             const teamId1 = 'teamId1';
