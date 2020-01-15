@@ -133,6 +133,11 @@ export default class SuggestionBox extends React.Component {
          * Passes the wrapper reference for height calculation
          */
         wrapperHeight: PropTypes.number,
+
+        modalBounds: PropTypes.shape({
+            top: PropTypes.number.isRequired,
+            bottom: PropTypes.number.isRequired,
+        }),
     }
 
     static defaultProps = {
@@ -195,13 +200,12 @@ export default class SuggestionBox extends React.Component {
         EventEmitter.removeListener('mention_key_click', this.handleMentionKeyClick);
     }
 
-    componentWillUpdate() {
+    calculateInputRect = () => {
         if (this.inputRef.current) {
-            const width = ReactDOM.findDOMNode(this.inputRef.current).getBoundingClientRect().width;
-            if (width !== this.state.width) {
-                this.setState({width});
-            }
+            const rect = ReactDOM.findDOMNode(this.inputRef.current).getBoundingClientRect();
+            return {top: rect.top, bottom: rect.bottom, width: rect.width};
         }
+        return {top: 0, bottom: 0, width: 0};
     }
 
     componentDidUpdate(prevProps) {
@@ -674,6 +678,7 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
         Reflect.deleteProperty(props, 'wrapperHeight');
+        Reflect.deleteProperty(props, 'modalBounds');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
@@ -701,7 +706,7 @@ export default class SuggestionBox extends React.Component {
                     onKeyDown={this.handleKeyDown}
                 />
                 {(this.props.openWhenEmpty || this.props.value.length >= this.props.requiredCharacters) && this.state.presentationType === 'text' &&
-                    <div style={{position: 'fixed', zIndex: 101, width: this.state.width}}>
+                    <div style={{width: this.state.width}}>
                         <SuggestionListComponent
                             ariaLiveRef={this.suggestionReadOut}
                             open={this.state.focused}
@@ -719,6 +724,9 @@ export default class SuggestionBox extends React.Component {
                             selection={this.state.selection}
                             components={this.state.components}
                             wrapperHeight={this.props.wrapperHeight}
+                            modalBounds={this.props.modalBounds}
+                            calculateInputRect={this.calculateInputRect}
+                            blur={this.blur}
                         />
                     </div>
                 }

@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import SuggestionBox from 'components/suggestion/suggestion_box.jsx';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 
 export default class AutocompleteSelector extends React.PureComponent {
     static propTypes = {
@@ -35,6 +35,7 @@ export default class AutocompleteSelector extends React.PureComponent {
 
         this.state = {
             input: '',
+            modalBounds: {top: 0, bottom: 0},
         };
 
         this.dropDirection = 'bottom';
@@ -63,18 +64,11 @@ export default class AutocompleteSelector extends React.PureComponent {
     }
 
     componentWillUpdate() {
-        if (this.suggestionRef) {
-            const scrollTop = $(window).scrollTop();
-            const scrollBottom = $(window).scrollTop() + $(window).height;
-            const elementOffsetTop = ReactDOM.findDOMNode(this.suggestionRef).getBoundingClientRect().top;
-            const elementOffsetBottom = ReactDOM.findDOMNode(this.suggestionRef).getBoundingClientRect().bottom;
-            const distanceTop = (elementOffsetTop - scrollTop);
-            const distanceBottom = (elementOffsetBottom - scrollBottom);
-            if (distanceTop > 0) {
-                this.dropDirection = 'bottom';
-            }
-            if (distanceBottom < 0) {
-                this.dropDirection = 'top';
+        if (this.container) {
+            const modalContainer = ReactDOM.findDOMNode(this.container).parentElement.parentElement.parentElement;
+            const rect = modalContainer.getBoundingClientRect();
+            if (this.state.modalBounds.top !== rect.top) {
+                this.setState({modalBounds: {top: rect.top, bottom: rect.bottom}});
             }
         }
     }
@@ -97,6 +91,10 @@ export default class AutocompleteSelector extends React.PureComponent {
         if (this.props.toggleFocus) {
             this.props.toggleFocus(false);
         }
+    }
+
+    setContainerRef = (container) => {
+        this.container = container;
     }
 
     render() {
@@ -145,11 +143,14 @@ export default class AutocompleteSelector extends React.PureComponent {
                 className='form-group'
             >
                 {labelContent}
-                <div className={inputClassName}>
+                <div
+                    className={inputClassName}
+                    ref={this.setContainerRef}
+                >
                     <SuggestionBox
                         placeholder={placeholder}
                         ref={this.setSuggestionRef}
-                        listComponent={SuggestionList}
+                        listComponent={ModalSuggestionList}
                         className='form-control'
                         containerClass='select-suggestion-container'
                         value={input}
@@ -166,6 +167,7 @@ export default class AutocompleteSelector extends React.PureComponent {
                         replaceAllInputOnSelect={true}
                         disabled={disabled}
                         listStyle={this.dropDirection}
+                        modalBounds={this.state.modalBounds}
                     />
                     {helpTextContent}
                     {footer}
