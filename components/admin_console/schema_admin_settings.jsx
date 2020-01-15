@@ -97,9 +97,7 @@ export default class SchemaAdminSettings extends React.Component {
     }
 
     handleSubmit = async (e) => {
-        if (e) {
-            e.preventDefault();
-        }
+        e.preventDefault();
 
         this.setState({
             saving: true,
@@ -623,21 +621,17 @@ export default class SchemaAdminSettings extends React.Component {
         this.handleChange(id, s.replace('+', '-').replace('/', '_'));
     }
 
-    handleChange = (id, value, submit = false) => {
+    handleChange = (id, value, submitImmediately = false) => {
         let saveNeeded = this.state.saveNeeded;
 
         // Only set saveNeeded & block navigation if the config is not going to immediately be saved
-        if (!submit) {
-            if (saveNeeded === 'permissions') {
-                saveNeeded = 'both';
-            } else {
-                saveNeeded = 'config';
-            }
+        if (!submitImmediately) {
+            saveNeeded = saveNeeded === 'permissions' ? 'both' : 'config';
             this.props.setNavigationBlocked(true);
         }
 
         this.setState({saveNeeded, [id]: value}, () => {
-            if (submit) {
+            if (submitImmediately) {
                 this.submitSetting(null, id, value);
             }
         });

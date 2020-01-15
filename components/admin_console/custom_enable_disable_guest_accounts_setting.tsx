@@ -32,12 +32,12 @@ export default class CustomEnableDisableGuestAccountsSetting extends React.Compo
     }
 
     public handleChange = (id: string, value: boolean, confirm?: boolean) => {
-        const submit = confirm || false;
+        const submitImmediately = confirm || false;
 
         if (!value && !confirm) {
             this.setState({showConfirm: true});
         } else {
-            this.props.onChange(id, value, submit);
+            this.props.onChange(id, value, submitImmediately);
         }
     };
 
