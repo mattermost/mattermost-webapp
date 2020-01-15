@@ -20,7 +20,7 @@ import {getAdminDefinition} from 'selectors/admin_console';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
-import AdminConsole from './admin_console.jsx';
+import AdminConsole from './admin_console';
 
 function mapStateToProps(state) {
     const generalConfig = getGeneralConfig(state);
