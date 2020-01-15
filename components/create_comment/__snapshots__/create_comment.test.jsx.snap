@@ -41,6 +41,7 @@ exports[`components/CreateComment should match snapshot read only channel 1`] = 
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value=""
         />
         <span
@@ -167,12 +168,13 @@ exports[`components/CreateComment should match snapshot, comment with message 1`
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(InjectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -329,12 +331,13 @@ exports[`components/CreateComment should match snapshot, emoji picker disabled 1
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(InjectIntl(FileUpload))
             fileCount={3}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -479,12 +482,13 @@ exports[`components/CreateComment should match snapshot, empty comment 1`] = `
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value=""
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(InjectIntl(FileUpload))
             fileCount={0}
             getTarget={[Function]}
             onFileUpload={[Function]}
@@ -641,12 +645,13 @@ exports[`components/CreateComment should match snapshot, non-empty message and u
           onMouseUp={[Function]}
           popoverMentionKeyClick={true}
           preview={false}
+          suggestionListStyle="top"
           value="Test message"
         />
         <span
           className="post-body__actions"
         >
-          <Connect(FileUpload)
+          <Connect(InjectIntl(FileUpload))
             fileCount={4}
             getTarget={[Function]}
             onFileUpload={[Function]}

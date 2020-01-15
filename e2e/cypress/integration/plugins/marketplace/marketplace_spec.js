@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 // ***************************************************************
-// - [#] indicates a test step (e.g. 1. Go to a page)
+// - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
@@ -152,10 +152,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#error_bar').should('not.be.visible');
 
             // * search should be visible
-            cy.get('#searchMarketplaceTextbox').should('be.visible');
+            cy.findByPlaceholderText('Search Plugins').should('be.visible').click();
 
             // * tabs should be visible
-            cy.get('#marketplaceTabs').should('be.visible');
+            cy.get('#marketplaceTabs').should('exist');
 
             // * all plugins tab button should be visible
             cy.get('#marketplaceTabs-tab-allPlugins').should('be.visible');
@@ -165,21 +165,21 @@ describe('Plugin Marketplace', () => {
         });
 
         it('autofocus on search plugin input box', () => {
-            cy.focused().should('have.id', 'searchMarketplaceTextbox');
+            cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.focused');
         });
 
         it('render the list of all plugins by default', () => {
             // * all plugins tab should be active
-            cy.get('#marketplaceTabs-pane-allPlugins').should('be.visible');
+            cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
 
             // * installed plugins tab should not be active
-            cy.get('#marketplaceTabs-pane-installed').should('not.be.visible');
+            cy.get('#marketplaceTabs-pane-installed').should('not.exist');
         });
 
         // this test uses exist, not visible, due to issues with Cypress
         it('render the list of installed plugins on demand', () => {
             // # click on installed plugins tab
-            cy.get('#marketplaceTabs-tab-installed').click();
+            cy.get('#marketplaceTabs-tab-installed').scrollIntoView().click();
 
             // * all plugins tab should not be active
             cy.get('#marketplaceTabs-pane-allPlugins').should('not.exist');
@@ -198,7 +198,7 @@ describe('Plugin Marketplace', () => {
 
         it('should filter all on search', () => {
             // # filter to jira plugin only
-            cy.get('#searchMarketplaceTextbox').type('jira');
+            cy.findByPlaceholderText('Search Plugins').scrollIntoView().should('be.visible').type('jira');
 
             // * github plugin should be visible
             cy.get('#marketplace-plugin-jira').should('be.visible');
@@ -219,14 +219,13 @@ describe('Plugin Marketplace', () => {
             cy.apiUpdateConfigBasic(newSettings);
 
             // # filter to jira plugin only
-            cy.get('#searchMarketplaceTextbox').type('jira', {force: true});
+            cy.findByPlaceholderText('Search Plugins').should('be.visible').type('jira');
 
             // * Should be an error connecting to the marketplace server
             cy.get('#error_bar').contains('Error connecting to the marketplace server');
         });
 
-        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
-        xit('should install a plugin on demand', () => {
+        it('should install a plugin on demand', () => {
             // # uninstall any existing webex plugin
             cy.uninstallPluginById('com.mattermost.webex');
 
@@ -240,13 +239,12 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: 60000}).should('be.visible').and('have.text', 'Configure');
         });
 
-        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
-        xit('should install a plugin from search results on demand', () => {
+        it('should install a plugin from search results on demand', () => {
             // # uninstall any existing webex plugin
             cy.uninstallPluginById('com.mattermost.webex');
 
             // # filter to webex plugin only
-            cy.get('#searchMarketplaceTextbox').type('webex');
+            cy.findByPlaceholderText('Search Plugins').should('be.visible').type('webex');
 
             // * no other plugins should be visible
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
@@ -264,8 +262,7 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplaceTabs-pane-allPlugins').find('.more-modal__row').should('have.length', 1);
         });
 
-        // This test is disabled until the marketplace instance with support for plugin signatures is deployed.
-        xit('should prompt to update an old GitHub plugin from all plugins', () => {
+        it('should prompt to update an old GitHub plugin from all plugins', () => {
             // # Install GitHub 0.7.0 plugin
             cy.installPluginFromUrl('https://github.com/mattermost/mattermost-plugin-github/releases/download/v0.7.0/github-0.7.0.tar.gz', true);
 
@@ -276,10 +273,10 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').find('.update').should('be.visible').and('to.contain', 'Update available');
 
             // * github plugin should have update link
-            cy.get('#marketplace-plugin-github').find('.update a').should('be.visible').and('have.text', 'Update');
+            cy.get('#marketplace-plugin-github').find('.update b a').should('be.visible').and('have.text', 'Update');
 
             // # update GitHub plugin
-            cy.get('#marketplace-plugin-github .update a').click();
+            cy.get('#marketplace-plugin-github .update b a').click();
 
             // * confirmation modal should be visible
             cy.get('#confirmModal').should('be.visible');
@@ -298,6 +295,42 @@ describe('Plugin Marketplace', () => {
 
             // * github plugin should still be visible
             cy.get('#marketplace-plugin-github').should('be.visible');
+        });
+
+        // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
+        it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
+            cy.get('#marketplaceTabs').should('exist').within(() => {
+                // # switch tab to installed plugin
+                cy.findByText(/Installed/).should('be.visible').click();
+                cy.findByText(/Installed/).should('have.attr', 'aria-selected', 'true');
+
+                // * installed plugins tab should be active
+                cy.get('#marketplaceTabs-pane-installed').should('be.visible');
+                cy.get('#marketplaceTabs-pane-allPlugins').should('not.exist');
+
+                // # click on Install Plugins should change current tab
+                cy.findByText('Install Plugins').should('be.visible').click();
+
+                // * all plugins tab should be active
+                cy.findByText('All Plugins').should('be.visible').should('have.attr', 'aria-selected', 'true');
+
+                // * all plugins pane should be active
+                cy.get('#marketplaceTabs-pane-installed').should('not.exist');
+                cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
+            });
+        });
+
+        // This test is disabled until the marketplace instance with support for labels is deployed.
+        // This tests need to get updated when the labels send down from the Plugin Marketplace change.
+        xit('should show OFFICIAL label for github plugin', () => {
+            // # Scroll to GitHub plugin
+            cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
+
+            // * OFFICIAL label is shown for github plugin
+            cy.get('#marketplace-plugin-github').find('.tag').should('be.visible').and('to.contain', 'OFFICIAL').trigger('mouseover');
+
+            // * Tooltip is shown after click the label
+            cy.get('div.tooltip-inner').should('be.visible').and('contain', 'This plugin is maintained by Mattermost');
         });
     });
 });

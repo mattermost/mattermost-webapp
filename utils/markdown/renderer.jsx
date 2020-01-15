@@ -33,10 +33,13 @@ export default class Renderer extends marked.Renderer {
         }
 
         let className = 'post-code';
-        let codeClassName = 'hljs hljs-ln';
-        if (!SyntaxHighlighting.canHighlight(usedLanguage)) {
+        let codeClassName = 'hljs';
+        if (!usedLanguage) {
             className += ' post-code--wrap';
-            codeClassName = 'hljs';
+        }
+
+        if (SyntaxHighlighting.canHighlight(usedLanguage)) {
+            codeClassName = 'hljs hljs-ln';
         }
 
         let header = '';
@@ -198,15 +201,15 @@ export default class Renderer extends marked.Renderer {
 
     paragraph(text) {
         if (this.formattingOptions.singleline) {
-            let result = `<p class="markdown__paragraph-inline">${text}</p>`;
-            if (result.includes('class="markdown-inline-img"')) {
+            let result;
+            if (text.includes('class="markdown-inline-img"')) {
                 /*
-                ** remove p tag to allow other divs to be nested,
+                ** use a div tag instead of a p tag to allow other divs to be nested,
                 ** which avoids errors of incorrect DOM nesting (<div> inside <p>)
                 */
-                result = result.replace('<p class="markdown__paragraph-inline">',
-                    '<div className="markdown__paragraph-inline">');
-                result = result.replace('</p>', '</div>');
+                result = `<div class="markdown__paragraph-inline">${text}</div>`;
+            } else {
+                result = `<p class="markdown__paragraph-inline">${text}</p>`;
             }
             return result;
         }

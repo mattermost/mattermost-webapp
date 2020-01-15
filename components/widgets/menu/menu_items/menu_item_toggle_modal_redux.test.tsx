@@ -18,19 +18,23 @@ describe('components/MenuItemToggleModalRedux', () => {
         );
 
         expect(wrapper).toMatchInlineSnapshot(`
-<Connect(ModalToggleButtonRedux)
-  accessibilityLabel="Whatever"
-  dialogProps={
-    Object {
-      "test": "test",
-    }
-  }
-  dialogType={[MockFunction]}
-  modalId="test"
->
-  Whatever
-</Connect(ModalToggleButtonRedux)>
-`);
+      <Connect(InjectIntl(ModalToggleButtonRedux))
+        accessibilityLabel="Whatever"
+        dialogProps={
+          Object {
+            "test": "test",
+          }
+        }
+        dialogType={[MockFunction]}
+        modalId="test"
+      >
+        <span
+          className="MenuItem__primary-text"
+        >
+          Whatever
+        </span>
+      </Connect(InjectIntl(ModalToggleButtonRedux))>
+    `);
     });
 
     test('should match snapshot with extra text', () => {
