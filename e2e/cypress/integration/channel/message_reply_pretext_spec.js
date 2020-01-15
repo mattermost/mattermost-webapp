@@ -21,10 +21,6 @@ describe('Message Reply with attachment pretext', () => {
         // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
-                EnableOAuthServiceProvider: true,
-                EnableIncomingWebhooks: true,
-                EnableOutgoingWebhooks: true,
-                EnableCommands: true,
                 EnableBotAccountCreation: true,
             },
         };
