@@ -44,16 +44,20 @@ describe('Message Reply with attachment pretext', () => {
         const yesterdaysDate = Cypress.moment().subtract(1, 'days').valueOf();
 
         const botName = 'bot-' + Date.now();
-        // # Create a bot
+
+        // # Create a bot and get userID
         cy.apiCreateBot(botName,'Test Bot','test bot for E2E test replying to older bot post').then((userId) => {
             botsUserId = userId;
+
+            // # Get token from bots id
             cy.apiAccessToken(botsUserId, "Create token").then((token) => {
-                        accessToken = token;
-                                // # Post a day old message
-                               cy.apiPostBotMessage({newChannel, message: 'Hello message from Bot ', accessToken}).
-                                    its('id').
-                                    should('exist').
-                                    as('olderPost');
+                accessToken = token;
+
+                // # Post message with auth token
+                cy.apiPostBotMessage({newChannel, message: 'Hello message from Bot', accessToken}).
+                    its('id').
+                    should('exist').
+                    as('olderPost');
                      });
         });
 

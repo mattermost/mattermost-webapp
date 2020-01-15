@@ -1107,22 +1107,22 @@ Cypress.Commands.add('apiPostBotMessage', (channelId, message, token) => {
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url:`api/v4/posts`,
         method: 'POST',
+        auth: {
+            bearer: token,
+          },
         body: {
             channel_id: channelId,
             message: message,
-//            props:{
-//                   	attachments:
-//                   	[
-//                   		{
-//                   			pretext: 'Look some text',
-//                   			text: "This is text"
-//                   		}
-//                   	]
-//                   },
+            props:{
+                   	attachments:
+                   	[
+                   		{
+                   			pretext: 'Look some text',
+                   			text: "This is text",
+                   		},
+                   	],
+                   },
         },
-        auth: {
-            bearer: token
-          }
     }).then((response) => {
         expect(response.status).to.equal(201);
         return cy.wrap(response);
