@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
 
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
@@ -14,6 +14,7 @@ import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
 import CommentIcon from 'components/common/comment_icon';
 import DotMenu from 'components/dot_menu';
+import OverlayTrigger from 'components/overlay_trigger';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';

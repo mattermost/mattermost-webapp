@@ -673,6 +673,7 @@ export default class SuggestionBox extends React.Component {
         Reflect.deleteProperty(props, 'renderDividers');
         Reflect.deleteProperty(props, 'contextId');
         Reflect.deleteProperty(props, 'listenForMentionKeyClick');
+        Reflect.deleteProperty(props, 'wrapperHeight');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;
