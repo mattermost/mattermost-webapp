@@ -3,7 +3,6 @@
 
 import 'bootstrap';
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
@@ -17,51 +16,88 @@ import DiscardChangesModal from 'components/discard_changes_modal';
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
 
-export default class AdminConsole extends React.Component {
-    static propTypes = {
-        config: PropTypes.object.isRequired,
-        adminDefinition: PropTypes.object.isRequired,
-        environmentConfig: PropTypes.object,
-        license: PropTypes.object.isRequired,
-        unauthorizedRoute: PropTypes.string.isRequired,
-        buildEnterpriseReady: PropTypes.bool,
-        roles: PropTypes.object.isRequired,
-        match: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-        }).isRequired,
-        showNavigationPrompt: PropTypes.bool.isRequired,
-        isCurrentUserSystemAdmin: PropTypes.bool.isRequired,
+type Actions = {
+    getConfig: () => void;
+    getEnvironmentConfig: () => void;
+    setNavigationBlocked: () => void;
+    confirmNavigation: () => void;
+    cancelNavigation: () => void;
+    loadRolesIfNeeded: (roles: string[]) => void;
+    editRole: () => void;
+    updateConfig?: () => void;
+}
 
-        actions: PropTypes.shape({
-            getConfig: PropTypes.func.isRequired,
-            getEnvironmentConfig: PropTypes.func.isRequired,
-            setNavigationBlocked: PropTypes.func.isRequired,
-            confirmNavigation: PropTypes.func.isRequired,
-            cancelNavigation: PropTypes.func.isRequired,
-            loadRolesIfNeeded: PropTypes.func.isRequired,
-            editRole: PropTypes.func.isRequired,
-            updateConfig: PropTypes.func,
-        }).isRequired,
-    }
+type Config = {
+    TestField: boolean;
+    ExperimentalSettings: {
+        RestrictSystemAdmin: boolean;
+    };
+}
 
-    constructor(props) {
+type Roles = {
+    channel_admin: string;
+    channel_user: string;
+    team_admin: string;
+    team_user: string;
+    system_admin: string;
+    system_user: string;
+}
+
+type Props = {
+    config: Config;
+    adminDefinition: Record<string, any>;
+    environmentConfig?: Record<string, any>;
+    license: Record<string, any>;
+    unauthorizedRoute: string;
+    buildEnterpriseReady: boolean;
+    roles: Roles;
+    match: { url: string };
+    showNavigationPrompt: boolean;
+    isCurrentUserSystemAdmin: boolean;
+    actions: Actions;
+}
+
+type State = {
+    filter: string;
+}
+
+// not every page in the system console will need the license and config, but the vast majority will
+type ExtraProps = {
+    license?: {};
+    config?: {};
+    environmentConfig?: {};
+    setNavigationBlocked?: () => void;
+    roles?: Roles;
+    editRole?: () => void;
+    updateConfig?: () => void;
+}
+
+// todo: find correct types
+type Item = {
+    isHidden?: (config: {}, state: {}, license: {}, buildEnterpriseReady: boolean) => void;
+    schema: boolean;
+    url: string;
+}
+
+export default class AdminConsole extends React.Component<Props, State> {
+    public constructor(props: Props) {
         super(props);
         this.state = {
             filter: '',
         };
     }
 
-    componentDidMount() {
+    public componentDidMount(): void {
         this.props.actions.getConfig();
         this.props.actions.getEnvironmentConfig();
         this.props.actions.loadRolesIfNeeded(['channel_user', 'team_user', 'system_user', 'channel_admin', 'team_admin', 'system_admin']);
     }
 
-    onFilterChange = (filter) => {
+    private onFilterChange = (filter: string) => {
         this.setState({filter});
     }
 
-    mainRolesLoaded(roles) {
+    private mainRolesLoaded(roles: Roles) {
         return (
             roles &&
             roles.channel_admin &&
@@ -73,9 +109,9 @@ export default class AdminConsole extends React.Component {
         );
     }
 
-    renderRoutes = (extraProps) => {
-        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section) => {
-            const items = Object.values(section).filter((item) => {
+    private renderRoutes = (extraProps: ExtraProps) => {
+        const schemas = Object.values(this.props.adminDefinition).reduce((acc, section: Item[]) => {
+            const items = Object.values(section).filter((item: Item) => {
                 if (item.isHidden && item.isHidden(this.props.config, {}, this.props.license, this.props.buildEnterpriseReady)) {
                     return false;
                 }
@@ -86,7 +122,7 @@ export default class AdminConsole extends React.Component {
             });
             return acc.concat(items);
         }, []);
-        const schemaRoutes = schemas.map((item) => {
+        const schemaRoutes = schemas.map((item: Item) => {
             return (
                 <Route
                     key={item.url}
@@ -111,7 +147,7 @@ export default class AdminConsole extends React.Component {
         );
     }
 
-    render() {
+    public render(): JSX.Element | null {
         const {
             license,
             config,
@@ -126,7 +162,7 @@ export default class AdminConsole extends React.Component {
                 <Redirect to={this.props.unauthorizedRoute}/>
             );
         }
-
+        
         if (!this.mainRolesLoaded(this.props.roles)) {
             return null;
         }
@@ -134,7 +170,8 @@ export default class AdminConsole extends React.Component {
         if (Object.keys(config).length === 0) {
             return <div/>;
         }
-        if (config && Object.keys(config).length === 0 && config.constructor === 'Object') {
+
+        if (config && Object.keys(config).length === 0 && config.constructor === Object) {
             return (
                 <div className='admin-console__wrapper'>
                     <AnnouncementBar/>
@@ -143,7 +180,7 @@ export default class AdminConsole extends React.Component {
             );
         }
 
-        const discardChangesModal = (
+        const discardChangesModal: JSX.Element = (
             <DiscardChangesModal
                 show={showNavigationPrompt}
                 onConfirm={confirmNavigation}
@@ -151,8 +188,7 @@ export default class AdminConsole extends React.Component {
             />
         );
 
-        // not every page in the system console will need the license and config, but the vast majority will
-        const extraProps = {
+        const extraProps: ExtraProps = {
             license,
             config,
             environmentConfig,
