@@ -53,7 +53,7 @@ export function sendMembersInvites(teamId, users, emails) {
                 if (res.error) {
                     notSent.push({email: res.email, reason: res.error.message});
                 } else {
-                    sent.push({email: res.email, reason: localizeMessage('invite.guests.added-to-channel', 'An invitation email has been sent.')});
+                    sent.push({email: res.email, reason: localizeMessage('invite.members.invite-sent', 'An invitation email has been sent.')});
                 }
             }
         }
