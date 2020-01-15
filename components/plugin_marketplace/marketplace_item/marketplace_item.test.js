@@ -298,6 +298,61 @@ describe('components/MarketplaceItem', () => {
             expect(wrapper).toMatchSnapshot();
         });
 
+        test('should render with empty list of labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with one labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [
+                    {
+                        name: 'someName',
+                        description: 'some description',
+                        url: 'http://example.com/info',
+                    }
+                ],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        test('should render with two labels', () => {
+            const props = {
+                ...baseProps,
+                labels: [
+                    {
+                        name: 'someName',
+                        description: 'some description',
+                        url: 'http://example.com/info',
+                    }, {
+                        name: 'someName2',
+                        description: 'some description2',
+                        url: 'http://example.com/info2',
+                    }
+                ],
+            };
+
+            const wrapper = shallow(
+                <MarketplaceItem {...props}/>
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+
         test('should render when not from the marketplace', () => {
             const props = {
                 ...baseProps,
