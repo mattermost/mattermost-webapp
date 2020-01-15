@@ -4,6 +4,8 @@
 import XRegExp from 'xregexp';
 import emojiRegex from 'emoji-regex';
 
+import {Renderer} from 'marked';
+
 import {formatWithRenderer} from 'utils/markdown';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
@@ -11,50 +13,184 @@ import store from 'stores/redux_store.jsx';
 import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
 
+import EmojiMap from './emoji_map.js';
+
 const punctuation = XRegExp.cache('[^\\pL\\d]');
 
 const AT_MENTION_PATTERN = /\B@([a-z0-9.\-_]+)/gi;
 const UNICODE_EMOJI_REGEX = emojiRegex();
 const htmlEmojiPattern = /^<p>\s*(?:<img class="emoticon"[^>]*>|<span data-emoticon[^>]*>[^<]*<\/span>\s*|<span class="emoticon emoticon--unicode">[^<]*<\/span>\s*)+<\/p>$/;
 
+// Performs formatting of user posts including highlighting mentions and search terms and converting urls, hashtags,
+// @mentions and ~channels to links by taking a user's message and returning a string of formatted html. Also takes
+// a number of options as part of the second parameter:
+export type ChannelNamesMap = {
+    [name: string]: {
+        display_name: string;
+    };
+};
+
+export type Tokens = Map<
+string,
+{ value: string; originalText: string; hashtag?: string }
+>;
+
+export type SearchPattern = {
+    pattern: RegExp;
+    term: string;
+};
+
+export type MentionKey = {
+    key: string;
+    caseSensitive?: boolean;
+};
+
+export type Team = {
+    id: string;
+    name: string;
+    displayName: string;
+};
+interface TextFormattingOptionsBase {
+
+    /**
+   * If specified, this word is highlighted in the resulting html.
+   *
+   * Defaults to nothing.
+   */
+    searchTerm: string;
+
+    /**
+   * If specified, an array of words that will be highlighted.
+   *
+   * If both this and `searchTerm` are specified, this takes precedence.
+   *
+   * Defaults to nothing.
+   */
+    searchMatches: string[];
+
+    searchPatterns: SearchPattern[];
+
+    /**
+   * Specifies whether or not to highlight mentions of the current user.
+   *
+   * Defaults to `true`.
+   */
+    mentionHighlight: boolean;
+
+    /**
+   * A list of mention keys for the current user to highlight.
+   */
+    mentionKeys: MentionKey[];
+
+    /**
+   * Specifies whether or not to remove newlines.
+   *
+   * Defaults to `false`.
+   */
+    singleline: boolean;
+
+    /**
+   * Enables emoticon parsing with a data-emoticon attribute.
+   *
+   * Defaults to `true`.
+   */
+    emoticons: boolean;
+
+    /**
+   * Enables markdown parsing.
+   *
+   * Defaults to `true`.
+   */
+    markdown: boolean;
+
+    /**
+   * The origin of this Mattermost instance.
+   *
+   * If provided, links to channels and posts will be replaced with internal
+   * links that can be handled by a special click handler.
+   */
+    siteURL: string;
+
+    /**
+   * Whether or not to render at mentions into spans with a data-mention attribute.
+   *
+   * Defaults to `false`.
+   */
+    atMentions: boolean;
+
+    /**
+   * An object mapping channel display names to channels.
+   *
+   * If provided, ~channel mentions will be replaced with links to the relevant channel.
+   */
+    channelNamesMap: ChannelNamesMap;
+
+    /**
+   * The current team.
+   */
+    team: Team;
+
+    /**
+   * If specified, images are proxied.
+   *
+   * Defaults to `false`.
+   */
+    proxyImages: boolean;
+
+    /**
+   * An array of url schemes that will be allowed for autolinking.
+   *
+   * Defaults to autolinking with any url scheme.
+   */
+    autolinkedUrlSchemes: string[];
+
+    /**
+   * A custom renderer object to use in the formatWithRenderer function.
+   *
+   * Defaults to empty.
+   */
+    renderer: Renderer;
+
+    /**
+   * Minimum number of characters in a hashtag.
+   *
+   * Defaults to `3`.
+   */
+    minimumHashtagLength: number;
+}
+
+export type TextFormattingOptions = Partial<TextFormattingOptionsBase>;
+
+const DEFAULT_OPTIONS: TextFormattingOptions = {
+    mentionHighlight: true,
+    singleline: false,
+    emoticons: true,
+    markdown: true,
+    atMentions: false,
+    minimumHashtagLength: 3,
+    proxyImages: false,
+};
+
 // pattern to detect the existence of a Chinese, Japanese, or Korean character in a string
 // http://stackoverflow.com/questions/15033196/using-javascript-to-check-whether-a-string-contains-japanese-characters-includi
 const cjkPattern = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf\uac00-\ud7a3]/;
 
-// Performs formatting of user posts including highlighting mentions and search terms and converting urls, hashtags,
-// @mentions and ~channels to links by taking a user's message and returning a string of formatted html. Also takes
-// a number of options as part of the second parameter:
-// - searchTerm - If specified, this word is highlighted in the resulting html. Defaults to nothing.
-// - searchMatches - If specified, an array of words that will be highlighted. Defaults to nothing. If both
-//     this and searchTerm are specified, this takes precedence.
-// - mentionHighlight - Specifies whether or not to highlight mentions of the current user. Defaults to true.
-// - mentionKeys - A list of mention keys for the current user to highlight.
-// - singleline - Specifies whether or not to remove newlines. Defaults to false.
-// - emoticons - Enables emoticon parsing with a data-emoticon attribute. Defaults to true.
-// - markdown - Enables markdown parsing. Defaults to true.
-// - siteURL - The origin of this Mattermost instance. If provided, links to channels and posts will be replaced with internal
-//     links that can be handled by a special click handler.
-// - atMentions - Whether or not to render at mentions into spans with a data-mention attribute. Defaults to false.
-// - channelNamesMap - An object mapping channel display names to channels. If provided, ~channel mentions will be replaced with
-//     links to the relevant channel.
-// - team - The current team.
-// - proxyImages - If specified, images are proxied. Defaults to false.
-// - autolinkedUrlSchemes - An array of url schemes that will be allowed for autolinking. Defaults to autolinking with any url scheme.
-// - renderer - a custom renderer object to use in the formatWithRenderer function. Defaults to empty.
-// - minimumHashtagLength - Minimum number of characters in a hashtag. Defaults to 3.
-export function formatText(text, inputOptions) {
+export function formatText(
+    text: string,
+    inputOptions: TextFormattingOptions = DEFAULT_OPTIONS
+) {
     if (!text || typeof text !== 'string') {
         return '';
     }
 
     let output = text;
     const options = Object.assign({}, inputOptions);
-    const hasPhrases = (/"([^"]*)"/).test(options.searchTerm);
+    const hasPhrases = (/"([^"]*)"/).test(options.searchTerm || '');
 
     if (options.searchMatches && !hasPhrases) {
         options.searchPatterns = options.searchMatches.map(convertSearchTermToRegex);
     } else {
-        options.searchPatterns = parseSearchTerms(options.searchTerm).map(convertSearchTermToRegex).sort((a, b) => {
+        options.searchPatterns = parseSearchTerms(options.searchTerm || '').map(convertSearchTermToRegex).sort((a, b) => {
             return b.term.length - a.term.length;
         });
     }
@@ -70,7 +206,7 @@ export function formatText(text, inputOptions) {
             ** remove p tag to allow other divs to be nested,
             ** which allows markdown images to open preview window
             */
-            const replacer = (match) => {
+            const replacer = (match: string) => {
                 return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
             };
             output = output.replace(/<p>|<\/p>/g, replacer);
@@ -86,14 +222,14 @@ export function formatText(text, inputOptions) {
     }
 
     if (htmlEmojiPattern.test(output.trim())) {
-        output = '<span class="all-emoji">' + output.trim() + '</span>';
+        output = `<span class="all-emoji">${output.trim()}</span>`;
     }
 
     return output;
 }
 
 // Performs most of the actual formatting work for formatText. Not intended to be called normally.
-export function doFormatText(text, options) {
+export function doFormatText(text: string, options: TextFormattingOptions) {
     let output = text;
 
     const tokens = new Map();
@@ -104,13 +240,18 @@ export function doFormatText(text, options) {
     }
 
     if (options.channelNamesMap) {
-        output = autolinkChannelMentions(output, tokens, options.channelNamesMap, options.team);
+        output = autolinkChannelMentions(
+            output,
+            tokens,
+            options.channelNamesMap,
+            options.team
+        );
     }
 
     output = autolinkEmails(output, tokens);
     output = autolinkHashtags(output, tokens, options.minimumHashtagLength);
 
-    if (!('emoticons' in options) || options.emoticon) {
+    if (!('emoticons' in options) || options.emoticons) {
         output = Emoticons.handleEmoticons(output, tokens);
     }
 
@@ -122,7 +263,7 @@ export function doFormatText(text, options) {
         output = highlightCurrentMentions(output, tokens, options.mentionKeys);
     }
 
-    if (!('emoticons' in options) || options.emoticon) {
+    if (!('emoticons' in options) || options.emoticons) {
         const emojiMap = getEmojiMap(store.getState());
         output = handleUnicodeEmoji(output, emojiMap, UNICODE_EMOJI_REGEX);
     }
@@ -133,10 +274,10 @@ export function doFormatText(text, options) {
     return output;
 }
 
-export function sanitizeHtml(text) {
+export function sanitizeHtml(text: string) {
     let output = text;
 
-    // normal string.replace only does a single occurrance so use a regex instead
+    // normal string.replace only does a single occurrence so use a regex instead
     output = output.replace(/&/g, '&amp;');
     output = output.replace(/</g, '&lt;');
     output = output.replace(/>/g, '&gt;');
@@ -147,17 +288,33 @@ export function sanitizeHtml(text) {
 }
 
 // Copied from our fork of commonmark.js
-var emailAlphaNumericChars = '\\p{L}\\p{Nd}';
-var emailSpecialCharacters = '!#$%&\'*+\\-\\/=?^_`{|}~';
-var emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
-var emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
-var emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
-var emailStartPattern = '(?:[' + emailValidCharacters + '](?:[' + emailValidCharacters + ']|\\.(?!\\.|@))*|\\"[' + emailValidRestrictedCharacters + '.]+\\")@';
-var reEmail = XRegExp.cache('(^|[^\\pL\\d])(' + emailStartPattern + '[\\pL\\d.\\-]+[.]\\pL{2,4}(?=$|[^\\p{L}]))', 'g');
+const emailAlphaNumericChars = '\\p{L}\\p{Nd}';
+const emailSpecialCharacters = "!#$%&'*+\\-\\/=?^_`{|}~";
+const emailRestrictedSpecialCharacters = '\\s(),:;<>@\\[\\]';
+const emailValidCharacters = emailAlphaNumericChars + emailSpecialCharacters;
+const emailValidRestrictedCharacters = emailValidCharacters + emailRestrictedSpecialCharacters;
+const emailStartPattern =
+  '(?:[' +
+  emailValidCharacters +
+  '](?:[' +
+  emailValidCharacters +
+  ']|\\.(?!\\.|@))*|\\"[' +
+  emailValidRestrictedCharacters +
+  '.]+\\")@';
+const reEmail = XRegExp.cache(
+    '(^|[^\\pL\\d])(' +
+    emailStartPattern +
+    '[\\pL\\d.\\-]+[.]\\pL{2,4}(?=$|[^\\p{L}]))',
+    'g'
+);
 
 // Convert emails into tokens
-function autolinkEmails(text, tokens) {
-    function replaceEmailWithToken(fullMatch, prefix, email) {
+function autolinkEmails(text: string, tokens: Tokens) {
+    function replaceEmailWithToken(
+        fullMatch: string,
+        prefix: string,
+        email: string
+    ) {
         const index = tokens.size;
         const alias = `$MM_EMAIL${index}$`;
 
@@ -175,8 +332,8 @@ function autolinkEmails(text, tokens) {
     return output;
 }
 
-export function autolinkAtMentions(text, tokens) {
-    function replaceAtMentionWithToken(fullMatch, username) {
+export function autolinkAtMentions(text: string, tokens: Tokens) {
+    function replaceAtMentionWithToken(fullMatch: string, username: string) {
         const index = tokens.size;
         const alias = `$MM_ATMENTION${index}$`;
 
@@ -191,7 +348,10 @@ export function autolinkAtMentions(text, tokens) {
     let output = text;
 
     // handle @channel, @all, @here mentions first (purposely excludes trailing punctuation)
-    output = output.replace(/\B@(channel|all|here)\b/gi, replaceAtMentionWithToken);
+    output = output.replace(
+        /\B@(channel|all|here)\b/gi,
+        replaceAtMentionWithToken
+    );
 
     // handle all other mentions (supports trailing punctuation)
     let match = output.match(AT_MENTION_PATTERN);
@@ -203,16 +363,22 @@ export function autolinkAtMentions(text, tokens) {
     return output;
 }
 
-function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
-    function channelMentionExists(c) {
+function autolinkChannelMentions(
+    text: string,
+    tokens: Tokens,
+    channelNamesMap: ChannelNamesMap,
+    team?: Team
+) {
+    function channelMentionExists(c: string) {
         return Boolean(channelNamesMap[c]);
     }
-    function addToken(channelName, mention, displayName) {
+    function addToken(channelName: string, mention: string, displayName: string) {
         const index = tokens.size;
         const alias = `$MM_CHANNELMENTION${index}$`;
         let href = '#';
         if (team) {
-            href = (window.basename || '') + '/' + team.name + '/channels/' + channelName;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href = ((window as any).basename || '') + '/' + team.name + '/channels/' + channelName;
         }
 
         tokens.set(alias, {
@@ -222,12 +388,20 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
         return alias;
     }
 
-    function replaceChannelMentionWithToken(fullMatch, mention, channelName) {
+    function replaceChannelMentionWithToken(
+        fullMatch: string,
+        mention: string,
+        channelName: string
+    ) {
         let channelNameLower = channelName.toLowerCase();
 
         if (channelMentionExists(channelNameLower)) {
             // Exact match
-            const alias = addToken(channelNameLower, mention, escapeHtml(channelNamesMap[channelNameLower].display_name));
+            const alias = addToken(
+                channelNameLower,
+                mention,
+                escapeHtml(channelNamesMap[channelNameLower].display_name)
+            );
             return alias;
         }
 
@@ -240,8 +414,11 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
 
                 if (channelMentionExists(channelNameLower)) {
                     const suffix = originalChannelName.substr(c - 1);
-                    const alias = addToken(channelNameLower, '~' + channelNameLower,
-                        escapeHtml(channelNamesMap[channelNameLower].display_name));
+                    const alias = addToken(
+                        channelNameLower,
+                        '~' + channelNameLower,
+                        escapeHtml(channelNamesMap[channelNameLower].display_name)
+                    );
                     return alias + suffix;
                 }
             } else {
@@ -254,12 +431,15 @@ function autolinkChannelMentions(text, tokens, channelNamesMap, team) {
     }
 
     let output = text;
-    output = output.replace(/\B(~([a-z0-9.\-_]*))/gi, replaceChannelMentionWithToken);
+    output = output.replace(
+        /\B(~([a-z0-9.\-_]*))/gi,
+        replaceChannelMentionWithToken
+    );
 
     return output;
 }
 
-export function escapeRegex(text) {
+export function escapeRegex(text?: string) {
     if (text == null) {
         return '';
     }
@@ -274,28 +454,38 @@ const htmlEntities = {
     "'": '&#039;',
 };
 
-export function escapeHtml(text) {
-    return text.replace(/[&<>"']/g, (match) => htmlEntities[match]);
+export function escapeHtml(text: string) {
+    return text.replace(
+        /[&<>"']/g,
+        (match: string) => htmlEntities[match as keyof (typeof htmlEntities)]
+    );
 }
 
-export function convertEntityToCharacter(text) {
+export function convertEntityToCharacter(text: string) {
     return text.
         replace(/&lt;/g, '<').
         replace(/&gt;/g, '>').
-        replace(/&#39;/g, '\'').
+        replace(/&#39;/g, "'").
         replace(/&quot;/g, '"').
         replace(/&amp;/g, '&');
 }
 
-function highlightCurrentMentions(text, tokens, mentionKeys = []) {
+function highlightCurrentMentions(
+    text: string,
+    tokens: Tokens,
+    mentionKeys: MentionKey[] = []
+) {
     let output = text;
 
     // look for any existing tokens which are self mentions and should be highlighted
-    var newTokens = new Map();
+    const newTokens = new Map();
     for (const [alias, token] of tokens) {
         const tokenTextLower = token.originalText.toLowerCase();
 
-        if (mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !== -1) {
+        if (
+            mentionKeys.findIndex((key) => key.key.toLowerCase() === tokenTextLower) !==
+      -1
+        ) {
             const index = tokens.size + newTokens.size;
             const newAlias = `$MM_SELFMENTION${index}$`;
 
@@ -313,7 +503,12 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     }
 
     // look for self mentions in the text
-    function replaceCurrentMentionWithToken(fullMatch, prefix, mention, suffix = '') {
+    function replaceCurrentMentionWithToken(
+        fullMatch: string,
+        prefix: string,
+        mention: string,
+        suffix = ''
+    ) {
         const index = tokens.size;
         const alias = `$MM_SELFMENTION${index}$`;
 
@@ -340,7 +535,10 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
             // In the case of CJK mention key, even if there's no delimiters (such as spaces) at both ends of a word, it is recognized as a mention key
             pattern = new RegExp(`()(${escapeRegex(mention.key)})()`, flags);
         } else {
-            pattern = new RegExp(`(^|\\W)(${escapeRegex(mention.key)})(\\b|_+\\b)`, flags);
+            pattern = new RegExp(
+                `(^|\\W)(${escapeRegex(mention.key)})(\\b|_+\\b)`,
+                flags
+            );
         }
         output = output.replace(pattern, replaceCurrentMentionWithToken);
     }
@@ -348,10 +546,14 @@ function highlightCurrentMentions(text, tokens, mentionKeys = []) {
     return output;
 }
 
-function autolinkHashtags(text, tokens, minimumHashtagLength = 3) {
+function autolinkHashtags(
+    text: string,
+    tokens: Tokens,
+    minimumHashtagLength = 3
+) {
     let output = text;
 
-    var newTokens = new Map();
+    const newTokens = new Map();
     for (const [alias, token] of tokens) {
         if (token.originalText.lastIndexOf('#', 0) === 0) {
             const index = tokens.size + newTokens.size;
@@ -373,7 +575,11 @@ function autolinkHashtags(text, tokens, minimumHashtagLength = 3) {
     }
 
     // look for hashtags in the text
-    function replaceHashtagWithToken(fullMatch, prefix, originalText) {
+    function replaceHashtagWithToken(
+        fullMatch: string,
+        prefix: string,
+        originalText: string
+    ) {
         const index = tokens.size;
         const alias = `$MM_HASHTAG${index}$`;
 
@@ -391,13 +597,16 @@ function autolinkHashtags(text, tokens, minimumHashtagLength = 3) {
         return prefix + alias;
     }
 
-    return output.replace(XRegExp.cache('(^|\\W)(#\\pL[\\pL\\d\\-_.]*[\\pL\\d])', 'g'), replaceHashtagWithToken);
+    return output.replace(
+        XRegExp.cache('(^|\\W)(#\\pL[\\pL\\d\\-_.]*[\\pL\\d])', 'g'),
+        replaceHashtagWithToken
+    );
 }
 
 const puncStart = XRegExp.cache('^[^\\pL\\d\\s#]+');
 const puncEnd = XRegExp.cache('[^\\pL\\d\\s]+$');
 
-export function parseSearchTerms(searchTerm) {
+export function parseSearchTerms(searchTerm: string) {
     let terms = [];
 
     let termString = searchTerm;
@@ -438,12 +647,16 @@ export function parseSearchTerms(searchTerm) {
             termString = termString.substring(captured[0].length);
 
             // break the text up into words based on how the server splits them in SqlPostStore.SearchPosts and then discard empty terms
-            terms.push(...captured[0].split(/[ <>+()~@]/).filter((term) => Boolean(term)));
+            terms.push(
+                ...captured[0].split(/[ <>+()~@]/).filter((term) => Boolean(term))
+            );
             continue;
         }
 
         // we should never reach this point since at least one of the regexes should match something in the remaining text
-        throw new Error('Infinite loop in search term parsing: "' + termString + '"');
+        throw new Error(
+            'Infinite loop in search term parsing: "' + termString + '"'
+        );
     }
 
     // remove punctuation from each term
@@ -458,7 +671,7 @@ export function parseSearchTerms(searchTerm) {
     return terms;
 }
 
-function convertSearchTermToRegex(term) {
+function convertSearchTermToRegex(term: string): SearchPattern {
     let pattern;
 
     if (cjkPattern.test(term)) {
@@ -479,14 +692,22 @@ function convertSearchTermToRegex(term) {
     };
 }
 
-export function highlightSearchTerms(text, tokens, searchPatterns) {
+export function highlightSearchTerms(
+    text: string,
+    tokens: Tokens,
+    searchPatterns: SearchPattern[]
+) {
     if (!searchPatterns || searchPatterns.length === 0) {
         return text;
     }
 
     let output = text;
 
-    function replaceSearchTermWithToken(match, prefix, word) {
+    function replaceSearchTermWithToken(
+        match: string,
+        prefix: string,
+        word: string
+    ) {
         const index = tokens.size;
         const alias = `$MM_SEARCHTERM${index}$`;
 
@@ -500,7 +721,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
 
     for (const pattern of searchPatterns) {
         // highlight existing tokens matching search terms
-        var newTokens = new Map();
+        const newTokens = new Map();
         for (const [alias, token] of tokens) {
             if (pattern.pattern.test(token.originalText)) {
                 // If it's a Hashtag, skip it unless the search term is an exact match.
@@ -513,7 +734,11 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
                     term = term.substr(1);
                 }
 
-                if (alias.startsWith('$MM_HASHTAG') && alias.endsWith('$') && originalText.toLowerCase() !== term.toLowerCase()) {
+                if (
+                    alias.startsWith('$MM_HASHTAG') &&
+          alias.endsWith('$') &&
+          originalText.toLowerCase() !== term.toLowerCase()
+                ) {
                     continue;
                 }
 
@@ -545,7 +770,7 @@ export function highlightSearchTerms(text, tokens, searchPatterns) {
     return output;
 }
 
-export function replaceTokens(text, tokens) {
+export function replaceTokens(text: string, tokens: Tokens) {
     let output = text;
 
     // iterate backwards through the map so that we do replacement in the opposite order that we added tokens
@@ -553,23 +778,23 @@ export function replaceTokens(text, tokens) {
     for (let i = aliases.length - 1; i >= 0; i--) {
         const alias = aliases[i];
         const token = tokens.get(alias);
-        output = output.replace(alias, token.value);
+        output = output.replace(alias, token ? token.value : '');
     }
 
     return output;
 }
 
-function replaceNewlines(text) {
+function replaceNewlines(text: string) {
     return text.replace(/\n/g, ' ');
 }
 
-export function handleUnicodeEmoji(text, emojiMap, searchPattern) {
+export function handleUnicodeEmoji(text: string, emojiMap: EmojiMap, searchPattern: RegExp) {
     let output = text;
 
     // replace all occurances of unicode emoji with additional markup
     output = output.replace(searchPattern, (emojiMatch) => {
         // convert unicode character to hex string
-        const emojiCode = emojiMatch.codePointAt(0).toString(16);
+        const emojiCode = emojiMatch.codePointAt(0)!.toString(16);
 
         // convert emoji to image if supported, or wrap in span to apply appropriate formatting
         if (emojiMap.hasUnicode(emojiCode)) {
