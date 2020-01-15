@@ -13,7 +13,7 @@ import {getAdminConsoleCustomComponents} from 'selectors/admin_console.jsx';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
-import CustomPluginSettings from './custom_plugin_settings.jsx';
+import CustomPluginSettings from './custom_plugin_settings';
 import getEnablePluginSetting from './enable_plugin_setting';
 
 function makeGetPluginSchema() {
