@@ -822,6 +822,9 @@ export const Constants = {
         'post',
         'api',
         'oauth',
+        'error',
+        'help',
+        'plugins',
     ],
     RESERVED_USERNAMES: [
         'valet',
