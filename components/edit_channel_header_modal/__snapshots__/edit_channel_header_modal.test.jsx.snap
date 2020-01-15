@@ -30,7 +30,7 @@ exports[`components/EditChannelHeaderModal edit direct message channel 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={true}
+  show={false}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -152,7 +152,7 @@ exports[`components/EditChannelHeaderModal error with intl message 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={true}
+  show={false}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -288,7 +288,7 @@ exports[`components/EditChannelHeaderModal error without intl message 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={true}
+  show={false}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -424,7 +424,7 @@ exports[`components/EditChannelHeaderModal should match snapshot, init 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={true}
+  show={false}
 >
   <ModalHeader
     bsClass="modal-header"
@@ -550,7 +550,7 @@ exports[`components/EditChannelHeaderModal submitted 1`] = `
   renderBackdrop={[Function]}
   restoreFocus={true}
   role="dialog"
-  show={true}
+  show={false}
 >
   <ModalHeader
     bsClass="modal-header"
