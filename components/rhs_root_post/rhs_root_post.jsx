@@ -104,6 +104,8 @@ class RhsRootPost extends React.PureComponent {
         if (didEmojiPickerForLastMessageEmitted &&
             didEmojiPickerForLastMessageEmittedForRHS &&
             isEmojiPickerClosed && isLastPost) {
+            // As per issue in point 2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
+            // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
             this.toggleEmojiPicker();
 
             // Setting the last message emoji action to empty to clean up the redux state

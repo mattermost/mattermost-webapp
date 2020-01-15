@@ -78,7 +78,7 @@ export default class PostHeader extends React.PureComponent {
         /**
          * To Check if the current post is last in the list
          */
-        isLastPost: PropTypes.string,
+        isLastPost: PropTypes.bool,
 
     }
 
