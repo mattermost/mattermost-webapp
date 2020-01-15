@@ -3,7 +3,9 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import Constants from 'utils/constants';
 import {copyToClipboard} from 'utils/utils.jsx';

@@ -62,6 +62,7 @@ export default class AtMentionProvider extends Provider {
             const suggestions = getSuggestionsSplitBy(property.toLowerCase(), ' ');
             profileSuggestions.push(...suggestions);
         });
+        profileSuggestions.push(profile.first_name.toLowerCase() + ' ' + profile.last_name.toLowerCase());
 
         return profileSuggestions;
     }
@@ -182,7 +183,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
-        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_.]*)$', 'i').exec(pretext.toLowerCase());
+        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }
