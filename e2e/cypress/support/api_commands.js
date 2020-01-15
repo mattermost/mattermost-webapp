@@ -1102,7 +1102,7 @@ Cypress.Commands.add('apiAccessToken', (user_id, description) => {
  * @param {String} message - The message of the bot
  * @param {String} pretext - The pretext of the message
  * @param {String} text - The text to attach to message
- * @param {String} token - The auth token 
+ * @param {String} token - The auth token
  * All parameters are required
  */
 Cypress.Commands.add('apiPostBotMessage', (channelId, message, pretext, text, token) => {
