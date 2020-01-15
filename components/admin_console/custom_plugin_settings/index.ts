@@ -9,7 +9,7 @@ import {getRoles} from 'mattermost-redux/selectors/entities/roles';
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 
-import {getAdminConsoleCustomComponents} from 'selectors/admin_console';
+import {getAdminConsoleCustomComponents} from 'selectors/admin_console.jsx';
 import SchemaAdminSettings from '../schema_admin_settings';
 import {it} from '../admin_definition';
 
@@ -18,7 +18,7 @@ import getEnablePluginSetting from './enable_plugin_setting';
 
 function makeGetPluginSchema() {
     return createSelector(
-        (state, pluginId) => state.entities.admin.plugins[pluginId],
+        (state: any, pluginId: any) => state.entities.admin.plugins[pluginId],
         (state, pluginId) => getAdminConsoleCustomComponents(state, pluginId),
         (plugin, customComponents) => {
             if (!plugin) {
@@ -30,7 +30,7 @@ function makeGetPluginSchema() {
 
             let settings = [];
             if (plugin.settings_schema && plugin.settings_schema.settings) {
-                settings = plugin.settings_schema.settings.map((setting) => {
+                settings = plugin.settings_schema.settings.map((setting: any) => {
                     const key = setting.key.toLowerCase();
                     let component = null;
                     let bannerType = '';
@@ -80,7 +80,7 @@ function makeGetPluginSchema() {
 function makeMapStateToProps() {
     const getPluginSchema = makeGetPluginSchema();
 
-    return (state, ownProps) => {
+    return (state: any, ownProps: any) => {
         const pluginId = ownProps.match.params.plugin_id;
 
         return {

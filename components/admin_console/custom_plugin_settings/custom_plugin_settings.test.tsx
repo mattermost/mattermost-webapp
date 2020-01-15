@@ -4,12 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings.jsx';
+import CustomPluginSettings from 'components/admin_console/custom_plugin_settings/custom_plugin_settings';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 
 describe('components/admin_console/CustomPluginSettings', () => {
-    let plugin = null;
-    let config = null;
+    let plugin: any;
+    let config: any;
 
     afterEach(() => {
         plugin = null;
@@ -103,7 +103,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
     });
 
     test('should match snapshot with settings and plugin', () => {
-        const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting) => {
+        const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting: any) => {
             const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
             return {
                 ...setting,
@@ -137,7 +137,7 @@ describe('components/admin_console/CustomPluginSettings', () => {
     });
 
     test('should match snapshot with no settings and plugin', () => {
-        const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting) => {
+        const settings = plugin && plugin.settings_schema && plugin.settings_schema.settings && plugin.settings_schema.settings.map((setting: any) => {
             return {...setting, label: setting.display_name};
         });
         const wrapper = shallow(

@@ -4,7 +4,7 @@ import {Constants} from '../../../utils/constants';
 import {t} from '../../../utils/i18n';
 import SchemaAdminSettings from '../schema_admin_settings';
 
-export default function getEnablePluginSetting(plugin) {
+export default function getEnablePluginSetting(plugin: any) {
     const escapedPluginId = SchemaAdminSettings.escapePathPart(plugin.id);
     const pluginEnabledConfigKey = 'PluginSettings.PluginStates.' + escapedPluginId + '.Enable';
 
