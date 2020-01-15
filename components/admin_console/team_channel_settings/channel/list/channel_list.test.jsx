@@ -15,6 +15,7 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testChannels),
+            searchAllChannels: jest.fn().mockResolvedValue(testChannels),
             removeGroup: jest.fn(),
         };
 
@@ -43,6 +44,7 @@ describe('admin_console/team_channel_settings/channel/ChannelList', () => {
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),
+            searchAllChannels: jest.fn().mockResolvedValue(Promise.resolve(testChannels)),
             removeGroup: jest.fn(),
         };
 

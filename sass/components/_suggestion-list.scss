@@ -4,12 +4,6 @@
     width: 100%;
     z-index: 100;
 
-    .suggestion-list__item {
-        &:hover {
-            background: alpha-color($black, .1);
-        }
-    }
-
     .badge {
         position: absolute;
         top: 8px;
@@ -29,7 +23,7 @@
 }
 
 .suggestion-list--bottom {
-    position: relative;
+    position: absolute;
 }
 
 .suggestion-list__content {
@@ -42,6 +36,10 @@
     overflow-y: scroll;
     padding-bottom: 5px;
     width: 100%;
+
+    .modal & {
+        max-height: 205px;
+    }
 
     .command {
         border-bottom: 1px solid $light-gray;
@@ -63,10 +61,6 @@
 .suggestion-list__content--top {
     bottom: 0;
     position: absolute;
-}
-
-.suggestion-list--bottom {
-    position: relative;
 }
 
 .suggestion-list__divider {

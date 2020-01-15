@@ -12,19 +12,12 @@ export default class RemovedFromChannelModal extends React.PureComponent {
         onHide: PropTypes.func.isRequired,
         channelName: PropTypes.string,
         remover: PropTypes.string,
-        actions: PropTypes.shape({
-            goToLastViewedChannel: PropTypes.func.isRequired,
-        }),
     };
 
     constructor(props) {
         super(props);
 
         this.state = {show: true};
-    }
-
-    componentDidMount() {
-        this.props.actions.goToLastViewedChannel();
     }
 
     onHide = () => {
@@ -79,7 +72,7 @@ export default class RemovedFromChannelModal extends React.PureComponent {
                         </span>
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body>
                     <p>
                         <FormattedMessage
                             id='removed_channel.remover'

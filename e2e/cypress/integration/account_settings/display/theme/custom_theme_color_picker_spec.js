@@ -8,9 +8,13 @@
 // ***************************************************************
 
 describe('AS14318 Theme Colors - Color Picker', () => {
-    beforeEach(() => {
-        //Login and navigating to settings
+    before(() => {
+        // Login as user-1
         cy.apiLogin('user-1');
+    });
+
+    beforeEach(() => {
+        // Navigating to account settings
         cy.toAccountSettingsModal(null, true);
         cy.get('#displayButton').click();
         cy.get('#themeTitle').click();
@@ -22,7 +26,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
     });
 
     it('Should be able to use color picker input and change Sidebar theme color', () => {
-        cy.get('#sidebarStyles').click();
+        cy.get('#sidebarStyles').click({force: true});
 
         // # Click the Sidebar BG setting
         cy.get('#sidebarBg-squareColorIcon').click();
@@ -39,14 +43,14 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.get('#customThemes').click();
 
         //opening Sidebar section again in order to verify change
-        cy.get('#sidebarStyles').click();
+        cy.get('#sidebarStyles').click({force: true});
 
         //verifying configuration change was performed correctly
         cy.get('#sidebarBg-squareColorIconValue').should('have.css', 'background-color', 'rgb(187, 18, 62)');
     });
 
     it('Should be able to use color picker input and change Center Channel Styles', () => {
-        cy.get('#centerChannelStyles').click();
+        cy.get('#centerChannelStyles').click({force: true});
 
         // # Click the Sidebar BG setting
         cy.get('#centerChannelBg-squareColorIcon').click();
@@ -60,14 +64,14 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.get('#themeTitle').click();
 
         //access to custom settings one more time
-        cy.get('#centerChannelStyles').click();
+        cy.get('#centerChannelStyles').click({force: true});
 
         //verifying configuration change was performed correctly
         cy.get('#centerChannelBg-squareColorIconValue').should('have.css', 'background-color', 'rgb(255, 136, 0)');
     });
 
     it('Should be able to use color picker input and change Link and Button Styles', () => {
-        cy.get('#linkAndButtonsStyles').click();
+        cy.get('#linkAndButtonsStyles').click({force: true});
 
         // # Click the Sidebar BG setting
         cy.get('#linkColor-squareColorIcon').click();
@@ -81,7 +85,7 @@ describe('AS14318 Theme Colors - Color Picker', () => {
         cy.get('#themeTitle').click();
 
         //access to custom settings one more time
-        cy.get('#linkAndButtonsStyles').click();
+        cy.get('#linkAndButtonsStyles').click({force: true});
 
         //verifying configuration change was performed correctly
         cy.get('#linkColor-squareColorIconValue').should('have.css', 'background-color', 'rgb(255, 229, 119)');

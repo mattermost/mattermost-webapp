@@ -26,7 +26,7 @@ import ChannelGroupsManageModal from 'components/channel_groups_manage_modal';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import Menu from 'components/widgets/menu/menu.jsx';
+import Menu from 'components/widgets/menu/menu';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
@@ -45,6 +45,8 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
         isArchived: PropTypes.bool.isRequired,
         isMobile: PropTypes.bool.isRequired,
         penultimateViewedChannelName: PropTypes.string.isRequired,
+        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
+        isLicensedForLDAPGroups: PropTypes.bool,
     }
 
     render() {
@@ -58,6 +60,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
             isArchived,
             isMobile,
             penultimateViewedChannelName,
+            isLicensedForLDAPGroups,
         } = this.props;
 
         const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
@@ -74,6 +77,21 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                 </li>
             );
         }
+
+        const pluginItems = this.props.pluginMenuItems.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={() => {
+                        if (item.action) {
+                            item.action(this.props.channel.id);
+                        }
+                    }}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <React.Fragment>
@@ -155,14 +173,14 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                     >
                         <Menu.ItemToggleModalRedux
                             id='channelAddGroups'
-                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained}
+                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.ADD_GROUPS_TO_CHANNEL}
                             dialogType={AddGroupsToChannelModal}
                             text={localizeMessage('navbar.addGroups', 'Add Groups')}
                         />
                         <Menu.ItemToggleModalRedux
                             id='channelManageGroups'
-                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained}
+                            show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault && isGroupConstrained && isLicensedForLDAPGroups}
                             modalId={ModalIdentifiers.MANAGE_CHANNEL_GROUPS}
                             dialogType={ChannelGroupsManageModal}
                             dialogProps={{channelID: channel.id}}
@@ -267,7 +285,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>
-
+                <Menu.Group>
+                    {pluginItems}
+                </Menu.Group>
                 <Menu.Group divider={divider}>
                     {isMobile &&
                         <MobileChannelHeaderPlug

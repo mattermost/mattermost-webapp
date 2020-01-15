@@ -38,7 +38,7 @@ export function loadProfilesAndStatusesInChannel(channelId, page = 0, perPage = 
 export function loadProfilesAndTeamMembers(page, perPage, teamId, options) {
     return async (doDispatch, doGetState) => {
         const newTeamId = teamId || getCurrentTeamId(doGetState());
-        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, options));
+        const {data} = await doDispatch(UserActions.getProfilesInTeam(newTeamId, page, perPage, '', options));
         if (data) {
             doDispatch(loadTeamMembersForProfilesList(data, newTeamId));
             doDispatch(loadStatusesForProfilesList(data));
@@ -299,18 +299,19 @@ export async function loadProfilesForDM() {
     }
 }
 
-export async function autocompleteUsersInTeam(username, success) {
-    const {data} = await UserActions.autocompleteUsers(username, getCurrentTeamId(getState()))(dispatch, getState);
-    if (success) {
-        success(data);
-    }
+export function autocompleteUsersInTeam(username) {
+    return async (doDispatch, doGetState) => {
+        const currentTeamId = getCurrentTeamId(doGetState());
+        const {data} = await doDispatch(UserActions.autocompleteUsers(username, currentTeamId));
+        return data;
+    };
 }
 
-export async function autocompleteUsers(username, success) {
-    const {data} = await UserActions.autocompleteUsers(username)(dispatch, getState);
-    if (success) {
-        success(data);
-    }
+export function autocompleteUsers(username) {
+    return async (doDispatch) => {
+        const {data} = await doDispatch(UserActions.autocompleteUsers(username));
+        return data;
+    };
 }
 
 export function autoResetStatus() {

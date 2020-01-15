@@ -9,8 +9,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import * as Utils from 'utils/utils.jsx';
-import {AsyncComponent} from 'components/async_load';
-import loadSettingsSidebar from 'bundle-loader?lazy!components/settings_sidebar.tsx';
+const SettingsSidebar = React.lazy(() => import('components/settings_sidebar.tsx'));
 
 import TeamSettings from 'components/team_settings';
 
@@ -27,12 +26,8 @@ export default class TeamSettingsModal extends React.Component {
             activeSection: '',
             show: true,
         };
-    }
 
-    componentDidMount() {
-        if (!Utils.isMobile()) {
-            $('.settings-modal .settings-content').perfectScrollbar();
-        }
+        this.modalBodyRef = React.createRef();
     }
 
     updateTab = (tab) => {
@@ -40,22 +35,14 @@ export default class TeamSettingsModal extends React.Component {
             activeTab: tab,
             activeSection: '',
         });
-
-        if (!Utils.isMobile()) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
     }
 
     updateSection = (section) => {
-        if ($('.section-max').length) {
-            $('.settings-modal .modal-body').scrollTop(0).perfectScrollbar('update');
-        }
-
         this.setState({activeSection: section});
     }
 
     collapseModal = () => {
-        $(ReactDOM.findDOMNode(this.refs.modalBody)).closest('.modal-dialog').removeClass('display--content');
+        $(ReactDOM.findDOMNode(this.modalBodyRef.current)).closest('.modal-dialog').removeClass('display--content');
 
         this.setState({
             active_tab: '',
@@ -101,15 +88,16 @@ export default class TeamSettingsModal extends React.Component {
                         />
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body ref='modalBody'>
+                <Modal.Body ref={this.modalBodyRef}>
                     <div className='settings-table'>
                         <div className='settings-links'>
-                            <AsyncComponent
-                                doLoad={loadSettingsSidebar}
-                                tabs={tabs}
-                                activeTab={this.state.activeTab}
-                                updateTab={this.updateTab}
-                            />
+                            <React.Suspense fallback={null}>
+                                <SettingsSidebar
+                                    tabs={tabs}
+                                    activeTab={this.state.activeTab}
+                                    updateTab={this.updateTab}
+                                />
+                            </React.Suspense>
                         </div>
                         <div className='settings-content minimize-settings'>
                             <TeamSettings

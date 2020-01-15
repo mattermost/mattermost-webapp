@@ -75,10 +75,6 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         channelIsArchived: false,
     };
 
-    beforeEach(() => {
-        defaultProps.actions.openLhs = jest.fn();
-    });
-
     test('should match snapshot, on channel show', () => {
         const props = defaultProps;
         const wrapper = shallowWithIntl(
@@ -94,6 +90,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
             <SidebarChannel {...props}/>
         );
         expect(wrapper).toMatchSnapshot();
+        expect(props.actions.openLhs).not.toBeCalled();
     });
 
     test('should match snapshot, on fake channel show', () => {
@@ -165,7 +162,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
         };
         const wrapper = shallowWithIntl(<SidebarChannel {...props}/>);
         expect(wrapper).toMatchSnapshot();
-        expect(props.actions.openLhs).toBeCalled();
+        expect(props.actions.openLhs).not.toBeCalled();
     });
 
     test('should match snapshot, on channel show with unread mentions (must have mentions badge)', () => {

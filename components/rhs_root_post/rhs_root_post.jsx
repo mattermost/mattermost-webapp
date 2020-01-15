@@ -3,16 +3,18 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FormattedMessage, intlShape} from 'react-intl';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {FormattedMessage, injectIntl} from 'react-intl';
+import {Tooltip} from 'react-bootstrap';
 import {Posts} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils.jsx';
+import {intlShape} from 'utils/react_intl';
 import * as Utils from 'utils/utils.jsx';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
+import OverlayTrigger from 'components/overlay_trigger';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ReactionList from 'components/post_view/reaction_list';
@@ -24,7 +26,7 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
 
-export default class RhsRootPost extends React.PureComponent {
+class RhsRootPost extends React.PureComponent {
     static propTypes = {
         post: PropTypes.object.isRequired,
         teamId: PropTypes.string.isRequired,
@@ -46,10 +48,10 @@ export default class RhsRootPost extends React.PureComponent {
         channelType: PropTypes.string,
         channelDisplayName: PropTypes.string,
         handleCardClick: PropTypes.func.isRequired,
-    };
-
-    static contextTypes = {
         intl: intlShape.isRequired,
+        actions: PropTypes.shape({
+            markPostAsUnread: PropTypes.func.isRequired,
+        }),
     };
 
     static defaultProps = {
@@ -60,11 +62,22 @@ export default class RhsRootPost extends React.PureComponent {
         super(props);
 
         this.state = {
+            alt: false,
             showEmojiPicker: false,
             testStateObj: true,
             dropdownOpened: false,
             currentAriaLabel: '',
         };
+    }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleAlt);
+        document.addEventListener('keyup', this.handleAlt);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleAlt);
+        document.removeEventListener('keyup', this.handleAlt);
     }
 
     renderPostTime = (isEphemeral) => {
@@ -118,8 +131,16 @@ export default class RhsRootPost extends React.PureComponent {
             className += ' post--hovered';
         }
 
+        if (this.state.alt) {
+            className += ' cursor--pointer';
+        }
+
         return className;
     };
+
+    handleAlt = (e) => {
+        this.setState({alt: e.altKey});
+    }
 
     handleDropdownOpened = (isOpened) => {
         this.setState({
@@ -127,9 +148,15 @@ export default class RhsRootPost extends React.PureComponent {
         });
     };
 
+    handlePostClick = (e) => {
+        if (e.altKey) {
+            this.props.actions.markPostAsUnread(this.props.post);
+        }
+    }
+
     handlePostFocus = () => {
         const {post, author, reactions, isFlagged} = this.props;
-        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.context.intl)});
+        this.setState({currentAriaLabel: PostUtils.createAriaLabelForPost(post, author, isFlagged, reactions, this.props.intl)});
     }
 
     getDotMenuRef = () => {
@@ -323,7 +350,9 @@ export default class RhsRootPost extends React.PureComponent {
                 tabIndex='-1'
                 className={`thread__root a11y__section ${this.getClassName(post, isSystemMessage)}`}
                 aria-label={this.state.currentAriaLabel}
+                onClick={this.handlePostClick}
                 onFocus={this.handlePostFocus}
+                data-a11y-sort-order='0'
             >
                 <div className='post-right-channel__name'>{channelName}</div>
                 <div
@@ -375,3 +404,5 @@ export default class RhsRootPost extends React.PureComponent {
         );
     }
 }
+
+export default injectIntl(RhsRootPost);

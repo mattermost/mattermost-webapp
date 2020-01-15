@@ -5,11 +5,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import PropTypes from 'prop-types';
 
-import AdminSettings from 'components/admin_console/admin_settings.jsx';
+import AdminSettings from 'components/admin_console/admin_settings';
 
 import SettingsGroup from 'components/admin_console/settings_group.jsx';
-import BooleanSetting from 'components/admin_console/boolean_setting.jsx';
-import TextSetting from 'components/admin_console/text_setting.jsx';
+import BooleanSetting from 'components/admin_console/boolean_setting';
+import TextSetting from 'components/admin_console/text_setting';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import LoadingScreen from 'components/loading_screen';
 

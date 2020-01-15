@@ -62,6 +62,7 @@ export default class AtMentionProvider extends Provider {
             const suggestions = getSuggestionsSplitBy(property.toLowerCase(), ' ');
             profileSuggestions.push(...suggestions);
         });
+        profileSuggestions.push(profile.first_name.toLowerCase() + ' ' + profile.last_name.toLowerCase());
 
         return profileSuggestions;
     }
@@ -137,12 +138,29 @@ export default class AtMentionProvider extends Provider {
 
         const remoteMembers = this.remoteMembers().filter((item) => !localUserIds[item.id]);
 
-        // Combine the local and remote members, sorting to mix the results together.
-        const localAndRemoteMembers = localMembers.concat(remoteMembers).sort((a, b) =>
-            a.username.localeCompare(b.username)
-        );
+        // comparator which prioritises users with usernames starting with search term
+        const orderUsers = (a, b) => {
+            const aStartsWith = a.username.startsWith(this.latestPrefix);
+            const bStartsWith = b.username.startsWith(this.latestPrefix);
 
-        const remoteNonMembers = this.remoteNonMembers().filter((item) => !localUserIds[item.id]);
+            if (aStartsWith && bStartsWith) {
+                return a.username.localeCompare(b.username);
+            }
+            if (aStartsWith) {
+                return -1;
+            }
+            if (bStartsWith) {
+                return 1;
+            }
+            return a.username.localeCompare(b.username);
+        };
+
+        // Combine the local and remote members, sorting to mix the results together.
+        const localAndRemoteMembers = localMembers.concat(remoteMembers).sort(orderUsers);
+
+        const remoteNonMembers = this.remoteNonMembers().
+            filter((item) => !localUserIds[item.id]).
+            sort(orderUsers);
 
         return localAndRemoteMembers.concat(specialMentions).concat(remoteNonMembers);
     }
@@ -165,7 +183,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
-        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_.]*)$', 'i').exec(pretext.toLowerCase());
+        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }

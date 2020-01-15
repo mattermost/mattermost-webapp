@@ -19,12 +19,38 @@ export default class TeamRow extends React.Component {
         const {team, onRowClick} = this.props;
         onRowClick(team.id);
     }
+
+    renderManagementMethodText = () => {
+        const {team} = this.props;
+        if (team.group_constrained) {
+            return (
+                <FormattedMessage
+                    id='admin.team_settings.team_row.managementMethod.groupSync'
+                    defaultMessage='Group Sync'
+                />
+            );
+        } else if (team.allow_open_invite) {
+            return (
+                <FormattedMessage
+                    id='admin.team_settings.team_row.managementMethod.anyoneCanJoin'
+                    defaultMessage='Anyone Can Join'
+                />
+            );
+        }
+        return (
+            <FormattedMessage
+                id='admin.team_settings.team_row.managementMethod.inviteOnly'
+                defaultMessage='Invite Only'
+            />
+        );
+    }
+
     render = () => {
         const {team} = this.props;
         const teamIconUrl = Utils.imageURLForTeam(team);
         return (
             <div
-                className={'group '}
+                className='group'
                 onClick={this.handleRowClick}
             >
                 <div className='group-row group-row-large'>
@@ -35,7 +61,7 @@ export default class TeamRow extends React.Component {
                             name={team.display_name}
                         />
                         <div>
-                            <b>{team.display_name}</b>
+                            <b data-testid='team-display-name'>{team.display_name}</b>
                             {team.description && (
                                 <div className='overflow--ellipsis text-nowrap team-descr-list-column'>
                                     {team.description}
@@ -44,21 +70,22 @@ export default class TeamRow extends React.Component {
                         </div>
 
                     </div>
-
-                    <span className='group-description adjusted row-content'>
-                        <FormattedMessage
-                            id={`admin.team_settings.team_row.managementMethod.${team.group_constrained ? 'group' : 'manual'}`}
-                            defaultMessage={team.group_constrained ? 'Group Sync' : 'Manual Invites'}
-                        />
-                    </span>
-                    <span className='group-actions'>
-                        <Link to={`/admin_console/user_management/teams/${team.id}`}>
-                            <FormattedMessage
-                                id='admin.team_settings.team_row.configure'
-                                defaultMessage='Edit'
-                            />
-                        </Link>
-                    </span>
+                    <div className='group-content'>
+                        <span className='group-description adjusted row-content'>
+                            {this.renderManagementMethodText()}
+                        </span>
+                        <span
+                            data-testid={`${team.display_name}edit`}
+                            className='group-actions'
+                        >
+                            <Link to={`/admin_console/user_management/teams/${team.id}`}>
+                                <FormattedMessage
+                                    id='admin.team_settings.team_row.configure'
+                                    defaultMessage='Edit'
+                                />
+                            </Link>
+                        </span>
+                    </div>
                 </div>
             </div>
         );

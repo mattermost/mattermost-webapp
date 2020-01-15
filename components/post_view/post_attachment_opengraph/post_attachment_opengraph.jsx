@@ -204,11 +204,11 @@ export default class PostAttachmentOpenGraph extends React.PureComponent {
         if (this.props.currentUserId === this.props.post.user_id) {
             removePreviewButton = (
                 <button
-                    id='removePreviewButton'
                     type='button'
                     className='btn-close'
                     aria-label='Close'
                     onClick={this.handleRemovePreview}
+                    data-testid='removeLinkPreviewButton'
                 >
                     <span aria-hidden='true'>{'×'}</span>
                 </button>

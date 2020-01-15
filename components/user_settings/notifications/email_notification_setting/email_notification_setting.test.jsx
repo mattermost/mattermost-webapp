@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Preferences} from 'utils/constants';
 
-import {mountWithIntl} from 'tests/helpers/intl-test-helper.jsx';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import EmailNotificationSetting from 'components/user_settings/notifications/email_notification_setting/email_notification_setting.jsx';
 
 describe('components/user_settings/notifications/EmailNotificationSetting', () => {
@@ -23,7 +23,6 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         saving: false,
         sendEmailNotifications: true,
         enableEmailBatching: false,
-        siteName: 'Mattermost',
         actions: {
             savePreferences: jest.fn(),
         },
@@ -189,6 +188,7 @@ describe('components/user_settings/notifications/EmailNotificationSetting', () =
         nextProps.emailInterval = Preferences.INTERVAL_FIFTEEN_MINUTES;
         wrapper.setProps(nextProps);
         expect(wrapper.state('emailInterval')).toBe(nextProps.emailInterval);
+        expect(wrapper.state('enableEmail')).toBe(nextProps.enableEmail);
         expect(wrapper.state('enableEmailBatching')).toBe(nextProps.enableEmailBatching);
         expect(wrapper.state('sendEmailNotifications')).toBe(nextProps.sendEmailNotifications);
         expect(wrapper.state('newInterval')).toBe(Preferences.INTERVAL_FIFTEEN_MINUTES);

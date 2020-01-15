@@ -202,7 +202,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             setByEnv={false}
             value="Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23"
           />
-          <UserAutocompleteSetting
+          <Connect(UserAutocompleteSetting)
             disabled={false}
             helpText={
               <SchemaText
@@ -505,7 +505,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 textDefault="This is some help text for the button field."
               />
             }
-            id={null}
+            id="SecondSettings.settingk"
             includeDetailedError={true}
             key="Config_text_SecondSettings.settingk"
             requestAction={[Function]}
@@ -564,15 +564,37 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             value=""
           />
           <component
+            config={
+              Object {
+                "EscapedSettings": Object {
+                  "com.example.setting": Object {
+                    "a": true,
+                  },
+                },
+                "FirstSettings": Object {
+                  "settinga": "fsdsdg",
+                  "settingb": false,
+                  "settingc": "option3",
+                  "settingl": true,
+                },
+                "SecondSettings": Object {
+                  "settingd": "option1",
+                  "settinge": "Q6DHXrFLOIS5sOI5JNF4PyDLqWm7vh23",
+                  "settingf": "3xz3r6n7dtbbmgref3yw4zg7sr",
+                  "settingg": 7,
+                  "settingh": 100,
+                },
+              }
+            }
             disabled={false}
+            helpText={null}
             id="custom"
-            key="Config_userautocomplete_custom"
+            key="Config_custom_custom"
             onChange={[Function]}
             registerSaveAction={[Function]}
             setByEnv={false}
             setSaveNeeded={[Function]}
             unRegisterSaveAction={[Function]}
-            value=""
           />
           <Connect(InjectIntl(JobTable))
             createJobButtonText={
@@ -591,7 +613,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
             disabled={false}
             getExtraInfoText={[Function]}
             jobType="test"
-            key="Config_userautocomplete_undefined"
+            key="Config_jobstable_undefined"
           />
           <BooleanSetting
             disabled={false}
@@ -662,6 +684,13 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
   >
     <SaveButton
       btnClass="btn-primary"
+      defaultMessage={
+        <FormattedMessage
+          defaultMessage="Save"
+          id="save_button.save"
+          values={Object {}}
+        />
+      }
       disabled={true}
       extraClasses=""
       onClick={[Function]}

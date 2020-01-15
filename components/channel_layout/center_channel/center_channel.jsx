@@ -24,13 +24,18 @@ export default class CenterChannel extends React.PureComponent {
         super(props);
         this.state = {
             returnTo: '',
+            lastReturnTo: '',
         };
     }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.location.pathname !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
-            this.setState({returnTo: this.props.location.pathname});
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.lastReturnTo !== nextProps.location.pathname && nextProps.location.pathname.includes('/pl/')) {
+            return {
+                lastReturnTo: nextProps.location.pathname,
+                returnTo: prevState.lastReturnTo
+            };
         }
+        return {lastReturnTo: nextProps.location.pathname
+        };
     }
 
     render() {
@@ -46,7 +51,7 @@ export default class CenterChannel extends React.PureComponent {
                 })}
             >
                 <div className='row header'>
-                    <div id='navbar'>
+                    <div id='navbar_wrapper'>
                         <ChannelHeaderMobile/>
                     </div>
                 </div>

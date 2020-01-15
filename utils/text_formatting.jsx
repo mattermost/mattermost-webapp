@@ -8,7 +8,7 @@ import {formatWithRenderer} from 'utils/markdown';
 import {getEmojiMap} from 'selectors/emojis';
 import store from 'stores/redux_store.jsx';
 
-import * as Emoticons from './emoticons.jsx';
+import * as Emoticons from './emoticons';
 import * as Markdown from './markdown';
 
 const punctuation = XRegExp.cache('[^\\pL\\d]');
@@ -71,7 +71,7 @@ export function formatText(text, inputOptions) {
             ** which allows markdown images to open preview window
             */
             const replacer = (match) => {
-                return match === '<p>' ? '<div className="style--none">' : '</div>';
+                return match === '<p>' ? '<div className="markdown-inline-img__container">' : '</div>';
             };
             output = output.replace(/<p>|<\/p>/g, replacer);
         }
@@ -162,7 +162,7 @@ function autolinkEmails(text, tokens) {
         const alias = `$MM_EMAIL${index}$`;
 
         tokens.set(alias, {
-            value: `<a class="theme" href="mailto:${email}">${email}</a>`,
+            value: `<a class="theme" href="mailto:${email}" rel="noreferrer" target="_blank">${email}</a>`,
             originalText: email,
         });
 
@@ -417,7 +417,7 @@ export function parseSearchTerms(searchTerm) {
         }
 
         // check for a search flag (and don't add it to terms)
-        captured = (/^(?:in|from|channel): ?\S+/).exec(termString);
+        captured = (/^-?(?:in|from|channel|on|before|after): ?\S+/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
             continue;
@@ -433,7 +433,7 @@ export function parseSearchTerms(searchTerm) {
         }
 
         // capture any plain text up until the next quote or search flag
-        captured = (/^.+?(?=\bin:|\bfrom:|\bchannel:|"|$)/).exec(termString);
+        captured = (/^.+?(?=(?:\b|\B-)(?:in:|from:|channel:|on:|before:|after:)|"|$)/).exec(termString);
         if (captured) {
             termString = termString.substring(captured[0].length);
 

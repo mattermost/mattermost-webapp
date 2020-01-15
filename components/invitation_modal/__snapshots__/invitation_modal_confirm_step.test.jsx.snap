@@ -4,16 +4,14 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 <div
   className="InvitationModalConfirmStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
-  <h1>
+  <h1
+    id="invitation_modal_title"
+  >
     <InjectIntl(FormattedMarkdownMessage)
       defaultMessage="**Guests** Invited to **{teamName}**"
       id="invitation_modal.confirm.guests_title"
@@ -105,16 +103,14 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 <div
   className="InvitationModalConfirmStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
-  <h1>
+  <h1
+    id="invitation_modal_title"
+  >
     <InjectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
@@ -206,16 +202,14 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 <div
   className="InvitationModalConfirmStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
-  <h1>
+  <h1
+    id="invitation_modal_title"
+  >
     <InjectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
@@ -283,16 +277,14 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 <div
   className="InvitationModalConfirmStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
-  <h1>
+  <h1
+    id="invitation_modal_title"
+  >
     <InjectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
@@ -332,16 +324,14 @@ exports[`components/invitation_modal/InvitationModalConfirmStep should match the
 <div
   className="InvitationModalConfirmStep"
 >
-  <BackIcon
-    className="back"
-    onClick={[MockFunction]}
-  />
   <div
     className="modal-icon"
   >
     <InviteIcon />
   </div>
-  <h1>
+  <h1
+    id="invitation_modal_title"
+  >
     <InjectIntl(FormattedMarkdownMessage)
       defaultMessage="**Members** Invited to **{teamName}**"
       id="invitation_modal.confirm.members_title"
