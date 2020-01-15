@@ -49,8 +49,8 @@ function makeMapStateToProps() {
     return function mapStateToProps(state, ownProps) {
         let newRecentMessagesCount = 0;
         const channelMarkedAsUnread = isManuallyUnread(state, ownProps.channelId);
+        const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         if (!ownProps.atLatestPost) {
-            const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
             let postIds = getPostIdsInChannel(state, ownProps.channelId);
             if (postIds) {
                 postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, channelId: ownProps.channelId});
@@ -59,6 +59,7 @@ function makeMapStateToProps() {
         }
 
         return {
+            lastViewedAt,
             newRecentMessagesCount,
             unreadCountInChannel: countCurrentChannelUnreadMessages(state),
             channelMarkedAsUnread,

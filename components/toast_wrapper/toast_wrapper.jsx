@@ -3,12 +3,13 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormattedMessage, FormattedDate, FormattedTime, injectIntl} from 'react-intl';
+import {FormattedMessage, FormattedDate, injectIntl} from 'react-intl';
 
 import UnreadToast from 'components/toast/toast';
 import {isIdNotPost, getNewMessageIndex} from 'utils/post_utils.jsx';
 import * as Utils from 'utils/utils.jsx';
 import Constants from 'utils/constants';
+import LocalDateTime from 'components/local_date_time';
 
 export const TOAST_FADEOUT_TIME_UNREAD = 4000;
 export const TOAST_FADEOUT_TIME = 750;
@@ -25,6 +26,7 @@ class ToastWrapper extends React.PureComponent {
         lastViewedBottom: PropTypes.number,
         width: PropTypes.number,
         isMobile: PropTypes.bool,
+        lastViewedAt: PropTypes.string,
         updateNewMessagesAtInChannel: PropTypes.func,
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
@@ -174,10 +176,8 @@ class ToastWrapper extends React.PureComponent {
                             />
                         ),
                         time: (
-                            <FormattedTime
-                                value={since}
-                                hour='2-digit'
-                                minute='2-digit'
+                            <LocalDateTime
+                                eventTime={since}
                             />
                         )
                     }}
@@ -234,7 +234,7 @@ class ToastWrapper extends React.PureComponent {
 
         return (
             <UnreadToast {...toastProps}>
-                {this.newMessagesToastText(this.state.unreadCount, this.props.lastViewedBottom)}
+                {this.newMessagesToastText(this.state.unreadCount, this.props.lastViewedAt)}
             </UnreadToast>
         );
     }
