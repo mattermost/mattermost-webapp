@@ -31,6 +31,7 @@ describe('components/EditChannelHeaderModal', () => {
     const baseProps = {
         channel,
         ctrlSend: false,
+        show: false,
         actions: {
             closeModal: jest.fn(),
             patchChannel: jest.fn().mockResolvedValueOnce({error: serverError}).mockResolvedValue({}),
@@ -90,7 +91,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('should match state and called actions on handleSave', async () => {
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal {...baseProps}/>
-        ).dive();
+        );
 
         const instance = wrapper.instance();
 
@@ -115,7 +116,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('change header', () => {
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal {...baseProps}/>
-        ).dive();
+        );
 
         wrapper.find(Textbox).simulate('change', {target: {value: 'header'}});
 
@@ -127,7 +128,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('patch on save button click', () => {
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal {...baseProps}/>
-        ).dive();
+        );
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});
@@ -142,7 +143,7 @@ describe('components/EditChannelHeaderModal', () => {
                 {...baseProps}
                 ctrlSend={true}
             />
-        ).dive();
+        );
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});
@@ -161,7 +162,7 @@ describe('components/EditChannelHeaderModal', () => {
     test('patch on enter keypress', () => {
         const wrapper = shallowWithIntl(
             <EditChannelHeaderModal {...baseProps}/>
-        ).dive();
+        );
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});
@@ -183,7 +184,7 @@ describe('components/EditChannelHeaderModal', () => {
                 {...baseProps}
                 ctrlSend={true}
             />
-        ).dive();
+        );
 
         const newHeader = 'New channel header';
         wrapper.setState({header: newHeader});
