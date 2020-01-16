@@ -10,7 +10,6 @@ import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {PostListRowListIds, PostRequestTypes} from 'utils/constants';
 
-import NewMessagesBelow from 'components/post_view/new_messages_below';
 import PostListRow from 'components/post_view/post_list_row';
 
 import PostList from './post_list_virtualized';
@@ -22,6 +21,7 @@ describe('PostList', () => {
         loadNewerPosts: jest.fn(),
         canLoadMorePosts: jest.fn(),
         changeUnreadChunkTimeStamp: jest.fn(),
+        updateNewMessagesAtInChannel: jest.fn(),
     };
 
     const baseProps = {
@@ -93,24 +93,6 @@ describe('PostList', () => {
                 itemId: 'b',
             }));
             expect(row.find(PostListRow).prop('shouldHighlight')).toEqual(true);
-        });
-    });
-
-    describe('new messages below', () => {
-        test('should mount outside of permalink view', () => {
-            const wrapper = shallowWithIntl(<PostList {...baseProps}/>);
-
-            expect(wrapper.find(NewMessagesBelow).exists()).toBe(true);
-        });
-
-        test('should not mount when in permalink view', () => {
-            const props = {
-                ...baseProps,
-                focusedPostId: '1234',
-            };
-
-            const wrapper = shallowWithIntl(<PostList {...props}/>);
-            expect(wrapper.find(NewMessagesBelow).exists()).toBe(false);
         });
     });
 
@@ -283,6 +265,7 @@ describe('PostList', () => {
 
             instance.postListRef = {current: {scrollHeight: 100, parentElement: {scrollTop: 10}}};
             wrapper.setProps({atOldestPost: true});
+
             expect(instance.componentDidUpdate.mock.calls[0][2]).toEqual({previousScrollHeight: 100, previousScrollTop: 10});
 
             wrapper.setState({atBottom: true});
@@ -476,7 +459,7 @@ describe('PostList', () => {
             const wrapper = shallowWithIntl(<PostList {...props}/>);
             const instance = wrapper.instance();
             const initScrollToIndex = instance.initScrollToIndex();
-            expect(initScrollToIndex).toEqual({index: 6, position: 'start'});
+            expect(initScrollToIndex).toEqual({index: 6, position: 'start', offset: -50});
         });
     });
 
@@ -498,6 +481,6 @@ describe('PostList', () => {
         const wrapper = shallowWithIntl(<PostList {...props}/>);
         const instance = wrapper.instance();
         const initScrollToIndex = instance.initScrollToIndex();
-        expect(initScrollToIndex).toEqual({index: 5, position: 'start'});
+        expect(initScrollToIndex).toEqual({index: 5, position: 'start', offset: -50});
     });
 });
