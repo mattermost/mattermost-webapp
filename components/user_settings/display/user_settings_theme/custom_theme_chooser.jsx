@@ -411,14 +411,20 @@ export default class CustomThemeChooser extends React.Component {
                         className='btn btn-link copy-theme-button'
                         onClick={this.copyTheme}
                     >
-                        {'Copy Theme Colors'}
+                        <FormattedMessage
+                            id='user.settings.custom_theme.copyThemeColors'
+                            defaultMessage='Copy Theme Colors'
+                        />
                     </button>
                     <span
                         className='alert alert-success copy-theme-success'
                         role='alert'
                         style={{display: 'none'}}
                     >
-                        {'✔ Copied'}
+                        <FormattedMessage
+                            id='user.settings.custom_theme.copied'
+                            defaultMessage='✔ Copied'
+                        />
                     </span>
                 </div>
             </div>
