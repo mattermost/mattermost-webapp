@@ -12,20 +12,41 @@ import ChannelDetails from './channel_details';
 
 describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
     test('should match snapshot', () => {
-        const groups: Partial<Group>[] = [{
+        const groups: Group[] = [{
             id: '123',
+            name: 'name',
             display_name: 'DN',
+            description: 'descript',
+            type: 'A',
+            remote_id: 'id',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            has_syncables: false,
             member_count: 3,
+            scheme_admin: false,
         }];
         const allGroups = {
             123: groups[0],
         };
-        const testChannel: Partial<Channel> & {team_name: string} = {
+        const testChannel: Channel & {team_name: string} = {
             id: '123',
             team_name: 'team',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            team_id: 'id_123',
             type: 'O',
-            group_constrained: false,
+            display_name: 'name',
             name: 'DN',
+            header: 'header',
+            purpose: 'purpose',
+            last_post_at: 0,
+            total_msg_count: 0,
+            extra_update_at: 0,
+            creator_id: 'id',
+            scheme_id: 'id',
+            group_constrained: false,
         };
         const team: Partial<Team> = {
             display_name: 'test',
@@ -44,6 +65,10 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             updateChannelPrivacy: jest.fn(),
             patchGroupSyncable: jest.fn(),
         };
+
+        if (!testChannel.id) {
+            return;
+        }
 
         let wrapper = shallow(
             <ChannelDetails

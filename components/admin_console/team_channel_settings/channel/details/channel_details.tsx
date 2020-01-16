@@ -7,7 +7,7 @@ import {cloneDeep} from 'lodash';
 
 import {Groups} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {SyncableType, SyncablePatch, Group} from 'mattermost-redux/types/groups';
+import {SyncablePatch, Group} from 'mattermost-redux/types/groups';
 import {Channel} from 'mattermost-redux/types/channels';
 import {Team} from 'mattermost-redux/types/teams';
 
@@ -26,22 +26,23 @@ import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
 
 interface ChannelDetailsProps {
-    channelID?: string;
-    channel: Partial<Channel>;
+    channelID: string;
+    channel: Channel;
     team: Partial<Team>;
-    groups: Partial<Group>[];
+    groups: Group[];
     totalGroups: number;
-    allGroups: {[gid: string]: Partial<Group>}; // hashmap of groups
+    allGroups: {[gid: string]: Group}; // hashmap of groups
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
-        linkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => ActionFunc|ActionResult;
-        unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => ActionFunc;
+        linkGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc|ActionResult;
+        unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: string) => ActionFunc;
         membersMinusGroupMembers: (channelID: string, groupIDs: Array<string>, page?: number, perPage?: number) => ActionFunc|ActionResult;
         setNavigationBlocked: (blocked: boolean) => any;
         getChannel: (channelId: string) => ActionFunc;
         getTeam: (teamId: string) => ActionFunc;
         patchChannel: (channelId: string, patch: Channel) => ActionFunc;
-        updateChannelPrivacy: (channelId: string, privacy: string) => ActionFunc;
+        updateChannelPrivacy: (channelId: string, privacy: string) => Promise<ActionResult>;
+        patchGroupSyncable: (groupID: string, syncableID: string, syncableType: string, patch: Partial<SyncablePatch>) => ActionFunc;
     };
 }
 
@@ -50,7 +51,7 @@ interface ChannelDetailsState {
     isPublic: boolean;
     isDefault: boolean;
     totalGroups: number;
-    groups: Partial<Group>[];
+    groups: Group[];
     usersToRemove: number;
     saveNeeded: boolean;
     serverError: JSX.Element | null;
@@ -122,7 +123,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.props.actions.setNavigationBlocked(true);
     };
 
-    async processGroupsChange(groups: Partial<Group>[]) {
+    async processGroupsChange(groups: Group[]) {
         const {actions, channelID} = this.props;
         actions.setNavigationBlocked(true);
         let serverError = null;
@@ -132,10 +133,11 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 if (groups.length === 0) {
                     serverError = <NeedGroupsError/>;
                 } else {
-                    if (channelID) {
-                        const result = await actions.membersMinusGroupMembers(channelID, groups.map((g) => g.id));
+                    if (!channelID) {
+                        return;
                     }
 
+                    const result = await actions.membersMinusGroupMembers(channelID, groups.map((g) => g.id));
                     if ('data' in result) {
                         usersToRemove = result.data.total_count;
                         if (usersToRemove > 0) {
@@ -229,7 +231,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 const convert = actions.updateChannelPrivacy(channel.id, isPublic ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL);
                 promises.push(
                     convert.then((res) => {
-                        if (res && res.error) {
+                        if ('error' in res) {
                             return res;
                         }
                         return actions.patchChannel(channel.id, {
@@ -246,7 +248,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                     })
                 );
             }
-            
+
             const patchChannelSyncable = groups.
                 filter((g) => {
                     return origGroups.some((group) => group.id === g.id && group.scheme_admin !== g.scheme_admin);
@@ -263,8 +265,8 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 }).
                 map((g) => actions.linkGroupSyncable(g.id, channelID, Groups.SYNCABLE_TYPE_CHANNEL, {auto_add: true}));
             const result = await Promise.all([...promises, ...patchChannelSyncable, ...unlink, ...link]);
-            const resultWithError = result.find((r) => r.error);
-            if (resultWithError) {
+            const resultWithError = result.find((r) => 'error' in r);
+            if (resultWithError && 'error' in resultWithError) {
                 serverError = <FormError error={resultWithError.error.message}/>;
             } else {
                 await actions.getGroups(channelID);

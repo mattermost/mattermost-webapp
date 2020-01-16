@@ -22,7 +22,7 @@ interface ChannelGroupsProps {
     groups: Partial<Group>[];
     removedGroups: object[];
     onGroupRemoved: (gid: string) => void;
-    setNewGroupRole: () => void;
+    setNewGroupRole: (gid: string) => void;
 }
 
 export const ChannelGroups: React.SFC<ChannelGroupsProps> = (props: ChannelGroupsProps): JSX.Element => {
