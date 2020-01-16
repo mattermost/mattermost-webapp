@@ -16,7 +16,7 @@ const LENGTH_OF_ID = 26;
 const LENGTH_OF_GROUP_ID = 40;
 const LENGTH_OF_USER_ID_PAIR = 54;
 
-export function onChannelByIdentifierEnter({match, history}) {
+function onChannelByIdentifierEnter({match, history}) {
     return async (dispatch, getState) => {
         const state = getState();
         const {path, identifier, team} = match.params;
@@ -37,26 +37,26 @@ export function onChannelByIdentifierEnter({match, history}) {
                 const channelsByName = getChannelByName(state, identifier);
                 const moreChannelsByName = getOtherChannels(state).find((chan) => chan.name === identifier);
                 if (channelsByName || moreChannelsByName) {
-                    dispatch(goToChannelByChannelName(match, history));
+                    dispatch(exportFunctions.goToChannelByChannelName(match, history));
                 } else {
-                    dispatch(goToChannelByChannelId(match, history));
+                    dispatch(exportFunctions.goToChannelByChannelId(match, history));
                 }
             } else if (identifier.length === LENGTH_OF_GROUP_ID) {
-                dispatch(goToGroupChannelByGroupId(match, history));
+                dispatch(exportFunctions.goToGroupChannelByGroupId(match, history));
             } else if (identifier.length === LENGTH_OF_USER_ID_PAIR) {
-                dispatch(goToDirectChannelByUserIds(match, history));
+                dispatch(exportFunctions.goToDirectChannelByUserIds(match, history));
             } else {
-                dispatch(goToChannelByChannelName(match, history));
+                dispatch(exportFunctions.goToChannelByChannelName(match, history));
             }
         } else if (path === 'messages') {
             if (identifier.indexOf('@') === 0) {
-                dispatch(goToDirectChannelByUsername(match, history));
+                dispatch(exportFunctions.goToDirectChannelByUsername(match, history));
             } else if (identifier.indexOf('@') > 0) {
-                dispatch(goToDirectChannelByEmail(match, history));
+                dispatch(exportFunctions.goToDirectChannelByEmail(match, history));
             } else if (identifier.length === LENGTH_OF_ID) {
-                dispatch(goToDirectChannelByUserId(match, history, identifier));
+                dispatch(exportFunctions.goToDirectChannelByUserId(match, history, identifier));
             } else if (identifier.length === LENGTH_OF_GROUP_ID) {
-                dispatch(goToGroupChannelByGroupId(match, history));
+                dispatch(exportFunctions.goToGroupChannelByGroupId(match, history));
             } else {
                 await dispatch(fetchMyChannelsAndMembers(teamObj.id));
                 handleError(match, history, getRedirectChannelNameForTeam(state, teamObj.id));
@@ -65,7 +65,7 @@ export function onChannelByIdentifierEnter({match, history}) {
     };
 }
 
-export function goToChannelByChannelId(match, history) {
+function goToChannelByChannelId(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
@@ -94,7 +94,7 @@ export function goToChannelByChannelId(match, history) {
     };
 }
 
-export function goToChannelByChannelName(match, history) {
+function goToChannelByChannelName(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
@@ -165,7 +165,7 @@ function goToDirectChannelByUsername(match, history) {
     };
 }
 
-export function goToDirectChannelByUserId(match, history, userId) {
+function goToDirectChannelByUserId(match, history, userId) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team} = match.params;
@@ -186,7 +186,7 @@ export function goToDirectChannelByUserId(match, history, userId) {
     };
 }
 
-export function goToDirectChannelByUserIds(match, history) {
+function goToDirectChannelByUserIds(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
@@ -208,7 +208,7 @@ export function goToDirectChannelByUserIds(match, history) {
     };
 }
 
-export function goToDirectChannelByEmail(match, history) {
+function goToDirectChannelByEmail(match, history) {
     return async (dispatch, getState) => {
         const state = getState();
         const {team, identifier} = match.params;
@@ -269,3 +269,16 @@ async function handleChannelJoinError(match, history, defaultChannel) {
     const {team} = match.params;
     history.push(team ? `/error?type=channel_not_found&returnTo=/${team}/channels/${defaultChannel}` : '/');
 }
+
+const exportFunctions = {
+    onChannelByIdentifierEnter,
+    goToChannelByChannelId,
+    goToChannelByChannelName,
+    goToDirectChannelByUserId,
+    goToDirectChannelByUserIds,
+    goToDirectChannelByEmail,
+    goToGroupChannelByGroupId,
+    goToDirectChannelByUsername,
+};
+
+export default exportFunctions;
