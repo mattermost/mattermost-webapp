@@ -85,6 +85,29 @@ class RhsRootPost extends React.PureComponent {
         };
     }
 
+    handleShortcutEmojiForLastMessage = (isLastPost) => {
+        if (isLastPost) {
+            const {post, enableEmojiPicker, channelIsArchived,
+                actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+
+            // Setting the last message emoji action to empty to clean up the redux state
+            openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
+
+            const isPostDeleted = post && post.state === Posts.POST_DELETED;
+            const isEphemeral = post && Utils.isPostEphemeral(post);
+            const isSystemMessage = post && PostUtils.isSystemMessage(post);
+            const didPostFailed = post && post.failed;
+            const isPostsFakeParentDeleted = post && post.type === Constants.PostTypes.FAKE_PARENT_DELETED;
+
+            if (!isEphemeral && !isSystemMessage && !isPostDeleted && !didPostFailed && !Utils.isMobile() &&
+                !channelIsArchived && !isPostsFakeParentDeleted && enableEmojiPicker) {
+                // As per issue in #2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
+                // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
+                this.toggleEmojiPicker(isLastPost);
+            }
+        }
+    }
+
     componentDidMount() {
         document.addEventListener('keydown', this.handleAlt);
         document.addEventListener('keyup', this.handleAlt);
@@ -96,20 +119,12 @@ class RhsRootPost extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost, actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+        const {emojiPickerForLastMessage, isLastPost} = this.props;
         const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage;
         const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage === Locations.RHS_ROOT;
-        const isEmojiPickerClosed = this.state.showEmojiPicker === false;
 
-        if (didEmojiPickerForLastMessageEmitted &&
-            didEmojiPickerForLastMessageEmittedForRHS &&
-            isEmojiPickerClosed && isLastPost) {
-            // As per issue in point 2 of mattermost-webapp/pull/4478#pullrequestreview-339313236
-            // We are not not handling focus condition as we did for rhs_comment as the dot menu is already in dom and not visible
-            this.toggleEmojiPicker();
-
-            // Setting the last message emoji action to empty to clean up the redux state
-            openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
+        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS) {
+            this.handleShortcutEmojiForLastMessage(isLastPost);
         }
     }
 

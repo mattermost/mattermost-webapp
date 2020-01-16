@@ -81,10 +81,6 @@ class PostList extends React.PureComponent {
 
         latestAriaLabelFunc: PropTypes.func,
 
-        /**
-         * Lastest post id of the current post list, this doesnt include timestamps etc, just actual posts
-         */
-        latestPostId: PropTypes.string,
         actions: PropTypes.shape({
 
             /**
@@ -288,7 +284,8 @@ class PostList extends React.PureComponent {
             }
         }
 
-        const isLastPost = itemId === this.props.latestPostId;
+        // Since the first in the list is the latest message
+        const isLastPost = itemId === this.state.postListIds[0];
 
         return (
             <div

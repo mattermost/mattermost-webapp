@@ -127,13 +127,17 @@ export default class PostInfo extends React.PureComponent {
 
         this.state = {
             showEmojiPicker: false,
+            showOptionsMenuWithoutHover: false
         };
     }
 
     toggleEmojiPicker = () => {
         const showEmojiPicker = !this.state.showEmojiPicker;
 
-        this.setState({showEmojiPicker});
+        this.setState({
+            showEmojiPicker,
+            showOptionsMenuWithoutHover: false
+        });
         this.props.handleDropdownOpened(showEmojiPicker || this.state.showDotMenu);
     };
 
@@ -168,7 +172,7 @@ export default class PostInfo extends React.PureComponent {
         }
 
         const {isMobile, isReadOnly} = this.props;
-        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu;
+        const hover = this.props.hover || this.state.showEmojiPicker || this.state.showDotMenu || this.state.showOptionsMenuWithoutHover;
 
         const showCommentIcon = fromAutoResponder ||
         (!isSystemMessage && (isMobile || hover || (!post.root_id && Boolean(this.props.replyCount)) || this.props.isFirstReply));
@@ -229,19 +233,38 @@ export default class PostInfo extends React.PureComponent {
         );
     };
 
-    componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost, actions: {openEmojiPickerForLastMessageFrom}} = this.props;
-        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage;
-        const didEmojiPickerForLastMessageEmittedForCenter = emojiPickerForLastMessage === Locations.CENTER;
-        const isEmojiPickerClosed = this.state.showEmojiPicker === false;
+    handleShortCutEmojiForLastMessage = () => {
+        const {post, isLastPost, isReadOnly, enableEmojiPicker, isMobile,
+            actions: {openEmojiPickerForLastMessageFrom}} = this.props;
 
-        if (didEmojiPickerForLastMessageEmitted &&
-            didEmojiPickerForLastMessageEmittedForCenter &&
-            isEmojiPickerClosed && isLastPost) {
-            this.toggleEmojiPicker();
-
+        if (isLastPost) {
             // Setting the last message emoji action to empty to clean up the redux state
             openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
+
+            const isEphemeral = post && Utils.isPostEphemeral(post);
+            const isSystemMessage = post && PostUtils.isSystemMessage(post);
+            const fromAutoResponder = post && PostUtils.fromAutoResponder(post);
+            const isFailedPost = post && post.failed;
+            const isDeletedPost = post && post.state === Posts.POST_DELETED;
+
+            if (!isEphemeral && !isSystemMessage && !fromAutoResponder &&
+                !isFailedPost && !isDeletedPost && !isReadOnly && !isMobile && enableEmojiPicker) {
+                this.setState({
+                    showOptionsMenuWithoutHover: true
+                }, () => {
+                    this.toggleEmojiPicker();
+                });
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const {emojiPickerForLastMessage} = this.props;
+        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage;
+        const didEmojiPickerForLastMessageEmittedForCenter = emojiPickerForLastMessage === Locations.CENTER;
+
+        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForCenter) {
+            this.handleShortCutEmojiForLastMessage();
         }
     }
 

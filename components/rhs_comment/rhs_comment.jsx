@@ -109,30 +109,42 @@ class RhsComment extends React.PureComponent {
         }
     }
 
-    handleShortcutEmojiForLastMessage = () => {
-        this.setState({hover: true}, () => {
-            this.toggleEmojiPicker();
-        });
+    handleShortcutEmojiForLastMessage = (isLastPost) => {
+        if (isLastPost) {
+            const {isReadOnly, channelIsArchived, enableEmojiPicker, post,
+                actions: {openEmojiPickerForLastMessageFrom}} = this.props;
 
-        const {actions: {openEmojiPickerForLastMessageFrom}} = this.props;
+            // Setting the last message emoji action to empty to clean up the redux state
+            // irrespective of what type is the last post
+            openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
 
-        // Setting the last message emoji action to empty to clean up the redux state
-        openEmojiPickerForLastMessageFrom(Locations.NO_WHERE);
+            const isPostDeleted = post && post.state === Posts.POST_DELETED;
+            const isEphemeral = post && isPostEphemeral(post);
+            const isSystemMessage = post && PostUtils.isSystemMessage(post);
+            const fromAutoResponder = post && PostUtils.fromAutoResponder(post);
+            const isFailedPost = post.failed;
+
+            if (!isEphemeral && !isSystemMessage && !isReadOnly && !isFailedPost &&
+                !fromAutoResponder && !isPostDeleted && !channelIsArchived && !isMobile() && enableEmojiPicker) {
+                this.setState({hover: true}, () => {
+                    this.toggleEmojiPicker();
+                });
+            }
+        }
     }
 
     componentDidUpdate(prevProps) {
+        const {emojiPickerForLastMessage, isLastPost} = this.props;
+
         if (this.state.a11yActive) {
             this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
 
-        const {emojiPickerForLastMessage, isLastPost} = this.props;
         const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage;
         const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage === Locations.RHS_ROOT;
-        const isEmojiPickerClosed = this.state.showEmojiPicker === false;
-
-        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS && isEmojiPickerClosed && isLastPost) {
+        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS) {
             // Opening the emoji picker when more than one post in rhs is present
-            this.handleShortcutEmojiForLastMessage();
+            this.handleShortcutEmojiForLastMessage(isLastPost);
         }
     }
 
