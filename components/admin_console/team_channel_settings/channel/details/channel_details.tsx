@@ -26,12 +26,12 @@ import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
 
 interface ChannelDetailsProps {
-    channelID: string;
+    channelID?: string;
     channel: Partial<Channel>;
     team: Partial<Team>;
     groups: Partial<Group>[];
     totalGroups: number;
-    allGroups: {[gid: string]: Partial<Group>[]};
+    allGroups: {[gid: string]: Partial<Group>}; // hashmap of groups
     actions: {
         getGroups: (channelID: string, q?: string, page?: number, perPage?: number) => Promise<Partial<Group>[]>;
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => ActionFunc|ActionResult;
@@ -122,7 +122,7 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
         this.props.actions.setNavigationBlocked(true);
     };
 
-    async processGroupsChange(groups: (Partial<Group> | Partial<Group>[])[]) {
+    async processGroupsChange(groups: Partial<Group>[]) {
         const {actions, channelID} = this.props;
         actions.setNavigationBlocked(true);
         let serverError = null;
@@ -132,7 +132,9 @@ export default class ChannelDetails extends React.Component<ChannelDetailsProps,
                 if (groups.length === 0) {
                     serverError = <NeedGroupsError/>;
                 } else {
-                    const result = await actions.membersMinusGroupMembers(channelID, groups.map((g) => g.id));
+                    if (channelID) {
+                        const result = await actions.membersMinusGroupMembers(channelID, groups.map((g) => g.id));
+                    }
 
                     if ('data' in result) {
                         usersToRemove = result.data.total_count;
