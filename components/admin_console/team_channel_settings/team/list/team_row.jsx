@@ -50,7 +50,7 @@ export default class TeamRow extends React.Component {
         const teamIconUrl = Utils.imageURLForTeam(team);
         return (
             <div
-                className={'group '}
+                className='group'
                 onClick={this.handleRowClick}
             >
                 <div className='group-row group-row-large'>
@@ -74,7 +74,10 @@ export default class TeamRow extends React.Component {
                         <span className='group-description adjusted row-content'>
                             {this.renderManagementMethodText()}
                         </span>
-                        <span className='group-actions'>
+                        <span
+                            data-testid={`${team.display_name}edit`}
+                            className='group-actions'
+                        >
                             <Link to={`/admin_console/user_management/teams/${team.id}`}>
                                 <FormattedMessage
                                     id='admin.team_settings.team_row.configure'
