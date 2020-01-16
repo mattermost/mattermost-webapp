@@ -49,16 +49,14 @@ export default class ThemeSetting extends React.Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        if (prevProps.selected && !this.props.selected) {
+            this.resetFields();
+        }
+
         if (this.props.selected) {
             $('.color-btn').removeClass('active-border');
             $(ReactDOM.findDOMNode(this.refs[this.state.theme])).addClass('active-border');
-        }
-    }
-
-    UNSAFE_componentWillReceiveProps(nextProps) { // eslint-disable-line camelcase
-        if (this.props.selected && !nextProps.selected) {
-            this.resetFields();
         }
     }
 
