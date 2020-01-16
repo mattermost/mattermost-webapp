@@ -58,6 +58,7 @@ export default class ModalToggleButton extends React.Component {
                 {...props}
                 className={'style--none ' + props.className}
                 onClick={clickHandler}
+                data-testid='add-group'
             >
                 {children}
                 {dialog}

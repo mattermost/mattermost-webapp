@@ -518,6 +518,10 @@
     }
 
     .channel-switch__modal {
+        .suggestion-list {
+            position: relative;
+        }
+
         .modal-content {
             border-radius: 2px;
         }
@@ -842,7 +846,8 @@
             cursor: pointer;
         }
 
-        &:hover:not(.clickable)  {
+        &:hover,
+        &.more-modal__row--selected  {
             background: v(center-channel-color-05);
 
             .more-modal__actions--round {
