@@ -26,7 +26,7 @@ class ToastWrapper extends React.PureComponent {
         lastViewedBottom: PropTypes.number,
         width: PropTypes.number,
         isMobile: PropTypes.bool,
-        lastViewedAt: PropTypes.string,
+        lastViewedAt: PropTypes.number,
         updateNewMessagesAtInChannel: PropTypes.func,
         scrollToNewMessage: PropTypes.func,
         scrollToLatestMessages: PropTypes.func,
