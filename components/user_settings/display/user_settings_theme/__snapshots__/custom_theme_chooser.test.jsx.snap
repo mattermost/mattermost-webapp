@@ -623,7 +623,11 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
           className="btn btn-link copy-theme-button"
           onClick={[Function]}
         >
-          Copy Theme Colors
+          <FormattedMessage
+            defaultMessage="Copy Theme Colors"
+            id="user.settings.custom_theme.copyThemeColors"
+            values={Object {}}
+          />
         </button>
         <span
           className="alert alert-success copy-theme-success"
@@ -634,7 +638,11 @@ exports[`components/user_settings/display/CustomThemeChooser should match, init 
             }
           }
         >
-          ✔ Copied
+          <FormattedMessage
+            defaultMessage="✔ Copied"
+            id="user.settings.custom_theme.copied"
+            values={Object {}}
+          />
         </span>
       </div>
     </div>
