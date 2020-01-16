@@ -72,9 +72,8 @@ type ExtraProps = {
     updateConfig?: () => void;
 }
 
-// todo: find correct types
 type Item = {
-    isHidden?: (config: {}, state: {}, license: {}, buildEnterpriseReady: boolean) => void;
+    isHidden?: (config: Record<string, any>, state: Record<string, any>, license: Record<string, any>, buildEnterpriseReady: boolean) => void;
     schema: boolean;
     url: string;
 }
