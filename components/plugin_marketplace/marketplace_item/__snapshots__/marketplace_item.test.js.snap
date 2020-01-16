@@ -196,7 +196,7 @@ exports[`components/MarketplaceItem MarketplaceItem should render when not from 
     >
       <button
         className="btn btn-primary"
-        disabled={true}
+        disabled={false}
         onClick={[Function]}
       >
         <LoadingWrapper
