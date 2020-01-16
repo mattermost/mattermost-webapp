@@ -174,7 +174,7 @@ export default class DialogElement extends React.PureComponent {
                 <BoolSetting
                     id={name}
                     label={displayNameContent}
-                    value={value || false}
+                    value={value === 'true'}
                     helpText={helpTextContent}
                     placeholder={placeholder}
                     onChange={onChange}
