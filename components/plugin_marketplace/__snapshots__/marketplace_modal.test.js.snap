@@ -161,7 +161,7 @@ exports[`components/marketplace/ InstalledPlugins should render with one plugin 
 
 exports[`components/marketplace/ MarketplaceModal should render with error banner 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <InjectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -251,13 +251,13 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </InjectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with no plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <InjectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -333,13 +333,13 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </InjectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
 exports[`components/marketplace/ MarketplaceModal should render with plugins installed 1`] = `
 <RootPortal>
-  <FullScreenModal
+  <InjectIntl(FullScreenModal)
     ariaLabel="Plugin Marketplace"
     onClose={[Function]}
     show={true}
@@ -430,7 +430,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
         </Tab>
       </Uncontrolled(Tabs)>
     </div>
-  </FullScreenModal>
+  </InjectIntl(FullScreenModal)>
 </RootPortal>
 `;
 
@@ -444,7 +444,6 @@ exports[`components/marketplace/ Plugins should render with multiple plugins 1`]
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
-    isPrepackaged={false}
     key="com.mattermost.nps"
     name="User Satisfaction Surveys"
     version="1.0.3"
@@ -455,7 +454,6 @@ exports[`components/marketplace/ Plugins should render with multiple plugins 1`]
     homepageUrl="https://github.com/mattermost/mattermost-test"
     id="com.mattermost.test"
     installedVersion="1.0.3"
-    isPrepackaged={false}
     key="com.mattermost.test"
     name="Test"
     version="1.0.3"
@@ -479,7 +477,6 @@ exports[`components/marketplace/ Plugins should render with one plugin 1`] = `
     homepageUrl="https://github.com/mattermost/mattermost-plugin-nps"
     id="com.mattermost.nps"
     installedVersion=""
-    isPrepackaged={false}
     key="com.mattermost.nps"
     name="User Satisfaction Surveys"
     version="1.0.3"

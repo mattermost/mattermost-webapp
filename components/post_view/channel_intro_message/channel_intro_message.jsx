@@ -570,7 +570,7 @@ function createSetHeaderButton(channel) {
         >
             {(message) => (
                 <ToggleModalButtonRedux
-                    modalId='editChannelHeaderModal'
+                    modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
                     accessibilityLabel={message}
                     className={'intro-links color--link'}
                     dialogType={EditChannelHeaderModal}

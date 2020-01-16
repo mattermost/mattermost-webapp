@@ -16,7 +16,7 @@ describe('components/post_view/DateSeparator', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Fri, Jan 12, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Fri, Jan 12, 2018');
     });
 
     test('should render date without timezone enabled', () => {
@@ -29,7 +29,7 @@ describe('components/post_view/DateSeparator', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Fri, Jan 12, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Fri, Jan 12, 2018');
     });
 
     test('should render date with timezone enabled', () => {
@@ -42,6 +42,6 @@ describe('components/post_view/DateSeparator', () => {
         );
         expect(wrapper).toMatchSnapshot();
 
-        expect(wrapper.find('span').text()).toBe('Sat, Jan 13, 2018');
+        expect(wrapper.find('RecentDate').text()).toBe('Sat, Jan 13, 2018');
     });
 });

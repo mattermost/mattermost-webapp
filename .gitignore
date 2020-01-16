@@ -26,3 +26,4 @@ storybook-static
 Session.vim
 .netrwhist
 *~
+.eslintcache

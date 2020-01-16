@@ -3,7 +3,9 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
 
 import {Constants} from 'utils/constants';
 import SidebarChannelButtonOrLink from 'components/sidebar/sidebar_channel_button_or_link/sidebar_channel_button_or_link.jsx';
