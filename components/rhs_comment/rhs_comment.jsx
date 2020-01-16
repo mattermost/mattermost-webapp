@@ -109,6 +109,21 @@ class RhsComment extends React.PureComponent {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const {emojiPickerForLastMessage, isLastPost} = this.props;
+
+        if (this.state.a11yActive) {
+            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
+        }
+
+        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage;
+        const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage === Locations.RHS_ROOT;
+        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS) {
+            // Opening the emoji picker when more than one post in rhs is present
+            this.handleShortcutEmojiForLastMessage(isLastPost);
+        }
+    }
+
     handleShortcutEmojiForLastMessage = (isLastPost) => {
         if (isLastPost) {
             const {isReadOnly, channelIsArchived, enableEmojiPicker, post,
@@ -130,21 +145,6 @@ class RhsComment extends React.PureComponent {
                     this.toggleEmojiPicker();
                 });
             }
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        const {emojiPickerForLastMessage, isLastPost} = this.props;
-
-        if (this.state.a11yActive) {
-            this.postRef.current.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
-        }
-
-        const didEmojiPickerForLastMessageEmitted = prevProps.emojiPickerForLastMessage !== emojiPickerForLastMessage && emojiPickerForLastMessage;
-        const didEmojiPickerForLastMessageEmittedForRHS = emojiPickerForLastMessage === Locations.RHS_ROOT;
-        if (didEmojiPickerForLastMessageEmitted && didEmojiPickerForLastMessageEmittedForRHS) {
-            // Opening the emoji picker when more than one post in rhs is present
-            this.handleShortcutEmojiForLastMessage(isLastPost);
         }
     }
 
