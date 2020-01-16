@@ -49,7 +49,7 @@ export default class UserAccessTokenSection extends React.Component {
         super(props);
 
         this.state = {
-            active: null,
+            active: this.props.active,
             showConfirmModal: false,
             newToken: null,
             tokenCreationState: TOKEN_NOT_CREATING,
@@ -77,7 +77,7 @@ export default class UserAccessTokenSection extends React.Component {
                 saving: false,
             };
         }
-        return null;
+        return {active: nextProps.active};
     }
 
     startCreatingToken = () => {
