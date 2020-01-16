@@ -334,7 +334,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         }
         dialogType={[Function]}
         id="channelUnarchiveChannel"
-        modalId="undelete_channel"
+        modalId="unarchive_channel"
         show={false}
         text="Unarchive Channel"
       />
@@ -692,7 +692,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         }
         dialogType={[Function]}
         id="channelUnarchiveChannel"
-        modalId="undelete_channel"
+        modalId="unarchive_channel"
         show={false}
         text="Unarchive Channel"
       />

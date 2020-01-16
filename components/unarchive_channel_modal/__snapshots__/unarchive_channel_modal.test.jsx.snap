@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/undelete_channel_modal should match snapshot for undelete_channel_modal 1`] = `
+exports[`components/unarchive_channel_modal should match snapshot for unarchive_channel_modal 1`] = `
 <Modal
   animation={true}
-  aria-labelledby="undeleteChannelModalLabel"
+  aria-labelledby="unarchiveChannelModalLabel"
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
   dialogClassName="a11y__modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
-  id="undeleteChannelModal"
+  id="unarchiveChannelModal"
   keyboard={true}
   manager={
     ModalManager {
@@ -39,11 +39,11 @@ exports[`components/undelete_channel_modal should match snapshot for undelete_ch
     <ModalTitle
       bsClass="modal-title"
       componentClass="h1"
-      id="undeleteChannelModalLabel"
+      id="unarchiveChannelModalLabel"
     >
       <FormattedMessage
         defaultMessage="Confirm UNARCHIVE Channel"
-        id="undelete_channel.confirm"
+        id="unarchive_channel.confirm"
         values={Object {}}
       />
     </ModalTitle>
@@ -57,7 +57,7 @@ exports[`components/undelete_channel_modal should match snapshot for undelete_ch
     >
       <InjectIntl(FormattedMarkdownMessage)
         defaultMessage="This will unarchive the channel from the team and make its contents accessible for all users. \\\\n \\\\nAre you sure you wish to unarchive the **{display_name}** channel?"
-        id="undelete_channel.question"
+        id="unarchive_channel.question"
         values={
           Object {
             "display_name": "testing",
@@ -77,7 +77,7 @@ exports[`components/undelete_channel_modal should match snapshot for undelete_ch
     >
       <FormattedMessage
         defaultMessage="Cancel"
-        id="undelete_channel.cancel"
+        id="unarchive_channel.cancel"
         values={Object {}}
       />
     </button>
@@ -85,13 +85,13 @@ exports[`components/undelete_channel_modal should match snapshot for undelete_ch
       autoFocus={true}
       className="btn btn-danger"
       data-dismiss="modal"
-      id="undeleteChannelModalDeleteButton"
+      id="unarchiveChannelModalDeleteButton"
       onClick={[Function]}
       type="button"
     >
       <FormattedMessage
         defaultMessage="Unarchive"
-        id="undelete_channel.del"
+        id="unarchive_channel.del"
         values={Object {}}
       />
     </button>
