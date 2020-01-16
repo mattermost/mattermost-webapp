@@ -3,7 +3,6 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {OverlayTrigger} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ModalIdentifiers} from 'utils/constants';
@@ -11,6 +10,7 @@ import {localizeMessage} from 'utils/utils.jsx';
 
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import Markdown from 'components/markdown';
+import OverlayTrigger from 'components/overlay_trigger';
 import InfoIcon from 'components/widgets/icons/info_icon';
 import Popover from 'components/widgets/popover';
 const headerMarkdownOptions = {mentionHighlight: false};

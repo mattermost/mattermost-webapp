@@ -3,7 +3,7 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Overlay, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import {Overlay, Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {browserHistory} from 'utils/browser_history';
@@ -12,6 +12,7 @@ import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils.jsx';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
+import OverlayTrigger from 'components/overlay_trigger';
 import MemberIcon from 'components/widgets/icons/member_icon';
 import Popover from 'components/widgets/popover';
 import TeamMembersModal from 'components/team_members_modal';
