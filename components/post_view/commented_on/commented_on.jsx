@@ -9,8 +9,11 @@ import * as Utils from 'utils/utils.jsx';
 import {stripMarkdown} from 'utils/markdown';
 
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
+import PostContext from 'components/post_view/post_context';
 
 export default class CommentedOn extends PureComponent {
+    static contextType = PostContext;
+
     static propTypes = {
         displayName: PropTypes.string,
         enablePostUsernameOverride: PropTypes.bool,
@@ -64,6 +67,7 @@ export default class CommentedOn extends PureComponent {
             <a
                 className='theme'
                 onClick={this.handleOnClick}
+                tabIndex={this.context.ariaHidden ? -1 : 0}
             >
                 {username}
             </a>
@@ -85,6 +89,7 @@ export default class CommentedOn extends PureComponent {
                     <a
                         className='theme'
                         onClick={this.props.onCommentClick}
+                        tabIndex={this.context.ariaHidden ? -1 : 0}
                     >
                         {stripMarkdown(message)}
                     </a>
