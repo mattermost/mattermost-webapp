@@ -15,7 +15,7 @@ import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
 import {containsAtChannel, postMessageOnKeyPress, shouldFocusMainTextbox, isErrorInvalidSlashCommand, splitMessageBasedOnCaretPosition} from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 
 import ConfirmModal from 'components/confirm_modal.jsx';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -307,7 +307,13 @@ class CreateComment extends React.PureComponent {
         e.preventDefault();
 
         const {draft} = this.state;
-        const message = formatMarkdownTableMessage(table, draft.message.trim());
+        let message = '';
+        if (isGitHubCodeBlock(table.className)) {
+            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+        } else {
+            message = formatMarkdownTableMessage(table, draft.message.trim());
+        }
+
         const updatedDraft = {...draft, message};
 
         this.props.onUpdateCommentDraft(updatedDraft);

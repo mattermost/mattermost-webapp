@@ -1609,14 +1609,10 @@
             .post-reaction__emoji {
                 margin: 0 3px 0 0;
                 max-height: 16px;
+                min-height: 16px;
                 max-width: 16px;
                 min-width: 16px;
                 vertical-align: middle;
-            }
-
-            .post-reaction__count {
-                top: 1px;
-                position: relative;
             }
 
             .post-reaction__add {

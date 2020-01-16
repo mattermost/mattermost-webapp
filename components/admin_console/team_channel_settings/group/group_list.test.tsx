@@ -19,7 +19,6 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
 
         const actions = {
             getData: jest.fn().mockResolvedValue(testGroups),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
@@ -30,6 +29,9 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
                 emptyListTextId={'test'}
                 emptyListTextDefaultMessage={'test'}
                 actions={actions}
+                removeGroup={jest.fn()}
+                type='team'
+                setNewGroupRole={jest.fn()}
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
@@ -46,7 +48,6 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
         }
         const actions = {
             getData: jest.fn().mockResolvedValue(Promise.resolve(testGroups)),
-            removeGroup: jest.fn(),
         };
 
         const wrapper = shallow(
@@ -57,6 +58,9 @@ describe('admin_console/team_channel_settings/group/GroupList', () => {
                 emptyListTextId={'test'}
                 emptyListTextDefaultMessage={'test'}
                 actions={actions}
+                type='team'
+                removeGroup={jest.fn()}
+                setNewGroupRole={jest.fn()}
             />);
         wrapper.setState({loading: false});
         expect(wrapper).toMatchSnapshot();
