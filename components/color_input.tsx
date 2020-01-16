@@ -101,12 +101,7 @@ class ColorInput extends React.PureComponent<Props, State> {
         this.setState({hex: value});
         const {onChange: handleChange} = this.props;
         if (handleChange) {
-            if (value.length === 7) {
-                handleChange(value);
-            }
-            if (value.length === 4) {
-                handleChange(this.ensureLongColourValue(value));
-            }
+            handleChange(this.ensureLongColourValue(value));
         }
     };
 
