@@ -69,7 +69,7 @@ class ColorInput extends React.PureComponent<Props, State> {
         this.setState({isOpened: !this.state.isOpened});
     };
 
-    public handleChange = (newColorData: ColorResult) => {
+    public handleColorChange = (newColorData: ColorResult) => {
         const {hex} = newColorData;
         const {onChange: handleChange} = this.props;
 
@@ -172,7 +172,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                     >
                         <ChromePicker
                             color={color}
-                            onChange={this.handleChange}
+                            onChange={this.handleColorChange}
                             disableAlpha={true}
                         />
                     </div>
