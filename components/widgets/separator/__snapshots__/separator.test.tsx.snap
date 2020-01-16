@@ -6,6 +6,7 @@ exports[`components/widgets/separator date separator with text 1`] = `
   data-testid="basicSeparator"
 >
   <hr
+    aria-hidden={true}
     className="separator__hr"
   />
   <div

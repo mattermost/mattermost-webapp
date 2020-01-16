@@ -52,6 +52,7 @@ exports[`components/post_view/PostInfo should match snapshot, deleted post 1`] =
     <button
       className="post__remove theme color--link style--none"
       onClick={[Function]}
+      tabIndex={0}
       type="button"
     >
       ×
@@ -86,6 +87,7 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral deleted 
     <button
       className="post__remove theme color--link style--none"
       onClick={[Function]}
+      tabIndex={0}
       type="button"
     >
       ×
@@ -117,6 +119,7 @@ exports[`components/post_view/PostInfo should match snapshot, ephemeral post 1`]
     <button
       className="post__remove theme color--link style--none"
       onClick={[Function]}
+      tabIndex={0}
       type="button"
     >
       ×
@@ -197,6 +200,7 @@ exports[`components/post_view/PostInfo should match snapshot, hover 1`] = `
       commentCount={0}
       extraClass="pull-right"
       handleCommentClick={[MockFunction]}
+      isFocusable={true}
       location="CENTER"
       postId="e584uzbwwpny9kengqayx5ayzw"
       searchStyle=""
@@ -301,6 +305,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
     <Connect(PostReaction)
       channelId="g6139tbospd18cmxroesdk3kkc"
       getDotMenuRef={[Function]}
+      isFocusable={true}
       postId="e584uzbwwpny9kengqayx5ayzw"
       showEmojiPicker={true}
       toggleEmojiPicker={[Function]}
@@ -309,6 +314,7 @@ exports[`components/post_view/PostInfo toggleEmojiPicker, should have called pro
       commentCount={0}
       extraClass="pull-right"
       handleCommentClick={[MockFunction]}
+      isFocusable={true}
       location="CENTER"
       postId="e584uzbwwpny9kengqayx5ayzw"
       searchStyle=""

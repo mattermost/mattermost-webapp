@@ -6,6 +6,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 1`] = `
   className="style--none flag-icon__container "
   id="CENTER_flagIcon_post_id"
   onClick={[Function]}
+  tabIndex={0}
 >
   <OverlayTrigger
     defaultOverlayShown={false}
@@ -45,6 +46,7 @@ exports[`components/post_view/PostFlagIcon should match snapshot 2`] = `
   className="style--none flag-icon__container visible"
   id="CENTER_flagIcon_post_id"
   onClick={[Function]}
+  tabIndex={0}
 >
   <OverlayTrigger
     defaultOverlayShown={false}

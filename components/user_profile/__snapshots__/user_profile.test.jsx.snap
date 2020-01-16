@@ -23,6 +23,7 @@ exports[`components/UserProfile should match snapshot 1`] = `
     <button
       aria-label="nickname"
       className="user-popover style--none"
+      tabIndex={0}
     >
       nickname
     </button>

@@ -9,6 +9,7 @@ exports[`components/ReactionList should render when there are reactions 1`] = `
 >
   <Connect(Reaction)
     emojiName="expressionless"
+    isFocusable={true}
     key="expressionless"
     post={
       Object {
