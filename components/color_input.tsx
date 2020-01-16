@@ -4,7 +4,7 @@
 import React from 'react';
 import {ChromePicker, ColorResult} from 'react-color';
 
-const hexRegex = /^#[0-9a-fA-F]*$/i;
+const hexRegex = /^#([\da-f]{3}|[\da-f]{6})$/i;
 
 type Props = {
     id: string;
