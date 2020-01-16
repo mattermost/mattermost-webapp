@@ -27,7 +27,7 @@ class ColorInput extends React.PureComponent<Props, State> {
         this.colorInput = React.createRef();
         this.state = {
             isOpened: false,
-            hex: '#FFFFFF',
+            hex: this.props.color.toUpperCase(),
         };
     }
 
