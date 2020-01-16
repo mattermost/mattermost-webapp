@@ -39,7 +39,7 @@ class ColorInput extends React.PureComponent<Props, State> {
         const {isOpened: prevIsOpened} = prevState;
         const {isOpened} = this.state;
 
-        if (this.props.color !== prevProps.color && this.getShortHand(this.state.hex) !== this.props.color) {
+        if (this.props.color !== prevProps.color && this.ensureLongColourValue(this.state.hex) !== this.props.color) {
             this.setHex();
         }
 
@@ -78,7 +78,10 @@ class ColorInput extends React.PureComponent<Props, State> {
         }
     };
 
-    private getShortHand = (value: string) => {
+    private ensureLongColourValue = (value: string) => {
+        if (value.length != 4) {
+            return value;
+        }
         return value.split('').map((ch, index) => {
             if (index === 0) {
                 return ch;
@@ -102,7 +105,7 @@ class ColorInput extends React.PureComponent<Props, State> {
                 handleChange(value);
             }
             if (value.length === 4) {
-                handleChange(this.getShortHand(value));
+                handleChange(this.ensureLongColourValue(value));
             }
         }
     };
@@ -110,7 +113,7 @@ class ColorInput extends React.PureComponent<Props, State> {
     private onBlur = () => {
         const {hex} = this.state;
         if (hex.length === 4) {
-            const value = this.getShortHand(hex);
+            const value = this.ensureLongColourValue(hex);
             const {onChange: handleChange} = this.props;
             if (handleChange && value.length === 7) {
                 handleChange(value);
