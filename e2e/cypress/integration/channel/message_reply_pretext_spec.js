@@ -25,6 +25,12 @@ describe('Message Reply with attachment pretext', () => {
             },
         };
         cy.apiUpdateConfig(newSettings);
+
+
+        const promoteToSysAdmin = (user) => {
+            cy.externalRequest({user: users.sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
+        };
+
         // # Login and go to /
         cy.apiLogin('sysadmin');
 
@@ -49,8 +55,13 @@ describe('Message Reply with attachment pretext', () => {
             cy.apiAccessToken(botsUserId, "Create token").then((token) => {
                 accessToken = token;
 
+                //cy.apiAssignBotToUser(botsUserId,"y8dmri3mxtfxj831rf93nkdw9e");
+
+                //cy.apiAddUserToChannel(newChannel.id,botsUserId)
+                //cy.apiAddUserToChannel(newChannel.id,"y8dmri3mxtfxj831rf93nkdw9e")
+
                 // # Post message with auth token
-                cy.apiPostBotMessage(newChannel, 'Hello message from', 'Some Pretext', 'Some text', accessToken).
+                cy.apiPostBotMessage(newChannel.id, 'Hello message from', 'Some Pretext', 'Some text', botsUserId, accessToken).
                     its('id').
                     should('exist').
                     as('olderPost');

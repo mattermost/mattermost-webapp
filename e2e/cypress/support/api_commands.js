@@ -1105,7 +1105,7 @@ Cypress.Commands.add('apiAccessToken', (user_id, description) => {
  * @param {String} token - The auth token
  * All parameters are required
  */
-Cypress.Commands.add('apiPostBotMessage', (channelId, message, pretext, text, token) => {
+Cypress.Commands.add('apiPostBotMessage', (channelId, message, pretext, text, botUserId, token) => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url:'api/v4/posts',
@@ -1114,7 +1114,10 @@ Cypress.Commands.add('apiPostBotMessage', (channelId, message, pretext, text, to
             bearer: token,
           },
         body: {
-            channel_id: channelId,
+            channel_id: {
+                        id: channelId,
+                        creator_id: botUserId,
+                      },
             message: message,
             props:{
                    	attachments:
@@ -1125,6 +1128,49 @@ Cypress.Commands.add('apiPostBotMessage', (channelId, message, pretext, text, to
                    		},
                    	],
                    },
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+        return cy.wrap(response);
+    });
+});
+
+/**
+ * Assign a bot to a user
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} botUser_id - The bot's user id
+ * @param {String} userId - The user id to assign to
+ * All parameters are required
+ */
+Cypress.Commands.add('apiAssignBotToUser', (botUser_id, userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/bots/' + botUser_id +'/assign/'+ userId,
+        method: 'POST',
+        body: {
+            bot_user_id: botUser_id,
+            user_id: userId,
+        },
+    }).then((response) => {
+        expect(response.status).to.equal(200);
+        return cy.wrap(response.body.token);
+    });
+});
+/**
+ * Add user to a channel
+ * This API assume that the user is logged in and has cookie to access
+ * @param {String} channelid - The channel to add the user to
+ * @param {String} userId - The user id to add
+ * All parameters are required
+ */
+Cypress.Commands.add('apiAddUserToChannel', (channelId, userId) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/channels/'+ channelId +'/members',
+        method: 'POST',
+        body: {
+            user_id: userId,
+            post_root_id: '',
         },
     }).then((response) => {
         expect(response.status).to.equal(201);
