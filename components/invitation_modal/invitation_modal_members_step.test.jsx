@@ -17,7 +17,7 @@ describe('components/invitation_modal/InvitationModalMembersStep', () => {
                 onSubmit={jest.fn()}
                 onEdit={jest.fn()}
             />
-        ).dive();
+        );
         expect(wrapper).toMatchSnapshot();
     });
 });

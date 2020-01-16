@@ -56,6 +56,7 @@ export const SettingsTypes = {
     TYPE_BUTTON: 'button',
     TYPE_LANGUAGE: 'language',
     TYPE_JOBSTABLE: 'jobstable',
+    TYPE_FILE_UPLOAD: 'fileupload',
     TYPE_CUSTOM: 'custom',
 };
 
@@ -152,6 +153,7 @@ export const ActionTypes = keyMirror({
     MODAL_CLOSE: null,
 
     SELECT_CHANNEL_WITH_MEMBER: null,
+    UPDATE_CHANNEL_LAST_VIEWED_AT: null,
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
 
@@ -435,6 +437,12 @@ export const StoragePrefixes = {
     LOGIN: '__login__',
     ANNOUNCEMENT: '__announcement__',
     LANDING_PAGE_SEEN: '__landingPageSeen__',
+    LANDING_PREFERENCE: '__landing-preference__',
+};
+
+export const LandingPreferenceTypes = {
+    MATTERMOSTAPP: 'mattermostapp',
+    BROWSER: 'browser',
 };
 
 export const ErrorPageTypes = {
@@ -815,6 +823,9 @@ export const Constants = {
         'post',
         'api',
         'oauth',
+        'error',
+        'help',
+        'plugins',
     ],
     RESERVED_USERNAMES: [
         'valet',
@@ -1299,6 +1310,9 @@ export const Constants = {
     MAX_TEAMDESCRIPTION_LENGTH: 50,
     MIN_CHANNELNAME_LENGTH: 2,
     MAX_CHANNELNAME_LENGTH: 64,
+    MAX_FIRSTNAME_LENGTH: 64,
+    MAX_LASTNAME_LENGTH: 64,
+    MAX_EMAIL_LENGTH: 128,
     MIN_USERNAME_LENGTH: 3,
     MAX_USERNAME_LENGTH: 22,
     MAX_NICKNAME_LENGTH: 22,

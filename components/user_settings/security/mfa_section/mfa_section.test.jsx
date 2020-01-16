@@ -3,10 +3,11 @@
 
 jest.mock('utils/browser_history');
 
+import {shallow} from 'enzyme';
 import React from 'react';
 
 import MfaSection from 'components/user_settings/security/mfa_section/mfa_section';
-import {mountWithIntl, shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {browserHistory} from 'utils/browser_history';
 
 describe('MfaSection', () => {
@@ -27,7 +28,7 @@ describe('MfaSection', () => {
                 ...baseProps,
                 mfaAvailable: false,
             };
-            const wrapper = shallowWithIntl(<MfaSection {...props}/>);
+            const wrapper = shallow(<MfaSection {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -38,7 +39,7 @@ describe('MfaSection', () => {
                 active: false,
                 mfaActive: false,
             };
-            const wrapper = shallowWithIntl(<MfaSection {...props}/>);
+            const wrapper = shallow(<MfaSection {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -49,7 +50,7 @@ describe('MfaSection', () => {
                 active: false,
                 mfaActive: true,
             };
-            const wrapper = shallowWithIntl(<MfaSection {...props}/>);
+            const wrapper = shallow(<MfaSection {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -59,7 +60,7 @@ describe('MfaSection', () => {
                 ...baseProps,
                 mfaActive: false,
             };
-            const wrapper = shallowWithIntl(<MfaSection {...props}/>);
+            const wrapper = shallow(<MfaSection {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -69,7 +70,7 @@ describe('MfaSection', () => {
                 ...baseProps,
                 mfaActive: true,
             };
-            const wrapper = shallowWithIntl(<MfaSection {...props}/>);
+            const wrapper = shallow(<MfaSection {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -80,7 +81,7 @@ describe('MfaSection', () => {
                 mfaActive: true,
                 mfaEnforced: true,
             };
-            const wrapper = shallowWithIntl(<MfaSection {...props}/>);
+            const wrapper = shallow(<MfaSection {...props}/>);
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -90,7 +91,7 @@ describe('MfaSection', () => {
                 ...baseProps,
                 serverError: 'An error occurred',
             };
-            const wrapper = shallowWithIntl(<MfaSection {...props}/>);
+            const wrapper = shallow(<MfaSection {...props}/>);
 
             wrapper.setState({serverError: 'An error has occurred'});
 
