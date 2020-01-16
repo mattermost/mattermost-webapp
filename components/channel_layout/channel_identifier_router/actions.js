@@ -15,6 +15,7 @@ import * as Utils from 'utils/utils.jsx';
 const LENGTH_OF_ID = 26;
 const LENGTH_OF_GROUP_ID = 40;
 const LENGTH_OF_USER_ID_PAIR = 54;
+const USER_ID_PAIR_REGEXP = new RegExp('^[a-zA-Z0-9]{'+LENGTH_OF_ID+'}__[a-zA-Z0-9]{'+LENGTH_OF_ID+'}$');
 
 function onChannelByIdentifierEnter({match, history}) {
     return async (dispatch, getState) => {
@@ -43,7 +44,7 @@ function onChannelByIdentifierEnter({match, history}) {
                 }
             } else if (identifier.length === LENGTH_OF_GROUP_ID) {
                 dispatch(exportFunctions.goToGroupChannelByGroupId(match, history));
-            } else if (identifier.length === LENGTH_OF_USER_ID_PAIR) {
+            } else if (isDirectChannelIdentifier(identifier)) {
                 dispatch(exportFunctions.goToDirectChannelByUserIds(match, history));
             } else {
                 dispatch(exportFunctions.goToChannelByChannelName(match, history));
@@ -263,6 +264,10 @@ function doChannelChange(channel) {
 function handleError(match, history, defaultChannel) {
     const {team} = match.params;
     history.push(team ? `/${team}/channels/${defaultChannel}` : '/');
+}
+
+function isDirectChannelIdentifier(identifier) {
+    return identifier.length === LENGTH_OF_USER_ID_PAIR && USER_ID_PAIR_REGEXP.test(identifier);
 }
 
 async function handleChannelJoinError(match, history, defaultChannel) {
