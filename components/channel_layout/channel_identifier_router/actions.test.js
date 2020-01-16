@@ -65,9 +65,15 @@ describe('Actions', () => {
             const spy1 = jest.spyOn(channelActions, 'goToDirectChannelByUserIds');
             const spy2 = jest.spyOn(channelActions, 'goToChannelByChannelName');
             const testStore = await mockStore(initialState);
-            await testStore.dispatch(channelActions.onChannelByIdentifierEnter({match: {params: {team: 'team1',
-                                                                         identifier: 'j8oc4oizsp88mqju98pwxr1tgr--j8oc4oizsp88mqju98pwxr1tgr',
-                                                                         path: 'channels'}}, history: history}));
+            await testStore.dispatch(channelActions.onChannelByIdentifierEnter({
+                match: {
+                    params: {
+                        team: 'team1',
+                        identifier: 'j8oc4oizsp88mqju98pwxr1tgr--j8oc4oizsp88mqju98pwxr1tgr',
+                        path: 'channels'}
+                },
+                history
+            }));
             expect(spy1).not.toBeCalled();
             expect(spy2).toBeCalled();
             spy1.mockClear();
@@ -77,9 +83,15 @@ describe('Actions', () => {
             const spy1 = jest.spyOn(channelActions, 'goToDirectChannelByUserIds');
             const spy2 = jest.spyOn(channelActions, 'goToChannelByChannelName');
             const testStore = await mockStore(initialState);
-            await testStore.dispatch(channelActions.onChannelByIdentifierEnter({match: {params: {team: 'team1',
-                                                                         identifier: 'j8oc4oizsp88mqju98pwxr1tgr__j8oc4oizsp88mqju98pwxr1tgr',
-                                                                         path: 'channels'}}, history: history}));
+            await testStore.dispatch(channelActions.onChannelByIdentifierEnter({
+                match: {
+                    params: {
+                        team: 'team1',
+                        identifier: 'j8oc4oizsp88mqju98pwxr1tgr__j8oc4oizsp88mqju98pwxr1tgr',
+                        path: 'channels'}
+                },
+                history
+            }));
             expect(spy1).toBeCalled();
             expect(spy2).not.toBeCalled();
             spy1.mockClear();
