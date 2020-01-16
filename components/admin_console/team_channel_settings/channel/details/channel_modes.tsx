@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -18,40 +17,41 @@ interface Props {
     onToggle: (isSynced: boolean, isPublic: boolean) => void;
 }
 
-const SyncGroupsToggle: React.SFC<Props> = ({isSynced, isPublic, isDefault, onToggle}) => (
-    <LineSwitch
-        disabled={isDefault}
-        toggled={isSynced}
-        last={isSynced}
-        onToggle={() => {
-            if (isDefault) {
-                return;
-            }
-            onToggle(!isSynced, isPublic);
-        }}
-        title={(
-            <FormattedMessage
-                id='admin.channel_settings.channel_details.syncGroupMembers'
-                defaultMessage='Sync Group Members'
-            />
-        )}
-        subTitle={(
-            <FormattedMarkdownMessage
-                id='admin.channel_settings.channel_details.syncGroupMembersDescr'
-                defaultMessage='When enabled, adding and removing users from groups will add or remove them from this channel. The only way of inviting members to this channel is by adding the groups they belong to. [Learn More](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
-            />
-        )}
-    />);
-
-SyncGroupsToggle.propTypes = {
-    isPublic: PropTypes.bool.isRequired,
-    isSynced: PropTypes.bool.isRequired,
-    isDefault: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
+const SyncGroupsToggle: React.SFC<Props> = (props: Props): JSX.Element => {
+    const {isPublic, isSynced, isDefault, onToggle} = props;
+    return (
+        <LineSwitch
+            disabled={isDefault}
+            toggled={isSynced}
+            last={isSynced}
+            onToggle={() => {
+                if (isDefault) {
+                    return;
+                }
+                onToggle(!isSynced, isPublic);
+            }}
+            title={(
+                <FormattedMessage
+                    id='admin.channel_settings.channel_details.syncGroupMembers'
+                    defaultMessage='Sync Group Members'
+                />
+            )}
+            subTitle={(
+                <FormattedMarkdownMessage
+                    id='admin.channel_settings.channel_details.syncGroupMembersDescr'
+                    defaultMessage='When enabled, adding and removing users from groups will add or remove them from this channel. The only way of inviting members to this channel is by adding the groups they belong to. [Learn More](!https://www.mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                />
+            )}
+        />
+    );
 };
 
-const AllowAllToggle: React.SFC<Props> = ({isSynced, isPublic, isDefault, onToggle}) =>
-    !isSynced && (
+const AllowAllToggle: React.SFC<Props> = (props: Props): JSX.Element | null => {
+    const {isPublic, isSynced, isDefault, onToggle} = props;
+    if (!isSynced) {
+        return null;
+    }
+    return (
         <LineSwitch
             disabled={isDefault}
             toggled={isPublic}
@@ -93,44 +93,37 @@ const AllowAllToggle: React.SFC<Props> = ({isSynced, isPublic, isDefault, onTogg
                     defaultMessage='Private'
                 />
             )}
-        />);
-
-AllowAllToggle.propTypes = {
-    isPublic: PropTypes.bool.isRequired,
-    isSynced: PropTypes.bool.isRequired,
-    isDefault: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
+        />
+    );
 };
 
-export const ChannelModes: React.SFC<Props> = ({isPublic, isSynced, isDefault, onToggle}) => (
-    <AdminPanel
-        id='channel_manage'
-        titleId={t('admin.channel_settings.channel_detail.manageTitle')}
-        titleDefault='Channel Management'
-        subtitleId={t('admin.channel_settings.channel_detail.manageDescription')}
-        subtitleDefault='Choose between inviting members manually or syncing members automatically from groups.'
-    >
-        <div className='group-teams-and-channels'>
-            <div className='group-teams-and-channels--body'>
-                <SyncGroupsToggle
-                    isPublic={isPublic}
-                    isSynced={isSynced}
-                    isDefault={isDefault}
-                    onToggle={onToggle}
-                />
-                <AllowAllToggle
-                    isPublic={isPublic}
-                    isSynced={isSynced}
-                    isDefault={isDefault}
-                    onToggle={onToggle}
-                />
+export const ChannelModes: React.SFC<Props> = (props: Props): JSX.Element => {
+    const {isPublic, isSynced, isDefault, onToggle} = props;
+    return (
+        <AdminPanel
+            id='channel_manage'
+            className='channel_manage'
+            titleId={t('admin.channel_settings.channel_detail.manageTitle')}
+            titleDefault='Channel Management'
+            subtitleId={t('admin.channel_settings.channel_detail.manageDescription')}
+            subtitleDefault='Choose between inviting members manually or syncing members automatically from groups.'
+        >
+            <div className='group-teams-and-channels'>
+                <div className='group-teams-and-channels--body'>
+                    <SyncGroupsToggle
+                        isPublic={isPublic}
+                        isSynced={isSynced}
+                        isDefault={isDefault}
+                        onToggle={onToggle}
+                    />
+                    <AllowAllToggle
+                        isPublic={isPublic}
+                        isSynced={isSynced}
+                        isDefault={isDefault}
+                        onToggle={onToggle}
+                    />
+                </div>
             </div>
-        </div>
-    </AdminPanel>);
-
-ChannelModes.propTypes = {
-    isPublic: PropTypes.bool.isRequired,
-    isSynced: PropTypes.bool.isRequired,
-    isDefault: PropTypes.bool.isRequired,
-    onToggle: PropTypes.func.isRequired,
+        </AdminPanel>
+    );
 };

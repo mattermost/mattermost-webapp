@@ -37,7 +37,7 @@ interface ChannelDetailsProps {
         linkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType, patch: SyncablePatch) => ActionFunc|ActionResult;
         unlinkGroupSyncable: (groupID: string, syncableID: string, syncableType: SyncableType) => ActionFunc;
         membersMinusGroupMembers: (channelID: string, groupIDs: Array<string>, page?: number, perPage?: number) => ActionFunc|ActionResult;
-        setNavigationBlocked: (blocked: boolean) => null;
+        setNavigationBlocked: (blocked: boolean) => any;
         getChannel: (channelId: string) => ActionFunc;
         getTeam: (teamId: string) => ActionFunc;
         patchChannel: (channelId: string, patch: Channel) => ActionFunc;
