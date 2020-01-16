@@ -17,6 +17,7 @@ type Props = {
     commentCount: number;
     postId?: string;
     extraClass: string;
+    isFocusable?: boolean;
 }
 
 export default class CommentIcon extends React.PureComponent<Props> {
@@ -25,6 +26,7 @@ export default class CommentIcon extends React.PureComponent<Props> {
         searchStyle: '',
         commentCount: 0,
         extraClass: '',
+        isFocusable: true
     }
 
     public render(): JSX.Element {
@@ -65,6 +67,7 @@ export default class CommentIcon extends React.PureComponent<Props> {
                     aria-label={localizeMessage('post_info.comment_icon.tooltip.reply', 'Reply').toLowerCase()}
                     className={iconStyle + ' color--link style--none ' + this.props.extraClass}
                     onClick={this.props.handleCommentClick}
+                    tabIndex={this.props.isFocusable ? 0 : -1}
                 >
                     <span className='d-flex'>
                         <ReplyIcon className='comment-icon'/>

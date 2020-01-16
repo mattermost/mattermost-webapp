@@ -22,6 +22,7 @@ export default class UserProfile extends PureComponent {
         overwriteName: PropTypes.node,
         user: PropTypes.object,
         userId: PropTypes.string,
+        isFocusable: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -31,6 +32,7 @@ export default class UserProfile extends PureComponent {
         isRHS: false,
         overwriteImage: '',
         overwriteName: '',
+        isFocusable: true,
     };
 
     hideProfilePopover = () => {
@@ -94,6 +96,7 @@ export default class UserProfile extends PureComponent {
                     <button
                         aria-label={name.toLowerCase()}
                         className='user-popover style--none'
+                        tabIndex={this.props.isFocusable ? 0 : -1}
                     >
                         {name}
                     </button>

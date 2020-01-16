@@ -10,8 +10,10 @@ import {isMobile} from 'utils/user_agent';
 import {Locations} from 'utils/constants';
 import {isMobile as isMobileView} from 'utils/utils.jsx';
 import LocalDateTime from 'components/local_date_time';
+import PostContext from 'components/post_view/post_context';
 
 export default class PostTime extends React.PureComponent {
+    static contextType = PostContext;
     static propTypes = {
 
         /*
@@ -73,6 +75,7 @@ export default class PostTime extends React.PureComponent {
                 to={`${teamUrl}/pl/${postId}`}
                 className='post__permalink'
                 onClick={this.handleClick}
+                tabIndex={this.context.ariaHidden ? -1 : 0}
             >
                 {localDateTime}
             </Link>

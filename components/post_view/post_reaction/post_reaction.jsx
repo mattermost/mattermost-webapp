@@ -30,11 +30,13 @@ export default class PostReaction extends React.PureComponent {
         actions: PropTypes.shape({
             addReaction: PropTypes.func.isRequired,
         }).isRequired,
+        isFocusable: PropTypes.bool,
     };
 
     static defaultProps = {
         location: Locations.CENTER,
         showEmojiPicker: false,
+        isFocusable: true,
     };
 
     handleAddEmoji = (emoji) => {
@@ -99,6 +101,7 @@ export default class PostReaction extends React.PureComponent {
                             aria-label={localizeMessage('post_info.tooltip.add_reactions', 'Add Reaction').toLowerCase()}
                             className='reacticon__container color--link style--none'
                             onClick={this.props.toggleEmojiPicker}
+                            tabIndex={this.props.isFocusable ? 0 : -1}
                         >
                             <EmojiIcon className='icon icon--emoji'/>
                         </button>

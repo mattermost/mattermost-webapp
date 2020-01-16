@@ -12,8 +12,10 @@ import * as Utils from 'utils/utils';
 import PostMarkdown from 'components/post_markdown';
 import Pluggable from 'plugins/pluggable';
 import ShowMore from 'components/post_view/show_more';
+import PostContext from 'components/post_view/post_context';
 
 export default class PostMessageView extends React.PureComponent {
+    static contextType = PostContext;
     static propTypes = {
 
         /*
@@ -60,6 +62,11 @@ export default class PostMessageView extends React.PureComponent {
          * Post type components from plugins
          */
         pluginPostTypes: PropTypes.object,
+
+        /**
+         * Accessibility mechanisms currently active
+         */
+        a11yActive: PropTypes.bool,
     };
 
     static defaultProps = {
@@ -171,7 +178,7 @@ export default class PostMessageView extends React.PureComponent {
             >
                 <div
                     aria-readonly='true'
-                    tabIndex='0'
+                    tabIndex={this.context.ariaHidden ? -1 : 0}
                     id={id}
                     className='post-message__text'
                     onClick={Utils.handleFormattedTextClick}

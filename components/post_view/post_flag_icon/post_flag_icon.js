@@ -12,8 +12,10 @@ import FlagIconFilled from 'components/widgets/icons/flag_icon_filled';
 import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
 import {localizeMessage} from 'utils/utils.jsx';
 import {t} from 'utils/i18n';
+import PostContext from 'components/post_view/post_context';
 
 export default class PostFlagIcon extends React.PureComponent {
+    static contextType = PostContext;
     static propTypes = {
         location: PropTypes.oneOf([Locations.CENTER, Locations.RHS_ROOT, Locations.RHS_COMMENT, Locations.SEARCH]).isRequired,
         postId: PropTypes.string.isRequired,
@@ -106,6 +108,7 @@ export default class PostFlagIcon extends React.PureComponent {
                 aria-label={isFlagged ? localizeMessage('flag_post.unflag', 'Unflag').toLowerCase() : localizeMessage('flag_post.flag', 'Flag for follow up').toLowerCase()}
                 className={'style--none flag-icon__container ' + flagVisible}
                 onClick={this.handlePress}
+                tabIndex={this.context.ariaHidden ? -1 : 0}
             >
                 <OverlayTrigger
                     key={'flagtooltipkey' + flagVisible}

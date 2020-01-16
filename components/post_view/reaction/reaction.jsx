@@ -80,7 +80,13 @@ export default class Reaction extends React.PureComponent {
              */
             removeReaction: PropTypes.func.isRequired,
         }),
+
+        isFocusable: PropTypes.bool
     }
+
+    static defaultProps = {
+        isFocusable: true,
+    };
 
     handleAddReaction = (e) => {
         e.preventDefault();
@@ -251,6 +257,7 @@ export default class Reaction extends React.PureComponent {
                 aria-label={ariaLabelEmoji}
                 className={`style--none ${className}`}
                 onClick={handleClick}
+                tabIndex={this.props.isFocusable ? 0 : -1}
             >
                 <OverlayTrigger
                     delayShow={500}

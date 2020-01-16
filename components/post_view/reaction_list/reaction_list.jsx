@@ -47,7 +47,13 @@ export default class ReactionList extends React.PureComponent {
              */
             addReaction: PropTypes.func.isRequired,
         }),
+
+        isFocusable: PropTypes.bool
     }
+
+    static defaultProps = {
+        isFocusable: true,
+    };
 
     constructor(props) {
         super(props);
@@ -103,6 +109,7 @@ export default class ReactionList extends React.PureComponent {
                     post={this.props.post}
                     emojiName={emojiName}
                     reactions={reactionsByName.get(emojiName) || []}
+                    isFocusable={this.props.isFocusable}
                 />
             );
         });

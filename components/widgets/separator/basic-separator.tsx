@@ -12,7 +12,10 @@ export default class BasicSeparator extends React.PureComponent<React.PropsWithC
                 data-testid='basicSeparator'
                 className='Separator BasicSeparator'
             >
-                <hr className='separator__hr'/>
+                <hr
+                    className='separator__hr'
+                    aria-hidden={true}
+                />
                 {children && (
                     <div className='separator__text'>
                         {children}

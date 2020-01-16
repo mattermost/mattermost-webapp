@@ -11,8 +11,10 @@ import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
+import PostContext from 'components/post_view/post_context';
 
 export default class PostHeader extends React.PureComponent {
+    static contextType = PostContext;
     static propTypes = {
 
         /*
@@ -86,6 +88,7 @@ export default class PostHeader extends React.PureComponent {
             <UserProfile
                 userId={post.user_id}
                 hasMention={true}
+                isFocusable={!this.context.ariaHidden}
             />
         );
         let indicator;
@@ -98,6 +101,7 @@ export default class PostHeader extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         overwriteName={post.props.override_username}
+                        isFocusable={!this.context.ariaHidden}
                     />
                 );
             } else {
@@ -105,6 +109,7 @@ export default class PostHeader extends React.PureComponent {
                     <UserProfile
                         userId={post.user_id}
                         hideStatus={true}
+                        isFocusable={!this.context.ariaHidden}
                     />
                 );
             }
@@ -116,6 +121,7 @@ export default class PostHeader extends React.PureComponent {
                     userId={post.user_id}
                     hideStatus={true}
                     hasMention={true}
+                    isFocusable={!this.context.ariaHidden}
                 />
             );
 
@@ -132,6 +138,7 @@ export default class PostHeader extends React.PureComponent {
                 <UserProfile
                     userId={post.user_id}
                     hideStatus={true}
+                    isFocusable={!this.context.ariaHidden}
                 />
             );
         } else if (isSystemMessage) {
@@ -154,8 +161,13 @@ export default class PostHeader extends React.PureComponent {
         }
 
         return (
-            <div className='post__header'>
-                <div className='col col__name'>
+            <div
+                className='post__header'
+            >
+                <div
+                    className='col col__name'
+                    role='presentation'
+                >
                     {userProfile}
                     {colon}
                     {indicator}

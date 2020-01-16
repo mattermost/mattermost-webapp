@@ -16,10 +16,12 @@ import PostBodyAdditionalContent from 'components/post_view/post_body_additional
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import PostContext from 'components/post_view/post_context';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
 export default class PostBody extends React.PureComponent {
+    static contextType = PostContext;
     static propTypes = {
 
         /**
@@ -156,6 +158,7 @@ export default class PostBody extends React.PureComponent {
                 <FileAttachmentListContainer
                     post={post}
                     compactDisplay={this.props.compactDisplay}
+                    isFocusable={!this.context.ariaHidden}
                 />
             );
         }
@@ -209,12 +212,14 @@ export default class PostBody extends React.PureComponent {
                 <div
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
+                    role='presentation'
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <ReactionList
                         post={post}
                         isReadOnly={this.props.isReadOnly}
+                        isFocusable={!this.context.ariaHidden}
                     />
                 </div>
             </div>

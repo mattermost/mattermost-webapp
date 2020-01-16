@@ -19,8 +19,10 @@ import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostReaction from 'components/post_view/post_reaction';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PostContext from 'components/post_view/post_context';
 
 export default class PostInfo extends React.PureComponent {
+    static contextType = PostContext;
     static propTypes = {
 
         /*
@@ -129,6 +131,7 @@ export default class PostInfo extends React.PureComponent {
     createRemovePostButton = () => {
         return (
             <button
+                tabIndex={this.context.ariaHidden ? -1 : 0}
                 className='post__remove theme color--link style--none'
                 type='button'
                 onClick={this.removePost}
@@ -166,6 +169,7 @@ export default class PostInfo extends React.PureComponent {
                     commentCount={this.props.replyCount}
                     postId={post.id}
                     extraClass={commentIconExtraClass}
+                    isFocusable={!this.context.ariaHidden}
                 />
             );
         }
@@ -181,6 +185,7 @@ export default class PostInfo extends React.PureComponent {
                     getDotMenuRef={this.getDotMenu}
                     showEmojiPicker={this.state.showEmojiPicker}
                     toggleEmojiPicker={this.toggleEmojiPicker}
+                    isFocusable={!this.context.ariaHidden}
                 />
             );
         }

@@ -9,6 +9,10 @@ const PostContext = React.createContext({
     // called when any child component opens/closes a
     // popup type component.
     handlePopupOpened: null,
+
+    // Whether the post is currently under aria-hidden
+    // used when post is not hovered and a11y is inactive
+    ariaHidden: null
 });
 
 export default PostContext;

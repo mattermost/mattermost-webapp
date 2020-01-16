@@ -291,7 +291,7 @@ class Post extends React.PureComponent {
         const fromBot = post && post.props && post.props.from_bot === 'true';
 
         let profilePic;
-        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && this.props.replyCount === 0) && !fromBot;
+        const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && !fromBot;
         if (!hideProfilePicture) {
             profilePic = (
                 <PostProfilePicture
@@ -316,7 +316,12 @@ class Post extends React.PureComponent {
         }
 
         return (
-            <PostContext.Provider value={{handlePopupOpened: this.handleDropdownOpened}}>
+            <PostContext.Provider
+                value={{
+                    handlePopupOpened: this.handleDropdownOpened,
+                    ariaHidden: this.state.ariaHidden
+                }}
+            >
                 <div
                     ref={this.postRef}
                     id={'post_' + post.id}
