@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import marked from 'marked';
+import marked, {MarkedOptions} from 'marked';
 
-import * as PostUtils from 'utils/post_utils.jsx';
+import * as PostUtils from 'utils/post_utils';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
-import * as TextFormatting from 'utils/text_formatting.jsx';
+import * as TextFormatting from 'utils/text_formatting';
 import {getScheme, isUrlSafe} from 'utils/url';
 
 export default class Renderer extends marked.Renderer {
-    constructor(options, formattingOptions = {}) {
+    private formattingOptions: TextFormatting.TextFormattingOptions;
+    public constructor(options: MarkedOptions, formattingOptions = {}) {
         super(options);
 
         this.heading = this.heading.bind(this);
@@ -19,7 +20,7 @@ export default class Renderer extends marked.Renderer {
         this.formattingOptions = formattingOptions;
     }
 
-    code(code, language) {
+    public code(code: string, language: string) {
         let usedLanguage = language || '';
         usedLanguage = usedLanguage.toLowerCase();
 
@@ -61,7 +62,11 @@ export default class Renderer extends marked.Renderer {
             const tokens = new Map();
 
             let searched = TextFormatting.sanitizeHtml(code);
-            searched = TextFormatting.highlightSearchTerms(searched, tokens, this.formattingOptions.searchPatterns);
+            searched = TextFormatting.highlightSearchTerms(
+                searched,
+                tokens,
+                this.formattingOptions.searchPatterns
+            );
 
             if (tokens.size > 0) {
                 searched = TextFormatting.replaceTokens(searched, tokens);
@@ -85,12 +90,16 @@ export default class Renderer extends marked.Renderer {
         );
     }
 
-    codespan(text) {
+    public codespan(text: string) {
         let output = text;
 
         if (this.formattingOptions.searchPatterns) {
             const tokens = new Map();
-            output = TextFormatting.highlightSearchTerms(output, tokens, this.formattingOptions.searchPatterns);
+            output = TextFormatting.highlightSearchTerms(
+                output,
+                tokens,
+                this.formattingOptions.searchPatterns
+            );
             output = TextFormatting.replaceTokens(output, tokens);
         }
 
@@ -103,7 +112,7 @@ export default class Renderer extends marked.Renderer {
         );
     }
 
-    br() {
+    public br() {
         if (this.formattingOptions.singleline) {
             return ' ';
         }
@@ -111,14 +120,14 @@ export default class Renderer extends marked.Renderer {
         return super.br();
     }
 
-    image(href, title, text) {
+    public image(href: string, title: string, text: string) {
         let src = href;
-        let dimensions = [];
+        let dimensions: string[] = [];
         const parts = href.split(' ');
         if (parts.length > 1) {
             const lastPart = parts.pop();
             src = parts.join(' ');
-            if (lastPart[0] === '=') {
+            if (lastPart && lastPart[0] === '=') {
                 dimensions = lastPart.substr(1).split('x');
                 if (dimensions.length === 2 && dimensions[1] === '') {
                     dimensions[1] = 'auto';
@@ -126,26 +135,26 @@ export default class Renderer extends marked.Renderer {
             }
         }
         src = PostUtils.getImageSrc(src, this.formattingOptions.proxyImages);
-        let out = '<img src="' + src + '" alt="' + text + '"';
+        let out = `<img src="${src}" alt="${text}"`;
         if (title) {
-            out += ' title="' + title + '"';
+            out += ` title="${title}"`;
         }
         if (dimensions.length > 0) {
-            out += ' width="' + dimensions[0] + '"';
+            out += ` width="${dimensions[0]}"`;
         }
         if (dimensions.length > 1) {
-            out += ' height="' + dimensions[1] + '"';
+            out += ` height="${dimensions[1]}"`;
         }
         out += ' class="markdown-inline-img"';
         out += this.options.xhtml ? '/>' : '>';
         return out;
     }
 
-    heading(text, level) {
+    public heading(text: string, level: number) {
         return `<h${level} class="markdown__heading">${text}</h${level}>`;
     }
 
-    link(href, title, text, isUrl) {
+    public link(href: string, title: string, text: string, isUrl = false) {
         let outHref = href;
 
         if (!href.startsWith('/')) {
@@ -153,7 +162,9 @@ export default class Renderer extends marked.Renderer {
             if (!scheme) {
                 outHref = `http://${outHref}`;
             } else if (isUrl && this.formattingOptions.autolinkedUrlSchemes) {
-                const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(scheme.toLowerCase()) !== -1;
+                const isValidUrl = this.formattingOptions.autolinkedUrlSchemes.indexOf(
+                    scheme.toLowerCase()
+                ) !== -1;
 
                 if (!isValidUrl) {
                     return text;
@@ -176,21 +187,28 @@ export default class Renderer extends marked.Renderer {
             }
         }
 
-        output += '" href="' + outHref + '" rel="noreferrer"';
+        output += `" href="${outHref}" rel="noreferrer"`;
 
         // special case for team invite links, channel links, and permalinks that are inside the app
         let internalLink = false;
-        const pattern = new RegExp('^(' + TextFormatting.escapeRegex(this.formattingOptions.siteURL) + ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/');
+        const pattern = new RegExp(
+            '^(' +
+        TextFormatting.escapeRegex(this.formattingOptions.siteURL) +
+        ')?\\/(?:signup_user_complete|admin_console|[^\\/]+\\/(?:pl|channels|messages))\\/'
+        );
         internalLink = pattern.test(outHref);
 
-        if (internalLink) {
-            output += ' data-link="' + outHref.replace(this.formattingOptions.siteURL, '') + '"';
+        if (internalLink && this.formattingOptions.siteURL) {
+            output += ` data-link="${outHref.replace(
+                this.formattingOptions.siteURL,
+                ''
+            )}"`;
         } else {
             output += ' target="_blank"';
         }
 
         if (title) {
-            output += ' title="' + title + '"';
+            output += ` title="${title}"`;
         }
 
         // remove any links added to the text by hashtag or mention parsing since they'll break this link
@@ -199,7 +217,7 @@ export default class Renderer extends marked.Renderer {
         return output;
     }
 
-    paragraph(text) {
+    public paragraph(text: string) {
         if (this.formattingOptions.singleline) {
             let result;
             if (text.includes('class="markdown-inline-img"')) {
@@ -217,24 +235,32 @@ export default class Renderer extends marked.Renderer {
         return super.paragraph(text);
     }
 
-    table(header, body) {
+    public table(header: string, body: string) {
         return `<div class="table-responsive"><table class="markdown__table"><thead>${header}</thead><tbody>${body}</tbody></table></div>`;
     }
 
-    tablerow(content) {
+    public tablerow(content: string) {
         return `<tr>${content}</tr>`;
     }
 
-    tablecell(content, flags) {
+    public tablecell(
+        content: string,
+        flags: {
+            header: boolean;
+            align: 'center' | 'left' | 'right' | null;
+        }
+    ) {
         return marked.Renderer.prototype.tablecell(content, flags).trim();
     }
 
-    listitem(text, bullet) {
+    public listitem(text: string, bullet = '') {
         const taskListReg = /^\[([ |xX])] /;
         const isTaskList = taskListReg.exec(text);
 
         if (isTaskList) {
-            return `<li class="list-item--task-list">${'<input type="checkbox" disabled="disabled" ' + (isTaskList[1] === ' ' ? '' : 'checked="checked" ') + '/> '}${text.replace(taskListReg, '')}</li>`;
+            return `<li class="list-item--task-list">${'<input type="checkbox" disabled="disabled" ' +
+        (isTaskList[1] === ' ' ? '' : 'checked="checked" ') +
+        '/> '}${text.replace(taskListReg, '')}</li>`;
         }
 
         if ((/^\d+.$/).test(bullet)) {
@@ -245,14 +271,14 @@ export default class Renderer extends marked.Renderer {
         return `<li>${text}</li>`;
     }
 
-    text(txt) {
+    public text(txt: string) {
         return TextFormatting.doFormatText(txt, this.formattingOptions);
     }
 }
 
 // Marked helper functions that should probably just be exported
 
-function unescapeHtmlEntities(html) {
+function unescapeHtmlEntities(html: string) {
     return html.replace(/&([#\w]+);/g, (_, m) => {
         const n = m.toLowerCase();
         if (n === 'colon') {

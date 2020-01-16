@@ -98,7 +98,7 @@ export default class RhsThread extends React.Component {
         const curPostsArray = this.props.posts || [];
 
         if (this.props.socketConnectionStatus && !prevProps.socketConnectionStatus) {
-            this.props.actions.getPostThread(this.props.selected.id, true);
+            this.props.actions.getPostThread(this.props.selected.id);
         }
 
         if (prevPostsArray.length >= curPostsArray.length) {

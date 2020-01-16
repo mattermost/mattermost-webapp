@@ -18,7 +18,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
 } from 'utils/post_utils.jsx';
-import {getTable, formatMarkdownTableMessage} from 'utils/paste';
+import {getTable, getPlainText, formatMarkdownTableMessage, isGitHubCodeBlock} from 'utils/paste';
 import {intlShape} from 'utils/react_intl';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils.jsx';
@@ -717,7 +717,6 @@ class CreatePost extends React.PureComponent {
         if (!e.clipboardData || !e.clipboardData.items || e.target.id !== 'post_textbox') {
             return;
         }
-
         const table = getTable(e.clipboardData);
         if (!table) {
             return;
@@ -725,8 +724,12 @@ class CreatePost extends React.PureComponent {
 
         e.preventDefault();
 
-        const message = formatMarkdownTableMessage(table, this.state.message.trim());
-
+        let message = '';
+        if (isGitHubCodeBlock(table.className)) {
+            message = '```\n' + getPlainText(e.clipboardData) + '\n```';
+        } else {
+            message = formatMarkdownTableMessage(table, this.state.message.trim());
+        }
         this.setState({message});
     }
 
