@@ -528,7 +528,7 @@ describe('component/sidebar/sidebar_channel/SidebarChannel', () => {
 
         const wrapper = shallowWithIntl(
             <Sidebar {...defaultProps}/>
-        ).dive();
+        );
         const instance = wrapper.instance();
         instance.updateFavicon = jest.fn();
 
