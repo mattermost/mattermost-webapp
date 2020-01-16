@@ -95,9 +95,6 @@ class ColorInput extends React.PureComponent<Props, State> {
         if (!hexRegex.test(value)) {
             return;
         }
-        if (value.length > 7) {
-            return;
-        }
         this.setState({hex: value});
         const {onChange: handleChange} = this.props;
         if (handleChange) {
