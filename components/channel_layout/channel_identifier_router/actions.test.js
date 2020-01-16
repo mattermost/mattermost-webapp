@@ -20,6 +20,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
 
 jest.mock('mattermost-redux/actions/users', () => ({
     getUserByEmail: jest.fn(() => ({type: '', data: {id: 'user_id3', email: 'user3@bladekick.com', username: 'user3'}})),
+    getUser: jest.fn(() => ({type: '', data: {id: 'user_id3', email: 'user3@bladekick.com', username: 'user3'}})),
 }));
 
 const mockStore = configureStore([thunk]);
@@ -58,6 +59,33 @@ describe('Actions', () => {
             preferences: {myPreferences: {}},
         },
     };
+
+    describe('onChannelByIdentifierEnter', () => {
+        test('Channels with identifier <userid>--<userid> should go to channels', async () => {
+            const spy1 = jest.spyOn(channelActions, 'goToDirectChannelByUserIds');
+            const spy2 = jest.spyOn(channelActions, 'goToChannelByChannelName');
+            const testStore = await mockStore(initialState);
+            await testStore.dispatch(channelActions.onChannelByIdentifierEnter({match: {params: {team: 'team1',
+                                                                         identifier: 'j8oc4oizsp88mqju98pwxr1tgr--j8oc4oizsp88mqju98pwxr1tgr',
+                                                                         path: 'channels'}}, history: history}));
+            expect(spy1).not.toBeCalled();
+            expect(spy2).toBeCalled();
+            spy1.mockClear();
+            spy2.mockClear();
+        });
+        test('Channels with identifier <userid>__<userid> should go to messages', async () => {
+            const spy1 = jest.spyOn(channelActions, 'goToDirectChannelByUserIds');
+            const spy2 = jest.spyOn(channelActions, 'goToChannelByChannelName');
+            const testStore = await mockStore(initialState);
+            await testStore.dispatch(channelActions.onChannelByIdentifierEnter({match: {params: {team: 'team1',
+                                                                         identifier: 'j8oc4oizsp88mqju98pwxr1tgr__j8oc4oizsp88mqju98pwxr1tgr',
+                                                                         path: 'channels'}}, history: history}));
+            expect(spy1).toBeCalled();
+            expect(spy2).not.toBeCalled();
+            spy1.mockClear();
+            spy2.mockClear();
+        });
+    });
 
     describe('goToChannelByChannelId', () => {
         test('switch to public channel we have locally but need to join', async () => {
