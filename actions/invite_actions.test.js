@@ -25,17 +25,11 @@ jest.mock('mattermost-redux/actions/channels', () => ({
 
 jest.mock('mattermost-redux/actions/teams', () => ({
     getTeamMembersByIds: () => ({type: 'MOCK_RECEIVED_ME'}),
-    sendEmailInvitesToTeam: (team) => {
-        if (team === 'correct') {
-            return ({type: 'MOCK_RECEIVED_ME'});
-        }
-        throw new Error('ERROR');
+    sendEmailInvitesToTeamGracefully: (team, emails) => {
+        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: team === 'correct' ? undefined : {message: 'Unable to add the user to the team.'}}))});
     },
-    sendEmailGuestInvitesToChannels: (team) => {
-        if (team === 'correct') {
-            return ({type: 'MOCK_RECEIVED_ME'});
-        }
-        throw new Error('ERROR');
+    sendEmailGuestInvitesToChannelsGracefully: (team, channels, emails) => {
+        return ({type: 'MOCK_RECEIVED_ME', data: emails.map((email) => ({email, error: team === 'correct' ? undefined : {message: 'Unable to add the guest to the channels.'}}))});
     },
 }));
 
