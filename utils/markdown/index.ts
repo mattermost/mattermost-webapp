@@ -3,18 +3,19 @@
 
 import marked from 'marked';
 
-import {convertEntityToCharacter} from 'utils/text_formatting.jsx';
+import {convertEntityToCharacter} from 'utils/text_formatting';
+
 import RemoveMarkdown from 'utils/markdown/remove_markdown';
 
 import Renderer from './renderer';
 
 const removeMarkdown = new RemoveMarkdown();
 
-export function format(text, options = {}) {
-    return formatWithRenderer(text, new Renderer(null, options));
+export function format(text: string, options = {}) {
+    return formatWithRenderer(text, new Renderer({}, options));
 }
 
-export function formatWithRenderer(text, renderer) {
+export function formatWithRenderer(text: string, renderer: marked.Renderer) {
     const markdownOptions = {
         renderer,
         sanitize: true,
@@ -23,12 +24,14 @@ export function formatWithRenderer(text, renderer) {
         mangle: false,
     };
 
-    return (marked(text, markdownOptions)).trim();
+    return marked(text, markdownOptions).trim();
 }
 
-export function stripMarkdown(text) {
+export function stripMarkdown(text: string) {
     if (typeof text === 'string' && text.length > 0) {
-        return convertEntityToCharacter(formatWithRenderer(text, removeMarkdown)).trim();
+        return convertEntityToCharacter(
+            formatWithRenderer(text, removeMarkdown)
+        ).trim();
     }
 
     return text;

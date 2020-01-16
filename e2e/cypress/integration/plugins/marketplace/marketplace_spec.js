@@ -345,7 +345,8 @@ describe('Plugin Marketplace', () => {
             cy.get('#marketplace-plugin-github').should('be.visible');
         });
 
-        it('change tab on "install plugins" click', () => {
+        // This tests fails, if any plugins are previously installed. See https://mattermost.atlassian.net/browse/MM-21610
+        it('change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
             cy.get('#marketplaceTabs').should('exist').within(() => {
                 // # switch tab to installed plugin
                 cy.findByText(/Installed/).should('be.visible').click();
@@ -365,6 +366,19 @@ describe('Plugin Marketplace', () => {
                 cy.get('#marketplaceTabs-pane-installed').should('not.exist');
                 cy.get('#marketplaceTabs-pane-allPlugins').should('exist');
             });
+        });
+
+        // This test is disabled until the marketplace instance with support for labels is deployed.
+        // This tests need to get updated when the labels send down from the Plugin Marketplace change.
+        xit('should show OFFICIAL label for github plugin', () => {
+            // # Scroll to GitHub plugin
+            cy.get('#marketplace-plugin-github').scrollIntoView().should('be.visible');
+
+            // * OFFICIAL label is shown for github plugin
+            cy.get('#marketplace-plugin-github').find('.tag').should('be.visible').and('to.contain', 'OFFICIAL').trigger('mouseover');
+
+            // * Tooltip is shown after click the label
+            cy.get('div.tooltip-inner').should('be.visible').and('contain', 'This plugin is maintained by Mattermost');
         });
     });
 
