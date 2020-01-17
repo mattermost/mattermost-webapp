@@ -52,7 +52,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <CombinedSystemMessage {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -71,7 +71,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         const props = {...baseProps, messageData, allUserIds};
         const wrapper = shallowWithIntl(
             <CombinedSystemMessage {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -82,7 +82,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
                 {...baseProps}
                 showJoinLeave={false}
             />
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -101,7 +101,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         const props = {...baseProps, messageData, allUserIds, showJoinLeave: false};
         const wrapper = shallowWithIntl(
             <CombinedSystemMessage {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -123,7 +123,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
         const props = {...baseProps, messageData, allUserIds};
         const wrapper = shallowWithIntl(
             <CombinedSystemMessage {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -140,7 +140,7 @@ describe('components/post_view/CombinedSystemMessage', () => {
 
         const wrapper = shallowWithIntl(
             <CombinedSystemMessage {...props}/>
-        ).dive();
+        );
 
         wrapper.instance().loadUserProfiles([], []);
         expect(props.actions.getMissingProfilesByIds).toHaveBeenCalledTimes(0);

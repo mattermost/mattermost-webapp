@@ -61,7 +61,7 @@ describe('components/RhsRootPost', () => {
     test('should match snapshot', () => {
         const wrapper = shallowWithIntl(
             <RhsRootPost {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +73,7 @@ describe('components/RhsRootPost', () => {
         };
         const wrapper = shallowWithIntl(
             <RhsRootPost {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -88,7 +88,7 @@ describe('components/RhsRootPost', () => {
         };
         const wrapper = shallowWithIntl(
             <RhsRootPost {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -104,7 +104,7 @@ describe('components/RhsRootPost', () => {
         };
         const wrapper = shallowWithIntl(
             <RhsRootPost {...props}/>
-        ).dive();
+        );
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -112,7 +112,7 @@ describe('components/RhsRootPost', () => {
     test('should show pointer when alt is held down', () => {
         const wrapper = shallowWithIntl(
             <RhsRootPost {...baseProps}/>
-        ).dive();
+        );
 
         expect(wrapper.find('.post.cursor--pointer').exists()).toBe(false);
 
@@ -124,7 +124,7 @@ describe('components/RhsRootPost', () => {
     test('should call markPostAsUnread when post is alt+clicked on', () => {
         const wrapper = shallowWithIntl(
             <RhsRootPost {...baseProps}/>
-        ).dive();
+        );
 
         wrapper.simulate('click', {altKey: false});
 

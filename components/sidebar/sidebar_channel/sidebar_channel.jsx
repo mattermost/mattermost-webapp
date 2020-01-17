@@ -259,9 +259,9 @@ class SidebarChannel extends React.PureComponent {
                 <SidebarTutorialTip
                     townSquareDisplayName={this.props.townSquareDisplayName}
                     offTopicDisplayName={this.props.offTopicDisplayName}
+                    openLhs={this.props.actions.openLhs}
                 />
             );
-            this.props.actions.openLhs();
         }
 
         let link = '';
@@ -320,4 +320,6 @@ class SidebarChannel extends React.PureComponent {
     }
 }
 
-export default injectIntl(SidebarChannel, {withRef: true});
+const wrappedComponent = injectIntl(SidebarChannel, {forwardRef: true});
+wrappedComponent.displayName = 'injectIntl(SidebarChannel)';
+export default wrappedComponent;

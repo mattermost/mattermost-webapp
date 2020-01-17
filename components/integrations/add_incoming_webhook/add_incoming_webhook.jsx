@@ -21,11 +21,6 @@ export default class AddIncomingWebhook extends React.PureComponent {
         team: PropTypes.object.isRequired,
 
         /**
-        * The request state for createIncomingHook action. Contains status and error
-        */
-        createIncomingHookRequest: PropTypes.object.isRequired,
-
-        /**
         * Whether to allow configuration of the default post username.
         */
         enablePostUsernameOverride: PropTypes.bool.isRequired,
@@ -55,14 +50,14 @@ export default class AddIncomingWebhook extends React.PureComponent {
     addIncomingHook = async (hook) => {
         this.setState({serverError: ''});
 
-        const {data} = await this.props.actions.createIncomingHook(hook);
+        const {data, error} = await this.props.actions.createIncomingHook(hook);
         if (data) {
             browserHistory.push(`/${this.props.team.name}/integrations/confirm?type=incoming_webhooks&id=${data.id}`);
             return;
         }
 
-        if (this.props.createIncomingHookRequest.error) {
-            this.setState({serverError: this.props.createIncomingHookRequest.error.message});
+        if (error) {
+            this.setState({serverError: error.message});
         }
     }
 
